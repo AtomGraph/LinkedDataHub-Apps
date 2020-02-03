@@ -2,6 +2,9 @@
 
 System, demo, and user-submitted applications built on LinkedDataHub. Completely data-driven, no code involved (besides the shell scripts).
 
+
+## Documentation
+
 ## City Graph
 
 ![City Graph geospatial view](../../raw/master/demo/city-graph/screenshot.png "City Graph geospatial view")
@@ -28,15 +31,20 @@ Features:
 
 ![Life sciences ChEMBL chart](../../raw/master/demo/life-sciences/screenshot.png "Life sciences ChEMBL chart")
 
+Browser over a collection of molecules as well as a bar chart rendered from a SPARQL result.
+
 <dl>
     <dt>Source</dt>
     <dd><a href="../../tree/master/demo/life-sciences/">demo/life-sciences/</a></dd>
     <dt>Live instance</dt>
     <dd><a href="https://linkeddatahub.com/demo/life-sciences/">https://linkeddatahub.com/demo/life-sciences/</a></dd>
     <dd>0 lines of imperative code</dd>
-    <dd>44 lines of SPARQL</dd>
-    <dd>324 lines of installation shell scripts</dd>
+    <dd>37 lines of SPARQL</dd>
+    <dd>153 lines of installation shell scripts</dd>
 </dl>
+
+Features:
+* [chart](../../blob/master/demo/life-sciences/create-charts.sh)
 
 ## SKOS
 
