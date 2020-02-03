@@ -1,0 +1,8 @@
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  cco:  <http://rdf.ebi.ac.uk/terms/chembl#>
+
+SELECT DISTINCT  ?molecule
+WHERE
+  { ?molecule  a                    ?type .
+    ?type     rdfs:subClassOf       cco:Substance .
+  }

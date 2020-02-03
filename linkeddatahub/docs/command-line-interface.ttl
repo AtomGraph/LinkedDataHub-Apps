@@ -1,0 +1,201 @@
+@prefix ns:     <ns#> .
+@prefix def:    <ns/default#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<command-line-interface/> a def:Item ;
+    sioc:has_container <> ;
+    dct:title "Command line interface" ;
+    dct:description "Learn to use CLI to execute most of the common tasks that can be performed in the UI" ;
+    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Learn to use CLI to execute most of the common tasks that can be performed in the UI</p>
+    <p>LinkedDataHub CLI wraps the <a href="../http-api/">HTTP API</a> into a set of shell scripts with convenient parameters. The scripts can be used for testing, automation,
+        scheduled execution and such. It is usually much quicker to perform actions using CLI rather than the <a href="../user-interface/">user interface</a>, as well as easier to
+        reproduce.</p>
+    <p>Some scripts correspond to a single request to LinkedDataHub, others combine others into tasks with multiple interdependent requests, such as CSV import.</p>
+    <p>You will need to supply a <samp>.pem</samp> file of your <a href="../getting-started/#get-webid">WebID certificate</a> as well as its password as script arguments, among others.</p>
+    <div>
+        <h2 id="scripts">Scripts</h2>
+        <p>Currently supported:</p>
+        <div class="tabbable">
+          <ul class="nav nav-tabs">
+            <li class="active"><a>All versions</a></li>
+            <li><a>Cloud version</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Purpose</th>
+                            <th>Script</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th colspan="2">General</th>
+                        </tr>
+                        <tr>
+                            <td>Create document</td>
+                            <td><samp>create-document.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Update document</td>
+                            <td><samp>update-document.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create container</td>
+                            <td><samp>create-container.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create item</td>
+                            <td><samp>create-item.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create result set chart</td>
+                            <td><samp>create-result-set-chart.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create <code>SELECT</code> query</td>
+                            <td><samp>create-select.sh</samp></td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <th colspan="2">Imports</th>
+                        </tr>
+                        <tr>
+                            <td>Create file</td>
+                            <td><samp>imports/create-file.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create query</td>
+                            <td><samp>imports/create-query.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create CSV import</td>
+                            <td><samp>imports/create-csv-import.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Import CSV data</td>
+                            <td><samp>imports/import-csv.sh</samp></td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <th colspan="2"><a href="../administration/">Administration</a></th>
+                        </tr>
+                        <tr>
+                            <td>Add <code>owl:import</code> to ontology</td>
+                            <td><samp>admin/add-ontology-import.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Clear and reload ontology</td>
+                            <td><samp>admin/clear-ontology.sh</samp></td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <th colspan="2"><a href="../administration/acl/">Access control</a></th>
+                        </tr>
+                        <tr>
+                            <td>Add <a href="../administration/acl/#agents">agent</a> to <a href="../administration/acl/#groups">group</a></td>
+                            <td><samp>admin/acl/add-agent-to-group.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create <a href="../administration/acl/#authorizations">authorization</a></td>
+                            <td><samp>admin/acl/create-authorization.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create <a href="../administration/acl/#groups">group</a></td>
+                            <td><samp>admin/acl/create-group.sh</samp></td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <th colspan="2"><a href="../administration/model/">Model</a></th>
+                        </tr>
+                        <tr>
+                            <td>Create <a href="../administration/model/#classes">class</a></td>
+                            <td><samp>admin/model/create-class.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create <code>CONSTRUCT</code> query</td>
+                            <td><samp>admin/model/create-construct.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create <a href="../administration/model/#constraints">property constraint</a></td>
+                            <td><samp>admin/model/create-property-constraint.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create <a href="../administration/model/#restrictions">restriction</a></td>
+                            <td><samp>admin/model/create-restriction.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Import ontology</td>
+                            <td><samp>admin/model/import-ontology.sh</samp></td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <th colspan="2"><a href="../administration/sitemap/">Sitemap</a></th>
+                        </tr>
+                        <tr>
+                            <td>Create <code>CONSTRUCT</code> query</td>
+                            <td><samp>admin/sitemap/create-construct.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create <code>DESCRIBE</code> query</td>
+                            <td><samp>admin/sitemap/create-describe.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create <a href="../administration/sitemap/#templates">template</a></td>
+                            <td><samp>admin/sitemap/create-template.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create <a href="../administration/sitemap/#parameters">template parameter</a></td>
+                            <td><samp>admin/sitemap/create-parameter.sh</samp></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Purpose</th>
+                            <th>Script</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th colspan="2">Dataspaces</th>
+                        </tr>
+                        <tr>
+                            <td>Create context</td>
+                            <td><samp>apps/create-context.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create dataspace</td>
+                            <td><samp>apps/create-app.sh</samp></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+        <p>Usage example:</p>
+        <pre>./create-file https://linkeddatahub.com/my-context/my-dataspace/ \\
+-f linkeddatahub.pem \\
+-p CertPassword \\
+--title "Friends" \\
+--file-slug 646af756-a49f-40da-a25e-ea8d81f6d306 \\
+--file friends.csv \\
+--file-content-type text/csv</pre>
+        <p>See also the <a href="../tutorials/import-csv-data/">Import CSV data</a> tutorial.</p>
+    </div>
+    <p class="lead">Find the <a href="https://github.com/AtomGraph/LinkedDataHub/tree/master/scripts" target="_blank">CLI scripts on GitHub</a>.</p>
+</div>"""^^rdf:XMLLiteral .

@@ -1,0 +1,18 @@
+PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX  cco:  <http://rdf.ebi.ac.uk/terms/chembl#>
+
+SELECT DISTINCT  ?molecule ?mol_name ?logp_val
+WHERE
+  { { ?molecule  a                    ?type .
+      ?type     rdfs:subClassOf       cco:Substance .
+      ?molecule  cco:moleculeXref     ?pubchem_id
+      FILTER contains(str(?pubchem_id), "pubchem")
+      ?molecule rdfs:label            ?mol_name .
+    }
+    BIND(uri(concat(str(?molecule), "#acd_logp")) AS ?logp)
+    ?molecule  ?x                   ?logp .
+    ?logp     <http://semanticscience.org/resource/SIO_000300>  ?logp_val .
+  }
+ORDER BY DESC(?logp_val) ?mol_name

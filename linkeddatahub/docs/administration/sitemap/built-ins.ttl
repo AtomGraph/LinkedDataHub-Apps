@@ -1,0 +1,206 @@
+@prefix ns:     <ns#> .
+@prefix def:    <ns/default#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+    
+<administration/sitemap/built-ins/> a def:Item ;
+    sioc:has_container <administration/sitemap/> ;
+    dct:title "Built-in sitemap terms" ;
+    dct:description "Learn to create and manage Linked Data templates, queries, parameters etc." ;
+    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+        <table class="table">
+            <caption>Built-in templates</caption>
+            <thead>
+                <tr>
+                    <th>Ontology</th>
+                    <th>Template</th>
+                    <th>Extends</th>
+                    <th>Match</th>
+                    <th>Query</th>
+                    <th>Update</th>
+                    <th>Parameter</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="11"><a href="../#aplt-ont"><code>aplt:</code></a></td>
+                    <td rowspan="2"><code>aplt:Document</code></td>
+                    <td rowspan="2"><code>thgt:Document</code></td>
+                    <td rowspan="2"></td>
+                    <td rowspan="2"></td>
+                    <td rowspan="2"></td>
+                    <td><a href="#ForClass-param"><code>aplt:ForClass</code></a></td>
+                </tr>
+                <tr>
+                    <td><a href="#Debug-param"><code>aplt:Debug</code></a></td>
+                </tr>
+                <tr>
+                    <td><code>aplt:GraphItem</code></td>
+                    <td><code>thgt:Item</code></td>
+                    <td><code>/graphs/{path: .+}/</code></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>aplt:NamespaceOntology</code></td>
+                    <td><code>thgt:Item</code></td>
+                    <td><code>/ns</code></td>
+                    <td><code>aplt:DescribeOntology</code></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>aplt:SubOntology</code></td>
+                    <td><code>thgt:Item</code></td>
+                    <td><code>/ns/{sub}</code></td>
+                    <td><code>aplt:DescribeOntology</code></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>aplt:SPARQLEndpoint</code></td>
+                    <td><code>ct:SPARQLEndpoint</code></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>aplt:GraphStore</code></td>
+                    <td><code>ct:GraphStore</code></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>aplt:FileContainer</code></td>
+                    <td><code>aplt:Container</code></td>
+                    <td><code>/files/</code></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>aplt:File</code></td>
+                    <td><code>aplt:Item</code></td>
+                    <td><code>/uploads/{slug}/</code></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>aplt:ImportContainer</code></td>
+                    <td><code>aplt:Container</code></td>
+                    <td><code>/imports/</code></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>aplt:ImportItem</code></td>
+                    <td><code>aplt:Item</code></td>
+                    <td><code>/imports/{slug}/</code></td>
+                    <td><code>aplt:DescribeWithResponse</code></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><a href="../#thgt-ont"><code>thgt:</code></a></td>
+                    <td><code>thgt:Document</code></td>
+                    <td><code>tht:Document</code></td>
+                    <td></td>
+                    <td><code>thgt:DescribeWithTopic</code></td>
+                    <td><code>thgt:DeleteWithTopic</code></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><a href="../#tht-ont"><code>tht:</code></a></td>
+                    <td><code>tht:Document</code></td>
+                    <td><code>ct:Document</code></td>
+                    <td></td>
+                    <td><code>tht:DescribeWithTopic</code></td>
+                    <td><code>tht:DeleteWithTopic</code></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><a href="../#ngt-ont"><code>ngt:</code></a></td>
+                    <td><code>ngt:Document</code></td>
+                    <td><code>ct:Document</code></td>
+                    <td></td>
+                    <td><code>ngt:Describe</code></td>
+                    <td><code>ngt:Delete</code></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td rowspan="6"><a href="../#ct-ont"><code>ct:</code></a></td>
+                    <td><code>ct:Document</code></td>
+                    <td></td>
+                    <td><code>{path: .*}/</code></td>
+                    <td><code>ct:Describe</code></td>
+                    <td><code>ct:Delete</code></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td rowspan="3"><code>ct:SPARQLEndpoint</code></td>
+                    <td rowspan="3"></td>
+                    <td rowspan="3"><code>/sparql</code></td>
+                    <td rowspan="3"></td>
+                    <td rowspan="3"></td>
+                    <td><a href="#Query-param"><code>ct:Query</code></a></td>
+                </tr>
+                <tr>
+                    <td><a href="#DefaultGraphURI-param"><code>ct:DefaultGraphURI</code></a></td>
+                </tr>
+                <tr>
+                    <td><a href="#NamedGraphURI-param"><code>ct:NamedGraphURI</code></a></td>
+                </tr>
+                <tr>
+                    <td rowspan="2"><code>ct:GraphStore</code></td>
+                    <td rowspan="2"></td>
+                    <td rowspan="2"><code>/service</code></td>
+                    <td rowspan="2"></td>
+                    <td rowspan="2"></td>
+                    <td><a href="#Default-param"><code>ct:Default</code></a></td>
+                </tr>
+                <tr>
+                    <td><a href="#Graph-param"><code>ct:Graph</code></a></td>
+                </tr>
+           </tbody>
+       </table>
+       <p>The SPARQL command strings can be looked up in the RDF documents of the respective <a href="../#ontologies">ontologies</a>.</p>
+        <table class="table">
+            <caption>Built-in parameters</caption>
+            <thead>
+                <tr>
+                    <th>Ontology</th>
+                    <th>Parameter</th>
+                    <th>Name</th>
+                    <th>Value type</th>
+                    <th>Optional</th>
+                    <th>Default value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="2"><a href="../#aplt-ont"><code>aplt:</code></a></td>
+                    <td><a id="ForClass-param"><code>aplt:ForClass</code></a></td>
+                    <td><code>forClass</code></td>
+                    <td><code>rdfs:Class</code></td>
+                    <td><code>true</code></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><a id="Debug-param"><code>aplt:Debug</code></a></td>
+                    <td><code>debug</code></td>
+                    <td><code>rdfs:Resource</code></td>
+                    <td><code>true</code></td>
+                    <td></td>
+                </tr>
+           </tbody>
+       </table>
+</div>"""^^rdf:XMLLiteral .
