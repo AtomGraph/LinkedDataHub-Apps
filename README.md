@@ -9,7 +9,7 @@ System, demo, and user-submitted applications built on LinkedDataHub. Completely
 <dl>
     <dt>Source</dt>
     <dd><a href="../../tree/master/demo/city-graph/">demo/city-graph/</a></dd>
-    <dt>Base URI</dt>
+    <dt>Live instance</dt>
     <dd><a href="https://linkeddatahub.com/demo/city-graph/">https://linkeddatahub.com/demo/city-graph/</a></dd>
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
@@ -24,6 +24,20 @@ Features:
 * [item template](../../blob/master/demo/city-graph/admin/sitemap/create-templates.sh)
     * [query](../../blob/master/demo/city-graph/admin/sitemap/queries/describe-place.rq) describes not only the requested resource, but also other resources with coordinates in a bounding box around it
 
+## Life sciences
+
+![Life sciences ChEMBL chart](../../raw/master/demo/life-sciences/screenshot.png "Life sciences ChEMBL chart")
+
+<dl>
+    <dt>Source</dt>
+    <dd><a href="../../tree/master/demo/life-sciences/">demo/life-sciences/</a></dd>
+    <dt>Live instance</dt>
+    <dd><a href="https://linkeddatahub.com/demo/life-sciences/">https://linkeddatahub.com/demo/life-sciences/</a></dd>
+    <dd>0 lines of imperative code</dd>
+    <dd>44 lines of SPARQL</dd>
+    <dd>324 lines of installation shell scripts</dd>
+</dl>
+
 ## SKOS
 
 ![SKOS editor view](../../raw/master/demo/skos/screenshot.png "SKOS editor view")
@@ -31,7 +45,7 @@ Features:
 <dl>
     <dt>Source</dt>
     <dd><a href="../../tree/master/demo/skos/">demo/skos/</a></dd>
-    <dt>Base URI</dt>
+    <dt>Live instance</dt>
     <dd><a href="https://linkeddatahub.com/demo/skos/">https://linkeddatahub.com/demo/skos/</a></dd>
     <dd>0 lines of imperative code</dd>
     <dd>44 lines of SPARQL</dd>
