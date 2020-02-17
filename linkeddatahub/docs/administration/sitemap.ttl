@@ -49,7 +49,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a id="aplt-ont"><code>http://atomgraph.com/ns/platform/templates#</code></a></td>
+                        <td><a id="aplt-ont"><code>https://w3id.org/atomgraph/linkeddatahub/templates#</code></a></td>
                         <td>AtomGraph Platform</td>
                         <td><code>aplt:</code></td>
                         <td><a href="#thgt-ont"><code>thgt:</code></a></td>

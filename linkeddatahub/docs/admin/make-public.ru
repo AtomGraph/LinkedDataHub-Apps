@@ -5,7 +5,7 @@ INSERT DATA
 {
   GRAPH <graphs/a86ce4fa-0197-4118-878e-32ea2d695878>
   {
-    <acl/authorizations/public/#this> acl:accessToClass def:Container, def:Item, def:File ;
+    <acl/authorizations/public/#this> acl:accessToClass def:Root, def:Container, def:Item, def:File ;
         acl:accessTo <../sparql> .
   }
 }

@@ -13,9 +13,7 @@ base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
 
-echo "AAA: $cert_pem_file"
-
-pushd . && cd $SCRIPT_ROOT
+pushd . && cd "$SCRIPT_ROOT"
 
 ./create-container.sh \
 -b "$base" \

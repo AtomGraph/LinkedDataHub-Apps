@@ -33,7 +33,7 @@ query=$(
 --title "Partition coefficients" \
 --endpoint https://www.ebi.ac.uk/rdf/services/sparql \
 --query "$query" \
---chart-type http://atomgraph.com/ns/client#BarChart \
+--chart-type https://w3id.org/atomgraph/client#BarChart \
 --category-var-name "mol_name" \
 --series-var-name "logp_val"
 

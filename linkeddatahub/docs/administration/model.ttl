@@ -46,7 +46,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a id="apl-ont"><code>http://atomgraph.com/ns/platform/domain#</code></a></td>
+                        <td><a id="apl-ont"><code>https://w3id.org/atomgraph/linkeddatahub/domain#</code></a></td>
                         <td>AtomGraph Platform</td>
                         <td><code>apl:</code></td>
                         <td><a href="#dh-ont"><code>dh:</code></a></td>

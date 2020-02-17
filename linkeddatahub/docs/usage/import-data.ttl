@@ -80,7 +80,7 @@ _:e8f2e8e9-3d02-4bf5-b4f1-4794ba5b52c9
                 <code>CONSTRUCT</code> query which transforms <em>one row at a time</em>:</p>
             <pre><code>PREFIX  def:  &lt;ns/default#&gt;
 PREFIX  ns:   &lt;ns#&gt;
-PREFIX  apl:  &lt;http://atomgraph.com/ns/platform/domain#&gt;
+PREFIX  apl:  &lt;https://w3id.org/atomgraph/linkeddatahub/domain#&gt;
 PREFIX  geo:  &lt;http://www.w3.org/2003/01/geo/wgs84_pos#&gt;
 PREFIX  dh:   &lt;https://www.w3.org/ns/ldt/document-hierarchy/domain#&gt;
 PREFIX  dct:  &lt;http://purl.org/dc/terms/&gt;
