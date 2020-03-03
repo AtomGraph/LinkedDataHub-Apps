@@ -19,6 +19,6 @@ pushd . && cd $SCRIPT_ROOT/admin/model
 -b "${base}admin/" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
-"http://www.w3.org/2004/02/skos/core"
+--source "http://www.w3.org/2004/02/skos/core"
 
 popd

@@ -49,11 +49,11 @@
                 <div>
                     <h3 id="end-user-apps">End-user</h3>
                     <p>The base URI of an end-user application is also the base URI of its dataspace.</p>
-                    <p>Every end-user application is related to one <a href="#admin-app">administration application</a>.</p>
+                    <p>Every end-user application is related to one <a href="#admin-apps">administration application</a>.</p>
                 </div>
                 <div>
                     <h3 id="admin-apps">Administration</h3>
-                    <p>Every administration application is related to one <a href="#end-user">end-user application</a>. It cannot exist standalone.</p>
+                    <p>Every administration application is related to one <a href="#end-user-apps">end-user application</a>. It cannot exist standalone.</p>
                     <p>The base URI(s) of an administration application is the base URI(s) of its end-user application with <code>admin/</code> appended
                         to it. Note that any URIs in the end-user application that are equal or relative to the admin application base URI <em>will not
                         be accessible</em>.</p>
