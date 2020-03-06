@@ -7,8 +7,8 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<usage/import-data/> a def:Item ;
-    sioc:has_container <usage/> ;
+<reference/imports/csv/> a def:Item ;
+    sioc:has_container <reference/imports/> ;
     dct:title "Import data" ;
     dct:description "Learn how to map data to RDF and import it into the application" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">

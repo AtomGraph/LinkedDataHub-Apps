@@ -1,0 +1,17 @@
+@prefix ns:     <ns#> .
+@prefix def:    <ns/default#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<reference/imports/> a def:Container ;
+    sioc:has_parent <reference/> ;
+    dh:select <queries/default/select-children/#this> ;
+    dct:title "Imports" ;
+    dct:description "???" ;
+    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">???</p>
+    <p>???</p>
+</div>"""^^rdf:XMLLiteral .

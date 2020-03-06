@@ -6,13 +6,13 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<usage/> a def:Container ;
-    sioc:has_parent <> ;
+<reference/documents/> a def:Item ;
+    sioc:has_container <user-guide/> ;
     dh:select <queries/default/select-children/#this> ;
-    dct:title "Usage" ;
-    dct:description "How to perform basic data management actions" ;
+    dct:title "Document management" ;
+    dct:description "Document hierarchy and the basic data management actions" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">This guide explains the basic terms and data management actions.</p>
+    <p class="lead">This guide explains the document hierarchy and the basic data management actions.</p>
     <div>
         <h2 id="dataspace">Dataspace</h2>
         <p>The user is always working within the <a href="../manage-apps/#dataspaces">dataspace</a>. A dataspace consists of two

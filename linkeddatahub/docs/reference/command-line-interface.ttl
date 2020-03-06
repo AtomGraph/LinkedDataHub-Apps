@@ -6,8 +6,8 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<command-line-interface/> a def:Item ;
-    sioc:has_container <> ;
+<reference/command-line-interface/> a def:Item ;
+    sioc:has_container <reference/> ;
     dct:title "Command line interface" ;
     dct:description "Learn to use CLI to execute most of the common tasks that can be performed in the UI" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
@@ -16,14 +16,14 @@
         scheduled execution and such. It is usually much quicker to perform actions using CLI rather than the <a href="../user-interface/">user interface</a>, as well as easier to
         reproduce.</p>
     <p>Some scripts correspond to a single request to LinkedDataHub, others combine others into tasks with multiple interdependent requests, such as CSV import.</p>
-    <p>You will need to supply a <samp>.pem</samp> file of your <a href="../getting-started/#get-webid">WebID certificate</a> as well as its password as script arguments, among others.</p>
+    <p>You will need to supply a <samp>.pem</samp> file of your <a href="../get-started/#get-webid">WebID certificate</a> as well as its password as script arguments, among others.</p>
     <div>
         <h2 id="scripts">Scripts</h2>
         <p>Currently supported:</p>
         <div class="tabbable">
           <ul class="nav nav-tabs">
             <li class="active"><a>All versions</a></li>
-            <li><a>Cloud version</a></li>
+            <li><a>LinkedDataHub Cloud</a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active">

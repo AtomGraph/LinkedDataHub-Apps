@@ -6,8 +6,8 @@
 @prefix dct:	<http://purl.org/dc/terms/> .
 @prefix sioc:	<http://rdfs.org/sioc/ns#> .
 
-<administration/model/built-ins/> a def:Item ;
-    sioc:has_container <administration/model/> ;
+<reference/administration/model/built-ins/> a def:Item ;
+    sioc:has_container <reference/administration/model/> ;
     dct:title "Built-in model terms" ;
     dct:description "Classes, constraints, properties available to all LinkedDataHub apps" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">

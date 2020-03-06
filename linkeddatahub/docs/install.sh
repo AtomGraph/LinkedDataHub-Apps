@@ -10,6 +10,7 @@ fi
 base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
+pwd="$(realpath -s "$PWD")"
 
 pushd . && cd ./admin
 
@@ -17,20 +18,20 @@ printf "\n### Making the app public\n\n"
 
 ./make-public.sh "$base" "$cert_pem_file" "$cert_password"
 
-printf "\n### Creating authorizations\n\n"
-
-./create-acl.sh "$base" "$cert_pem_file" "$cert_password"
-
 popd
 
-printf "\n### Creating documents\n\n"
+printf "\n### Creating authorizations\n\n"
 
-./create-documents.sh "$base" "$cert_pem_file" "$cert_password"
+# find "${pwd}" -name '*.ttl' -exec ./admin/create-authorization.sh "${base}" "${cert_pem_file}" "${cert_password}" "${pwd}" {} \;
+
+printf "\n### Update documents\n\n"
+
+find "${pwd}" -name '*.ttl' -exec ./update-document.sh "${base}" "${cert_pem_file}" "${cert_password}" "${pwd}" {} \;
 
 printf "\n### Uploading images\n\n"
 
-./upload-images.sh "$base" "$cert_pem_file" "$cert_password"
+find "${pwd}/files/images" -type f -exec ./upload-file.sh "${base}" "${cert_pem_file}" "${cert_password}" "${pwd}" {} \;
 
 printf "\n### Uploading videos\n\n"
 
-./upload-videos.sh "$base" "$cert_pem_file" "$cert_password"
+find "${pwd}/files/videos" -type f -exec ./upload-file.sh "${base}" "${cert_pem_file}" "${cert_password}" "${pwd}" {} \;

@@ -7,8 +7,8 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
     
-<http-api/> a def:Item ;
-    sioc:has_container <> ;
+<reference/http-api/> a def:Item ;
+    sioc:has_container <reference/> ;
     dct:title "HTTP API" ;
     dct:description "Learn how to access and manage RDF data over generic HTTP API" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">

@@ -1,0 +1,97 @@
+@prefix ns:     <ns#> .
+@prefix def:    <ns/default#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+   
+<user-guide/create-dataspace/> a def:Item ;
+    sioc:has_container <user-guide/> ;
+    dct:title "Create a dataspace" ;
+    dct:description "Step by step guide to creating a new dataspace backed by SPARQL services" ;
+    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Step by step guide to creating a new dataspace backed by SPARQL services</p>
+    <p>There are 3 main components that comprise a LinkedDataHub <a href="../../manage-apps/#dataspace">dataspace</a>:</p>
+    <dl>
+        <dt>End-user application</dt>
+        <dd>An interface for end-users</dd>
+        <dt>Admin application</dt>
+        <dd>An interface for administrators</dd>
+        <dt>SPARQL services</dt>
+        <dd>Connections to the RDF datasource</dd>
+    </dl>
+    <p>Every application stores data in a single SPARQL service, therefore a separate service is needed for each end-user app and
+        admin app.</p>
+    <p>The end-user app will be available on the given base URI (which is relative to its context); the admin app will be available
+        at that base URI with <code>admin/</code> appended. The agent that installed the admin dataset will be the application owner.</p>
+
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active"><a>Open-source version</a></li>
+            <li><a>LinkedDataHub Cloud</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active">
+                <div>
+                    <h2 id="base-uri">System base URI</h2>
+                    <p>System base URI is the URI on which the LinkedDataHub service is accessible.</p>
+                    <p>A common case is changing the system base URI from the default <samp>https://localhost:4443/</samp> to your own.</p>
+                    <p>Lets use <samp>https://ec2-54-235-229-141.compute-1.amazonaws.com/linkeddatahub/</samp> as an example. We need to split the URI into components and set them in the <samp>.env</samp> file using the following parameters:</p>
+                    <pre>PROTOCOL=https
+HTTP_PORT=80
+HTTPS_PORT=443
+HOST=ec2-54-235-229-141.compute-1.amazonaws.com
+ABS_PATH=/linkeddatahub/</pre>
+                </div>
+                <div>
+                    <h2 id="dataspaces">Dataspaces</h2>
+                    <p><a href="../../reference/dataspaces/">Dataspaces</a> are configured in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/config/system.trig" target="_blank"><samp>config/system.trig</samp></a>. <a href="https://www.w3.org/TR/trig/" target="_blank">TriG</a> RDF syntax is used.</p>
+                    <p>The configuration uses the <a href="https://w3id.org/atomgraph/linkeddatahub/apps/domain" target="_blank">Application domain ontology</a>. A dataspace is comprised of an end-user
+                        application and an administrative application, both of them are backed by each own SPARQL service.</p>
+                    <div class="alert alert-info">
+                    <p>Application base URIs need to be relative to the <a href="#base-uri">system base URI</a> configured in the <samp>.env</samp> file. A change of system base URI currently requires
+                        a change of application base URIs, otherwise they will not be reachable.</p>
+                    </div>
+                    <p>Reusing the <samp>https://ec2-54-235-229-141.compute-1.amazonaws.com/linkeddatahub/</samp> as the new base URI, the easiest way is to simple replace the default <samp>https://localhost:4443/</samp> value with it. It can be done using the following shell command:</p>
+                    <pre>sed -i 's/https:\\/\\/localhost:4443\\//https:\\/\\/ec2-54-235-229-141.compute-1.amazonaws.com\\/linkeddatahub\\//g' config/system.trig</pre>
+                    <p>Note that <samp>sed</samp> requires to escape forward slashes <samp>/</samp> with backslashes <samp>\\</samp>.</p>
+                </div>
+                <div>
+                    <h2 id="services">Services</h2>
+                    <p>LinkedDataHub service as well as the default SPARQL services are defined in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/docker-compose.yml" target="_blank"><samp>docker-compose.yml</samp></a> and run as Docker containers.</p>
+                </div>
+                <div>
+                    <h2 id="reset">Reset</h2>
+                    <p>If you need to start fresh and wipe the existing setup (e.g. after configuring a new base URI), you can do that using:</p>
+                    <pre>sudo rm -rf certs data &amp;&amp; docker-compose down -v</pre>
+                    <p>This will remove the persisted data, server and owner certificates as well as their Docker volumes.</p>
+                </div>
+            </div>
+            <div class="tab-pane">
+                <div>
+                    <h2>Using command line interface</h2>
+                    <p><a href="../manage-apps/#dataspaces">Dataspaces</a> and their base URIs are managed automatically in the LinkedDataHub cloud version.</p>
+                    <p>Checkout the <a href="../../command-line-interface/">Command line interface</a> (CLI) scripts into a folder on your machine. Provide a list of arguments to the <samp>create-dataspace</samp> script and execute it. For example:</p>
+                    <pre>./create-app.sh \\
+-b https://linkeddatahub.com/my-context/ \\
+-f linkeddatahub.pem \\
+-p CertPassword \\
+--title "My dataspace" \\
+--description "Dataspace for my data" \\
+--slug my-dataspace \\
+--app-base https://linkeddatahub.com/my-context/my-dataspace/</pre>
+                </div>
+                <div>
+                    <h2>Using user interface</h2>
+                    <p>In the steps below we will guide you through the process of creating an LDH dataspace using UI:</p>
+                    <ol>
+                        <li>
+                            <p>On the top left-hand side click on the <span class="btn btn-primary">Create</span> button</p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>"""^^rdf:XMLLiteral .

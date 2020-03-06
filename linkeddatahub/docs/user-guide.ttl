@@ -4,10 +4,14 @@
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
-@prefix sioc:	<http://rdfs.org/sioc/ns#> .
-  
-<tutorials/> a def:Container ;
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<user-guide/> a def:Container ;
     sioc:has_parent <> ;
     dh:select <queries/default/select-children/#this> ;
-    dct:title "Tutorials" ;
-    dct:description "Step by step tutorials for the most common tasks" .
+    dct:title "User guide" ;
+    dct:description "???" ;
+    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">???</p>
+    <p>???</p>
+</div>"""^^rdf:XMLLiteral .

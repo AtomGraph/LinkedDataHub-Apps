@@ -6,8 +6,8 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<user-interface/> a def:Item ;
-    sioc:has_container <> ;
+<reference/user-interface/> a def:Item ;
+    sioc:has_container <reference/> ;
     dct:title "User interface" ;
     dct:description "A walk through the main features of application user interface" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
@@ -37,7 +37,7 @@
         view. Learn more about query possibilities in the <a href="../usage/query-data/">Query data</a> section.</p>
         <p>Current application can be switched using a dropdown on the right. Different users have access to
         different applications, depending on their authorizations.</p>
-        <p>Currently <a href="../getting-started/#log-in" title="Log in">logged-in user's</a> account is accessible via the icon on
+        <p>Currently <a href="../get-started/#log-in" title="Log in">logged-in user's</a> account is accessible via the icon on
             the right, which opens a drop-down. You can log out by clicking the <span class="btn">Logout</span> button.</p>
         <div class="alert alert-info">
             <p><em>Due to current web browser limitations, it is not possible to logout using client certificate authentication.

@@ -6,10 +6,10 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
     
-<administration/acl/> a def:Item ;
-    sioc:has_container <administration/> ;
-    dct:title "Manage access control" ;
-    dct:description "Learn to create agents, groups, and authorizations" ;
+<reference/administration/acl/> a def:Item ;
+    sioc:has_container <reference/administration/> ;
+    dct:title "Access control" ;
+    dct:description "Agents, groups, and authorizations" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">LinkedDataHub access control is based on the W3C <a href="https://www.w3.org/wiki/WebAccessControl" target="_blank">ACL ontology</a>.</p>
     <div>
