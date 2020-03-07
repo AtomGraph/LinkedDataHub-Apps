@@ -22,7 +22,7 @@ popd
 
 printf "\n### Creating authorizations\n\n"
 
-# find "${pwd}" -name '*.ttl' -exec ./admin/create-authorization.sh "${base}" "${cert_pem_file}" "${cert_password}" "${pwd}" {} \;
+find "${pwd}" -name '*.ttl' -exec ./admin/create-authorization.sh "${base}" "${cert_pem_file}" "${cert_password}" "${pwd}" {} \;
 
 printf "\n### Update documents\n\n"
 
