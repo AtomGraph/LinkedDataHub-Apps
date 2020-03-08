@@ -7,7 +7,7 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
 <reference/documents/> a def:Item ;
-    sioc:has_container <user-guide/> ;
+    sioc:has_container <reference/> ;
     dh:select <queries/default/select-children/#this> ;
     dct:title "Document management" ;
     dct:description "Document hierarchy and the basic data management actions" ;

@@ -12,20 +12,6 @@
     dct:description "Step by step guide to creating a new dataspace backed by SPARQL services" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Step by step guide to creating a new dataspace backed by SPARQL services</p>
-    <p>There are 3 main components that comprise a LinkedDataHub <a href="../../manage-apps/#dataspace">dataspace</a>:</p>
-    <dl>
-        <dt>End-user application</dt>
-        <dd>An interface for end-users</dd>
-        <dt>Admin application</dt>
-        <dd>An interface for administrators</dd>
-        <dt>SPARQL services</dt>
-        <dd>Connections to the RDF datasource</dd>
-    </dl>
-    <p>Every application stores data in a single SPARQL service, therefore a separate service is needed for each end-user app and
-        admin app.</p>
-    <p>The end-user app will be available on the given base URI (which is relative to its context); the admin app will be available
-        at that base URI with <code>admin/</code> appended. The agent that installed the admin dataset will be the application owner.</p>
-
     <div class="tabbable">
         <ul class="nav nav-tabs">
             <li class="active"><a>Open-source version</a></li>
@@ -34,7 +20,7 @@
         <div class="tab-content">
             <div class="tab-pane active">
                 <div>
-                    <h2 id="base-uri">System base URI</h2>
+                    <h2 id="system-base-uri">System base URI</h2>
                     <p>System base URI is the URI on which the LinkedDataHub service is accessible.</p>
                     <p>A common case is changing the system base URI from the default <samp>https://localhost:4443/</samp> to your own.</p>
                     <p>Lets use <samp>https://ec2-54-235-229-141.compute-1.amazonaws.com/linkeddatahub/</samp> as an example. We need to split the URI into components and set them in the <samp>.env</samp> file using the following parameters:</p>
@@ -46,7 +32,7 @@ ABS_PATH=/linkeddatahub/</pre>
                 </div>
                 <div>
                     <h2 id="dataspaces">Dataspaces</h2>
-                    <p><a href="../../reference/dataspaces/">Dataspaces</a> are configured in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/config/system.trig" target="_blank"><samp>config/system.trig</samp></a>. <a href="https://www.w3.org/TR/trig/" target="_blank">TriG</a> RDF syntax is used.</p>
+                    <p><a href="../../reference/dataspace/">Dataspaces</a> are configured in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/config/system.trig" target="_blank"><samp>config/system.trig</samp></a>. <a href="https://www.w3.org/TR/trig/" target="_blank">TriG</a> RDF syntax is used.</p>
                     <p>The configuration uses the <a href="https://w3id.org/atomgraph/linkeddatahub/apps/domain" target="_blank">Application domain ontology</a>. A dataspace is comprised of an end-user
                         application and an administrative application, both of them are backed by each own SPARQL service.</p>
                     <div class="alert alert-info">
@@ -60,12 +46,6 @@ ABS_PATH=/linkeddatahub/</pre>
                 <div>
                     <h2 id="services">Services</h2>
                     <p>LinkedDataHub service as well as the default SPARQL services are defined in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/docker-compose.yml" target="_blank"><samp>docker-compose.yml</samp></a> and run as Docker containers.</p>
-                </div>
-                <div>
-                    <h2 id="reset">Reset</h2>
-                    <p>If you need to start fresh and wipe the existing setup (e.g. after configuring a new base URI), you can do that using:</p>
-                    <pre>sudo rm -rf certs data &amp;&amp; docker-compose down -v</pre>
-                    <p>This will remove the persisted data, server and owner certificates as well as their Docker volumes.</p>
                 </div>
             </div>
             <div class="tab-pane">

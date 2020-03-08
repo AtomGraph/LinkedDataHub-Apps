@@ -14,18 +14,91 @@
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">All the basics of LinkedDataHub. From installation to customizing the model and user interface.</p>
     <p>This guide will show how a LinkedDataHub application can be used to manage domain-specific RDF classes and instances. As an example, we will us <a href="https://www.w3.org/TR/skos-primer/" target="_blank">SKOS</a> concepts and concept schemes.</p>
+    <p>On LinkedDataHub, all <a href="../reference/user-interface/" target="_blank">UI actions</a> can also be achieved using the <a href="../reference/command-line-interface/" target="_blank">CLI (Command Line Interface)</a>, which consists of shell scripts wrapping <a href="../reference/http-api/" target="_blank">HTTP API</a> calls. Where applicable, the UI and CLI instructions are shown side by side.</p>
     <div>
         <h2 id="setup">Setup</h2>
+        <p>Fork the GitHub repository and check it out into a folder. Install Docker and run <samp>docker-compose up</samp> from that folder.</p>
+        <p class="lead"><a href="setup/" target="_blank">Read more more detailed setup instructions.</a></p>
     </div>
     <div>
         <h2 id="get-an-account">Get an account</h2>
+        <p>WebID certificate smth smth???</p>
+        <p class="lead"><a href="get-an-account/" target="_blank">Read more more detailed instructions on getting an account.</a></p>
     </div>
     <div>
-        <h2 id="ui-overview">UI overview</h2>
+        <h2 id="open-dataspace">Open your dataspace</h2>
+        <p>Open <a href="https://localhost:4443/" target="_blank">https://localhost:4443/</a> in the web browser (that you installed the WebID certificate to).</p>
     </div>
     <div>
         <h2 id="create-container">Create a container</h2>
-        <p>We will need to containers for our SKOS instances: one for the concepts and one for the concept schemes.</p>
+        <p>We will need to containers for our SKOS instances: one for the concepts and one for the concept schemes. Follow these steps:</p>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a>User interface</a></li>
+                <li><a>Command line interface</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div>
+                        <ol>
+                            <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
+                            <li>Click on <samp>Container</samp> in the drop-down list that appears</li>
+                            <li>Enter <samp>Concepts</samp> as <samp>Title</samp></li>
+                            <li>Enter <samp>concepts</samp> as <samp>URI slug</samp> — this will be the relative path of the container</li>
+                            <li>Click <span class="btn btn-primary">Save</span></li>
+                        </ol>
+                        <p>See how below:</p>
+                        <p>
+                            <object data="../uploads/490945931415b9ab201ed85f296a84c8a11134d1/" type="video/webm"></object>
+                        </p>
+                    </div>
+                </div>
+                <div class="tab-pane">
+                    <div>
+                        <p>Replace <code>${OWNER_KEY_PASSWORD}</code> with its value from the <samp>.env</samp> file and execute the following command from your LinkedDataHub folder:</p>
+<pre>./scripts/create-container.sh \\
+-b "https://localhost:4443/" \\
+-f certs/owner.p12.pem \\
+-p "${OWNER_KEY_PASSWORD}" \\
+--title "Concepts" \\
+--slug "concepts" \\
+--parent "https://localhost:4443/" \\
+"https://localhost:4443/"
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p>A container title <samp>Concepts</samp> should appear with the URI <a href="https://localhost:4443/" target="_blank">https://localhost:4443/concepts/</a>.</p>
+        <p class="lead"><a href="../reference/documents/" target="_blank">Read more about document management.</a></p>
     </div>
-
+    <div>
+        <h2 id="create-class">Create a class</h2>
+        <p>In order to be able to manage SKOS concepts and concept schemes, we need to create classes that represent them in the <a href="../reference/administration/model/" target="_blank">model</a> of our dataspace. Not only will they serve as RDF types of the instances, but will have <a href="../reference/administration/model/#constructors" target="_blank">constructors</a> attached that define the default properties and their (data)types for that class.</p>
+        <p>Head to the administration application by clicking the <span class="btn btn-settings">Settings</span> in the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a> and then choosing <samp>Administration</samp>.</p>
+        <div class="alert alert-info">
+            <p>In order to edit the <a href="../reference/administration/acl/" target="_blank">access control</a>, <a href="../reference/administration/model/" target="_blank">model</a>, or <a href="../reference/administration/sitemap/" target="_blank">sitemap</a> of a dataspace, you need to be an administrator, i.e. a member of the <a href="../reference/administration/acl/#groups" target="_blank">owners group</a>.</p>
+        </div>
+        <p>Follow these steps:</p>
+        <ol>
+            <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
+            <li>Click on <samp>Class</samp> in the drop-down list that appears</li>
+            <li>Enter <samp>Concept</samp> as <samp>Label</samp></li>
+            <li>Type <samp>Domain</samp> into the <samp>IsDefinedBy</samp> input (which provides autocomplete)</li>
+            <li>Select <samp>Domain</samp> from the list — this is the ontology in which the class is defined</li>
+            <li>Click <span class="btn btn-primary">Save</span></li>
+        </ol>
+    </div>
+    <div>
+        <h2 id="create-instance">Create an instance</h2>
+        <p></p>
+    </div>
+    <div>
+        <h2 id="import-csv">Import CSV data</h2>
+        <p></p>
+    </div>
+    <div>
+        <h2 id="change-layout">Change the layout</h2>
+        <p></p>
+    </div>
 </div>"""^^rdf:XMLLiteral .

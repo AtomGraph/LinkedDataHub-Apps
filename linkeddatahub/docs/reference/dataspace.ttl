@@ -9,12 +9,15 @@
 <reference/dataspace/> a def:Item ;
     sioc:has_container <reference/> ;
     dct:title "Dataspace" ;
-    dct:description "Learn how to create and manage LinkedDataHub applications" ;
+    dct:description "LinkedDataHub dataspaces, applications, and services" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">LinkedDataHub dataspaces, applications, and services</p>
     <div>
         <h2 id="dataspaces">Dataspaces</h2>
         <p>The LinkedDataHub URI address space is split into <dfn>dataspaces</dfn>. Every dataspace consists of a pair of LDT applications:
             <a href="#end-user-apps">end-user</a> and <a href="#admin-apps">administration</a>.</p>
+        <p>The end-user app will be available on the given base URI; the admin app will be available
+            at that base URI with <code>admin/</code> appended. The agent that installed the admin dataset will be the application owner.</p>
     </div>
     <div>
         <h2 id="applications">Applications</h2>
@@ -121,5 +124,5 @@
             <p class="lead"><a href="mailto:sales@atomgraph.com">Contact us</a> for a trial of Dydra.</p>
         </div>
     </div>
-    <p class="lead">If you are ready to create a dataspace, see our step-by-step tutorial on <a href="../tutorials/create-dataspace/">creating a dataspace</a>.</p>
+    <p class="lead">If you are ready to create a dataspace, see our step-by-step tutorial on <a href="../../user-guide/create-dataspace/">creating a dataspace</a>.</p>
 </div>"""^^rdf:XMLLiteral .

@@ -78,5 +78,5 @@
                 different agents can be specified by the application administrators.</p>
         </div>
     </div>
-    <p class="lead">Are you in? Then take a look at <a href="../usage/">usage</a>.</p>
+    <p class="lead">Are you in? Then take a look at the <a href="../ui-overview/">UI overview</a>.</p>
 </div>"""^^rdf:XMLLiteral .
