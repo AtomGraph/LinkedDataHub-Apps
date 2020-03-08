@@ -5,17 +5,11 @@
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
-  
-<reference/stylesheets/> a def:Item ;
-    sioc:has_container <reference/> ;
-    dct:title "Stylesheets" ;
-    dct:description "Built-in XSLT and CSS stylesheets" ;
+   
+<user-guide/change-layout/> a def:Item ;
+    sioc:has_container <user-guide/> ;
+    dct:title "Change layout" ;
+    dct:description "How to customize the layout of an application and the UI of the resources" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Built-in XSLT and CSS stylesheets</p>
-    <div>
-        <h2 id="css">CSS</h2>
-    </div>
-    <div>
-        <h2 id="xslt">XSLT</h2>
-    </div>
+    <p class="lead">How to customize the layout of an application and the UI of the resources</p>
 </div>"""^^rdf:XMLLiteral .
