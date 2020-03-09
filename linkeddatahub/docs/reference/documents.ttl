@@ -46,7 +46,7 @@
         <div>
             <h3 id="view">View</h3>
             <p>
-                <object data="../uploads/d9ec2ef2b2f1268affa6deb3f3f971bdf6a56b64/" type="video/webm"></object>
+                <object data="../../uploads/d9ec2ef2b2f1268affa6deb3f3f971bdf6a56b64/" type="video/webm"></object>
             </p>
             <p>This is the default action when a document is accessed. The content of the view is different depending on
                 whether the current document is a container or an item. The presentation layout also depends on the current
@@ -60,7 +60,7 @@
         <div>
             <h3 id="create">Create</h3>
             <p>
-                <object data="../uploads/490945931415b9ab201ed85f296a84c8a11134d1/" type="video/webm"></object>
+                <object data="../../uploads/490945931415b9ab201ed85f296a84c8a11134d1/" type="video/webm"></object>
             </p>
             <p>Create action creates a new resource of the selected type using
                 <a href="../user-interface/#create-mode" title="Create mode">create mode</a>. A newly created document becomes a
@@ -77,7 +77,7 @@
         <div>
             <h3 id="update">Update</h3>
             <p>
-                <object data="../uploads/30d8cc764648ebd67497413b16a94fca56c8e1e4/" type="video/webm"></object>
+                <object data="../../uploads/30d8cc764648ebd67497413b16a94fca56c8e1e4/" type="video/webm"></object>
             </p>
             <p>LinkedDataHub stores the description of every document in a separate RDF graph. The distinction between
                 document and its graph is important to understand; it is the graph that is being edited using
@@ -90,7 +90,7 @@
         <div>
             <h3 id="delete">Delete</h3>
             <p>
-                <object data="../uploads/121916e2a51476351451c218b1a6dec9de2e7774/" type="video/webm"></object>
+                <object data="../../uploads/121916e2a51476351451c218b1a6dec9de2e7774/" type="video/webm"></object>
             </p>
             <p>This action deletes the current document by deleting the graph with its description.</p>
             <p>Deleting a container currently does not delete any of its descendants.</p>
@@ -98,7 +98,7 @@
         <div>
             <h3 id="download">Download</h3>
             <p>
-                <object data="../uploads/9f9c3fc45ed41d6dad05762b501512b002f0efc5/" type="video/webm"></object>
+                <object data="../../uploads/9f9c3fc45ed41d6dad05762b501512b002f0efc5/" type="video/webm"></object>
             </p>
             <p>Download action returns the description of the current document as RDF data in the selected format.</p>
         </div>
@@ -106,7 +106,7 @@
     <div>
         <h2 id="search">Search</h2>
         <p>
-            <object data="../uploads/1cf5edfd48c75a47462e00b6ef7857ee1429bfd3/" type="video/webm"></object>
+            <object data="../../uploads/1cf5edfd48c75a47462e00b6ef7857ee1429bfd3/" type="video/webm"></object>
         </p>
         <p>Perform an application-wide search for resources (documents as well as their topics) using the
             <a href="../user-interface/#navigation-bar">search box</a>. Search uses regex to match search keywords

@@ -31,7 +31,7 @@
         <div>
             <h3>System ontologies</h3>
             <p class="text-center">
-                <img src="../../uploads/74847ba3ea2f8862bcb0bd9e177517363de83e74/" title="LinkedDataHub ontologies"></img>
+                <img src="../../../uploads/74847ba3ea2f8862bcb0bd9e177517363de83e74/" title="LinkedDataHub ontologies"></img>
             </p>
             <p>AtomGraph Platform (APL) is the default domain ontology used by LinkedDataHub.</p>
             <table class="table">

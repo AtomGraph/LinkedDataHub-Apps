@@ -75,6 +75,7 @@ OWNER_KEY_PASSWORD=changeit</pre>
                     <pre>sudo rm -rf certs data &amp;&amp; docker-compose down -v</pre>
                     <p>This will remove the persisted data, server and owner certificates as well as their Docker volumes.</p>
                 </div>
+                <p class="lead">Is LinkedDataHub running? Proceed to <a href="../get-an-account/">get an account</a>.</p>
             </div>
             <div class="tab-pane">
                 <h3 id="access-linkeddatahub-cloud">Access LinkedDataHub Cloud</h3>
@@ -83,5 +84,4 @@ OWNER_KEY_PASSWORD=changeit</pre>
           </div>
         </div>
     </div>
-    <p class="lead">Is LinkedDataHub running? Proceed to <a href="../get-an-account/">get an account</a>.</p>
 </div>"""^^rdf:XMLLiteral .

@@ -22,7 +22,7 @@
     <div>
         <h2 id="applications">Applications</h2>
         <p class="text-center">
-            <img alt="Dataspace hierarchy" src="../uploads/3cbf6ccd5f92b84111e2425263da050db0e4663f/"></img>
+            <img alt="Dataspace hierarchy" src="../../uploads/3cbf6ccd5f92b84111e2425263da050db0e4663f/"></img>
         </p>
         <p>All LDT applications have the following properties:</p>
         <dl>
