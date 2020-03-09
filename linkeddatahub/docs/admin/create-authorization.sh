@@ -21,7 +21,7 @@ webid_uri=$("$SCRIPT_ROOT"/webid-uri.sh "$cert_pem_file" "$cert_password")
 
 pushd . && cd "$SCRIPT_ROOT/admin/acl"
 
-printf "\n### Creating authorization for %s\n" "${filename}"
+printf "\n### Creating authorization for %s\n" "${base}${path}"
 
 ./create-authorization.sh \
 -b "${base}admin/" \

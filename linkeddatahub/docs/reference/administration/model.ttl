@@ -128,7 +128,10 @@ WHERE {}</code></pre>
         </div>
         <div>
             <h3 id="restrictions">Restrictions</h3>
-            <p></p>
+            <p>LinkedDataHub UI stylesheets use <a href="https://www.w3.org/TR/owl2-primer/#Property_Restrictions" target="_blank">OWL property restrictions</a> to define relationships between model
+                classes and between classes and containers.</p>
+            <p><samp>ObjectAllValuesFrom</samp> restrictions define which thing and document instances should be paired together in a dataspace (using <code>foaf:primaryTopic</code>/<code>foaf:isPrimaryTopicOf</code> properties).</p>
+            <p><samp>ObjectHasValue</samp> restrictions define which document instances should be stored in which container (using <code>sioc:has_container</code> property).</p>
         </div>
     </div>
     <div>

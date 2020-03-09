@@ -19,7 +19,7 @@ path="${path}/" # add trailing slash
 
 pushd . && cd "$SCRIPT_ROOT"
 
-printf "\n### Updating %s\n" "${filename}"
+printf "\n### Updating %s\n" "${base}${path}"
 
 cat "${filename}" | turtle --base="${base}" | "$SCRIPT_ROOT"/update-document.sh \
 -f "$cert_pem_file" \

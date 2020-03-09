@@ -28,7 +28,8 @@
           </ul>
           <div class="tab-content">
             <div class="tab-pane active">
-                <p>If you have completed the <a href="../setup/">setup</a>, <samp>certs/owner.p12</samp> is your WebID certificate. Password is the <samp>OWNER_KEY_PASSWORD</samp> value from the <samp>.env</samp> file.</p>
+                <p>If you have completed the <a href="../setup/">setup</a> and own an instance of LinkedDataHub, <samp>certs/owner.p12</samp> file is your WebID certificate. Password is the <samp>OWNER_KEY_PASSWORD</samp> value from the <samp>.env</samp> file.</p>
+                <p>If you successfully signed up to someone's LinkedDataHub instance, you should receive an email with a <samp>.p12</samp> file attached which is your WebID certificate.</p>
             </div>
             <div class="tab-pane">
                 <div class="alert alert-info">

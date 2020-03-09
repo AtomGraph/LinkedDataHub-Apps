@@ -6,8 +6,8 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
     
-<tutorials/import-rdf-data/> a def:Item ;
-    sioc:has_container <tutorials/> ;
+<user-guide/import-data/import-rdf-data/> a def:Item ;
+    sioc:has_container <user-guide/import-data/> ;
     dct:title "Import RDF data" ;
     dct:description "Step by step guide to importing RDF data" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
@@ -15,7 +15,7 @@
     <p>There are multiple ways to import RDF data into LinkedDataHub.</p>
     <div>
         <h2 id="single-resource">Single resource</h2>
-        <p>Create or update a single RDF document using the <a href="../../command-line-interface/">command line interface</a>.</p>
+        <p>Create or update a single RDF document using the <a href="../../../reference/command-line-interface/">command line interface</a>.</p>
     </div>
     <div>
         <h2 id="append-dataset">Append dataset</h2>
@@ -52,7 +52,7 @@ _:container a dh:Container ;
            <dt><samp>${cert_password}</samp></dt>
            <dd>The password of your WebID certificate (provided during signup)</dd>
            <dt><samp>${target}</samp></dt>
-           <dd>URI of the target container, for example <samp>https://linkeddatahub.com/docs/tutorials/</samp></dd>
+           <dd>URI of the target container, for example <samp>https://linkeddatahub.com/demo/skos/</samp></dd>
         </dl>
     </div>
     <div class="tabbable">

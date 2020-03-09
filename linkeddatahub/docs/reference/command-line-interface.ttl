@@ -195,7 +195,7 @@
 --file-slug 646af756-a49f-40da-a25e-ea8d81f6d306 \\
 --file friends.csv \\
 --file-content-type text/csv</pre>
-        <p>See also the <a href="../tutorials/import-csv-data/">Import CSV data</a> tutorial.</p>
+        <p>See also the <a href="../../user-guide/import-data/import-csv-data/">Import CSV data</a> tutorial.</p>
     </div>
     <p class="lead">Find the <a href="https://github.com/AtomGraph/LinkedDataHub/tree/master/scripts" target="_blank">CLI scripts on GitHub</a>.</p>
 </div>"""^^rdf:XMLLiteral .

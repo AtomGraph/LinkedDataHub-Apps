@@ -16,7 +16,7 @@
     <p>This guide will show how a LinkedDataHub application can be used to manage domain-specific RDF classes and instances. As an example, we will us <a href="https://www.w3.org/TR/skos-primer/" target="_blank">SKOS</a> concepts and concept schemes.</p>
     <p>On LinkedDataHub, all <a href="../reference/documents/#manage" target="_blank">management actions</a> can also be performed using the <a href="../reference/command-line-interface/" target="_blank">CLI (Command Line Interface)</a>, which consists of shell scripts wrapping <a href="../reference/http-api/" target="_blank">HTTP API</a> calls. Where applicable, the UI and CLI instructions are shown side by side.</p>
     <p>The CLI instructions use the environmental variable <code>$SCRIPT_ROOT</code>, which should point to the <samp>scripts</samp> in your LinkedDataHub fork. Then you can place the scripts and files
-        from the examples in a folder outside LinkedDataHub. Alternatively, you can check out the source code of the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/skos" target="_blank">SKOS demo app</a> which implements the SKOS example used in this guide.</p>
+        from the examples in a folder outside LinkedDataHub — that will be the current directory for the CLI examples below. Alternatively, you can check out the source code of the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/skos" target="_blank">SKOS demo app</a> which implements the SKOS example used in this guide.</p>
     <div>
         <h2 id="setup">Setup</h2>
         <p>Fork the GitHub repository and check it out into a folder. Install Docker and run <samp>docker-compose up</samp> from that folder.</p>
@@ -24,7 +24,8 @@
     </div>
     <div>
         <h2 id="get-an-account">Get an account</h2>
-        <p>WebID certificate smth smth???</p>
+        <p>If you have completed the setup and own an instance of LinkedDataHub, <samp>certs/owner.p12</samp> file is your WebID certificate. Password is the <samp>OWNER_KEY_PASSWORD</samp> value from the <samp>.env</samp> file.</p>
+        <p>If you successfully signed up to someone's LinkedDataHub instance, you should receive an email with a <samp>.p12</samp> file attached which is your WebID certificate. In this case you will not be able to perform the administrative actions in the examples below, but you can issue a <a href="../reference/administration/acl/#auth-requests" target="_blank">request for access</a> to the owner(s) of a dataspace.</p>
         <p class="lead"><a href="get-an-account/" target="_blank">Read more more detailed instructions on getting an account.</a></p>
     </div>
     <div>
@@ -63,7 +64,7 @@
                 </div>
                 <div class="tab-pane">
                     <div>
-                        <p>Replace <code>${OWNER_KEY_PASSWORD}</code> with its value from the <samp>.env</samp> file and execute the following command from your LinkedDataHub folder:</p>
+                        <p>Replace <code>${OWNER_KEY_PASSWORD}</code> with its value from the <samp>.env</samp> file and execute the following command:</p>
                         <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"
 
 ./create-container.sh \\
@@ -80,7 +81,7 @@ popd</pre>
                 </div>
             </div>
         </div>
-        <p>A container titled <samp>Concepts</samp> should appear with the URI <a href="https://localhost:4443/" target="_blank">https://localhost:4443/concepts/</a>.</p>
+        <p>A container titled <samp>Concepts</samp> should appear with the URI <a href="https://localhost:4443/concepts/" target="_blank">https://localhost:4443/concepts/</a>.</p>
         <p class="lead"><a href="../reference/documents/" target="_blank">Read more about document management.</a></p>
     </div>
     <div>
@@ -157,8 +158,7 @@ WHERE {}</pre>
                     </div>
                     <div class="tab-pane">
                         <div>
-                            <p>Save the SPARQL query string as <samp>construct-concept.rq</samp>.</p>
-                            <pre>pwd=$(realpath -s $PWD)
+                                <pre>pwd=$(realpath -s $PWD)
 
 pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/model
 
@@ -265,7 +265,7 @@ popd</pre>
                     </div>
                     <div class="tab-pane">
                         <div>
-                            <p>Replace <code>${OWNER_KEY_PASSWORD}</code> with its value from the <samp>.env</samp> file and execute the following commands from your LinkedDataHub folder:</p>
+                            <p>Replace <code>${OWNER_KEY_PASSWORD}</code> with its value from the <samp>.env</samp> file and execute the following commands:</p>
     <pre>./scripts/admin/clear-ontology.sh \\
 -f certs/owner.p12.pem \\
 -p "${OWNER_KEY_PASSWORD}" \\
@@ -287,15 +287,22 @@ popd</pre>
         <ol>
             <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
             <li>Click on <samp>Concept</samp> in the drop-down list that appears</li>
-            <li>Enter <samp>Concept</samp> as <samp>Label</samp></li>
-            <li>Type <samp>Domain</samp> into the <samp>IsDefinedBy</samp> input (which provides autocomplete)</li>
-            <li>Select <samp>Domain</samp> from the list — this is the ontology in which the class is defined</li>
+            <li>Fill out the mandatory fields in the form:
+                <dl>
+                    <dt>Title</dt>
+                    <dd>Enter concept title</dd>
+                    <dd>Enter document title</dd>
+                </dl>
+            </li>
             <li>Click <span class="btn btn-primary">Save</span></li>
         </ol>
+        <p>A concept and its item should appear with the URI <samp>https://localhost:4443/concepts/{slug}</samp>, depending on the optional URI slug value (a unique UUID string is be assigned by default).</p>
+        <p>Congratulations! You have just created the first concept instance based on your model.</p>
     </div>
     <div>
         <h2 id="import-csv">Import CSV data</h2>
-        <p></p>
+        <p>A common step at this point would be to populate your dataset with instances by importing data. LinkedDataHub currently supports CSV and RDF <a href="../reference/imports/" target="_blank">data imports</a>.</p>
+        <p class="lead"><a href="../user-guide/import-data/import-csv-data/" target="_blank">Follow a tutorial to import CSV data and map it to RDF.</a></p>
     </div>
     <div>
         <h2 id="change-layout">Change the layout</h2>

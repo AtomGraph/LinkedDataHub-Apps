@@ -52,7 +52,7 @@ ABS_PATH=/linkeddatahub/</pre>
                 <div>
                     <h2>Using command line interface</h2>
                     <p><a href="../manage-apps/#dataspaces">Dataspaces</a> and their base URIs are managed automatically in the LinkedDataHub cloud version.</p>
-                    <p>Checkout the <a href="../../command-line-interface/">Command line interface</a> (CLI) scripts into a folder on your machine. Provide a list of arguments to the <samp>create-dataspace</samp> script and execute it. For example:</p>
+                    <p>Checkout the <a href="../../reference/command-line-interface/">Command line interface</a> (CLI) scripts into a folder on your machine. Provide a list of arguments to the <samp>create-dataspace</samp> script and execute it. For example:</p>
                     <pre>./create-app.sh \\
 -b https://linkeddatahub.com/my-context/ \\
 -f linkeddatahub.pem \\
