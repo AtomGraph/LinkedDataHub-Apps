@@ -7,7 +7,7 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
 <get-started/create-container/> a def:Item ;
-    sioc:has_parent <> ;
+    sioc:has_container <get-started/> ;
     dct:title "Create a container" ;
     dct:description "???" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">

@@ -34,7 +34,7 @@ ABS_PATH=/linkeddatahub/</pre>
                     <h2 id="dataspaces">Dataspaces</h2>
                     <p><a href="../../reference/dataspace/">Dataspaces</a> are configured in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/config/system.trig" target="_blank"><samp>config/system.trig</samp></a>. <a href="https://www.w3.org/TR/trig/" target="_blank">TriG</a> RDF syntax is used.</p>
                     <p>The configuration uses the <a href="https://w3id.org/atomgraph/linkeddatahub/apps/domain" target="_blank">Application domain ontology</a>. A dataspace is comprised of an end-user
-                        application and an administrative application, both of them are backed by each own SPARQL service.</p>
+                        application and an administrative application, both of them are backed by each own SPARQL service. Each application can also specify its own <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>.</p>
                     <div class="alert alert-info">
                     <p>Application base URIs need to be relative to the <a href="#base-uri">system base URI</a> configured in the <samp>.env</samp> file. A change of system base URI currently requires
                         a change of application base URIs, otherwise they will not be reachable.</p>
