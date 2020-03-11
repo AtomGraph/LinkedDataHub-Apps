@@ -1,0 +1,194 @@
+@prefix ns:     <ns#> .
+@prefix def:    <ns/default#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<user-guide/administration/change-sitemap/> a def:Item ;
+    sioc:has_container <user-guide/administration/> ;
+    dct:title "Change the sitemap" ;
+    dct:description "Change the sitemap: create queries and LDT templates" ;
+    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Change the model: create constructors, classes, and restrictions</p>
+    <div>
+        <h2 id="change-sitemap">Change the sitemap</h2>
+        <p>By default, the concept documents will match an <code>Item</code> template from the application's <a href="../reference/administration/sitemap/#ontologies" target="_blank">Templates ontology</a>.  You can verify that by checking the HTTP <a href="../reference/http-api/#hypermedia-headers" target="_blank">response headers</a>, which should include a template URI such as
+        <code>https://linkeddatahub.com/linkeddatahub/docs/ns/templates#Item</code>. You can use it to look up the SPARQL query which is used to load the RDF data for the document. It looks like this:</p>
+        <pre>PREFIX  rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+PREFIX  foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+
+DESCRIBE ?this ?primaryTopic ?seeAlso WHERE {
+    GRAPH ?graph
+    { ?this ?p ?o .
+      OPTIONAL { ?this foaf:primaryTopic ?primaryTopic }
+      OPTIONAL { ?this rdfs:seeAlso ?seeAlso }
+    }
+}</pre>
+        <p>Lets say we want to change the RDF description of the concept to return not only its own properties, but also include its narrower concepts. That data then can be used to render the narrower
+            concepts on the same document, instead of just linking to them.</p>
+        <p>In order to achieve that, we need to override the LDT template that matches our concept items and specify our custom SPARQL query for the overriding template.</p>
+    </div>
+    <div>
+        <h2 id="create-query">Create a query</h2>
+        <p>We will use the following query to retrieve concept description and save it under <samp>queries/describe-concept.rq</samp>:</p>
+        <pre>PREFIX  skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
+PREFIX  rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+PREFIX  foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+
+DESCRIBE ?this ?concept ?narrower
+WHERE
+  { GRAPH ?graph
+      { ?this  ?p  ?o
+        OPTIONAL
+          { ?this  foaf:primaryTopic  ?concept
+            OPTIONAL
+              { ?concept  skos:narrower  ?narrower }
+          }
+      }
+  }</pre>
+        <p>It returns a description not only of the concept's document and the concept itself, but also of the (optional) narrower concepts.</p>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a>User interface</a></li>
+                <li><a>Command line interface</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div>
+                        <p>In the administration application, follow these steps:</p>
+                        <ol>
+                            <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
+                            <li>Click on <samp>DESCRIBE</samp> in the drop-down list that appears</li>
+                            <li>Fill out the mandatory fields in the form:
+                                <dl>
+                                    <dt>Label</dt>
+                                    <dd>Enter <samp>Describe concept</samp></dd>
+                                    <dt>IsDefinedBy</dt>
+                                    <dd>Type <samp>Templates</samp> into the input (which provides autocomplete)</dd>
+                                    <dd>Select <samp>Templates</samp> from the list — this is the ontology in which the query is defined</dd>
+                                    <dt>Text</dt>
+                                    <dd>Enter the SPARQL <code>DESCRIBE</code> query string</dd>
+                                </dl>
+                            </li>
+                            <li>Click <span class="btn btn-primary">Save</span></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="tab-pane">
+                    <div>
+                        <pre>pwd=$(realpath -s $PWD)
+
+pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/sitemap
+
+./create-describe.sh \\
+-b "https://localhost:4443/admin/" \\
+-f certs/owner.p12.pem \\
+-p "${OWNER_KEY_PASSWORD}" \\
+--uri "https://localhost:4443/ns/templates#DescribeConcept" \\
+--label "Describe concept" \\
+--slug describe-concept \\
+--query-file "$pwd/queries/describe-concept.rq"
+
+popd</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h2 id="create-template">Create a template</h2>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a>User interface</a></li>
+                <li><a>Command line interface</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div>
+                        <p>In the administration application, follow these steps to create a concept class:</p>
+                        <ol>
+                            <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
+                            <li>Click on <samp>Template</samp> in the drop-down list that appears</li>
+                            <li>Fill out the fields in the form:
+                                <dl>
+                                    <dt>Label</dt>
+                                    <dd>Enter <samp>Concept item</samp></dd>
+                                    <dt>IsDefinedBy</dt>
+                                    <dd>Type <samp>Templates</samp> into the input (which provides autocomplete)</dd>
+                                    <dd>Select <samp>Templates</samp> from the list — this is the ontology in which the class is defined</dd>
+                                    <dt>Query</dt>
+                                    <dd>Type <samp>Describe concept</samp> into the input (which provides autocomplete)</dd>
+                                    <dd>Select <samp>Describe concept</samp> from the list — this is the query we created beforehand</dd>
+                                </dl>
+                            </li>
+                            <li>Click <span class="btn btn-primary">Save</span></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="tab-pane">
+                    <div>
+                        <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/sitemap
+
+./create-template.sh \\
+-b "https://localhost:4443/admin/" \\
+-f certs/owner.p12.pem \\
+-p "${OWNER_KEY_PASSWORD}" \\
+--uri "https://localhost:4443/ns/templates#ConceptItem" \\
+--label "Concept item" \\
+--slug concept-item \\
+--extends "https://localhost:4443/ns/templates#Item" \\
+--match "/concepts/{slug}/" \\
+--query "https://localhost:4443/ns/templates#DescribeConcept" \\
+--is-defined-by "https://localhost:4443/ns/templates#"
+
+popd</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="lead"><a href="../../../reference/administration/sitemap/#templates" target="_blank">Read more about templates.</a></p>
+    </div>
+    <div>
+        <h2 id="clear-ontologies">Clear ontologies</h2>
+        <p>For changes made to application ontologies (both of the <a href="../../../reference/administration/model/" target="_blank">model</a> and of the <a href="../../../reference/administration/sitemap/" target="_blank">sitemap</a>) to take effect, the ontologies need to be cleared from memory and reloaded from dataset. Follow these steps:</p>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a>User interface</a></li>
+                <li><a>Command line interface</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div>
+                        <p>Head to the administration application by clicking the <span class="btn btn-settings">Settings</span> in the <a href="../../../reference/user-interface/#action-bar" target="_blank">action bar</a> and then choosing <samp>Administration</samp>.</p>
+                        <ol>
+                            <li>Open <a href="https://localhost:4443/admin/sitemap/ontologies/templates/" target="_blank"><samp>Sitemap / Ontologies / Templates</samp></a></li>
+                            <li>Click <span class="btn btn-primary">Clear</span> in the header of the ontology description</li>
+                            <li>Open <a href="https://localhost:4443/admin/model/ontologies/namespace/" target="_blank"><samp>Model / Ontologies / Namespace</samp></a></li>
+                            <li>Click <span class="btn btn-primary">Clear</span> in the header of the ontology description</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="tab-pane">
+                    <div>
+                        <p>Replace <code>${OWNER_KEY_PASSWORD}</code> with its value from the <samp>.env</samp> file and execute the following commands:</p>
+                        <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin
+
+./clear-ontology.sh \\
+-f certs/owner.p12.pem \\
+-p "${OWNER_KEY_PASSWORD}" \\
+"https://localhost:4443/admin/sitemap/ontologies/templates/"
+
+./clear-ontology.sh \\
+-f certs/owner.p12.pem \\
+-p "${OWNER_KEY_PASSWORD}" \\
+"https://localhost:4443/admin/model/ontologies/namespace/"
+
+popd</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>"""^^rdf:XMLLiteral .

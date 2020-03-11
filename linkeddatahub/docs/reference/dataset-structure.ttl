@@ -23,11 +23,10 @@
             <li>an inverse functional relationship exists between the document and its content graph,
                 as well as the content graph and the meta graph. That allows to locate the graph
                 with the document description using the <code>void:inDataset</code> document property,
-                which can be managed using the <a href="../http-api/#graphs">Graph Store Protocol</a> in
+                which can be managed using the <a href="../http-api/#graphs" target="_blank">Graph Store Protocol</a> in
                 order to change the description(s) of the document or its related resources.</li>
         </ol>
-        <p>The LinkedDataHub dataset can be <a href="../manage-apps/">installed</a> into an application service
-            by the application's owners.</p>
+        <p>The default dataset is installed into an application service during the <a href="../../getting-started/setup/">setup</a>.</p>
     </div>
     <p>The distinction between dataset structures matters mostly for updates and versioning. It is much
         more straight-forward to change graph contents using GSP than update resource description using

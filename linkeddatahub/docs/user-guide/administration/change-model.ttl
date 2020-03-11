@@ -23,7 +23,7 @@
         </div>
     </div>
     <div>
-        <h3 id="create-constructor">Create a constructor</h3>
+        <h2 id="create-constructor">Create a constructor</h2>
         <p>We will use the following SPARQL <code>CONSTRUCT</code> query as a <a href="../../../reference/administration/model/#constructors" target="_blank">constructor</a> for our <samp>Concept</samp> class and save it in a file under <samp>queries/construct-concept.rq</samp>.</p>
         <pre>PREFIX :     &lt;ns/domain#&gt;
 PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
@@ -73,7 +73,7 @@ WHERE {}</pre>
                             <li>Fill out the mandatory fields in the form:
                                 <dl>
                                     <dt>Label</dt>
-                                    <dd>Enter <samp>Concept constructor</samp></dd>
+                                    <dd>Enter <samp>Construct concept</samp></dd>
                                     <dt>IsDefinedBy</dt>
                                     <dd>Type <samp>Domain</samp> into the input (which provides autocomplete)</dd>
                                     <dd>Select <samp>Domain</samp> from the list — this is the ontology in which the query is defined</dd>
@@ -109,7 +109,7 @@ popd</pre>
         <p class="lead"><a href="../../../reference/administration/model/#constructors" target="_blank">Read more about constructors.</a></p>
     </div>
     <div>
-        <h3 id="create-class">Create a class</h3>
+        <h2 id="create-class">Create a class</h2>
         <div class="tabbable">
             <ul class="nav nav-tabs">
                 <li class="active"><a>User interface</a></li>
@@ -130,8 +130,8 @@ popd</pre>
                                     <dd>Type <samp>Domain</samp> into the input (which provides autocomplete)</dd>
                                     <dd>Select <samp>Domain</samp> from the list — this is the ontology in which the class is defined</dd>
                                     <dt>Constructor</dt>
-                                    <dd>Type <samp>Concept constructor</samp> into the input (which provides autocomplete)</dd>
-                                    <dd>Select <samp>Concept constructor</samp> from the list — this is the query we created beforehand</dd>
+                                    <dd>Type <samp>Construct concept</samp> into the input (which provides autocomplete)</dd>
+                                    <dd>Select <samp>Construct concept</samp> from the list — this is the query we created beforehand</dd>
                                 </dl>
                             </li>
                             <li>Click <span class="btn btn-primary">Save</span></li>
@@ -158,7 +158,7 @@ popd</pre>
                         <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/model
 
 ./create-class.sh \\
--b "https://localhost:4443/" \\
+-b "https://localhost:4443/admin/" \\
 -f certs/owner.p12.pem \\
 -p "${OWNER_KEY_PASSWORD}" \\
 --uri "https://localhost:4443/ns/domain#Concept" \\
@@ -169,8 +169,8 @@ popd</pre>
 --path "{isPrimaryTopicOf.slug}/" \\
 --fragment "this"
 
-./scripts/admin/model/create-class.sh \\
--b "https://localhost:4443/" \\
+./create-class.sh \\
+-b "https://localhost:4443/admin/" \\
 -f certs/owner.p12.pem \\
 -p "${OWNER_KEY_PASSWORD}" \\
 --uri "https://localhost:4443/ns/domain#ConceptItem" \\
@@ -188,7 +188,57 @@ popd</pre>
         <p class="lead"><a href="../../../reference/administration/model/#classes" target="_blank">Read more about classes.</a></p>
     </div>
     <div>
-        <h3 id="clear-ontologies">Clear ontologies</h3>
+        <h2 id="create-constraint">Create a constraint</h2>
+        <p>To control data quality, we probably want to make some of the instance properties mandatory. For example, a <samp>Concept</samp> instance should always have a <code>skos:prefLabel</code> value.</p>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a>User interface</a></li>
+                <li><a>Command line interface</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div>
+                        <p>In the administration application, follow these steps:</p>
+                        <ol>
+                            <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
+                            <li>Click on <samp>Missing property value</samp> in the drop-down list that appears</li>
+                            <li>Fill out the fields in the form:
+                                <dl>
+                                    <dt>Label</dt>
+                                    <dd>Enter <samp>Missing skos:prefLabel</samp></dd>
+                                    <dt>IsDefinedBy</dt>
+                                    <dd>Type <samp>Domain</samp> into the input (which provides autocomplete)</dd>
+                                    <dd>Select <samp>Domain</samp> from the list — this is the ontology in which the query is defined</dd>
+                                    <dt>Arg1</dt>
+                                    <dd>Enter <samp>http://www.w3.org/2004/02/skos/core#prefLabel</samp></dd>
+                                </dl>
+                            </li>
+                            <li>Click <span class="btn btn-primary">Save</span></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="tab-pane">
+                    <div>
+                        <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/model
+
+./create-property-constraint.sh \\
+-b "https://localhost:4443/admin/" \\
+-f certs/owner.p12.pem \\
+-p "${OWNER_KEY_PASSWORD}" \\
+--uri "https://localhost:4443/ns/domain#MissingPrefLabel" \\
+--label "Missing skos:prefLabel" \\
+--slug missing-pref-label \\
+--property "http://www.w3.org/2004/02/skos/core#prefLabel"
+
+popd</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="lead"><a href="../../../reference/administration/model/#constraints" target="_blank">Read more about constraints.</a></p>
+    </div>
+    <div>
+        <h2 id="clear-ontologies">Clear ontologies</h2>
         <p>For changes made to application ontologies (both of the <a href="../../../reference/administration/model/" target="_blank">model</a> and of the <a href="../../../reference/administration/sitemap/" target="_blank">sitemap</a>) to take effect, the ontologies need to be cleared from memory and reloaded from dataset. Follow these steps:</p>
         <div class="tabbable">
             <ul class="nav nav-tabs">
@@ -210,15 +260,19 @@ popd</pre>
                 <div class="tab-pane">
                     <div>
                         <p>Replace <code>${OWNER_KEY_PASSWORD}</code> with its value from the <samp>.env</samp> file and execute the following commands:</p>
-<pre>./scripts/admin/clear-ontology.sh \\
+                        <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin
+
+./clear-ontology.sh \\
 -f certs/owner.p12.pem \\
 -p "${OWNER_KEY_PASSWORD}" \\
 "https://localhost:4443/admin/model/ontologies/domain/"
 
-./scripts/admin/clear-ontology.sh \\
+./clear-ontology.sh \\
 -f certs/owner.p12.pem \\
 -p "${OWNER_KEY_PASSWORD}" \\
-"https://localhost:4443/admin/model/ontologies/namespace/"</pre>
+"https://localhost:4443/admin/model/ontologies/namespace/"
+
+popd</pre>
                     </div>
                 </div>
             </div>

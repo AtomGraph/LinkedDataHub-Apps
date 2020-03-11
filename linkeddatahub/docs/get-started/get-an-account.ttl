@@ -39,7 +39,7 @@
                 <p>To sign up, click on the <span class="btn btn-primary">Sign up</span> on any of the LinkedDataHub applications. You will be
                     asked to fill basic details about yourself and your affiliation and provide a password for the certficate (at
                     least 6 characters long). After this is completed successfully, your WebID is created and stored in the
-                    <a href="../manage-apps/#admin-apps">admin application</a>, and an email message is sent to the specified email
+                    <a href="../../reference/dataspace/#admin-apps">admin application</a>, and an email message is sent to the specified email
                     address with the certificate attached to it.</p>
             </div>
           </div>
@@ -73,11 +73,11 @@
         <p>Applications can provide public access to some or all documents, meaning you can freely browse their public resources
             and perform actions that are allowed for public access. In order to access protected (non-public) resources, as well
             as to access administration application, users have to be authenticated as well <em>authorized</em> (authorizations
-            can be <a href="../administration/acl/#auth-requests">requested</a>).</p>
+            can be <a href="../../reference/administration/acl/#auth-requests">requested</a>).</p>
         <div class="alert alert-info">
             <p>Authenticated agents <em>are not guaranteed to have access</em> to all resources. Different access levels for
                 different agents can be specified by the application administrators.</p>
         </div>
     </div>
-    <p class="lead">Are you in? Then take a look at the <a href="../ui-overview/">UI overview</a>.</p>
+    <p class="lead">Are you in? Then take a look at the <a href="../../reference/user-interface/">UI overview</a> and the <a href="..">get started guide</a>.</p>
 </div>"""^^rdf:XMLLiteral .

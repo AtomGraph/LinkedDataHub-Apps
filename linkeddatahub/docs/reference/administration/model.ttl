@@ -69,7 +69,7 @@
     </div>
     <div>
         <h2 id="classes">Classes</h2>
-        <p>Classes are simply RDFS classes. Usually the <a href="../../dataset-structure/">application dataset</a> contains class instances.</p>
+        <p>Classes are simply RDFS classes. Usually the <a href="../../dataset-structure/" target="_blank">application dataset</a> contains class instances.</p>
         <p>Main class properties such as constructor and constraint are explained in the sub-sections below. Additional properties are:</p>
         <dl>
             <dt><a href="#constructors">Constructor</a></dt>

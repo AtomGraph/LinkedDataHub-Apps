@@ -93,7 +93,7 @@ popd</pre>
         <div class="alert alert-info">
             <p>In order to edit the <a href="../reference/administration/acl/" target="_blank">access control</a>, <a href="../reference/administration/model/" target="_blank">model</a>, or <a href="../reference/administration/sitemap/" target="_blank">sitemap</a> of a dataspace, you need to be an administrator, i.e. a member of the <a href="../reference/administration/acl/#groups" target="_blank">owners group</a>.</p>
         </div>
-        <p class="lead"><a href="../user-guide/administration/change-model/" target="_blank">Follow a tutorial to change the model: create constructors, classes, and restrictions.</a></p>
+        <p class="lead"><a href="../user-guide/administration/change-model/" target="_blank">Follow a tutorial to change the model: create a constructor, a class, a and restriction.</a></p>
     </div>
     <div>
         <h2 id="create-instance">Create an instance</h2>
@@ -110,7 +110,7 @@ popd</pre>
             </li>
             <li>Click <span class="btn btn-primary">Save</span></li>
         </ol>
-        <p>A concept and its item should appear with the URI <samp>https://localhost:4443/concepts/{slug}</samp>, depending on the optional URI slug value (a unique UUID string is be assigned by default).</p>
+        <p>A concept and its item should appear with the URI <samp>https://localhost:4443/concepts/{slug}</samp>, depending on the optional URI slug value (a unique UUID string is assigned by default).</p>
         <p>Congratulations! You have just created the first concept instance based on your model.</p>
     </div>
     <div>
@@ -120,10 +120,15 @@ popd</pre>
     </div>
     <div>
         <h2 id="change-sitemap">Change the sitemap</h2>
-        <p></p>
+        <p>By default, the concept documents will match an <code>Item</code> template from the application's <a href="../reference/administration/sitemap/#ontologies" target="_blank">Templates ontology</a>.  You can verify that by checking the HTTP <a href="../reference/http-api/#hypermedia-headers" target="_blank">response headers</a>, which should include a template URI such as
+        <code>https://linkeddatahub.com/linkeddatahub/docs/ns/templates#Item</code>. You can use it to look up the SPARQL query which is used to load the RDF data for the document.</p>
+        <p>Lets say we want to change the RDF description of the concept to return not only its own properties, but also include its narrower concepts. That data then can be used to render the narrower
+            concepts on the same document, instead of just linking to them.</p>
+        <p>In order to achieve that, we need to override the LDT template that matches our concept items and specify our custom SPARQL query for the overriding template.</p>
+        <p class="lead"><a href="../user-guide/administration/change-sitemap/" target="_blank">Follow a tutorial to change the sitemap: create a query and an LDT template.</a></p>
     </div>
     <div>
         <h2 id="change-layout">Change the layout</h2>
-        <p></p>
+        <p>Changing the layout of the user interface is similar to changing the sitemap. It involves overriding templates as well, just not in the LDT ontologies but in the <a href="../reference/stylesheets/" target="_blank">XSLT stylesheets</a>.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .
