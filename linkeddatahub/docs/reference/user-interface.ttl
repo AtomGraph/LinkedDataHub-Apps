@@ -37,7 +37,7 @@
         view. Learn more about query possibilities in the <a href="../../user-guide/query-data/">Query data</a> section.</p>
         <p>Current application can be switched using a dropdown on the right. Different users have access to
         different applications, depending on their authorizations.</p>
-        <p>Currently <a href="../../get-started/#log-in" title="Log in">logged-in user's</a> account is accessible via the icon on
+        <p>Currently <a href="../../get-started/get-an-account/#log-in" title="Log in">logged-in user's</a> account is accessible via the icon on
             the right, which opens a drop-down. You can log out by clicking the <span class="btn">Logout</span> button.</p>
         <div class="alert alert-info">
             <p><em>Due to current web browser limitations, it is not possible to logout using client certificate authentication.

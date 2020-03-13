@@ -34,55 +34,8 @@
     </div>
     <div>
         <h2 id="create-container">Create a container</h2>
-        <p>We will need to containers for our SKOS instances: one for the concepts and one for the concept schemes. Follow these steps:</p>
-        <div class="tabbable">
-            <ul class="nav nav-tabs">
-                <li class="active"><a>User interface</a></li>
-                <li><a>Command line interface</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active">
-                    <div>
-                        <ol>
-                            <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
-                            <li>Click on <samp>Container</samp> in the drop-down list that appears</li>
-                            <li>Fill out the mandatory fields in the form:
-                                <dl>
-                                    <dt>Title</dt>
-                                    <dd>Enter <samp>Concepts</samp></dd>
-                                    <dt>URI slug</dt>
-                                    <dd>Enter <samp>concepts</samp> — this will be the relative path of the container</dd>
-                                </dl>
-                            </li>
-                            <li>Click <span class="btn btn-primary">Save</span></li>
-                        </ol>
-                        <p>See how below:</p>
-                        <p>
-                            <object data="../uploads/490945931415b9ab201ed85f296a84c8a11134d1/" type="video/webm"></object>
-                        </p>
-                    </div>
-                </div>
-                <div class="tab-pane">
-                    <div>
-                        <p>Replace <code>${OWNER_KEY_PASSWORD}</code> with its value from the <samp>.env</samp> file and execute the following command:</p>
-                        <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"
-
-./create-container.sh \\
--b "https://localhost:4443/" \\
--f certs/owner.p12.pem \\
--p "${OWNER_KEY_PASSWORD}" \\
---title "Concepts" \\
---slug "concepts" \\
---parent "https://localhost:4443/" \\
-"https://localhost:4443/"
-
-popd</pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <p>A container titled <samp>Concepts</samp> should appear with the URI <a href="https://localhost:4443/concepts/" target="_blank">https://localhost:4443/concepts/</a>.</p>
-        <p class="lead"><a href="../reference/documents/" target="_blank">Read more about document management.</a></p>
+        <p>We will need to containers for our SKOS instances: one for the concepts and one for the concept schemes.</p>
+        <p class="lead"><a href="../user-guide/create-document/" target="_blank">Follow a tutorial to create a container.</a></p>
     </div>
     <div>
         <h2 id="change-model">Change the model</h2>

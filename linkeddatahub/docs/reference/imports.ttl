@@ -10,8 +10,7 @@
     sioc:has_parent <reference/> ;
     dh:select <queries/default/select-children/#this> ;
     dct:title "Imports" ;
-    dct:description "???" ;
+    dct:description "Types of data imports supported by LinkedDataHub" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">???</p>
-    <p>???</p>
+    <p class="lead">Types of data imports supported by LinkedDataHub</p>
 </div>"""^^rdf:XMLLiteral .

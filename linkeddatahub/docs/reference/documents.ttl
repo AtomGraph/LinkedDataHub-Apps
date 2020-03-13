@@ -80,7 +80,7 @@
             </p>
             <p>LinkedDataHub stores the description of every document in a separate RDF graph. The distinction between
                 document and its graph is important to understand; it is the graph that is being edited using
-                <a href="../user-interface/#edit-mode">edit mode</a> and updated as a result of this action.</p>
+                <a href="../user-interface/#create-edit">edit mode</a> and updated as a result of this action.</p>
             <p>Just like with document creation, a document can only be updated if it and its topic resource validate, i.e.
                 if all property values from user input satisfy URI syntax, mandatory values and other constraints.</p>
             <p>In future versions, we plan to store multiple graphs with descriptions of the same document but with
@@ -117,7 +117,7 @@
     </div>
     <div>
         <h2 id="files">Files</h2>
-        <p>Files can be uploaded by selecting the File type in the <a href="../user-interface/#action-bar">action bar</a>.</p>
+        <p>Files <a href="../../user-guide/upload-file/" target="_blank">can be uploaded</a> by selecting the File type in the <a href="../user-interface/#action-bar">action bar</a>.</p>
         <p>System container with uploaded files can be found in the <a href="../user-interface/#left-nav">left-side
             navigation</a> bar.</p>
     </div>

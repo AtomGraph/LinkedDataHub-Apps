@@ -10,8 +10,7 @@
     sioc:has_parent <user-guide/> ;
     dh:select <queries/default/select-children/#this> ;
     dct:title "Administration" ;
-    dct:description "????" ;
+    dct:description "Tutorials that apply to the administration application and require owner access to the dataspace" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">???</p>
-    <p>???</p>
+    <p class="lead">Tutorials that apply to the administration application and require owner access to the dataspace</p>
 </div>"""^^rdf:XMLLiteral .
