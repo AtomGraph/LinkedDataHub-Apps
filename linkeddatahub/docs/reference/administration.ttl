@@ -13,6 +13,6 @@
     dct:description "Guides for managing access control, model, and sitemap" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn to manage the structure and access control of your application</p>
-    <p>Administration is provided in a separate LDT application, which is paired with each <a href="../manage-apps/#end-user-apps">end-user
+    <p>Administration is provided in a separate LDT application, which is paired with each <a href="../dataspace/#end-user-apps">end-user
         application</a>.</p>
 </div>"""^^rdf:XMLLiteral .

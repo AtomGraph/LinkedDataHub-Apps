@@ -22,7 +22,7 @@
             <div class="tab-pane active">
                 <div>
                     <h3 id="start-linkeddatahub">Start LinkedDataHub</h3>
-                    <p>This section assumes you will be running on your local machine, i.e. <samp>localhost</samp>. If you intend to run it on a different host, see the <a href="../create-dataspace/#system-base-uri">system base URI</a> configuration.</p>
+                    <p>This section assumes you will be running on your local machine, i.e. <samp>localhost</samp>. If you intend to run it on a different host, see the <a href="../manage-dataspaces/#system-base-uri">system base URI</a> configuration.</p>
                     <ol>
                         <li>
                             <a href="https://docs.docker.com/install/" target="_blank">Install Docker</a>

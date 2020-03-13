@@ -98,7 +98,7 @@
         </dl>
         <div>
             <h3 id="constructors">Constructors</h3>
-            <p>Constructors are SPARQL <code>CONSTRUCT</code> <a href="#queries">queries</a> that serve as templates for class instances.
+            <p>Constructors are SPARQL <code>CONSTRUCT</code> queries that serve as templates for class instances.
                 specify the properties (both mandatory and optional) that the instance is supposed to have, as well as expected datatypes of their
                 values. Constructors are used in create/edit modes. A class can have multiple constructors.</p>
             <p>For example, one of the constructors of the <code>def:Container</code> and <code>def:Item</code> <a href="#classes">classes</a>:</p>
@@ -120,7 +120,7 @@ WHERE {}</code></pre>
         </div>
         <div>
             <h3 id="constraints">Constraints</h3>
-            <p>Constraints are SPARQL <a href="#queries">queries</a> or <a href="#command-templates">command templates</a> that validate submitted
+            <p>Constraints are SPARQL queries or <a href="../sitemap/#command-templates" target="_blank">command templates</a> that validate submitted
                 RDF data during document creation and editing. Constraints are enforced for instances of sitemap classes on which they are defined and are
                 used to check class instances for violations (missing mandatory properties, malformed values etc.). For example, an instance of
                 <code>def:Item</code> without <code>dct:title</code> will fail validation because titles are mandatory for LinkedDataHub documents.</p>
@@ -128,8 +128,8 @@ WHERE {}</code></pre>
         </div>
         <div>
             <h3 id="restrictions">Restrictions</h3>
-            <p>LinkedDataHub UI stylesheets use <a href="https://www.w3.org/TR/owl2-primer/#Property_Restrictions" target="_blank">OWL property restrictions</a> to define relationships between model
-                classes and between classes and containers.</p>
+            <p>Model ontologies can use <a href="https://www.w3.org/TR/owl2-primer/#Property_Restrictions" target="_blank">OWL property restrictions</a> to define relationships between model
+                classes and between classes and containers. LinkedDataHub's <a href="../../stylesheets/" target="_blank">use them</a> when rendering user interface.</p>
             <p><samp>ObjectAllValuesFrom</samp> restrictions define which thing and document instances should be paired together in a dataspace (using <code>foaf:primaryTopic</code>/<code>foaf:isPrimaryTopicOf</code> properties).</p>
             <p><samp>ObjectHasValue</samp> restrictions define which document instances should be stored in which container (using <code>sioc:has_container</code> property).</p>
         </div>

@@ -26,7 +26,7 @@
                 which can be managed using the <a href="../http-api/#graphs" target="_blank">Graph Store Protocol</a> in
                 order to change the description(s) of the document or its related resources.</li>
         </ol>
-        <p>The default dataset is installed into an application service during the <a href="../../getting-started/setup/">setup</a>.</p>
+        <p>The default dataset is installed into an application service during the <a href="../../get-started/setup/">setup</a>.</p>
     </div>
     <p>The distinction between dataset structures matters mostly for updates and versioning. It is much
         more straight-forward to change graph contents using GSP than update resource description using

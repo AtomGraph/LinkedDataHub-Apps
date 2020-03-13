@@ -1,0 +1,94 @@
+@prefix ns:     <ns#> .
+@prefix def:    <ns/default#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+   
+<user-guide/manage-dataspaces/> a def:Item ;
+    sioc:has_container <user-guide/> ;
+    dct:title "Manage dataspaces" ;
+    dct:description "Create or change a dataspace, configure SPARQL services and XSLT stylesheets" ;
+    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Step by step guide to creating a new dataspace backed by SPARQL services</p>
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active"><a>Open-source version</a></li>
+            <li><a>LinkedDataHub Cloud</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active">
+                 <div>
+                    <h2 id="dataspaces">Manage dataspaces</h2>
+                    <p><a href="../../reference/dataspace/" target="_blank">Dataspaces</a> are configured in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/config/system.trig" target="_blank"><samp>config/system.trig</samp></a>. <a href="https://www.w3.org/TR/trig/" target="_blank">TriG</a> RDF syntax is used.</p>
+                    <p>The configuration uses the <a href="https://w3id.org/atomgraph/linkeddatahub/apps/domain" target="_blank">Application domain ontology</a>. A dataspace is comprised of an end-user
+                        application and an administrative application, both of them are backed by each own SPARQL service. Each application can also specify its own <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>.</p>
+                    <div class="alert alert-info">
+                        <p>Application base URIs need to be relative to the <a href="../change-system-base-uri/#base-uri">system base URI</a> configured in the <samp>.env</samp> file. A change of system base URI currently requires a change of application base URIs, otherwise they will not be reachable.</p>
+                    </div>
+                    <div>
+                        <h3 id="change-base-uri">Change base URI(s)</h3>
+                        <p>Lets say we want to use <samp>https://ec2-54-235-229-141.compute-1.amazonaws.com/linkeddatahub/</samp> as the new base URI of our dataspaces. The easiest way is to simple replace occurences of the default <samp>https://localhost:4443/</samp> base URI with the new value. It can be done using the following shell command:</p>
+                        <pre>sed -i 's/https:\\/\\/localhost:4443\\//https:\\/\\/ec2-54-235-229-141.compute-1.amazonaws.com\\/linkeddatahub\\//g' config/system.trig</pre>
+                        <p>Note that <samp>sed</samp> requires to escape forward slashes <samp>/</samp> with backslashes <samp>\\</samp>.</p>
+                    </div>
+                    <div>
+                        <h3 id="create-dataspace">Create a dataspace</h3>
+                        <p>Add instances of <code>lapp:EndUserApplication</code>, <code>lapp:AdminApplication</code> and their corresponding <code>apl:GenericService</code>s following the default dataspace in <samp>config/system.trig</samp>.</p>
+                        <div class="alert alert-info">
+                            <p>Make sure the file's syntax is valid <a href="https://www.w3.org/TR/turtle/" target="_blank">Turtle</a>, otherwise the setup will not work. You can use <a href="http://ttl.summerofcode.be/" target="_blank">Turtle Validator</a> to check the syntax.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 id="change-stylesheet">Change stylesheet</h3>
+                        <p>Change the value of <code>ac:stylesheet</code> to the URI of your <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>. Add the property if it is absent.</p>
+                        <p>The stylesheet can either be <a href="../upload-file/" target="_blank">uploaded as a file</a> or <a href="https://docs.docker.com/storage/bind-mounts/" target="_blank">mounted</a> in <samp>docker-compose.yml</samp>, in the <samp>volumes</samp> section of the <samp>linkeddatahub</samp> service. Mounting is useful when developing, however if you want to make
+                            sure your dataspace is compatible with <a href="../../linkeddatahub-cloud/" target="_blank">LinkedDataHub Cloud</a>, you should use file uploads as there is no way to mount local
+                            files on to LinkedDataHub Cloud.</p>
+                        <p>You will need to restart LinkedDataHub's Docker service for the new stylesheet to take effect.</p>
+                        <p>It is rarely necessary to change the stylesheet of an admin application.</p>
+                    </div>
+                </div>
+                <div>
+                    <h2 id="manage-services">Manage services</h2>
+                    <p>LinkedDataHub service as well as the default SPARQL services <samp>fuseki-end-user</samp> and <samp>fuseki-admin</samp> are defined in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/docker-compose.yml" target="_blank"><samp>docker-compose.yml</samp></a> and run as Docker containers.</p>
+                </div>
+            </div>
+            <div class="tab-pane">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a>User interface</a></li>
+                        <li><a>Command line interface</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active">
+                            <div>
+                                <p>In the steps below we will guide you through the process of creating an LDH dataspace using UI:</p>
+                                <ol>
+                                    <li>
+                                        <p>On the top left-hand side click on the <span class="btn btn-primary">Create</span> button</p>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="tab-pane"> 
+                            <div>
+                                <p><a href="../../reference/dataspace/#dataspaces">Dataspaces</a> and their base URIs are managed automatically in the LinkedDataHub cloud version.</p>
+                                <p>Checkout the <a href="../../reference/command-line-interface/">Command line interface</a> (CLI) scripts into a folder on your machine. Provide a list of arguments to the <samp>create-dataspace</samp> script and execute it. For example:</p>
+                                <pre>./create-app.sh \\
+-b https://linkeddatahub.com/my-context/ \\
+-f linkeddatahub.pem \\
+-p CertPassword \\
+--title "My dataspace" \\
+--description "Dataspace for my data" \\
+--slug my-dataspace \\
+--app-base https://linkeddatahub.com/my-context/my-dataspace/</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>"""^^rdf:XMLLiteral .

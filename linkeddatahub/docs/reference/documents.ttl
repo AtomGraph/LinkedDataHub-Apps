@@ -8,14 +8,13 @@
   
 <reference/documents/> a def:Item ;
     sioc:has_container <reference/> ;
-    dh:select <queries/default/select-children/#this> ;
     dct:title "Document management" ;
     dct:description "Document hierarchy and the basic data management actions" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">This guide explains the document hierarchy and the basic data management actions.</p>
     <div>
         <h2 id="dataspace">Dataspace</h2>
-        <p>The user is always working within the <a href="../manage-apps/#dataspaces">dataspace</a>. A dataspace consists of two
+        <p>The user is always working within the <a href="../dataspace/#dataspaces">dataspace</a>. A dataspace consists of two
             LDT applications:</p>
         <ol>
             <li>the end-user application</li>
@@ -63,7 +62,7 @@
                 <object data="../../uploads/490945931415b9ab201ed85f296a84c8a11134d1/" type="video/webm"></object>
             </p>
             <p>Create action creates a new resource of the selected type using
-                <a href="../user-interface/#create-mode" title="Create mode">create mode</a>. A newly created document becomes a
+                <a href="../user-interface/#create-edit" title="Create mode">create mode</a>. A newly created document becomes a
                 child of the current container, unless a different one is specified in the creation dialog.</p>
             <p>Every document can contain (X)HTML content which is edited using an embedded WYSIWYG editor.</p>
             <p>The resource type can be something else than a document, e.g. a physical thing such as person, or an
@@ -109,7 +108,7 @@
             <object data="../../uploads/1cf5edfd48c75a47462e00b6ef7857ee1429bfd3/" type="video/webm"></object>
         </p>
         <p>Perform an application-wide search for resources (documents as well as their topics) using the
-            <a href="../user-interface/#navigation-bar">search box</a>. Search uses regex to match search keywords
+            <a href="../user-interface/#nav-bar">search box</a>. Search uses regex to match search keywords
             against resource labels, descriptions, and content, and returns the results as a container view.</p>
         <p>The exact search criteria depend on the query which is configured for the search container in 
         <a href="../administration/sitemap/">the sitemap</a>.</p>

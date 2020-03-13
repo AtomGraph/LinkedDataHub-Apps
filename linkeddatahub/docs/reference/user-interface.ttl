@@ -12,7 +12,7 @@
     dct:description "A walk through the main features of application user interface" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">This guide walks through the main features of LinkedDataHub user interface.
-        See <a href="../usage/">Usage</a> guide for basic definitions such as application and document.</p>
+        See <a href="../documents/">Document management</a> guide for basic definitions such as application and document.</p>
     <div class="alert alert-info">
         <p>User interface is only one of the interfaces LinkedDataHub provides. The other one is the <a href="../command-line-interface/">
             Command line interface</a>, which supports most of the UI actions.</p>
@@ -30,14 +30,14 @@
             <img alt="Navigation bar" src="../../uploads/cd27577395dec18a2b3fb5867feeb60fe828cb43/"></img>
         </p>
         <p>The application title or logo in the top-left always links to the root container of the current application.</p>
-        <p><dfn>Search box</dfn> lets users <a href="../usage/#search" title="Search action">search for resources</a>
+        <p><dfn>Search box</dfn> lets users <a href="../documents/#search" title="Search action">search for resources</a>
         within the current application that have the specified keyword in their titles, descriptions etc. User can
         navigate the search results just like any other container.</p>
         <p>Application's <dfn>SPARQL endpoint</dfn> is accessible on the right. It offers a query editor and a result
-        view. Learn more about query possibilities in the <a href="../usage/query-data/">Query data</a> section.</p>
+        view. Learn more about query possibilities in the <a href="../../user-guide/query-data/">Query data</a> section.</p>
         <p>Current application can be switched using a dropdown on the right. Different users have access to
         different applications, depending on their authorizations.</p>
-        <p>Currently <a href="../get-started/#log-in" title="Log in">logged-in user's</a> account is accessible via the icon on
+        <p>Currently <a href="../../get-started/#log-in" title="Log in">logged-in user's</a> account is accessible via the icon on
             the right, which opens a drop-down. You can log out by clicking the <span class="btn">Logout</span> button.</p>
         <div class="alert alert-info">
             <p><em>Due to current web browser limitations, it is not possible to logout using client certificate authentication.
@@ -51,14 +51,14 @@
             <img alt="Action bar" src="../../uploads/4656ea9036a2b6d48a3233e0bc3cdc0f698ae0f2/"></img>
         </p>
         <p>The <span class="btn">Create</span> button invokes <a href="#create-edit">create dialog</a> through which
-        resources can be <a href="../usage/#create">created</a> as instances of the
+        resources can be <a href="../documents/#create">created</a> as instances of the
         <a href="../administration/model/#classes">classes</a> defined in the model.</p>
         <p>The path leading from the current document up the parent/child hierarchy to the root container is shown in
         the <dfn>breadcrumb bar</dfn>, where the current document is always the last breadcrumb. The user can always
         open any of the ascendant containers by clicking breadcrumbs left from the current one. The icon shows the
         type of the current document (container or item).</p>
         <p>Further to the left, the action bar displays a number of buttons for toggling the available
-        <a href="#layout-modes">layout modes</a> as well as <a href="../usage/#manage">performing actions</a> on the
+        <a href="#layout-modes">layout modes</a> as well as <a href="../documents/#manage">performing actions</a> on the
         current document.</p>
         <p>Last but not least, the settings button provides a link to the <a href="../administration/">administration</a>
         application.</p>
@@ -118,7 +118,7 @@
     <div>
         <h2 id="left-nav">Left navigation</h2>
         <p>The left-side navigation provides access to the first-level children of the
-            <a href="../usage/#hierarchy">root container</a>.</p>
+            <a href="../documents/#hierarchy">root container</a>.</p>
         <p>Depending on the type of the current container, a faceted search that filters its children using combinations
         of subclass types can also be shown.</p>
         <p>At the bottom of this section you will find quick access links to the following system containers:</p>
@@ -126,11 +126,11 @@
           <dt>Latest</dt>
           <dd>A container with the latest resources in the application's dataset by creation/modification date</dd>
           <dt>Files</dt>
-          <dd>A container for <a href="../usage/#files">file uploads</a></dd>
+          <dd>A container for <a href="../documents/#files">file uploads</a></dd>
           <dt>Imports</dt>
-          <dd>A container for <a href="../usage/import-data">data imports</a></dd>
+          <dd>A container for <a href="../imports/">data imports</a></dd>
           <dt>Queries</dt>
-          <dd>A container for end-user SPARQL queries (including <a href="../usage/import-data/#vocabulary-conversion">vocabulary
+          <dd>A container for end-user SPARQL queries (including <a href="../imports/csv/#vocabulary-conversion">vocabulary
               mappings</a>)</dd>
           <dt>Geo</dt>
           <dd>A container with all resources in the application's dataset that have geographic coordinates</dd>
@@ -148,7 +148,7 @@
         <p>
             <img alt="Create/Edit dialog" src="../../uploads/fa4ec808c4dca4fe6b5a610d3e028ad48f8ed9af/"></img>
         </p>
-        <p>Resources are <a href="../usage/#create">created</a> and <a href="../usage/#update">updated</a> using
+        <p>Resources are <a href="../documents/#create">created</a> and <a href="../documents/#update">updated</a> using
         the same form-based dialog. The form can display either a document alone, or a document paired with its topic resource.
         Each resource is displayed in a separate fieldset; fieldsets are nested for related resources.</p>
         <p>Properties are listed inside fieldsets and their values shown as user inputs. When creating or updating a

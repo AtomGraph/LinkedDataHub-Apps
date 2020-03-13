@@ -16,7 +16,7 @@
         scheduled execution and such. It is usually much quicker to perform actions using CLI rather than the <a href="../user-interface/">user interface</a>, as well as easier to
         reproduce.</p>
     <p>Some scripts correspond to a single request to LinkedDataHub, others combine others into tasks with multiple interdependent requests, such as CSV import.</p>
-    <p>You will need to supply a <samp>.pem</samp> file of your <a href="../get-started/#get-webid">WebID certificate</a> as well as its password as script arguments, among others.</p>
+    <p>You will need to supply a <samp>.pem</samp> file of your <a href="../../get-started/#get-webid">WebID certificate</a> as well as its password as script arguments, among others.</p>
     <div>
         <h2 id="scripts">Scripts</h2>
         <p>Currently supported:</p>

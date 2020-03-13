@@ -12,7 +12,7 @@
     dct:description "Learn how to query application data with SPARQL and store queries" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
         <p class="lead">This guide describes how the application dataset can be queried using SPARQL.</p>
-        <p>The <a href="../../manage-apps/#end-user-apps">end-user application</a> dataset can be queried using SPARQL 1.1
+        <p>The <a href="../../dataspace/#end-user-apps">end-user application</a> dataset can be queried using SPARQL 1.1
             endpoint, which is available via link in the <a href="../../user-interface/#nav-bar">navigation bar</a>.</p>
         <p>All forms of SPARQL queries are allowed; SPARQL updates are <em>not</em> allowed. A result limit might apply.</p>
         <p>For <code>DESCRIBE</code> and <code>CONSTRUCT</code> results, it is possible to switch the

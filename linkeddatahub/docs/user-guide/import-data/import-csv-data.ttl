@@ -67,7 +67,7 @@
                 <p>The browser will open your imported file</p>
             </li>
             <li>
-                <p>Create a <a href="../../usage/import-data/#vocabulary-conversion">mapping query</a> that will
+                <p>Create a <a href="../../../reference/imports/csv/#vocabulary-conversion">mapping query</a> that will
                 transform the uploaded CSV to RDF. Click on the <span class="btn">Create</span> button in the top left-hand corner and
                 select <dfn>CONSTRUCT</dfn>. This will open a new form.</p>
             </li>

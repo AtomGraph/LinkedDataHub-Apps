@@ -13,7 +13,7 @@
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">This guide explains how to use LDT templates to change the way your application operates</p>
     <p><a href="../#templates">Template</a> is a core concept in an <a href="https://atomgraph.github.io/Linked-Data-Templates/" target="_blank">Linked Data Templates</a>
-        application ontology. It defines what SPARQL command gets executed when on the application's <a href="../../manage-apps/#services">service</a> when a certain URI is requested on that
+        application ontology. It defines what SPARQL command gets executed when on the application's <a href="../../../dataspace/#services">service</a> when a certain URI is requested on that
         application. The service is usually backed by a triplestore.</p>
     <p>When Linked Data is served from a triplestore, the RDF descriptions returned when URIs are dereferenced are often results of the same default SPARQL query template. A common one is
         <code>DESCRIBE ?this</code>, which returns all known triples about a resource identified here as <code>?this</code>. The final query is obtained from this template by setting

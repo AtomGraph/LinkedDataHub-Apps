@@ -21,9 +21,6 @@
     </div>
     <div>
         <h2 id="applications">Applications</h2>
-        <p class="text-center">
-            <img alt="Dataspace hierarchy" src="../../uploads/3cbf6ccd5f92b84111e2425263da050db0e4663f/"></img>
-        </p>
         <p>All LDT applications have the following properties:</p>
         <dl>
             <dt>Base URI</dt>
@@ -42,6 +39,11 @@
         <div class="alert alert-info">
             <p>Base URI must end with a forward slash (<code>/</code>).</p>
         </div>
+        <p>In addition to that, LinkedDataHub applications have one additional property:</p>
+        <dl>
+            <dt>Stylesheet</dt>
+            <dd><a href="../stylesheets/" target="_blank">XSLT stylesheet</a> that renders the applications layout</dd>
+        </dl>
         <div class="tabbable">
           <ul class="nav nav-tabs">
             <li class="active"><a>All versions</a></li>
@@ -70,6 +72,9 @@
                 </div>
             </div>
             <div class="tab-pane">
+                <p class="text-center">
+                    <img alt="Dataspace hierarchy" src="../../uploads/3cbf6ccd5f92b84111e2425263da050db0e4663f/"></img>
+                </p>
                 <div>
                     <h3 id="contexts">Contexts</h3>
                     <p>Contexts are special meta-applications that allow creation of dataspaces (that will belong to the context). The
@@ -124,5 +129,5 @@
             <p class="lead"><a href="mailto:sales@atomgraph.com">Contact us</a> for a trial of Dydra.</p>
         </div>
     </div>
-    <p class="lead">If you are ready to create a dataspace, see our step-by-step tutorial on <a href="../../user-guide/create-dataspace/">creating a dataspace</a>.</p>
+    <p class="lead">If you are ready to create a dataspace, see our step-by-step tutorial on <a href="../../user-guide/manage-dataspaces/">dataspace management</a>.</p>
 </div>"""^^rdf:XMLLiteral .

@@ -85,11 +85,11 @@
     </div>
     <div>
         <h2 id="authorizations">Authorizations</h2>
-        <p>An authorization explicitly grants access for an <a href="#agent">agent</a> or a <a href="#groups">group</a>
-            of agents to access a specific end-user application document or a <a href="../../model/#classes">class</a>
+        <p>An authorization explicitly grants access for an <a href="#agents">agent</a> or a <a href="#groups">group</a>
+            of agents to access a specific end-user application document or a <a href="../model/#classes">class</a>
             of its documents.</p>
         <p>An <a href="#agents">agent</a> has to be authorized using the <a href="#access-modes">Control</a> mode to be
-            able to login to the <a href="../../manage-apps/#admin-apps">administration application</a>.</p>
+            able to login to the <a href="../../dataspace/#admin-apps">administration application</a>.</p>
         <p>Here are the default authorizations for groups and their respective access modes:</p>
         <table class="table">
             <thead>
@@ -131,9 +131,9 @@
         <div>
             <h3 id="auth-requests">Requests</h3>
             <p>If access is denied due to missing authorization, the agent can ask for it by issuing a request to the application's
-            <a href="../../manage-apps/#admin-apps">owners</a>. It indicates the request URI and access mode in question.
+            <a href="../../dataspace/#admin-apps">owners</a>. It indicates the request URI and access mode in question.
             The owners can then accept the request by creating an <a href="#authorizations">authorization</a> with the provided information
-            (possibly extending the requested access to a <a href="#groups">group</a> of agents or a <a href="../../model/#classes">class of resources</a>),
+            (possibly extending the requested access to a <a href="#groups">group</a> of agents or a <a href="../model/#classes">class of resources</a>),
             or simply ignore it.</p>
         </div>
     </div>

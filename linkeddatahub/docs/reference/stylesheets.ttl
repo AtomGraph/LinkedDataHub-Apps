@@ -39,14 +39,26 @@
         </div>
         <div>
             <h3 id="templates">Templates</h3>
-            <p>XSLT processing starts at the root of the RDF/XML document and produces HTML elements by applying (or suppresing) templates on all of the RDF/XML nodes, moving down the XML tree.
+            <p>XSLT template components:</p>
+            <dl>
+                <dt>Match</dt>
+                <dd>XPath-based match pattern which either does or does not match an XML node</dd>
+                <dt>Mode</dt>
+                <dd>Allows to group templates and distinguish them from other groups which have the same match patterns (e.g. different layout modes)</dd>
+                <dt>Parameters</dt>
+                <dd>XSD-typed parameters passed to the stylesheet invocation</dd>
+                <dt>Body</dt>
+                <dd>Contains the XML output nodes as well as XSLT processing instructions</dd>
+            </dl>
+            <p>XSLT processing starts at the root of the RDF/XML document and produces HTML elements by applying templates on all of the RDF/XML nodes while moving down the XML tree.
                 In other words, it starts at the graph level, moves down to resource description elements, then to property elements, and ends with identifier attributes and literal text nodes.</p>
+            <p>Templates are applied (invoked) using <code>&lt;xsl:apply-templates&gt;</code>. Mode can be specified, e.g. <code>&lt;xsl:apply-templates mode="bs2:Header"&gt;</code>. To stay in the current mode without explicitly specifying it, use <code>&lt;xsl:apply-templates mode="#current"&gt;</code>. <code>&lt;xsl:with-param&gt;</code> is used to supply parameters.</p>
             <p>LinkedDataHub provides the following default template modes, which are used to render the <a href="../user-interface/#layout-modes" target="_blank">layout modes</a>:</p>
             <ul>
                 <li>Graph-level modes that apply to <code>rdf:RDF</code>
                     <ul>
                         <li><code>bs2:Block</code> which renders full resource description with all properties</li>
-                        <li><code>bs2:List</code> renders a list of resources</li>
+                        <li><code>bs2:BlockList</code> renders a list of resources</li>
                         <li><code>xhtml:Table</code> renders a table with resources as rows and properties as columns</li>
                         <li><code>bs2:Grid</code> renders a gallery of thumbnails</li>
                         <li><code>bs2:Form</code> which renders an <a href="http://www.lsrn.org/semweb/rdfpost.html" target="_blank">RDF/POST</a> form for for creation of new resources (when <code>$ac:forClass</code> parameter is set) or editing of existing resource</li>
@@ -60,7 +72,7 @@
                     </ul>
                 </li>
             </ul>
-            <p><code>bs2:</code> prefix is used for <a href="https://getbootstrap.com/2.3.2/" target="_blank">Bootstrap 2.3.2</a>-specific templates, <code>xhtml:</code> prefix is used for generic HTML templates.</p>
+            <p><code>bs2:</code> prefix is used for <a href="https://getbootstrap.com/2.3.2/" target="_blank">Bootstrap 2.3.2</a>-specific templates, <code>xhtml:</code> prefix is used for generic HTML templates. When adding new user-defined modes, it is recommended to choose a new namespace for them as well as a user-defined prefix.</p>
             <p>An example of a template that matches <code>rdf:Description</code>:</p>
             <pre>&lt;xsl:template match="*[*][@rdf:about] | *[*][@rdf:nodeID]" mode="bs2:Block"&gt;
     &lt;xsl:param name="id" as="xs:string?"/&gt;
@@ -79,6 +91,7 @@
         &lt;xsl:apply-templates select="." mode="bs2:PropertyList"/&gt;
     &lt;/div&gt;
 &lt;/xsl:template&gt;</pre>
+            <p><code>apl:Content</code> mode embeds XHTML from the <code>sioc:content</code> value of the current document.</p>
             <p>There are a few special template modes such as <code>ac:label</code> and <code>ac:description</code> and related functions <code>ac:label()</code> and <code>ac:description()</code> which are
                 used not to render layout but to extract metadata from resource descriptions. They can be used to retrieve a resource label and description no matter which RDF
                 vocabularies are used in the data. They do so by invoking templates of respective mode from vocabulary-specific stylesheets.</p>
@@ -87,11 +100,16 @@
             <h3 id="overriding-templates">Overriding templates</h3>
             <p>Templates are overridden by redefining them in the importing stylesheet and providing the same or more specific match pattern and the same mode. The XSLT specification specifies exactly how template priorities are determined in <a href="https://www.w3.org/TR/xslt20/#conflict" target="_blank">6.4 Conflict Resolution for Template Rules</a>.</p>
             <p>The overriding template can then get the output of the overridden template by invoking either <code>&lt;xsl:apply-imports&gt;</code> or <code>&lt;xsl:next-match&gt;</code>. Read more about <a href="https://www.w3.org/TR/xslt20/#apply-imports" target="_blank">6.7 Overriding Template Rules</a>.</p>
-            <p>Always override the most specific template, i.e. if you want to change how <code>skos:narrower</code> property is rendered, do not override the template for resource description, only the one for the property.</p>
+            <p>Always override the most specific template, i.e. if you want to change how a property is rendered, do not override the template for resource description, only the one for the property.</p>
         </div>
     </div>
     <div>
         <h2 id="css">CSS</h2>
         <p><a href="https://getbootstrap.com/2.3.2/" target="_blank">Bootstrap 2.3.2</a> theme is used with some customizations.</p>
+        <p>The CSS stylesheets is specified in the <code>xhtml:Style</code> XSLT template mode.</p>
+    </div>
+    <div>
+        <h2 id="javascript">JavaScript</h2>
+        <p>The JavaScript files are specified in the <code>xhtml:Script</code> XSLT template mode.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .
