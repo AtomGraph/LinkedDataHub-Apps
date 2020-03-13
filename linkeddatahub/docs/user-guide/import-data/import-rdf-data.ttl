@@ -30,7 +30,7 @@
                 <a href="../../administration/model/#classes">type class properties</a></li>
         </ul>
         <p>Documents conforming to the above criteria will become children the container they are submitted to (the <em>target container</em>). Each of the documents and its related
-        resources will be put into separate <a href="../../../reference/dataset-structure/#default-dataset">named graphs</a>.</p>
+        resources will be put into separate <a href="../../../reference/dataset-structure/#structure">named graphs</a>.</p>
         <p>To execute the actual import, make an <a href="../../../reference/http-api/#ld-post">HTTP <code>POST</code> request</a>, for example using <a href="https://curl.haxx.se/" target="_blank">cURL</a>:</p>
         <pre><code>cat data.ttl | curl -E ${cert_pem_file}:${cert_password} -d @- -H "Content-Type: text/turtle" -H "Accept: text/turtle" "${target}" -i</code></pre>
         <p>This submits the <samp>data.ttl</samp> file, which could look like this:</p>
@@ -57,7 +57,7 @@ _:container a dh:Container ;
     </div>
     <div class="tabbable">
       <ul class="nav nav-tabs">
-        <li class="active"><a>Open-source version</a></li>
+        <li class="active"><a>LinkedDataHub</a></li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane active">

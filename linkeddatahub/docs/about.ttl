@@ -78,7 +78,7 @@
         <div class="tabbable">
           <ul class="nav nav-tabs">
             <li class="active"><a>All versions</a></li>
-            <li><a>Open-source version</a></li>
+            <li><a>LinkedDataHub</a></li>
             <li><a>LinkedDataHub Cloud</a></li>
           </ul>
           <div class="tab-content">

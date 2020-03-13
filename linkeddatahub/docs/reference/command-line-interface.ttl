@@ -9,9 +9,9 @@
 <reference/command-line-interface/> a def:Item ;
     sioc:has_container <reference/> ;
     dct:title "Command line interface" ;
-    dct:description "Learn to use CLI to execute most of the common tasks that can be performed in the UI" ;
+    dct:description "CLI scripts can be used perform all actions available in the UI" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Learn to use CLI to execute most of the common tasks that can be performed in the UI</p>
+    <p class="lead">CLI scripts can be used perform all actions available in the UI</p>
     <p>LinkedDataHub CLI wraps the <a href="../http-api/">HTTP API</a> into a set of shell scripts with convenient parameters. The scripts can be used for testing, automation,
         scheduled execution and such. It is usually much quicker to perform actions using CLI rather than the <a href="../user-interface/">user interface</a>, as well as easier to
         reproduce.</p>

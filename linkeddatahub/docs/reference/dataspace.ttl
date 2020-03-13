@@ -86,7 +86,7 @@
             </div>
           </div>
         </div>
-        <p>LinkedDataHub imports the <a href="../dataset-structure/#default-dataset">default dataset</a> for each application type
+        <p>LinkedDataHub imports the <a href="../dataset-structure/#default-datasets">default datasets</a> for each application type
             into its service. The dataset URIs are rebased to be relative to the base URI of the application.</p>
     </div>
     <div>

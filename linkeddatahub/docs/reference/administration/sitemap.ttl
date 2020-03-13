@@ -114,7 +114,7 @@
         <p>Templates can extend each other. A sub-template inherits the LDT properties of the super-template (such as path, command, parameters etc.), unless the
             sub-template defines its own property. The mechanism is similar to object-oriented class inheritance. Classes inherit SPIN properties the same way.</p>
         <p>There is a number of <a href="built-ins/">built-in templates</a> provided in template ontologies. The default APLT templates are tailored to match
-            the LinkedDataHub <a href="../../dataset-structure/#default-dataset">dataset structure</a>. If they do not match your dataset structure, you can extend a lower-level
+            the LinkedDataHub <a href="../../dataset-structure/#structure">dataset structure</a>. If they do not match your dataset structure, you can extend a lower-level
             template (e.g. <code>ct:Document</code>) or create your own base template which other templates can extend.</p>
         <p>The main template properties are:</p>
         <dl>

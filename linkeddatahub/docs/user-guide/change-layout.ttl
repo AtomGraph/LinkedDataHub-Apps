@@ -24,7 +24,7 @@
         <h2 id="configure-dataspace">Configure the dataspace</h2>
         <div class="tabbable">
             <ul class="nav nav-tabs">
-                <li class="active"><a>Open-source version</a></li>
+                <li class="active"><a>LinkedDataHub</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active">

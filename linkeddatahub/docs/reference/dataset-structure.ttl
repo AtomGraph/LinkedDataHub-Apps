@@ -9,11 +9,11 @@
 <reference/dataset-structure/> a def:Item ;
     sioc:has_container <reference/> ;
     dct:title "Dataset structure" ;
-    dct:description "Learn what RDF dataset structure is supported by LinkedDataHub" ;
+    dct:description "The default RDF dataset structure used by LinkedDataHub" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Here we describe the RDF dataset structures supported by LinkedDataHub.</p>
+    <p class="lead">The default RDF dataset structure used by LinkedDataHub.</p>
     <div>
-        <h2 id="default-dataset">Default dataset</h2>
+        <h2 id="structure">Structure</h2>
         <p>Default LinkedDataHub dataset structure follows these conventions:</p>
         <ol>
             <li>the default graph is not used</li>
@@ -27,8 +27,21 @@
                 order to change the description(s) of the document or its related resources.</li>
         </ol>
         <p>The default dataset is installed into an application service during the <a href="../../get-started/setup/">setup</a>.</p>
+        <p>The default <a href="../administration/sitemap/#templates" target="">LDT templates</a> in the LinkedDataHub ontology are aligned with this dataset structure. More specifically,
+            SPARQL query and update patterns are designed to work with 2 named graphs per resource.</p>
     </div>
-    <p>The distinction between dataset structures matters mostly for updates and versioning. It is much
-        more straight-forward to change graph contents using GSP than update resource description using
-        SPARQL.</p>
+    <div>
+        <h2 id="default-datasets">Default datasets</h2>
+        <p><samp>platform/datasets/admin.trig</samp> and <samp>platform/datasets/end-user.trig</samp></p>
+    </div>
+    <div>
+        <h2 id="custom-datasets">Custom datasets</h2>
+        <p>LinkedDataHub can process any dataset structure for <a href="../dataspace/#end-user-apps">end-user applications</a>. For example, it could be a public datasource such as
+            <a href="https://dbpedia.org/" target="_blank">DBPedia</a> or <a href="https://www.wikidata.org/" target="_blank">Wikidata</a>. However, you need to be aware of the following points:</p>
+        <ul>
+            <li>Do the resource URIs in the dataset align with the <a href="../../user-guide/change-system-base-uri/" target="_blank">system base URI</a>? If not, LinkedDataHub will open them in <a href="../../user-guide/browse-data/" target="_blank">Linked Data browser mode</a>.</li>
+            <li>You will need to <a href="../../user-guide/administration/change-sitemap/" target="_blank">align the templates</a> in the sitemap to match the dataset structure</li>
+            <li>You will need to <a href="../../user-guide/change-layout/" target="_blank">override the UI layout</a> as the default XSLT stylesheets are tailored to the default dataset structure</li>
+        </ul>
+    </div>
 </div>"""^^rdf:XMLLiteral .

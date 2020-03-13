@@ -14,7 +14,7 @@
     <p class="lead">How to change host, port, or the path LinkedDataHub service runs on</p>
     <div class="tabbable">
         <ul class="nav nav-tabs">
-            <li class="active"><a>Open-source version</a></li>
+            <li class="active"><a>LinkedDataHub</a></li>
             <li><a>LinkedDataHub Cloud</a></li>
         </ul>
         <div class="tab-content">

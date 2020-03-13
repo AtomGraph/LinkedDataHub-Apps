@@ -9,8 +9,13 @@
 <linkeddatahub-cloud/> a def:Item ;
     sioc:has_container <> ;
     dct:title "LinkedDataHub Cloud" ;
-    dct:description "???" ;
+    dct:description "LinkedDataHub Cloud is a managed service for LinkedDataHub applications" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">???</p>
-    <p>???</p>
+    <p class="lead"><a href="https://linkeddatahub.com" target="_blank">LinkedDataHub Cloud</a> is a managed service for LinkedDataHub applications</p>
+    <p>The Cloud builds on the open-source version of LinkedDataHub and adds UI- and CLI-based <a href="../user-guide/manage-dataspaces/" target="_blank">dataspace management</a>.</p>
+    <p>The documentation is split into separate tabs where there are differences between the standalone LinkedDataHub and LinkedDataHub Cloud.</p>
+    <div>
+        <h2 id="model-store">Model store</h2>
+
+    </div>
 </div>"""^^rdf:XMLLiteral .

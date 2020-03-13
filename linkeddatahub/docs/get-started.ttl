@@ -35,6 +35,7 @@
     <div>
         <h2 id="create-container">Create a container</h2>
         <p>We will need to containers for our SKOS instances: one for the concepts and one for the concept schemes.</p>
+        <p>Use <samp>Concepts</samp> as title and <samp>concepts</samp> as URI slug for the former; <samp>Concept schemes</samp> as title and <samp>concept-schemes</samp> as URI slug for the latter.</p>
         <p class="lead"><a href="../user-guide/create-document/" target="_blank">Follow a tutorial to create a container.</a></p>
     </div>
     <div>
@@ -58,13 +59,15 @@
                 <dl>
                     <dt>Title</dt>
                     <dd>Enter concept title</dd>
+                    <dt>Title</dt>
                     <dd>Enter document title</dd>
                 </dl>
             </li>
             <li>Click <span class="btn btn-primary">Save</span></li>
         </ol>
-        <p>A concept and its item should appear with the URI <samp>https://localhost:4443/concepts/{slug}</samp>, depending on the optional URI slug value (a unique UUID string is assigned by default).</p>
+        <p>A concept and its item should appear with the URI <samp>https://localhost:4443/concepts/{slug}/</samp>, depending on the optional URI slug value (a unique UUID string is assigned by default).</p>
         <p>Congratulations! You have just created the first concept instance based on your model.</p>
+        <p class="lead"><a href="../reference/documents/" target="_blank">Read more about document management.</a></p>
     </div>
     <div>
         <h2 id="import-csv">Import CSV data</h2>
