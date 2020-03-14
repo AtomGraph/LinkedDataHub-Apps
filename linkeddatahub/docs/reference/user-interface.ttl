@@ -31,8 +31,7 @@
         </p>
         <p>The application title or logo in the top-left always links to the root container of the current application.</p>
         <p><dfn>Search box</dfn> lets users <a href="../documents/#search" title="Search action">search for resources</a>
-        within the current application that have the specified keyword in their titles, descriptions etc. User can
-        navigate the search results just like any other container.</p>
+        within the current application that have the specified keyword in their titles, descriptions etc. Results are shown in a dropdown list.</p>
         <p>Application's <dfn>SPARQL endpoint</dfn> is accessible on the right. It offers a query editor and a result
         view. Learn more about query possibilities in the <a href="../../user-guide/query-data/">Query data</a> section.</p>
         <p>Current application can be switched using a dropdown on the right. Different users have access to

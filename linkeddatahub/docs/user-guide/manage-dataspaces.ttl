@@ -56,34 +56,101 @@
                 </div>
             </div>
             <div class="tab-pane">
-                <div class="tabbable">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a>User interface</a></li>
-                        <li><a>Command line interface</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active">
-                            <div>
-                                <p>In the steps below we will guide you through the process of creating an LDH dataspace using UI:</p>
-                                <ol>
-                                    <li>
-                                        <p>On the top left-hand side click on the <span class="btn btn-primary">Create</span> button</p>
-                                    </li>
-                                </ol>
+                <div>
+                    <p class="lead"><a href="../../reference/dataspace/#dataspaces">Dataspaces</a> and their base URIs are managed automatically in the LinkedDataHub cloud version.</p>
+                    <div>
+                        <h3 id="create-context">Create a context</h3>
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a>User interface</a></li>
+                                <li><a>Command line interface</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active">
+                                    <p>Follow these steps:</p>
+                                    <ol>
+                                        <li>Go to the <a href="https://linkeddatahub.com/" target="_blank"><samp>Root</samp> context</a></li>
+                                        <li>Make sure you are <a href="../../get-started/get-an-account/#log-in" target="_blank">authenticated</a></li>
+                                        <li>On the top left-hand side click on the <span class="btn btn-primary create-action">Context</span> button</li>
+                                        <li>In the form that opens, fill out the following fields:
+                                            <dl>
+                                                <dt>Base URI</dt>
+                                                <dd>Here you can change the relative path of your context. It may not have forward slashes (<samp>/</samp>) in it. Attempt to use an already existing path will result in an error. By default, a unique UUID will be assigned.</dd>
+                                                <dt>Title</dt>
+                                                <dd>The human-readable title of your context</dd>
+                                                <dt>Description</dt>
+                                                <dd>Optionally, enter a human-readable description of your context</dd>
+                                                <dt>Public</dt>
+                                                <dd>Choose whether your context should be publicly listed on LinkedDataHub Cloud</dd>
+                                            </dl>
+                                        </li>
+                                    </ol>
+                                </div>
+                                <div class="tab-pane">
+                                    <div>
+                                        <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT/apps"
+
+./create-context.sh \\
+-b "${base}" \\
+-f "${cert_pem_file}" \\
+-p "${cert_password}" \\
+--title "${title}" \\
+--description "${description}" \\
+--app-base "${base}${slug}/" \\
+--public
+
+popd</pre>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="tab-pane"> 
+
+
                             <div>
-                                <p><a href="../../reference/dataspace/#dataspaces">Dataspaces</a> and their base URIs are managed automatically in the LinkedDataHub cloud version.</p>
-                                <p>Checkout the <a href="../../reference/command-line-interface/">Command line interface</a> (CLI) scripts into a folder on your machine. Provide a list of arguments to the <samp>create-dataspace</samp> script and execute it. For example:</p>
-                                <pre>./create-app.sh \\
--b https://linkeddatahub.com/my-context/ \\
--f linkeddatahub.pem \\
--p CertPassword \\
---title "My dataspace" \\
---description "Dataspace for my data" \\
---slug my-dataspace \\
---app-base https://linkeddatahub.com/my-context/my-dataspace/</pre>
+                                <h3 id="create-cloud-dataspace">Create a dataspace</h3>
+                                <div class="tabbable">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a>User interface</a></li>
+                                        <li><a>Command line interface</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active">
+                                            <p>Follow these steps:</p>
+                                            <ol>
+                                                <li>Go to your existing context or <a href="#create-context">create one</a></li>
+                                                <li>Make sure you are <a href="../../get-started/get-an-account/#log-in" target="_blank">authenticated</a></li>
+                                                <li>On the top left-hand side click on the <span class="btn btn-primary create-action">App</span> button</li>
+                                                <li>In the form that opens, fill out the following fields:
+                                                    <dl>
+                                                        <dt>Base URI</dt>
+                                                        <dd>Here you can change the relative path of your context. It may not have forward slashes (<samp>/</samp>) in it. Attempt to use an already existing path will result in an error.</dd>
+                                                        <dt>Title</dt>
+                                                        <dd>The human-readable title of your context</dd>
+                                                        <dt>Description</dt>
+                                                        <dd>Optionally, enter a human-readable description of your context</dd>
+                                                        <dt>Public</dt>
+                                                        <dd>Choose whether your dataspace should be publicly listed on LinkedDataHub Cloud. This does <em>not</em> mean that the documents in the dataspace will be public — they are subject to <a href="../../reference/administration/acl/" target="_blank">access control</a>.</dd>
+                                                    </dl>
+                                                </li>
+                                            </ol>
+                                        </div>
+                                        <div class="tab-pane">
+                                            <div>
+                                                <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT/apps"
+
+./create-app.sh \\
+-b "${base}" \\
+-f "${cert_pem_file}" \\
+-p "${cert_password}" \\
+--title "${title}" \\
+--description "${description}" \\
+--app-base "${base}${slug}/" \\
+--public
+
+popd</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

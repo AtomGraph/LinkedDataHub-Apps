@@ -104,12 +104,9 @@
     </div>
     <div>
         <h2 id="search">Search</h2>
-        <p>
-            <object data="../../uploads/1cf5edfd48c75a47462e00b6ef7857ee1429bfd3/" type="video/webm"></object>
-        </p>
         <p>Perform an application-wide search for resources (documents as well as their topics) using the
             <a href="../user-interface/#nav-bar">search box</a>. Search uses regex to match search keywords
-            against resource labels, descriptions, and content, and returns the results as a container view.</p>
+            against resource labels, descriptions, and content, and shows the results in a dropdown list.</p>
         <p>The exact search criteria depend on the query which is configured for the search container in 
         <a href="../administration/sitemap/">the sitemap</a>.</p>
         <p>The search bar also works as address bar for Linked Data resources. Enter a URI and LinkedDataHub will attempt
