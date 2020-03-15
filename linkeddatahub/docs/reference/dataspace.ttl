@@ -77,11 +77,9 @@
                 </p>
                 <div>
                     <h3 id="contexts">Contexts</h3>
-                    <p>Contexts are special meta-applications that allow creation of dataspaces (that will belong to the context). The
-                        concept can be compared to <a href="https://tomcat.apache.org/tomcat-8.0-doc/config/context.html" target="_blank">servlet context</a>
-                        (to which multiple servlets can be added) in Java EE architecture.</p>
-                    <p>LinkedDataHub provides administrators with a context, on which they can manage their own dataspaces (though not
-                        create other contexts).</p>
+                    <p>Contexts are special meta-applications that allow creation of dataspaces (that will belong to the context) and  also list public dataspaces that belong to them.</p>
+                    <p>The concept can be compared to <a href="https://tomcat.apache.org/tomcat-8.0-doc/config/context.html" target="_blank">servlet context</a>
+                        (to which multiple servlets can be added) in Java EE architecture. However, LinkedDataHub concepts and dataspaces are purely RDF data structures and not software artifacts.</p>
                 </div>
             </div>
           </div>

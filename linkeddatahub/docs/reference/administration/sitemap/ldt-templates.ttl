@@ -104,7 +104,7 @@ WHERE
           <dt>Super-template</dt>
           <dd>Templates inherit properties from super-templates, to which they must be linked using the subclass relationship. If you know of an existing template that already defines the URI
               pattern, query/update etc. that you need, you may define your template as a sub-template of it. For example, an update analogous to the one above is defined on
-              <code>thgt:Document</code> template in the THGT ontology.</dd>
+              <a href="../built-ins/" target="_blank"><code>thgt:Document</code></a> template in the THGT ontology.</dd>
         </dl>
     </div>
     <div>
