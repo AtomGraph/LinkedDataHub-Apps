@@ -12,4 +12,5 @@
     dct:description "Use LinkedDataHub's built-in Linked Data browser to explore remote datasources" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Use LinkedDataHub's built-in Linked Data browser to explore remote datasources</p>
+    <p>???</p>
 </div>"""^^rdf:XMLLiteral .

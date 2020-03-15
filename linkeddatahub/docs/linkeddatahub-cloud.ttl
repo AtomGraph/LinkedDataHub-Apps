@@ -18,15 +18,14 @@
     <div>
         <h2 id="contexts">Contexts</h2>
         <p class="text-center">
-            <img alt="Dataspace hierarchy" src="../../uploads/3cbf6ccd5f92b84111e2425263da050db0e4663f/"></img>
+            <img alt="Dataspace hierarchy" src="../uploads/3cbf6ccd5f92b84111e2425263da050db0e4663f/"></img>
         </p>
-        <p>In addition to end-user and administration applications, LinkedDataHub Cloud introduces a special type of dataspace called <em>concept</em>. Contexts are used to group dataspaces; they are the
+        <p>In addition to end-user and administration applications, LinkedDataHub Cloud introduces a special type of dataspace called <a href="../reference/dataspace/#contexts" target="_blank"><em>concept</em></a>. Contexts are used to group dataspaces; they are the
             first level of hierarchy while dataspaces are the second, similarly to GitHub's user/organization accounts and repositories.</p>
         <p>A user or software agent can create any number of contexts and any number of dataspaces in a context.</p>
     </div>
-
     <div>
-        <h2 id="model-store">Model store</h2>
-
+        <h2 id="vision">Vision</h2>
+        <p>We are working on making LinkedDataHub dataspaces publishable to the Cloud with a click of a button.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .

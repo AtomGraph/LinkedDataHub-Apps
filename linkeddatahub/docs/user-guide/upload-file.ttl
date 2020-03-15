@@ -35,6 +35,10 @@
                         </li>
                         <li>Click <span class="btn btn-primary">Save</span></li>
                     </ol>
+                    <p>See how below:</p>
+                    <p>
+                        <object data="../../uploads/7db898019986d1aa0bfee7bd1423874d82cb0233/" type="video/webm"></object>
+                    </p>
                 </div>
             </div>
             <div class="tab-pane">

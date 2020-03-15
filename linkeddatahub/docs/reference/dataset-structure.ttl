@@ -32,7 +32,8 @@
     </div>
     <div>
         <h2 id="default-datasets">Default datasets</h2>
-        <p><samp>platform/datasets/admin.trig</samp> and <samp>platform/datasets/end-user.trig</samp></p>
+        <p>The default datasets of administration and end-user applications can be found in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/platform/datasets/admin.trig" target="_blank"><samp>platform/datasets/admin.trig</samp></a> and
+            <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/platform/datasets/end-user.trig" target="_blank"><samp>platform/datasets/end-user.trig</samp></a>, respectively.</p>
     </div>
     <div>
         <h2 id="custom-datasets">Custom datasets</h2>

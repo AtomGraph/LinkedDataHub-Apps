@@ -25,7 +25,7 @@
                     <p>The configuration uses the <a href="https://w3id.org/atomgraph/linkeddatahub/apps/domain" target="_blank">Application domain ontology</a>. A dataspace is comprised of an end-user
                         application and an administrative application, both of them are backed by each own SPARQL service. Each application can also specify its own <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>.</p>
                     <div class="alert alert-info">
-                        <p>Application base URIs need to be relative to the <a href="../change-system-base-uri/#base-uri">system base URI</a> configured in the <samp>.env</samp> file. A change of system base URI currently requires a change of application base URIs, otherwise they will not be reachable.</p>
+                        <p>Application base URIs need to be relative to the <a href="../change-system-base-uri/#base-uri" target="_blank">system base URI</a> configured in the <samp>.env</samp> file. A change of system base URI currently requires a change of application base URIs, otherwise they will not be reachable.</p>
                     </div>
                     <div>
                         <h3 id="change-base-uri">Change base URI(s)</h3>
@@ -85,6 +85,10 @@
                                             </dl>
                                         </li>
                                     </ol>
+                                    <p>The following video shows the creation of both a context and a dataspace:</p>
+                                    <p>
+                                        <object data="../../uploads/4c86a3410134d090a7bb7e178a6f82874bc66fa1/" type="video/webm"></object>
+                                    </p>
                                 </div>
                                 <div class="tab-pane">
                                     <div>
@@ -103,8 +107,6 @@ popd</pre>
                                     </div>
                                 </div>
                             </div>
-
-
                             <div>
                                 <h3 id="create-cloud-dataspace">Create a dataspace</h3>
                                 <div class="tabbable">
@@ -132,6 +134,10 @@ popd</pre>
                                                     </dl>
                                                 </li>
                                             </ol>
+                                            <p>The following video shows the creation of both a context and a dataspace:</p>
+                                            <p>
+                                                <object data="../../uploads/4c86a3410134d090a7bb7e178a6f82874bc66fa1/" type="video/webm"></object>
+                                            </p>
                                         </div>
                                         <div class="tab-pane">
                                             <div>

@@ -114,8 +114,14 @@
     </div>
     <div>
         <h2 id="files">Files</h2>
-        <p>Files <a href="../../user-guide/upload-file/" target="_blank">can be uploaded</a> by selecting the File type in the <a href="../user-interface/#action-bar">action bar</a>.</p>
         <p>System container with uploaded files can be found in the <a href="../user-interface/#left-nav">left-side
             navigation</a> bar.</p>
+        <div>
+            <h3 id="upload">Upload</h3>
+            <p>Files <a href="../../user-guide/upload-file/" target="_blank">can be uploaded</a> by selecting the File type in the <a href="../user-interface/#action-bar">action bar</a>.</p>
+            <p>
+                <object data="../../uploads/7db898019986d1aa0bfee7bd1423874d82cb0233/" type="video/webm"></object>
+            </p>
+        </div>
     </div>
 </div>"""^^rdf:XMLLiteral .

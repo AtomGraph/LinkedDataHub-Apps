@@ -52,7 +52,7 @@ AF,33.9,67.7,Afghanistan</pre>
             <p>The data table is converted to a graph by treating rows as resources, columns as predicates, and
               cells as <code>xsd:string</code> literals. The approach is the same as CSV on the Web
               <a href="https://www.w3.org/TR/2015/REC-csv2rdf-20151217/#dfn-minimal-mode" target="_blank">minimal mode</a>.</p>
-              <pre>@base &lt;https://linkeddatahub.com/demo/skos/&gt; .
+              <pre>@base &lt;https://linkeddatahub.com/demo/city-graph/&gt; .
 
 _:8228a149-8efe-448d-b15f-8abf92e7bd17
   &lt;#countryCode&gt; "AD" ;
@@ -78,7 +78,7 @@ _:e8f2e8e9-3d02-4bf5-b4f1-4794ba5b52c9
                 to classes and properties from specific vocabularies. The mapping is a user-defined SPARQL
                 <code>CONSTRUCT</code> query which transforms <em>one row at a time</em>. In this case we produce a SKOS concept paired with its item (document) for each country:</p>
             <pre><code>PREFIX  def:  &lt;ns/default#&gt;
-PREFIX  dom:  &lt;ns/domain#&gt;
+PREFIX  ns:   &lt;ns#&gt;
 PREFIX  apl:  &lt;https://w3id.org/atomgraph/linkeddatahub/domain#&gt;
 PREFIX  geo:  &lt;http://www.w3.org/2003/01/geo/wgs84_pos#&gt;
 PREFIX  dh:   &lt;https://www.w3.org/ns/ldt/document-hierarchy/domain#&gt;
@@ -87,7 +87,6 @@ PREFIX  rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
 PREFIX  xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt;
 PREFIX  foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
 PREFIX  sioc: &lt;http://rdfs.org/sioc/ns#&gt;
-PREFIX  skos: &lt;http://www.w3.org/2004/02/skos/core#prefLabel&gt;
 
 CONSTRUCT
   {
@@ -96,12 +95,12 @@ CONSTRUCT
         dct:title ?name ;
         dh:slug ?countryCode ;
         foaf:primaryTopic ?country .
-    ?country a dom:Concept ;
+    ?country a ns:Country ;
         foaf:isPrimaryTopicOf ?item ;
         dct:identifier ?countryCode ;
         geo:lat ?lat ;
         geo:long ?long ;
-        skos:prefLabel ?name .
+        dct:title ?name .
   }
 WHERE
   { 
@@ -127,13 +126,13 @@ WHERE
             </ul>
             <p>We are planning to provide a UI-based mapping tool in the future.</p>
             <p>The result of our mapping using above data and query using binding <code>(?base,
-                &lt;https://linkeddatahub.com/atomgraph/city-graph/&gt;)</code> (only the first resource is shown):</p>
-            <pre>_:item a &lt;https://linkeddatahub.com/atomgraph/city-graph/ns/default#Item&gt; ;
+                &lt;https://linkeddatahub.com/demo/city-graph/&gt;)</code> (only the first resource is shown):</p>
+            <pre>_:item a &lt;https://linkeddatahub.com/demo/city-graph/ns/default#Item&gt; ;
     dct:title "Andorra" ;
     dh:slug "AD" ;
     foaf:primaryTopic _:country .
 
-_:country a &lt;https://linkeddatahub.com/atomgraph/city-graph/ns#Country&gt; ;
+_:country a &lt;https://linkeddatahub.com/demo/city-graph/ns#Country&gt; ;
     foaf:isPrimaryTopicOf _:item ;
     dct:identifier "AD" ;
     geo:lat 42.5 ;
