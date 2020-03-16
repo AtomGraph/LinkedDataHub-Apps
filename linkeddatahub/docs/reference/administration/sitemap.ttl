@@ -27,11 +27,11 @@
             <dd>Unique version of this ontology</dd>
         </dl>
         <p>All concepts managed in the sitemap and explained below (templates parameters etc.) belong to exactly one ontology. The membership
-           is specified using the <code>rdfs:isDefined</code> property.</p>
+           is specified using the <code>rdfs:isDefinedBy</code> property.</p>
         <div>
             <h3>System ontologies</h3>
             <p class="text-center">
-                <img src="../../../uploads/74847ba3ea2f8862bcb0bd9e177517363de83e74/" title="LinkedDataHub ontologies"></img>
+                <img src="../../../uploads/fbce3e0e3ea48e51985e999f4c3ef66e7a7aaa52/" title="LinkedDataHub ontologies"></img>
             </p>
             <p>AtomGraph Platform templates (APLT) is the default templates ontology used by LinkedDataHub.</p>
             <table class="table table-striped">
