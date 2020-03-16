@@ -13,7 +13,7 @@ base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
 
-pwd=$(realpath -s $PWD)
+pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"/imports
 

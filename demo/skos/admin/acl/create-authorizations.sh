@@ -13,12 +13,19 @@ base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
 
-pushd . && cd "$SCRIPT_ROOT"/admin/model
+pwd=$(realpath -s "$PWD")
 
-./import-ontology.sh \
+pushd . && cd "$SCRIPT_ROOT"/admin/acl
+
+sha1sum=$(sha1sum "$pwd"/../../files/skos.xsl | cut -d ' ' -f 1)
+
+./create-authorization.sh \
 -b "${base}admin/" \
--f "$cert_pem_file" \
--p "$cert_password" \
---source "http://www.w3.org/2004/02/skos/core"
+-f "${cert_pem_file}" \
+-p "${cert_password}" \
+--label "Public PermID XSLT stylesheet" \
+--agent-class http://xmlns.com/foaf/0.1/Agent \
+--to "${base}uploads/${sha1sum}/" \
+--read
 
 popd

@@ -13,7 +13,7 @@ base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
 
-pushd . && cd $SCRIPT_ROOT/admin/model
+pushd . && cd "$SCRIPT_ROOT"/admin/model
 
 ./create-restriction.sh \
 -b "${base}admin/" \

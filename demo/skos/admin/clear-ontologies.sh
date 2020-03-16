@@ -13,12 +13,17 @@ base="$1"
 cert_pem_file="$(realpath -s $2)"
 cert_password="$3"
 
-pushd . && cd $SCRIPT_ROOT/admin 
+pushd . && cd "$SCRIPT_ROOT"/admin 
 
 ./clear-ontology.sh \
 -f "$cert_pem_file" \
 -p "$cert_password" \
 "${base}admin/model/ontologies/domain/"
+
+./clear-ontology.sh \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+"${base}admin/sitemap/ontologies/templates/"
 
 ./clear-ontology.sh \
 -f "$cert_pem_file" \
