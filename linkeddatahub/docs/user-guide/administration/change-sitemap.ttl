@@ -28,7 +28,8 @@ DESCRIBE ?this ?primaryTopic ?seeAlso WHERE {
 }</pre>
         <p><code>?this</code> is an important variable here because it is "magic": its value gets set to the absolute request URI (without the query string). That is the <em>only input</em> into the query.
             As a result, <code>?this</code> can only match document URIs as only documents are directly accessible over HTTP and have RDF representations, and not abstract concepts or physical things (as they
-            are not <em>information resources</em>). If you need to return a description of a non-document resource using an LDT template, it has to be paired a with a document in the RDF dataset
+            are not <em>information resources</em>).</p>
+        <p>If you need to return a description of a non-document resource using an LDT template, it has to be paired a with a document in the RDF dataset
             (<a href="../../../reference/administration/model/#restrictions" target="_blank">restrictions</a> can be used to define such relationship in the model). The query of the template has to match
             that relationship in its pattern. For example, the above query uses the <code>foaf:primaryTopic</code> property to reach the non-document <code>?primaryTopic</code> resource.</p>
         <p>Lets say we want to change the RDF description of the concept to return not only its own properties, but also include its narrower concepts. That data then can be used to render the narrower
