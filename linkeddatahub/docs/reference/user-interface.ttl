@@ -19,7 +19,7 @@
     </div>
     <div class="alert alert-info">
         <p><em>Note that user interface features are subject to <a href="../administration/acl/">access control</a>. For example,
-            the search box will be visible if the user is not authorized to access the search container.</em></p>
+            the search box will not be visible if the user is not authorized to access the search container.</em></p>
     </div>
     <p>
         <img alt="User interface" src="../../uploads/5aedc6ac31996b7332623edcd91dc3864c51df8c/"></img>
