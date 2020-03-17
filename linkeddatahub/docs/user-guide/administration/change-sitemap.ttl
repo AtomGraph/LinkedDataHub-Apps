@@ -44,18 +44,35 @@ DESCRIBE ?this ?primaryTopic ?seeAlso WHERE {
 PREFIX  rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
 PREFIX  foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
 
-DESCRIBE ?this ?concept ?narrower
+DESCRIBE ?this ?concept ?narrower ?broader
 WHERE
   { GRAPH ?graph
       { ?this  ?p  ?o
         OPTIONAL
           { ?this  foaf:primaryTopic  ?concept
             OPTIONAL
-              { ?concept  skos:narrower  ?narrower }
+              {   { GRAPH ?narrowerGraph
+                      { ?concept  skos:narrower  ?narrower }
+                  }
+                UNION
+                  { GRAPH ?narrowerGraph
+                      { ?narrower  skos:broader  ?concept }
+                  }
+              }
+            OPTIONAL
+              {   { GRAPH ?broaderGraph
+                      { ?concept  skos:broader  ?broader }
+                  }
+                UNION
+                  { GRAPH ?broaderGraph
+                      { ?broader  skos:narrower  ?concept }
+                  }
+              }
           }
       }
   }</pre>
-        <p>It returns a description not only of the concept's document and the concept itself, but also of the (optional) narrower concepts.</p>
+        <p>It returns a description not only of the concept's document and the concept itself, but also of the (optional) narrower and broader concepts. Inverse <code>skos:narrower</code>/<code>skos:broader</code>
+            properties are traversed in both directions.</p>
         <div class="tabbable">
             <ul class="nav nav-tabs">
                 <li class="active"><a>User interface</a></li>

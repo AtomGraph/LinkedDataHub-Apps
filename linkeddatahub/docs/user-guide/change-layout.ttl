@@ -12,9 +12,9 @@
     dct:description "How to customize the layout of an application and the UI of the resources" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">How to customize the layout of an application and the UI of the resources</p>
+    <p>LinkedDataHub's user interface is simply a rendering of the underlying Linked Data resource descriptions, which are exposed via the <a href="../../reference/http-api/" target="_blank">HTTP API</a>.</p>
     <p>LinkedDataHub provides <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheets</a> that render a default UI layout. When building an application you might want to render a custom
         layout however. The recommended way of doing that is to create a new stylesheet which imports the system one and only override specific templates, while reusing the rest of the layout.</p>
-    <p>In the examples below we assume that the LDT template <a href="../administration/change-sitemap/" target="_blank">has been customized</a> to load not only the current document and its related concept, but also its narrower concepts.</p>
     <div>
         <h2 id="create-stylesheet">Create a stylesheet</h2>
         <p>First we need to create a new XSLT 2.0 stylesheet and use <code>&lt;xsl:import&gt;</code> to import the system <samp>layout.xsl</samp>.</p>
@@ -29,8 +29,17 @@
             <div class="tab-content">
                 <div class="tab-pane active">
                     <div>
-                        <p>First, either <a href="../upload-file/" target="_blank">upload the XSLT file</a> or mount it using Docker.</p>
-                        <p>Then change the value of <code>ac:stylesheet</code> on the dataspace with base URI <code>https://localhost:4443/</code> to the URI of the stylesheet.</p>
+                        <p>First, either <a href="../upload-file/" target="_blank">upload the XSLT file</a> or mount it using Docker using <samp>docker-compose.override.yml:</samp>:</p>
+                        <pre>version: "2.3"
+services:
+  linkeddatahub:
+    volumes:
+      - ../LinkedDataHub-Apps/demo/skos/files/skos.xsl:/usr/local/tomcat/webapps/ROOT/static/com/atomgraph/linkeddatahub/demo/skos/xsl/index.xsl:ro # won't work on LinkedDataHub Cloud</pre>
+                        <p>Then change the value of <code>ac:stylesheet</code> on the dataspace with base URI <code>https://localhost:4443/</code> to the URI of the stylesheet:</p>
+                        <pre>_:root_end_user_app a lapp:EndUserApplication ;
+    ...
+    ac:stylesheet &lt;https://localhost:4443/static/com/atomgraph/linkeddatahub/demo/skos/xsl/index.xsl&gt; ;
+    ...</pre>
                     </div>
                 </div>
             </div>
@@ -38,23 +47,50 @@
     </div>
     <div>
         <h2 id="augment-output">Augment output</h2>
-        <p>Keep default output using <code>&lt;xsl:apply-imports&gt;</code> or <code>&lt;xsl:next-match&gt;</code> and add new output before/after it:</p>
-        <pre>&lt;xsl:template match="*[skos:narrower]" mode="bs2:Block"&gt;
+        <p>In the examples below we assume that the LDT template <a href="../administration/change-sitemap/" target="_blank">has been customized</a> to load not only the current document and its related concept, but also its broader/narrower concepts.</p>
+
+        <p>Keep the default output using <code>&lt;xsl:apply-imports&gt;</code> or <code>&lt;xsl:next-match&gt;</code> and add new output before/after it:</p>
+        <pre>&lt;xsl:key name="resources-by-broader" match="*[@rdf:about] | *[@rdf:nodeID]" use="skos:broader/@rdf:resource"/&gt;
+        
+&lt;xsl:template match="*[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources-by-broader', @rdf:about)]  | *[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources', skos:narrower/@rdf:resource)]" mode="bs2:Block" priority="1"&gt;
     &lt;xsl:next-match/&gt;
 
     &lt;h3&gt;Narrower concepts&lt;/h3&gt;
-    &lt;!-- show an inline list with links --&gt;
     &lt;ul&gt;
-        &lt;xsl:apply-templates select="key('resources', skos:narrower/(@rdf:resource, @rdf:nodeID))" mode="bs2:List"&gt;
+        &lt;xsl:apply-templates select="key('resources-by-broader', @rdf:about) | key('resources', skos:narrower/@rdf:resource)" mode="bs2:List"&gt;
             &lt;xsl:sort select="ac:label(.)"/&gt;
         &lt;/xsl:apply-templates&gt;
     &lt;/ul&gt;
 &lt;/xsl:template&gt;</pre>
+        <p>The match pattern will match the resource descriptions that:</p>
+        <ul>
+            <li>are the primary topics of the requested document (i.e. its concept) <em>and</em> is a broader concept of some other resources in the RDF graph</li>
+            <li>are the primary topics of the requested document (i.e. its concept) <em>and</em> has narrower concept(s) in the RDF graph</li>
+        </ul>
+        <p>We can render broader concepts by making a copy of the key and the template above and replacing all occurences of <code>skos:narrower</code> with <code>skos:broader</code> and vice versa.</p>
+    </div>
+    <div>
+        <h2 id="override-output">Override output</h2>
+        <p>To completely change the layout without keeping the default one, use the same logic as for <a href="#augment-output">augmenting</a> it, but do not call <code>&lt;xsl:apply-imports&gt;</code>/<code>&lt;xsl:next-match&gt;</code>.</p>
     </div>
     <div>
         <h2 id="suppress-output">Suppress output</h2>
         <p>In the above example, we have rendered <code>skos:narrower</code> properties in our own special way. Which means that the default output of the same properties from <code>bs2:PropertyList</code> is no longer desired.</p>
-        <p>You can specity an empty template at any level (graph/property/resource) to disable output of that layout mode. For example:</p>
-        <pre>&lt;xsl:template match="skos:narrower" mode="bs2:PropertyList"/&gt;</pre>
+        <p>You can specity an empty template at any level (graph/property/resource) to disable output of that layout mode. For example, this will suppress the default rendering of concepts which are
+            now shown in the customized broader/narrower list:</p>
+        <pre>&lt;xsl:template match="*[key('resources', skos:narrower/@rdf:resource)/foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri] | *[key('resources', skos:broader/@rdf:resource)/foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri] | *[@rdf:about = key('resources', key('resources', $ac:uri)/foaf:primaryTopic/@rdf:resource)/skos:narrower/@rdf:resource] | *[@rdf:about = key('resources', key('resources', $ac:uri)/foaf:primaryTopic/@rdf:resource)/skos:broader/@rdf:resource]" mode="bs2:Block"/&gt;</pre>
+        <p>The match pattern will match the resource descriptions that:</p>
+        <ul>
+            <li>have narrower concept(s) in the RDF graph that are the primary topic of the current document</li>
+            <li>have broader concept(s) in the RDF graph that are the primary topic of the current document</li>
+            <li>are narrower concept of the primary topic of the current document</li>
+            <li>are broader concept of the primary topic of the current document</li>
+        </ul>
+        <pre>&lt;xsl:template match="*[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources', skos:broader/@rdf:resource)]/skos:broader | *[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources', skos:narrower/@rdf:resource)]/skos:narrower" mode="bs2:PropertyList"/&gt;</pre>
+        <p>The match pattern will match the resource properties that:</p>
+        <ul>
+            <li>are <code>skos:broader</code> properties of a resource that is the primary topic of the current document <em>and</em> has broader concepts in the RDF graph</li>
+            <li>are <code>skos:narrower</code> properties of a resource that is the primary topic of the current document <em>and</em> has narrower concepts in the RDF graph</li>
+        </ul>
     </div>
 </div>"""^^rdf:XMLLiteral .

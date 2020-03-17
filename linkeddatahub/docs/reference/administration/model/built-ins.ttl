@@ -12,6 +12,8 @@
     dct:description "Classes, constraints, properties available to all LinkedDataHub apps" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
     <div>
+        <p>Model ontologies described here, as well as some other system and well-known ontologies, have a local copy in each LinkedDataHub instance. The URI-to-file mapping is defined as Jena's <a href="https://jena.apache.org/documentation/io/rdf-input.html#configuring-a-locationmapper" target="_blank">location mapping</a> and can be found in
+            <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/src/main/resources/location-mapping.n3" target="_blank"><samp>location-mapping.n3</samp></a> and <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/src/main/resources/prefix-mapping.n3" target="_blank"><samp>prefix-mapping.n3</samp></a>.</p>
         <table class="table">
             <caption>Built-in classes</caption>
             <thead>
