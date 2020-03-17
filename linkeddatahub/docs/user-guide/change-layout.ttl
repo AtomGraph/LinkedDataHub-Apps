@@ -49,9 +49,9 @@ services:
         <h2 id="default-layout">Default layout</h2>
         <p>In the examples below we assume that the LDT template <a href="../administration/change-sitemap/" target="_blank">has been customized</a> to load not only the current document and its related concept, but also its broader/narrower concepts.</p>
         <p>At this point, the default layout of the current document, its topic concept, and narrower/broader concepts looks like this:</p>
-        <p class="text-center">
+        <div class="thumbnail">
             <img alt="Default layout" src="../../uploads/74b49af5c822acf41ad661d0d27a60443151838d/"></img>
-        </p>
+        </div>
     </div>
     <div>
         <h2 id="augment-output">Augment output</h2>
@@ -75,9 +75,9 @@ services:
         </ul>
         <p>We can render broader concepts by making a copy of the key and the template above and replacing all occurences of <code>skos:narrower</code> with <code>skos:broader</code> and vice versa.</p>
         <p>With the overriding template, the layout looks like this:</p>
-        <p class="text-center">
-            <img alt="Default layout" src="../../uploads/38d12825c3927e2d5493ca76f2b744c7b5fe867b/"></img>
-        </p>
+        <div class="thumbnail">
+            <img alt="Augmented output" src="../../uploads/38d12825c3927e2d5493ca76f2b744c7b5fe867b/"></img>
+        </div>
     </div>
     <div>
         <h2 id="override-output">Override output</h2>
@@ -102,9 +102,9 @@ services:
             <li>are <code>skos:broader</code> properties of a resource that is the primary topic of the current document <em>and</em> has broader concepts in the RDF graph</li>
             <li>are <code>skos:narrower</code> properties of a resource that is the primary topic of the current document <em>and</em> has narrower concepts in the RDF graph</li>
         </ul>
-        <p>With the supressing templates, the layout looks like this:</p>
-        <p class="text-center">
-            <img alt="Default layout" src="../../uploads/e1a566461208a41faee39238f395f2f79fec8421/"></img>
-        </p>
+        <p>With the supressing templates, the layout now looks like this:</p>
+        <div class="thumbnail">
+            <img alt="Suppressed output" src="../../uploads/e1a566461208a41faee39238f395f2f79fec8421/"></img>
+        </div>
     </div>
 </div>"""^^rdf:XMLLiteral .
