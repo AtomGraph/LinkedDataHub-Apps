@@ -11,7 +11,7 @@
     dct:title "Change the sitemap" ;
     dct:description "Change the sitemap: create queries and LDT templates" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Change the model: create constructors, classes, and restrictions</p>
+    <p class="lead">Change the sitemap: create queries and LDT templates</p>
     <div>
         <h2 id="change-sitemap">Change the sitemap</h2>
         <p>By default, the concept documents will match an <code>Item</code> template from the application's <a href="../reference/administration/sitemap/#ontologies" target="_blank">Templates ontology</a>.  You can verify that by checking the HTTP <a href="../reference/http-api/#hypermedia-headers" target="_blank">response headers</a>, which should include a template URI such as

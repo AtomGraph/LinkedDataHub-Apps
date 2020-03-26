@@ -14,7 +14,7 @@
     <p class="lead">How to customize the layout of an application and the UI of the resources</p>
     <p>LinkedDataHub's user interface is simply a rendering of the underlying Linked Data resource descriptions, which are exposed via the <a href="../../reference/http-api/" target="_blank">HTTP API</a>.</p>
     <p>LinkedDataHub provides <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheets</a> that render a default UI layout. When building an application you might want to render a custom
-        layout however. The recommended way of doing that is to create a new stylesheet which imports the system one and only override specific templates, while reusing the rest of the layout.</p>
+        layout however. The recommended way of doing that is to create a new stylesheet which imports the system stylesheet and only override specific templates, while reusing the rest of the layout.</p>
     <div>
         <h2 id="create-stylesheet">Create a stylesheet</h2>
         <p>First we need to create a new XSLT 2.0 stylesheet and use <code>&lt;xsl:import&gt;</code> to import the system <samp>layout.xsl</samp>.</p>
@@ -29,7 +29,7 @@
             <div class="tab-content">
                 <div class="tab-pane active">
                     <div>
-                        <p>First, either <a href="../upload-file/" target="_blank">upload the XSLT file</a> or mount it using Docker using <samp>docker-compose.override.yml:</samp>:</p>
+                        <p>First, either <a href="../upload-file/" target="_blank">upload the XSLT file</a> or mount it using Docker and <samp>docker-compose.override.yml:</samp>:</p>
                         <pre>version: "2.3"
 services:
   linkeddatahub:
@@ -86,7 +86,7 @@ services:
     <div>
         <h2 id="suppress-output">Suppress output</h2>
         <p>In the above example, we have rendered <code>skos:narrower</code> properties in our own special way. Which means that the default output of the same properties from <code>bs2:PropertyList</code> is no longer desired.</p>
-        <p>You can specity an empty template at any level (graph/property/resource) to disable output of that layout mode. For example, this will suppress the default rendering of concepts which are
+        <p>You can specify an empty template at any level (graph/property/resource) to disable output of that layout mode. For example, this will suppress the default rendering of concepts which are
             now shown in the customized broader/narrower list:</p>
         <pre>&lt;xsl:template match="*[key('resources', skos:narrower/@rdf:resource)/foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri] | *[key('resources', skos:broader/@rdf:resource)/foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri] | *[@rdf:about = key('resources', key('resources', $ac:uri)/foaf:primaryTopic/@rdf:resource)/skos:narrower/@rdf:resource] | *[@rdf:about = key('resources', key('resources', $ac:uri)/foaf:primaryTopic/@rdf:resource)/skos:broader/@rdf:resource]" mode="bs2:Block"/&gt;</pre>
         <p>The match pattern will match the resource descriptions that:</p>
