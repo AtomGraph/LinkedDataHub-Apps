@@ -7,8 +7,8 @@ if [ "$#" -ne 3 ]; then
   exit 1
 fi
 
-base=$1
-cert_pem_file=$2
-cert_password=$3
+base="$1"
+cert_pem_file="$2"
+cert_password="$3"
 
 { echo "BASE <${base}admin/>" ; cat ./make-public.ru ; } | curl -X PATCH -d @- -v -k -E ${cert_pem_file}:${cert_password} "${base}admin/graphs/a86ce4fa-0197-4118-878e-32ea2d695878/" -H "Content-Type: application/sparql-update"

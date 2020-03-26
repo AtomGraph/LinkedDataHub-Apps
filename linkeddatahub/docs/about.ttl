@@ -11,7 +11,7 @@
     dct:title "About LinkedDataHub" ;
     dct:description "A UI-based cloud platform for data integration, management, and application building" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead"><a href="https://linkeddatahub.com">LinkedDataHub</a> is next-generation software by
+    <p class="lead">LinkedDataHub is next-generation software by
         <a href="https://atomgraph.com" target="_blank">AtomGraph</a> that fully exploits semantic technologies to help organizations
         overcome data silos and API hell</p>
     <div>
@@ -78,8 +78,8 @@
         <div class="tabbable">
           <ul class="nav nav-tabs">
             <li class="active"><a>All versions</a></li>
-            <li><a>Open-source version</a></li>
-            <li><a>Cloud version</a></li>
+            <li><a>LinkedDataHub</a></li>
+            <li><a>LinkedDataHub Cloud</a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active">
@@ -94,11 +94,11 @@
                   created and configured by managing RDF data. A new application can be set up in a <em>matter of minutes</em>.</dd>
                 <dt>100% configuration</dt>
                 <dd>The structure, appearance, and access rights of an application are completely controlled in the
-                  <a href="../administration/"> administration</a> domain by administration users.</dd>
+                  <a href="../reference/administration/" target="_blank"> administration</a> application by administration users.</dd>
                 <dt>Standard-compliance</dt>
                 <dd>Applications can use any <a href="https://www.w3.org/TR/sparql11-overview/" target="_blank">SPARQL 1.1</a> compatible
                   datasource. You can switch datasources at any time and and remain in complete <em>control of your data</em>.</dd>
-                  <dd>However, LinkedDataHub also provides <a href="../manage-apps/#dydra-services">tighter integration</a> with select
+                  <dd>However, LinkedDataHub also provides <a href="../reference/dataspace/#dydra-services" target="_blank">tighter integration</a> with select
                   triplestores, leading to optimized performance and easier configuration.</dd>
               </dl>
             </div>
@@ -124,24 +124,24 @@
             <code>CONSTRUCT</code> queries. Import of XML data is planned.</dd>
           <dt>Data quality control</dt>
           <dd>Consistency of the application's dataset is ensured by validating all incoming RDF data against SPARQL-based
-            <a href="../administration/model/#constraints">SPIN constraints</a> (built-in as well as user-defined), which
+            <a href="../reference/administration/model/#constraints" target="_blank">SPIN constraints</a> (built-in as well as user-defined), which
             are a part of the application's sitemap.</dd>
           <dt>Access control</dt>
           <dd>All access to every document on LinkedDataHub is checked against
-            <a href="../administration/acl/">access control</a> rules (built-in as well as user-defined). Unauthorized
+            <a href="../reference/administration/acl/" target="_blank">access control</a> rules (built-in as well as user-defined). Unauthorized
             access is denied.</dd>
           <dt>Uniform UX</dt>
-          <dd>The <a href="../user-interface/">user experience</a> is consistent throughout the platform; all documents by
-            default support the same <a href="../usage/#manage">actions</a>.</dd>
+          <dd>The <a href="../reference/user-interface/" target="_blank">user experience</a> is consistent throughout the platform; all documents by
+            default support the same <a href="../reference/documents/#manage" target="_blank">actions</a>.</dd>
           <dt>Extensibility</dt>
-          <dd>Administrative users can <a href="../administration/sitemap/">use the sitemap</a> to extend an existing
+          <dd>Administrative users can <a href="../reference/administration/sitemap/" target="_blank">use the sitemap</a> to extend an existing
             application structure, and upload new XSLT and CSS stylesheets to customize the user interface.</dd>
           <dt>Remote datasources</dt>
           <dd>An integrated browser component allows exploring remote Knowledge Graph resources without leaving the application.
             We are constantly improving the software to take advantage of the distributed nature of RDF data.</dd>
           <dt>HTTP API</dt>
-          <dd>Our next-generation Linked Data Templates technology provides read-write <a href="../http-api/">HTTP API</a> for
-            every document, customizable using <a href="../administration/sitemap/#templates">declarative templates</a>.</dd>
+          <dd>Our next-generation Linked Data Templates technology provides read-write <a href="../reference/http-api/" target="_blank">HTTP API</a> for
+            every document, customizable using <a href="../reference/administration/sitemap/#templates" target="_blank">declarative templates</a>.</dd>
           <dt>SEO support</dt>
           <dd>Customizable JSON-LD output allows a mapping of RDF resources to <a href="https://schema.org" target="_blank">schema.org</a>.
             That structured data is <a href="https://developers.google.com/search/docs/guides/intro-structured-data" target="_blank">indexed

@@ -1,0 +1,30 @@
+@prefix ns:     <ns#> .
+@prefix def:    <ns/default#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+    
+<user-guide/search-data/> a def:Item ;
+    sioc:has_container <user-guide/> ;
+    dct:title "Search data" ;
+    dct:description "Search for resources using text keywords" ;
+    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Search for resources using text keywords</p>
+    <div>
+        <h2 id="text-search">Text search</h2>
+        <p>You can lookup resources by typing a phrase (it does not have to be complete, start with a few letters) into the input in the <a href="../../reference/user-interface/#nav-bar">navigation bar</a>.</p>
+        <p>A dropdown list will appear if there are any matches. Use up/down keys or mouse click to select one of the results, and you will be redirected to its document.</p>
+        <p>The matching is done by looking for substrings using SPARQL <code>regex()</code> in common literal properties such as <code>dct:title</code>, <code>rdfs:label</code>, <code>foaf:name</code>,
+            <code>sioc:content</code> etc. You can find the exact query in <samp>Queries / Select labelled</samp>.</p>
+        <p>The same widget is used for autocomplete inputs in the <a href="../../reference/user-interface/#create-edit">create/edit forms</a>.</p>
+        <p>
+            <img alt="SPARQL endpoint" src="../../uploads/8c4383351477a5405a9883d23d9255670b9396f7/"></img>
+        </p>
+    </div>
+    <div>
+        <h2 id="structured-search">Structured search</h2>
+        <p>You can use SPARQL to <a href="../query-data/">query data</a> from the application's SPARQL service.</p>
+    </div>
+</div>"""^^rdf:XMLLiteral .

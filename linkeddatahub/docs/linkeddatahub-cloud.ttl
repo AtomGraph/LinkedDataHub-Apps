@@ -1,0 +1,31 @@
+@prefix ns:     <ns#> .
+@prefix def:    <ns/default#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<linkeddatahub-cloud/> a def:Item ;
+    sioc:has_container <> ;
+    dct:title "LinkedDataHub Cloud" ;
+    dct:description "LinkedDataHub Cloud is a managed service for LinkedDataHub applications" ;
+    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead"><a href="https://linkeddatahub.com" target="_blank">LinkedDataHub Cloud</a> is a managed service for LinkedDataHub applications</p>
+    <p>The Cloud builds on the open-source version of LinkedDataHub and adds UI- and CLI-based <a href="../user-guide/manage-dataspaces/" target="_blank">dataspace management</a>. Using Cloud, you don't
+        have to maintain your own instance of LinkedDataHub or manually configure dataspaces — that is done automatically and hidden behind a user interface.</p>
+    <p>The documentation is split into separate tabs where there are differences between the standalone LinkedDataHub and LinkedDataHub Cloud.</p>
+    <div>
+        <h2 id="contexts">Contexts</h2>
+        <p class="text-center">
+            <img alt="Dataspace hierarchy" src="../uploads/3cbf6ccd5f92b84111e2425263da050db0e4663f/"></img>
+        </p>
+        <p>In addition to end-user and administration applications, LinkedDataHub Cloud introduces a special type of dataspace called <a href="../reference/dataspace/#contexts" target="_blank"><em>context</em></a>. Contexts are used to group dataspaces; they are the
+            first level of hierarchy while dataspaces are the second, similarly to GitHub's user/organization accounts and repositories.</p>
+        <p>A user or software agent can create any number of contexts and any number of dataspaces in a context.</p>
+    </div>
+    <div>
+        <h2 id="vision">Vision</h2>
+        <p>We are working on making LinkedDataHub dataspaces publishable to the Cloud with a click of a button.</p>
+    </div>
+</div>"""^^rdf:XMLLiteral .

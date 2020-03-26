@@ -1,0 +1,91 @@
+@prefix ns:     <ns#> .
+@prefix def:    <ns/default#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<get-started/> a def:Container ;
+    sioc:has_parent <> ;
+    dh:select <queries/default/select-children/#this> ;
+    dct:title "Get started" ;
+    dct:description "All the basics of LinkedDataHub. From installation to extending the model and user interface." ;
+    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">All the basics of LinkedDataHub. From installation to customizing the model and user interface.</p>
+    <p>This guide will show how a LinkedDataHub application can be used to manage domain-specific RDF classes and instances. As an example, we will us <a href="https://www.w3.org/TR/skos-primer/" target="_blank">SKOS</a> concepts and concept schemes.</p>
+    <p>On LinkedDataHub, all <a href="../reference/documents/#manage" target="_blank">management actions</a> can also be performed using the <a href="../reference/command-line-interface/" target="_blank">CLI (Command Line Interface)</a>, which consists of shell scripts wrapping <a href="../reference/http-api/" target="_blank">HTTP API</a> calls. Where applicable, the UI and CLI instructions are shown side by side.</p>
+    <p>The CLI instructions use the environmental variable <code>$SCRIPT_ROOT</code>, which should point to the <samp>scripts</samp> in your LinkedDataHub fork. Then you can place the scripts and files
+        from the examples in a folder outside LinkedDataHub — that will be the current directory for the CLI examples below. Alternatively, you can check out the source code of the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/skos" target="_blank">SKOS demo app</a> which implements the SKOS example used in this guide.</p>
+    <div>
+        <h2 id="setup">Setup</h2>
+        <p>Fork the GitHub repository and check it out into a folder. Install Docker and run <samp>docker-compose up</samp> from that folder.</p>
+        <p class="lead"><a href="setup/" target="_blank">Read more more detailed setup instructions.</a></p>
+    </div>
+    <div>
+        <h2 id="get-an-account">Get an account</h2>
+        <p>If you have completed the setup and own an instance of LinkedDataHub, <samp>certs/owner.p12</samp> file is your WebID certificate. Password is the <samp>OWNER_KEY_PASSWORD</samp> value from the <samp>.env</samp> file.</p>
+        <p>If you successfully signed up to someone's LinkedDataHub instance, you should receive an email with a <samp>.p12</samp> file attached which is your WebID certificate. In this case you will not be able to perform the administrative actions in the examples below, but you can issue a <a href="../reference/administration/acl/#auth-requests" target="_blank">request for access</a> to the owner(s) of a dataspace.</p>
+        <p class="lead"><a href="get-an-account/" target="_blank">Read more more detailed instructions on getting an account.</a></p>
+    </div>
+    <div>
+        <h2 id="open-dataspace">Open your dataspace</h2>
+        <p>Open <a href="https://localhost:4443/" target="_blank">https://localhost:4443/</a> in the web browser (that you installed the WebID certificate to).</p>
+    </div>
+    <div>
+        <h2 id="create-container">Create a container</h2>
+        <p>We will need to containers for our SKOS instances: one for the concepts and one for the concept schemes.</p>
+        <p>Use <samp>Concepts</samp> as title and <samp>concepts</samp> as URI slug for the former; <samp>Concept schemes</samp> as title and <samp>concept-schemes</samp> as URI slug for the latter.</p>
+        <p class="lead"><a href="../user-guide/create-document/" target="_blank">Follow a tutorial to create a container.</a></p>
+    </div>
+    <div>
+        <h2 id="change-model">Change the model</h2>
+        <p>In order to be able to manage SKOS concepts and concept schemes, we need to create <a href="../reference/administration/model/#classes" target="_blank">classes</a> that represent them in the <a href="../reference/administration/model/" target="_blank">model</a> of our dataspace. Not only will they serve as RDF types of the instances, but will have <a href="../reference/administration/model/#constructors" target="_blank">constructors</a> attached that define the default properties and their (data)types for that class.</p>
+        <p>Since a SKOS concept is an abstract thing which cannot be directly dereferenced over HTTP, its instance has to be paired with a document instance. In the model, this relationship is defined
+            by creating a <a href="../reference/administration/model/#restrictions" target="_blank">property restriction</a> between the two respective classes. We therefore need to create 2 classes and a restriction.</p>
+        <p>Model is managed in the <a href="../reference/dataspace/#admin-apps" target="_blank">administration application</a> of a dataspace. Head there by clicking the <span class="btn btn-settings">Settings</span> in the <a href="../reference/user-interface/#action-bar" target="_blank">action bar</a> and then choosing <samp>Administration</samp>.</p>
+        <div class="alert alert-info">
+            <p>In order to edit the <a href="../reference/administration/acl/" target="_blank">access control</a>, <a href="../reference/administration/model/" target="_blank">model</a>, or <a href="../reference/administration/sitemap/" target="_blank">sitemap</a> of a dataspace, you need to be an administrator, i.e. a member of the <a href="../reference/administration/acl/#groups" target="_blank">owners group</a>.</p>
+        </div>
+        <p class="lead"><a href="../user-guide/administration/change-model/" target="_blank">Follow a tutorial to change the model: create a constructor, a class, a and restriction.</a></p>
+    </div>
+    <div>
+        <h2 id="create-instance">Create an instance</h2>
+        <p>Go back to the end-user application and refresh the page — the previously created classes should now be available for instance creation. Follow these steps:</p>
+        <ol>
+            <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
+            <li>Click on <samp>Concept</samp> in the drop-down list that appears</li>
+            <li>Fill out the mandatory fields in the form:
+                <dl>
+                    <dt>Title</dt>
+                    <dd>Enter concept title</dd>
+                    <dt>Title</dt>
+                    <dd>Enter document title</dd>
+                </dl>
+            </li>
+            <li>Click <span class="btn btn-primary">Save</span></li>
+        </ol>
+        <p>A concept and its item should appear with the URI <samp>https://localhost:4443/concepts/{slug}/</samp>, depending on the optional URI slug value (a unique UUID string is assigned by default).</p>
+        <p>Congratulations! You have just created the first concept instance based on your model.</p>
+        <p class="lead"><a href="../reference/documents/" target="_blank">Read more about document management.</a></p>
+    </div>
+    <div>
+        <h2 id="import-csv">Import CSV data</h2>
+        <p>A common step at this point would be to populate your dataset with instances by importing data. LinkedDataHub currently supports CSV and RDF <a href="../reference/imports/" target="_blank">data imports</a>.</p>
+        <p class="lead"><a href="../user-guide/import-data/import-csv-data/" target="_blank">Follow a tutorial to import CSV data and map it to RDF.</a></p>
+    </div>
+    <div>
+        <h2 id="change-sitemap">Change the sitemap</h2>
+        <p>By default, the concept documents will match an <code>Item</code> template from the application's <a href="../reference/administration/sitemap/#ontologies" target="_blank">Templates ontology</a>.  You can verify that by checking the HTTP <a href="../reference/http-api/#hypermedia-headers" target="_blank">response headers</a>, which should include a template URI such as
+        <code>https://linkeddatahub.com/linkeddatahub/docs/ns/templates#Item</code>. You can use it to look up the SPARQL query which is used to load the RDF data for the document.</p>
+        <p>Lets say we want to change the RDF description of the concept to return not only its own properties, but also include its narrower concepts. That data then can be used to render the narrower
+            concepts on the same document, instead of just linking to them.</p>
+        <p>In order to achieve that, we need to override the LDT template that matches our concept items and specify our custom SPARQL query for the overriding template.</p>
+        <p class="lead"><a href="../user-guide/administration/change-sitemap/" target="_blank">Follow a tutorial to change the sitemap: create a constructor query and override an LDT template.</a></p>
+    </div>
+    <div>
+        <h2 id="change-layout">Change the layout</h2>
+        <p>Changing the layout of the user interface is similar to changing the sitemap. It involves overriding templates as well, just not in the LDT ontologies but in the <a href="../reference/stylesheets/" target="_blank">XSLT stylesheets</a>.</p>
+        <p class="lead"><a href="../user-guide/change-layout/" target="_blank">Follow a tutorial to change the layout: create an XSLT stylesheet and override a template.</a></p>
+    </div>
+</div>"""^^rdf:XMLLiteral .

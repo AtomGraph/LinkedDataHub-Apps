@@ -1,0 +1,39 @@
+@prefix ns:     <ns#> .
+@prefix def:    <ns/default#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+   
+<user-guide/change-system-base-uri/> a def:Item ;
+    sioc:has_container <user-guide/> ;
+    dct:title "Change system base URI" ;
+    dct:description "How to change host, port, or the path LinkedDataHub service runs on" ;
+    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">How to change host, port, or the path LinkedDataHub service runs on</p>
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active"><a>LinkedDataHub</a></li>
+            <li><a>LinkedDataHub Cloud</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active">
+                <div>
+                    <h2 id="system-base-uri">System base URI</h2>
+                    <p>System base URI is the URI on which the LinkedDataHub service is accessible.</p>
+                    <p>A common case is changing the system base URI from the default <samp>https://localhost:4443/</samp> to your own.</p>
+                    <p>Lets use <samp>https://ec2-54-235-229-141.compute-1.amazonaws.com/linkeddatahub/</samp> as an example. We need to split the URI into components and set them in the <samp>.env</samp> file using the following parameters:</p>
+                    <pre>PROTOCOL=https
+HTTP_PORT=80
+HTTPS_PORT=443
+HOST=ec2-54-235-229-141.compute-1.amazonaws.com
+ABS_PATH=/linkeddatahub/</pre>
+                </div>
+            </div>
+            <div class="tab-pane">
+                <p>???</p>
+            </div>
+        </div>
+    </div>
+</div>"""^^rdf:XMLLiteral .

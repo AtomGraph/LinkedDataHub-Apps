@@ -1,0 +1,62 @@
+@prefix ns:     <ns#> .
+@prefix def:    <ns/default#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<user-guide/upload-file/> a def:Item ;
+    sioc:has_container <user-guide/> ;
+    dct:title "Upload file" ;
+    dct:description "Learn how to upload files to LinkedDataHub" ;
+    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Learn how to upload files to LinkedDataHub</p>
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active"><a>User interface</a></li>
+            <li><a>Command line interface</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active">
+                <div>
+                    <ol>
+                        <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
+                        <li>Click on <samp>File</samp> in the drop-down list that appears</li>
+                        <li>Fill out the mandatory fields in the form:
+                            <dl>
+                                <dt>FileName</dt>
+                                <dd>Select file from your filesystem</dd>
+                                <dt>Title</dt>
+                                <dd>Enter file title</dd>
+                                <dt>Title</dt>
+                                <dd>Enter document title</dd>
+                            </dl>
+                        </li>
+                        <li>Click <span class="btn btn-primary">Save</span></li>
+                    </ol>
+                    <p>See how below:</p>
+                    <p>
+                        <object data="../../uploads/7db898019986d1aa0bfee7bd1423874d82cb0233/" type="video/webm"></object>
+                    </p>
+                </div>
+            </div>
+            <div class="tab-pane">
+                <div>
+                    <p>Replace <code>${OWNER_KEY_PASSWORD}</code> with its value from the <samp>.env</samp> file and execute the following command:</p>
+                    <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT/imports"
+
+./create-file.sh \\
+-b "https://localhost:4443/" \\
+-f certs/owner.p12.pem \\
+-p "${OWNER_KEY_PASSWORD}" \\
+--title "${title}" \\
+--file "${filename}" \\
+--file-content-type "${content_type}"
+
+popd</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>"""^^rdf:XMLLiteral .
