@@ -2,8 +2,24 @@
 
 System, demo, and user-submitted applications built on LinkedDataHub. Completely data-driven, no code involved (besides the shell scripts).
 
+## Prerequisites
+
+The installation scripts in this repository use [LinkedDataHub's CLI scripts](https://linkeddatahub.com/linkeddatahub/docs/reference/command-line-interface/). You need to set `SCRIPT_ROOT` environmental variable to the [`scripts` subfolder](https://github.com/AtomGraph/LinkedDataHub/tree/master/scripts) of your LinkedDataHub fork or clone, for example:
+
+    export SCRIPT_ROOT=/c/Users/namedgraph/WebRoot/AtomGraph/LinkedDataHub/scripts
 
 ## Documentation
+
+<dl>
+    <dt>Source</dt>
+    <dd><a href="../../tree/master/linkeddatahub/docs/">linkeddatahub/docs/</a></dd>
+    <dt>Live instance</dt>
+    <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/">https://linkeddatahub.com/linkeddatahub/docs/</a></dd>
+    <dd>0 lines of imperative code</dd>
+    <dd>164 lines of installation shell scripts</dd>
+</dl>
+
+The documentation of LinkedDataHub open-source and Cloud versions.
 
 ## City Graph
 
