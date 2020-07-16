@@ -36,8 +36,8 @@ The installation scripts in this repository use [LinkedDataHub's CLI scripts](ht
     <dt>Live instance</dt>
     <dd><a href="https://linkeddatahub.com/demo/city-graph/" target="_blank">https://linkeddatahub.com/demo/city-graph/</a></dd>
     <dt>Features</dt>
-    <dd>RDF <a href="https://linkeddatahub.com/linkeddatahub/docs/reference/imports/csv/" target="_blank">import from CSV</a></dd>
-    <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/administration/sitemap/#templates" target="_blank">item template</a> with a <a href="https://linkeddatahub.com/linkeddatahub/docs/reference/administration/sitemap/#queries" target="_blank">query</a> that describes not only the requested resource, but also other resources with coordinates in a bounding box around it</dd>
+    <dd>RDF <a href="https://linkeddatahub.com/linkeddatahub/docs/reference/imports/csv/" target="_blank">Import from CSV</a></dd>
+    <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/administration/sitemap/#templates" target="_blank">Item template</a> with a <a href="https://linkeddatahub.com/linkeddatahub/docs/reference/administration/sitemap/#queries" target="_blank">query</a> that describes not only the requested resource, but also other resources with coordinates in a bounding box around it</dd>
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
     <dd>479 lines of SPARQL</dd>
