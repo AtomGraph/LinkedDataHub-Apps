@@ -220,7 +220,7 @@
             to matches <code>GET</code> request (<code>DESCRIBE</code> and <code>CONSTRUCT</code> queries).</p>
         <p>Queries should define a special <code>?this</code> variable, which is bound to the absolute path of the matching
             request URI (i.e. without the query string) before execution. For example, if a template matched request with URI
-            <code>https://linkeddatahub.com/docs/?limit=20</code>, a variable binding <code>(?this, &lt;https://linkeddatahub.com/docs/&gt;)</code>
+            <code>https://linkeddatahub.com/linkeddatahub/docs/?limit=20</code>, a variable binding <code>(?this, &lt;https://linkeddatahub.com/linkeddatahub/docs/&gt;)</code>
             will be applied on the query of that template. Additional variable bindings can be introduced using template
             <a href="#parameters">parameters</a>.</p>
         <p>The query strings must follow SPARQL 1.1 syntax, otherwise you will not be able to store them.</p>
