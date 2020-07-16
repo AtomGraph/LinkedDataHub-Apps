@@ -8,7 +8,9 @@ The installation scripts in this repository use [LinkedDataHub's CLI scripts](ht
 
     export SCRIPT_ROOT=/c/Users/namedgraph/WebRoot/AtomGraph/LinkedDataHub/scripts
 
-## Documentation
+## Apps
+
+### Documentation
 
 <dl>
     <dt>Source</dt>
@@ -21,7 +23,7 @@ The installation scripts in this repository use [LinkedDataHub's CLI scripts](ht
 
 The documentation of LinkedDataHub open-source and Cloud versions.
 
-## City Graph
+### City Graph
 
 ![City Graph geospatial view](../../raw/master/demo/city-graph/screenshot.png "City Graph geospatial view")
 
@@ -43,7 +45,7 @@ Features:
 * [item template](../../blob/master/demo/city-graph/admin/sitemap/create-templates.sh)
     * [query](../../blob/master/demo/city-graph/admin/sitemap/queries/describe-place.rq) describes not only the requested resource, but also other resources with coordinates in a bounding box around it
 
-## Life sciences
+### Life sciences
 
 ![Life sciences ChEMBL chart](../../raw/master/demo/life-sciences/screenshot.png "Life sciences ChEMBL chart")
 
@@ -62,7 +64,7 @@ Browser over a collection of molecules as well as a bar chart rendered from a SP
 Features:
 * [chart](../../blob/master/demo/life-sciences/create-charts.sh)
 
-## SKOS
+### SKOS
 
 ![SKOS editor view](../../raw/master/demo/skos/screenshot.png "SKOS editor view")
 
