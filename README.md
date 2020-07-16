@@ -6,7 +6,7 @@ System, demo, and user-submitted applications built on LinkedDataHub. Completely
 
 The installation scripts in this repository use [LinkedDataHub's CLI scripts](https://linkeddatahub.com/linkeddatahub/docs/reference/command-line-interface/). You need to set `SCRIPT_ROOT` environmental variable to the [`scripts` subfolder](https://github.com/AtomGraph/LinkedDataHub/tree/master/scripts) of your LinkedDataHub fork or clone, for example:
 
-    export SCRIPT_ROOT=/c/Users/namedgraph/WebRoot/AtomGraph/LinkedDataHub/scripts
+    export SCRIPT_ROOT="/c/Users/namedgraph/WebRoot/AtomGraph/LinkedDataHub/scripts"
 
 ## Apps
 
