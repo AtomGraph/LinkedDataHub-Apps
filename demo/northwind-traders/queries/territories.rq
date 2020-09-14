@@ -14,7 +14,7 @@ CONSTRUCT
 {
   ?item a def:Item ;
       sioc:has_container ?this ;
-      dh:slug ?id ;
+      dh:slug ?territoryID ;
       dct:title ?name ;
       foaf:primaryTopic ?territory .
   ?territory a schema:City ;

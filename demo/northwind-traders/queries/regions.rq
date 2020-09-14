@@ -1,0 +1,27 @@
+PREFIX def:        <ns/default#>
+PREFIX dom:        <ns/domain#>
+PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
+PREFIX dct:        <http://purl.org/dc/terms/>
+PREFIX schema:     <https://schema.org/>
+PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy/domain#>
+PREFIX sioc:       <http://rdfs.org/sioc/ns#>
+
+CONSTRUCT
+{
+  ?item a def:Item ;
+      sioc:has_container ?this ;
+      dh:slug ?regionID ;
+      dct:title ?name ;
+      foaf:primaryTopic ?region .
+  ?region a schema:Place ;
+      foaf:isPrimaryTopicOf ?item ;
+      dct:title ?name ;
+      dct:identifier ?regionID.
+}
+WHERE
+{
+  BIND (BNODE() AS ?item)
+
+  ?region <#regionID> ?regionID ;
+             <#regionDescription> ?name.
+}
