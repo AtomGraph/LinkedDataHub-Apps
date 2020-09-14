@@ -129,8 +129,8 @@ WHERE {}</code></pre>
         <div>
             <h3 id="restrictions">Restrictions</h3>
             <p>Model ontologies can use <a href="https://www.w3.org/TR/owl2-primer/#Property_Restrictions" target="_blank">OWL property restrictions</a> to define relationships between model
-                classes and between classes and containers. LinkedDataHub's <a href="../../stylesheets/" target="_blank">use them</a> when rendering user interface.</p>
-            <p><samp>ObjectAllValuesFrom</samp> restrictions define which thing and document instances should be paired together in a dataspace (using <code>foaf:primaryTopic</code>/<code>foaf:isPrimaryTopicOf</code> properties).</p>
+                classes and between classes and containers. LinkedDataHub's XSLT stylesheets <a href="../../stylesheets/" target="_blank">use them</a> when rendering user interface. The skolemizer also uses them when skolemizing blank nodes in the request body.</p>
+            <p><samp>ObjectAllValuesFrom</samp> restrictions define which thing and document instances should be constructed and edited together (using the property which is the value of restriction's <samp>OnProperty</samp> to link them with each other). <code>foaf:primaryTopic</code>/<code>foaf:isPrimaryTopicOf</code> can be used to pair documents with abstract/physical things.</p>
             <p><samp>ObjectHasValue</samp> restrictions define which document instances should be stored in which container (using <code>sioc:has_container</code> property).</p>
         </div>
     </div>
