@@ -1,0 +1,29 @@
+PREFIX def:        <ns/default#>
+PREFIX dom:        <ns/domain#>
+PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
+PREFIX dct:        <http://purl.org/dc/terms/>
+PREFIX schema:     <https://schema.org/>
+PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy/domain#>
+PREFIX sioc:       <http://rdfs.org/sioc/ns#>
+
+CONSTRUCT
+{
+  ?item a def:Item ;
+      sioc:has_container ?this ;
+      dh:slug ?id ;
+      dct:title ?name ;
+      foaf:primaryTopic ?shipper .
+  ?shipper a schema:Corporation ;
+      foaf:isPrimaryTopicOf ?item ;
+      schema:legalName ?name ;
+      dct:identifier ?id ;
+      schema:telephone ?phone .
+}
+WHERE
+{
+  BIND (BNODE() AS ?item)
+
+  ?shipper <#shipperID> ?id ;
+      <#companyName> ?name ;
+      <#phone> ?phone .
+}
