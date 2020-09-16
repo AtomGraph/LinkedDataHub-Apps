@@ -10,18 +10,18 @@ CONSTRUCT
 {
   ?item a def:Item ;
       sioc:has_container ?this ;
-      dh:slug ?regionID ;
+      dh:slug ?id ;
       dct:title ?name ;
       foaf:primaryTopic ?region .
   ?region a schema:Place ;
       foaf:isPrimaryTopicOf ?item ;
       dct:title ?name ;
-      dct:identifier ?regionID.
+      schema:id ?id.
 }
 WHERE
 {
   BIND (BNODE() AS ?item)
 
-  ?region <#regionID> ?regionID ;
+  ?region <#regionID> ?id ;
              <#regionDescription> ?name.
 }

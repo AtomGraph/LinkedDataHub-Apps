@@ -15,7 +15,7 @@ CONSTRUCT
       foaf:primaryTopic ?supplier .
   ?supplier a schema:Corporation ;
       foaf:isPrimaryTopicOf ?item ;
-      dct:identifier ?id ;
+      schema:id ?id ;
       schema:legalName ?name ;
       schema:contactPoint [ schema:telephone ?phone ;
                             schema:faxNumber ?fax ;

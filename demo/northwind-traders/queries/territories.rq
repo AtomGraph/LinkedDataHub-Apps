@@ -20,7 +20,7 @@ CONSTRUCT
   ?territory a schema:City ;
       foaf:isPrimaryTopicOf ?item ;
       dct:title ?name ;
-      dct:identifier ?territoryID ;
+      schema:id ?territoryID ;
       schema:containedInPlace ?region .
 }
 WHERE
