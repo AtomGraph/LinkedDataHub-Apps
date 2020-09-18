@@ -16,24 +16,74 @@ pwd=$(realpath -s $PWD)
 
 pushd . && cd "$SCRIPT_ROOT"
 
-select_molecules=$(
+uniprot_container=$(./create-container.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Uniprot" \
+--slug "uniprot" \
+--parent "$base" \
+"$base"
+)
+
+# select_molecules=$(
+# ./create-select.sh  \
+# -b "$base" \
+# -f "$cert_pem_file" \
+# -p "$cert_password" \
+# --title "Molecules" \
+# --query-file "${pwd}/queries/chembl/select-molecules.rq" \
+# --service "${base}services/chembl/#this"
+# )
+# 
+# ./create-container.sh \
+# -b "$base" \
+# -f "$cert_pem_file" \
+# -p "$cert_password" \
+# --title "ChEMBL molecules" \
+# --slug "chembl-molecules" \
+# --select "${select_molecules}#this" \
+# --parent "$base" \
+# "$base"
+
+select_proteins=$(
 ./create-select.sh  \
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
---title "Molecules" \
---query-file "${pwd}/queries/select-molecules.rq" \
---endpoint https://www.ebi.ac.uk/rdf/services/sparql
+--title "Proteins" \
+--query-file "${pwd}/queries/uniprot/select-proteins.rq" \
+--service "${base}services/uniprot-enzymes/#this"
 )
 
 ./create-container.sh \
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
---title "ChEMBL molecules" \
---slug "chembl-molecules" \
---select "$select_molecules" \
---parent "$base" \
-"$base"
+--title "Proteins" \
+--slug "proteins" \
+--select "${select_proteins}#this" \
+--parent "$uniprot_container" \
+"$uniprot_container"
+
+select_genes=$(
+./create-select.sh  \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Proteins" \
+--query-file "${pwd}/queries/uniprot/select-genes.rq" \
+--service "${base}services/uniprot-enzymes/#this"
+)
+
+./create-container.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Genes" \
+--slug "genes" \
+--select "${select_genes}#this" \
+--parent "$uniprot_container" \
+"$uniprot_container"
 
 popd

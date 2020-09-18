@@ -16,25 +16,44 @@ pwd=$(realpath -s $PWD)
 
 pushd . && cd "$SCRIPT_ROOT"
 
+#query=$(
+#./create-select.sh  \
+#-b "$base" \
+#-f "$cert_pem_file" \
+#-p "$cert_password" \
+#--title "Molecule logp" \
+#--query-file "${pwd}/queries/chembl/molecule-logp.rq" \
+#--service "${base}/services/chembl/#this"
+#)
+#
+#./create-result-set-chart.sh \
+#-b "$base" \
+#-f "$cert_pem_file" \
+#-p "$cert_password" \
+#--title "Partition coefficients" \
+#--query "${query}#this" \
+#--chart-type https://w3id.org/atomgraph/client#BarChart \
+#--category-var-name "mol_name" \
+#--series-var-name "logp_val"
+
 query=$(
 ./create-select.sh  \
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
---title "Molecule logp" \
---query-file "${pwd}/queries/molecule-logp.rq" \
---endpoint https://www.ebi.ac.uk/rdf/services/sparql
+--title "Protein counts by organism" \
+--query-file "${pwd}/queries/uniprot/select-protein-count-by-organism.rq" \
+--service "${base}services/uniprot-enzymes/#this"
 )
 
 ./create-result-set-chart.sh \
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
---title "Partition coefficients" \
---endpoint https://www.ebi.ac.uk/rdf/services/sparql \
---query "$query" \
+--title "Protein counts by organism" \
+--query "${query}#this" \
 --chart-type https://w3id.org/atomgraph/client#BarChart \
---category-var-name "mol_name" \
---series-var-name "logp_val"
+--category-var-name "name" \
+--series-var-name "count"
 
 popd

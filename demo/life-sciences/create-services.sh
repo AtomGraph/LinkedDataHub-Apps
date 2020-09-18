@@ -16,12 +16,21 @@ pwd=$(realpath -s $PWD)
 
 pushd . && cd "$SCRIPT_ROOT"
 
-./create-generic-service.sh \
+#./create-generic-service.sh \
+#-b "$base" \
+#-f "$cert_pem_file" \
+#-p "$cert_password" \
+#--title "ChEMBL" \
+#--endpoint https://www.ebi.ac.uk/rdf/services/sparql \
+#--slug "chembl"
+
+./create-dydra-service.sh \
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
---title "ChEMBL" \
---endpoint https://www.ebi.ac.uk/rdf/services/sparql \
---slug "chembl"
+--title "Uniprot enzymes" \
+--repository https://atomgraph.dydra.com/life-sciences/uniprot-enzymes/ \
+--auth-token "zO1m7oDVRXgAc0nO9Twx" \
+--slug "uniprot-enzymes"
 
 popd

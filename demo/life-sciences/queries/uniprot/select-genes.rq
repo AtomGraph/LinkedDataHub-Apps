@@ -1,0 +1,9 @@
+PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX  up:   <http://purl.uniprot.org/core/>
+
+SELECT DISTINCT  ?gene
+WHERE
+  { ?gene  a                     up:Gene ;
+           skos:prefLabel        ?label
+  }
+ORDER BY ?label

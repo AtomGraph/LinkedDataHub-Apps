@@ -1,0 +1,10 @@
+PREFIX up: <http://purl.uniprot.org/core/>
+
+SELECT ?organism (SAMPLE(?scientificName) AS ?name) (COUNT(DISTINCT ?protein) AS ?count)
+{
+  ?protein a up:Protein ;
+    up:organism ?organism .
+  ?organism up:scientificName ?scientificName .
+}
+GROUP BY ?organism
+ORDER BY DESC(?count)
