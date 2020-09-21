@@ -1,0 +1,59 @@
+PREFIX def:        <ns/default#>
+PREFIX dom:        <ns/domain#>
+PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
+PREFIX dct:        <http://purl.org/dc/terms/>
+PREFIX schema:     <https://schema.org/>
+PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy/domain#>
+PREFIX sioc:       <http://rdfs.org/sioc/ns#>
+
+CONSTRUCT
+{
+  ?item a def:Item ;
+      sioc:has_container ?this ;
+      dh:slug ?id ;
+      dct:title ?name ;
+      foaf:primaryTopic ?order .
+  ?order foaf:isPrimaryTopicOf ?item ;
+      schema:id ?id ;
+      schema:customer ?customer ;
+      schema:employee ?employee ;
+      schema:orderDate ?orderDate ;
+      schema:expectedArrivalUntil ?requiredDate ;
+
+      ????? ?shippedDate ;
+      ????? ?freight ;
+      ????? ?shipper_name ;
+      ????? ?shipper ;
+
+      schema:deliveryAddress [ schema:addressCountry ?country ;
+                       schema:addressLocality ?city ;
+                       schema:postalCode ?postal_code ;
+                       schema:streetAddress ?address ;
+                       schema:location [ schema:name ?region ]] .
+}
+WHERE
+{
+  BIND (BNODE() AS ?item)
+
+  ?order <#orderID> ?id ;
+      <#customerID> ?customer_id ;
+      <#employeeID> ?employee_id ;
+      <#orderDate> ?order_date ;
+      <#requiredDate> ?required_date ;
+      <#shippedDate> ?shipped_date ;
+      <#shipVia> ?shipper_id ;
+      <#freight> ?freight ;
+      <#shipName> ?shipper_name ;
+      <#shipAddress> ?address ;
+      <#shipCity> ?city ;
+      <#shipRegion> ?region ;
+      <#shipPostalCode> ?postal_code ;
+      <#shipCountry> ?country .
+
+BIND(uri(concat(str(<employee/>), encode_for_uri(?employee_id))) AS ?employee)
+BIND(uri(concat(str(<customer/>), encode_for_uri(?customer_id))) AS ?customer)
+BIND(uri(concat(str(<shipper/>), encode_for_uri(?shipper_id))) AS ?shipper)
+BIND(STRDT(?order_date, xsd:dateTime) AS ?orderDate)
+BIND(STRDT(?required_date, xsd:dateTime) AS ?requiredDate)
+BIND(STRDT(?shipped_date, xsd:dateTime) AS ?shippedDate)
+}
