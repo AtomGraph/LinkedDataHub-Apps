@@ -40,10 +40,16 @@ WHERE
       <#contactTitle> ?contactTitle;
       <#address> ?address;
       <#city> ?city;
-      <#region> ?region;
       <#postalCode> ?postalCode;
       <#country> ?country;
-      <#phone> ?phone;
-      <#fax> ?fax;
-      <#homePage> ?homePage.
+      <#phone> ?phone.
+  OPTIONAL {
+    ?supplier <#region> ?region
+  }
+  OPTIONAL {
+    ?supplier <#fax> ?fax
+  }
+  OPTIONAL {
+    ?supplier <#homePage> ?homePage
+  }
 }

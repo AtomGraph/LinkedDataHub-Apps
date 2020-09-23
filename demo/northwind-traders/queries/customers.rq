@@ -39,9 +39,13 @@ WHERE
       <#contactTitle> ?contactTitle;
       <#address> ?address;
       <#city> ?city;
-      <#region> ?region;
       <#postalCode> ?postalCode;
       <#country> ?country;
-      <#phone> ?phone;
-      <#fax> ?fax.
+      <#phone> ?phone.
+  OPTIONAL {
+    ?customer <#region> ?region
+  }
+  OPTIONAL {
+    ?customer <#fax> ?fax
+  }
 }

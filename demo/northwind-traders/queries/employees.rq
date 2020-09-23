@@ -51,14 +51,17 @@ WHERE
       <#hireDate> ?hireDate;
       <#address> ?address;
       <#city> ?city;
-      <#region> ?region;
       <#postalCode> ?postalCode;
       <#country> ?country;
       <#homePhone> ?homephone;
       <#extension> ?extension;
       <#photo> ?picture;
-      <#notes> ?notes;
-      <#reportsTo> ?reports.
-
+      <#notes> ?notes.
+  OPTIONAL {
+    ?employee <#region> ?region
+  }
+  OPTIONAL {
+    ?employee <#reportsTo> ?reports
+  }
  BIND(uri(concat(str(<employee/>), encode_for_uri(?reports))) AS ?reportsTo)
 }

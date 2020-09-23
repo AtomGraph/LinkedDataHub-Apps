@@ -40,16 +40,19 @@ WHERE
       <#employeeID> ?employee_id ;
       <#orderDate> ?order_date ;
       <#requiredDate> ?required_date ;
-      <#shippedDate> ?shipped_date ;
       <#shipVia> ?shipper_id ;
       <#freight> ?freight ;
       <#shipName> ?shipper_name ;
       <#shipAddress> ?address ;
       <#shipCity> ?city ;
-      <#shipRegion> ?region ;
       <#shipPostalCode> ?postal_code ;
       <#shipCountry> ?country .
-
+  OPTIONAL {
+      ?order <#shippedDate> ?shipped_date
+  }
+  OPTIONAL {
+      ?order <#shipRegion> ?region
+  }
 BIND(uri(concat(str(<employee/>), encode_for_uri(?employee_id))) AS ?employee)
 BIND(uri(concat(str(<customer/>), encode_for_uri(?customer_id))) AS ?customer)
 BIND(uri(concat(str(<shipper/>), encode_for_uri(?shipper_id))) AS ?shipper)
