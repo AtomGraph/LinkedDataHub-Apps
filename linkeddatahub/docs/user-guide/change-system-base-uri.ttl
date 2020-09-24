@@ -36,4 +36,5 @@ ABS_PATH=/linkeddatahub/</pre>
             </div>
         </div>
     </div>
+    <p><a href="../manage-dataspaces/">Dataspace URIs</a> need to relative to the system base URI in order to be reachable.</p>
 </div>"""^^rdf:XMLLiteral .
