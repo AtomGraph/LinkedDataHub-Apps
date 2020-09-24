@@ -1,5 +1,4 @@
 PREFIX def:        <ns/default#>
-PREFIX dom:        <ns/domain#>
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
@@ -8,44 +7,54 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT
 {
-  ?item a def:Item ;
-      sioc:has_container ?this ;
-      dh:slug ?id ;
-      dct:title ?name ;
-      foaf:primaryTopic ?customer .
-  ?customer a schema:Corporation ;
-      foaf:isPrimaryTopicOf ?item ;
-      schema:id ?id ;
-      schema:legalName ?name ;
-      schema:contactPoint [ schema:telephone ?phone ;
-                            schema:faxNumber ?fax ] ;
-      schema:employee [ schema:name ?contactName ;
-                        schema:roleName ?contactTitle ;
-                        schema:telephone ?phone ;
-                        schema:faxNumber ?fax ] ;
-      schema:address [ schema:addressCountry ?country ;
-                       schema:addressLocality ?city ;
-                       schema:postalCode ?postalCode ;
-                       schema:streetAddress ?address ;
-                       schema:location [ schema:name ?region ]] .
+    ?item a def:Item ;
+        sioc:has_container ?this ;
+        dh:slug ?customerID ;
+        dct:title ?companyName ;
+        foaf:primaryTopic ?customer .
+    ?customer a schema:Corporation ;
+        foaf:isPrimaryTopicOf ?item ;
+        schema:id ?customerID ;
+        schema:legalName ?companyName ;
+        schema:contactPoint [
+            schema:telephone ?phone ;
+            schema:faxNumber ?fax
+        ] ;
+        schema:employee [
+            schema:name ?contactName ;
+            schema:roleName ?contactTitle ;
+            schema:telephone ?phone ;
+            schema:faxNumber ?fax
+        ] ;
+        schema:address [
+            schema:addressCountry ?country ;
+            schema:addressLocality ?city ;
+            schema:postalCode ?postalCode ;
+            schema:streetAddress ?address ;
+            schema:location [
+                schema:name ?region
+        ]
+    ] .
 }
 WHERE
 {
-  BIND (BNODE() AS ?item)
+    BIND (BNODE() AS ?item)
 
-  ?customer <#customerID> ?id ;
-      <#companyName> ?name ;
-      <#contactName> ?contactName;
-      <#contactTitle> ?contactTitle;
-      <#address> ?address;
-      <#city> ?city;
-      <#postalCode> ?postalCode;
-      <#country> ?country;
-      <#phone> ?phone.
-  OPTIONAL {
-    ?customer <#region> ?region
-  }
-  OPTIONAL {
-    ?customer <#fax> ?fax
-  }
+    ?customer_row <#customerID> ?customerID ;
+        <#companyName> ?companyName ;
+        <#contactName> ?contactName ;
+        <#contactTitle> ?contactTitle ;
+        <#address> ?address ;
+        <#city> ?city ;
+        <#postalCode> ?postalCode ;
+        <#country> ?country ;
+        <#phone> ?phone .
+    OPTIONAL {
+        ?customer_row <#region> ?region
+    }
+    OPTIONAL {
+        ?customer_row <#fax> ?fax
+    }
+
+    BIND(uri(concat(str(<customers/>), encode_for_uri(?customerID), "/#this")) AS ?customer)
 }

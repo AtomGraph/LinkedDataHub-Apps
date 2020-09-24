@@ -1,52 +1,53 @@
-PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
 PREFIX def:        <ns/default#>
-PREFIX dom:        <ns/domain#>
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
 PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy/domain#>
 PREFIX sioc:       <http://rdfs.org/sioc/ns#>
+PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
 
 CONSTRUCT
 {
-  ?product a def:Item ;
-      sioc:has_container ?this ;
-      dh:slug ?id ;
-      dct:title ?name ;
-      foaf:primaryTopic ?product .
-  ?product foaf:isPrimaryTopicOf ?item ;
-      schema:id ?id ;
-      dct:title ?name ;
-      schema:provider ?supplier ;
-      schema:category ?category ;
-      schema:description ?quantity_per_unit ;
-      schema:price ?unit_price ;
-      ?        ?units_in_stock ;
-      ?        ?units_on_order ;
-      ?        ?reorder_level ;
-      ?        ?discontinued_products .
+    ?item a def:Item ;
+        sioc:has_container ?this ;
+        dh:slug ?productID ;
+        dct:title ?productName ;
+        foaf:primaryTopic ?product .
+    ?product a schema:Product ;
+        foaf:isPrimaryTopicOf ?item ;
+        schema:id ?productID ;
+        schema:name ?productName ;
+        schema:provider ?supplier ;
+        schema:category ?category ;
+        schema:description ?quantityPerUnit ;
+        schema:price ?unitPrice .
+        # ?unitsInStock ;
+        # ?unitsOnOrder ;
+        # ?reorderLevel ;
+        # ?discontinued - schema:Discontinued
 }
 WHERE
 {
-  BIND (BNODE() AS ?item)
+    BIND (BNODE() AS ?item)
 
-  ?product <#productID> ?id ;
-      <#productName> ?name ;
-      <#supplierID> ?supplier_id ;
-      <#categoryID> ?category_id ;
-      <#quantityPerUnit> ?quantity_per_unit ;
-      <#unitPrice> ?unitPrice ;
-      <#unitsInStock> ?unitsInStock ;
-      <#unitsOnOrder> ?unitsOnOrder ;
-      <#reorderLevel> ?reorderLevel ;
-      <#discontinued> ?discontinued .
+    ?product_row <#productID> ?productID ;
+        <#productName> ?productName ;
+        <#supplierID> ?supplierID ;
+        <#categoryID> ?categoryID ;
+        <#quantityPerUnit> ?quantityPerUnit ;
+        <#unitPrice> ?unitPriceString ;
+        <#unitsInStock> ?unitsInStockString ;
+        <#unitsOnOrder> ?unitsOnOrderString ;
+        <#reorderLevel> ?reorderLevelString ;
+        <#discontinued> ?discontinuedString .
 
-BIND(uri(concat(str(<supplier/>), encode_for_uri(?supplier_id))) AS ?supplier)
-BIND(uri(concat(str(<category/>), encode_for_uri(?category_id))) AS ?category)
+    BIND(uri(concat(str(<products/>), encode_for_uri(?supplierID), "/#this")) AS ?product)
+    BIND(uri(concat(str(<suppliers/>), encode_for_uri(?supplierID), "/#this")) AS ?supplier)
+    BIND(uri(concat(str(<categories/>), encode_for_uri(?categoryID), "/#this")) AS ?category)
 
-BIND (STRDT(?unitPrice, xsd:float) AS ?price)
-BIND (STRDT(?unitsInStock, xsd:integer) AS ?units_in_stock)
-BIND (STRDT(?unitsOnOrder, xsd:integer) AS ?units_on_order)
-BIND (STRDT(?reorderLevel, xsd:integer) AS ?reorder_level)
-BIND (STRDT(?discontinued, xsd:integer) AS ?discontinued_products)
+    BIND (STRDT(?unitPriceString, xsd:float) AS ?unitPrice)
+    BIND (STRDT(?unitsInStockString, xsd:integer) AS ?unitsInStock)
+    BIND (STRDT(?unitsOnOrderString, xsd:integer) AS ?unitsOnOrder)
+    BIND (STRDT(?reorderLevelString, xsd:integer) AS ?reorderLevel)
+    BIND (STRDT(?discontinuedString, xsd:integer) AS ?discontinued)
 }

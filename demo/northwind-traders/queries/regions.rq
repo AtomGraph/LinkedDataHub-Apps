@@ -1,5 +1,4 @@
 PREFIX def:        <ns/default#>
-PREFIX dom:        <ns/domain#>
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
@@ -8,20 +7,22 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT
 {
-  ?item a def:Item ;
-      sioc:has_container ?this ;
-      dh:slug ?id ;
-      dct:title ?name ;
-      foaf:primaryTopic ?region .
-  ?region a schema:Place ;
-      foaf:isPrimaryTopicOf ?item ;
-      dct:title ?name ;
-      schema:id ?id.
+    ?item a def:Item ;
+        sioc:has_container ?this ;
+        dh:slug ?regionID ;
+        dct:title ?regionDescription ;
+        foaf:primaryTopic ?region .
+    ?region a schema:Place ;
+        foaf:isPrimaryTopicOf ?item ;
+        schema:name ?regionDescription ;
+        schema:id ?regionID .
 }
 WHERE
 {
-  BIND (BNODE() AS ?item)
+    BIND (BNODE() AS ?item)
 
-  ?region <#regionID> ?id ;
-             <#regionDescription> ?name.
+    ?region_row <#regionID> ?regionID ;
+        <#regionDescription> ?regionDescription.
+
+    BIND(uri(concat(str(<regions/>), encode_for_uri(?regionID), "/#this")) AS ?region)
 }

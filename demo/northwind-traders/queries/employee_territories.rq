@@ -1,20 +1,14 @@
-PREFIX def:        <ns/default#>
-PREFIX dom:        <ns/domain#>
-PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
-PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
-PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy/domain#>
-PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT
 {
-  ?employee schema:areaServed ?territory
+    ?employee schema:areaServed ?territory
 }
 WHERE
-{ ?employee_territory <#employeeID> ?id ;
-             <#territoryID> ?territory_id.
+{
+    ?employee_territory <#employeeID> ?employeeID ;
+        <#territoryID> ?territoryID .
 
-BIND(uri(concat(str(<employee/>), encode_for_uri(?id))) AS ?employee)
-BIND(uri(concat(str(<territory/>), encode_for_uri(?territory_id))) AS ?territory)
-
+    BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/#this")) AS ?employee)
+    BIND(uri(concat(str(<territories/>), encode_for_uri(?territoryID), "/#this")) AS ?territory)
 }

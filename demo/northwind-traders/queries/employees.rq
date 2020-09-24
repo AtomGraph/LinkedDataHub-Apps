@@ -1,67 +1,71 @@
 PREFIX def:        <ns/default#>
-PREFIX dom:        <ns/domain#>
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
 PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy/domain#>
 PREFIX sioc:       <http://rdfs.org/sioc/ns#>
+PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
 
 CONSTRUCT
 {
-  ?item a def:Item ;
-      sioc:has_container ?this ;
-      dh:slug ?id ;
-      dct:title ?lastName ;
-      foaf:primaryTopic ?employee .
-  ?employee foaf:isPrimaryTopicOf ?item ;
-      schema:id ?id ;
-      schema:givenName ?firstName ;
-      schema:familyName ?lastName;
-      schema:jobTitle ?title;
-
-      ?titleOfCourtesy
-
-      schema:birthDate ?birthDate;
-
-      ?hireDate
-
-      ?reports
-
-      schema:address [ schema:addressCountry ?country ;
-                       schema:addressLocality ?city ;
-                       schema:postalCode ?postalCode ;
-                       schema:streetAddress ?address ;
-                       schema:location [ schema:name ?region ]] ;
-      schema:telephone ?homePhone;
-      schema:telephone ?extension;
-      schema:image ?picture;
-      dct:description ?notes.
+    ?item a def:Item ;
+        sioc:has_container ?this ;
+        dh:slug ?employeeID ;
+        dct:title ?lastName ;
+        foaf:primaryTopic ?employee .
+    ?employee a schema:Person ;
+        foaf:isPrimaryTopicOf ?item ;
+        schema:id ?employeeID ;
+        schema:givenName ?firstName ;
+        schema:familyName ?lastName ;
+        schema:jobTitle ?title ;
+        schema:honorificPrefix  ?titleOfCourtesy ;
+        schema:birthDate ?birthDate;
+        # ?hireDate
+        schema:address [
+            schema:addressCountry ?country ;
+            schema:addressLocality ?city ;
+            schema:postalCode ?postalCode ;
+            schema:streetAddress ?address ;
+            schema:location [
+                schema:name ?region
+            ]
+        ] ;
+        schema:telephone ?homePhone ;
+        schema:telephone ?extension ;
+        schema:image ?picture ;
+        schema:description ?notes ;
+        schema:sponsor ?reportsToEmployee .
 
 }
 WHERE
 {
-  BIND (BNODE() AS ?item)
+    BIND (BNODE() AS ?item)
 
-  ?employee <#employeeID> ?id ;
-      <#lastName> ?lastName ;
-      <#firstName> ?firstName;
-      <#title> ?title;
-      <#titleOfCourtesy> ?titleOfCourtesy;
-      <#birthDate> ?birthDate;
-      <#hireDate> ?hireDate;
-      <#address> ?address;
-      <#city> ?city;
-      <#postalCode> ?postalCode;
-      <#country> ?country;
-      <#homePhone> ?homephone;
-      <#extension> ?extension;
-      <#photo> ?picture;
-      <#notes> ?notes.
-  OPTIONAL {
-    ?employee <#region> ?region
-  }
-  OPTIONAL {
-    ?employee <#reportsTo> ?reports
-  }
- BIND(uri(concat(str(<employee/>), encode_for_uri(?reports))) AS ?reportsTo)
+    ?employee_row <#employeeID> ?employeeID ;
+        <#lastName> ?lastName ;
+        <#firstName> ?firstName ;
+        <#title> ?title ;
+        <#titleOfCourtesy> ?titleOfCourtesy ;
+        <#birthDate> ?birthDateString ;
+        <#hireDate> ?hireDateString ;
+        <#address> ?address ;
+        <#city> ?city ;
+        <#postalCode> ?postalCode ;
+        <#country> ?country ;
+        <#homePhone> ?homePhone ;
+        <#extension> ?extension ;
+        <#photo> ?picture ;
+        <#notes> ?notes .
+    OPTIONAL {
+        ?employee_row <#region> ?region
+    }
+    OPTIONAL {
+        ?employee_row <#reportsTo> ?reportsTo
+    }
+
+    BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/#this")) AS ?employee)
+    BIND (strdt(substr(?birthDateString, 1, 10), xsd:date) AS ?birthDate)
+    BIND (strdt(substr(?hireDateString, 1, 10), xsd:date) AS ?hireDate)
+    BIND(uri(concat(str(<employees/>), encode_for_uri(?reportsTo), "/#this")) AS ?reportsToEmployee)
 }
