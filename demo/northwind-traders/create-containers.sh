@@ -29,7 +29,7 @@ pushd . && cd "$SCRIPT_ROOT"
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Customers" \
---slug "custoemrs" \
+--slug "customers" \
 --parent "$base" \
 "$base"
 
