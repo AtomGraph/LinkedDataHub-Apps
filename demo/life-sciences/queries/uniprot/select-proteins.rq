@@ -4,6 +4,8 @@ PREFIX  up:   <http://purl.uniprot.org/core/>
 SELECT DISTINCT  ?protein
 WHERE
   { ?protein  a                     up:Protein ;
+              up:organism           ?taxon ;
+              up:encodedBy          ?gene ;
               rdfs:label            ?label
   }
 ORDER BY ?label
