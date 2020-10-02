@@ -41,7 +41,7 @@ WHERE
         <#reorderLevel> ?reorderLevelString ;
         <#discontinued> ?discontinuedString .
 
-    BIND(uri(concat(str(<products/>), encode_for_uri(?supplierID), "/#this")) AS ?product)
+    BIND(uri(concat(str(<products/>), encode_for_uri(?productID), "/#this")) AS ?product)
     BIND(uri(concat(str(<suppliers/>), encode_for_uri(?supplierID), "/#this")) AS ?supplier)
     BIND(uri(concat(str(<categories/>), encode_for_uri(?categoryID), "/#this")) AS ?category)
 
