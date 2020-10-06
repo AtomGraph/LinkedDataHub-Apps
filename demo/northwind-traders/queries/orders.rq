@@ -1,5 +1,4 @@
 PREFIX def:        <ns/default#>
-PREFIX dom:        <ns/domain#>
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
@@ -17,6 +16,7 @@ CONSTRUCT
     ?order a schema:Order ;
         foaf:isPrimaryTopicOf ?item ;
         schema:id ?orderID ;
+        dct:title ?orderID ;
         schema:customer ?customer ;
         schema:broker ?employee ;
         schema:orderDate ?orderDate ;
@@ -68,6 +68,6 @@ WHERE
     BIND(uri(concat(str(<shippers/>), encode_for_uri(?shipVia), "/#this")) AS ?shipper)
     BIND(strdt(substr(?orderDateString, 1, 10), xsd:date) AS ?orderDate)
     BIND(strdt(substr(?requiredDateString, 1, 10), xsd:date) AS ?requiredDate)
-    BIND(STRDT(?freightString, xsd:float) AS ?freight)
+    BIND(strdt(?freightString, xsd:float) AS ?freight)
     BIND(strdt(substr(?shippedDateString, 1, 10), xsd:date) AS ?shippedDate)
 }

@@ -14,6 +14,7 @@ CONSTRUCT
         foaf:primaryTopic ?shipper .
     ?shipper a schema:Corporation ;
         foaf:isPrimaryTopicOf ?item ;
+        dct:title ?companyName ;
         schema:legalName ?companyName ;
         schema:id ?shipperID ;
         schema:telephone ?phone .

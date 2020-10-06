@@ -14,6 +14,7 @@ CONSTRUCT
       foaf:primaryTopic ?category .
   ?category a schema:ProductGroup ;
       foaf:isPrimaryTopicOf ?item ;
+      dct:title ?categoryName ;
       schema:name ?categoryName ;
       schema:id ?categoryID ;
       schema:description ?description .

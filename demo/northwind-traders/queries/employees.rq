@@ -16,6 +16,7 @@ CONSTRUCT
     ?employee a schema:Person ;
         foaf:isPrimaryTopicOf ?item ;
         schema:id ?employeeID ;
+        dct:title ?lastName ;
         schema:givenName ?firstName ;
         schema:familyName ?lastName ;
         schema:jobTitle ?title ;
@@ -33,7 +34,6 @@ CONSTRUCT
         ] ;
         schema:telephone ?homePhone ;
         schema:telephone ?extension ;
-        schema:image ?picture ;
         schema:description ?notes ;
         schema:sponsor ?reportsToEmployee .
 

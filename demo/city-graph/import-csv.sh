@@ -18,7 +18,7 @@ pwd=$(realpath -s "$PWD")
 pushd . && cd "$SCRIPT_ROOT"/imports
 
 ./import-csv.sh \
--b $base \
+-b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Places" \
@@ -27,7 +27,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 --action "${base}copenhagen/places/"
 
 ./import-csv.sh \
--b $base \
+-b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Bicycle parkings" \
@@ -36,7 +36,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 --action "${base}copenhagen/bicycle-parkings/"
 
 ./import-csv.sh \
--b $base \
+-b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Electric car chargers" \
@@ -45,7 +45,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 --action "${base}copenhagen/charging-stations/"
 
 ./import-csv.sh \
--b $base \
+-b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Libraries" \
@@ -54,7 +54,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 --action "${base}copenhagen/libraries/"
 
 ./import-csv.sh \
--b $base \
+-b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Parking facilities" \
@@ -63,7 +63,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 --action "${base}copenhagen/parking-facilities/"
 
 ./import-csv.sh \
--b $base \
+-b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Playgrounds" \
@@ -72,7 +72,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 --action "${base}copenhagen/playgrounds/"
 
 ./import-csv.sh \
--b $base \
+-b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Schools" \
@@ -81,7 +81,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 --action "${base}copenhagen/schools/"
 
 ./import-csv.sh \
--b $base \
+-b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Sports centers" \
@@ -90,7 +90,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 --action "${base}copenhagen/sports-centers/"
 
 ./import-csv.sh \
--b $base \
+-b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Public toilets" \
@@ -99,7 +99,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 --action "${base}copenhagen/public-toilets/"
 
 ./import-csv.sh \
--b $base \
+-b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Denmark postal areas" \

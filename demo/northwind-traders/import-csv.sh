@@ -57,6 +57,15 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--title "Order detaisl" \
+--query-file "$pwd/queries/order_details.rq" \
+--file "$pwd/files/order_details.csv" \
+--action "${base}orders/"
+
+./import-csv.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
 --title "Products" \
 --query-file "$pwd/queries/products.rq" \
 --file "$pwd/files/products.csv" \

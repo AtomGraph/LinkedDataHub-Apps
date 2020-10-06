@@ -14,6 +14,7 @@ CONSTRUCT
         foaf:primaryTopic ?territory .
     ?territory a schema:City ;
         foaf:isPrimaryTopicOf ?item ;
+        dct:title ?territoryDescription ;
         schema:name ?territoryDescription ;
         schema:id ?territoryID ;
         schema:containedInPlace ?region .

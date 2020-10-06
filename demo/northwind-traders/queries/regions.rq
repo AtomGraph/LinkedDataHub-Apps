@@ -14,6 +14,7 @@ CONSTRUCT
         foaf:primaryTopic ?region .
     ?region a schema:Place ;
         foaf:isPrimaryTopicOf ?item ;
+        dct:title ?regionDescription ;
         schema:name ?regionDescription ;
         schema:id ?regionID .
 }

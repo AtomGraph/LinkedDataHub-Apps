@@ -15,6 +15,7 @@ CONSTRUCT
     ?customer a schema:Corporation ;
         foaf:isPrimaryTopicOf ?item ;
         schema:id ?customerID ;
+        dct:title ?companyName ;
         schema:legalName ?companyName ;
         schema:contactPoint [
             schema:telephone ?phone ;
