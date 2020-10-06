@@ -15,7 +15,7 @@ CONSTRUCT
         foaf:primaryTopic ?employee .
     ?employee a schema:Person ;
         foaf:isPrimaryTopicOf ?item ;
-        schema:id ?employeeID ;
+        schema:identifier ?employeeID ;
         dct:title ?lastName ;
         schema:givenName ?firstName ;
         schema:familyName ?lastName ;

@@ -15,7 +15,7 @@ CONSTRUCT
         foaf:primaryTopic ?order .
     ?order a schema:Order ;
         foaf:isPrimaryTopicOf ?item ;
-        schema:id ?orderID ;
+        schema:identifier ?orderID ;
         dct:title ?orderID ;
         schema:customer ?customer ;
         schema:broker ?employee ;

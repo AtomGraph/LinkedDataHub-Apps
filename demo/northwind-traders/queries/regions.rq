@@ -16,7 +16,7 @@ CONSTRUCT
         foaf:isPrimaryTopicOf ?item ;
         dct:title ?regionDescription ;
         schema:name ?regionDescription ;
-        schema:id ?regionID .
+        schema:identifier ?regionID .
 }
 WHERE
 {

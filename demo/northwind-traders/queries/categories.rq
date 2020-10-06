@@ -16,7 +16,7 @@ CONSTRUCT
       foaf:isPrimaryTopicOf ?item ;
       dct:title ?categoryName ;
       schema:name ?categoryName ;
-      schema:id ?categoryID ;
+      schema:identifier ?categoryID ;
       schema:description ?description .
 }
 WHERE

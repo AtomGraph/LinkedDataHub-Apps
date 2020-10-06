@@ -16,7 +16,7 @@ CONSTRUCT
         foaf:isPrimaryTopicOf ?item ;
         dct:title ?companyName ;
         schema:legalName ?companyName ;
-        schema:id ?shipperID ;
+        schema:identifier ?shipperID ;
         schema:telephone ?phone .
 }
 WHERE

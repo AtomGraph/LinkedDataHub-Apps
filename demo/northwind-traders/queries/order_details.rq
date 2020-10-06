@@ -10,21 +10,28 @@ CONSTRUCT
 {
     ?item a def:Item ;
         sioc:has_container ?this ;
-        dh:slug ?id ;
+        dh:slug ?orderID ;
         dct:title ?name ;
         foaf:primaryTopic ?order .
     ?order foaf:isPrimaryTopicOf ?item ;
-        schema:id ?id ;
-        schema:itemShipped ?product ;
-        schema:price ?price ;
-        schema:value ?quantity ;
-        schema:discount ?discount .
+        schema:orderedItem ?order_item ;
+        schema:orderDelivery ?delivery .
+    ?delivery a schema:ParcelDelivery ;
+        schema:itemShipped ?product .
+    ?order_item a schema:OrderItem ;
+        schema:orderedItem ?product ;
+        schema:orderQuantity ?quantity ;
+        schema:orderDelivery ?delivery .
+        # ?price ;
+        # ?discount .
 }
 WHERE
 {
     BIND (BNODE() AS ?item)
+    BIND (BNODE() AS ?order_item)
+    BIND (BNODE() AS ?delivery)
 
-    ?order_row <#orderID> ?orderID ;
+    ?order_detail_row <#orderID> ?orderID ;
         <#productID> ?productID ;
         <#unitPrice> ?unitPrice ;
         <#quantity> ?quantityString ;

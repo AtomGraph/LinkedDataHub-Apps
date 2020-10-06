@@ -14,7 +14,7 @@ CONSTRUCT
         foaf:primaryTopic ?supplier .
     ?supplier a schema:Corporation ;
         foaf:isPrimaryTopicOf ?item ;
-        schema:id ?supplierID ;
+        schema:identifier ?supplierID ;
         dct:title ?companyName ;
         schema:legalName ?companyName ;
         schema:contactPoint [

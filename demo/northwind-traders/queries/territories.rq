@@ -16,7 +16,7 @@ CONSTRUCT
         foaf:isPrimaryTopicOf ?item ;
         dct:title ?territoryDescription ;
         schema:name ?territoryDescription ;
-        schema:id ?territoryID ;
+        schema:identifier ?territoryID ;
         schema:containedInPlace ?region .
 }
 WHERE

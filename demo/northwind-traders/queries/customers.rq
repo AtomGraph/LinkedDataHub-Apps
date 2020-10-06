@@ -14,7 +14,7 @@ CONSTRUCT
         foaf:primaryTopic ?customer .
     ?customer a schema:Corporation ;
         foaf:isPrimaryTopicOf ?item ;
-        schema:id ?customerID ;
+        schema:identifier ?customerID ;
         dct:title ?companyName ;
         schema:legalName ?companyName ;
         schema:contactPoint [

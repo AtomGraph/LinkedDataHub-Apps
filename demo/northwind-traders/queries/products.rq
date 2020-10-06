@@ -15,7 +15,7 @@ CONSTRUCT
         foaf:primaryTopic ?product .
     ?product a schema:Product ;
         foaf:isPrimaryTopicOf ?item ;
-        schema:id ?productID ;
+        schema:identifier ?productID ;
         dct:title ?productName ;
         schema:name ?productName ;
         schema:provider ?supplier ;
