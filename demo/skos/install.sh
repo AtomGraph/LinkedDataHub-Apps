@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$#" -ne 3 ]; then
-  echo "Usage:   $0" '$base $cert_pem_file $cert_password' >&2
+  echo "Usage:   $0 $base $cert_pem_file $cert_password" >&2
   echo "Example: $0" 'https://localhost:4443/ ../../../LinkedDataHub/certs/owner.p12.pem Password' >&2
   echo "Note: special characters such as $ need to be escaped in passwords!" >&2
   exit 1
@@ -73,3 +73,7 @@ find "${pwd}/files" -type f -exec ./upload-file.sh "${base}" "${cert_pem_file}" 
 printf "\n### Creating containers\n\n"
 
 ./create-containers.sh "$base" "$cert_pem_file" "$cert_password"
+
+printf "\n### Importing SKOS vocabulary\n\n"
+
+./import-rdf.sh "$base" "$cert_pem_file" "$cert_password"

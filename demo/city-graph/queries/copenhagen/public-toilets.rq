@@ -27,7 +27,8 @@ CONSTRUCT
         schema:location ?location ;
         schema:comment ?comment ;
         schema:openingHours ?openingHours ;
-        dct:identifier ?id .
+        dct:identifier ?id ;
+        dct:title ?name .
 }
 WHERE
 {
