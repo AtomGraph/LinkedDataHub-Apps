@@ -1,0 +1,73 @@
+PREFIX def:        <ns/default#>
+PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
+PREFIX dct:        <http://purl.org/dc/terms/>
+PREFIX schema:     <https://schema.org/>
+PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy/domain#>
+PREFIX sioc:       <http://rdfs.org/sioc/ns#>
+PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
+
+CONSTRUCT
+{
+    ?item a def:Item ;
+        sioc:has_container ?this ;
+        dh:slug ?orderID ;
+        dct:title ?orderID ;
+        foaf:primaryTopic ?order .
+    ?order a schema:Order ;
+        foaf:isPrimaryTopicOf ?item ;
+        schema:identifier ?orderID ;
+        dct:title ?orderID ;
+        schema:customer ?customer ;
+        schema:broker ?employee ;
+        schema:orderDate ?orderDate ;
+        schema:orderDelivery [
+            a schema:ParcelDelivery ;
+            schema:expectedArrivalUntil ?requiredDate ;
+            # ?shippedDate ;
+            schema:deliveryAddress [
+                schema:addressCountry ?shipCountry ;
+                schema:addressLocality ?shipCity ;
+                schema:postalCode ?shipPostalCode ;
+                schema:streetAddress ?shipAddress ;
+                schema:location [
+                    schema:name ?shipRegion
+                ]
+            ] ;
+            schema:provider ?shipper
+        ] ;
+        schema:customer [
+            schema:name ?shipName
+        ] .
+}
+WHERE
+{
+    BIND (BNODE() AS ?item)
+
+    ?order_row <#orderID> ?orderID ;
+        <#customerID> ?customerID ;
+        <#employeeID> ?employeeID ;
+        <#orderDate> ?orderDateString ;
+        <#requiredDate> ?requiredDateString ;
+        <#shipVia> ?shipVia ;
+        <#freight> ?freightString ;
+        <#shipName> ?shipName ;
+        <#shipAddress> ?shipAddress ;
+        <#shipCity> ?shipCity ;
+        <#shipPostalCode> ?shipPostalCode ;
+        <#shipCountry> ?shipCountry .
+    OPTIONAL {
+        ?order_row <#shippedDate> ?shippedDateString
+    }
+    OPTIONAL {
+        ?order_row <#shipRegion> ?shipRegion
+    }
+
+    BIND(uri(concat(str(<orders/>), encode_for_uri(?orderID), "/#this")) AS ?order)
+    BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/#this")) AS ?employee)
+    BIND(uri(concat(str(<customers/>), encode_for_uri(?customerID), "/#this")) AS ?customer)
+    BIND(uri(concat(str(<shippers/>), encode_for_uri(?shipVia), "/#this")) AS ?shipper)
+    BIND(strdt(substr(?orderDateString, 1, 10), xsd:date) AS ?orderDate)
+    BIND(strdt(substr(?requiredDateString, 1, 10), xsd:date) AS ?requiredDate)
+    BIND(strdt(?freightString, xsd:float) AS ?freight)
+    BIND(strdt(substr(?shippedDateString, 1, 10), xsd:date) AS ?shippedDate)
+}

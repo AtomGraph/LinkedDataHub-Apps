@@ -1,0 +1,65 @@
+PREFIX def:        <ns/default#>
+PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
+PREFIX dct:        <http://purl.org/dc/terms/>
+PREFIX schema:     <https://schema.org/>
+PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy/domain#>
+PREFIX sioc:       <http://rdfs.org/sioc/ns#>
+
+CONSTRUCT
+{
+    ?item a def:Item ;
+        sioc:has_container ?this ;
+        dh:slug ?supplierID ;
+        dct:title ?companyName ;
+        foaf:primaryTopic ?supplier .
+    ?supplier a schema:Corporation ;
+        foaf:isPrimaryTopicOf ?item ;
+        schema:identifier ?supplierID ;
+        dct:title ?companyName ;
+        schema:legalName ?companyName ;
+        schema:contactPoint [
+            schema:telephone ?phone ;
+            schema:faxNumber ?fax ;
+            schema:url ?homePage
+        ] ;
+        schema:employee [
+            schema:name ?contactName ;
+            schema:roleName ?contactTitle ;
+            schema:telephone ?phone ;
+            schema:faxNumber ?fax
+        ] ;
+        schema:address [
+            schema:addressCountry ?country ;
+            schema:addressLocality ?city ;
+            schema:postalCode ?postalCode ;
+            schema:streetAddress ?address ;
+            schema:location [
+                schema:name ?region
+            ]
+        ] .
+}
+WHERE
+{
+    BIND (BNODE() AS ?item)
+
+    ?supplier_row <#supplierID> ?supplierID ;
+        <#companyName> ?companyName ;
+        <#contactName> ?contactName ;
+        <#contactTitle> ?contactTitle ;
+        <#address> ?address ;
+        <#city> ?city ;
+        <#postalCode> ?postalCode ;
+        <#country> ?country ;
+        <#phone> ?phone .
+    OPTIONAL {
+        ?supplier_row <#region> ?region
+    }
+    OPTIONAL {
+        ?supplier_row <#fax> ?fax
+    }
+    OPTIONAL {
+        ?supplier_row <#homePage> ?homePage
+    }
+
+    BIND(uri(concat(str(<suppliers/>), encode_for_uri(?supplierID), "/#this")) AS ?supplier)
+}

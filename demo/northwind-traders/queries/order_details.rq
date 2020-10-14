@@ -1,0 +1,45 @@
+PREFIX def:        <ns/default#>
+PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
+PREFIX dct:        <http://purl.org/dc/terms/>
+PREFIX schema:     <https://schema.org/>
+PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy/domain#>
+PREFIX sioc:       <http://rdfs.org/sioc/ns#>
+PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
+
+CONSTRUCT
+{
+    ?item a def:Item ;
+        sioc:has_container ?this ;
+        dh:slug ?orderID ;
+        dct:title ?orderID ;
+        foaf:primaryTopic ?order .
+    ?order foaf:isPrimaryTopicOf ?item ;
+        schema:orderedItem ?order_item ;
+        schema:orderDelivery ?delivery .
+    ?delivery a schema:ParcelDelivery ;
+        schema:itemShipped ?product .
+    ?order_item a schema:OrderItem ;
+        schema:orderedItem ?product ;
+        schema:orderQuantity ?quantity ;
+        schema:orderDelivery ?delivery .
+        # ?price ;
+        # ?discount .
+}
+WHERE
+{
+    BIND (BNODE() AS ?item)
+    BIND (BNODE() AS ?order_item)
+    BIND (BNODE() AS ?delivery)
+
+    ?order_detail_row <#orderID> ?orderID ;
+        <#productID> ?productID ;
+        <#unitPrice> ?unitPrice ;
+        <#quantity> ?quantityString ;
+        <#discount> ?discountString .
+
+    BIND(uri(concat(str(<orders/>), encode_for_uri(?orderID), "/#this")) AS ?order)
+    BIND(uri(concat(str(<products/>), encode_for_uri(?productID), "/#this")) AS ?product)
+    BIND (STRDT(?unitPrice, xsd:float) AS ?price)
+    BIND (STRDT(?quantityString, xsd:integer) AS ?quantity)
+    BIND (STRDT(?discountString, xsd:float) AS ?discount)
+}
