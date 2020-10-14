@@ -11,7 +11,7 @@ CONSTRUCT
     ?item a def:Item ;
         sioc:has_container ?this ;
         dh:slug ?orderID ;
-        dct:title ?name ;
+        dct:title ?orderID ;
         foaf:primaryTopic ?order .
     ?order foaf:isPrimaryTopicOf ?item ;
         schema:orderedItem ?order_item ;
