@@ -12,35 +12,36 @@ CONSTRUCT
         dh:slug ?customerID ;
         dct:title ?companyName ;
         foaf:primaryTopic ?customer .
+
     ?customer a schema:Corporation ;
         foaf:isPrimaryTopicOf ?item ;
         schema:identifier ?customerID ;
         dct:title ?companyName ;
         schema:legalName ?companyName ;
-        schema:contactPoint [
-            schema:telephone ?phone ;
-            schema:faxNumber ?fax
-        ] ;
-        schema:employee [
-            schema:name ?contactName ;
-            schema:roleName ?contactTitle ;
-            schema:telephone ?phone ;
-            schema:faxNumber ?fax
-        ] ;
-        schema:address [
-            schema:addressCountry ?country ;
-            schema:addressLocality ?city ;
-            schema:postalCode ?postalCode ;
-            schema:streetAddress ?address ;
-            schema:location [
-                schema:name ?region
-        ]
-    ] .
+        schema:contactPoint ?contactPoint ;
+        schema:employee ?employee ;
+        schema:address ?postalAddress .
+
+    ?contactPoint a schema:ContactPoint ;
+        schema:telephone ?phone ;
+        schema:faxNumber ?fax .
+
+    ?employee a schema:Person ;
+        schema:name ?contactName ;
+        dct:title ?contactName ;
+        schema:jobTitle ?contactTitle ;
+        schema:telephone ?phone ;
+        schema:faxNumber ?fax .
+
+    ?postalAddress a schema:PostalAddress ;
+        schema:addressCountry ?country ;
+        schema:addressLocality ?city ;
+        schema:postalCode ?postalCode ;
+        schema:streetAddress ?address ;
+        schema:addressRegion ?region .
 }
 WHERE
 {
-    BIND (BNODE() AS ?item)
-
     ?customer_row <#customerID> ?customerID ;
         <#companyName> ?companyName ;
         <#contactName> ?contactName ;
@@ -57,5 +58,9 @@ WHERE
         ?customer_row <#fax> ?fax
     }
 
+    BIND(uri(concat(str(<customers/>), encode_for_uri(?customerID), "/")) AS ?item)
     BIND(uri(concat(str(<customers/>), encode_for_uri(?customerID), "/#this")) AS ?customer)
+    BIND(uri(concat(str(<customers/>), encode_for_uri(?customerID), "/#contact-point")) AS ?contactPoint)
+    BIND(uri(concat(str(<customers/>), encode_for_uri(?customerID), "/#employee")) AS ?employee)
+    BIND(uri(concat(str(<customers/>), encode_for_uri(?customerID), "/#postal-address")) AS ?postalAddress)
 }

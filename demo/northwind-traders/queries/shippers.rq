@@ -12,6 +12,7 @@ CONSTRUCT
         dh:slug ?shipperID ;
         dct:title ?companyName ;
         foaf:primaryTopic ?shipper .
+
     ?shipper a schema:Corporation ;
         foaf:isPrimaryTopicOf ?item ;
         dct:title ?companyName ;
@@ -21,11 +22,10 @@ CONSTRUCT
 }
 WHERE
 {
-    BIND (BNODE() AS ?item)
-
     ?shipper_row <#shipperID> ?shipperID ;
         <#companyName> ?companyName ;
         <#phone> ?phone .
 
+    BIND(uri(concat(str(<shippers/>), encode_for_uri(?shipperID), "/")) AS ?item)
     BIND(uri(concat(str(<shippers/>), encode_for_uri(?shipperID), "/#this")) AS ?shipper)
 }

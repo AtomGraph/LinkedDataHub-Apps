@@ -12,36 +12,37 @@ CONSTRUCT
         dh:slug ?supplierID ;
         dct:title ?companyName ;
         foaf:primaryTopic ?supplier .
+
     ?supplier a schema:Corporation ;
         foaf:isPrimaryTopicOf ?item ;
         schema:identifier ?supplierID ;
         dct:title ?companyName ;
         schema:legalName ?companyName ;
-        schema:contactPoint [
-            schema:telephone ?phone ;
-            schema:faxNumber ?fax ;
-            schema:url ?homePage
-        ] ;
-        schema:employee [
-            schema:name ?contactName ;
-            schema:roleName ?contactTitle ;
-            schema:telephone ?phone ;
-            schema:faxNumber ?fax
-        ] ;
-        schema:address [
-            schema:addressCountry ?country ;
-            schema:addressLocality ?city ;
-            schema:postalCode ?postalCode ;
-            schema:streetAddress ?address ;
-            schema:location [
-                schema:name ?region
-            ]
-        ] .
+        schema:contactPoint ?contactPoint ;
+        schema:employee ?employee ;
+        schema:address ?postalAddress .
+
+    ?contactPoint a schema:ContactPoint ;
+        schema:telephone ?phone ;
+        schema:faxNumber ?fax ;
+        schema:url ?homePage .
+
+    ?employee a schema:Person ;
+        schema:name ?contactName ;
+        dct:title ?contactName ;
+        schema:jobTitle ?contactTitle ;
+        schema:telephone ?phone ;
+        schema:faxNumber ?fax .
+
+    ?postalAddress a schema:PostalAddress ;
+        schema:addressCountry ?country ;
+        schema:addressLocality ?city ;
+        schema:postalCode ?postalCode ;
+        schema:streetAddress ?address ;
+        schema:addressRegion ?region .
 }
 WHERE
 {
-    BIND (BNODE() AS ?item)
-
     ?supplier_row <#supplierID> ?supplierID ;
         <#companyName> ?companyName ;
         <#contactName> ?contactName ;
@@ -61,5 +62,10 @@ WHERE
         ?supplier_row <#homePage> ?homePage
     }
 
+    BIND(uri(concat(str(<suppliers/>), encode_for_uri(?supplierID), "/")) AS ?item)
     BIND(uri(concat(str(<suppliers/>), encode_for_uri(?supplierID), "/#this")) AS ?supplier)
+    BIND(uri(concat(str(<suppliers/>), encode_for_uri(?supplierID), "/#contact-point")) AS ?contactPoint)
+    BIND(uri(concat(str(<suppliers/>), encode_for_uri(?supplierID), "/#employee")) AS ?employee)
+    BIND(uri(concat(str(<suppliers/>), encode_for_uri(?supplierID), "/#postal-address")) AS ?postalAddress)
+
 }

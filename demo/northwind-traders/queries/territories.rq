@@ -12,6 +12,7 @@ CONSTRUCT
         dh:slug ?territoryID ;
         dct:title ?territoryDescription ;
         foaf:primaryTopic ?territory .
+
     ?territory a schema:City ;
         foaf:isPrimaryTopicOf ?item ;
         dct:title ?territoryDescription ;
@@ -21,12 +22,11 @@ CONSTRUCT
 }
 WHERE
 {
-    BIND (BNODE() AS ?item)
-
     ?territory_row <#territoryID> ?territoryID ;
         <#territoryDescription> ?territoryDescription ;
         <#regionID> ?regionID .
 
+    BIND(uri(concat(str(<territories/>), encode_for_uri(?territoryID), "/")) AS ?item)
     BIND(uri(concat(str(<territories/>), encode_for_uri(?territoryID), "/#this")) AS ?territory)
     BIND(uri(concat(str(<regions/>), encode_for_uri(?regionID), "/#this")) AS ?region)
 }

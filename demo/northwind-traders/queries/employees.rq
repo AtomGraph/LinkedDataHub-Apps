@@ -13,6 +13,7 @@ CONSTRUCT
         dh:slug ?employeeID ;
         dct:title ?lastName ;
         foaf:primaryTopic ?employee .
+
     ?employee a schema:Person ;
         foaf:isPrimaryTopicOf ?item ;
         schema:identifier ?employeeID ;
@@ -23,25 +24,21 @@ CONSTRUCT
         schema:honorificPrefix  ?titleOfCourtesy ;
         schema:birthDate ?birthDate;
         # ?hireDate
-        schema:address [
-            schema:addressCountry ?country ;
-            schema:addressLocality ?city ;
-            schema:postalCode ?postalCode ;
-            schema:streetAddress ?address ;
-            schema:location [
-                schema:name ?region
-            ]
-        ] ;
+        schema:address ?postalAddress ;
         schema:telephone ?homePhone ;
         schema:telephone ?extension ;
         schema:description ?notes ;
         schema:sponsor ?reportsToEmployee .
 
+    ?postalAddress a schema:PostalAddress ;
+        schema:addressCountry ?country ;
+        schema:addressLocality ?city ;
+        schema:postalCode ?postalCode ;
+        schema:streetAddress ?address ;
+        schema:addressRegion ?region .
 }
 WHERE
 {
-    BIND (BNODE() AS ?item)
-
     ?employee_row <#employeeID> ?employeeID ;
         <#lastName> ?lastName ;
         <#firstName> ?firstName ;
@@ -64,8 +61,10 @@ WHERE
         ?employee_row <#reportsTo> ?reportsTo
     }
 
+    BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/")) AS ?item)
     BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/#this")) AS ?employee)
-    BIND (strdt(substr(?birthDateString, 1, 10), xsd:date) AS ?birthDate)
-    BIND (strdt(substr(?hireDateString, 1, 10), xsd:date) AS ?hireDate)
+    BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/#address")) AS ?postalAddress)
+    BIND(strdt(substr(?birthDateString, 1, 10), xsd:date) AS ?birthDate)
+    BIND(strdt(substr(?hireDateString, 1, 10), xsd:date) AS ?hireDate)
     BIND(uri(concat(str(<employees/>), encode_for_uri(?reportsTo), "/#this")) AS ?reportsToEmployee)
 }

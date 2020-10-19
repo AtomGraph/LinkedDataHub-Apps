@@ -13,6 +13,7 @@ CONSTRUCT
         dh:slug ?orderID ;
         dct:title ?orderID ;
         foaf:primaryTopic ?order .
+
     ?order a schema:Order ;
         foaf:isPrimaryTopicOf ?item ;
         schema:identifier ?orderID ;
@@ -20,29 +21,24 @@ CONSTRUCT
         schema:customer ?customer ;
         schema:broker ?employee ;
         schema:orderDate ?orderDate ;
-        schema:orderDelivery [
-            a schema:ParcelDelivery ;
-            schema:expectedArrivalUntil ?requiredDate ;
-            # ?shippedDate ;
-            schema:deliveryAddress [
-                schema:addressCountry ?shipCountry ;
-                schema:addressLocality ?shipCity ;
-                schema:postalCode ?shipPostalCode ;
-                schema:streetAddress ?shipAddress ;
-                schema:location [
-                    schema:name ?shipRegion
-                ]
-            ] ;
-            schema:provider ?shipper
-        ] ;
-        schema:customer [
-            schema:name ?shipName
-        ] .
+        schema:orderDelivery ?orderDelivery .
+
+    ?orderDelivery a schema:ParcelDelivery ;
+        schema:expectedArrivalUntil ?requiredDate ;
+        # ?shippedDate ;
+        schema:deliveryAddress ?deliveryAddress ;
+        schema:provider ?shipper .
+
+    ?deliveryAddress a schema:PostalAddress ;
+        schema:addressCountry ?shipCountry ;
+        schema:addressLocality ?shipCity ;
+        schema:postalCode ?shipPostalCode ;
+        schema:streetAddress ?shipAddress ;
+        schema:location ?deliveryLocation ;
+        schema:addressRegion ?shipRegion .
 }
 WHERE
 {
-    BIND (BNODE() AS ?item)
-
     ?order_row <#orderID> ?orderID ;
         <#customerID> ?customerID ;
         <#employeeID> ?employeeID ;
@@ -62,7 +58,10 @@ WHERE
         ?order_row <#shipRegion> ?shipRegion
     }
 
+    BIND(uri(concat(str(<orders/>), encode_for_uri(?orderID), "/")) AS ?item)
     BIND(uri(concat(str(<orders/>), encode_for_uri(?orderID), "/#this")) AS ?order)
+    BIND(uri(concat(str(<orders/>), encode_for_uri(?orderID), "/#delivery")) AS ?orderDelivery)
+    BIND(uri(concat(str(<orders/>), encode_for_uri(?orderID), "/#delivery-address")) AS ?deliveryAddress)
     BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/#this")) AS ?employee)
     BIND(uri(concat(str(<customers/>), encode_for_uri(?customerID), "/#this")) AS ?customer)
     BIND(uri(concat(str(<shippers/>), encode_for_uri(?shipVia), "/#this")) AS ?shipper)

@@ -13,6 +13,7 @@ CONSTRUCT
         dh:slug ?productID ;
         dct:title ?productName ;
         foaf:primaryTopic ?product .
+
     ?product a schema:Product ;
         foaf:isPrimaryTopicOf ?item ;
         schema:identifier ?productID ;
@@ -29,8 +30,6 @@ CONSTRUCT
 }
 WHERE
 {
-    BIND (BNODE() AS ?item)
-
     ?product_row <#productID> ?productID ;
         <#productName> ?productName ;
         <#supplierID> ?supplierID ;
@@ -42,10 +41,10 @@ WHERE
         <#reorderLevel> ?reorderLevelString ;
         <#discontinued> ?discontinuedString .
 
+    BIND(uri(concat(str(<products/>), encode_for_uri(?productID), "/")) AS ?item)
     BIND(uri(concat(str(<products/>), encode_for_uri(?productID), "/#this")) AS ?product)
     BIND(uri(concat(str(<suppliers/>), encode_for_uri(?supplierID), "/#this")) AS ?supplier)
     BIND(uri(concat(str(<categories/>), encode_for_uri(?categoryID), "/#this")) AS ?category)
-
     BIND (STRDT(?unitPriceString, xsd:float) AS ?unitPrice)
     BIND (STRDT(?unitsInStockString, xsd:integer) AS ?unitsInStock)
     BIND (STRDT(?unitsOnOrderString, xsd:integer) AS ?unitsOnOrder)

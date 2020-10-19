@@ -12,6 +12,7 @@ CONSTRUCT
       dh:slug ?categoryID ;
       dct:title ?categoryName ;
       foaf:primaryTopic ?category .
+
   ?category a schema:ProductGroup ;
       foaf:isPrimaryTopicOf ?item ;
       dct:title ?categoryName ;
@@ -21,12 +22,11 @@ CONSTRUCT
 }
 WHERE
 {
-    BIND (BNODE() AS ?item)
-
     ?category_row <#categoryID> ?categoryID ;
         <#description> ?description ;
         <#categoryName> ?categoryName ;
         <#picture> ?picture .
 
+    BIND(uri(concat(str(<categories/>), encode_for_uri(?categoryID), "/")) AS ?item)
     BIND(uri(concat(str(<categories/>), encode_for_uri(?categoryID), "/#this")) AS ?category)
 }
