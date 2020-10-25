@@ -13,7 +13,17 @@ base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
 
+pwd=$(realpath -s "$PWD")
+
 pushd . && cd "$SCRIPT_ROOT"
+
+select_children_topics=$(./create-select.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Select children topics" \
+--slug select-children-topics \
+--query-file "$pwd/queries/select-children-topics.rq")
 
 ./create-container.sh \
 -b "$base" \
@@ -21,6 +31,7 @@ pushd . && cd "$SCRIPT_ROOT"
 -p "$cert_password" \
 --title "Categories" \
 --slug "categories" \
+--select "${select_children_topics}#this" \
 --parent "$base" \
 "$base"
 
@@ -30,6 +41,7 @@ pushd . && cd "$SCRIPT_ROOT"
 -p "$cert_password" \
 --title "Customers" \
 --slug "customers" \
+--select "${select_children_topics}#this" \
 --parent "$base" \
 "$base"
 
@@ -39,6 +51,7 @@ pushd . && cd "$SCRIPT_ROOT"
 -p "$cert_password" \
 --title "Employees" \
 --slug "employees" \
+--select "${select_children_topics}#this" \
 --parent "$base" \
 "$base"
 
@@ -48,6 +61,7 @@ pushd . && cd "$SCRIPT_ROOT"
 -p "$cert_password" \
 --title "Orders" \
 --slug "orders" \
+--select "${select_children_topics}#this" \
 --parent "$base" \
 "$base"
 
@@ -57,6 +71,7 @@ pushd . && cd "$SCRIPT_ROOT"
 -p "$cert_password" \
 --title "Products" \
 --slug "products" \
+--select "${select_children_topics}#this" \
 --parent "$base" \
 "$base"
 
@@ -66,6 +81,7 @@ pushd . && cd "$SCRIPT_ROOT"
 -p "$cert_password" \
 --title "Regions" \
 --slug "regions" \
+--select "${select_children_topics}#this" \
 --parent "$base" \
 "$base"
 
@@ -75,6 +91,7 @@ pushd . && cd "$SCRIPT_ROOT"
 -p "$cert_password" \
 --title "Shippers" \
 --slug "shippers" \
+--select "${select_children_topics}#this" \
 --parent "$base" \
 "$base"
 
@@ -84,6 +101,7 @@ pushd . && cd "$SCRIPT_ROOT"
 -p "$cert_password" \
 --title "Suppliers" \
 --slug "suppliers" \
+--select "${select_children_topics}#this" \
 --parent "$base" \
 "$base"
 
@@ -93,6 +111,7 @@ pushd . && cd "$SCRIPT_ROOT"
 -p "$cert_password" \
 --title "Territories" \
 --slug "territories" \
+--select "${select_children_topics}#this" \
 --parent "$base" \
 "$base"
 

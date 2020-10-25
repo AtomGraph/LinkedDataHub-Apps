@@ -17,6 +17,22 @@ printf "\n### Creating authorization to make the app public\n\n"
 
 ./make-public.sh "$base" "$cert_pem_file" "$cert_password"
 
+cd sitemap
+
+printf "\n### Creating template queries\n\n"
+
+./create-queries.sh "$base" "$cert_pem_file" "$cert_password"
+
+printf "\n### Creating templates\n\n"
+
+./create-templates.sh "$base" "$cert_pem_file" "$cert_password"
+
+cd ..
+
+printf "\n### Clearing ontologies\n\n"
+
+./clear-ontologies.sh "$base" "$cert_pem_file" "$cert_password"
+
 cd ..
 
 printf "\n### Creating containers\n\n"

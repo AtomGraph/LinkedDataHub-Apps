@@ -1,0 +1,12 @@
+PREFIX  schema: <https://schema.org/>
+PREFIX  foaf:   <http://xmlns.com/foaf/0.1/>
+
+DESCRIBE ?this ?supplier ?contactPoint ?employee ?postalAddress
+WHERE
+  { GRAPH ?g
+      { ?this foaf:primaryTopic ?supplier .
+        ?supplier schema:contactPoint ?contactPoint ;
+            schema:employee ?employee ;
+            schema:address ?postalAddress .
+      }
+  }
