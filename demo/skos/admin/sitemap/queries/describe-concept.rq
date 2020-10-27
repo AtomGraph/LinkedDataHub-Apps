@@ -26,6 +26,15 @@ WHERE
                       { ?broader  skos:narrower  ?concept }
                   }
               }
+            OPTIONAL
+              {   { GRAPH ?relatedGraph
+                      { ?concept  skos:related  ?related }
+                  }
+                UNION
+                  { GRAPH ?relatedGraph
+                      { ?related  skos:related  ?concept }
+                  }
+              }
           }
       }
   }
