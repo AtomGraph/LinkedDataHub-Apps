@@ -23,7 +23,7 @@
         them. This is a common requirement for real-world end-user applications backed by SPARQL services.</p>
     <div>
         <h2>Use case</h2>
-        <p>Lets reuse a geospatial RDF dataset from the <a href="../../../usage/import-data/">CSV import example</a>: any number of countries with coordinates. It could look like this in a Trig
+        <p>Lets reuse a geospatial RDF dataset from the <a href="../../../../user-guide/import-data/import-csv-data/">CSV import example</a>: any number of countries with coordinates. It could look like this in a Trig
         syntax (the base URI is not relevant in this context):</p>
                 <pre>@base        &lt;https://linkeddatahub.com/demo/city-graph/&gt;
 @prefix def: &lt;ns/default#&gt;

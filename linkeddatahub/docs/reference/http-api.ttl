@@ -123,7 +123,7 @@
             <li><a href="https://www.w3.org/TR/n-triples/" target="_blank">N-Triples</a> <code>application/n-triples</code></li>
             <li><a href="https://www.w3.org/TR/rdf-syntax-grammar/" target="_blank">RDF/XML</a> <code>application/rdf+xml</code></li>
             <li><a href="https://www.w3.org/TR/json-ld/" target="_blank">JSON-LD</a> <code>application/ld+json</code></li>
-            <li><a href="http://www.lsrn.org/semweb/rdfpost.html" target="_blank">RDF/POST</a> <code>application/x-www-form-urlencoded</code> (for requests only)</li>
+            <li><a href="https://atomgraph.github.io/RDF-POST/" target="_blank">RDF/POST</a> <code>application/x-www-form-urlencoded</code> (for requests only)</li>
         </ul>
     </div>
     <div>

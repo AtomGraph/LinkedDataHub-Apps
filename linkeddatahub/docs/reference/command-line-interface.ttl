@@ -188,7 +188,7 @@
           </div>
         </div>
         <p>Usage example:</p>
-        <pre>./create-file https://linkeddatahub.com/my-context/my-dataspace/ \\
+        <pre>./create-file.sh https://linkeddatahub.com/my-context/my-dataspace/ \\
 -f linkeddatahub.pem \\
 -p CertPassword \\
 --title "Friends" \\
