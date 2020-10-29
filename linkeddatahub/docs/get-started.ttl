@@ -76,8 +76,8 @@
     </div>
     <div>
         <h2 id="change-sitemap">Change the sitemap</h2>
-        <p>By default, the concept documents will match an <code>Item</code> template from the application's <a href="../reference/administration/sitemap/#ontologies" target="_blank">Templates ontology</a>.  You can verify that by checking the HTTP <a href="../reference/http-api/#hypermedia-headers" target="_blank">response headers</a>, which should include a template URI such as
-        <code>https://linkeddatahub.com/linkeddatahub/docs/ns/templates#Item</code>. You can use it to look up the SPARQL query which is used to load the RDF data for the document.</p>
+        <p>By default, the concept documents will match an <code>Document</code> template from the application's <a href="../reference/administration/sitemap/#ontologies" target="_blank">Templates ontology</a>.  You can verify that by checking the HTTP <a href="../reference/http-api/#hypermedia-headers" target="_blank">response headers</a>, which should include a template URI such as
+        <code>https://linkeddatahub.com/linkeddatahub/docs/ns/templates#Document</code>. You can use it to look up the SPARQL query which is used to load the RDF data for the document.</p>
         <p>Lets say we want to change the RDF description of the concept to return not only its own properties, but also include its narrower concepts. That data then can be used to render the narrower
             concepts on the same document, instead of just linking to them.</p>
         <p>In order to achieve that, we need to override the LDT template that matches our concept items and specify our custom SPARQL query for the overriding template.</p>

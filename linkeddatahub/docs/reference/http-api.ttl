@@ -153,7 +153,7 @@
             <h3 id="hypermedia-headers">Headers</h3>
             <p><code>Link</code> headers provide metadata about the matched template, the application base URI and its ontology URI. For example:</p>
             <pre>Link: &lt;https://linkeddatahub.com/linkeddatahub/docs/&gt;; rel=https://www.w3.org/ns/ldt#base
-Link: &lt;https://linkeddatahub.com/linkeddatahub/docs/ns/templates#Item&gt;; rel=https://www.w3.org/ns/ldt#template
+Link: &lt;https://linkeddatahub.com/linkeddatahub/docs/ns/templates#Document&gt;; rel=https://www.w3.org/ns/ldt#template
 Link: &lt;https://linkeddatahub.com/linkeddatahub/docs/ns#&gt;; rel=https://www.w3.org/ns/ldt#ontology</pre>
         </div>
     </div>

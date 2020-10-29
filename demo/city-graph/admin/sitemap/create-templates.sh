@@ -22,7 +22,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/sitemap"
 --uri "${base}ns/templates#PlaceItem" \
 --label "Place item" \
 --slug place-item \
---extends "${base}ns/templates#Item" \
+--extends "${base}ns/templates#Document" \
 --match "/{city}/{type}/{id}/" \
 --query "${base}ns/templates#DescribePlace" \
 --is-defined-by "${base}ns/templates#"

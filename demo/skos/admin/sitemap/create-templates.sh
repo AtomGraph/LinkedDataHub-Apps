@@ -22,7 +22,7 @@ pushd . && cd "$SCRIPT_ROOT"/admin/sitemap
 --uri "${base}ns/templates#ConceptItem" \
 --label "Concept item" \
 --slug concept-item \
---extends "${base}ns/templates#Item" \
+--extends "${base}ns/templates#Document" \
 --match "/concepts/{slug}/" \
 --query "${base}ns/templates#DescribeConcept" \
 --is-defined-by "${base}ns/templates#"

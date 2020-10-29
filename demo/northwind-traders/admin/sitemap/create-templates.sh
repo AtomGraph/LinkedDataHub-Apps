@@ -22,7 +22,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/sitemap"
 --uri "${base}ns/templates#CustomerItem" \
 --label "Customer item" \
 --slug customer-item \
---extends "${base}ns/templates#Item" \
+--extends "${base}ns/templates#Document" \
 --match "/customers/{id}/" \
 --query "${base}ns/templates#DescribeCustomer" \
 --is-defined-by "${base}ns/templates#"
@@ -34,7 +34,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/sitemap"
 --uri "${base}ns/templates#EmployeeItem" \
 --label "Employee item" \
 --slug employee-item \
---extends "${base}ns/templates#Item" \
+--extends "${base}ns/templates#Document" \
 --match "/employees/{id}/" \
 --query "${base}ns/templates#DescribeEmployee" \
 --is-defined-by "${base}ns/templates#"
@@ -46,7 +46,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/sitemap"
 --uri "${base}ns/templates#OrderItem" \
 --label "Order item" \
 --slug order-item \
---extends "${base}ns/templates#Item" \
+--extends "${base}ns/templates#Document" \
 --match "/orders/{id}/" \
 --query "${base}ns/templates#DescribeOrder" \
 --is-defined-by "${base}ns/templates#"
@@ -58,7 +58,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/sitemap"
 --uri "${base}ns/templates#SupplierItem" \
 --label "Supplier item" \
 --slug supplier-item \
---extends "${base}ns/templates#Item" \
+--extends "${base}ns/templates#Document" \
 --match "/suppliers/{id}/" \
 --query "${base}ns/templates#DescribeSupplier" \
 --is-defined-by "${base}ns/templates#"

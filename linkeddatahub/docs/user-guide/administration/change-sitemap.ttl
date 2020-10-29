@@ -15,7 +15,7 @@
     <div>
         <h2 id="change-sitemap">Change the sitemap</h2>
         <p>By default, the concept documents will match an <code>Item</code> template from the application's <a href="../../../reference/administration/sitemap/#ontologies" target="_blank">Templates ontology</a>.  You can verify that by checking the HTTP <a href="../../../reference/http-api/#hypermedia-headers" target="_blank">response headers</a>, which should include a template URI such as
-        <code>https://linkeddatahub.com/linkeddatahub/docs/ns/templates#Item</code>. You can use it to look up the SPARQL query which is used to load the RDF data for the document. It looks like this:</p>
+        <code>https://linkeddatahub.com/linkeddatahub/docs/ns/templates#Document</code>. You can use it to look up the SPARQL query which is used to load the RDF data for the document. It looks like this:</p>
         <pre>PREFIX  rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
 PREFIX  foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
 
@@ -162,7 +162,7 @@ popd</pre>
 --uri "https://localhost:4443/ns/templates#ConceptItem" \\
 --label "Concept item" \\
 --slug concept-item \\
---extends "https://localhost:4443/ns/templates#Item" \\
+--extends "https://localhost:4443/ns/templates#Document" \\
 --match "/concepts/{slug}/" \\
 --query "https://localhost:4443/ns/templates#DescribeConcept" \\
 --is-defined-by "https://localhost:4443/ns/templates#"
