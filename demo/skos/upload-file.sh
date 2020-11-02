@@ -47,8 +47,8 @@ pushd . && cd "$SCRIPT_ROOT/imports"
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
---title "${title}" \
---file "${filename}" \
---file-content-type "${content_type}"
+--title "$title" \
+--file "$filename" \
+--file-content-type "$content_type"
 
 popd

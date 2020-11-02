@@ -22,7 +22,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Categories" \
---query-file "$pwd/queries/categories.rq" \
+--query-file "$pwd/queries/imports/categories.rq" \
 --file "$pwd/files/categories.csv" \
 --action "${base}categories/"
 
@@ -31,7 +31,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Customers" \
---query-file "$pwd/queries/customers.rq" \
+--query-file "$pwd/queries/imports/customers.rq" \
 --file "$pwd/files/customers.csv" \
 --action "${base}customers/"
 
@@ -40,7 +40,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Employees" \
---query-file "$pwd/queries/employees.rq" \
+--query-file "$pwd/queries/imports/employees.rq" \
 --file "$pwd/files/employees.csv" \
 --action "${base}employees/"
 
@@ -48,8 +48,17 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--title "Employee territories" \
+--query-file "$pwd/queries/imports/employee_territories.rq" \
+--file "$pwd/files/employee_territories.csv" \
+--action "${base}employees/"
+
+./import-csv.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
 --title "Orders" \
---query-file "$pwd/queries/orders.rq" \
+--query-file "$pwd/queries/imports/orders.rq" \
 --file "$pwd/files/orders.csv" \
 --action "${base}orders/"
 
@@ -58,7 +67,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Order details" \
---query-file "$pwd/queries/order_details.rq" \
+--query-file "$pwd/queries/imports/order_details.rq" \
 --file "$pwd/files/order_details.csv" \
 --action "${base}orders/"
 
@@ -67,7 +76,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Products" \
---query-file "$pwd/queries/products.rq" \
+--query-file "$pwd/queries/imports/products.rq" \
 --file "$pwd/files/products.csv" \
 --action "${base}products/"
 
@@ -76,7 +85,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Regions" \
---query-file "$pwd/queries/regions.rq" \
+--query-file "$pwd/queries/imports/regions.rq" \
 --file "$pwd/files/regions.csv" \
 --action "${base}regions/"
 
@@ -85,7 +94,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Shippers" \
---query-file "$pwd/queries/shippers.rq" \
+--query-file "$pwd/queries/imports/shippers.rq" \
 --file "$pwd/files/shippers.csv" \
 --action "${base}shippers/"
 
@@ -94,7 +103,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Suppliers" \
---query-file "$pwd/queries/suppliers.rq" \
+--query-file "$pwd/queries/imports/suppliers.rq" \
 --file "$pwd/files/suppliers.csv" \
 --action "${base}suppliers/"
 
@@ -103,7 +112,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --title "Territories" \
---query-file "$pwd/queries/territories.rq" \
+--query-file "$pwd/queries/imports/territories.rq" \
 --file "$pwd/files/territories.csv" \
 --action "${base}territories/"
 

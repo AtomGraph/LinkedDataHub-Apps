@@ -1,0 +1,17 @@
+PREFIX  schema: <https://schema.org/>
+
+SELECT DISTINCT  ?productName (SUM(?sale) AS ?totalSales)
+WHERE
+  { GRAPH ?orderGraph
+      { ?order    schema:orderedItem    ?orderItem .
+        ?orderItem  schema:orderedItem  ?product ;
+                  schema:orderQuantity  ?quantity ;
+                  schema:price          ?price
+      BIND (?quantity * ?price AS ?sale)
+      }
+    GRAPH ?productGraph
+      { ?product  schema:name  ?productName }
+  }
+GROUP BY ?product ?productName
+ORDER BY DESC(?totalSales)
+LIMIT   5

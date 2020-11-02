@@ -1,0 +1,25 @@
+PREFIX  schema: <https://schema.org/>
+PREFIX  xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+SELECT DISTINCT  ?year ?regionName (SUM(?sale) AS ?totalSales)
+WHERE
+  { GRAPH ?orderGraph
+      { ?order  schema:orderDate    ?orderDate ;
+                schema:broker       ?employee ;
+                schema:orderedItem  ?orderItem
+        BIND(year(xsd:dateTime(?orderDate)) AS ?year)
+        ?orderItem  schema:orderedItem  ?product ;
+                  schema:orderQuantity  ?quantity ;
+                  schema:price          ?price
+        BIND(( ?quantity * ?price ) AS ?sale)
+      }
+    GRAPH ?employeeGraph
+      { ?employee  schema:areaServed  ?territory }
+    GRAPH ?territoryGraph
+      { ?territory  schema:containedInPlace  ?region }
+    GRAPH ?regionGraph
+      { ?region  schema:name  ?regionName }
+  }
+GROUP BY ?year ?regionName
+ORDER BY DESC(?year) ?regionName
+LIMIT   100

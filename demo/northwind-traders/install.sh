@@ -42,3 +42,7 @@ printf "\n### Creating containers\n\n"
 printf "\n### Importing CSV data\n\n"
 
 ./import-csv.sh "$base" "$cert_pem_file" "$cert_password"
+
+printf "\n### Creating charts\n\n"
+
+./create-charts.sh "$base" "$cert_pem_file" "$cert_password"

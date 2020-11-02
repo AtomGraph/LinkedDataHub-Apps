@@ -13,9 +13,8 @@ CONSTRUCT
     ?orderItem a schema:OrderItem ;
         schema:orderedItem ?product ;
         schema:orderQuantity ?quantity ;
-        schema:orderDelivery ?delivery .
-        # ?price ;
-        # ?discount .
+        schema:discount ?discount ;
+        schema:price ?price .
 }
 WHERE
 {

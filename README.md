@@ -19,6 +19,8 @@ The installation scripts in this repository use [LinkedDataHub's CLI scripts](ht
     <dd><a href="../../tree/master/linkeddatahub/docs/">linkeddatahub/docs/</a></dd>
     <dt>Live instance</dt>
     <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/">https://linkeddatahub.com/linkeddatahub/docs/</a></dd>
+    <dt>Features</dt>
+    <dd>XHTML document content is rendered from RDF literals</dd>
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
     <dd>164 lines of installation shell scripts</dd>
@@ -36,12 +38,14 @@ The installation scripts in this repository use [LinkedDataHub's CLI scripts](ht
     <dt>Live instance</dt>
     <dd><a href="https://linkeddatahub.com/demo/northwind-traders/" target="_blank">https://linkeddatahub.com/demo/northwind-traders/</a></dd>
     <dt>Features</dt>
+    <dd>Faceted search</dd>
+    <dd>Related results (parallax navigation)</dd>
+    <dd>Custom `SELECT` query for each container that includes links to related resources (1:N relationships) from which faceted search options are generated</dd>
     <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/imports/csv/" target="_blank">Import from CSV</a></dd>
-    <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/administration/sitemap/#templates" target="_blank">Item template</a> with a <a href="https://linkeddatahub.com/linkeddatahub/docs/reference/administration/sitemap/#queries" target="_blank">query</a> that describes not only the requested resource, but also other resources with coordinates in a bounding box around it</dd>
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
-    <dd>504 lines of SPARQL</dd>
-    <dd>238 lines of installation shell scripts</dd>
+    <dd>570 lines of SPARQL</dd>
+    <dd>247 lines of installation shell scripts</dd>
 </dl>
 
 ### City Graph

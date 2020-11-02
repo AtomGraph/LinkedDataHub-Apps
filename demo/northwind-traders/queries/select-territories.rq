@@ -1,0 +1,14 @@
+PREFIX  schema: <https://schema.org/>
+PREFIX  foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX  sioc: <http://rdfs.org/sioc/ns#>
+
+SELECT DISTINCT  ?territory
+WHERE
+  { GRAPH ?docGraph
+      { ?doc      sioc:has_container    ?this ;
+                  foaf:primaryTopic     ?territory .
+        ?territory  schema:name         ?territoryDescription ;
+                  schema:containedInPlace  ?region
+      }
+  }
+ORDER BY ?territoryDescription
