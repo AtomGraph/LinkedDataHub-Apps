@@ -40,7 +40,7 @@ The installation scripts in this repository use [LinkedDataHub's CLI scripts](ht
     <dt>Features</dt>
     <dd>Faceted search</dd>
     <dd>Related results (parallax navigation)</dd>
-    <dd>Custom `SELECT` query for each container that includes links to related resources (1:N relationships) from which faceted search options are generated</dd>
+    <dd>Custom <code>SELECT</code> query for each container that includes links to related resources (1:N relationships) from which faceted search options are generated</dd>
     <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/imports/csv/" target="_blank">Import from CSV</a></dd>
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
