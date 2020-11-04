@@ -29,7 +29,9 @@ xmlns:foaf="&foaf;"
 xmlns:bs2="http://graphity.org/xsl/bootstrap/2.3.2"
 exclude-result-prefixes="#all">
 
-    <xsl:import href="../../../xsl/bootstrap/2.3.2/layout.xsl"/>
+    <xsl:param name="apl:baseUri" as="xs:anyURI" static="yes"/>
+
+    <xsl:import _href="{resolve-uri('static/com/atomgraph/linkeddatahub/xsl/bootstrap/2.3.2/layout.xsl', $apl:baseUri)}"/>
 
     <!-- keys used to lookup resources by property value -->
     <xsl:key name="resources-by-broader" match="*[@rdf:about] | *[@rdf:nodeID]" use="skos:broader/@rdf:resource"/>
