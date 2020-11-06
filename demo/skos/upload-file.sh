@@ -20,6 +20,9 @@ case "$extension" in
   xsl)
     content_type="text/xsl"
     ;;
+  css)
+    content_type="text/css"
+    ;;
   png)
     content_type="image/png"
     ;;
