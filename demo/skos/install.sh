@@ -68,7 +68,7 @@ popd
 
 printf "\n### Uploading files\n\n"
 
-find "${pwd}/files" -type f -exec ./upload-file.sh "${base}" "${cert_pem_file}" "${cert_password}" "${pwd}" {} \;
+find "${pwd}/files" -type f -exec ./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} \;
 
 printf "\n### Creating containers\n\n"
 

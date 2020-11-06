@@ -8,3 +8,4 @@ SELECT ?organism (SAMPLE(?scientificName) AS ?name) (COUNT(DISTINCT ?protein) AS
 }
 GROUP BY ?organism
 ORDER BY DESC(?count)
+LIMIT 10

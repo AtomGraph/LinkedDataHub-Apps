@@ -23,7 +23,7 @@ sha1sum=$(sha1sum "$pwd"/../../files/skos.xsl | cut -d ' ' -f 1)
 -b "${base}admin/" \
 -f "${cert_pem_file}" \
 -p "${cert_password}" \
---label "Public PermID XSLT stylesheet" \
+--label "Public SKOS XSLT stylesheet" \
 --agent-class http://xmlns.com/foaf/0.1/Agent \
 --to "${base}uploads/${sha1sum}/" \
 --read
