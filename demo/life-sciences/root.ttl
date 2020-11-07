@@ -1,0 +1,12 @@
+@prefix def:    <ns/default#> .
+@prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:	<http://www.w3.org/2001/XMLSchema#> .
+@prefix dct:	<http://purl.org/dc/terms/> .
+@prefix sioc:	<http://rdfs.org/sioc/ns#> .
+
+<> a def:Root ;
+    dct:title "Life Sciences" ;
+    dct:description "Life-sciences data explorer. Datasets from EBI RDF, ChEMBL, UniProt etc." ;
+    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+      <p>Life-sciences data explorer. Datasets from EBI RDF, ChEMBL, UniProt etc.</p>
+    </div>"""^^rdf:XMLLiteral .
