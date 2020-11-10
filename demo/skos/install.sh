@@ -74,6 +74,10 @@ printf "\n### Creating containers\n\n"
 
 ./create-containers.sh "$base" "$cert_pem_file" "$cert_password"
 
+printf "\n### Updating documents\n\n"
+
+./update-documents.sh "$base" "$cert_pem_file" "$cert_password"
+
 printf "\n### Importing SKOS vocabulary\n\n"
 
 ./import-rdf.sh "$base" "$cert_pem_file" "$cert_password"

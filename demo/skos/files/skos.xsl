@@ -42,6 +42,9 @@ exclude-result-prefixes="#all">
     <xsl:template match="rdf:RDF" mode="xhtml:Style">
         <xsl:param name="load-wymeditor" select="not(empty($lacl:Agent//@rdf:about))" as="xs:boolean"/>
 
+        <link href="{resolve-uri('static/css/bootstrap.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>
+        <link href="{resolve-uri('static/css/bootstrap-responsive.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>
+        <link href="{resolve-uri('static/com/atomgraph/client/css/bootstrap.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>
         <!-- override the CSS stylesheet with the on included in this app -->
         <link href="{resolve-uri('uploads/7266aea2cef4e442833433f80e46577144e8d668/', $ldt:base)}" rel="stylesheet" type="text/css"/>
         <link href="{resolve-uri('static/com/atomgraph/linkeddatahub/css/bootstrap.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>
@@ -49,7 +52,7 @@ exclude-result-prefixes="#all">
         <style type="text/css">
         <![CDATA[
             .modal-header, .modal-footer { background-color: #272b30; }
-        ]]>?
+        ]]>
         </style>
 
         <xsl:if test="$load-wymeditor">
