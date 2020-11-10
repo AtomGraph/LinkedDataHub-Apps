@@ -1,12 +1,17 @@
 @prefix def:    <ns/default#> .
 @prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:	<http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:	<https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
 @prefix dct:	<http://purl.org/dc/terms/> .
 @prefix sioc:	<http://rdfs.org/sioc/ns#> .
 
 <> a def:Root ;
-    dct:title "Life Sciences" ;
+    dh:select <queries/default/select-children/#this> ;
+    dct:title "Root" ;
     dct:description "Life-sciences data explorer. Datasets from EBI RDF, ChEMBL, UniProt etc." ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
-      <p>Life-sciences data explorer. Datasets from EBI RDF, ChEMBL, UniProt etc.</p>
+        <div class="page-header">
+            <h2>City Graph</h2>
+            <p class="lead">Life-sciences data explorer with a sample dataset from UniProt. Features include a custom container query, <a href="charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation).</p>
+        </div>
     </div>"""^^rdf:XMLLiteral .

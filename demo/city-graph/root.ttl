@@ -1,12 +1,17 @@
 @prefix def:    <ns/default#> .
 @prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:	<http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:	<https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
 @prefix dct:	<http://purl.org/dc/terms/> .
 @prefix sioc:	<http://rdfs.org/sioc/ns#> .
 
 <> a def:Root ;
-    dct:title "City Graph" ;
+    dh:select <queries/default/select-children/#this> ;
+    dct:title "Root" ;
     dct:description "Geospatial and other open data about cities, imported by transforming CSV files to RDF" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
-      <p>Geospatial and other open data about cities, imported by transforming CSV files to RDF</p>
+        <div class="page-header">
+            <h2>City Graph</h2>
+            <p class="lead">Geospatial and other open data about cities. Features include CSV imports, color-coded <a href="geo/" target="_blank">map layout</a> and a custom resource description query which loads 10 nearest objects.</p>
+        </div>
     </div>"""^^rdf:XMLLiteral .
