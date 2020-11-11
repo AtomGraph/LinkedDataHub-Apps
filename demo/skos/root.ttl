@@ -12,6 +12,6 @@
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
         <div class="page-header">
             <h2>SKOS editor</h2>
-            <p class="lead">Features resource creation and editing (requires authentication), RDF data import as well as a customized layout (broader/narrower/related sections of concepts).</p>
+            <p class="lead">Features include resource creation and editing (requires authentication), RDF data import as well as a customized layout (broader/narrower/related sections of concepts).</p>
         </div>
     </div>"""^^rdf:XMLLiteral .

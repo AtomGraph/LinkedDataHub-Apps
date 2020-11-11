@@ -12,6 +12,6 @@
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
         <div class="page-header">
             <h2>Northwind Traders knowledge graph</h2>
-            <p class="lead">Features CSV data <a href="imports/" target="_blank">imports</a>, <a href="charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation)</p>
+            <p class="lead">Features include CSV data <a href="imports/" target="_blank">imports</a>, <a href="charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation)</p>
         </div>
     </div>"""^^rdf:XMLLiteral .

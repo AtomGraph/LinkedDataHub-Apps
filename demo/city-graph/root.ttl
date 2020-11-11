@@ -12,6 +12,6 @@
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
         <div class="page-header">
             <h2>City Graph</h2>
-            <p class="lead">Geospatial and other open data about cities. Features include CSV imports, color-coded <a href="geo/" target="_blank">map layout</a> and a custom resource description query which loads 10 nearest objects.</p>
+            <p class="lead">Geospatial and other open data about Copenhagen. Features include CSV imports, color-coded <a href="geo/" target="_blank">map layout</a> and a custom resource description query which loads 10 nearest objects.</p>
         </div>
     </div>"""^^rdf:XMLLiteral .

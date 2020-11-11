@@ -11,7 +11,7 @@
     dct:description "Life-sciences data explorer. Datasets from EBI RDF, ChEMBL, UniProt etc." ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
         <div class="page-header">
-            <h2>City Graph</h2>
-            <p class="lead">Life-sciences data explorer with a sample dataset from UniProt. Features include a custom container query, <a href="charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation).</p>
+            <h2>Life-sciences data explorer</h2>
+            <p class="lead">Connects to an external SPARQL endpoint with a sample dataset from UniProt. Features include a custom container query, <a href="charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation).</p>
         </div>
     </div>"""^^rdf:XMLLiteral .
