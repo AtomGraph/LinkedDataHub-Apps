@@ -21,11 +21,11 @@ cd sitemap
 
 printf "\n### Creating template queries\n\n"
 
-#./create-queries.sh "$base" "$cert_pem_file" "$cert_password"
+./create-queries.sh "$base" "$cert_pem_file" "$cert_password"
 
 printf "\n### Creating templates\n\n"
 
-#./create-templates.sh "$base" "$cert_pem_file" "$cert_password"
+./create-templates.sh "$base" "$cert_pem_file" "$cert_password"
 
 cd ..
 
@@ -37,7 +37,7 @@ cd ..
 
 printf "\n### Creating containers\n\n"
 
-#./create-containers.sh "$base" "$cert_pem_file" "$cert_password"
+./create-containers.sh "$base" "$cert_pem_file" "$cert_password"
 
 printf "\n### Updating documents\n\n"
 
@@ -45,7 +45,7 @@ printf "\n### Updating documents\n\n"
 
 printf "\n### Importing CSV data\n\n"
 
-#./import-csv.sh "$base" "$cert_pem_file" "$cert_password"
+./import-csv.sh "$base" "$cert_pem_file" "$cert_password"
 
 printf "\n### Creating charts\n\n"
 
