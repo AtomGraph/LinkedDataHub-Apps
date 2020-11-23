@@ -16,6 +16,7 @@ CONSTRUCT
   ?category a schema:ProductGroup ;
       foaf:isPrimaryTopicOf ?item ;
       dct:title ?categoryName ;
+      dct:description ?description ;
       schema:name ?categoryName ;
       schema:identifier ?categoryID ;
       schema:description ?description .

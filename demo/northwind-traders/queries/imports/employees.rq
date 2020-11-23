@@ -18,6 +18,7 @@ CONSTRUCT
         foaf:isPrimaryTopicOf ?item ;
         schema:identifier ?employeeID ;
         dct:title ?lastName ;
+        dct:description ?title ;
         schema:givenName ?firstName ;
         schema:familyName ?lastName ;
         schema:jobTitle ?title ;

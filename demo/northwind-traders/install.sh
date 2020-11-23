@@ -11,13 +11,11 @@ base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
 
-cd admin
-
 printf "\n### Creating authorization to make the app public\n\n"
 
-./make-public.sh "$base" "$cert_pem_file" "$cert_password"
+"$SCRIPT_ROOT"/admin/acl/make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password"
 
-cd sitemap
+cd admin/sitemap
 
 printf "\n### Creating template queries\n\n"
 

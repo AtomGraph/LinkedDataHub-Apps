@@ -12,13 +12,9 @@ cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
 pwd="$(realpath -s "$PWD")"
 
-pushd . && cd ./admin
+printf "\n### Creating authorization to make the app public\n\n"
 
-printf "\n### Making the app public\n\n"
-
-./make-public.sh "$base" "$cert_pem_file" "$cert_password"
-
-popd
+"$SCRIPT_ROOT"/admin/acl/make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password"
 
 printf "\n### Creating authorizations\n\n"
 

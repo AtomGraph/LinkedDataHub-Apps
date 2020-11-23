@@ -28,7 +28,7 @@ WHERE
   
   ?postalArea <#postal_code> ?postal_codeString ;
               <#city_name> ?city_name .
-  		  
+
   BIND (xsd:integer(?postal_codeString) AS ?postal_code) .
 
   OPTIONAL 
