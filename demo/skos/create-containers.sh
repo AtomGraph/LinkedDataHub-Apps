@@ -13,7 +13,17 @@ base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
 
+pwd=$(realpath -s "$PWD")
+
 pushd . && cd "$SCRIPT_ROOT"
+
+select_concepts=$(./create-select.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Select concepts" \
+--slug select-concepts \
+--query-file "$pwd/queries/select-concepts.rq")
 
 ./create-container.sh \
 -b "$base" \
@@ -21,8 +31,17 @@ pushd . && cd "$SCRIPT_ROOT"
 -p "$cert_password" \
 --title "Concepts" \
 --slug "concepts" \
+--select "${select_concepts}#this" \
 --parent "$base" \
 "$base"
+
+select_concept_schemes=$(./create-select.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Select concept schemes" \
+--slug select-concept-schemes \
+--query-file "$pwd/queries/select-concept-schemes.rq")
 
 ./create-container.sh \
 -b "$base" \
@@ -30,6 +49,7 @@ pushd . && cd "$SCRIPT_ROOT"
 -p "$cert_password" \
 --title "Concept schemes" \
 --slug "concept-schemes" \
+--select "${select_concept_schemes}#this" \
 --parent "$base" \
 "$base"
 

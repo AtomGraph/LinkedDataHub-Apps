@@ -1,0 +1,29 @@
+PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX  foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX  sioc: <http://rdfs.org/sioc/ns#>
+
+SELECT DISTINCT  ?concept
+WHERE
+  { GRAPH ?docGraph
+      { ?doc  sioc:has_container  ?this ;
+              foaf:primaryTopic   ?concept
+          { ?concept  skos:prefLabel  ?prefLabel }
+        UNION
+          { GRAPH ?conceptGraph
+              { ?concept  skos:prefLabel  ?prefLabel }
+          }
+        OPTIONAL
+          { GRAPH ?narrowerGraph
+              { ?concept  skos:narrower  ?narrower }
+          }
+        OPTIONAL
+          { GRAPH ?broaderGraph
+              { ?concept  skos:broader  ?broader }
+          }
+        OPTIONAL
+          { GRAPH ?relatedGraph
+              { ?concept  skos:related  ?related }
+          }
+      }
+  }
+ORDER BY ?prefLabel
