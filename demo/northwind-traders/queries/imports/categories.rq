@@ -19,15 +19,17 @@ CONSTRUCT
       dct:description ?description ;
       schema:name ?categoryName ;
       schema:identifier ?categoryID ;
-      schema:description ?description .
+      schema:description ?description ;
+      foaf:depiction ?picture .
 }
 WHERE
 {
     ?category_row <#categoryID> ?categoryID ;
         <#description> ?description ;
         <#categoryName> ?categoryName ;
-        <#picture> ?picture .
+        <#pictureHash> ?pictureHash .
 
     BIND(uri(concat(str(<categories/>), encode_for_uri(?categoryID), "/")) AS ?item)
     BIND(uri(concat(str(<categories/>), encode_for_uri(?categoryID), "/#this")) AS ?category)
+    BIND(uri(concat(str(<uploads/>), encode_for_uri(?pictureHash), "/")) AS ?picture)
 }

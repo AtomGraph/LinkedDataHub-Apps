@@ -29,7 +29,8 @@ CONSTRUCT
         schema:telephone ?homePhone ;
         schema:telephone ?extension ;
         schema:description ?notes ;
-        schema:sponsor ?reportsToEmployee .
+        schema:sponsor ?reportsToEmployee ;
+        foaf:img ?photo .
 
     ?postalAddress a schema:PostalAddress ;
         schema:addressCountry ?country ;
@@ -53,7 +54,7 @@ WHERE
         <#country> ?country ;
         <#homePhone> ?homePhone ;
         <#extension> ?extension ;
-        <#photo> ?picture ;
+        <#photoHash> ?photoHash ;
         <#notes> ?notes .
     OPTIONAL {
         ?employee_row <#region> ?region
@@ -68,4 +69,5 @@ WHERE
     BIND(strdt(substr(?birthDateString, 1, 10), xsd:date) AS ?birthDate)
     BIND(strdt(substr(?hireDateString, 1, 10), xsd:date) AS ?hireDate)
     BIND(uri(concat(str(<employees/>), encode_for_uri(?reportsTo), "/#this")) AS ?reportsToEmployee)
+    BIND(uri(concat(str(<uploads/>), encode_for_uri(?photoHash), "/")) AS ?photo)
 }
