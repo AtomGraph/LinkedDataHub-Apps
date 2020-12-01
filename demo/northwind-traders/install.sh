@@ -10,6 +10,7 @@ fi
 base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
+pwd="$(realpath -s "$PWD")"
 
 cd admin
 
@@ -50,3 +51,9 @@ printf "\n### Importing CSV data\n\n"
 printf "\n### Creating charts\n\n"
 
 ./create-charts.sh "$base" "$cert_pem_file" "$cert_password"
+
+printf "\n### Uploading files\n\n"
+
+find "${pwd}/files/images/categories" -type f -exec ./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} \;
+
+find "${pwd}/files/images/employees" -type f -exec ./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} \;
