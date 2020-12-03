@@ -4,6 +4,8 @@ PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
 PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy/domain#>
 PREFIX sioc:       <http://rdfs.org/sioc/ns#>
+PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
+PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#>
 
 CONSTRUCT
 {
@@ -19,8 +21,7 @@ CONSTRUCT
         dct:title ?companyName ;
         schema:legalName ?companyName ;
         schema:contactPoint ?contactPoint ;
-        schema:employee ?employee ;
-        schema:address ?postalAddress .
+        schema:employee ?employee .
 
     ?contactPoint a schema:ContactPoint ;
         schema:telephone ?phone ;
@@ -32,7 +33,10 @@ CONSTRUCT
         dct:title ?contactName ;
         schema:jobTitle ?contactTitle ;
         schema:telephone ?phone ;
-        schema:faxNumber ?fax .
+        schema:faxNumber ?fax ;
+        schema:address ?postalAddress ;
+        geo:lat ?lat ;
+        geo:long ?long .
 
     ?postalAddress a schema:PostalAddress ;
         schema:addressCountry ?country ;
@@ -52,6 +56,7 @@ WHERE
         <#postalCode> ?postalCode ;
         <#country> ?country ;
         <#phone> ?phone .
+
     OPTIONAL {
         ?supplier_row <#region> ?region
     }
@@ -60,6 +65,14 @@ WHERE
     }
     OPTIONAL {
         ?supplier_row <#homePage> ?homePage
+    }
+    OPTIONAL {
+        ?supplier_row <#lat> ?lat_string 
+        BIND(xsd:float(?lat_string) AS ?lat)
+    }
+    OPTIONAL {
+        ?supplier_row <#long> ?long_string
+        BIND(xsd:float(?long_string) AS ?long)
     }
 
     BIND(uri(concat(str(<suppliers/>), encode_for_uri(?supplierID), "/")) AS ?item)

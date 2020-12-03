@@ -51,8 +51,10 @@ WHERE
         <#shipCity> ?shipCity ;
         <#shipPostalCode> ?shipPostalCode ;
         <#shipCountry> ?shipCountry .
+
     OPTIONAL {
         ?order_row <#shippedDate> ?shippedDateString
+        BIND(strdt(?shippedDateString, xsd:date) AS ?shippedDate)
     }
     OPTIONAL {
         ?order_row <#shipRegion> ?shipRegion
@@ -65,8 +67,7 @@ WHERE
     BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/#this")) AS ?employee)
     BIND(uri(concat(str(<customers/>), encode_for_uri(?customerID), "/#this")) AS ?customer)
     BIND(uri(concat(str(<shippers/>), encode_for_uri(?shipVia), "/#this")) AS ?shipper)
-    BIND(strdt(substr(?orderDateString, 1, 10), xsd:date) AS ?orderDate)
-    BIND(strdt(substr(?requiredDateString, 1, 10), xsd:date) AS ?requiredDate)
+    BIND(strdt(?orderDateString, xsd:date) AS ?orderDate)
+    BIND(strdt(?requiredDateString, xsd:date) AS ?requiredDate)
     BIND(strdt(?freightString, xsd:float) AS ?freight)
-    BIND(strdt(substr(?shippedDateString, 1, 10), xsd:date) AS ?shippedDate)
 }

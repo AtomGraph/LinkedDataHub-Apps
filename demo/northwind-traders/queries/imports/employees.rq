@@ -5,6 +5,7 @@ PREFIX schema:     <https://schema.org/>
 PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy/domain#>
 PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
+PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#>
 
 CONSTRUCT
 {
@@ -30,6 +31,8 @@ CONSTRUCT
         schema:telephone ?extension ;
         schema:description ?notes ;
         schema:sponsor ?reportsToEmployee ;
+        geo:lat ?lat ;
+        geo:long ?long ;
         foaf:img ?photo .
 
     ?postalAddress a schema:PostalAddress ;
@@ -55,19 +58,24 @@ WHERE
         <#homePhone> ?homePhone ;
         <#extension> ?extension ;
         <#photoHash> ?photoHash ;
-        <#notes> ?notes .
+        <#notes> ?notes ;
+        <#lat> ?lat_string ;
+        <#long> ?long_string .
+
     OPTIONAL {
         ?employee_row <#region> ?region
     }
     OPTIONAL {
         ?employee_row <#reportsTo> ?reportsTo
+        BIND(uri(concat(str(<employees/>), encode_for_uri(?reportsTo), "/#this")) AS ?reportsToEmployee)
     }
 
+    BIND(xsd:float(?lat_string) AS ?lat)
+    BIND(xsd:float(?long_string) AS ?long)
     BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/")) AS ?item)
     BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/#this")) AS ?employee)
     BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/#address")) AS ?postalAddress)
     BIND(strdt(substr(?birthDateString, 1, 10), xsd:date) AS ?birthDate)
     BIND(strdt(substr(?hireDateString, 1, 10), xsd:date) AS ?hireDate)
-    BIND(uri(concat(str(<employees/>), encode_for_uri(?reportsTo), "/#this")) AS ?reportsToEmployee)
     BIND(uri(concat(str(<uploads/>), encode_for_uri(?photoHash), "/")) AS ?photo)
 }
