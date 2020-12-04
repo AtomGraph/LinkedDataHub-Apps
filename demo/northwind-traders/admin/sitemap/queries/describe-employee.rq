@@ -1,10 +1,11 @@
 PREFIX  schema: <https://schema.org/>
-PREFIX  foaf:   <http://xmlns.com/foaf/0.1/>
+PREFIX  foaf: <http://xmlns.com/foaf/0.1/>
 
 DESCRIBE ?this ?employee ?postalAddress
 WHERE
   { GRAPH ?g
-      { ?this foaf:primaryTopic ?employee .
-        ?employee schema:address ?postalAddress .
+      { ?this  foaf:primaryTopic  ?employee
+        OPTIONAL
+          { ?employee  schema:address  ?postalAddress }
       }
   }
