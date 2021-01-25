@@ -13,7 +13,8 @@ CONSTRUCT
         sioc:has_container ?this ;
         dh:slug ?employeeID ;
         dct:title ?lastName ;
-        foaf:primaryTopic ?employee .
+        foaf:primaryTopic ?employee ;
+        foaf:topic ?postalAddress .
 
     ?employee a schema:Person ;
         foaf:isPrimaryTopicOf ?item ;
@@ -36,6 +37,7 @@ CONSTRUCT
         foaf:img ?photo .
 
     ?postalAddress a schema:PostalAddress ;
+        foaf:page ?item ;
         schema:addressCountry ?country ;
         schema:addressLocality ?city ;
         schema:postalCode ?postalCode ;

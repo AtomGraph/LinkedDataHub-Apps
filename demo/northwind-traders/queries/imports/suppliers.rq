@@ -13,7 +13,8 @@ CONSTRUCT
         sioc:has_container ?this ;
         dh:slug ?supplierID ;
         dct:title ?companyName ;
-        foaf:primaryTopic ?supplier .
+        foaf:primaryTopic ?supplier ;
+        foaf:topic ?contactPoint, ?employee, ?postalAddress .
 
     ?supplier a schema:Corporation ;
         foaf:isPrimaryTopicOf ?item ;
@@ -24,11 +25,13 @@ CONSTRUCT
         schema:employee ?employee .
 
     ?contactPoint a schema:ContactPoint ;
+        foaf:page ?item ;
         schema:telephone ?phone ;
         schema:faxNumber ?fax ;
         schema:url ?homePage .
 
     ?employee a schema:Person ;
+        foaf:page ?item ;
         schema:name ?contactName ;
         dct:title ?contactName ;
         schema:jobTitle ?contactTitle ;
@@ -39,6 +42,7 @@ CONSTRUCT
         geo:long ?long .
 
     ?postalAddress a schema:PostalAddress ;
+        foaf:page ?item ;
         schema:addressCountry ?country ;
         schema:addressLocality ?city ;
         schema:postalCode ?postalCode ;

@@ -12,7 +12,8 @@ CONSTRUCT
         sioc:has_container ?this ;
         dh:slug ?orderID ;
         dct:title ?orderID ;
-        foaf:primaryTopic ?order .
+        foaf:primaryTopic ?order ;
+        foaf:topic ?orderDelivery, ?deliveryAddress .
 
     ?order a schema:Order ;
         foaf:isPrimaryTopicOf ?item ;
@@ -24,12 +25,14 @@ CONSTRUCT
         schema:orderDelivery ?orderDelivery .
 
     ?orderDelivery a schema:ParcelDelivery ;
+        foaf:page ?item ;
         schema:expectedArrivalUntil ?requiredDate ;
         # ?shippedDate ;
         schema:deliveryAddress ?deliveryAddress ;
         schema:provider ?shipper .
 
     ?deliveryAddress a schema:PostalAddress ;
+        foaf:page ?item ;
         schema:addressCountry ?shipCountry ;
         schema:addressLocality ?shipCity ;
         schema:postalCode ?shipPostalCode ;
