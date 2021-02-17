@@ -17,7 +17,7 @@ path="${filename%.*}" # strip the extension
 path="${path#*$pwd/}" # strip the leading $pwd/
 path="${path}/" # add trailing slash
 
-webid_uri=$("$SCRIPT_ROOT"/webid-uri.sh "$cert_pem_file" "$cert_password")
+webid_uri=$("$SCRIPT_ROOT"/webid-uri.sh "$cert_pem_file")
 
 pushd . && cd "$SCRIPT_ROOT/admin/acl"
 
