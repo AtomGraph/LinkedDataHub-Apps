@@ -12,6 +12,9 @@
     dct:description "Learn how to create container and item documents" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to create container and item documents</p>
+    <p class="text-center">
+        <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/paetjTkFBxE" width="560"></iframe>
+    </p>
     <p>To create a container document (which can have <a href="../../reference/documents/#hierarchy" target="_blank">children documents</a>), follow these steps:</p>
     <div class="tabbable">
         <ul class="nav nav-tabs">

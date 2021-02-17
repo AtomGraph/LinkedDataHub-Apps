@@ -49,7 +49,7 @@
         <p>
             <img alt="Action bar" src="../../uploads/4656ea9036a2b6d48a3233e0bc3cdc0f698ae0f2/"></img>
         </p>
-        <p>The <span class="btn">Create</span> button invokes <a href="#create-edit">create dialog</a> through which
+        <p>The <span class="btn btn-primary">Create</span> button invokes <a href="#create-edit">create dialog</a> through which
         resources can be <a href="../documents/#create">created</a> as instances of the
         <a href="../administration/model/#classes">classes</a> defined in the model.</p>
         <p>The path leading from the current document up the parent/child hierarchy to the root container is shown in
