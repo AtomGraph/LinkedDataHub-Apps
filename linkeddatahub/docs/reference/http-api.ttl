@@ -28,10 +28,6 @@
     </div>
     <div>
         <h2 id="documents">Managing documents</h2>
-        <div class="alert alert-info">
-            <p>Due to the <a href="../dataset-structure/">dataset structure</a>, resource descriptions cannot be updated directly.
-                Instead, <a href="#graphs">graphs</a> in which they are stored need to be updated.</p>
-        </div>
         <table class="table">
             <thead>
                 <tr>

@@ -23,15 +23,16 @@
                 <div>
                     <h3 id="start-linkeddatahub">Start LinkedDataHub</h3>
                     <p>This section assumes you will be running on your local machine, i.e. <samp>localhost</samp>. If you intend to run it on a different host, <a href="../../user-guide/change-system-base-uri/#base-uri">change the system base URI</a>.</p>
+                    <p>Prerequisites:</p>
+                    <ul>
+                        <li>bash shell. It should be included by default on Linux. On Windows you can install the <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" target="_blank">Windows Subsystem for Linux</a>.</li>
+                        <li>Java's <a href="https://docs.oracle.com/en/java/javase/11/tools/keytool.html" target="_blank">keytool</a> available on <code>$PATH</code>. It comes with the JDK.</li>
+                        <li><a href="https://www.openssl.org/" target="_blank">openssl</a> available on <code>$PATH</code>.</li>
+                        <li><a href="https://docs.docker.com/install/" target="_blank">Docker</a> installed</li>
+                        <li><a href="https://docs.docker.com/compose/install/" target="_blank">Docker Compose</a> installed</li>
+                    </ul>
+                    <p>Steps:</p>
                     <ol>
-                        <li>
-                            <a href="https://docs.docker.com/install/" target="_blank">Install Docker</a>
-                            <ul>
-                                <li>
-                                    <a href="https://docs.docker.com/compose/install/" target="_blank">Install Docker Compose</a>, if it is not already included in the Docker installation
-                                </li>
-                            </ul>
-                        </li>
                         <li><a href="https://guides.github.com/activities/forking/" target="_blank">Fork</a> the <a href="https://github.com/AtomGraph/LinkedDataHub" target="_blank">LinkedDataHub</a> repository
                             and clone the fork into a folder</li>
                         <li>In the folder, create an <samp>.env</samp> file and fill out the missing values (you can use <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/.env_sample" target="_blank"><samp>.env_sample</samp></a> as a template). For example:
@@ -51,15 +52,16 @@ OWNER_ORG_UNIT=My unit
 OWNER_ORGANIZATION=My org
 OWNER_LOCALITY=Copenhagen
 OWNER_STATE_OR_PROVINCE=Denmark
-OWNER_COUNTRY_NAME=DK
-OWNER_KEY_PASSWORD=changeit</pre>
+OWNER_COUNTRY_NAME=DK</pre>
+                        </li>
+                        <li>Setup SSL certificates/keys by running this from command line (replace <code>$owner_cert_pwd</code> and <code>$secretary_cert_pwd</code> with your own passwords):
+                            <pre>./scripts/setup.sh .env ssl $owner_cert_pwd $secretary_cert_pwd 3650</pre>
+                            The script will create an `ssl` sub-folder where the SSL certificates and/or public keys will be placed.
                         </li>
                         <li>Run this from command line:
                             <pre>docker-compose up</pre>
-                        </li>
-                        <li>LinkedDataHub will start and create the following sub-folders:
+                            LinkedDataHub will start and create the following sub-folders:
                             <ol>
-                                <li><samp>certs</samp> where your WebID certificates are stored</li>
                                 <li><samp>data</samp> where the triplestore(s) will persist RDF data</li>
                                 <li><samp>uploads</samp> where LinkedDataHub stores content-hashed file uploads</li>
                            </ol>
@@ -72,14 +74,17 @@ OWNER_KEY_PASSWORD=changeit</pre>
                 <div>
                     <h2 id="reset">Reset</h2>
                     <p>If you need to start fresh and wipe the existing setup (e.g. after configuring a new base URI), you can do that using:</p>
-                    <pre>sudo rm -rf certs data &amp;&amp; docker-compose down -v</pre>
-                    <p>This will remove the persisted data, server and owner certificates as well as their Docker volumes.</p>
+                    <pre>sudo rm -rf data uploads &amp;&amp; docker-compose down -v</pre>
+                    <div class="alert alert-info">
+                        <p>This will persisted data and files as well as the Docker volumes.</p>
+                    </div>
                 </div>
                 <p class="lead">Is LinkedDataHub running? Proceed to <a href="../get-an-account/">get an account</a>.</p>
             </div>
             <div class="tab-pane">
                 <h3 id="access-linkeddatahub-cloud">Access LinkedDataHub Cloud</h3>
-                <p>Go to <a href="https://linkeddatahub.com/" target="_blank">LinkedDataHub Cloud</a>, which is a managed LinkedDataHub service with multiple application support.</p>
+                <p><a href="https://linkeddatahub.com/" target="_blank">LinkedDataHub Cloud</a> is a managed LinkedDataHub service, meaning that you do not have to do any setup yourself.</p>
+                <p>Proceed to <a href="../get-an-account/">get an account</a> to see how to login to LinkedDataHub Cloud.</p>
             </div>
           </div>
         </div>
