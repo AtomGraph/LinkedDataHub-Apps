@@ -19,8 +19,6 @@ else
     request_base="$base"
 fi
 
-echo "REQUEST BASE: $request_base"
-
 pushd . && cd "$SCRIPT_ROOT/admin"
 
 ./add-ontology-import.sh \
@@ -28,6 +26,7 @@ pushd . && cd "$SCRIPT_ROOT/admin"
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --import "https://schema.org" \
+--request-base "${request_base}" \
 "${request_base}admin/model/ontologies/domain/"
 
 popd
