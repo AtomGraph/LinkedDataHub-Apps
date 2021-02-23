@@ -19,7 +19,6 @@
         from the examples in a folder outside LinkedDataHub — that will be the current directory for the CLI examples below. Alternatively, you can check out the source code of the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/skos" target="_blank">SKOS demo app</a> which implements the SKOS example used in this guide.</p>
     <div>
         <h2 id="setup">Setup</h2>
-        <p>Fork the GitHub repository and check it out into a folder. Install Docker and run <samp>docker-compose up</samp> from that folder.</p>
         <p class="lead"><a href="setup/" target="_blank">Read more more detailed setup instructions.</a></p>
     </div>
     <div>
