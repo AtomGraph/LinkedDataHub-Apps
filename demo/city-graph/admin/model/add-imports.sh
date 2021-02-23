@@ -26,7 +26,7 @@ pushd . && cd "$SCRIPT_ROOT/admin"
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --import "https://schema.org" \
---request-base "${request_base}" \
+--request-base "${request_base}admin/" \
 "${request_base}admin/model/ontologies/domain/"
 
 popd
