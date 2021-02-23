@@ -19,6 +19,8 @@ else
     request_base="$base"
 fi
 
+echo "REQUEST BASE: $request_base"
+
 pushd . && cd "$SCRIPT_ROOT/admin"
 
 ./add-ontology-import.sh \
