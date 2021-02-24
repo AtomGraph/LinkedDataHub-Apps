@@ -2,8 +2,8 @@
 
 [ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
 
-if [ "$#" -ne 3 ]; then
-  echo "Usage:   $0" '$base $cert_pem_file $cert_password' >&2
+if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
+  echo "Usage:   $0" '$base $cert_pem_file $cert_password [$request_base]' >&2
   echo "Example: $0" 'https://localhost:4443/demo/city-graph/ ../../../../../certs/martynas.stage.localhost.pem Password' >&2
   echo "Note: special characters such as $ need to be escaped in passwords!" >&2
   exit 1
@@ -12,6 +12,12 @@ fi
 base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
+
+if [ -n "$4" ]; then
+    request_base="$4"
+else
+    request_base="$base"
+fi
 
 pushd . && cd "$SCRIPT_ROOT/admin/model"
 
@@ -24,7 +30,8 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --slug bicycle-parking \
 --sub-class-of "https://schema.org/CivicStructure" \
 --path "{isPrimaryTopicOf.slug}/" \
---fragment "this"
+--fragment "this" \
+"${request_base}model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -35,7 +42,8 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --slug charging-station \
 --sub-class-of "https://schema.org/CivicStructure" \
 --path "{isPrimaryTopicOf.slug}/" \
---fragment "this"
+--fragment "this" \
+"${request_base}model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -46,7 +54,8 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --slug library \
 --sub-class-of "https://schema.org/Library" \
 --path "{isPrimaryTopicOf.slug}/" \
---fragment "this"
+--fragment "this" \
+"${request_base}model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -57,7 +66,8 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --slug parking-facility \
 --sub-class-of "https://schema.org/ParkingFacility" \
 --path "{isPrimaryTopicOf.slug}/" \
---fragment "this"
+--fragment "this" \
+"${request_base}model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -68,7 +78,8 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --slug place \
 --sub-class-of "https://schema.org/CivicStructure" \
 --path "{isPrimaryTopicOf.slug}/" \
---fragment "this"
+--fragment "this" \
+"${request_base}model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -79,7 +90,8 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --slug playground \
 --sub-class-of "https://schema.org/Playground" \
 --path "{isPrimaryTopicOf.slug}/" \
---fragment "this"
+--fragment "this" \
+"${request_base}model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -90,7 +102,8 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --slug school \
 --sub-class-of "https://schema.org/School" \
 --path "{isPrimaryTopicOf.slug}/" \
---fragment "this"
+--fragment "this" \
+"${request_base}model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -101,7 +114,8 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --slug sports-center \
 --sub-class-of "https://schema.org/CivicStructure" \
 --path "{isPrimaryTopicOf.slug}/" \
---fragment "this"
+--fragment "this" \
+"${request_base}model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -112,6 +126,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --slug public-toilet \
 --sub-class-of "http://schema.org/PublicToilet" \
 --path "{isPrimaryTopicOf.slug}/" \
---fragment "this"
+--fragment "this" \
+"${request_base}model/classes/"
 
 popd

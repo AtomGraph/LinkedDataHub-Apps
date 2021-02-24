@@ -31,7 +31,7 @@ printf "\n### Adding schema.org import to domain ontology\n\n"
 
 printf "\n### Creating classes\n\n"
 
-./create-classes.sh "$base" "$cert_pem_file" "$cert_password"
+./create-classes.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 cd ../sitemap
 
