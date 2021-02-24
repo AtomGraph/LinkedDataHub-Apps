@@ -47,7 +47,7 @@ cd ..
 
 printf "\n### Clearing ontologies\n\n"
 
-./clear-ontologies.sh "$base" "$cert_pem_file" "$cert_password"
+./clear-ontologies.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 cd ..
 
