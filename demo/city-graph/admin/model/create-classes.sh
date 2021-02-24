@@ -31,7 +31,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --sub-class-of "https://schema.org/CivicStructure" \
 --path "{isPrimaryTopicOf.slug}/" \
 --fragment "this" \
-"${request_base}model/classes/"
+"${request_base}admin/model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -43,7 +43,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --sub-class-of "https://schema.org/CivicStructure" \
 --path "{isPrimaryTopicOf.slug}/" \
 --fragment "this" \
-"${request_base}model/classes/"
+"${request_base}admin/model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -55,7 +55,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --sub-class-of "https://schema.org/Library" \
 --path "{isPrimaryTopicOf.slug}/" \
 --fragment "this" \
-"${request_base}model/classes/"
+"${request_base}admin/model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -67,7 +67,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --sub-class-of "https://schema.org/ParkingFacility" \
 --path "{isPrimaryTopicOf.slug}/" \
 --fragment "this" \
-"${request_base}model/classes/"
+"${request_base}admin/model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -79,7 +79,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --sub-class-of "https://schema.org/CivicStructure" \
 --path "{isPrimaryTopicOf.slug}/" \
 --fragment "this" \
-"${request_base}model/classes/"
+"${request_base}admin/model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -91,7 +91,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --sub-class-of "https://schema.org/Playground" \
 --path "{isPrimaryTopicOf.slug}/" \
 --fragment "this" \
-"${request_base}model/classes/"
+"${request_base}admin/model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -103,7 +103,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --sub-class-of "https://schema.org/School" \
 --path "{isPrimaryTopicOf.slug}/" \
 --fragment "this" \
-"${request_base}model/classes/"
+"${request_base}admin/model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -115,7 +115,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --sub-class-of "https://schema.org/CivicStructure" \
 --path "{isPrimaryTopicOf.slug}/" \
 --fragment "this" \
-"${request_base}model/classes/"
+"${request_base}admin/model/classes/"
 
 ./create-class.sh \
 -b "${base}admin/" \
@@ -127,6 +127,6 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
 --sub-class-of "http://schema.org/PublicToilet" \
 --path "{isPrimaryTopicOf.slug}/" \
 --fragment "this" \
-"${request_base}model/classes/"
+"${request_base}admin/model/classes/"
 
 popd
