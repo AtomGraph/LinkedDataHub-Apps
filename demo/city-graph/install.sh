@@ -53,7 +53,7 @@ cd ..
 
 printf "\n### Creating containers\n\n"
 
-./create-containers.sh "$base" "$cert_pem_file" "$cert_password"
+./create-containers.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 printf "\n### Importing CSV data\n\n"
 
