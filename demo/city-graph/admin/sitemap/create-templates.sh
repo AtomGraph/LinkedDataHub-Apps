@@ -13,6 +13,12 @@ base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
 
+if [ -n "$4" ]; then
+    request_base="$4"
+else
+    request_base="$base"
+fi
+
 pushd . && cd "$SCRIPT_ROOT/admin/sitemap"
 
 ./create-template.sh \
@@ -25,6 +31,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/sitemap"
 --extends "${base}ns/templates#Document" \
 --match "/{city}/{type}/{id}/" \
 --query "${base}ns/templates#DescribePlace" \
---is-defined-by "${base}ns/templates#"
+--is-defined-by "${base}ns/templates#" \
+"${request_base}admin/sitemap/templates/"
 
 popd
