@@ -37,7 +37,7 @@ cd ../sitemap
 
 printf "\n### Creating template queries\n\n"
 
-./create-queries.sh "$base" "$cert_pem_file" "$cert_password"
+./create-queries.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 printf "\n### Creating templates\n\n"
 
