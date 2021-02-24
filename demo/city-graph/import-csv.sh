@@ -2,8 +2,8 @@
 
 [ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
 
-if [ "$#" -ne 3 ]; then
-  echo "Usage:   $0" '$base $cert_pem_file $cert_password' >&2
+if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
+  echo "Usage:   $0" '$base $cert_pem_file $cert_password [$request_base]' >&2
   echo "Example: $0" 'https://linkeddatahub.com/atomgraph/app/ ../../../certs/martynas.localhost.pem Password' >&2
   echo "Note: special characters such as $ need to be escaped in passwords!" >&2
   exit 1
@@ -13,6 +13,12 @@ base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
 
+if [ -n "$4" ]; then
+    request_base="$4"
+else
+    request_base="$base"
+fi
+
 pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"/imports
@@ -21,6 +27,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Places" \
 --query-file "$pwd/queries/copenhagen/places.rq" \
 --file "$pwd/files/copenhagen/places.csv" \
@@ -30,6 +37,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Bicycle parkings" \
 --query-file "$pwd/queries/copenhagen/bicycle-parkings.rq" \
 --file "$pwd/files/copenhagen/bicycle-parkings.csv" \
@@ -39,6 +47,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Electric car chargers" \
 --query-file "$pwd/queries/copenhagen/charging-stations.rq" \
 --file "$pwd/files/copenhagen/charging-stations.csv" \
@@ -48,6 +57,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Libraries" \
 --query-file "$pwd/queries/copenhagen/libraries.rq" \
 --file "$pwd/files/copenhagen/libraries.csv" \
@@ -57,6 +67,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Parking facilities" \
 --query-file "$pwd/queries/copenhagen/parking-facilities.rq" \
 --file "$pwd/files/copenhagen/parking-facilities.csv" \
@@ -66,6 +77,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Playgrounds" \
 --query-file "$pwd/queries/copenhagen/playgrounds.rq" \
 --file "$pwd/files/copenhagen/playgrounds.csv" \
@@ -75,6 +87,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Schools" \
 --query-file "$pwd/queries/copenhagen/schools.rq" \
 --file "$pwd/files/copenhagen/schools.csv" \
@@ -84,6 +97,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Sports centers" \
 --query-file "$pwd/queries/copenhagen/sports-centers.rq" \
 --file "$pwd/files/copenhagen/sports-centers.csv" \
@@ -93,6 +107,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Public toilets" \
 --query-file "$pwd/queries/copenhagen/public-toilets.rq" \
 --file "$pwd/files/copenhagen/public-toilets.csv" \
@@ -102,6 +117,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Denmark postal areas" \
 --query-file "$pwd/queries/postal-areas.rq" \
 --file "$pwd/files/postal-areas.csv" \
