@@ -32,6 +32,14 @@ parent=$(
 "$request_base"
 )
 
+if [ -z "$request_base" ] ; then
+    request_parent="$parent"
+else
+    request_parent=$(echo "$parent" | sed -e "s|$base|$request_base|g")
+fi
+
+echo "REQUEST_PARENT: $request_parent"
+
 ./create-container.sh \
 -b "$base" \
 -f "$cert_pem_file" \
@@ -39,7 +47,7 @@ parent=$(
 --title "Places" \
 --slug "places" \
 --parent "$parent" \
-"$parent"
+"$request_parent"
 
 ./create-container.sh \
 -b "$base" \
@@ -48,7 +56,7 @@ parent=$(
 --title "Bicycle parkings" \
 --slug "bicycle-parkings" \
 --parent "$parent" \
-"$parent"
+"$request_parent"
 
 ./create-container.sh \
 -b "$base" \
@@ -57,7 +65,7 @@ parent=$(
 --title "Charging stations" \
 --slug "charging-stations" \
 --parent "$parent" \
-"$parent"
+"$request_parent"
 
 ./create-container.sh \
 -b "$base" \
@@ -66,7 +74,7 @@ parent=$(
 --title "Libraries" \
 --slug "libraries" \
 --parent "$parent" \
-"$parent"
+"$request_parent"
 
 ./create-container.sh \
 -b "$base" \
@@ -75,7 +83,7 @@ parent=$(
 --title "Parking facilities" \
 --slug "parking-facilities" \
 --parent "$parent" \
-"$parent"
+"$request_parent"
 
 ./create-container.sh \
 -b "$base" \
@@ -84,7 +92,7 @@ parent=$(
 --title "Playgrounds" \
 --slug "playgrounds" \
 --parent "$parent" \
-"$parent"
+"$request_parent"
 
 ./create-container.sh \
 -b "$base" \
@@ -93,7 +101,7 @@ parent=$(
 --title "Schools" \
 --slug "schools" \
 --parent "$parent" \
-"$parent"
+"$request_parent"
 
 ./create-container.sh \
 -b "$base" \
@@ -102,7 +110,7 @@ parent=$(
 --title "Sport centers" \
 --slug "sports-centers" \
 --parent "$parent" \
-"$parent"
+"$request_parent"
 
 ./create-container.sh \
 -b "$base" \
@@ -111,6 +119,6 @@ parent=$(
 --title "Public toilets" \
 --slug "public-toilets" \
 --parent "$parent" \
-"$parent"
+"$request_parent"
 
 popd
