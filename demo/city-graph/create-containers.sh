@@ -38,8 +38,6 @@ else
     request_parent=$(echo "$parent" | sed -e "s|$base|$request_base|g")
 fi
 
-echo "REQUEST_PARENT: $request_parent"
-
 ./create-container.sh \
 -b "$base" \
 -f "$cert_pem_file" \

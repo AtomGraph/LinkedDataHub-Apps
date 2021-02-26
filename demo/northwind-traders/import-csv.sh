@@ -2,8 +2,8 @@
 
 [ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
 
-if [ "$#" -ne 3 ]; then
-  echo "Usage:   $0" '$base $cert_pem_file $cert_password' >&2
+if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
+  echo "Usage:   $0" '$base $cert_pem_file $cert_password [$request_base]' >&2
   echo "Example: $0" 'https://linkeddatahub.com/atomgraph/app/ ../../../certs/martynas.localhost.pem Password' >&2
   echo "Note: special characters such as $ need to be escaped in passwords!" >&2
   exit 1
@@ -13,6 +13,12 @@ base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
 
+if [ -n "$4" ]; then
+    request_base="$4"
+else
+    request_base="$base"
+fi
+
 pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"/imports
@@ -21,6 +27,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Categories" \
 --query-file "$pwd/queries/imports/categories.rq" \
 --file "$pwd/files/categories.csv" \
@@ -30,6 +37,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Customers" \
 --query-file "$pwd/queries/imports/customers.rq" \
 --file "$pwd/files/customers.csv" \
@@ -39,6 +47,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Employees" \
 --query-file "$pwd/queries/imports/employees.rq" \
 --file "$pwd/files/employees.csv" \
@@ -48,6 +57,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Employee territories" \
 --query-file "$pwd/queries/imports/employee_territories.rq" \
 --file "$pwd/files/employee_territories.csv" \
@@ -57,6 +67,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Orders" \
 --query-file "$pwd/queries/imports/orders.rq" \
 --file "$pwd/files/orders.csv" \
@@ -66,6 +77,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Order details" \
 --query-file "$pwd/queries/imports/order_details.rq" \
 --file "$pwd/files/order_details.csv" \
@@ -75,6 +87,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Products" \
 --query-file "$pwd/queries/imports/products.rq" \
 --file "$pwd/files/products.csv" \
@@ -84,6 +97,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Regions" \
 --query-file "$pwd/queries/imports/regions.rq" \
 --file "$pwd/files/regions.csv" \
@@ -93,6 +107,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Shippers" \
 --query-file "$pwd/queries/imports/shippers.rq" \
 --file "$pwd/files/shippers.csv" \
@@ -102,6 +117,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Suppliers" \
 --query-file "$pwd/queries/imports/suppliers.rq" \
 --file "$pwd/files/suppliers.csv" \
@@ -111,6 +127,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
+--request-base "$request_base" \
 --title "Territories" \
 --query-file "$pwd/queries/imports/territories.rq" \
 --file "$pwd/files/territories.csv" \

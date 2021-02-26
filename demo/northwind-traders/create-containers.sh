@@ -2,16 +2,22 @@
 
 [ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
 
-if [ "$#" -ne 3 ]; then
-  echo "Usage:   $0" '$base $cert_pem_file $cert_password' >&2
+if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
+  echo "Usage:   $0" '$base $cert_pem_file $cert_password [$request_base]' >&2
   echo "Example: $0" 'https://linkeddatahub.com/atomgraph/app/ ../../../certs/martynas.localhost.pem Password' >&2
   echo "Note: special characters such as $ need to be escaped in passwords!" >&2
   exit 1
 fi
 
 base="$1"
-cert_pem_file=$(realpath -s "$2")
+cert_pem_file="$(realpath -s "$2")"
 cert_password="$3"
+
+if [ -n "$4" ]; then
+    request_base="$4"
+else
+    request_base="$base"
+fi
 
 pwd=$(realpath -s "$PWD")
 
@@ -23,7 +29,8 @@ select_categories=$(./create-select.sh \
 -p "$cert_password" \
 --title "Select categories" \
 --slug select-categories \
---query-file "$pwd/queries/select-categories.rq")
+--query-file "$pwd/queries/select-categories.rq" \
+"${request_base}queries/")
 
 ./create-container.sh \
 -b "$base" \
@@ -33,7 +40,7 @@ select_categories=$(./create-select.sh \
 --slug "categories" \
 --select "${select_categories}#this" \
 --parent "$base" \
-"$base"
+"$request_base"
 
 select_customers=$(./create-select.sh \
 -b "$base" \
@@ -41,7 +48,8 @@ select_customers=$(./create-select.sh \
 -p "$cert_password" \
 --title "Select customers" \
 --slug select-customers \
---query-file "$pwd/queries/select-customers.rq")
+--query-file "$pwd/queries/select-customers.rq" \
+"${request_base}queries/")
 
 ./create-container.sh \
 -b "$base" \
@@ -51,7 +59,7 @@ select_customers=$(./create-select.sh \
 --slug "customers" \
 --select "${select_customers}#this" \
 --parent "$base" \
-"$base"
+"$request_base"
 
 select_employees=$(./create-select.sh \
 -b "$base" \
@@ -59,7 +67,8 @@ select_employees=$(./create-select.sh \
 -p "$cert_password" \
 --title "Select employees" \
 --slug select-employees \
---query-file "$pwd/queries/select-employees.rq")
+--query-file "$pwd/queries/select-employees.rq" \
+"${request_base}queries/")
 
 ./create-container.sh \
 -b "$base" \
@@ -69,7 +78,7 @@ select_employees=$(./create-select.sh \
 --slug "employees" \
 --select "${select_employees}#this" \
 --parent "$base" \
-"$base"
+"$request_base"
 
 select_orders=$(./create-select.sh \
 -b "$base" \
@@ -77,7 +86,8 @@ select_orders=$(./create-select.sh \
 -p "$cert_password" \
 --title "Select orders" \
 --slug select-orders \
---query-file "$pwd/queries/select-orders.rq")
+--query-file "$pwd/queries/select-orders.rq" \
+"${request_base}queries/")
 
 ./create-container.sh \
 -b "$base" \
@@ -87,7 +97,7 @@ select_orders=$(./create-select.sh \
 --slug "orders" \
 --select "${select_orders}#this" \
 --parent "$base" \
-"$base"
+"$request_base"
 
 select_products=$(./create-select.sh \
 -b "$base" \
@@ -95,7 +105,8 @@ select_products=$(./create-select.sh \
 -p "$cert_password" \
 --title "Select products" \
 --slug select-products \
---query-file "$pwd/queries/select-products.rq")
+--query-file "$pwd/queries/select-products.rq" \
+"${request_base}queries/")
 
 ./create-container.sh \
 -b "$base" \
@@ -105,7 +116,7 @@ select_products=$(./create-select.sh \
 --slug "products" \
 --select "${select_products}#this" \
 --parent "$base" \
-"$base"
+"$request_base"
 
 select_regions=$(./create-select.sh \
 -b "$base" \
@@ -113,7 +124,8 @@ select_regions=$(./create-select.sh \
 -p "$cert_password" \
 --title "Select regions" \
 --slug select-regions \
---query-file "$pwd/queries/select-regions.rq")
+--query-file "$pwd/queries/select-regions.rq" \
+"${request_base}queries/")
 
 ./create-container.sh \
 -b "$base" \
@@ -123,7 +135,7 @@ select_regions=$(./create-select.sh \
 --slug "regions" \
 --select "${select_regions}#this" \
 --parent "$base" \
-"$base"
+"$request_base"
 
 select_shippers=$(./create-select.sh \
 -b "$base" \
@@ -131,7 +143,8 @@ select_shippers=$(./create-select.sh \
 -p "$cert_password" \
 --title "Select shippers" \
 --slug select-shippers \
---query-file "$pwd/queries/select-shippers.rq")
+--query-file "$pwd/queries/select-shippers.rq" \
+"${request_base}queries/")
 
 ./create-container.sh \
 -b "$base" \
@@ -141,7 +154,7 @@ select_shippers=$(./create-select.sh \
 --slug "shippers" \
 --select "${select_shippers}#this" \
 --parent "$base" \
-"$base"
+"$request_base"
 
 select_suppliers=$(./create-select.sh \
 -b "$base" \
@@ -149,7 +162,8 @@ select_suppliers=$(./create-select.sh \
 -p "$cert_password" \
 --title "Select suppliers" \
 --slug select-suppliers \
---query-file "$pwd/queries/select-suppliers.rq")
+--query-file "$pwd/queries/select-suppliers.rq" \
+"${request_base}queries/")
 
 ./create-container.sh \
 -b "$base" \
@@ -159,7 +173,7 @@ select_suppliers=$(./create-select.sh \
 --slug "suppliers" \
 --select "${select_suppliers}#this" \
 --parent "$base" \
-"$base"
+"$request_base"
 
 select_territories=$(./create-select.sh \
 -b "$base" \
@@ -167,7 +181,8 @@ select_territories=$(./create-select.sh \
 -p "$cert_password" \
 --title "Select territories" \
 --slug select-territories \
---query-file "$pwd/queries/select-territories.rq")
+--query-file "$pwd/queries/select-territories.rq" \
+"${request_base}queries/")
 
 ./create-container.sh \
 -b "$base" \
@@ -177,6 +192,6 @@ select_territories=$(./create-select.sh \
 --slug "territories" \
 --select "${select_territories}#this" \
 --parent "$base" \
-"$base"
+"$request_base"
 
 popd
