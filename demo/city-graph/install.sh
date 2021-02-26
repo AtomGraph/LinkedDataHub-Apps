@@ -17,8 +17,6 @@ else
     request_base="$base"
 fi
 
-echo "REQUEST BASE: $request_base"
-
 printf "\n### Creating authorization to make the app public\n\n"
 
 "$SCRIPT_ROOT"/admin/acl/make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --request-base "$request_base"
