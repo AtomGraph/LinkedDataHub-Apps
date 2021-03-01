@@ -2,8 +2,8 @@
 
 [ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
 
-if [ "$#" -ne 3 ]; then
-  echo "Usage:   $0" '$base $cert_pem_file $cert_password' >&2
+if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
+  echo "Usage:   $0" '$base $cert_pem_file $cert_password [$request_base]' >&2
   echo "Example: $0" 'https://linkeddatahub.com/atomgraph/app/ ../../../certs/martynas.localhost.pem Password' >&2
   echo "Note: special characters such as $ need to be escaped in passwords!" >&2
   exit 1
@@ -12,6 +12,12 @@ fi
 base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
+
+if [ -n "$4" ]; then
+    request_base="$4"
+else
+    request_base="$base"
+fi
 
 pwd=$(realpath -s "$PWD")
 
@@ -23,7 +29,8 @@ select_concepts=$(./create-select.sh \
 -p "$cert_password" \
 --title "Select concepts" \
 --slug select-concepts \
---query-file "$pwd/queries/select-concepts.rq")
+--query-file "$pwd/queries/select-concepts.rq" \
+"${request_base}queries/")
 
 ./create-container.sh \
 -b "$base" \
@@ -33,7 +40,7 @@ select_concepts=$(./create-select.sh \
 --slug "concepts" \
 --select "${select_concepts}#this" \
 --parent "$base" \
-"$base"
+"$request_base"
 
 select_concept_schemes=$(./create-select.sh \
 -b "$base" \
@@ -41,7 +48,8 @@ select_concept_schemes=$(./create-select.sh \
 -p "$cert_password" \
 --title "Select concept schemes" \
 --slug select-concept-schemes \
---query-file "$pwd/queries/select-concept-schemes.rq")
+--query-file "$pwd/queries/select-concept-schemes.rq" \
+"${request_base}queries/")
 
 ./create-container.sh \
 -b "$base" \
@@ -51,6 +59,6 @@ select_concept_schemes=$(./create-select.sh \
 --slug "concept-schemes" \
 --select "${select_concept_schemes}#this" \
 --parent "$base" \
-"$base"
+"$request_base"
 
 popd

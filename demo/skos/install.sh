@@ -16,13 +16,13 @@ pushd .
 
 printf "\n### Creating authorization to make the app public\n\n"
 
-"$SCRIPT_ROOT"/admin/acl/make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password"
+"$SCRIPT_ROOT"/admin/acl/make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --request-base "$request_base"
 
 printf "\n### Creating authorizations\n\n"
 
 cd admin/acl
 
-./create-authorizations.sh "$base" "$cert_pem_file" "$cert_password"
+./create-authorizations.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 cd ..
 
@@ -30,19 +30,19 @@ cd model
 
 printf "\n### Creating constructor queries\n\n"
 
-./create-constructors.sh "$base" "$cert_pem_file" "$cert_password"
+./create-constructors.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 printf "\n### Creating classes\n\n"
 
-./create-classes.sh "$base" "$cert_pem_file" "$cert_password"
+./create-classes.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 printf "\n### Creating constraints\n\n"
 
-./create-constraints.sh "$base" "$cert_pem_file" "$cert_password"
+./create-constraints.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 printf "\n### Creating restrictions\n\n"
 
-./create-restrictions.sh "$base" "$cert_pem_file" "$cert_password"
+./create-restrictions.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 cd ..
 
@@ -50,11 +50,11 @@ cd sitemap
 
 printf "\n### Creating template queries\n\n"
 
-./create-queries.sh "$base" "$cert_pem_file" "$cert_password"
+./create-queries.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 printf "\n### Creating templates\n\n"
 
-./create-templates.sh "$base" "$cert_pem_file" "$cert_password"
+./create-templates.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 popd
 
@@ -62,22 +62,22 @@ pushd . && cd ./admin
 
 printf "\n### Clearing ontologies\n\n"
 
-./clear-ontologies.sh "$base" "$cert_pem_file" "$cert_password"
+./clear-ontologies.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 popd
 
 printf "\n### Uploading files\n\n"
 
-find "${pwd}/files" -type f -exec ./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} \;
+find "${pwd}/files" -type f -exec ./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$request_base" \;
 
 printf "\n### Creating containers\n\n"
 
-./create-containers.sh "$base" "$cert_pem_file" "$cert_password"
+./create-containers.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 printf "\n### Updating documents\n\n"
 
-./update-documents.sh "$base" "$cert_pem_file" "$cert_password"
+./update-documents.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 printf "\n### Importing SKOS vocabulary\n\n"
 
-./import-rdf.sh "$base" "$cert_pem_file" "$cert_password"
+./import-rdf.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
