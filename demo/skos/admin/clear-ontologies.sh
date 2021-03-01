@@ -24,19 +24,16 @@ pushd . && cd "$SCRIPT_ROOT"/admin
 ./clear-ontology.sh \
 -f "$cert_pem_file" \
 -p "$cert_password" \
-"${base}admin/model/ontologies/domain/" \
 "${request_base}admin/model/ontologies/domain/"
 
 ./clear-ontology.sh \
 -f "$cert_pem_file" \
 -p "$cert_password" \
-"${base}admin/sitemap/ontologies/templates/" \
-"${request_base}admin/model/ontologies/domain/"
+"${request_base}admin/sitemap/ontologies/templates/"
 
 ./clear-ontology.sh \
 -f "$cert_pem_file" \
 -p "$cert_password" \
-"${base}admin/model/ontologies/namespace/" \
-"${request_base}admin/model/ontologies/domain/"
+"${base}admin/model/ontologies/namespace/"
 
 popd
