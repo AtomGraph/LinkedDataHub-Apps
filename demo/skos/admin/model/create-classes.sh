@@ -42,7 +42,7 @@ pushd . && cd "$SCRIPT_ROOT"/admin/model
 --uri "${base}ns/domain#ConceptItem" \
 --label "Concept item" \
 --slug concept-item \
---sub-class-of "${base}ns/default#Item" \
+--sub-class-of "${base}ns/domain/default#Item" \
 --sub-class-of "${base}ns/domain#ItemOfConceptContainer" \
 "${request_base}admin/model/classes/"
 
@@ -67,7 +67,7 @@ pushd . && cd "$SCRIPT_ROOT"/admin/model
 --uri "${base}ns/domain#ConceptSchemeItem" \
 --label "Concept scheme item" \
 --slug concept-scheme-item \
---sub-class-of "${base}ns/default#Item" \
+--sub-class-of "${base}ns/domain/default#Item" \
 --sub-class-of "${base}ns/domain#ItemOfConceptSchemeContainer" \
 "${request_base}admin/model/classes/"
 

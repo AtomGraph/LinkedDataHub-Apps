@@ -1,12 +1,12 @@
 @prefix ns:     <ns#> .
-@prefix def:    <ns/default#> .
+@prefix nsdd:   <ns/domain/default#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<user-guide/administration/change-model/> a def:Item ;
+<user-guide/administration/change-model/> a nsdd:Item ;
     sioc:has_container <user-guide/administration/> ;
     dct:title "Change the model" ;
     dct:description "Change the model: create constructors, classes, and restrictions" ;
@@ -176,7 +176,7 @@ popd</pre>
 --uri "https://localhost:4443/ns/domain#ConceptItem" \\
 --label "Concept item" \\
 --slug concept-item \\
---sub-class-of "https://localhost:4443/ns/default#Item" \\
+--sub-class-of "https://localhost:4443/ns/domain/default#Item" \\
 --sub-class-of "https://localhost:4443/ns/domain#ItemOfConceptContainer"
 
 popd</pre>

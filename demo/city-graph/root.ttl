@@ -1,11 +1,11 @@
-@prefix def:    <ns/default#> .
+@prefix nsdd:   <ns/domain/default#> .
 @prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:	<http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:	<https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
 @prefix dct:	<http://purl.org/dc/terms/> .
 @prefix sioc:	<http://rdfs.org/sioc/ns#> .
 
-<> a def:Root ;
+<> a nsdd:Root ;
     dh:select <queries/default/select-children/#this> ;
     dct:title "Root" ;
     dct:description "Geospatial and other open data about cities, imported by transforming CSV files to RDF" ;

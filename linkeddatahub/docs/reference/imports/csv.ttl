@@ -1,5 +1,5 @@
 @prefix ns:     <ns#> .
-@prefix def:    <ns/default#> .
+@prefix nsdd:   <ns/domain/default#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
@@ -7,7 +7,7 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<reference/imports/csv/> a def:Item ;
+<reference/imports/csv/> a nsdd:Item ;
     sioc:has_container <reference/imports/> ;
     dct:title "CSV imports" ;
     dct:description "CSV imports and mapping to RDF using SPARQL CONSTRUCT" ;
@@ -77,7 +77,7 @@ _:e8f2e8e9-3d02-4bf5-b4f1-4794ba5b52c9
             <p>This step provides a semantic "lift" for the generic RDF output of the previous step by mapping it
                 to classes and properties from specific vocabularies. The mapping is a user-defined SPARQL
                 <code>CONSTRUCT</code> query which transforms <em>one row at a time</em>. In this case we produce a SKOS concept paired with its item (document) for each country:</p>
-            <pre><code>PREFIX  def:  &lt;ns/default#&gt;
+            <pre><code>PREFIX  nsdd:  &lt;ns/domain/default#&gt;
 PREFIX  ns:   &lt;ns#&gt;
 PREFIX  apl:  &lt;https://w3id.org/atomgraph/linkeddatahub/domain#&gt;
 PREFIX  geo:  &lt;http://www.w3.org/2003/01/geo/wgs84_pos#&gt;
@@ -90,7 +90,7 @@ PREFIX  sioc: &lt;http://rdfs.org/sioc/ns#&gt;
 
 CONSTRUCT
   {
-    ?item a def:Item ;
+    ?item a nsdd:Item ;
         sioc:has_container ?this ;
         dct:title ?name ;
         dh:slug ?countryCode ;
@@ -127,7 +127,7 @@ WHERE
             <p>We are planning to provide a UI-based mapping tool in the future.</p>
             <p>The result of our mapping using above data and query using binding <code>(?base,
                 &lt;https://linkeddatahub.com/demo/city-graph/&gt;)</code> (only the first resource is shown):</p>
-            <pre>_:item a &lt;https://linkeddatahub.com/demo/city-graph/ns/default#Item&gt; ;
+            <pre>_:item a &lt;https://linkeddatahub.com/demo/city-graph/ns/domain/default#Item&gt; ;
     dct:title "Andorra" ;
     dh:slug "AD" ;
     foaf:primaryTopic _:country .

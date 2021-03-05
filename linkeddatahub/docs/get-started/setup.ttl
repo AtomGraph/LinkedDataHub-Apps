@@ -1,12 +1,12 @@
 @prefix ns:     <ns#> .
-@prefix def:    <ns/default#> .
+@prefix nsdd:   <ns/domain/default#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<get-started/setup/> a def:Item ;
+<get-started/setup/> a nsdd:Item ;
     sioc:has_container <get-started/> ;
     dct:title "Setup" ;
     dct:description "Setup LinkedDataHub on your local machine or access it in the cloud" ;

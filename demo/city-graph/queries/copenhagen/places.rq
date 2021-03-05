@@ -1,4 +1,4 @@
-PREFIX def:        <ns/default#>
+PREFIX nsdd:       <ns/domain/default#>
 PREFIX dom:        <ns/domain#>
 PREFIX schema:     <https://schema.org/>
 PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#>
@@ -12,7 +12,7 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT 
 {
-    ?item a def:Item ;
+    ?item a nsdd:Item ;
         sioc:has_container ?this ;
         dct:title ?name ;
         dh:slug ?id ;

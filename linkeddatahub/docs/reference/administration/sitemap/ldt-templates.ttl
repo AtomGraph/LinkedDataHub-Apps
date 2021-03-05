@@ -1,12 +1,12 @@
 @prefix ns:     <ns#> .
-@prefix def:    <ns/default#> .
+@prefix nsdd:   <ns/domain/default#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<reference/administration/sitemap/ldt-templates/> a def:Item ;
+<reference/administration/sitemap/ldt-templates/> a nsdd:Item ;
     sioc:has_container <reference/administration/sitemap/> ;
     dct:title "LDT templates" ;
     dct:description "Learn how to use Linked Data Templates" ;
@@ -26,12 +26,12 @@
         <p>Lets reuse a geospatial RDF dataset from the <a href="../../../../user-guide/import-data/import-csv-data/">CSV import example</a>: any number of countries with coordinates. It could look like this in a Trig
         syntax (the base URI is not relevant in this context):</p>
                 <pre>@base        &lt;https://linkeddatahub.com/demo/city-graph/&gt;
-@prefix def: &lt;ns/default#&gt;
+@prefix nsdd: &lt;ns/domain/default#&gt;
 @prefix ns:  &lt;ns#&gt;
 
 {
 
-    &lt;countries/AD/&gt; a def:Item ;
+    &lt;countries/AD/&gt; a nsdd:Item ;
         dct:title "Andorra" ;
         dh:slug "AD" ;
         foaf:primaryTopic &lt;countries/AD/#this&gt; .
