@@ -80,6 +80,9 @@ places_file=$(echo "$places_file_ntriples" | grep '<http://xmlns.com/foaf/0.1/pr
 
 import_container="${request_base}imports/"
 
+echo "PLACES_QUERY: $places_query"
+echo "PLACES_FILE: $places_file"
+
 ./create-csv-import.sh \
 -b "$base" \
 -f "$cert_pem_file" \
