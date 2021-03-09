@@ -23,6 +23,76 @@ pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"/imports
 
+# create queries
+
+query_container="${request_base}queries/"
+
+places_query_doc=$(./create-query.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Places" \
+--query-file "$pwd/queries/copenhagen/places.rq" \
+"$query_container")
+
+places_query_doc=$(echo "$places_query_doc" | sed -e "s|$base|$request_base|g")
+
+pushd . > /dev/null && cd "$SCRIPT_ROOT"
+
+places_query_ntriples=$(./get-document.sh \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--accept 'application/n-triples' \
+"$places_query_doc")
+
+popd > /dev/null
+
+places_query=$(echo "$places_query_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+
+# upload CSV files
+
+file_container="${request_base}files/"
+
+places_file_doc=$(./create-file.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Places" \
+--file "$pwd/files/copenhagen/places.csv" \
+--file-content-type "text/csv" \
+"$file_container")
+
+places_file_doc=$(echo "$places_file_doc" | sed -e "s|$base|$request_base|g")
+
+pushd . > /dev/null && cd "$SCRIPT_ROOT"
+
+places_file_ntriples=$(./get-document.sh \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--accept 'application/n-triples' \
+"$places_file_doc")
+
+popd > /dev/null
+
+places_file=$(echo "$places_file_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+
+# start imports
+
+import_container="${request_base}imports/"
+
+./create-csv-import.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Places" \
+--action "${base}copenhagen/places/" \
+--query "$places_query" \
+--file "$places_file" \
+--delimiter "," \
+"$import_container"
+
+exit 1
+
 ./import-csv.sh \
 -b "$base" \
 -f "$cert_pem_file" \
