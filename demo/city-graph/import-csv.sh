@@ -27,7 +27,7 @@ arr_csv=()
 while IFS= read -r line 
 do
     arr_csv+=("$line")
-done < imports.csv
+done < $(dirname "$0")/imports.csv
 
 echo "Displaying the contents of array mapped from csv file:"
 index=0
@@ -37,6 +37,7 @@ do
 	((index++))
 done
 
+exit 1
 
 ### CREATE QUERIES
 
