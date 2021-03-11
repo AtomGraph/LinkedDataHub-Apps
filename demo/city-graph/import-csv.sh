@@ -99,14 +99,14 @@ do
     popd > /dev/null
 
     file=$(echo "$file_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
-    files=("$file")
+    files+=("$file")
 
     # iterate
 
     ((index++))
 done
 
-# start imports
+# start imports - postpone until after documents are created so we don't get concurrent updates to the triplestore
 
 for i in "${!slugs[@]}"; do 
     printf "%s\t%s\n" "$i" "${slugs[$i]}"
