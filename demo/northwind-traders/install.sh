@@ -49,10 +49,6 @@ printf "\n### Updating documents\n\n"
 
 ./update-documents.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
-printf "\n### Importing CSV data\n\n"
-
-./import-csv.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
-
 printf "\n### Creating charts\n\n"
 
 ./create-charts.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
@@ -62,3 +58,7 @@ printf "\n### Uploading files\n\n"
 find "${pwd}/files/images/categories" -type f -exec ./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$request_base" \;
 
 find "${pwd}/files/images/employees" -type f -exec ./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$request_base" \;
+
+printf "\n### Importing CSV data\n\n"
+
+./import-csv.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
