@@ -12,6 +12,7 @@ fi
 base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
+imports_csv="$(dirname "$(realpath "$0")")/imports.csv"
 
 if [ -n "$4" ]; then
     request_base="$4"
@@ -19,118 +20,105 @@ else
     request_base="$base"
 fi
 
+query_container="${request_base}queries/"
+file_container="${request_base}files/"
+import_container="${request_base}imports/"
+
+titles=()
+slugs=()
+queries=()
+files=()
+
 pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"/imports
 
-./import-csv.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---request-base "$request_base" \
---title "Categories" \
---query-file "$pwd/queries/imports/categories.rq" \
---file "$pwd/files/categories.csv" \
---action "${base}categories/"
+arr_csv=() 
+while IFS= read -r line 
+do
+    arr_csv+=("$line")
+done < <(tail -n +2 "$imports_csv")
 
-./import-csv.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---request-base "$request_base" \
---title "Customers" \
---query-file "$pwd/queries/imports/customers.rq" \
---file "$pwd/files/customers.csv" \
---action "${base}customers/"
+index=0
+for row in "${arr_csv[@]}"
+do
+    slug=$(echo "$row" | cut -d "," -f 1)
+    query_filename=$(echo "$row" | cut -d "," -f 2)
+    csv_filename=$(echo "$row" | cut -d "," -f 3)
+    title=$(echo "$row" | cut -d "," -f 4)
 
-./import-csv.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---request-base "$request_base" \
---title "Employees" \
---query-file "$pwd/queries/imports/employees.rq" \
---file "$pwd/files/employees.csv" \
---action "${base}employees/"
+    slugs+=("$slug")
+    titles+=("$title")
+    
+    # create query
 
-./import-csv.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---request-base "$request_base" \
---title "Employee territories" \
---query-file "$pwd/queries/imports/employee_territories.rq" \
---file "$pwd/files/employee_territories.csv" \
---action "${base}employees/"
+    query_doc=$(./create-query.sh \
+    -b "$base" \
+    -f "$cert_pem_file" \
+    -p "$cert_password" \
+    --title "$title" \
+    --query-file "$pwd/queries/imports/${query_filename}.rq" \
+    "$query_container")
 
-./import-csv.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---request-base "$request_base" \
---title "Orders" \
---query-file "$pwd/queries/imports/orders.rq" \
---file "$pwd/files/orders.csv" \
---action "${base}orders/"
+    query_doc=$(echo "$query_doc" | sed -e "s|$base|$request_base|g")
 
-./import-csv.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---request-base "$request_base" \
---title "Order details" \
---query-file "$pwd/queries/imports/order_details.rq" \
---file "$pwd/files/order_details.csv" \
---action "${base}orders/"
+    pushd . > /dev/null && cd "$SCRIPT_ROOT"
 
-./import-csv.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---request-base "$request_base" \
---title "Products" \
---query-file "$pwd/queries/imports/products.rq" \
---file "$pwd/files/products.csv" \
---action "${base}products/"
+    query_ntriples=$(./get-document.sh \
+    -f "$cert_pem_file" \
+    -p "$cert_password" \
+    --accept 'application/n-triples' \
+    "$query_doc")
 
-./import-csv.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---request-base "$request_base" \
---title "Regions" \
---query-file "$pwd/queries/imports/regions.rq" \
---file "$pwd/files/regions.csv" \
---action "${base}regions/"
+    popd > /dev/null
 
-./import-csv.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---request-base "$request_base" \
---title "Shippers" \
---query-file "$pwd/queries/imports/shippers.rq" \
---file "$pwd/files/shippers.csv" \
---action "${base}shippers/"
+    query=$(echo "$query_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+    queries+=("$query")
 
-./import-csv.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---request-base "$request_base" \
---title "Suppliers" \
---query-file "$pwd/queries/imports/suppliers.rq" \
---file "$pwd/files/suppliers.csv" \
---action "${base}suppliers/"
+    # upload file
 
-./import-csv.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---request-base "$request_base" \
---title "Territories" \
---query-file "$pwd/queries/imports/territories.rq" \
---file "$pwd/files/territories.csv" \
---action "${base}territories/"
+    file_doc=$(./create-file.sh \
+    -b "$base" \
+    -f "$cert_pem_file" \
+    -p "$cert_password" \
+    --title "$title" \
+    --file "$pwd/files/${csv_filename}.csv" \
+    --file-content-type "text/csv" \
+    "$file_container")
+
+    file_doc=$(echo "$file_doc" | sed -e "s|$base|$request_base|g")
+
+    pushd . > /dev/null && cd "$SCRIPT_ROOT"
+
+    file_ntriples=$(./get-document.sh \
+    -f "$cert_pem_file" \
+    -p "$cert_password" \
+    --accept 'application/n-triples' \
+    "$file_doc")
+
+    popd > /dev/null
+
+    file=$(echo "$file_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+    files+=("$file")
+
+    # iterate
+
+    ((index++))
+done
+
+# start imports - postpone until after documents are created so we don't get concurrent updates to the triplestore
+
+for i in "${!slugs[@]}"; do 
+    ./create-csv-import.sh \
+    -b "$base" \
+    -f "$cert_pem_file" \
+    -p "$cert_password" \
+    --title "${titles[$i]}" \
+    --action "${base}${slugs[$i]}/" \
+    --query "${queries[$i]}" \
+    --file "${files[$i]}" \
+    --delimiter "," \
+    "$import_container"
+done
 
 popd

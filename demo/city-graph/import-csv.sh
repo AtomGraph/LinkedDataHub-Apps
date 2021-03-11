@@ -45,8 +45,6 @@ do
     slug=$(echo "$row" | cut -d "," -f 1)
     title=$(echo "$row" | cut -d "," -f 2)
 
-    echo "Import slug: ${slug} Title: ${title}"
-
     slugs+=("$slug")
     titles+=("$title")
     
