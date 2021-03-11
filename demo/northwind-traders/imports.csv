@@ -4,7 +4,7 @@ customers,customers,customers,Customers
 employees,employees,employees,Employees
 employees,employee_territories,employee_territories,Employee territories
 orders,orders,orders,Orders
-order_details,order_details,order_details,Order details
+orders,order_details,order_details,Order details
 products,products,products,Products
 regions,regions,regions,Regions
 shippers,shippers,shippers,Shippers
