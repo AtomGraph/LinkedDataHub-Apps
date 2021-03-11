@@ -1,10 +1,10 @@
-title,slug
-Places,places
-Bicycle parkings,bicycle-parkings
-Charging stations,charging-stations
-Libraries,libraries
-Parking facilities,parking-facilities
-Playgrounds,playgrounds
-Schools,schools
-Sports centers,sports-centers
-Public toilets,public-toilets
+slug,title
+places,Places
+bicycle-parkings,Bicycle parkings
+charging-stations,Charging stations
+libraries,Libraries
+parking-facilities,Parking facilities
+playgrounds,Playgrounds
+schools,Schools
+sports-centers,Sports centers
+public-toilets,Public toilets

@@ -32,12 +32,15 @@ do
     arr_csv+=("$line")
 done < <(tail -n +2 "$imports_csv")
 
-echo "Displaying the contents of array mapped from csv file:"
 index=0
-for record in "${arr_csv[@]}"
+for row in "${arr_csv[@]}"
 do
-    echo "Record at index-${index} : $record"
-	((index++))
+    slug=$(echo "$row" | cut -d "," -f 1)
+    title=$(echo "$row" | cut -d "," -f 2)
+
+    echo "Slug: ${slug} Title ${title}"
+    
+    ((index++))
 done
 
 exit 1
