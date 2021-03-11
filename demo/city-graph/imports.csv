@@ -1,10 +1,10 @@
 path,slug,query_filename,csv_filename,title
-copenhagen/,queries/copenhagen/places.rq,files/copenhagen/places.csv,Places
-copenhagen/,queries/copenhagen/bicycle-parkings.rq,files/copenhagen/bicycle-parkings.csv,Bicycle parkings
-copenhagen/,queries/copenhagen/charging-stations.rq,files/copenhagen/charging-stations.csv,Charging stations
-copenhagen/,queries/copenhagen/libraries.rq,files/copenhagen/libraries.csv,Libraries
-copenhagen/,queries/copenhagen/parking-facilities.rq,files/copenhagen/parking-facilities.csv,Parking facilities
-copenhagen/,queries/copenhagen/playgrounds.rq,files/copenhagen/playgrounds.csv,Playgrounds
-copenhagen/,queries/copenhagen/schools.rq,files/copenhagen/schools.csv,Schools
-copenhagen/,queries/copenhagen/sports-centers.rq,files/copenhagen/sports-centers.csv,Sports centers
-copenhagen/,queries/copenhagen/public-toilets.rq,files/copenhagen/public-toilets.csv,Public toilets
+copenhagen/,places,queries/copenhagen/places.rq,files/copenhagen/places.csv,Places
+copenhagen/,bicycle-parkings,queries/copenhagen/bicycle-parkings.rq,files/copenhagen/bicycle-parkings.csv,Bicycle parkings
+copenhagen/,charging-stations,queries/copenhagen/charging-stations.rq,files/copenhagen/charging-stations.csv,Charging stations
+copenhagen/,libraries,queries/copenhagen/libraries.rq,files/copenhagen/libraries.csv,Libraries
+copenhagen/,parking-facilities,queries/copenhagen/parking-facilities.rq,files/copenhagen/parking-facilities.csv,Parking facilities
+copenhagen/,playgrounds,queries/copenhagen/playgrounds.rq,files/copenhagen/playgrounds.csv,Playgrounds
+copenhagen/,schools,queries/copenhagen/schools.rq,files/copenhagen/schools.csv,Schools
+copenhagen/,sports-centers,queries/copenhagen/sports-centers.rq,files/copenhagen/sports-centers.csv,Sports centers
+copenhagen/,public-toilets,queries/copenhagen/public-toilets.rq,files/copenhagen/public-toilets.csv,Public toilets
