@@ -57,7 +57,7 @@ do
     -f "$cert_pem_file" \
     -p "$cert_password" \
     --title "$title" \
-    --query-file "$pwd/queries/copenhagen/${title}.rq" \
+    --query-file "$pwd/queries/copenhagen/${slug}.rq" \
     "$query_container")
 
     query_doc=$(echo "$query_doc" | sed -e "s|$base|$request_base|g")
@@ -81,8 +81,8 @@ do
     -b "$base" \
     -f "$cert_pem_file" \
     -p "$cert_password" \
-    --title "Places" \
-    --file "$pwd/files/copenhagen/places.csv" \
+    --title "$title" \
+    --file "$pwd/files/copenhagen/${slug}.csv" \
     --file-content-type "text/csv" \
     "$file_container")
 
