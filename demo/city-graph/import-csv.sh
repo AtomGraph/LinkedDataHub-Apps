@@ -23,9 +23,11 @@ pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"/imports
 
-# create queries
+### CREATE QUERIES
 
 query_container="${request_base}queries/"
+
+# places
 
 places_query_doc=$(./create-query.sh \
 -b "$base" \
@@ -49,9 +51,131 @@ popd > /dev/null
 
 places_query=$(echo "$places_query_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
 
-# upload CSV files
+# bicycle parkings
+
+bicycle_parkings_query_doc=$(./create-query.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Bicycle parkings" \
+--query-file "$pwd/queries/copenhagen/bicycle-parkings.rq" \
+"$query_container")
+
+bicycle_parkings_query_doc=$(echo "$bicycle_parkings_query_doc" | sed -e "s|$base|$request_base|g")
+
+pushd . > /dev/null && cd "$SCRIPT_ROOT"
+
+bicycle_parkings_query_ntriples=$(./get-document.sh \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--accept 'application/n-triples' \
+"$bicycle_parkings_query_doc")
+
+popd > /dev/null
+
+bicycle_parkings_query=$(echo "$bicycle_parkings_query_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+
+# charging stations
+
+charging_stations_query_doc=$(./create-query.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Charging stations" \
+--query-file "$pwd/queries/copenhagen/charging-stations.rq" \
+"$query_container")
+
+charging_stations_query_doc=$(echo "$charging_stations_query_doc" | sed -e "s|$base|$request_base|g")
+
+pushd . > /dev/null && cd "$SCRIPT_ROOT"
+
+charging_stations_query_ntriples=$(./get-document.sh \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--accept 'application/n-triples' \
+"$charging_stations_query_doc")
+
+popd > /dev/null
+
+charging_stations_query=$(echo "$charging_stations_query_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+
+# libraries
+
+libraries_query_doc=$(./create-query.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Libraries" \
+--query-file "$pwd/queries/copenhagen/libraries.rq" \
+"$query_container")
+
+libraries_query_doc=$(echo "$libraries_query_doc" | sed -e "s|$base|$request_base|g")
+
+pushd . > /dev/null && cd "$SCRIPT_ROOT"
+
+libraries_query_ntriples=$(./get-document.sh \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--accept 'application/n-triples' \
+"$libraries_query_doc")
+
+popd > /dev/null
+
+libraries_query=$(echo "$libraries_query_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+
+# parking facilities
+
+parking_facilities_query_doc=$(./create-query.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Parking facilities" \
+--query-file "$pwd/queries/copenhagen/parking-facilities.rq" \
+"$query_container")
+
+parking_facilities_query_doc=$(echo "$parking_facilities_query_doc" | sed -e "s|$base|$request_base|g")
+
+pushd . > /dev/null && cd "$SCRIPT_ROOT"
+
+parking_facilities_query_ntriples=$(./get-document.sh \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--accept 'application/n-triples' \
+"$parking_facilities_query_doc")
+
+popd > /dev/null
+
+parking_facilities_query=$(echo "$parking_facilities_query_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+
+# playgrounds
+
+playgrounds_query_doc=$(./create-query.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Places" \
+--query-file "$pwd/queries/copenhagen/playgrounds.rq" \
+"$query_container")
+
+playgrounds_query_doc=$(echo "$playgrounds_query_doc" | sed -e "s|$base|$request_base|g")
+
+pushd . > /dev/null && cd "$SCRIPT_ROOT"
+
+playgrounds_query_ntriples=$(./get-document.sh \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--accept 'application/n-triples' \
+"$playgrounds_query_doc")
+
+popd > /dev/null
+
+playgrounds_query=$(echo "$playgrounds_query_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+
+### UPLOAD CSV
 
 file_container="${request_base}files/"
+
+# places
 
 places_file_doc=$(./create-file.sh \
 -b "$base" \
@@ -76,12 +200,136 @@ popd > /dev/null
 
 places_file=$(echo "$places_file_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
 
-# start imports
+# bicycle parkings
+
+bicycle_parkings_file_doc=$(./create-file.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Bicycle parkings" \
+--file "$pwd/files/copenhagen/bicycle-parkings.csv" \
+--file-content-type "text/csv" \
+"$file_container")
+
+bicycle_parkings_file_doc=$(echo "$bicycle_parkings_file_doc" | sed -e "s|$base|$request_base|g")
+
+pushd . > /dev/null && cd "$SCRIPT_ROOT"
+
+bicycle_parkings_file_ntriples=$(./get-document.sh \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--accept 'application/n-triples' \
+"$bicycle_parkings_file_doc")
+
+popd > /dev/null
+
+bicycle_parkings_file=$(echo "$bicycle_parkings_file_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+
+# charging stations
+
+charging_stations_file_doc=$(./create-file.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Charging stations" \
+--file "$pwd/files/copenhagen/charging-stations.csv" \
+--file-content-type "text/csv" \
+"$file_container")
+
+charging_stations_file_doc=$(echo "$charging_stations_file_doc" | sed -e "s|$base|$request_base|g")
+
+pushd . > /dev/null && cd "$SCRIPT_ROOT"
+
+charging_stations_file_ntriples=$(./get-document.sh \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--accept 'application/n-triples' \
+"$charging_stations_file_doc")
+
+popd > /dev/null
+
+charging_stations_file=$(echo "$charging_stations_file_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+
+# libraries
+
+libraries_file_doc=$(./create-file.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Libraries" \
+--file "$pwd/files/copenhagen/libraries.csv" \
+--file-content-type "text/csv" \
+"$file_container")
+
+libraries_file_doc=$(echo "$libraries_file_doc" | sed -e "s|$base|$request_base|g")
+
+pushd . > /dev/null && cd "$SCRIPT_ROOT"
+
+libraries_file_ntriples=$(./get-document.sh \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--accept 'application/n-triples' \
+"$libraries_file_doc")
+
+popd > /dev/null
+
+libraries_file=$(echo "$libraries_file_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+
+# parking facilities
+
+parking_facilities_file_doc=$(./create-file.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Places" \
+--file "$pwd/files/copenhagen/parking-facilities.csv" \
+--file-content-type "text/csv" \
+"$file_container")
+
+parking_facilities_file_doc=$(echo "$parking_facilities_file_doc" | sed -e "s|$base|$request_base|g")
+
+pushd . > /dev/null && cd "$SCRIPT_ROOT"
+
+parking_facilities_file_ntriples=$(./get-document.sh \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--accept 'application/n-triples' \
+"$parking_facilities_file_doc")
+
+popd > /dev/null
+
+parking_facilities_file=$(echo "$parking_facilities_file_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+
+# playgrounds
+
+playgrounds_file_doc=$(./create-file.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Playgrounds" \
+--file "$pwd/files/copenhagen/playgrounds.csv" \
+--file-content-type "text/csv" \
+"$file_container")
+
+playgrounds_file_doc=$(echo "$playgrounds_file_doc" | sed -e "s|$base|$request_base|g")
+
+pushd . > /dev/null && cd "$SCRIPT_ROOT"
+
+playgrounds_file_ntriples=$(./get-document.sh \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--accept 'application/n-triples' \
+"$playgrounds_file_doc")
+
+popd > /dev/null
+
+playgrounds_file=$(echo "$playgrounds_file_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+
+### START IMPORTS
 
 import_container="${request_base}imports/"
 
-echo "PLACES_QUERY: $places_query"
-echo "PLACES_FILE: $places_file"
+# places
 
 ./create-csv-import.sh \
 -b "$base" \
@@ -94,57 +342,72 @@ echo "PLACES_FILE: $places_file"
 --delimiter "," \
 "$import_container"
 
-exit 1
+# bicycle parkings
 
-./import-csv.sh \
+./create-csv-import.sh \
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
---request-base "$request_base" \
---title "Places" \
---query-file "$pwd/queries/copenhagen/places.rq" \
---file "$pwd/files/copenhagen/places.csv" \
---action "${base}copenhagen/places/"
-
-./import-csv.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---request-base "$request_base" \
 --title "Bicycle parkings" \
---query-file "$pwd/queries/copenhagen/bicycle-parkings.rq" \
---file "$pwd/files/copenhagen/bicycle-parkings.csv" \
---action "${base}copenhagen/bicycle-parkings/"
+--action "${base}copenhagen/bicycle-parkings/" \
+--query "$bicycle_parkings_query" \
+--file "$bicycle_parkings_file" \
+--delimiter "," \
+"$import_container"
 
-./import-csv.sh \
+# charging stations
+
+./create-csv-import.sh \
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
---request-base "$request_base" \
---title "Electric car chargers" \
---query-file "$pwd/queries/copenhagen/charging-stations.rq" \
---file "$pwd/files/copenhagen/charging-stations.csv" \
---action "${base}copenhagen/charging-stations/"
+--title "Charging stations" \
+--action "${base}copenhagen/charging-stations/" \
+--query "$charging_stations_query" \
+--file "$charging_stations_file" \
+--delimiter "," \
+"$import_container"
 
-./import-csv.sh \
+# libraries
+
+./create-csv-import.sh \
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
---request-base "$request_base" \
 --title "Libraries" \
---query-file "$pwd/queries/copenhagen/libraries.rq" \
---file "$pwd/files/copenhagen/libraries.csv" \
---action "${base}copenhagen/libraries/"
+--action "${base}copenhagen/libraries/" \
+--query "$libraries_query" \
+--file "$libraries_file" \
+--delimiter "," \
+"$import_container"
 
-./import-csv.sh \
+# parking facilities
+
+./create-csv-import.sh \
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
---request-base "$request_base" \
 --title "Parking facilities" \
---query-file "$pwd/queries/copenhagen/parking-facilities.rq" \
---file "$pwd/files/copenhagen/parking-facilities.csv" \
---action "${base}copenhagen/parking-facilities/"
+--action "${base}copenhagen/parking-facilities/" \
+--query "$parking_facilities_query" \
+--file "$parking_facilities_file" \
+--delimiter "," \
+"$import_container"
+
+# playgrounds
+
+./create-csv-import.sh \
+-b "$base" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--title "Playgrounds" \
+--action "${base}copenhagen/playgrounds/" \
+--query "$playgrounds_query" \
+--file "$playgrounds_file" \
+--delimiter "," \
+"$import_container"
+
+exit 1
 
 ./import-csv.sh \
 -b "$base" \
