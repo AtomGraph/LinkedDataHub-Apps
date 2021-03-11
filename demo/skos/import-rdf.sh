@@ -28,10 +28,21 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 -f "$cert_pem_file" \
 -p "$cert_password" \
 --request-base "$request_base" \
---title "UN thesaurus SKOS" \
+--title "UN thesaurus SKOS (part 1)" \
 --query-file "$pwd/queries/skos-import.rq" \
---file "$pwd/files/unesco-thesaurus.ttl" \
+--file "$pwd/files/unesco-thesaurus.part1.ttl" \
 --file-content-type "text/turtle" \
 --action "$base"
+
+#./import-rdf.sh \
+#-b "$base" \
+#-f "$cert_pem_file" \
+#-p "$cert_password" \
+#--request-base "$request_base" \
+#--title "UN thesaurus SKOS (part 2)" \
+#--query-file "$pwd/queries/skos-import.rq" \
+#--file "$pwd/files/unesco-thesaurus.part2.ttl" \
+#--file-content-type "text/turtle" \
+#--action "$base"
 
 popd > /dev/null
