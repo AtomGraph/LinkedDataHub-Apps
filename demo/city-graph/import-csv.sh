@@ -23,6 +23,21 @@ pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"/imports
 
+arr_csv=() 
+while IFS= read -r line 
+do
+    arr_csv+=("$line")
+done < imports.csv
+
+echo "Displaying the contents of array mapped from csv file:"
+index=0
+for record in "${arr_csv[@]}"
+do
+    echo "Record at index-${index} : $record"
+	((index++))
+done
+
+
 ### CREATE QUERIES
 
 query_container="${request_base}queries/"
@@ -153,7 +168,7 @@ playgrounds_query_doc=$(./create-query.sh \
 -b "$base" \
 -f "$cert_pem_file" \
 -p "$cert_password" \
---title "Places" \
+--title "Playgrounds" \
 --query-file "$pwd/queries/copenhagen/playgrounds.rq" \
 "$query_container")
 
