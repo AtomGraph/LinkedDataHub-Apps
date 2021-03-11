@@ -109,10 +109,16 @@ done
 # start imports - postpone until after documents are created so we don't get concurrent updates to the triplestore
 
 for i in "${!slugs[@]}"; do 
-    printf "%s\t%s\n" "$i" "${slugs[$i]}"
-    printf "%s\t%s\n" "$i" "${titles[$i]}"
-    printf "%s\t%s\n" "$i" "${queries[$i]}"
-    printf "%s\t%s\n" "$i" "${files[$i]}"
+    ./create-csv-import.sh \
+    -b "$base" \
+    -f "$cert_pem_file" \
+    -p "$cert_password" \
+    --title "${titles[$i]}" \
+    --action "${base}copenhagen/${slugs[$i]}/" \
+    --query "${queries[$i]}" \
+    --file "${files[$i]}" \
+    --delimiter "," \
+    "$import_container"
 done
 
 popd
