@@ -42,11 +42,13 @@ done < <(tail -n +2 "$imports_csv")
 index=0
 for row in "${arr_csv[@]}"
 do
-    slug=$(echo "$row" | cut -d "," -f 1)
-    query_filename=$(echo "$row" | cut -d "," -f 2)
-    csv_filename=$(echo "$row" | cut -d "," -f 3)
-    title=$(echo "$row" | cut -d "," -f 4)
+    path=$(echo "$row" | cut -d "," -f 1)
+    slug=$(echo "$row" | cut -d "," -f 2)
+    query_filename=$(echo "$row" | cut -d "," -f 3)
+    csv_filename=$(echo "$row" | cut -d "," -f 4)
+    title=$(echo "$row" | cut -d "," -f 5)
 
+    paths+=("$path")
     slugs+=("$slug")
     titles+=("$title")
     
@@ -57,7 +59,7 @@ do
     -f "$cert_pem_file" \
     -p "$cert_password" \
     --title "$title" \
-    --query-file "$pwd/queries/imports/${query_filename}.rq" \
+    --query-file "$pwd/${query_filename}" \
     "$query_container")
 
     query_doc=$(echo "$query_doc" | sed -e "s|$base|$request_base|g")
@@ -82,7 +84,7 @@ do
     -f "$cert_pem_file" \
     -p "$cert_password" \
     --title "$title" \
-    --file "$pwd/files/${csv_filename}.csv" \
+    --file "$pwd/${csv_filename}" \
     --file-content-type "text/csv" \
     "$file_container")
 
@@ -114,7 +116,7 @@ for i in "${!slugs[@]}"; do
     -f "$cert_pem_file" \
     -p "$cert_password" \
     --title "${titles[$i]}" \
-    --action "${base}${slugs[$i]}/" \
+    --action "${base}${paths[$i]}${slugs[$i]}/" \
     --query "${queries[$i]}" \
     --file "${files[$i]}" \
     --delimiter "," \

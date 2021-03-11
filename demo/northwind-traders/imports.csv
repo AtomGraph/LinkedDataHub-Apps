@@ -1,12 +1,12 @@
-slug,query_filename,csv_filename,title
-categories,categories,categories,Categories
-customers,customers,customers,Customers
-employees,employees,employees,Employees
-employees,employee_territories,employee_territories,Employee territories
-orders,orders,orders,Orders
-orders,order_details,order_details,Order details
-products,products,products,Products
-regions,regions,regions,Regions
-shippers,shippers,shippers,Shippers
-suppliers,suppliers,suppliers,Suppliers
-territories,territories,territories,Territories
+path,slug,query_filename,csv_filename,title
+,categories,queries/imports/categories.rq,files/categories.csv,Categories
+,customers,queries/imports/customers.rq,files/customers.csv,Customers
+,employees,queries/imports/employees.rq,files/employees.csv,Employees
+,employees,queries/imports/employee_territories.rq,files/employee_territories.csv,Employee territories
+,orders,queries/imports/orders.rq,files/orders.csv,Orders
+,orders,queries/imports/order_details.rq,files/order_details.csv,Order details
+,products,queries/imports/products.rq,files/products.csv,Products
+,regions,queries/imports/regions.rq,files/regions.csv,Regions
+,shippers,queries/imports/shippers.rq,files/shippers.csv,Shippers
+,suppliers,queries/imports/suppliers.rq,files/suppliers.csv,Suppliers
+,territories,queries/imports/territories.rq,files/territories.csv,Territories
