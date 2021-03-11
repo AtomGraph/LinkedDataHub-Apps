@@ -12,6 +12,7 @@ fi
 base="$1"
 cert_pem_file=$(realpath -s "$2")
 cert_password="$3"
+imports_csv="$(dirname $(realpath "$0"))/imports.csv"
 
 if [ -n "$4" ]; then
     request_base="$4"
@@ -29,7 +30,7 @@ arr_csv=()
 while IFS= read -r line 
 do
     arr_csv+=("$line")
-done < "$(dirname $(realpath "$0"))"/imports.csv
+done < "$imports_csv"
 
 echo "Displaying the contents of array mapped from csv file:"
 index=0
