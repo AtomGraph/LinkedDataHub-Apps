@@ -23,13 +23,13 @@ pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"/imports
 
-echo "WTF: $(realpath "$0")"
+echo "WTF: $(dirname $(realpath "$0"))"
 
 arr_csv=() 
 while IFS= read -r line 
 do
     arr_csv+=("$line")
-done < "$(dirname "$0")"/imports.csv
+done < "$(dirname $(realpath "$0"))"/imports.csv
 
 echo "Displaying the contents of array mapped from csv file:"
 index=0
