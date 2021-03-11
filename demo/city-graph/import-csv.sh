@@ -23,7 +23,7 @@ pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"/imports
 
-echo "WTF: $(dirname "$0")"
+echo "WTF: $(realpath "$0")"
 
 arr_csv=() 
 while IFS= read -r line 
