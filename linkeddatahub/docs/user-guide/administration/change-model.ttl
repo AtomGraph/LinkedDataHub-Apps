@@ -159,7 +159,7 @@ popd</pre>
 
 ./create-class.sh \\
 -b "https://localhost:4443/admin/" \\
--f certs/owner.p12.pem \\
+-f ssl/owner/keystore.p12 \\
 -p "${OWNER_KEY_PASSWORD}" \\
 --uri "https://localhost:4443/ns/domain#Concept" \\
 --label "Concept" \\
@@ -171,7 +171,7 @@ popd</pre>
 
 ./create-class.sh \\
 -b "https://localhost:4443/admin/" \\
--f certs/owner.p12.pem \\
+-f ssl/owner/keystore.p12 \\
 -p "${OWNER_KEY_PASSWORD}" \\
 --uri "https://localhost:4443/ns/domain#ConceptItem" \\
 --label "Concept item" \\
@@ -223,7 +223,7 @@ popd</pre>
 
 ./create-property-constraint.sh \\
 -b "https://localhost:4443/admin/" \\
--f certs/owner.p12.pem \\
+-f ssl/owner/keystore.p12 \\
 -p "${OWNER_KEY_PASSWORD}" \\
 --uri "https://localhost:4443/ns/domain#MissingPrefLabel" \\
 --label "Missing skos:prefLabel" \\
@@ -263,12 +263,12 @@ popd</pre>
                         <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin
 
 ./clear-ontology.sh \\
--f certs/owner.p12.pem \\
+-f ssl/owner/keystore.p12 \\
 -p "${OWNER_KEY_PASSWORD}" \\
 "https://localhost:4443/admin/model/ontologies/domain/"
 
 ./clear-ontology.sh \\
--f certs/owner.p12.pem \\
+-f ssl/owner/keystore.p12 \\
 -p "${OWNER_KEY_PASSWORD}" \\
 "https://localhost:4443/admin/model/ontologies/namespace/"
 

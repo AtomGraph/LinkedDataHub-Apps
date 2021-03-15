@@ -76,7 +76,7 @@ OWNER_COUNTRY_NAME=DK</pre>
                     <p>If you need to start fresh and wipe the existing setup (e.g. after configuring a new base URI), you can do that using:</p>
                     <pre>sudo rm -rf data uploads &amp;&amp; docker-compose down -v</pre>
                     <div class="alert alert-info">
-                        <p>This will persisted data and files as well as the Docker volumes.</p>
+                        <p>This will remove persisted data and files as well as the Docker volumes.</p>
                     </div>
                 </div>
                 <p class="lead">Is LinkedDataHub running? Proceed to <a href="../get-an-account/">get an account</a>.</p>

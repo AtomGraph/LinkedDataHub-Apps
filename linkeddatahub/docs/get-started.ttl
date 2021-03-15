@@ -23,7 +23,7 @@
     </div>
     <div>
         <h2 id="get-an-account">Get an account</h2>
-        <p>If you have completed the setup and own an instance of LinkedDataHub, <samp>certs/owner.p12</samp> file is your WebID certificate. Password is the <samp>OWNER_KEY_PASSWORD</samp> value from the <samp>.env</samp> file.</p>
+        <p>If you have completed the setup and own an instance of LinkedDataHub, <samp>ssl/owner/keystore.p12</samp> file is your WebID certificate. Password is the <samp>OWNER_KEY_PASSWORD</samp> value from the <samp>.env</samp> file.</p>
         <p>If you successfully signed up to someone's LinkedDataHub instance, you should receive an email with a <samp>.p12</samp> file attached which is your WebID certificate. In this case you will not be able to perform the administrative actions in the examples below, but you can issue a <a href="../reference/administration/acl/#auth-requests" target="_blank">request for access</a> to the owner(s) of a dataspace.</p>
         <p class="lead"><a href="get-an-account/" target="_blank">Read more more detailed instructions on getting an account.</a></p>
     </div>
