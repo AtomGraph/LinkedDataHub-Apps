@@ -107,9 +107,9 @@ WHERE
 pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/sitemap
 
 ./create-describe.sh \\
--b "https://localhost:4443/admin/" \\
--f ssl/owner/keystore.p12 \\
--p "${OWNER_KEY_PASSWORD}" \\
+-b "${base}" \\
+-f "${cert_pem_file}" \\
+-p "${cert_password}" \\
 --uri "https://localhost:4443/ns/templates#DescribeConcept" \\
 --label "Describe concept" \\
 --slug describe-concept \\
@@ -156,9 +156,9 @@ popd</pre>
                         <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/sitemap
 
 ./create-template.sh \\
--b "https://localhost:4443/admin/" \\
--f ssl/owner/keystore.p12 \\
--p "${OWNER_KEY_PASSWORD}" \\
+-b "${base}" \\
+-f "${cert_pem_file}" \\
+-p "${cert_password}" \\
 --uri "https://localhost:4443/ns/templates#ConceptItem" \\
 --label "Concept item" \\
 --slug concept-item \\
@@ -200,13 +200,13 @@ popd</pre>
                         <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin
 
 ./clear-ontology.sh \\
--f ssl/owner/keystore.p12 \\
--p "${OWNER_KEY_PASSWORD}" \\
+-f "${cert_pem_file}" \\
+-p "${cert_password}" \\
 "https://localhost:4443/admin/sitemap/ontologies/templates/"
 
 ./clear-ontology.sh \\
--f ssl/owner/keystore.p12 \\
--p "${OWNER_KEY_PASSWORD}" \\
+-f "${cert_pem_file}" \\
+-p "${cert_password}" \\
 "https://localhost:4443/admin/model/ontologies/namespace/"
 
 popd</pre>

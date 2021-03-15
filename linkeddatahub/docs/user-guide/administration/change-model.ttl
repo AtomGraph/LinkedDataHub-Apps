@@ -158,9 +158,9 @@ popd</pre>
                         <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/model
 
 ./create-class.sh \\
--b "https://localhost:4443/admin/" \\
--f ssl/owner/keystore.p12 \\
--p "${OWNER_KEY_PASSWORD}" \\
+-b "${base}" \\
+-f "${cert_pem_file}" \\
+-p "${cert_password}" \\
 --uri "https://localhost:4443/ns/domain#Concept" \\
 --label "Concept" \\
 --slug concept \\
@@ -170,9 +170,9 @@ popd</pre>
 --fragment "this"
 
 ./create-class.sh \\
--b "https://localhost:4443/admin/" \\
--f ssl/owner/keystore.p12 \\
--p "${OWNER_KEY_PASSWORD}" \\
+-b "${base}" \\
+-f "${cert_pem_file}" \\
+-p "${cert_password}" \\
 --uri "https://localhost:4443/ns/domain#ConceptItem" \\
 --label "Concept item" \\
 --slug concept-item \\
@@ -222,9 +222,9 @@ popd</pre>
                         <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/model
 
 ./create-property-constraint.sh \\
--b "https://localhost:4443/admin/" \\
--f ssl/owner/keystore.p12 \\
--p "${OWNER_KEY_PASSWORD}" \\
+-b "${base}" \\
+-f "${cert_pem_file}" \\
+-p "${cert_password}" \\
 --uri "https://localhost:4443/ns/domain#MissingPrefLabel" \\
 --label "Missing skos:prefLabel" \\
 --slug missing-pref-label \\
@@ -263,13 +263,13 @@ popd</pre>
                         <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin
 
 ./clear-ontology.sh \\
--f ssl/owner/keystore.p12 \\
--p "${OWNER_KEY_PASSWORD}" \\
+-f "${cert_pem_file}" \\
+-p "${cert_password}" \\
 "https://localhost:4443/admin/model/ontologies/domain/"
 
 ./clear-ontology.sh \\
--f ssl/owner/keystore.p12 \\
--p "${OWNER_KEY_PASSWORD}" \\
+-f "${cert_pem_file}" \\
+-p "${cert_password}" \\
 "https://localhost:4443/admin/model/ontologies/namespace/"
 
 popd</pre>
