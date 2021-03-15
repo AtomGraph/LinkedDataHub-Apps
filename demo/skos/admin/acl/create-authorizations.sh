@@ -27,11 +27,21 @@ sha1sum=$(sha1sum "$pwd"/../../files/skos.xsl | cut -d ' ' -f 1)
 
 ./create-authorization.sh \
 -b "${base}admin/" \
--f "${cert_pem_file}" \
--p "${cert_password}" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
 --label "Public SKOS XSLT stylesheet" \
 --agent-class http://xmlns.com/foaf/0.1/Agent \
 --to "${base}uploads/${sha1sum}/" \
+--read \
+"${request_base}admin/acl/authorizations/"
+
+./create-authorization.sh \
+-b "${base}admin/" \
+-f "$cert_pem_file" \
+-p "$cert_password" \
+--label "Read access to graph items" \
+--agent-class "http://www.w3.org/ns/auth/acl#AuthenticatedAgent" \
+--to-all-in "https://www.w3.org/ns/ldt/document-hierarchy/domain#Item" \
 --read \
 "${request_base}admin/acl/authorizations/"
 
