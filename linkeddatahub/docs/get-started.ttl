@@ -24,8 +24,8 @@
     </div>
     <div>
         <h2 id="get-an-account">Get an account</h2>
-        <p class="lead"><a href="get-an-account/" target="_blank">Read instructions on getting an account.</a></p>
         <p>Using LinkedDataHub open-source, you to obtain a WebID and use its client certificate for authentication. In the Cloud version, you can sign-in and authenticate using your social login.</p>
+        <p class="lead"><a href="get-an-account/" target="_blank">Read instructions on getting an account.</a></p>
     </div>
     <div>
         <h2 id="open-dataspace">Open your dataspace</h2>
