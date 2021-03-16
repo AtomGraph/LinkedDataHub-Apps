@@ -39,7 +39,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 #-f "$cert_pem_file" \
 #-p "$cert_password" \
 #--request-base "$request_base" \
-#--title "UN thesaurus SKOS (part 2)" \
+#--title "UN thesaurus SKOS" \
 #--query-file "$pwd/queries/skos-import.rq" \
 #--file "$pwd/files/unesco-thesaurus.part2.ttl" \
 #--file-content-type "text/turtle" \
