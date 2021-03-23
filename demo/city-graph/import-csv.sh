@@ -112,7 +112,9 @@ done
 
 # start imports - postpone until after documents are created so we don't get concurrent updates to the triplestore
 
-for i in "${!slugs[@]}"; do 
+for i in "${!slugs[@]}"; do
+    printf "\n### Importing CSV from %s\n\n" "${files[$i]}"
+
     ./create-csv-import.sh \
     -b "$base" \
     -f "$cert_pem_file" \
