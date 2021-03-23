@@ -2,7 +2,7 @@ PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX  foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX  sioc: <http://rdfs.org/sioc/ns#>
 
-SELECT DISTINCT  ?doc ?conceptScheme
+SELECT DISTINCT  ?conceptScheme ?doc
 WHERE
   { GRAPH ?docGraph
       { ?doc  sioc:has_container  ?this ;
