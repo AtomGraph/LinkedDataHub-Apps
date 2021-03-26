@@ -53,31 +53,31 @@
                 </tr>
                 <tr>
                     <th>Subdomain</th>
-                    <td>&#x274c;</td>
-                    <td>&#x274c;</td>
-                    <td>&#x2705;</td>
-                    <td>&#x2705;</td>
+                    <td>❌;</td>
+                    <td>❌;</td>
+                    <td>✅</td>
+                    <td>✅</td>
                 </tr>
                 <tr>
                     <th>Support</th>
-                    <td>&#x274c;</td>
-                    <td>&#x274c;</td>
-                    <td>&#x2705;</td>
-                    <td>&#x2705;</td>
+                    <td>❌;</td>
+                    <td>❌;</td>
+                    <td>✅</td>
+                    <td>✅</td>
                 </tr>
                 <tr>
                     <th>Uptime SLA</th>
-                    <td>&#x274c;</td>
-                    <td>&#x274c;</td>
-                    <td>&#x274c;</td>
-                    <td>&#x2705;</td>
+                    <td>❌;</td>
+                    <td>❌;</td>
+                    <td>❌;</td>
+                    <td>✅</td>
                 </tr>
                 <tr>
                     <th>On-premises deployment</th>
-                    <td>&#x274c;</td>
-                    <td>&#x274c;</td>
-                    <td>&#x274c;</td>
-                    <td>&#x2705;</td>
+                    <td>❌;</td>
+                    <td>❌;</td>
+                    <td>❌;</td>
+                    <td>✅</td>
                 </tr>
             </tbody>
         </table>
