@@ -55,32 +55,32 @@
                     <th>Subdomain</th>
                     <td>&#x274c;</td>
                     <td>&#x274c;</td>
-                    <td>&#x2705;;</td>
-                    <td>&#x2705;;</td>
+                    <td>&#x2705;</td>
+                    <td>&#x2705;</td>
                 </tr>
                 <tr>
                     <th>Support</th>
                     <td>&#x274c;</td>
                     <td>&#x274c;</td>
-                    <td>&#x2705;;</td>
-                    <td>&#x2705;;</td>
+                    <td>&#x2705;</td>
+                    <td>&#x2705;</td>
                 </tr>
                 <tr>
                     <th>Uptime SLA</th>
                     <td>&#x274c;</td>
                     <td>&#x274c;</td>
                     <td>&#x274c;</td>
-                    <td>&#x2705;;</td>
+                    <td>&#x2705;</td>
                 </tr>
                 <tr>
                     <th>On-premises deployment</th>
                     <td>&#x274c;</td>
                     <td>&#x274c;</td>
                     <td>&#x274c;</td>
-                    <td>&#x2705;;</td>
+                    <td>&#x2705;</td>
                 </tr>
             </tbody>
         </table>
-        <p class="lead"><a href="https://atomgraph.com/contact/?product=https%3A%2F%2Fatomgraph.com%2Fproducts%2Foctopus%2F%23this">Contact us</a> for more information.</p>
+        <p class="lead"><a href="https://atomgraph.com/contact/?product=https%3A%2F%2Fatomgraph.com%2Fproducts%2Flinkeddatahub%2F%23this">Contact us</a> for more information.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .
