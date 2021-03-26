@@ -108,6 +108,7 @@ The installation scripts in this repository use [LinkedDataHub's CLI scripts](ht
     <dd>0 lines of imperative code</dd>
     <dd>44 lines of SPARQL</dd>
     <dd>324 lines of installation shell scripts</dd>
+    <dd>109 lines of XSLT stylesheet</dd>
 </dl>
 
 __You need to request append/write access to be able to create/edit the data.__
