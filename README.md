@@ -91,7 +91,7 @@ The installation scripts in this repository use [LinkedDataHub's CLI scripts](ht
 
 ![SKOS editor view](../../raw/master/demo/skos/screenshot.png "SKOS editor view")
 
-**Basic SKOS editor. Concepts and concept schemas can be created, edited, and linked with each other. Ontology types have separate URI templates; required instance properties are validated using constraints.**
+**Basic SKOS editor with a custom UI theme. Concepts and concept schemas can be created, edited, and linked with each other. Ontology types have separate URI templates; required instance properties are validated using constraints.**
 
 <dl>
     <dt>Source</dt>
@@ -99,6 +99,7 @@ The installation scripts in this repository use [LinkedDataHub's CLI scripts](ht
     <dt>Live instance</dt>
     <dd><a href="https://linkeddatahub.com/demo/skos/" target="_blank">https://linkeddatahub.com/demo/skos/</a></dd>
     <dt>Features</dt>
+    <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/stylesheets/" target="_blank">Custom stylesheet</a></dd>
     <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/administration/model/#classes" target="_blank">Classes</a></dd>
     <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/administration/model/#constructors" target="_blank">Constructors</a></dd>
     <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/administration/model/#constraints" target="_blank">Constraints</a></dd>
