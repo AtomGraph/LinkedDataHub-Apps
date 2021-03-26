@@ -25,7 +25,62 @@
         <p>A user or software agent can create any number of contexts and any number of dataspaces in a context.</p>
     </div>
     <div>
-        <h2 id="vision">Vision</h2>
-        <p>We are working on making LinkedDataHub dataspaces publishable to the Cloud with a click of a button.</p>
+        <h2 id="plans">Plans</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Free</th>
+                    <th>Developer</th>
+                    <th>Team</th>
+                    <th>Business</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th># of apps</th>
+                    <td>5 public<br></br>0 private</td>
+                    <td>Unlimited public<br></br>10 private</td>
+                    <td>Unlimited</td>
+                    <td>Unlimited</td>
+                </tr>
+                <tr>
+                    <th># of RDF triples</th>
+                    <td>&lt;20000</td>
+                    <td>&lt;100000</td>
+                    <td>&lt;1 million</td>
+                    <td>&lt;10 million</td>
+                </tr>
+                <tr>
+                    <th>Subdomain</th>
+                    <td>&#x274c;</td>
+                    <td>&#x274c;</td>
+                    <td>&#x2705;;</td>
+                    <td>&#x2705;;</td>
+                </tr>
+                <tr>
+                    <th>Support</th>
+                    <td>&#x274c;</td>
+                    <td>&#x274c;</td>
+                    <td>&#x2705;;</td>
+                    <td>&#x2705;;</td>
+                </tr>
+                <tr>
+                    <th>Uptime SLA</th>
+                    <td>&#x274c;</td>
+                    <td>&#x274c;</td>
+                    <td>&#x274c;</td>
+                    <td>&#x2705;;</td>
+                </tr>
+                <tr>
+                    <th>On-premises deployment</th>
+                    <td>&#x274c;</td>
+                    <td>&#x274c;</td>
+                    <td>&#x274c;</td>
+                    <td>&#x2705;;</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="lead"><a href="https://atomgraph.com/contact/?product=https%3A%2F%2Fatomgraph.com%2Fproducts%2Foctopus%2F%23this">Contact us</a> for more information.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .
