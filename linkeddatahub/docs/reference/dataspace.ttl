@@ -124,7 +124,7 @@
                 <dt>Password</dt>
                 <dd>HTTP Basic password (optional)</dd>
             </dl>
-            <p class="lead"><a href="mailto:sales@atomgraph.com">Contact us</a> for a trial of Dydra.</p>
+            <p class="lead"><a href="https://atomgraph.com/contact/">Contact us</a> for a trial of Dydra.</p>
         </div>
     </div>
     <p class="lead">If you are ready to create a dataspace, see our step-by-step tutorial on <a href="../../user-guide/manage-dataspaces/">dataspace management</a>.</p>

@@ -25,22 +25,22 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Read</td>
+                    <th>Read</th>
                     <td>read the contents (including querying it, etc)</td>
                     <td><code>GET</code></td>
                 </tr>
                 <tr>
-                    <td>Write</td>
+                    <th>Write</th>
                     <td>overwrite the contents (including deleting it, or modifying part of it)</td>
                     <td><code>PUT</code>, <code>DELETE</code></td>
                 </tr>
                 <tr>
-                    <td>Append</td>
+                    <th>Append</th>
                     <td>add information to [the end of] it but not remove information</td>
                     <td><code>POST</code></td>
                 </tr>
                 <tr>
-                    <td>Control</td>
+                    <th>Control</th>
                     <td>set the Access Control List for this themselves</td>
                     <td></td>
                 </tr>
@@ -102,7 +102,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td rowspan="2">Owners</td>
+                    <th rowspan="2">Owners</th>
                     <td rowspan="2"><a href="#access-modes">Read</a></td>
                     <td><a href="#access-modes">Write</a></td>
                     <td rowspan="2"><a href="#access-modes">Control</a></td>
@@ -111,7 +111,7 @@
                     <td><a href="#access-modes">Append</a></td>
                 </tr>
                 <tr>
-                    <td rowspan="2">Writers</td>
+                    <th rowspan="2">Writers</th>
                     <td rowspan="2"><a href="#access-modes">Read</a></td>
                     <td><a href="#access-modes">Write</a></td>
                     <td rowspan="2"></td>
@@ -120,7 +120,7 @@
                     <td><a href="#access-modes">Append</a></td>
                 </tr>
                 <tr>
-                    <td>Readers</td>
+                    <th>Readers</th>
                     <td><a href="#access-modes">Read</a></td>
                     <td></td>
                     <td></td>

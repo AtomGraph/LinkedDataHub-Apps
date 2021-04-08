@@ -40,7 +40,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td rowspan="3"><code id="ld-get">GET</code></td>
+                    <th rowspan="3"><code id="ld-get">GET</code></th>
                     <td rowspan="3">Returns description of requested resource</td>
                     <td rowspan="3"><code>200 OK</code></td>
                     <td><code>400 Bad Request</code></td>
@@ -55,9 +55,9 @@
                     <td><a href="#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <td rowspan="4"><code id="ld-post">POST</code></td>
-                    <td rowspan="4">Appends data to the application dataset (creates or updates resource descriptions)</td>
-                    <td rowspan="4"><code>200 OK</code> <code>201 Created</code></td>
+                    <th rowspan="5"><code id="ld-post">POST</code></th>
+                    <td rowspan="5">Appends data to the application dataset (creates or updates resource descriptions)</td>
+                    <td rowspan="5"><code>200 OK</code> <code>201 Created</code></td>
                     <td><code>400 Bad Request</code></td>
                     <td><a href="#con-neg">RDF syntax error</a></td>
                 </tr>
@@ -70,13 +70,17 @@
                     <td>Resource already exists (if used with <a href="../administration/sitemap/built-ins/#ForClass-param"><code>aplt:ForClass</code></a> parameter)</td>
                 </tr>
                 <tr>
+                    <td><code>413 Payload Too Large</code></td>
+                    <td>Request body too large</td>
+                </tr>
+                <tr>
                     <td><code>415 Unsupported Media Type</code></td>
                     <td><a href="#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <td rowspan="3"><code id="ld-put">PUT</code></td>
-                    <td rowspan="3">Creates or replaces resource descriptions</td>
-                    <td rowspan="3"><code>200 OK</code> <code>201 Created</code></td>
+                    <th rowspan="4"><code id="ld-put">PUT</code></th>
+                    <td rowspan="4">Creates or replaces resource descriptions</td>
+                    <td rowspan="4"><code>200 OK</code> <code>201 Created</code></td>
                     <td><code>400 Bad Request</code></td>
                     <td><a href="#con-neg">RDF syntax error</a></td>
                 </tr>
@@ -85,11 +89,15 @@
                     <td><a href="../administration/model/#constraints">Constraint</a> violation</td>
                 </tr>
                 <tr>
+                    <td><code>413 Payload Too Large</code></td>
+                    <td>Request body too large</td>
+                </tr>
+                <tr>
                     <td><code>415 Unsupported Media Type</code></td>
                     <td><a href="#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <td><code id="ld-delete">DELETE</code></td>
+                    <th><code id="ld-delete">DELETE</code></th>
                     <td>Removed the description of the requested resource</td>
                     <td><code>204 No Content</code></td>
                     <td><code>404 Not Found</code></td>

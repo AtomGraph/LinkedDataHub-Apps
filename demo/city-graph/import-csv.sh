@@ -48,8 +48,6 @@ do
     csv_filename=$(echo "$row" | cut -d "," -f 4)
     title=$(echo "$row" | cut -d "," -f 5)
 
-echo "PATH: $path SLUG: $slug QUERY_FILENAME: $query_filename CSV_FILENAME: $csv_filename TITLE: $title"
-
     paths+=("$path")
     slugs+=("$slug")
     titles+=("$title")

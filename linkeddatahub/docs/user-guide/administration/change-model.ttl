@@ -16,7 +16,7 @@
         <h2 id="change-model">Change the model</h2>
         <p>In order to be able to manage SKOS concepts and concept schemes, we need to create <a href="../../../reference/administration/model/#classes" target="_blank">classes</a> that represent them in the <a href="../../../reference/administration/model/" target="_blank">model</a> of our dataspace. Not only will they serve as RDF types of the instances, but will have <a href="../../../reference/administration/model/#constructors" target="_blank">constructors</a> attached that define the default properties and their (data)types for that class.</p>
         <p>Since a SKOS concept is an abstract thing which cannot be directly dereferenced over HTTP, its instance has to be paired with a document instance. In the model, this relationship is defined
-            by creating a <a href="../../../reference/administration/model/#restrictions" target="_blank">property restriction</a> between the two respective classes. We therefore need to create 2 classes and a restriction.</p>
+            by creating a <a href="../../../reference/administration/model/#restrictions" target="_blank">property restriction</a> between the concept class and its item (document) class. Another restriction will be used to define the relationship between the item class and its container. We therefore need to create 2 classes and 2 restrictions. The following examples will assume <samp>https://localhost:4443/</samp> as the base URI of the dataspace.</p>
         <p>Model is managed in the <a href="../../../reference/dataspace/#admin-apps" target="_blank">administration application</a> of a dataspace. Head there by clicking the <span class="btn btn-settings">Settings</span> in the <a href="../../../reference/user-interface/#action-bar" target="_blank">action bar</a> and then choosing <samp>Administration</samp>.</p>
         <div class="alert alert-info">
             <p>In order to edit the <a href="../../../reference/administration/acl/" target="_blank">access control</a>, <a href="../../../reference/administration/model/" target="_blank">model</a>, or <a href="../../../reference/administration/sitemap/" target="_blank">sitemap</a> of a dataspace, you need to be an administrator, i.e. a member of the <a href="../../../reference/administration/acl/#groups" target="_blank">owners group</a>.</p>
@@ -70,6 +70,7 @@ WHERE {}</pre>
                         <ol>
                             <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
                             <li>Click on <samp>CONSTRUCT</samp> in the drop-down list that appears</li>
+                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns/domain#ConstructConcept</samp></li>
                             <li>Fill out the mandatory fields in the form:
                                 <dl>
                                     <dt>Label</dt>
@@ -109,7 +110,7 @@ popd</pre>
         <p class="lead"><a href="../../../reference/administration/model/#constructors" target="_blank">Read more about constructors.</a></p>
     </div>
     <div>
-        <h2 id="create-class">Create a class</h2>
+        <h2 id="create-classes">Create classes</h2>
         <div class="tabbable">
             <ul class="nav nav-tabs">
                 <li class="active"><a>User interface</a></li>
@@ -118,10 +119,11 @@ popd</pre>
             <div class="tab-content">
                 <div class="tab-pane active">
                     <div>
-                        <p>In the administration application, follow these steps to create a concept class:</p>
+                        <p>In the administration application, follow these steps to create the concept class:</p>
                         <ol>
                             <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
                             <li>Click on <samp>Class</samp> in the drop-down list that appears</li>
+                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns/domain#Concept</samp></li>
                             <li>Fill out the mandatory fields in the form:
                                 <dl>
                                     <dt>Label</dt>
@@ -132,14 +134,17 @@ popd</pre>
                                     <dt>Constructor</dt>
                                     <dd>Type <samp>Construct concept</samp> into the input (which provides autocomplete)</dd>
                                     <dd>Select <samp>Construct concept</samp> from the list — this is the query we created beforehand</dd>
+                                    <dt>SubClassOf</dt>
+                                    <dd>Enter <samp>https://localhost:4443/ns/domain#TopicOfConceptItem</samp>. We'll create this restriction later on.</dd>
                                 </dl>
                             </li>
                             <li>Click <span class="btn btn-primary">Save</span></li>
                         </ol>
-                        <p>Now follow the same steps to create an item class (it does not require a constructor):</p>
+                        <p>As mentioned, we need to create a second concept-specific document class as well. It does not need a constructor as it will extend a built-in class. Follow the steps to create an item class:</p>
                         <ol>
                             <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
                             <li>Click on <samp>Class</samp> in the drop-down list that appears</li>
+                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns/domain#ConceptItem</samp></li>
                             <li>Fill out the mandatory fields in the form:
                                 <dl>
                                     <dt>Label</dt>
@@ -147,6 +152,11 @@ popd</pre>
                                     <dt>IsDefinedBy</dt>
                                     <dd>Type <samp>Domain</samp> into the input (which provides autocomplete)</dd>
                                     <dd>Select <samp>Domain</samp> from the list — this is the ontology in which the class is defined</dd>
+                                    <dt>SubClassOf</dt>
+                                    <dd>Enter <samp>https://localhost:4443/ns/domain#ItemOfConceptContainer</samp>. We'll create this restriction later on.</dd>
+                                    <dd>Now add another <samp>SubClassOf</samp> field using the <span class="btn">[+]</span> button at the bottom of the form.</dd>
+                                    <dt>SubClassOf</dt>
+                                    <dd>Enter <samp>https://localhost:4443/ns/domain/default#Item</samp> — the built-in class this class extends</dd>
                                 </dl>
                             </li>
                             <li>Click <span class="btn btn-primary">Save</span></li>
@@ -161,11 +171,11 @@ popd</pre>
 -b "${base}" \\
 -f "${cert_pem_file}" \\
 -p "${cert_password}" \\
---uri "https://localhost:4443/ns/domain#Concept" \\
+--uri "${base}ns/domain#Concept" \\
 --label "Concept" \\
 --slug concept \\
---constructor "https://localhost:4443/ns/domain#ConstructConcept" \\
---sub-class-of "https://localhost:4443/ns/domain#TopicOfConceptItem" \\
+--constructor "${base}ns/domain#ConstructConcept" \\
+--sub-class-of "${base}ns/domain#TopicOfConceptItem" \\
 --path "{isPrimaryTopicOf.slug}/" \\
 --fragment "this"
 
@@ -173,11 +183,11 @@ popd</pre>
 -b "${base}" \\
 -f "${cert_pem_file}" \\
 -p "${cert_password}" \\
---uri "https://localhost:4443/ns/domain#ConceptItem" \\
+--uri "${base}ns/domain#ConceptItem" \\
 --label "Concept item" \\
 --slug concept-item \\
---sub-class-of "https://localhost:4443/ns/domain/default#Item" \\
---sub-class-of "https://localhost:4443/ns/domain#ItemOfConceptContainer"
+--sub-class-of "${base}ns/domain/default#Item" \\
+--sub-class-of "${base}ns/domain#ItemOfConceptContainer"
 
 popd</pre>
                     </div>
@@ -186,6 +196,91 @@ popd</pre>
         </div>
         <p>Follow the same steps for <samp>Concept scheme</samp>.</p>
         <p class="lead"><a href="../../../reference/administration/model/#classes" target="_blank">Read more about classes.</a></p>
+    </div>
+    <div>
+        <h2 id="create-restrictions">Create restrictions</h2>
+        <p>Property restrictions define a meta-relationship between classes based on a property. Instances of the respective classes are
+            expected to have the property specified by the restriction in order for instance dataset to align with the ontology.</p>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a>User interface</a></li>
+                <li><a>Command line interface</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div>
+                        <p>In the administration application, follow these steps to create a restriction connecting the concept class and its item class:</p>
+                        <ol>
+                            <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
+                            <li>Click on <samp>Missing property value</samp> in the drop-down list that appears</li>
+                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns/domain#TopicOfConceptItem</samp></li>
+                            <li>Fill out the fields in the form:
+                                <dl>
+                                    <dt>Label</dt>
+                                    <dd>Enter <samp>Topic of concept item</samp></dd>
+                                    <dt>IsDefinedBy</dt>
+                                    <dd>Type <samp>Domain</samp> into the input (which provides autocomplete)</dd>
+                                    <dd>Select <samp>Domain</samp> from the list — this is the ontology in which the query is defined</dd>
+                                    <dt>OnProperty</dt>
+                                    <dd>Enter <samp>http://xmlns.com/foaf/0.1/isPrimaryTopicOf</samp></dd>
+                                    <dt>AllValuesFrom</dt>
+                                    <dd>Enter <samp>https://localhost:4443/ns/domain#ConceptItem</samp> — the class we created earlier</dd>
+                                </dl>
+                            </li>
+                            <li>Click <span class="btn btn-primary">Save</span></li>
+                        </ol>
+                        <p>As mentioned, we need to create a second restriction connecting the item class to its container <samp>https://localhost:4443/concepts/</samp>:</p>
+                        <ol>
+                            <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
+                            <li>Click on <samp>Missing property value</samp> in the drop-down list that appears</li>
+                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns/domain#ItemOfConceptContainer</samp></li>
+                            <li>Fill out the fields in the form:
+                                <dl>
+                                    <dt>Label</dt>
+                                    <dd>Enter <samp>Item of concept container</samp></dd>
+                                    <dt>IsDefinedBy</dt>
+                                    <dd>Type <samp>Domain</samp> into the input (which provides autocomplete)</dd>
+                                    <dd>Select <samp>Domain</samp> from the list — this is the ontology in which the query is defined</dd>
+                                    <dt>OnProperty</dt>
+                                    <dd>Enter <samp>http://rdfs.org/sioc/ns#has_container</samp></dd>
+                                    <dt>HasValue</dt>
+                                    <dd>Enter <samp>https://localhost:4443/concepts/</samp> or URI of another container that will have concept items as children</dd>
+                                </dl>
+                            </li>
+                            <li>Click <span class="btn btn-primary">Save</span></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="tab-pane">
+                    <div>
+                        <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/model
+
+./create-restriction.sh \\
+-b "${base}admin/" \\
+-f "$cert_pem_file" \\
+-p "$cert_password" \\
+--uri "${base}ns/domain#TopicOfConceptItem" \\
+--label "Topic of concept item" \\
+--slug topic-of-concept-item \\
+--on-property "http://xmlns.com/foaf/0.1/isPrimaryTopicOf" \\
+--all-values-from "${base}ns/domain#ConceptItem"
+
+./create-restriction.sh \\
+-b "${base}admin/" \\
+-f "$cert_pem_file" \\
+-p "$cert_password" \\
+--uri "${base}ns/domain#ItemOfConceptContainer" \\
+--label "Item of concept container" \\
+--slug item-of-concept-container \\
+--on-property "http://rdfs.org/sioc/ns#has_container" \\
+--has-value "${base}concepts/"
+
+popd</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="lead"><a href="../../../reference/administration/model/#restrictions" target="_blank">Read more about restrictions.</a></p>
     </div>
     <div>
         <h2 id="create-constraint">Create a constraint</h2>
