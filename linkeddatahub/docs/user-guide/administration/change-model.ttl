@@ -199,7 +199,8 @@ popd</pre>
     </div>
     <div>
         <h2 id="create-restrictions">Create restrictions</h2>
-        <p>????</p>
+        <p>Property restrictions define a meta-relationship between classes based on a property. Instances of the respective classes are
+            expected to have the property specified by the restriction in order for instance dataset to align with the ontology.</p>
         <div class="tabbable">
             <ul class="nav nav-tabs">
                 <li class="active"><a>User interface</a></li>
@@ -243,7 +244,7 @@ popd</pre>
                                     <dt>OnProperty</dt>
                                     <dd>Enter <samp>http://rdfs.org/sioc/ns#has_container</samp></dd>
                                     <dt>HasValue</dt>
-                                    <dd>Enter <samp>https://localhost:4443/concepts/</samp></dd>
+                                    <dd>Enter <samp>https://localhost:4443/concepts/</samp> or URI of another container that will have concept items as children</dd>
                                 </dl>
                             </li>
                             <li>Click <span class="btn btn-primary">Save</span></li>
@@ -279,6 +280,7 @@ popd</pre>
                 </div>
             </div>
         </div>
+        <p class="lead"><a href="../../../reference/administration/model/#restrictions" target="_blank">Read more about restrictions.</a></p>
     </div>
     <div>
         <h2 id="create-constraint">Create a constraint</h2>
