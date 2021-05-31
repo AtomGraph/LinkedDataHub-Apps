@@ -62,6 +62,6 @@ pushd . && cd "$SCRIPT_ROOT/imports"
 --title "$title" \
 --file "$filename" \
 --file-content-type "$content_type" \
-"${request_base}files/"
+"${request_base}uploads"
 
 popd
