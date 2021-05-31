@@ -30,7 +30,7 @@ select_categories=$(./create-select.sh \
 --title "Select categories" \
 --slug select-categories \
 --query-file "$pwd/queries/select-categories.rq" \
-"${request_base}queries/")
+"${request_base}service")
 
 ./create-container.sh \
 -b "$base" \
@@ -40,7 +40,7 @@ select_categories=$(./create-select.sh \
 --slug "categories" \
 --select "${select_categories}#this" \
 --parent "$base" \
-"$request_base"
+"${request_base}service"
 
 select_customers=$(./create-select.sh \
 -b "$base" \
@@ -49,7 +49,7 @@ select_customers=$(./create-select.sh \
 --title "Select customers" \
 --slug select-customers \
 --query-file "$pwd/queries/select-customers.rq" \
-"${request_base}queries/")
+"${request_base}service")
 
 ./create-container.sh \
 -b "$base" \
@@ -59,7 +59,7 @@ select_customers=$(./create-select.sh \
 --slug "customers" \
 --select "${select_customers}#this" \
 --parent "$base" \
-"$request_base"
+"${request_base}service"
 
 select_employees=$(./create-select.sh \
 -b "$base" \
@@ -68,7 +68,7 @@ select_employees=$(./create-select.sh \
 --title "Select employees" \
 --slug select-employees \
 --query-file "$pwd/queries/select-employees.rq" \
-"${request_base}queries/")
+"${request_base}service")
 
 ./create-container.sh \
 -b "$base" \
@@ -78,7 +78,7 @@ select_employees=$(./create-select.sh \
 --slug "employees" \
 --select "${select_employees}#this" \
 --parent "$base" \
-"$request_base"
+"${request_base}service"
 
 select_orders=$(./create-select.sh \
 -b "$base" \
@@ -87,7 +87,7 @@ select_orders=$(./create-select.sh \
 --title "Select orders" \
 --slug select-orders \
 --query-file "$pwd/queries/select-orders.rq" \
-"${request_base}queries/")
+"${request_base}service")
 
 ./create-container.sh \
 -b "$base" \
@@ -97,7 +97,7 @@ select_orders=$(./create-select.sh \
 --slug "orders" \
 --select "${select_orders}#this" \
 --parent "$base" \
-"$request_base"
+"${request_base}service"
 
 select_products=$(./create-select.sh \
 -b "$base" \
@@ -106,7 +106,7 @@ select_products=$(./create-select.sh \
 --title "Select products" \
 --slug select-products \
 --query-file "$pwd/queries/select-products.rq" \
-"${request_base}queries/")
+"${request_base}service")
 
 ./create-container.sh \
 -b "$base" \
@@ -116,7 +116,7 @@ select_products=$(./create-select.sh \
 --slug "products" \
 --select "${select_products}#this" \
 --parent "$base" \
-"$request_base"
+"${request_base}service"
 
 select_regions=$(./create-select.sh \
 -b "$base" \
@@ -125,7 +125,7 @@ select_regions=$(./create-select.sh \
 --title "Select regions" \
 --slug select-regions \
 --query-file "$pwd/queries/select-regions.rq" \
-"${request_base}queries/")
+"${request_base}service")
 
 ./create-container.sh \
 -b "$base" \
@@ -135,7 +135,7 @@ select_regions=$(./create-select.sh \
 --slug "regions" \
 --select "${select_regions}#this" \
 --parent "$base" \
-"$request_base"
+"${request_base}service"
 
 select_shippers=$(./create-select.sh \
 -b "$base" \
@@ -144,7 +144,7 @@ select_shippers=$(./create-select.sh \
 --title "Select shippers" \
 --slug select-shippers \
 --query-file "$pwd/queries/select-shippers.rq" \
-"${request_base}queries/")
+"${request_base}service")
 
 ./create-container.sh \
 -b "$base" \
@@ -154,7 +154,7 @@ select_shippers=$(./create-select.sh \
 --slug "shippers" \
 --select "${select_shippers}#this" \
 --parent "$base" \
-"$request_base"
+"${request_base}service"
 
 select_suppliers=$(./create-select.sh \
 -b "$base" \
@@ -163,7 +163,7 @@ select_suppliers=$(./create-select.sh \
 --title "Select suppliers" \
 --slug select-suppliers \
 --query-file "$pwd/queries/select-suppliers.rq" \
-"${request_base}queries/")
+"${request_base}service")
 
 ./create-container.sh \
 -b "$base" \
@@ -173,7 +173,7 @@ select_suppliers=$(./create-select.sh \
 --slug "suppliers" \
 --select "${select_suppliers}#this" \
 --parent "$base" \
-"$request_base"
+"${request_base}service"
 
 select_territories=$(./create-select.sh \
 -b "$base" \
@@ -182,7 +182,7 @@ select_territories=$(./create-select.sh \
 --title "Select territories" \
 --slug select-territories \
 --query-file "$pwd/queries/select-territories.rq" \
-"${request_base}queries/")
+"${request_base}service")
 
 ./create-container.sh \
 -b "$base" \
@@ -192,6 +192,6 @@ select_territories=$(./create-select.sh \
 --slug "territories" \
 --select "${select_territories}#this" \
 --parent "$base" \
-"$request_base"
+"${request_base}service"
 
 popd

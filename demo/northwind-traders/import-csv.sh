@@ -20,10 +20,6 @@ else
     request_base="$base"
 fi
 
-query_container="${request_base}queries/"
-file_container="${request_base}files/"
-import_container="${request_base}imports/"
-
 titles=()
 slugs=()
 queries=()
@@ -60,7 +56,7 @@ do
     -p "$cert_password" \
     --title "$title" \
     --query-file "$pwd/${query_filename}" \
-    "$query_container")
+    "${request_base}service")
 
     query_doc=$(echo "$query_doc" | sed -e "s|$base|$request_base|g")
 
@@ -86,7 +82,7 @@ do
     --title "$title" \
     --file "$pwd/${csv_filename}" \
     --file-content-type "text/csv" \
-    "$file_container")
+    "${request_base}uploads")
 
     file_doc=$(echo "$file_doc" | sed -e "s|$base|$request_base|g")
 
@@ -122,7 +118,7 @@ for i in "${!slugs[@]}"; do
     --query "${queries[$i]}" \
     --file "${files[$i]}" \
     --delimiter "," \
-    "$import_container"
+    "${request_base}imports"
 done
 
 popd

@@ -30,7 +30,7 @@ query=$(
 -p "$cert_password" \
 --title "Top selling products" \
 --query-file "${pwd}/queries/charts/select-products-by-sales.rq" \
-"${request_base}queries/"
+"${request_base}service"
 )
 
 ./create-result-set-chart.sh \
@@ -42,7 +42,7 @@ query=$(
 --chart-type "https://w3id.org/atomgraph/client#BarChart" \
 --category-var-name "productName" \
 --series-var-name "totalSales" \
-"${request_base}charts/"
+"${request_base}service"
 
 query=$(
 ./create-select.sh  \
@@ -51,7 +51,7 @@ query=$(
 -p "$cert_password" \
 --title "Sales by region per year" \
 --query-file "${pwd}/queries/charts/select-sales-by-regions-by-year.rq" \
-"${request_base}queries/"
+"${request_base}service"
 )
 
 ./create-result-set-chart.sh \
@@ -64,6 +64,6 @@ query=$(
 --category-var-name "year" \
 --series-var-name "regionName" \
 --series-var-name "totalSales" \
-"${request_base}charts/"
+"${request_base}service"
 
 popd
