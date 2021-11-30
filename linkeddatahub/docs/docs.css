@@ -1,0 +1,72 @@
+body {
+	color: #04286E;
+	font-family: "Rubik", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+	display: grid;
+	grid-auto-columns: max-content;
+}
+/* page banner */ 
+body > header {
+	grid-row: 1;
+	grid-column: 1 / 2;
+}
+body > header > p {
+	font-weight: bold;
+	font-size: large;
+}
+/* table of contents of the entire website */
+nav.outline {
+	background-color: #fff;
+	background-clip: border-box;
+	border: 1px solid rgba(0,0,0,.125);
+	margin: 0.5rem;
+	padding: 1.5rem;
+	width: 14rem;
+	grid-row: 2;
+	grid-column: 1;
+}
+nav.outline > p {
+	margin-top: 0rem;
+	font-size: large;
+	font-weight: bold;
+}
+nav.outline ul li p {
+	margin-top: 0.2rem;
+	margin-bottom: 0.3rem;
+}
+nav.outline ul {
+	margin-left: 0;
+	font-size: small;
+	margin-top: 0.1rem;
+	margin-bottom: 0.3rem;
+	list-style-type: none;
+	padding-left: 1.5rem;
+}
+nav.outline > ul {
+	padding-left: 0rem;
+}
+/* the container of the list of child pages of the current page */
+nav.children {
+	background-color: #fff;
+	border: 1px solid rgba(0,0,0,.125);
+	margin: 0.5rem;
+}
+nav.children ul {
+	list-style-type: none;
+	padding: 0rem;
+	margin: 1rem;
+}
+nav.children p {
+	margin-top: 0.2rem;
+	margin-bottom: 0.3rem;
+}
+/* page content */
+main {
+	padding: 1rem;
+	grid-row: 2;
+	grid-column: 2;
+}
+/* the introductory paragraph */
+p.lead {
+	font-size: larger;
+	font-style: italic;
+}

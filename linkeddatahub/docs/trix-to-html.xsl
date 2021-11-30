@@ -52,6 +52,15 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:function>
+	
+	<xsl:template match="trix:trix">
+		<!-- copy the CSS file -->
+		<xsl:result-document href="{$output-folder}/docs.css" method="text">
+			<xsl:sequence select="unparsed-text('docs.css')"/>
+		</xsl:result-document>
+		<!-- process all the graphs into HTML pages -->
+		<xsl:apply-templates/>
+	</xsl:template>
 		
 	<!-- render a graph as an HTML page -->
 	<xsl:template match="trix:graph">
@@ -75,23 +84,23 @@
 			<xsl:variable name="plain-html">
 				<html>
 					<head>
-						<title><xsl:value-of select="convert:get-object($graph, $resource, 'http://purl.org/dc/terms/title')"/></title>
-						<meta name="description" content="{convert:get-object(., $resource, 'http://purl.org/dc/terms/description')}"/>
+						<title><xsl:value-of select="convert:get-objects($graph, $resource, 'http://purl.org/dc/terms/title')"/></title>
+						<meta name="description" content="{convert:get-objects(., $resource, 'http://purl.org/dc/terms/description')}"/>
 						<xsl:for-each select="
 							(
-								convert:get-object($graph, $resource, 'http://rdfs.org/sioc/ns#has_container'), 
-								convert:get-object($graph, $resource, 'http://rdfs.org/sioc/ns#has_parent')
+								convert:get-objects($graph, $resource, 'http://rdfs.org/sioc/ns#has_container'), 
+								convert:get-objects($graph, $resource, 'http://rdfs.org/sioc/ns#has_parent')
 							)
 						">
 							<link rel="up" href="{convert:relativize-uri(convert:filename-for-resource(.), convert:filename-for-resource($resource))}"/>
 						</xsl:for-each>
-						<xsl:for-each select="convert:get-object($graph, $resource, 'http://www.w3.org/2000/01/rdf-schema#seeAlso')">
+						<xsl:for-each select="convert:get-objects($graph, $resource, 'http://www.w3.org/2000/01/rdf-schema#seeAlso')">
 							<xsl:variable name="see-also-resource" select="."/>
-							<link rel="http://www.w3.org/2000/01/rdf-schema#seeAlso" href="{$see-also-resource}" title="{convert:get-object($graph, $see-also-resource, 'http://purl.org/dc/terms/title')}"/>
+							<link rel="http://www.w3.org/2000/01/rdf-schema#seeAlso" href="{$see-also-resource}" title="{convert:get-objects($graph, $see-also-resource, 'http://purl.org/dc/terms/title')}"/>
 						</xsl:for-each>
 					</head>
 					<body>
-						<xsl:copy-of select="convert:get-object(., $resource, 'http://rdfs.org/sioc/ns#content')/*"/>
+						<xsl:copy-of select="convert:get-objects(., $resource, 'http://rdfs.org/sioc/ns#content')/*"/>
 					</body>
 				</html>
 			</xsl:variable>
@@ -101,35 +110,82 @@
 					<xsl:with-param name="parent-resource" select=" 'file:///' "/>
 				</xsl:call-template>
 			</xsl:variable>
-			<!-- delegate to the decorate-html.xsl stylesheet to decorate the plain html document, including formatting of the outline of the documentation corpus -->
+			<xsl:variable name="children">
+				<xsl:call-template name="generate-child-list">
+					<xsl:with-param name="base-uri" select="convert:filename-for-resource($resource)"/>
+					<xsl:with-param name="parent-resource" select="$resource"/>
+				</xsl:call-template>
+			</xsl:variable>
+			<!-- 
+				Allow the decorate-html.xsl stylesheet to decorate the plain html document, including formatting of the
+				outline of the documentation corpus, and the list of children of the current resource
+			-->
 			<xsl:apply-templates select="$plain-html">
 				<xsl:with-param name="outline" select="$outline" tunnel="yes"/>
+				<xsl:with-param name="children" select="$children" tunnel="yes"/>
 			</xsl:apply-templates>
 		</xsl:result-document>
 	</xsl:template>
-	<!-- retrieve object from a triple with a given subject and predicate -->
-	<xsl:function name="convert:get-object">
+	<!-- retrieve objects from triples with a given subject and predicate -->
+	<xsl:function name="convert:get-objects">
 		<xsl:param name="graph"/>
 		<xsl:param name="subject"/>
 		<xsl:param name="predicate"/>
 		<xsl:sequence select="$graph/trix:triple[*[1]=$subject][*[2]=$predicate]/*[3]"/>
 	</xsl:function>
-	
+	<!-- retrieve subjects from triples with a given predicate and object -->
+	<xsl:function name="convert:get-subjects">
+		<xsl:param name="graph"/>
+		<xsl:param name="predicate"/>
+		<xsl:param name="object"/>
+		<xsl:sequence select="$graph/trix:triple[*[2]=$predicate][*[3]=$object]/*[1]"/>
+	</xsl:function>
+	<xsl:template name="generate-child-list">
+		<xsl:param name="parent-resource"/>
+		<xsl:param name="base-uri"/>
+		<xsl:where-populated>
+			<ul>
+				<!-- generate a list of the resources which have this resource as their parent or container -->
+				<xsl:for-each select="
+					convert:get-subjects( (: find resources ... :)
+						/trix:trix/trix:graph, (: within any graph :)
+						('http://rdfs.org/sioc/ns#has_container', 'http://rdfs.org/sioc/ns#has_parent'), (: which have a container or parent :) 
+						$parent-resource (: which is the parent resource :)
+					)
+				">
+					<li>
+						<p>
+							<a 
+								href="{convert:relativize-uri(convert:filename-for-resource(.), $base-uri)}" 
+								title="{convert:get-objects(/trix:trix/trix:graph, ., 'http://purl.org/dc/terms/description')}"
+							>
+								<xsl:value-of select="convert:get-objects(/trix:trix/trix:graph, ., 'http://purl.org/dc/terms/title')"/>
+							</a>
+						</p>
+					</li>
+				</xsl:for-each>
+			</ul>
+		</xsl:where-populated>	
+	</xsl:template>
+	<!-- generate a hierarchical outline of the entire corpus -->
 	<xsl:template name="generate-outline">
 		<xsl:param name="parent-resource"/>
 		<xsl:param name="base-uri"/>
 		<xsl:variable name="resource-statements" select="/trix:trix/trix:graph/trix:triple[*[1]=$parent-resource]"/>
-		<a href="{convert:relativize-uri(convert:filename-for-resource($parent-resource), $base-uri)}" title="{$resource-statements[*[2]='http://purl.org/dc/terms/description'][1]/*[3]}">
-			<xsl:value-of select="$resource-statements[*[2]='http://purl.org/dc/terms/title'][1]/*[3]"/>
-		</a>
+		<p>
+			<a href="{convert:relativize-uri(convert:filename-for-resource($parent-resource), $base-uri)}" title="{$resource-statements[*[2]='http://purl.org/dc/terms/description'][1]/*[3]}">
+				<xsl:value-of select="$resource-statements[*[2]='http://purl.org/dc/terms/title'][1]/*[3]"/>
+			</a>
+		</p>
 		<xsl:where-populated>
 			<ul>
 				<!-- generate an outline for each resource which has this resource as its parent or container -->
 				<xsl:for-each select="
-					/trix:trix/trix:graph/trix:triple
-						[*[3]=$parent-resource]
-						[*[2]=('http://rdfs.org/sioc/ns#has_container', 'http://rdfs.org/sioc/ns#has_parent')]
-						/*[1]
+					convert:get-subjects( (: find resources ... :)
+						/trix:trix/trix:graph, (: within any graph :)
+						('http://rdfs.org/sioc/ns#has_container', 'http://rdfs.org/sioc/ns#has_parent'), (: which have a container or parent :) 
+						$parent-resource (: which is the parent resource :)
+					)
 				">
 					<li>
 						<xsl:call-template name="generate-outline">

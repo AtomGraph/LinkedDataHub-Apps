@@ -9,46 +9,7 @@
 		<xsl:copy>
 			<xsl:apply-templates/>
 			<!-- add CSS -->
-			<style type="text/css" xsl:expand-text="false">
-				body {
-					color: #04286E;
-					font-family: "Rubik", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-					display: grid;
-					grid-auto-columns: max-content;
-				}
-				body > header {
-					grid-row: 1;
-					grid-column: 1 / 2;
-				}
-				nav.outline {
-					background-color: #fff;
-					background-clip: border-box;
-					border: 1px solid rgba(0,0,0,.125);
-					margin: 0.5em;
-					width: 20em;
-					grid-row: 2;
-					grid-column: 1;
-				}
-				main {
-					grid-row: 2;
-					grid-column: 2;
-				}
-				nav.outline ul li {
-					margin-top: 0.2em;
-					margin-bottom: 0.3em;
-				}
-				nav.outline ul {
-					font-size: small;
-					padding-left: 2em;
-					margin-top: 0.1em;
-					margin-bottom: 0.3em;
-					list-style-type: none;
-				}
-				p.lead {
-					font-size: larger;
-					font-style: italic;
-				}
-			</style>
+			<link rel="stylesheet" type="text/css" href="/docs.css"/>
 		</xsl:copy>
 	</xsl:template>
 	
@@ -58,19 +19,27 @@
 	
 	<xsl:template match="body">
 		<xsl:param name="outline" tunnel="yes"/><!-- an unordered list of items containing hyperlinks or nested unordered lists -->
+		<xsl:param name="children" tunnel="yes"/><!-- an unordered list of items containing hyperlinks to subordinate resources -->
 		<xsl:copy>
-			<header><h1>LinkedDataHub</h1></header>
+			<header><p>LinkedDataHub</p></header>
 			<nav class="outline">
 				<xsl:copy-of select="$outline"/>
 			</nav>
 			<main>
 				<header>
-					<h2><xsl:value-of select="/html/head/title"/></h2>
+					<h1><xsl:value-of select="/html/head/title"/></h1>
+					<!-- include any "lead" paragraphs from the boxy here -->
+					<xsl:copy-of select="child::div/p[@class='lead']"/>
+					<nav class="children">
+						<xsl:sequence select="$children"/>
+					</nav>
 				</header>
-				<!-- insert the <body> content -->
+				<!-- copy the remaining content -->
 				<xsl:apply-templates/>
 			</main>
 		</xsl:copy>
 	</xsl:template>
+	
+	<xsl:template match="p[@class='lead']"/><!-- filter these from the main content as they're included specifically in the main header instead -->
 	
 </xsl:stylesheet>
