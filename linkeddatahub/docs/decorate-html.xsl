@@ -62,5 +62,10 @@
 	</xsl:template>
 	
 	<xsl:template match="p[@class='lead']"/><!-- filter these from the main content as they're included specifically in the main header instead -->
+
+	<!-- trim the trailing slash -->
+	<xsl:template match="img/@src[contains(., 'uploads/') and ends-with(., '/')] | object/@data[contains(., 'uploads/') and ends-with(., '/')]">
+		<xsl:attribute name="{local-name()}" select="string-join(tokenize(., '/')[not(position() = last())], '/')"/>
+	</xsl:template>
 	
 </xsl:stylesheet>
