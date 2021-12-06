@@ -3,7 +3,7 @@
 <!-- Those pages don't include any boilerplate text or navigation; this stylesheet can add them -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0" 
 	xmlns:convert="tag:conaltuohy.com,2021:convert-ttl-to-html" xmlns="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:map="http://www.w3.org/2005/xpath-functions/map" xpath-default-namespace="http://www.w3.org/1999/xhtml"
-	exclude-result-prefixes="convert">
+	exclude-result-prefixes="#all">
 	<xsl:mode on-no-match="shallow-copy"/>
 	
 	<xsl:template match="head">

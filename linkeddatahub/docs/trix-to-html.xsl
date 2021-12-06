@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0" 
 	xmlns:trix="http://www.w3.org/2004/03/trix/trix-1/" xmlns:convert="tag:conaltuohy.com,2021:convert-ttl-to-html" xmlns="http://www.w3.org/1999/xhtml"
-	exclude-result-prefixes="convert trix">
+	exclude-result-prefixes="#all">
 	
 	<xsl:output method="text"/>
 	
