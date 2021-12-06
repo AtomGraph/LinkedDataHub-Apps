@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0" 
 	xmlns:trix="http://www.w3.org/2004/03/trix/trix-1/" xmlns:convert="tag:conaltuohy.com,2021:convert-ttl-to-html" xmlns="http://www.w3.org/1999/xhtml"
 	exclude-result-prefixes="convert trix">
@@ -54,10 +55,6 @@
 	</xsl:function>
 	
 	<xsl:template match="trix:trix">
-		<!-- copy the CSS file -->
-		<xsl:result-document href="{$output-folder}/docs.css" method="text">
-			<xsl:sequence select="unparsed-text('docs.css')"/>
-		</xsl:result-document>
 		<!-- process all the graphs into HTML pages -->
 		<xsl:apply-templates/>
 	</xsl:template>
@@ -144,27 +141,25 @@
 		<xsl:param name="parent-resource"/>
 		<xsl:param name="base-uri"/>
 		<xsl:where-populated>
-			<ul>
-				<!-- generate a list of the resources which have this resource as their parent or container -->
-				<xsl:for-each select="
-					convert:get-subjects( (: find resources ... :)
-						/trix:trix/trix:graph, (: within any graph :)
-						('http://rdfs.org/sioc/ns#has_container', 'http://rdfs.org/sioc/ns#has_parent'), (: which have a container or parent :) 
-						$parent-resource (: which is the parent resource :)
-					)
-				">
-					<li>
-						<p>
-							<a 
-								href="{convert:relativize-uri(convert:filename-for-resource(.), $base-uri)}" 
-								title="{convert:get-objects(/trix:trix/trix:graph, ., 'http://purl.org/dc/terms/description')}"
-							>
-								<xsl:value-of select="convert:get-objects(/trix:trix/trix:graph, ., 'http://purl.org/dc/terms/title')"/>
-							</a>
-						</p>
-					</li>
-				</xsl:for-each>
-			</ul>
+            <!-- generate a list of the resources which have this resource as their parent or container -->
+            <xsl:for-each select="
+                convert:get-subjects( (: find resources ... :)
+                    /trix:trix/trix:graph, (: within any graph :)
+                    ('http://rdfs.org/sioc/ns#has_container', 'http://rdfs.org/sioc/ns#has_parent'), (: which have a container or parent :) 
+                    $parent-resource (: which is the parent resource :)
+                )
+            ">
+				<div class="well">
+					<h2>
+						<a 
+							href="{convert:relativize-uri(convert:filename-for-resource(.), $base-uri)}" 
+							title="{convert:get-objects(/trix:trix/trix:graph, ., 'http://purl.org/dc/terms/description')}"
+						>
+							<xsl:value-of select="convert:get-objects(/trix:trix/trix:graph, ., 'http://purl.org/dc/terms/title')"/>
+						</a>
+					</h2>
+				</div>
+			</xsl:for-each>
 		</xsl:where-populated>	
 	</xsl:template>
 	<!-- generate a hierarchical outline of the entire corpus -->
@@ -172,13 +167,14 @@
 		<xsl:param name="parent-resource"/>
 		<xsl:param name="base-uri"/>
 		<xsl:variable name="resource-statements" select="/trix:trix/trix:graph/trix:triple[*[1]=$parent-resource]"/>
-		<p>
+		<!-- exclude the top-level document -->
+		<xsl:if test="not($parent-resource = 'file:///')">
 			<a href="{convert:relativize-uri(convert:filename-for-resource($parent-resource), $base-uri)}" title="{$resource-statements[*[2]='http://purl.org/dc/terms/description'][1]/*[3]}">
 				<xsl:value-of select="$resource-statements[*[2]='http://purl.org/dc/terms/title'][1]/*[3]"/>
 			</a>
-		</p>
+		</xsl:if>
 		<xsl:where-populated>
-			<ul>
+			<ul class="nav nav-list">
 				<!-- generate an outline for each resource which has this resource as its parent or container -->
 				<xsl:for-each select="
 					convert:get-subjects( (: find resources ... :)
@@ -188,6 +184,11 @@
 					)
 				">
 					<li>
+						<!-- mark the current document as active -->
+						<xsl:if test="convert:relativize-uri(convert:filename-for-resource(.), $base-uri) = ''">
+							<xsl:attribute name="class">active</xsl:attribute>
+						</xsl:if>
+					
 						<xsl:call-template name="generate-outline">
 							<xsl:with-param name="parent-resource" select="."/>
 							<xsl:with-param name="base-uri" select="$base-uri"/>

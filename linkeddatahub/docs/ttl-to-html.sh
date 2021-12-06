@@ -1,7 +1,6 @@
 #!/bin/sh
 # absolute path to output folder
-#OUTPUT_FOLDER=$PWD/html
-OUTPUT_FOLDER=/var/www/html
+OUTPUT_FOLDER="$PWD"/html
 # find all the turtle files and use Jena riot to convert them to TriX format, merging them into a single trix file
 # (sed is used to trim the <trix> root element from the individual files) 
 
