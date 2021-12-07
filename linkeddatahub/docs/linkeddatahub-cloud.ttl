@@ -7,7 +7,7 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
 <linkeddatahub-cloud/> a nsdd:Item ;
-    sioc:has_container <> ;
+    # sioc:has_container <> ;
     dct:title "LinkedDataHub Cloud" ;
     dct:description "LinkedDataHub Cloud is a managed service for LinkedDataHub applications" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
