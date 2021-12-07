@@ -31,6 +31,17 @@
 
 				});
 			</script>
+			<!-- Global site tag (gtag.js) - Google Analytics -->
+			<script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-38402002-6"></script>
+			<script>
+				<![CDATA[
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+					gtag('js', new Date());
+
+					gtag('config', 'UA-38402002-6');
+				]]>
+			</script>
 		</xsl:copy>
 	</xsl:template>
 	
