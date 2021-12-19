@@ -1,12 +1,11 @@
-@prefix ns:     <ns#> .
-@prefix nsdd:   <ns/domain/default#> .
+@prefix def:	<https://w3id.org/atomgraph/linkeddatahub/default#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<reference/dataspace/> a nsdd:Item ;
+<reference/dataspace/> a def:Item ;
     sioc:has_container <reference/> ;
     dct:title "Dataspace" ;
     dct:description "LinkedDataHub dataspaces, applications, and services" ;
@@ -34,7 +33,7 @@
             <dt>Ontology</dt>
             <dd>Ontology defines the terms (classes, properties etc.) of the application domain as well as its LDT templates. It can import
                 other ontologies from within the application as well as from external applications.</dd>
-            <dd>Ontologies as <a href="../administration/sitemap/">managed in the administration</a> application.</dd>
+            <dd>Ontologies as <a href="../administration/model/">managed in the administration</a> application.</dd>
         </dl>
         <div class="alert alert-info">
             <p>Base URI must end with a forward slash (<code>/</code>).</p>
@@ -62,7 +61,7 @@
                     <p>The base URI(s) of an administration application is the base URI(s) of its end-user application with <code>admin/</code> appended
                         to it. Note that any URIs in the end-user application that are equal or relative to the admin application base URI <em>will not
                         be accessible</em>.</p>
-                    <p>Administration application provides means to control the <a href="../administration/sitemap/">structure</a> and
+                    <p>Administration application provides means to control the <a href="../administration/model/">domain model</a> and the
                         <a href="../administration/acl/">access control</a> of its end-user application. Only dataspace owners have access to its
                         administration application.</p>
                     <div class="alert alert-info">

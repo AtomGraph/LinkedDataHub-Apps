@@ -1,5 +1,4 @@
-@prefix ns:     <ns#> .
-@prefix nsdd:   <ns/domain/default#> .
+@prefix def:	<https://w3id.org/atomgraph/linkeddatahub/default#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
@@ -7,7 +6,7 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<reference/imports/csv/> a nsdd:Item ;
+<reference/imports/csv/> a def:Item ;
     sioc:has_container <reference/imports/> ;
     dct:title "CSV imports" ;
     dct:description "CSV imports and mapping to RDF using SPARQL CONSTRUCT" ;
@@ -91,7 +90,7 @@ PREFIX  sioc: &lt;http://rdfs.org/sioc/ns#&gt;
 
 CONSTRUCT
   {
-    ?item a nsdd:Item ;
+    ?item a def:Item ;
         sioc:has_container ?this ;
         dct:title ?name ;
         dh:slug ?countryCode ;

@@ -1,12 +1,11 @@
-@prefix ns:     <ns#> .
-@prefix nsdd:   <ns/domain/default#> .
+@prefix def:	<https://w3id.org/atomgraph/linkeddatahub/default#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<user-guide/create-document/> a nsdd:Item ;
+<user-guide/create-document/> a def:Item ;
     sioc:has_container <user-guide/> ;
     dct:title "Create document" ;
     dct:description "Learn how to create container and item documents" ;

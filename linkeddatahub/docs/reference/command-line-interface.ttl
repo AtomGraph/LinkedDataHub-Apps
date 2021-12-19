@@ -1,12 +1,11 @@
-@prefix ns:     <ns#> .
-@prefix nsdd:   <ns/domain/default#> .
+@prefix def:	<https://w3id.org/atomgraph/linkeddatahub/default#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<reference/command-line-interface/> a nsdd:Item ;
+<reference/command-line-interface/> a def:Item ;
     sioc:has_container <reference/> ;
     dct:title "Command line interface" ;
     dct:description "CLI scripts can be used perform all actions available in the UI" ;
@@ -131,33 +130,8 @@
                             <td><samp>admin/model/create-property-constraint.sh</samp></td>
                         </tr>
                         <tr>
-                            <td>Create <a href="../administration/model/#restrictions">restriction</a></td>
-                            <td><samp>admin/model/create-restriction.sh</samp></td>
-                        </tr>
-                        <tr>
                             <td>Import ontology</td>
                             <td><samp>admin/model/import-ontology.sh</samp></td>
-                        </tr>
-                    </tbody>
-                    <tbody>
-                        <tr>
-                            <th colspan="2"><a href="../administration/sitemap/">Sitemap</a></th>
-                        </tr>
-                        <tr>
-                            <td>Create <code>CONSTRUCT</code> query</td>
-                            <td><samp>admin/sitemap/create-construct.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create <code>DESCRIBE</code> query</td>
-                            <td><samp>admin/sitemap/create-describe.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create <a href="../administration/sitemap/#templates">template</a></td>
-                            <td><samp>admin/sitemap/create-template.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create <a href="../administration/sitemap/#parameters">template parameter</a></td>
-                            <td><samp>admin/sitemap/create-parameter.sh</samp></td>
                         </tr>
                     </tbody>
                 </table>

@@ -1,18 +1,17 @@
-@prefix ns:     <ns#> .
-@prefix nsdd:   <ns/domain/default#> .
+@prefix def:	<https://w3id.org/atomgraph/linkeddatahub/default#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<reference/administration/> a nsdd:Container ;
+<reference/administration/> a def:Container ;
     sioc:has_parent <reference/> ;
     dh:select <queries/default/select-children/#this> ;
     dct:title "Administration" ;
-    dct:description "Access control, domain model, and sitemap management" ;
+    dct:description "Access control and domain model management" ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Access control, domain model, and sitemap management</p>
+    <p class="lead">Access control and domain model management</p>
     <p>Administration is provided in a separate LDT application, which is paired with each <a href="../dataspace/#end-user-apps">end-user
         application</a>.</p>
 </div>"""^^rdf:XMLLiteral .

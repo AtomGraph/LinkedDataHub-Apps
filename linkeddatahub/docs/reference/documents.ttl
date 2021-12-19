@@ -1,12 +1,11 @@
-@prefix ns:     <ns#> .
-@prefix nsdd:   <ns/domain/default#> .
+@prefix def:	<https://w3id.org/atomgraph/linkeddatahub/default#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<reference/documents/> a nsdd:Item ;
+<reference/documents/> a def:Item ;
     sioc:has_container <reference/> ;
     dct:title "Document management" ;
     dct:description "Document hierarchy and the basic data management actions" ;
@@ -66,9 +65,8 @@
                 child of the current container, unless a different one is specified in the creation dialog.</p>
             <p>Every document can contain (X)HTML content which is edited using an embedded WYSIWYG editor.</p>
             <p>The resource type can be something else than a document, e.g. a physical thing such as person, or an
-                abstract concept. In that case, it is referred to as the <dfn>topic resource</dfn> which is paired with a
-                document, and they are created together. The relationships between documents and topic resources is
-                <a href="../administration/model/#restrictions">managed in the model</a>.</p>
+                abstract concept. In that case, it is referred to as the <dfn>topic resource</dfn> which can be created together
+                with the document. The document relates to the topic resource using the <code>foaf:primaryTopic</code> property.</p>
             <p>A new document can only be created if it and its topic resource validate, i.e. if all property values from
                 user input satisfy URI syntax, mandatory values and other constraints. Constraints are also
                 <a href="../administration/model/#constraints">managed in the model</a>.</p>
@@ -107,8 +105,6 @@
         <p>Perform an application-wide search for resources (documents as well as their topics) using the
             <a href="../user-interface/#nav-bar">search box</a>. Search uses regex to match search keywords
             against resource labels, descriptions, and content, and shows the results in a dropdown list.</p>
-        <p>The exact search criteria depend on the query which is configured for the search container in 
-        <a href="../administration/sitemap/">the sitemap</a>.</p>
         <p>The search bar also works as address bar for Linked Data resources. Enter a URI and LinkedDataHub will attempt
             to load RDF data from it by switching into Linked Data browser mode.</p>
     </div>

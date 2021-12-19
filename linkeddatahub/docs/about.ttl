@@ -1,12 +1,11 @@
-@prefix ns:     <ns#> .
-@prefix nsdd:   <ns/domain/default#> .
+@prefix def:	<https://w3id.org/atomgraph/linkeddatahub/default#> .
 @prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:	<http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:	<https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
 @prefix dct:	<http://purl.org/dc/terms/> .
 @prefix sioc:	<http://rdfs.org/sioc/ns#> .
   
-<about/> a nsdd:Item ;
+<about/> a def:Item ;
     sioc:has_container <> ;
     dct:title "About LinkedDataHub" ;
     dct:description "A UI-based cloud platform for data integration, management, and application building" ;
@@ -125,7 +124,7 @@
           <dt>Data quality control</dt>
           <dd>Consistency of the application's dataset is ensured by validating all incoming RDF data against SPARQL-based
             <a href="../reference/administration/model/#constraints" target="_blank">SPIN constraints</a> (built-in as well as user-defined), which
-            are a part of the application's sitemap.</dd>
+            are a part of the application's model.</dd>
           <dt>Access control</dt>
           <dd>All access to every document on LinkedDataHub is checked against
             <a href="../reference/administration/acl/" target="_blank">access control</a> rules (built-in as well as user-defined). Unauthorized
@@ -134,14 +133,13 @@
           <dd>The <a href="../reference/user-interface/" target="_blank">user experience</a> is consistent throughout the platform; all documents by
             default support the same <a href="../reference/documents/#manage" target="_blank">actions</a>.</dd>
           <dt>Extensibility</dt>
-          <dd>Administrative users can <a href="../reference/administration/sitemap/" target="_blank">use the sitemap</a> to extend an existing
-            application structure, and upload new XSLT and CSS stylesheets to customize the user interface.</dd>
+          <dd>Administrative users can upload new XSLT and CSS stylesheets to customize the user interface.</dd>
           <dt>Remote datasources</dt>
           <dd>An integrated browser component allows exploring remote Knowledge Graph resources without leaving the application.
             We are constantly improving the software to take advantage of the distributed nature of RDF data.</dd>
           <dt>HTTP API</dt>
-          <dd>Our next-generation Linked Data Templates technology provides read-write <a href="../reference/http-api/" target="_blank">HTTP API</a> for
-            every document, customizable using <a href="../reference/administration/sitemap/#templates" target="_blank">declarative templates</a>.</dd>
+          <dd>LinkedDataHub's <a href="../reference/http-api/" target="_blank">HTTP API</a> is an implementation of the
+            <a href="https://www.w3.org/TR/sparql11-http-rdf-update/" target="_blank">SPARQL 1.1 Graph Store HTTP Protocol</a>.</dd>
           <dt>SEO support</dt>
           <dd>Customizable JSON-LD output allows a mapping of RDF resources to <a href="https://schema.org" target="_blank">schema.org</a>.
             That structured data is <a href="https://developers.google.com/search/docs/guides/intro-structured-data" target="_blank">indexed
