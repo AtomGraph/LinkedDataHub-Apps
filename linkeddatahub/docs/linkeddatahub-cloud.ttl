@@ -1,4 +1,5 @@
-@prefix def:	<https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix apl:    <https://w3id.org/atomgraph/linkeddatahub/domain#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
@@ -9,7 +10,11 @@
     sioc:has_container <> ;
     dct:title "LinkedDataHub Cloud" ;
     dct:description "LinkedDataHub Cloud is a managed service for LinkedDataHub applications" ;
-    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    apl:content <#content> .
+
+<#content> a apl:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead"><a href="https://linkeddatahub.com" target="_blank">LinkedDataHub Cloud</a> is a managed service for LinkedDataHub applications</p>
     <p>The Cloud builds on the open-source version of LinkedDataHub and adds UI- and CLI-based <a href="../user-guide/manage-dataspaces/" target="_blank">dataspace management</a>. Using Cloud, you don't
         have to maintain your own instance of LinkedDataHub or manually configure dataspaces — that is done automatically and hidden behind a user interface.</p>

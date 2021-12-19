@@ -1,4 +1,5 @@
-@prefix def:	<https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix apl:    <https://w3id.org/atomgraph/linkeddatahub/domain#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
@@ -9,7 +10,11 @@
     sioc:has_container <reference/administration/> ;
     dct:title "Access control" ;
     dct:description "Agents, groups, and authorizations" ;
-    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    apl:content <#content> .
+    
+<#content> a apl:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">LinkedDataHub access control is based on the W3C <a href="https://www.w3.org/wiki/WebAccessControl" target="_blank">ACL ontology</a>.</p>
     <div>
         <h2 id="access-modes">Access modes</h2>

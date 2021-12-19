@@ -1,4 +1,5 @@
-@prefix def:	<https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix apl:    <https://w3id.org/atomgraph/linkeddatahub/domain#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
@@ -10,7 +11,11 @@
     sioc:has_container <reference/> ;
     dct:title "HTTP API" ;
     dct:description "Learn how to access and manage RDF data over generic HTTP API" ;
-    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    apl:content <#content> .
+
+<#content> a apl:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to read and write RDF data from/to LinkedDataHub applications over HTTP</p>
     <p>LinkedDataHub implements a uniform, generic RESTful Linked Data API as defined by the
         <a href="https://www.w3.org/TR/sparql11-http-rdf-update/" target="_blank">SPARQL 1.1 Graph Store Protocol</a>.</p>

@@ -1,4 +1,5 @@
-@prefix def:	<https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix apl:    <https://w3id.org/atomgraph/linkeddatahub/domain#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
@@ -10,7 +11,11 @@
     sioc:has_container <reference/imports/> ;
     dct:title "RDF imports" ;
     dct:description "RDF imports and transforming RDF using SPARQL CONSTRUCT" ;
-    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    apl:content <#content> .
+    
+<#content> a apl:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">RDF imports and transforming RDF using SPARQL CONSTRUCT</p>
     <p>A data import is a combination of 3 resources:</p>
     <dl>

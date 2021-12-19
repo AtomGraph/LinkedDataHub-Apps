@@ -1,4 +1,5 @@
-@prefix def:	<https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix apl:    <https://w3id.org/atomgraph/linkeddatahub/domain#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
@@ -10,6 +11,10 @@
     dh:select <queries/default/select-children/#this> ;
     dct:title "Reference" ;
     dct:description "A list of LinkedDataHub's features and their functions, split into general and administration parts" ;
-    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    apl:content <#content> .
+
+<#content> a apl:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">A list of LinkedDataHub's features and their functions, split into general and administration parts</p>
 </div>"""^^rdf:XMLLiteral .
