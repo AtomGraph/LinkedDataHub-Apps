@@ -93,9 +93,6 @@
     </div>
     <div>
         <h2 id="services">Services</h2>
-        <p class="text-center">
-            <img alt="LDT architecture" src="https://atomgraph.github.io/Linked-Data-Templates/images/components.svg"></img>
-        </p>
         <p>A service is a persistent SPARQL 1.1-compatible store from which the application's RDF dataset is accessible over HTTP. LinkedDataHub supports
             generic services as well as triplestore-specific services which support easier configuration and optimized access. HTTP Basic is
             suppported as an authentication scheme. Contact us regarding support for vendor-specific authentication such as API keys.</p>

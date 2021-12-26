@@ -51,7 +51,7 @@ services:
     </div>
     <div>
         <h2 id="default-layout">Default layout</h2>
-        <p>In the examples below we assume that the LDT template <a href="../administration/change-sitemap/" target="_blank">has been customized</a> to load not only the current document and its related concept, but also its broader/narrower concepts.</p>
+        <p>In the examples below we assume that the graph contains a SKOS taxonomy with concept instances, which can also have broader/narrower concepts.</p>
         <p>At this point, the default layout of the current document, its topic concept, and narrower/broader concepts looks like this:</p>
         <div class="thumbnail">
             <img alt="Default layout" src="../../uploads/74b49af5c822acf41ad661d0d27a60443151838d/"></img>

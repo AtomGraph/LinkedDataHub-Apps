@@ -19,7 +19,7 @@
     <div>
         <h2 id="dataspace">Dataspace</h2>
         <p>The user is always working within the <a href="../dataspace/#dataspaces">dataspace</a>. A dataspace consists of two
-            LDT applications:</p>
+            applications:</p>
         <ol>
             <li>the end-user application</li>
             <li>the administration application which only administration users have access to</li>

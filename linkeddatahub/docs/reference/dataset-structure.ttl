@@ -37,7 +37,6 @@
             <a href="https://dbpedia.org/" target="_blank">DBPedia</a> or <a href="https://www.wikidata.org/" target="_blank">Wikidata</a>. However, you need to be aware of the following points:</p>
         <ul>
             <li>Do the resource URIs in the dataset align with the <a href="../../user-guide/change-system-base-uri/" target="_blank">system base URI</a>? If not, LinkedDataHub will open them in <a href="../../user-guide/browse-data/" target="_blank">Linked Data browser mode</a>.</li>
-            <li>You will need to <a href="../../user-guide/administration/change-sitemap/" target="_blank">align the templates</a> in the sitemap to match the dataset structure</li>
             <li>You will need to <a href="../../user-guide/change-layout/" target="_blank">override the UI layout</a> as the default XSLT stylesheets are tailored to the default dataset structure</li>
         </ul>
     </div>

@@ -150,8 +150,6 @@
                 <dd>The URI of the current layout mode</dd>
                 <dt><code>$ac:forClass</code></dt>
                 <dd>The URI of the class whose instance is being created.</dd>
-                <dt><code>$ac:sitemap</code></dt>
-                <dd>RDF/XML document of the application's ontology, with a transitive closure of imports</dd>
                 <dt><code>$lapp:Application</code></dt>
                 <dd>RDF/XML document with the metadata of the current LDT application</dd>
                 <dt><code>$lacl:Agent</code></dt>
