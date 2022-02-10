@@ -1,18 +1,18 @@
 @prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
-@prefix apl:    <https://w3id.org/atomgraph/linkeddatahub/domain#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<reference/dataset-structure/> a def:Item ;
+<reference/dataset-structure/> a dh:Item ;
     sioc:has_container <reference/> ;
     dct:title "Dataset structure" ;
     dct:description "The default RDF dataset structure used by LinkedDataHub" ;
-    apl:content <#content> .
+    ldh:content <#content> .
     
-<#content> a apl:Content ;
+<#content> a ldh:Content ;
     rdf:rest () ;
     rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">The default RDF dataset structure used by LinkedDataHub.</p>
@@ -30,14 +30,5 @@
         <h2 id="default-datasets">Default datasets</h2>
         <p>The default datasets of administration and end-user applications can be found in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/platform/datasets/admin.trig" target="_blank"><samp>platform/datasets/admin.trig</samp></a> and
             <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/platform/datasets/end-user.trig" target="_blank"><samp>platform/datasets/end-user.trig</samp></a>, respectively.</p>
-    </div>
-    <div>
-        <h2 id="custom-datasets">Custom datasets</h2>
-        <p>LinkedDataHub can process any dataset structure for <a href="../dataspace/#end-user-apps">end-user applications</a>. For example, it could be a public datasource such as
-            <a href="https://dbpedia.org/" target="_blank">DBPedia</a> or <a href="https://www.wikidata.org/" target="_blank">Wikidata</a>. However, you need to be aware of the following points:</p>
-        <ul>
-            <li>Do the resource URIs in the dataset align with the <a href="../../user-guide/change-system-base-uri/" target="_blank">system base URI</a>? If not, LinkedDataHub will open them in <a href="../../user-guide/browse-data/" target="_blank">Linked Data browser mode</a>.</li>
-            <li>You will need to <a href="../../user-guide/change-layout/" target="_blank">override the UI layout</a> as the default XSLT stylesheets are tailored to the default dataset structure</li>
-        </ul>
     </div>
 </div>"""^^rdf:XMLLiteral .

@@ -1,19 +1,19 @@
 @prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
-@prefix apl:    <https://w3id.org/atomgraph/linkeddatahub/domain#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<reference/imports/rdf/> a def:Item ;
+<reference/imports/rdf/> a dh:Item ;
     sioc:has_container <reference/imports/> ;
     dct:title "RDF imports" ;
     dct:description "RDF imports and transforming RDF using SPARQL CONSTRUCT" ;
-    apl:content <#content> .
+    ldh:content <#content> .
     
-<#content> a apl:Content ;
+<#content> a ldh:Content ;
     rdf:rest () ;
     rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">RDF imports and transforming RDF using SPARQL CONSTRUCT</p>
@@ -67,7 +67,7 @@
             <p>This step is used to transform the RDF data that is being imported, if necessary (to a different vocabulary, for example). It also connects instances in the imported data to the documents in LinkedDataHub's <a href="../../dataset-structure/" target="_blank">dataset</a>.</p>
             <p>The mapping is a user-defined SPARQL <code>CONSTRUCT</code>. In this case we give each SKOS concept from the imported dataset an additional RDF type and pair the concept with its item (document):</p>
             <pre><code>PREFIX dom:   &lt;ns/domain#&gt;
-PREFIX dh:    &lt;https://www.w3.org/ns/ldt/document-hierarchy/domain#&gt;
+PREFIX dh:    &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt;
 PREFIX sioc:  &lt;http://rdfs.org/sioc/ns#&gt;
 PREFIX foaf:  &lt;http://xmlns.com/foaf/0.1/&gt;
 PREFIX skos:  &lt;http://www.w3.org/2004/02/skos/core#&gt;
@@ -131,7 +131,7 @@ WHERE
 @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
 @prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
 @prefix sioc: &lt;http://rdfs.org/sioc/ns#&gt; .
-@prefix dh: &lt;https://www.w3.org/ns/ldt/document-hierarchy/domain#&gt; .
+@prefix dh: &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
 @prefix dom: &lt;ns/domain#&gt; .
 
 :concept10 a skos:Concept, dom:Concept ;

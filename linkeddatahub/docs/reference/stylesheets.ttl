@@ -1,18 +1,18 @@
 @prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
-@prefix apl:    <https://w3id.org/atomgraph/linkeddatahub/domain#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<reference/stylesheets/> a def:Item ;
+<reference/stylesheets/> a dh:Item ;
     sioc:has_container <reference/> ;
     dct:title "Stylesheets" ;
     dct:description "Built-in XSLT and CSS stylesheets" ;
-    apl:content <#content> .
+    ldh:content <#content> .
     
-<#content> a apl:Content ;
+<#content> a ldh:Content ;
     rdf:rest () ;
     rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Built-in XSLT and CSS stylesheets</p>
@@ -117,13 +117,13 @@
                     </tr>
                     <tr>
                         <td><code>lapp:</code></td>
-                        <td><code>https://w3id.org/atomgraph/linkeddatahub/apps/domain#</code></td>
+                        <td><code>https://w3id.org/atomgraph/linkeddatahub/apps#</code></td>
                         <td><a href="../administration/model/#apl-ont" target="_blank">AtomGraph Platform</a></td>
                         <td>LDT application concepts</td>
                     </tr>
                     <tr>
                         <td><code>lacl:</code></td>
-                        <td><code>https://w3id.org/atomgraph/linkeddatahub/admin/acl/domain#</code></td>
+                        <td><code>https://w3id.org/atomgraph/linkeddatahub/admin/acl#</code></td>
                         <td>LinkedDataHub ACL ontology</td>
                         <td>ACL concepts</td>
                     </tr>
@@ -152,7 +152,7 @@
                 <dd>The URI of the class whose instance is being created.</dd>
                 <dt><code>$lapp:Application</code></dt>
                 <dd>RDF/XML document with the metadata of the current LDT application</dd>
-                <dt><code>$lacl:Agent</code></dt>
+                <dt><code>$foaf:Agent</code></dt>
                 <dd>RDF/XML document with the metadata of the currently authenticated agent (if any)</dd>
             </dl>
         </div>
@@ -210,7 +210,7 @@
         &lt;xsl:apply-templates select="." mode="bs2:PropertyList"/&gt;
     &lt;/div&gt;
 &lt;/xsl:template&gt;</pre>
-            <p><code>apl:Content</code> mode embeds XHTML from the <code>sioc:content</code> value of the current document.</p>
+            <p><code>ldh:Content</code> mode embeds XHTML from the <code>sioc:content</code> value of the current document.</p>
             <p>There are a few special template modes such as <code>ac:label</code> and <code>ac:description</code> and related functions <code>ac:label()</code> and <code>ac:description()</code> which are
                 used not to render layout but to extract metadata from resource descriptions. They can be used to retrieve a resource label and description no matter which RDF
                 vocabularies are used in the data. They do so by invoking templates of respective mode from vocabulary-specific stylesheets.</p>

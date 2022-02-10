@@ -70,10 +70,10 @@
 		properties used:
 			http://www.w3.org/1999/02/22-rdf-syntax-ns#type
 			http://rdfs.org/sioc/ns#has_parent
-			https://www.w3.org/ns/ldt/document-hierarchy/domain#select
+			https://www.w3.org/ns/ldt/document-hierarchy#select
 			http://purl.org/dc/terms/title
 			http://purl.org/dc/terms/description
-			https://w3id.org/atomgraph/linkeddatahub/domain#content
+			https://w3id.org/atomgraph/linkeddatahub#content
 			http://rdfs.org/sioc/ns#has_container
 			http://www.w3.org/2000/01/rdf-schema#seeAlso
 		-->
@@ -97,7 +97,7 @@
 						</xsl:for-each>
 					</head>
 					<body>
-						<xsl:copy-of select="convert:get-objects(., convert:get-objects(., $resource, 'https://w3id.org/atomgraph/linkeddatahub/domain#content'), 'http://www.w3.org/1999/02/22-rdf-syntax-ns#first')/*"/>
+						<xsl:copy-of select="convert:get-objects(., convert:get-objects(., $resource, 'https://w3id.org/atomgraph/linkeddatahub#content'), 'http://www.w3.org/1999/02/22-rdf-syntax-ns#first')/*"/>
 					</body>
 				</html>
 			</xsl:variable>

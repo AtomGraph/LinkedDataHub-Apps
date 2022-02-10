@@ -1,18 +1,18 @@
 @prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
-@prefix apl:    <https://w3id.org/atomgraph/linkeddatahub/domain#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<reference/documents/> a def:Item ;
+<reference/documents/> a dh:Item ;
     sioc:has_container <reference/> ;
     dct:title "Document management" ;
     dct:description "Document hierarchy and the basic data management actions" ;
-    apl:content <#content> .
+    ldh:content <#content> .
 
-<#content> a apl:Content ;
+<#content> a ldh:Content ;
     rdf:rest () ;
     rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">This guide explains the document hierarchy and the basic data management actions.</p>
@@ -81,13 +81,10 @@
             <p>
                 <object data="../../uploads/30d8cc764648ebd67497413b16a94fca56c8e1e4/" type="video/webm"></object>
             </p>
-            <p>LinkedDataHub stores the description of every document in a separate RDF graph. The distinction between
-                document and its graph is important to understand; it is the graph that is being edited using
+            <p>In LinkedDataHub's dataset, every document is also a named RDF graph. It is the graph that is being edited using
                 <a href="../user-interface/#create-edit">edit mode</a> and updated as a result of this action.</p>
             <p>Just like with document creation, a document can only be updated if it and its topic resource validate, i.e.
                 if all property values from user input satisfy URI syntax, mandatory values and other constraints.</p>
-            <p>In future versions, we plan to store multiple graphs with descriptions of the same document but with
-                different timestamps, enabling revision history.</p>
         </div>
         <div>
             <h3 id="delete">Delete</h3>

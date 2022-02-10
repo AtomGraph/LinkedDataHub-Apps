@@ -5,15 +5,16 @@
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
-
-<user-guide/> a dh:Container ;
-    sioc:has_parent <> ;
-    dct:title "User guide" ;
-    dct:description "Step-by-step tutorials for everyday tasks with LinkedDataHub" ;
+    
+<user-guide/add-data/> a dh:Item ;
+    sioc:has_container <user-guide/> ;
+    dct:title "Add data" ;
+    dct:description "Fork RDF data from Linked Data resources and SPARQL results" ;
     ldh:content <#content> .
-
+    
 <#content> a ldh:Content ;
     rdf:rest () ;
     rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Step-by-step tutorials for everyday tasks with LinkedDataHub</p>
+    <p class="lead">Use LinkedDataHub's built-in Linked Data browser to explore remote datasources</p>
+    <p>???</p>
 </div>"""^^rdf:XMLLiteral .

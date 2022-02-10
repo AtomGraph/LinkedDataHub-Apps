@@ -1,18 +1,18 @@
 @prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
-@prefix apl:    <https://w3id.org/atomgraph/linkeddatahub/domain#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
    
-<user-guide/change-layout/> a def:Item ;
+<user-guide/change-layout/> a dh:Item ;
     sioc:has_container <user-guide/> ;
     dct:title "Change layout" ;
     dct:description "How to customize the layout of an application and the UI of the resources" ;
-    apl:content <#content> .
+    ldh:content <#content> .
     
-<#content> a apl:Content ;
+<#content> a ldh:Content ;
     rdf:rest () ;
     rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">How to customize the layout of an application and the UI of the resources</p>
@@ -38,11 +38,11 @@
 services:
   linkeddatahub:
     volumes:
-      - ../LinkedDataHub-Apps/demo/skos/files/skos.xsl:/usr/local/tomcat/webapps/ROOT/static/com/atomgraph/linkeddatahub/demo/skos/xsl/index.xsl:ro # won't work on LinkedDataHub Cloud</pre>
-                        <p>Then change the value of <code>ac:stylesheet</code> on the dataspace with base URI <code>https://localhost:4443/</code> to the URI of the stylesheet:</p>
-                        <pre>_:root_end_user_app a lapp:EndUserApplication ;
+      - ../LinkedDataHub-Apps/demo/skos/files/skos.xsl:/usr/local/tomcat/webapps/ROOT/static/com/atomgraph/linkeddatahub/demo/skos/xsl/index.xsl:ro</pre>
+                        <p>Then change the value of <code>ac:stylesheet</code> on the dataspace with base URI <code>https://localhost:4443/</code> to the relative URI of the stylesheet:</p>
+                        <pre>&lt;urn:linkeddatahub:apps/end-user&gt; a lapp:EndUserApplication ;
     ...
-    ac:stylesheet &lt;https://localhost:4443/static/com/atomgraph/linkeddatahub/demo/skos/xsl/index.xsl&gt; ;
+    ac:stylesheet &lt;static/com/atomgraph/linkeddatahub/demo/skos/xsl/index.xsl&gt; ;
     ...</pre>
                     </div>
                 </div>

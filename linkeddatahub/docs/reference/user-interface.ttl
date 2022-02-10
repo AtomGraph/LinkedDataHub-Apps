@@ -1,18 +1,18 @@
 @prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
-@prefix apl:    <https://w3id.org/atomgraph/linkeddatahub/domain#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<reference/user-interface/> a def:Item ;
+<reference/user-interface/> a dh:Item ;
     sioc:has_container <reference/> ;
     dct:title "User interface" ;
     dct:description "A walk through the main features of application user interface" ;
-    apl:content <#content> .
+    ldh:content <#content> .
     
-<#content> a apl:Content ;
+<#content> a ldh:Content ;
     rdf:rest () ;
     rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">This guide walks through the main features of LinkedDataHub user interface.
@@ -60,6 +60,7 @@
         the <dfn>breadcrumb bar</dfn>, where the current document is always the last breadcrumb. The user can always
         open any of the ascendant containers by clicking breadcrumbs left from the current one. The icon shows the
         type of the current document (container or item).</p>
+        <p>The breadcrumb bar also provides a dropdown with shortcuts to <a href="../documents/#hierarchy">system containers</a> and displays a label when the URL currently being browsed is external.</p>
         <p>Further to the left, the action bar displays a number of buttons for toggling the available
         <a href="#layout-modes">layout modes</a> as well as <a href="../documents/#manage">performing actions</a> on the
         current document.</p>
@@ -75,6 +76,8 @@
         the action bar. Containers and items are available in different modes.</p>
         <p>Container (page) layout modes:</p>
         <dl>
+            <dt>Content</dt>
+            <dd>List of content blocks. Shown only if the document has items in its content list or there is a content template defined for its type.</dd>
             <dt>Properties</dt>
             <dd>The most detailed view showing every property/value of children resources.</dd>
             <dt>List</dt>
@@ -91,6 +94,8 @@
         </dl>
         <p>Item layout modes:</p>
         <dl>
+            <dt>Content</dt>
+            <dd>List of content blocks. Shown only if the document has items in its content list or there is a content template defined for its type.</dd>
             <dt>Properties</dt>
             <dd>The most detailed view showing every property/value of the current document and its topic resource,
             if any.</dd>

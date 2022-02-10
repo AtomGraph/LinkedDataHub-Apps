@@ -1,20 +1,27 @@
 @prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
-@prefix apl:    <https://w3id.org/atomgraph/linkeddatahub/domain#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
     
-<user-guide/browse-data/> a def:Item ;
+<user-guide/browse-data/> a dh:Item ;
     sioc:has_container <user-guide/> ;
     dct:title "Browse data" ;
     dct:description "Use LinkedDataHub's built-in Linked Data browser to explore remote datasources" ;
-    apl:content <#content> .
+    ldh:content <#content> .
     
-<#content> a apl:Content ;
+<#content> a ldh:Content ;
     rdf:rest () ;
     rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Use LinkedDataHub's built-in Linked Data browser to explore remote datasources</p>
-    <p>???</p>
+    <p>LinkedDataHub's has a built-in Linked Data browser which is accessed through <a href="../reference/user-interface/#nav-bar">the navigation bar</a>. Enter a <code>http://</code> or <code>https://</code> URL and
+        press <samp>Enter</samp> or click the search button.</p>
+    <p>The browser supports all standard RDF formats as well as JSON-LD embedded in HTML page's <code>&lt;script&gt;</code> elements, which is often used to publish <a href="https://schema.org/" target="_blank">schema.org</a> metadata.</p>
+    <p>When the data loads successfully, you can navigate it the same way as your local documents, switch between different layout modes etc. You can also <a href="../add-data/">add the data</a> into your dataspace.</p>
+    <p>
+        <img alt="Browsing schema.org metadata" src="../../uploads/8c2ccf560bd4d582310f472d7a7bd2584d9da4bf/"></img>
+    </p>
+    <p>If an RDF document cannot be read from the supplied URL, an error message will be shown.</p>
 </div>"""^^rdf:XMLLiteral .

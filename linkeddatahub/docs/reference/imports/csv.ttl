@@ -1,19 +1,19 @@
 @prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
-@prefix apl:    <https://w3id.org/atomgraph/linkeddatahub/domain#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<reference/imports/csv/> a def:Item ;
+<reference/imports/csv/> a dh:Item ;
     sioc:has_container <reference/imports/> ;
     dct:title "CSV imports" ;
     dct:description "CSV imports and mapping to RDF using SPARQL CONSTRUCT" ;
-    apl:content <#content> .
+    ldh:content <#content> .
     
-<#content> a apl:Content ;
+<#content> a ldh:Content ;
     rdf:rest () ;
     rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">CSV imports and mapping to RDF using SPARQL CONSTRUCT</p>
@@ -84,9 +84,9 @@ _:e8f2e8e9-3d02-4bf5-b4f1-4794ba5b52c9
                 <code>CONSTRUCT</code> query which transforms <em>one row at a time</em>. In this case we produce a SKOS concept paired with its item (document) for each country:</p>
             <pre><code>PREFIX  nsdd:  &lt;ns/domain/default#&gt;
 PREFIX  ns:   &lt;ns#&gt;
-PREFIX  apl:  &lt;https://w3id.org/atomgraph/linkeddatahub/domain#&gt;
+PREFIX  ldh:  &lt;https://w3id.org/atomgraph/linkeddatahub#&gt;
 PREFIX  geo:  &lt;http://www.w3.org/2003/01/geo/wgs84_pos#&gt;
-PREFIX  dh:   &lt;https://www.w3.org/ns/ldt/document-hierarchy/domain#&gt;
+PREFIX  dh:   &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt;
 PREFIX  dct:  &lt;http://purl.org/dc/terms/&gt;
 PREFIX  rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
 PREFIX  xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt;
@@ -95,7 +95,7 @@ PREFIX  sioc: &lt;http://rdfs.org/sioc/ns#&gt;
 
 CONSTRUCT
   {
-    ?item a def:Item ;
+    ?item a dh:Item ;
         sioc:has_container ?this ;
         dct:title ?name ;
         dh:slug ?countryCode ;
