@@ -1,12 +1,11 @@
 @prefix nsdd:   <ns/domain/default#> .
 @prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:	<http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:	<https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:	<https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:	<http://purl.org/dc/terms/> .
 @prefix sioc:	<http://rdfs.org/sioc/ns#> .
 
 <> a nsdd:Root ;
-    dh:select <queries/default/select-children/#this> ;
     dct:title "Root" ;
     dct:description "Life-sciences data explorer. Datasets from EBI RDF, ChEMBL, UniProt etc." ;
     sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">

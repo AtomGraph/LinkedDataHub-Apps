@@ -41,7 +41,7 @@ sha1sum=$(sha1sum "$pwd"/../../files/skos.xsl | cut -d ' ' -f 1)
 -p "$cert_password" \
 --label "Read access to graph items" \
 --agent-class "http://www.w3.org/ns/auth/acl#AuthenticatedAgent" \
---to-all-in "https://www.w3.org/ns/ldt/document-hierarchy/domain#Item" \
+--to-all-in "https://www.w3.org/ns/ldt/document-hierarchy#Item" \
 --read \
 "${request_base}admin/acl/authorizations/"
 

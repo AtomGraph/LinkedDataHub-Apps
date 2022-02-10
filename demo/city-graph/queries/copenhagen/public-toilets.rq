@@ -6,7 +6,7 @@ PREFIX dbo:        <http://dbpedia.org/ontology/>
 PREFIX schema:     <https://schema.org/> 
 PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#> 
 PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#> 
-PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy/domain#>
+PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy#>
 PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT

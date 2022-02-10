@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xsl:stylesheet [
-    <!ENTITY lacl   "https://w3id.org/atomgraph/linkeddatahub/admin/acl/domain#">
-    <!ENTITY apl    "https://w3id.org/atomgraph/linkeddatahub/domain#">
+    <!ENTITY lacl   "https://w3id.org/atomgraph/linkeddatahub/admin/acl#">
+    <!ENTITY ldh    "https://w3id.org/atomgraph/linkeddatahub#">
     <!ENTITY ac     "https://w3id.org/atomgraph/client#">
     <!ENTITY rdf    "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
     <!ENTITY rdfs   "http://www.w3.org/2000/01/rdf-schema#">
@@ -17,7 +17,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 xmlns:xs="http://www.w3.org/2001/XMLSchema"
 xmlns:lacl="&lacl;"
 xmlns:ac="&ac;"
-xmlns:apl="&apl;"
+xmlns:ldh="&ldh;"
 xmlns:rdf="&rdf;"
 xmlns:rdfs="&rdfs;"
 xmlns:xsd="&xsd;"
@@ -28,11 +28,11 @@ xmlns:foaf="&foaf;"
 xmlns:bs2="http://graphity.org/xsl/bootstrap/2.3.2"
 exclude-result-prefixes="#all">
 
-    <xsl:param name="apl:baseUri" as="xs:anyURI" static="yes"/>
+    <xsl:param name="ldh:baseUri" as="xs:anyURI" static="yes"/>
 
-    <xsl:import _href="{resolve-uri('static/com/atomgraph/linkeddatahub/xsl/bootstrap/2.3.2/layout.xsl', $apl:baseUri)}"/>
+    <xsl:import _href="{resolve-uri('static/com/atomgraph/linkeddatahub/xsl/bootstrap/2.3.2/layout.xsl', $ldh:baseUri)}"/>
 
-    <xsl:param name="lacl:Agent" as="document-node()?"/>
+    <xsl:param name="foaf:Agent" as="document-node()?"/>
 
     <!-- keys used to lookup resources by property value -->
     <xsl:key name="resources-by-broader" match="*[@rdf:about] | *[@rdf:nodeID]" use="skos:broader/@rdf:resource"/>
@@ -40,7 +40,7 @@ exclude-result-prefixes="#all">
     <xsl:key name="resources-by-related" match="*[@rdf:about] | *[@rdf:nodeID]" use="skos:related/@rdf:resource"/>
 
     <xsl:template match="rdf:RDF" mode="xhtml:Style">
-        <xsl:param name="load-wymeditor" select="not(empty($lacl:Agent//@rdf:about))" as="xs:boolean"/>
+        <xsl:param name="load-wymeditor" select="not(empty($foaf:Agent//@rdf:about))" as="xs:boolean"/>
 
         <link href="{resolve-uri('static/css/bootstrap.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>
         <link href="{resolve-uri('static/css/bootstrap-responsive.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>

@@ -4,7 +4,7 @@ PREFIX dbo:        <http://dbpedia.org/ontology/>
 PREFIX schema:     <http://schema.org/> 
 PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#> 
 PREFIX rdf:        <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy/domain#>
+PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy#>
 
 CONSTRUCT
 {
