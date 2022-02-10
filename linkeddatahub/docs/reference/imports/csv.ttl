@@ -82,9 +82,7 @@ _:e8f2e8e9-3d02-4bf5-b4f1-4794ba5b52c9
                 to classes and properties from specific vocabularies. It also connects instances in the imported data to the documents in LinkedDataHub's <a href="../../dataset-structure/" target="_blank">dataset</a>.</p>
             <p>The mapping is a user-defined SPARQL
                 <code>CONSTRUCT</code> query which transforms <em>one row at a time</em>. In this case we produce a SKOS concept paired with its item (document) for each country:</p>
-            <pre><code>PREFIX  nsdd:  &lt;ns/domain/default#&gt;
-PREFIX  ns:   &lt;ns#&gt;
-PREFIX  ldh:  &lt;https://w3id.org/atomgraph/linkeddatahub#&gt;
+            <pre><code>PREFIX  ldh:  &lt;https://w3id.org/atomgraph/linkeddatahub#&gt;
 PREFIX  geo:  &lt;http://www.w3.org/2003/01/geo/wgs84_pos#&gt;
 PREFIX  dh:   &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt;
 PREFIX  dct:  &lt;http://purl.org/dc/terms/&gt;
@@ -100,7 +98,7 @@ CONSTRUCT
         dct:title ?name ;
         dh:slug ?countryCode ;
         foaf:primaryTopic ?country .
-    ?country a ns:Country ;
+    ?country a &lt;http://dbpedia.org/ontology/Place&gt; ;
         foaf:isPrimaryTopicOf ?item ;
         dct:identifier ?countryCode ;
         geo:lat ?lat ;

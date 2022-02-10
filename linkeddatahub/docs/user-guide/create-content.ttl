@@ -41,13 +41,13 @@
                     <dd>Click the input field and select the content's blank node identifier from the dropdown, or paste its URI.</dd>
                 </dl>
             </li>
-            <li>if this is <em>not</em> the first instance of content for this document, go to the currently last content block (the one whose <samp>Rest</samp> property value is <samp>nil</samp>):
+            <li>If this is <em>not</em> the first instance of content for this document, go to the currently last content block (the one whose <samp>Rest</samp> property value is <samp>nil</samp>):
                 <dl>
                     <dt>Rest</dt>
-                    <dd>Click the input field and select the blank node identifier of the new content from the dropdown, or paste its URI.</dd>
+                    <dd>Click the input field and select the blank node <dfn>identifier</dfn> of the new content from the dropdown, or paste its URI.</dd>
                 </dl>
             </li>
-            <li>click <span class="btn btn-primary">Save</span> at the bottom of the form to submit it</li>
+            <li>Click <span class="btn btn-primary">Save</span> at the bottom of the form to submit it</li>
         </ol>
         <div class="alert alert-info">
             <p>We are aware that this is quite cumbersome editing workflow that represents the underlying RDF structure too directly, but it does the job for now. In the following version, we will integrate an editor into the

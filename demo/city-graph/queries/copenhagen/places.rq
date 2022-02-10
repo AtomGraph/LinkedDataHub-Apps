@@ -1,5 +1,3 @@
-PREFIX nsdd:       <ns/domain/default#>
-PREFIX dom:        <ns/domain#>
 PREFIX schema:     <https://schema.org/>
 PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#>
 PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy#>
@@ -12,12 +10,12 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT 
 {
-    ?item a nsdd:Item ;
+    ?item a dh:Item ;
         sioc:has_container ?this ;
         dct:title ?name ;
         dh:slug ?id ;
         foaf:primaryTopic ?place .
-    ?place a dom:Place ;
+    ?place a schemaPlace ;
         foaf:isPrimaryTopicOf ?item ;
         geo:lat ?lat ;
         geo:long ?long ;

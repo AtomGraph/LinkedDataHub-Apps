@@ -1,5 +1,4 @@
-PREFIX nsdd:       <ns/domain/default#>
-PREFIX dom:        <ns/domain#>
+PREFIX ns:         <https://linkeddatahub.com/demo/city-graph/admin/ontologies/namespace/#>
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/> 
@@ -11,12 +10,12 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT
 {
-    ?item a nsdd:Item ;
+    ?item a dh:Item ;
         sioc:has_container ?this ;
         dh:slug ?id ;
         dct:title ?name ;
         foaf:primaryTopic ?charger .
-    ?charger a dom:ChargingStation ;
+    ?charger a ns:ChargingStation ;
         foaf:isPrimaryTopicOf ?item ;
         geo:lat ?lat ;
         geo:long ?long ;
