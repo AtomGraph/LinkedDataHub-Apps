@@ -48,7 +48,7 @@
     </xsl:template>
     
     <xsl:template match="title/text()">
-        <xsl:value-of select=" 'LinkedDataHub - ' || . "/>
+        <xsl:value-of select=" 'LinkedDataHub v3 - ' || . "/>
     </xsl:template>
     
     <xsl:template match="body">
@@ -58,7 +58,7 @@
             <div class="navbar navbar-fixed-top">
                 <div class="navbar-inner">
                     <div class="container-fluid">
-                        <a class="brand" href="https://atomgraph.github.io/LinkedDataHub/">LinkedDataHub</a>
+                        <a class="brand" href="https://atomgraph.github.io/LinkedDataHub/">LinkedDataHub v3</a>
                         <div class="nav-collapse collapse">
                             <ul class="nav">
                                 <li class="active">
@@ -83,6 +83,8 @@
             <div class="container-fluid">
                 <div class="row-fluid">
                     <nav class="span2">
+                        <h2>LinkedDataHub v3</h2>
+
                         <xsl:copy-of select="$outline"/>
                     </nav>
                     <main class="span7">

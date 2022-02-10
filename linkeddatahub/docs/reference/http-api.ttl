@@ -21,7 +21,7 @@
         <a href="https://www.w3.org/TR/sparql11-http-rdf-update/" target="_blank">SPARQL 1.1 Graph Store Protocol</a>.</p>
     <div>
         <h2 id="acl">Access control</h2>
-        <p>All HTTP access to <a href="#documents">documents</a> and <a href="#graphs">graphs</a> is subject to <a href="../administration/acl/">access
+        <p>All HTTP access to <a href="#documents">documents</a> is subject to <a href="../administration/acl/">access
             control</a>. Requesting a resource with insufficient access rights will result in <code>403 Forbidden</code> response. That  means either:</p>
         <ul>
             <li>the user is not authenticated and public access to the resource is not allowed</li>
