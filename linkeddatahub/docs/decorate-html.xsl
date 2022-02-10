@@ -58,7 +58,7 @@
             <div class="navbar navbar-fixed-top">
                 <div class="navbar-inner">
                     <div class="container-fluid">
-                        <a class="brand" href="https://atomgraph.github.io/LinkedDataHub/">LinkedDataHub v3</a>
+                        <a class="brand" href="https://atomgraph.github.io/LinkedDataHub/">LinkedDataHub</a>
                         <div class="nav-collapse collapse">
                             <ul class="nav">
                                 <li class="active">
