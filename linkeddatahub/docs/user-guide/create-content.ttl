@@ -18,7 +18,7 @@
     <p class="lead">Learn how to create data-driven content</p>
     <div>
         <h2 id="document-content">Document content</h2>
-        <p>Each document (container or item) can have a list of content blocks. Currently, each block can either be an HTML fragment, an RDF resource, a <code>SELECT</code> query, or a chart. The <code>SELECT</code>
+        <p>Each document (container or item) can have a list of content blocks. Currently, each block can either be an HTML fragment, an RDF resource, a <code>SELECT</code> query, or a chart. <code>SELECT</code>
             queries will be rendered a containers; instances of other content types will be simply embedded (transcluded) onto the document.</p>
         <p>To create content and add it to the document, follow these steps:</p>
         <ol>

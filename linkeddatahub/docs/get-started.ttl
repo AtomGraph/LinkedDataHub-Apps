@@ -33,7 +33,6 @@
     <div>
         <h2 id="open-dataspace">Open your dataspace</h2>
         <p>Using LinkedDataHub open-source, the platform runs on <a href="https://localhost:4443/" target="_blank">https://localhost:4443/</a> by default. Open this address in the web browser (that you installed the WebID certificate to).</p>
-        <p>With LinkedDataHub Cloud, you can <a href="../user-guide/manage-dataspaces/" target="_blank">choose the URL of your dataspace</a>.</p>
     </div>
     <div>
         <h2 id="create-container">Create a container</h2>
