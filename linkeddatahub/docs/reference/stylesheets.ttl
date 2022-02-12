@@ -210,7 +210,7 @@
         &lt;xsl:apply-templates select="." mode="bs2:PropertyList"/&gt;
     &lt;/div&gt;
 &lt;/xsl:template&gt;</pre>
-            <p><code>ldh:Content</code> mode embeds XHTML from the <code>sioc:content</code> value of the current document.</p>
+            <p><code>ldh:ContentList</code> mode the content specified the <code>ldh:content</code> value of the current document.</p>
             <p>There are a few special template modes such as <code>ac:label</code> and <code>ac:description</code> and related functions <code>ac:label()</code> and <code>ac:description()</code> which are
                 used not to render layout but to extract metadata from resource descriptions. They can be used to retrieve a resource label and description no matter which RDF
                 vocabularies are used in the data. They do so by invoking templates of respective mode from vocabulary-specific stylesheets.</p>

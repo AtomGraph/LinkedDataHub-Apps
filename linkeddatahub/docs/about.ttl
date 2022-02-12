@@ -24,10 +24,10 @@
             publishing a solved problem but continue to see a shortage of user-friendly consumption tools.</p>
         <p>LinkedDataHub provides a number of features for end-users:</p>
         <ul>
-            <li>creating structured content from Linked Data and SPARQL resources (<strong>new in 3.x</strong>)</li>
-            <li>browsing Linked Data</li>
-            <li>forking RDF resources to the local dataspace (<strong>new in 3.x</strong>)</li>
-            <li>searching and querying SPARQL endpoints</li>
+            <li><a href="user-guide/create-content/" target="_blank">creating structured content</a> from Linked Data and SPARQL resources (<strong>new in 3.x</strong>)</li>
+            <li><a href="user-guide/browse-data/" target="_blank">browsing Linked Data</a></li>
+            <li><a href="user-guide/add-data/" target="_blank">forking RDF resources</a> to the local dataspace (<strong>new in 3.x</strong>)</li>
+            <li><a href="user-guide/search-data/" target="_blank">searching</a> and <a href="user-guide/query-data/" target="_blank">querying</a> SPARQL endpoints</li>
             <li>creating collections from SPARQL queries</li>
             <li>editing remote and local RDF documents</li>
             <li>visualizing query results as graphs, charts etc.</li>

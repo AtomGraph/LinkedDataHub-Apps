@@ -116,7 +116,7 @@
         </div>
         <div>
             <h3 id="custom-services">Custom services</h3>
-            <p>LinkedDataHub has extension points for vendor-specific SPARQL services, which can be used to implement proprietary implementation schemes, for example.</p>
+            <p>LinkedDataHub has extension points for vendor-specific SPARQL services, which can be used to implement proprietary authentication schemes, for example.</p>
         </div>
     </div>
     <p class="lead">If you are ready to create a dataspace, see our step-by-step tutorial on <a href="../../user-guide/manage-dataspaces/">dataspace management</a>.</p>
