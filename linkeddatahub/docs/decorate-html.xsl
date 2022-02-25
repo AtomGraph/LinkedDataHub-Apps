@@ -139,7 +139,7 @@
     
     <!-- omit tabs with "LinkedDataHub Cloud", leave only the active tab content -->
     <xsl:template match="div[@class = 'tabbable'][ul/li/a/text() = 'LinkedDataHub Cloud']">
-        <xsl:copy-of select="./div[@class = 'tab-content']/div[contains-token(@class, 'active')]/*"/>
+        <xsl:apply-templates select="./div[@class = 'tab-content']/div[contains-token(@class, 'active')]/*"/>
     </xsl:template>
 
     <!-- trim the trailing slash -->
