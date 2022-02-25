@@ -1,0 +1,32 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<get-started/request-access/> a dh:Item ;
+    sioc:has_container <get-started/> ;
+    dct:title "Request access" ;
+    dct:description "How to get access to an application" ;
+    ldh:content <#content> .
+    
+<#content> a ldh:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">This guide describes how to get access to an application.</p>
+    <div>
+        <p>After you have logged in to LinkedDataHub, by default you do not have access rights to view or edit the documents in the dataspace. The owner of the dataspace has to create
+            an explicit authorization to allow access for you.</p>
+        <p>Fortunately, LinkedDataHub makes it easy to notify the owner by issuing an <a href="../../reference/administration/acl/#auth-requests">access request</a>. Click on the
+            <span class="btn btn-primary">Request access</span> and submit the form that appears, as shown below. You can choose the desired <a href="../../reference/administration/acl/#access-modes">access modes</a>; leave the other settings at their defaults unless you understand what they mean.</p>
+        <p>
+            <img alt="Request access link" src="../../uploads/704f6e248ef0151a8241f1ef74e1b78225433fc7/"></img>
+        </p>
+        <p>
+            <img alt="Request access form" src="../../uploads/e81e9a3b41b96016b6d81c1eb719e52a533a5733/"></img>
+        </p>
+    </div>
+    <p class="lead">Are you in? Then continue the <a href="..">get started guide</a> or take a look at the <a href="../../reference/user-interface/">UI overview</a>.</p>
+</div>"""^^rdf:XMLLiteral .

@@ -18,25 +18,29 @@
     <p class="lead">LinkedDataHub is a Knowledge Graph notebook by
         <a href="https://atomgraph.com" target="_blank">AtomGraph</a> that fully exploits the federated features of RDF and SPARQL.
         It can also be used as a low code application development platform.</p>
-    <div>
-        <h2 id="features">Features</h2>
-        <p>LinkedDataHub is an open source project that has its roots as a Linked Data publishing framework. In the 3.x release we are focusing on Linked Data consumption however, as we consider
+    <p>LinkedDataHub is an open source project that has its roots as a Linked Data publishing framework. In the 3.x release we are focusing on Linked Data consumption however, as we consider
             publishing a solved problem but continue to see a shortage of user-friendly consumption tools.</p>
-        <p>LinkedDataHub provides a number of features for end-users:</p>
+    <div>
+        <h2 id="notebook">Knowledge Graph notebook</h2>
+        <p>As an RDF-native noteook, LinkedDataHub provides a number of features for end-users:</p>
         <ul>
-            <li><a href="user-guide/create-content/" target="_blank">creating structured content</a> from Linked Data and SPARQL resources (<strong>new in 3.x</strong>)</li>
-            <li><a href="user-guide/browse-data/" target="_blank">browsing Linked Data</a></li>
-            <li><a href="user-guide/add-data/" target="_blank">forking RDF resources</a> to the local dataspace (<strong>new in 3.x</strong>)</li>
-            <li><a href="user-guide/search-data/" target="_blank">searching</a> and <a href="user-guide/query-data/" target="_blank">querying</a> SPARQL endpoints</li>
+            <li><a href="../user-guide/create-content/" target="_blank">creating structured content</a> from Linked Data and SPARQL resources (<strong>new in 3.x</strong>)</li>
+            <li><a href="../user-guide/browse-data/" target="_blank">browsing Linked Data</a></li>
+            <li><a href="../user-guide/add-data/" target="_blank">forking RDF resources</a> to the local dataspace (<strong>new in 3.x</strong>)</li>
+            <li><a href="../user-guide/search-data/" target="_blank">searching</a> and <a href="../user-guide/query-data/" target="_blank">querying</a> SPARQL endpoints</li>
             <li>creating collections from SPARQL queries</li>
             <li>editing remote and local RDF documents</li>
             <li>visualizing query results as graphs, charts etc.</li>
         </ul>
-        <p>In addition to that, LinkedDataHub offers comprehensive administrative features:</p>
+    </div>
+    <div>
+        <h2 id="platform">Low code application platorm</h2>
+        <p>LinkedDataHub is also a low code RDF Knowledge Graph application platorm. It offers comprehensive development and management features:</p>
         <ul>
-            <li>configurable templates for instance editing <strong>(new in 3.x)</strong>)</li>
+            <li>rich <a href="../reference/stylesheets/" target="_blank">UI component library</a> that can be customized without writing program code</li>
+            <li>configurable templates for instance editing (<strong>new in 3.x</strong>)</li>
             <li>authentication using WebID and OpenID Connect</li>
-            <li>access control using WAC authorizations</li>
+            <li><a href="../reference/administration/acl/" target="_blank">access control</a> using WAC authorizations</li>
         </ul>
     </div>
     <div>

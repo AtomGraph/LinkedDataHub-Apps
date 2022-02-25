@@ -90,8 +90,6 @@
                     <main class="span7">
                         <header>
                             <h1><xsl:value-of select="/html/head/title"/></h1>
-                            <!-- include any "lead" paragraphs from the boxy here -->
-                            <xsl:copy-of select="child::div/p[@class='lead']"/>
                         </header>
                         <nav>
                             <xsl:sequence select="$children"/>
@@ -139,8 +137,6 @@
         </xsl:copy>
     </xsl:template>
     
-    <xsl:template match="p[@class = 'lead']"/><!-- filter these from the main content as they're included specifically in the main header instead -->
-
     <!-- omit tabs with "LinkedDataHub Cloud", leave only the active tab content -->
     <xsl:template match="div[@class = 'tabbable'][ul/li/a/text() = 'LinkedDataHub Cloud']">
         <xsl:copy-of select="./div[@class = 'tab-content']/div[contains-token(@class, 'active')]/*"/>
@@ -150,6 +146,9 @@
     <xsl:template match="img/@src[contains(., 'uploads/') and ends-with(., '/')] | object/@data[contains(., 'uploads/') and ends-with(., '/')]">
         <xsl:param name="file-uploads" as="map(xs:string, xs:anyURI)">
             <xsl:map>
+                <xsl:map-entry key="'8c17ca6be73aabfab3028d9b06b4878ef6c300e7'" select="xs:anyURI('files/images/signup.png')"/>
+                <xsl:map-entry key="'704f6e248ef0151a8241f1ef74e1b78225433fc7'" select="xs:anyURI('files/images/request-access1.png')"/>
+                <xsl:map-entry key="'e81e9a3b41b96016b6d81c1eb719e52a533a5733'" select="xs:anyURI('files/images/request-access2.png')"/>
                 <xsl:map-entry key="'4656ea9036a2b6d48a3233e0bc3cdc0f698ae0f2'" select="xs:anyURI('files/images/action.png')"/>
                 <xsl:map-entry key="'38d12825c3927e2d5493ca76f2b744c7b5fe867b'" select="xs:anyURI('files/images/change-layout-augment.png')"/>
                 <xsl:map-entry key="'74b49af5c822acf41ad661d0d27a60443151838d'" select="xs:anyURI('files/images/change-layout-default.png')"/>
@@ -163,6 +162,7 @@
                 <xsl:map-entry key="'8c4383351477a5405a9883d23d9255670b9396f7'" select="xs:anyURI('files/images/search.png')"/>
                 <xsl:map-entry key="'9e1d4e69c4a0ae30f5fa373db839dc46b3569685'" select="xs:anyURI('files/images/sparql endpoint.jpg')"/>
                 <xsl:map-entry key="'8c2ccf560bd4d582310f472d7a7bd2584d9da4bf'" select="xs:anyURI('files/images/browse-data.png')"/>
+                <xsl:map-entry key="'73e3f6ba966796c54e25c5dc41057e36471ae554'" select="xs:anyURI('files/videos/AddData.webm')"/>
                 <xsl:map-entry key="'490945931415b9ab201ed85f296a84c8a11134d1'" select="xs:anyURI('files/videos/Create.webm')"/>
                 <xsl:map-entry key="'4c86a3410134d090a7bb7e178a6f82874bc66fa1'" select="xs:anyURI('files/videos/CreateContextDataspace.webm')"/>
                 <xsl:map-entry key="'121916e2a51476351451c218b1a6dec9de2e7774'" select="xs:anyURI('files/videos/Delete.webm')"/>
