@@ -1,16 +1,20 @@
-@prefix ns:     <ns#> .
-@prefix nsdd:   <ns/domain/default#> .
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<reference/stylesheets/> a nsdd:Item ;
+<reference/stylesheets/> a dh:Item ;
     sioc:has_container <reference/> ;
     dct:title "Stylesheets" ;
     dct:description "Built-in XSLT and CSS stylesheets" ;
-    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    ldh:content <#content> .
+    
+<#content> a ldh:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Built-in XSLT and CSS stylesheets</p>
     <div>
         <h2 id="xslt">XSLT</h2>
@@ -24,7 +28,7 @@
                 <li><code>/rdf:RDF/rdf:Description</code> or <code>/rdf:RDF/*[*][@rdf:about] | /rdf:RDF/*[*][@rdf:nodeID]</code>— resource description which contains properties</li>
                 <li><code>/rdf:RDF/rdf:Description/@rdf:about</code> — subject resource URI</li>
                 <li><code>/rdf:RDF/rdf:Description/@rdf:nodeID</code> — subject blank node ID</li>
-                <li><code>/rdf:RDF/rdf:Description/*</code> predicate (e.g. <code>rdf:type</code>) which URI is <code>concat(namespace-uri(), local-name())</code></li>
+                <li><code>/rdf:RDF/rdf:Description/*</code> predicate (e.g. <code>rdf:type</code>) whose URI is <code>concat(namespace-uri(), local-name())</code></li>
                 <li><code>/rdf:RDF/rdf:Description/*/@rdf:resource</code> — object resource</li>
                 <li><code>/rdf:RDF/rdf:Description/*/@rdf:nodeID</code> — object blank node ID</li>
                 <li><code>/rdf:RDF/rdf:Description/*/text()</code> — literal value</li>
@@ -113,13 +117,13 @@
                     </tr>
                     <tr>
                         <td><code>lapp:</code></td>
-                        <td><code>https://w3id.org/atomgraph/linkeddatahub/apps/domain#</code></td>
+                        <td><code>https://w3id.org/atomgraph/linkeddatahub/apps#</code></td>
                         <td><a href="../administration/model/#apl-ont" target="_blank">AtomGraph Platform</a></td>
                         <td>LDT application concepts</td>
                     </tr>
                     <tr>
                         <td><code>lacl:</code></td>
-                        <td><code>https://w3id.org/atomgraph/linkeddatahub/admin/acl/domain#</code></td>
+                        <td><code>https://w3id.org/atomgraph/linkeddatahub/admin/acl#</code></td>
                         <td>LinkedDataHub ACL ontology</td>
                         <td>ACL concepts</td>
                     </tr>
@@ -145,12 +149,10 @@
                 <dt><code>$ac:mode</code></dt>
                 <dd>The URI of the current layout mode</dd>
                 <dt><code>$ac:forClass</code></dt>
-                <dd>The URI of the class which instance is being created. See also <a href="../administration/sitemap/built-ins/#ForClass-param" target="_blank"><code>aplt:ForClass</code></a>.</dd>
-                <dt><code>$ac:sitemap</code></dt>
-                <dd>RDF/XML document of the application's ontology, with a transitive closure of imports</dd>
+                <dd>The URI of the class whose instance is being created.</dd>
                 <dt><code>$lapp:Application</code></dt>
                 <dd>RDF/XML document with the metadata of the current LDT application</dd>
-                <dt><code>$lacl:Agent</code></dt>
+                <dt><code>$foaf:Agent</code></dt>
                 <dd>RDF/XML document with the metadata of the currently authenticated agent (if any)</dd>
             </dl>
         </div>
@@ -169,12 +171,6 @@
             </dl>
             <p>XSLT processing starts at the root of the RDF/XML document and produces HTML elements by applying templates on all of the RDF/XML nodes while moving down the XML tree.
                 In other words, it starts at the graph level, moves down to resource description elements, then to property elements, and ends with identifier attributes and literal text nodes.</p>
-            <p>The content of the RDF/XML document normally includes the description of the requested document, and optionally a "thing"/concept paired with it. However, it can be completely customized
-                by overriding the <a href="../administration/sitemap/ldt-templates/" target="_blank">LDT template</a> that matches that document and
-                <a href="../../user-guide/administration/change-sitemap/" target="_blank">specifying a custom query</a>. For example, for a document with a SKOS concept it might make sense to include its
-                    broader and/or narrower concepts in the RDF description as well. XML documents (which by definition includes RDF/XML) can also be <a href="#loading-data" target="_blank">loaded separately</a>
-                from the main RDF/XML document, but at a cost of an HTTP request per document. There is no rule on how to split data between the main RDF/XML document and the additional ones — it is a
-                balancing act in terms of query maintainability and stylesheet performance.</p>
             <p>Templates are applied (invoked) using <code>&lt;xsl:apply-templates&gt;</code>. Mode can be specified, e.g. <code>&lt;xsl:apply-templates mode="bs2:Header"&gt;</code>. To stay in the current mode without explicitly specifying it, use <code>&lt;xsl:apply-templates mode="#current"&gt;</code>. <code>&lt;xsl:with-param&gt;</code> is used to supply parameters.</p>
             <p>LinkedDataHub provides the following default template modes, which are used to render the <a href="../user-interface/#layout-modes" target="_blank">layout modes</a>:</p>
             <ul>
@@ -214,7 +210,7 @@
         &lt;xsl:apply-templates select="." mode="bs2:PropertyList"/&gt;
     &lt;/div&gt;
 &lt;/xsl:template&gt;</pre>
-            <p><code>apl:Content</code> mode embeds XHTML from the <code>sioc:content</code> value of the current document.</p>
+            <p><code>ldh:ContentList</code> mode the content specified the <code>ldh:content</code> value of the current document.</p>
             <p>There are a few special template modes such as <code>ac:label</code> and <code>ac:description</code> and related functions <code>ac:label()</code> and <code>ac:description()</code> which are
                 used not to render layout but to extract metadata from resource descriptions. They can be used to retrieve a resource label and description no matter which RDF
                 vocabularies are used in the data. They do so by invoking templates of respective mode from vocabulary-specific stylesheets.</p>
@@ -247,7 +243,7 @@
             <pre>&lt;xsl:value-of select="key('resources', 'https://linkeddatahub.com/linkeddatahub/docs/reference/stylesheet/', document('https://linkeddatahub.com/linkeddatahub/docs/reference/stylesheet/'))"/&gt;</pre>
             <p>In case this document changes its title, all such references would automatically render the updated title. On the other hand, it incurs the overhead of making an HTTP request.</p>
             <p>LinkedDataHub's default stylesheets are using this feature extensively. In fact, one HTML page is rendered from a dozen of RDF/XML documents.</p>
-            <p>Built-in <a href="../administration/model/built-ins/" target="_blank">model ontologies</a> and <a href="../administration/sitemap/built-ins/" target="_blank">sitemap ontologies</a>, as well as some other system and well-known ontologies, have a local copy in
+            <p>Built-in <a href="../administration/model/built-ins/" target="_blank">model ontologies</a> as well as some other system and well-known ontologies, have a local copy in
                 each LinkedDataHub instance. As a result, retrieving their descriptions by dereferencing their URIs using <code>document()</code> does not incur an HTTP request and is much faster. The URI-to-file mapping
                 is defined as Jena's <a href="https://jena.apache.org/documentation/io/rdf-input.html#configuring-a-locationmapper" target="_blank">location mapping</a> and can be found in
                 <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/src/main/resources/location-mapping.n3" target="_blank"><samp>location-mapping.n3</samp></a> and <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/src/main/resources/prefix-mapping.n3" target="_blank"><samp>prefix-mapping.n3</samp></a>.</p>

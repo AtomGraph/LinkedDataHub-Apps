@@ -1,16 +1,19 @@
-@prefix ns:     <ns#> .
-@prefix nsdd:   <ns/domain/default#> .
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<reference/> a nsdd:Container ;
+<reference/> a dh:Container ;
     sioc:has_parent <> ;
-    dh:select <queries/default/select-children/#this> ;
     dct:title "Reference" ;
     dct:description "A list of LinkedDataHub's features and their functions, split into general and administration parts" ;
-    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    ldh:content <#content> .
+
+<#content> a ldh:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">A list of LinkedDataHub's features and their functions, split into general and administration parts</p>
 </div>"""^^rdf:XMLLiteral .

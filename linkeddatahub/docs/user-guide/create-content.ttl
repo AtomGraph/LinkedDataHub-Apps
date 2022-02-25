@@ -1,0 +1,63 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<user-guide/create-content/> a dh:Item ;
+    sioc:has_container <user-guide/> ;
+    dct:title "Create content" ;
+    dct:description "Learn how to create data-driven content" ;
+    ldh:content <#content> .
+    
+<#content> a ldh:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Learn how to create data-driven content</p>
+    <div>
+        <h2 id="document-content">Document content</h2>
+        <p>Each document (container or item) can have a list of content blocks. Currently, each block can either be an HTML fragment, an RDF resource, a <code>SELECT</code> query, or a chart. <code>SELECT</code>
+            queries will be rendered a containers; instances of other content types will be simply embedded (transcluded) onto the document.</p>
+        <p>To create content and add it to the document, follow these steps:</p>
+        <ol>
+            <li>Click the <span class="btn">Edit</span> button in the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a> to open the editing form for the current document</li>
+            <li>Scroll to the end of the <span class="btn btn-primary">Content</span> creation button</li>
+            <li>In the new content fieldset that appears, fill out these fields:
+                <dl>
+                    <dt>First</dt>
+                    <dd>In the dropdown, choose the content type: HTML or URI resource</dd>
+                    <dd>In the case of HTML, add content in the WYSIWYG editor</dd>
+                    <dd>In the case of URI resource, start typing its label and select the resource from the dropdown, or paste its URI into the input</dd>
+                    <dt>Rest</dt>
+                    <dd>If you have created more content blocks to follow this, select the identifier of the next one from the dropdown. Otherwise, leave it as is.</dd>
+                </dl>
+                The heading of the block shows the content identifier (a blank node when creating, a URI when editing).
+            </li>
+            <li>If this is the first instance of content for this document, go to the document's fieldset and fill out this field:
+                <dl>
+                    <dt>Content</dt>
+                    <dd>Click the input field and select the content's blank node identifier from the dropdown, or paste its URI.</dd>
+                </dl>
+            </li>
+            <li>If this is <em>not</em> the first instance of content for this document, go to the currently last content block (the one whose <samp>Rest</samp> property value is <samp>nil</samp>):
+                <dl>
+                    <dt>Rest</dt>
+                    <dd>Click the input field and select the blank node <dfn>identifier</dfn> of the new content from the dropdown, or paste its URI.</dd>
+                </dl>
+            </li>
+            <li>Click <span class="btn btn-primary">Save</span> at the bottom of the form to submit it</li>
+        </ol>
+        <div class="alert alert-info">
+            <p>We are aware that this is quite cumbersome editing workflow that represents the underlying RDF structure too directly, but it does the job for now. In the following version, we will integrate an editor into the
+                content layout, so that adding or changing contents will not require switching to the editing layout mode.</p>
+        </div>
+    </div>
+    <!--
+    <div>
+        <h2 id="content-templates">Content templates</h2>
+    </div>
+    -->
+    <p class="lead"><a href="../../reference/contents/" target="_blank">Read more about content management.</a></p>
+</div>"""^^rdf:XMLLiteral .

@@ -1,16 +1,20 @@
-@prefix ns:     <ns#> .
-@prefix nsdd:   <ns/domain/default#> .
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
     
-<user-guide/query-data/> a nsdd:Item ;
+<user-guide/query-data/> a dh:Item ;
     sioc:has_container <user-guide/> ;
     dct:title "Query data" ;
-    dct:description "Learn how to query application data with SPARQL and store queries" ;
-    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    dct:description "Learn how to query application data with SPARQL, store queries and charts" ;
+    ldh:content <#content> .
+    
+<#content> a ldh:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
         <p class="lead">This guide describes how the application dataset can be queried using SPARQL.</p>
         <p>The <a href="../../reference/dataspace/#end-user-apps">end-user application</a> dataset can be queried using SPARQL 1.1
             endpoint, which is available via link in the <a href="../../user-interface/#nav-bar">navigation bar</a>.</p>
@@ -20,4 +24,22 @@
         <p>
             <img alt="SPARQL endpoint" src="../../uploads/9e1d4e69c4a0ae30f5fa373db839dc46b3569685/"></img>
         </p>
+        <div>
+            <h2 id="save-query">Saving queries</h2>
+            <p>If you want to save the query string which is currently in the editor, click the <span class="btn">Save</span> button underneath the editor form. A document creation form will open where the query
+                string will be filled in, you only need to enter the titles of the query and its document. You can then access the query by navigating to the query container via the dropdown in the
+                <a href="../../reference/user-interface/#action-bar" target="_blank">breadcrumb bar</a>.</p>
+            <p>You will not be able to save invalid query strings.</p>
+        </div>
+        <div>
+            <h2 id="save-chart">Saving charts</h2>
+            <p>The SPARQL editor includes an interactive chart pane which can be used to visualize the query results. You can change the chart type, select its category and one or more series.</p>
+            <p>The chart pane supports both graph query (<code>CONSTRUCT</code>, <code>DESCRIBE</code>) and result set query (<code>SELECT</code>, <code>ASK</code>) results. For graph results, the category and series are
+                rendered from resource properties; for result sets, they are rendered from variable names.</p>
+            <p>If you want to save the chart with properties which are currently selected, click the <span class="btn">Save</span> button underneath the chart pane. That will open two document creation forms: one for
+                the query, and the second one for the chart (as the chart depends on the query). The query string and chart properties will be filled in, you only need to
+                enter the titles of the query and the chart and their document. You can then access the chart by navigating to the chart container via the dropdown in the
+                <a href="../../reference/user-interface/#action-bar" target="_blank">breadcrumb bar</a>.</p>
+            <p>You will not be able to save invalid query strings.</p>
+        </div>
 </div>"""^^rdf:XMLLiteral .

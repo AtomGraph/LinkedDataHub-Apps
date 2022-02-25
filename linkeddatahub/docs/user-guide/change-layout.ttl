@@ -1,23 +1,27 @@
-@prefix ns:     <ns#> .
-@prefix nsdd:   <ns/domain/default#> .
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
    
-<user-guide/change-layout/> a nsdd:Item ;
+<user-guide/change-layout/> a dh:Item ;
     sioc:has_container <user-guide/> ;
     dct:title "Change layout" ;
     dct:description "How to customize the layout of an application and the UI of the resources" ;
-    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    ldh:content <#content> .
+    
+<#content> a ldh:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">How to customize the layout of an application and the UI of the resources</p>
     <p>LinkedDataHub's user interface is simply a rendering of the underlying Linked Data resource descriptions, which are exposed via the <a href="../../reference/http-api/" target="_blank">HTTP API</a>.</p>
     <p>LinkedDataHub provides <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheets</a> that render a default UI layout. When building an application you might want to render a custom
         layout however. The recommended way of doing that is to create a new stylesheet which imports the system stylesheet and only override specific templates, while reusing the rest of the layout.</p>
     <div>
         <h2 id="create-stylesheet">Create a stylesheet</h2>
-        <p>First we need to create a new XSLT 3.0 stylesheet and use <code>&lt;xsl:import&gt;</code> to import the system <samp>layout.xsl</samp>.</p>
+        <p>First we need to create a new XSLT 3.0 stylesheet and use <code>&lt;xsl:import&gt;</code> to import the system stylesheet <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/src/main/webapp/static/com/atomgraph/linkeddatahub/xsl/bootstrap/2.3.2/layout.xsl" target="_blank"><samp>static/com/atomgraph/linkeddatahub/xsl/bootstrap/2.3.2/admin/layout.xsl</samp></a>.</p>
         <p class="lead">See an <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/skos/files/skos.xsl" target="_blank">example in the SKOS demo app</a>.</p>
     </div>
     <div>
@@ -34,11 +38,11 @@
 services:
   linkeddatahub:
     volumes:
-      - ../LinkedDataHub-Apps/demo/skos/files/skos.xsl:/usr/local/tomcat/webapps/ROOT/static/com/atomgraph/linkeddatahub/demo/skos/xsl/index.xsl:ro # won't work on LinkedDataHub Cloud</pre>
-                        <p>Then change the value of <code>ac:stylesheet</code> on the dataspace with base URI <code>https://localhost:4443/</code> to the URI of the stylesheet:</p>
-                        <pre>_:root_end_user_app a lapp:EndUserApplication ;
+      - ../LinkedDataHub-Apps/demo/skos/files/skos.xsl:/usr/local/tomcat/webapps/ROOT/static/com/atomgraph/linkeddatahub/demo/skos/xsl/index.xsl:ro</pre>
+                        <p>Then change the value of <code>ac:stylesheet</code> on the dataspace with base URI <code>https://localhost:4443/</code> to the relative URI of the stylesheet:</p>
+                        <pre>&lt;urn:linkeddatahub:apps/end-user&gt; a lapp:EndUserApplication ;
     ...
-    ac:stylesheet &lt;https://localhost:4443/static/com/atomgraph/linkeddatahub/demo/skos/xsl/index.xsl&gt; ;
+    ac:stylesheet &lt;static/com/atomgraph/linkeddatahub/demo/skos/xsl/index.xsl&gt; ;
     ...</pre>
                     </div>
                 </div>
@@ -47,7 +51,7 @@ services:
     </div>
     <div>
         <h2 id="default-layout">Default layout</h2>
-        <p>In the examples below we assume that the LDT template <a href="../administration/change-sitemap/" target="_blank">has been customized</a> to load not only the current document and its related concept, but also its broader/narrower concepts.</p>
+        <p>In the examples below we assume that the graph contains a SKOS taxonomy with concept instances, which can also have broader/narrower concepts.</p>
         <p>At this point, the default layout of the current document, its topic concept, and narrower/broader concepts looks like this:</p>
         <div class="thumbnail">
             <img alt="Default layout" src="../../uploads/74b49af5c822acf41ad661d0d27a60443151838d/"></img>

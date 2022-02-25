@@ -1,22 +1,30 @@
-@prefix ns:     <ns#> .
-@prefix nsdd:   <ns/domain/default#> .
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<reference/command-line-interface/> a nsdd:Item ;
+<reference/command-line-interface/> a dh:Item ;
     sioc:has_container <reference/> ;
     dct:title "Command line interface" ;
     dct:description "CLI scripts can be used perform all actions available in the UI" ;
-    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    ldh:content <#content> .
+
+<#content> a ldh:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">CLI scripts can be used perform all actions available in the UI</p>
-    <p>LinkedDataHub CLI wraps the <a href="../http-api/">HTTP API</a> into a set of shell scripts with convenient parameters. The scripts can be used for testing, automation,
-        scheduled execution and such. It is usually much quicker to perform actions using CLI rather than the <a href="../user-interface/">user interface</a>, as well as easier to
-        reproduce.</p>
+    <p>LinkedDataHub CLI wraps the <a href="../http-api/">HTTP API</a> into a set of shell scripts with convenient parameters. The scripts should run on any Unix-based system.
+        They can be used for testing, automation, scheduled execution and such. It is usually much quicker to perform actions using CLI rather than the
+        <a href="../user-interface/">user interface</a>, as well as easier to reproduce.</p>
     <p>Some scripts correspond to a single request to LinkedDataHub, others combine others into tasks with multiple interdependent requests, such as CSV import.</p>
     <p>You will need to supply a <samp>.pem</samp> file of your <a href="../../get-started/#get-webid">WebID certificate</a> as well as its password as script arguments, among others.</p>
+    <div class="alert alert-info">
+        <p>The CLI scripts use the environmental variable <code>$SCRIPT_ROOT</code>, which should point to the <samp>scripts</samp> in your LinkedDataHub fork.</p>
+        <p>They also use the <a href="https://jena.apache.org/documentation/tools/" target="_blank">Jena's CLI commands</a> internally, so make sure to have them on <code>$PATH</code> before running the scripts.</p>
+    </div>
     <div>
         <h2 id="scripts">Scripts</h2>
         <p>Currently supported:</p>
@@ -131,33 +139,8 @@
                             <td><samp>admin/model/create-property-constraint.sh</samp></td>
                         </tr>
                         <tr>
-                            <td>Create <a href="../administration/model/#restrictions">restriction</a></td>
-                            <td><samp>admin/model/create-restriction.sh</samp></td>
-                        </tr>
-                        <tr>
                             <td>Import ontology</td>
                             <td><samp>admin/model/import-ontology.sh</samp></td>
-                        </tr>
-                    </tbody>
-                    <tbody>
-                        <tr>
-                            <th colspan="2"><a href="../administration/sitemap/">Sitemap</a></th>
-                        </tr>
-                        <tr>
-                            <td>Create <code>CONSTRUCT</code> query</td>
-                            <td><samp>admin/sitemap/create-construct.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create <code>DESCRIBE</code> query</td>
-                            <td><samp>admin/sitemap/create-describe.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create <a href="../administration/sitemap/#templates">template</a></td>
-                            <td><samp>admin/sitemap/create-template.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create <a href="../administration/sitemap/#parameters">template parameter</a></td>
-                            <td><samp>admin/sitemap/create-parameter.sh</samp></td>
                         </tr>
                     </tbody>
                 </table>
@@ -189,13 +172,14 @@
         </div>
         <p>Usage example:</p>
         <pre>./create-file.sh https://linkeddatahub.com/my-context/my-dataspace/ \\
--f linkeddatahub.pem \\
--p CertPassword \\
---title "Friends" \\
---file-slug 646af756-a49f-40da-a25e-ea8d81f6d306 \\
---file friends.csv \\
---file-content-type text/csv</pre>
+  -f linkeddatahub.pem \\
+  -p CertPassword \\
+  --title "Friends" \\
+  --file-slug 646af756-a49f-40da-a25e-ea8d81f6d306 \\
+  --file friends.csv \\
+  --file-content-type text/csv</pre>
         <p>See also the <a href="../../user-guide/import-data/import-csv-data/">Import CSV data</a> tutorial.</p>
     </div>
-    <p class="lead">Find the <a href="https://github.com/AtomGraph/LinkedDataHub/tree/master/scripts" target="_blank">CLI scripts on GitHub</a>.</p>
+    <p class="lead">Find the <a href="https://github.com/AtomGraph/LinkedDataHub/tree/master/scripts" target="_blank">CLI scripts on GitHub</a> or check out the
+        <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo" target="_blank">demo apps</a> that use them.</p>
 </div>"""^^rdf:XMLLiteral .

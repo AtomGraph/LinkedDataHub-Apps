@@ -1,16 +1,20 @@
-@prefix ns:     <ns#> .
-@prefix nsdd:   <ns/domain/default#> .
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
     
-<user-guide/import-data/import-rdf-data/> a nsdd:Item ;
+<user-guide/import-data/import-rdf-data/> a dh:Item ;
     sioc:has_container <user-guide/import-data/> ;
     dct:title "Import RDF data" ;
     dct:description "Step by step guide to importing RDF data" ;
-    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    ldh:content <#content> .
+    
+<#content> a ldh:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Step by step guide to importing RDF data</p>
     <p>There are multiple ways to import RDF data into LinkedDataHub.</p>
     <div>
@@ -22,9 +26,8 @@
         <p>This method simply appends RDF data to the application's dataset.</p>
         <p>If you want to append RDF data in a way where it attaches to the existing <a href="../../../reference/documents/#hierarchy">document hierarchy</a>, you need to make sure that it:</p>
         <ul>
-            <li>consists of triples (quad import into a container is undefined)</li>
             <li>describes one or more documents, possibly with some non-information resources attached to them</li>
-            <li>the documents are either containers with a <a href="../../../reference/administration/model/built-ins/"><code>dh:Container</code></a> (or its subclass) type, or items with a <a href="../../administration/model/built-ins/"><code>dh:Item</code></a> (or its subclass) type</li>
+            <li>the documents are either containers with a <a href="../../../reference/administration/model/built-ins/"><code>dh:Container</code></a> type, or items with a <a href="../../administration/model/built-ins/"><code>dh:Item</code></a> type</li>
             <li>have <code>sioc:has_parent</code> or <code>sioc:has_container</code> properties, respectively</li>
             <li>the document resources <em>may</em> be blank nodes, in which case there will be an attempt to skolemize them based on the their
                 <a href="../../administration/model/#classes">type class properties</a></li>
@@ -34,7 +37,7 @@
         <p>To execute the actual import, make an <a href="../../../reference/http-api/#ld-post">HTTP <code>POST</code> request</a>, for example using <a href="https://curl.haxx.se/" target="_blank">cURL</a>:</p>
         <pre><code>cat data.ttl | curl -E ${cert_pem_file}:${cert_password} -d @- -H "Content-Type: text/turtle" -H "Accept: text/turtle" "${target}" -i</code></pre>
         <p>This submits the <samp>data.ttl</samp> file, which could look like this:</p>
-        <pre>@prefix dh:        &lt;https://www.w3.org/ns/ldt/document-hierarchy/domain#&gt; .
+        <pre>@prefix dh:        &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
 @prefix dct:       &lt;http://purl.org/dc/terms/&gt; .
 
 _:item a dh:Item ;

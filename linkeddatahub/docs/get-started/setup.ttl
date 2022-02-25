@@ -1,17 +1,21 @@
-@prefix ns:     <ns#> .
-@prefix nsdd:   <ns/domain/default#> .
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<get-started/setup/> a nsdd:Item ;
+<get-started/setup/> a dh:Item ;
     sioc:has_container <get-started/> ;
     dct:title "Setup" ;
     dct:description "Setup LinkedDataHub on your local machine or access it in the cloud" ;
-    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Setup LinkedDataHub on your local machine or access it in the cloud.</p>
+    ldh:content <#content> .
+
+<#content> a ldh:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Setup LinkedDataHub on your local machine.</p>
     <p class="text-center">
         <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/mNqjolqtsWw" width="560"></iframe>
     </p>

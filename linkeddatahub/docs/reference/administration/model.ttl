@@ -1,17 +1,20 @@
-@prefix ns:     <ns#> .
-@prefix nsdd:   <ns/domain/default#> .
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy/domain#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<reference/administration/model/> a nsdd:Container ;
+<reference/administration/model/> a dh:Container ;
     sioc:has_parent <reference/administration/> ;
-    dh:select <queries/default/select-children/#this> ;
     dct:title "Model" ;
     dct:description "Ontology classes, constraints, properties etc." ;
-    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    ldh:content <#content> .
+    
+<#content> a ldh:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <div>
         <h2 id="ontologies">Ontologies</h2>
         <p>Ontologies are sets of domain concepts. The domain can span both documents (information resources) and abstract/physical things
@@ -26,42 +29,46 @@
             <dt>Version</dt>
             <dd>Unique version of this ontology</dd>
         </dl>
-        <p>All concepts managed in the model and explained below (classes, constructors etc.) belong to exactly one ontology. The membership
-           is specified using the <code>rdfs:isDefinedBy</code> property.</p>
         <div>
             <h3>System ontologies</h3>
-            <p class="text-center">
-                <img src="../../../uploads/fbce3e0e3ea48e51985e999f4c3ef66e7a7aaa52/" title="LinkedDataHub ontologies"></img>
-            </p>
-            <p>AtomGraph Platform (APL) is the default domain ontology used by LinkedDataHub.</p>
             <table class="table">
-                <caption>Domain ontologies</caption>
                 <thead>
                     <tr>
                         <th>Ontology</th>
                         <th>Title</th>
                         <th>Prefix</th>
-                        <th>Imports</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a id="apl-ont"><code>https://w3id.org/atomgraph/linkeddatahub/domain#</code></a></td>
-                        <td>AtomGraph Platform</td>
-                        <td><code>apl:</code></td>
-                        <td><a href="#dh-ont"><code>dh:</code></a></td>
+                        <td><a href="https://w3id.org/atomgraph/linkeddatahub/default" id="def-ont"><code>https://w3id.org/atomgraph/linkeddatahub/default#</code></a></td>
+                        <td>Default</td>
+                        <td><code>def:</code></td>
                     </tr>
                     <tr>
-                        <td><a href="https://www.w3.org/ns/ldt/document-hierarchy/domain#" id="dh-ont" target="_blank"><code>https://www.w3.org/ns/ldt/document-hierarchy/domain#</code></a></td>
+                        <td><a href="https://w3id.org/atomgraph/linkeddatahub/apps" id="lapp-ont" target="_blank"><code>https://w3id.org/atomgraph/linkeddatahub/apps#</code></a></td>
+                        <td>Applications</td>
+                        <td><code>lapp:</code></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://w3id.org/atomgraph/linkeddatahub/acl" id="lacl-ont" target="_blank"><code>https://w3id.org/atomgraph/linkeddatahub/acl#</code></a></td>
+                        <td>Access control</td>
+                        <td><code>lacl:</code></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://w3id.org/atomgraph/linkeddatahub/admin" id="adm-ont" target="_blank"><code>https://w3id.org/atomgraph/linkeddatahub/admin#</code></a></td>
+                        <td>Admin</td>
+                        <td><code>adm:</code></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://w3id.org/atomgraph/linkeddatahub" id="ldh-ont"><code>https://w3id.org/atomgraph/linkeddatahub#</code></a></td>
+                        <td>LinkedDataHub</td>
+                        <td><code>ldh:</code></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.w3.org/ns/ldt/document-hierarchy" id="dh-ont" target="_blank"><code>https://www.w3.org/ns/ldt/document-hierarchy#</code></a></td>
                         <td>Document hierarchy</td>
                         <td><code>dh:</code></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td><a href="https://www.w3.org/ns/ldt/core/domain#" id="c-ont" target="_blank"><code>https://www.w3.org/ns/ldt/core/domain#</code></a></td>
-                        <td>Core</td>
-                        <td><code>c:</code></td>
-                        <td></td>
                     </tr>
                 </tbody>
             </table>
@@ -76,32 +83,13 @@
             <dd>Query that constructs new class instance</dd>
             <dt><a href="#constraints">Constraints</a></dt>
             <dd>Command or command template that validates class instance</dd>
-            <dt>Path template</dt>
-            <dd>Template of the URI that will be generated for a new instance of this class by means of skolemization. It reuses the JAX-RS URI template
-                syntax but extends it in several ways.<br></br>
-                If the template starts with a leading <code>/</code>, it is treated as absolute path (relative to the base URI), otherwise as path segment
-                (relative to the request absolute path, e.g. to the URI of the container under which the instance resource is stored).<br></br>
-                Template variables are set automatically from resource property values. A simple path syntax to navigate between connected resources and
-                their properties: resources are separated by <code>.</code> and only the local names of properties are used.</dd>
-            <dd>For example, consider that you are creating an instance of <code>:Person</code> class under <code>https://linkeddatahub.com/people/</code>,
-                and you want the instance URI to be generated from its <code>foaf:familyName</code> value (lets suppose it is <code>"Berners-Lee"</code>).
-                In that case you should define a path segment template <code>{familyName}/</code>, and the instance URI will be skolemized as
-                <code>https://linkeddatahub.com/people/Berners-Lee/</code>.</dd>
-            <dd>If, on the other hand, you want the instance to use the title of the document it is topic of, then you should define the segment
-                template as <code>{isPrimaryTopicOf.title}</code>.</dd>
-            <dt id="fragment">Fragment template</dt>
-            <dd>Similarly to the segment template, this template defines the fragment part of URI for new instances of this class. It is useful for
-                distinguishing information resources (documents) from non-information resources which have
-                <a href="https://www.w3.org/TR/cooluris/#hashuri" target="_blank">hash URIs</a>.</dd>
-            <dd>Continuing the example from above, fragment template <code>this</code> defined on the <code>:Person</code> class would generate
-                <code>https://linkeddatahub.com/people/Berners-Lee/#this</code> as instance URI.</dd>
         </dl>
         <div>
             <h3 id="constructors">Constructors</h3>
             <p>Constructors are SPARQL <code>CONSTRUCT</code> queries that serve as templates for class instances.
                 They specify the properties (both mandatory and optional) that the instance is supposed to have, as well as expected datatypes of their
                 values. Constructors are used in create/edit modes. A class can have multiple constructors.</p>
-            <p>For example, one of the constructors of the <code>nsdd:Container</code> and <code>nsdd:Item</code> <a href="#classes">classes</a>:</p>
+            <p>For example, one of the constructors of the <code>dh:Container</code> and <code>dh:Item</code> <a href="#classes">classes</a>:</p>
             <pre><code>PREFIX rdf:     &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
 PREFIX xsd:     &lt;http://www.w3.org/2001/XMLSchema#&gt;
 PREFIX sioc:    &lt;http://rdfs.org/sioc/ns#&gt;
@@ -120,18 +108,12 @@ WHERE {}</code></pre>
         </div>
         <div>
             <h3 id="constraints">Constraints</h3>
-            <p>Constraints are SPARQL queries or <a href="../sitemap/#command-templates" target="_blank">command templates</a> that validate submitted
-                RDF data during document creation and editing. Constraints are enforced for instances of sitemap classes on which they are defined and are
+            <p>Constraints are SPARQL queries or <a href="https://spinrdf.org/spin.html#spin-templates" target="_blank">SPIN command templates</a> that validate submitted
+                RDF data during document creation and editing. Constraints are enforced for instances of model classes on which they are defined and are
                 used to check class instances for violations (missing mandatory properties, malformed values etc.). For example, an instance of
-                <code>nsdd:Item</code> without <code>dct:title</code> will fail validation because titles are mandatory for LinkedDataHub documents.</p>
+                <code>dh:Item</code> without <code>dct:title</code> will fail validation because titles are mandatory for LinkedDataHub documents.</p>
             <p>LinkedDataHub reuses <a href="http://spinrdf.org/spin.html#spin-constraints" target="_blank">SPIN constraints</a>. Classes inherit constraints from superclasses.</p>
-        </div>
-        <div>
-            <h3 id="restrictions">Restrictions</h3>
-            <p>Model ontologies can use <a href="https://www.w3.org/TR/owl2-primer/#Property_Restrictions" target="_blank">OWL property restrictions</a> to define relationships between model
-                classes and between classes and containers. LinkedDataHub's XSLT stylesheets <a href="../../stylesheets/" target="_blank">use them</a> when rendering the user interface. The skolemizer also uses them when skolemizing blank nodes in the request body.</p>
-            <p><samp>ObjectAllValuesFrom</samp> restrictions define which thing and document instances should be constructed and edited together (using the property which is the value of restriction's <samp>OnProperty</samp> to link them with each other). <code>foaf:primaryTopic</code>/<code>foaf:isPrimaryTopicOf</code> can be used to pair documents with abstract/physical things.</p>
-            <p><samp>ObjectHasValue</samp> restrictions define which document instances should be stored in which container (using <code>sioc:has_container</code> property).</p>
+            <p><a href="https://www.w3.org/TR/shacl/" target="_blank">SHACL</a> constraint validation is supported as well.</p>
         </div>
     </div>
     <div>
