@@ -4,7 +4,7 @@
 
 if [ "$#" -ne 3 ]; then
   echo "Usage:   $0" '$base $cert_pem_file $cert_password' >&2
-  echo "Example: $0" 'https://linkeddatahub.com:4443/demo/city-graph/ ../../../../../certs/martynas.stage.linkeddatahub.pem Password' >&2
+  echo "Example: $0" 'https://linkeddatahub.com:4443/demo/city-graph/ ../../../../../ssl/owner/cert.pem Password' >&2
   echo "Note: special characters such as $ need to be escaped in passwords!" >&2
   exit 1
 fi

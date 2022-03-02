@@ -28,9 +28,7 @@
         <p>All LDT applications have the following properties:</p>
         <dl>
             <dt>Base URI</dt>
-            <dd>Base URI is a URI by which an application can be identified. An application might have multiple base URIs; all request URIs
-                processed by an application are relative to one of its base URIs. For example, the base URI of this Documentation dataspace is
-                <code>https://linkeddatahub.com/linkeddatahub/docs/</code>.</dd>
+            <dd>Base URI is a URI by which an application can be identified. All request URIs processed by an application are relative to one of its base URIs.</dd>
             <dd>URIs in the <a href="../dataset-structure/">application dataset</a> are usually (but not necessarily) relative to one or more of
                 the base URIs.</dd>
             <dt>Service</dt>
