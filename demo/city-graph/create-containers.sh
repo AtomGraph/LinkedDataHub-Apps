@@ -32,6 +32,10 @@ parent=$(
 "${request_base}service"
 )
 
+if [ -z "$parent"]; then
+    exit 1
+fi
+
 if [ -z "$request_base" ] ; then
     request_parent="$parent"
 else
