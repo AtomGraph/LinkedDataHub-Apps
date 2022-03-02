@@ -31,16 +31,6 @@ printf "\n### Creating classes\n\n"
 
 ./create-classes.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
-cd ../sitemap
-
-printf "\n### Creating template queries\n\n"
-
-./create-queries.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
-
-printf "\n### Creating templates\n\n"
-
-./create-templates.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
-
 cd ..
 
 printf "\n### Clearing ontologies\n\n"
