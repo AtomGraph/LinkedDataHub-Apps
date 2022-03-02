@@ -15,7 +15,7 @@ CONSTRUCT
         dct:title ?name ;
         dh:slug ?id ;
         foaf:primaryTopic ?place .
-    ?place a schemaPlace ;
+    ?place a schema:Place ;
         foaf:isPrimaryTopicOf ?item ;
         geo:lat ?lat ;
         geo:long ?long ;
