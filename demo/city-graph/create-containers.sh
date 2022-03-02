@@ -29,7 +29,7 @@ parent=$(
 --title "Copenhagen" \
 --slug "copenhagen" \
 --parent "$base" \
-"$request_base"
+"${request_base}service"
 )
 
 if [ -z "$request_base" ] ; then
@@ -45,7 +45,7 @@ fi
 --title "Places" \
 --slug "places" \
 --parent "$parent" \
-"$request_parent"
+"${request_base}service"
 
 ./create-container.sh \
 -b "$base" \
@@ -54,7 +54,7 @@ fi
 --title "Bicycle parkings" \
 --slug "bicycle-parkings" \
 --parent "$parent" \
-"$request_parent"
+"${request_base}service"
 
 ./create-container.sh \
 -b "$base" \
@@ -63,7 +63,7 @@ fi
 --title "Charging stations" \
 --slug "charging-stations" \
 --parent "$parent" \
-"$request_parent"
+"${request_base}service"
 
 ./create-container.sh \
 -b "$base" \
@@ -72,7 +72,7 @@ fi
 --title "Libraries" \
 --slug "libraries" \
 --parent "$parent" \
-"$request_parent"
+"${request_base}service"
 
 ./create-container.sh \
 -b "$base" \
@@ -81,7 +81,7 @@ fi
 --title "Parking facilities" \
 --slug "parking-facilities" \
 --parent "$parent" \
-"$request_parent"
+"${request_base}service"
 
 ./create-container.sh \
 -b "$base" \
@@ -90,7 +90,7 @@ fi
 --title "Playgrounds" \
 --slug "playgrounds" \
 --parent "$parent" \
-"$request_parent"
+"${request_base}service"
 
 ./create-container.sh \
 -b "$base" \
@@ -99,7 +99,7 @@ fi
 --title "Schools" \
 --slug "schools" \
 --parent "$parent" \
-"$request_parent"
+"${request_base}service"
 
 ./create-container.sh \
 -b "$base" \
@@ -108,7 +108,7 @@ fi
 --title "Sport centers" \
 --slug "sports-centers" \
 --parent "$parent" \
-"$request_parent"
+"${request_base}service"
 
 ./create-container.sh \
 -b "$base" \
@@ -117,6 +117,6 @@ fi
 --title "Public toilets" \
 --slug "public-toilets" \
 --parent "$parent" \
-"$request_parent"
+"${request_base}service"
 
 popd
