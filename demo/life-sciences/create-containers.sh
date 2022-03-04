@@ -82,7 +82,7 @@ select_genes_doc=$(
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --title "Proteins" \
+  --title "Genes" \
   --query-file "${pwd}/queries/uniprot/select-genes.rq" \
   --service "$uniprot_service" \
   "${request_base}service"
