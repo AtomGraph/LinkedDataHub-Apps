@@ -31,7 +31,7 @@ pushd . && cd "$SCRIPT_ROOT"
 #--title "Molecule logp" \
 #--query-file "${pwd}/queries/chembl/molecule-logp.rq" \
 #--service "${base}/services/chembl/#this" \
-# "${request_base}queries/"
+# "${request_base}service"
 #)
 #
 #./create-result-set-chart.sh \
@@ -43,7 +43,7 @@ pushd . && cd "$SCRIPT_ROOT"
 #--chart-type https://w3id.org/atomgraph/client#BarChart \
 #--category-var-name "mol_name" \
 #--series-var-name "logp_val" \
-# "${request_base}charts/"
+# "${request_base}service"
 
 query=$(
 ./create-select.sh  \
@@ -53,7 +53,7 @@ query=$(
 --title "Protein counts by organism" \
 --query-file "${pwd}/queries/uniprot/select-protein-count-by-organism.rq" \
 --service "${base}services/uniprot-enzymes/#this" \
-"${request_base}queries/"
+"${request_base}service"
 )
 
 ./create-result-set-chart.sh \
@@ -65,6 +65,6 @@ query=$(
 --chart-type https://w3id.org/atomgraph/client#BarChart \
 --category-var-name "name" \
 --series-var-name "count" \
-"${request_base}charts/"
+"${request_base}service"
 
 popd

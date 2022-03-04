@@ -24,82 +24,91 @@ pwd=$(realpath -s $PWD)
 pushd . && cd "$SCRIPT_ROOT"
 
 uniprot_container=$(./create-container.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Uniprot" \
---slug "uniprot" \
---parent "$base" \
-"$request_base"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Uniprot" \
+  --slug "uniprot" \
+  --parent "$base" \
+  "${request_base}service"
 )
 
-if [ -z "$request_base" ] ; then
-    uniprot_request_container="$uniprot_container"
-else
-    uniprot_request_container=$(echo "$uniprot_container" | sed -e "s|$base|$request_base|g")
-fi
+uniprot_service_doc="${base}services/uniprot/"
 
-# select_molecules=$(
-# ./create-select.sh  \
-# -b "$base" \
-# -f "$cert_pem_file" \
-# -p "$cert_password" \
-# --title "Molecules" \
-# --query-file "${pwd}/queries/chembl/select-molecules.rq" \
-# --service "${base}services/chembl/#this" \
-# "${request_base}queries/"
-# )
-# 
-# ./create-container.sh \
-# -b "$base" \
-# -f "$cert_pem_file" \
-# -p "$cert_password" \
-# --title "ChEMBL molecules" \
-# --slug "chembl-molecules" \
-# --select "${select_molecules}#this" \
-# --parent "$base" \
-# "$request_base"
+uniprot_service_ntriples=$(./get-document.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --accept 'application/n-triples' \
+  "$uniprot_service_doc")
 
-select_proteins=$(
+uniprot_service=$(echo "$uniprot_service_ntriples" | sed -rn "s/<${uniprot_service_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+
+select_proteins_doc=$(
 ./create-select.sh  \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Proteins" \
---query-file "${pwd}/queries/uniprot/select-proteins.rq" \
---service "${base}services/uniprot-enzymes/#this" \
-"${request_base}queries/"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Proteins" \
+  --query-file "${pwd}/queries/uniprot/select-proteins.rq" \
+  --service "$uniprot_service" \
+  "${request_base}service"
 )
 
-./create-container.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Proteins" \
---slug "proteins" \
---select "${select_proteins}#this" \
---parent "$uniprot_container" \
-"$uniprot_request_container"
+select_proteins_ntriples=$(./get-document.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --accept 'application/n-triples' \
+  "$select_proteins_doc")
 
-select_genes=$(
+select_proteins=$(echo "$select_proteins_ntriples" | sed -rn "s/<${select_proteins_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+
+protein_container=$(./create-container.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Proteins" \
+  --slug "proteins" \
+  --parent "$uniprot_container" \
+  "${request_base}service")
+
+./append-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --first "$select_proteins" \
+  "$protein_container"
+
+select_genes_doc=$(
 ./create-select.sh  \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Proteins" \
---query-file "${pwd}/queries/uniprot/select-genes.rq" \
---service "${base}services/uniprot-enzymes/#this" \
-"${request_base}queries/"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Proteins" \
+  --query-file "${pwd}/queries/uniprot/select-genes.rq" \
+  --service "$uniprot_service" \
+  "${request_base}service"
 )
 
-./create-container.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Genes" \
---slug "genes" \
---select "${select_genes}#this" \
---parent "$uniprot_container" \
-"$uniprot_request_container"
+select_genes_ntriples=$(./get-document.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --accept 'application/n-triples' \
+  "$select_genes_doc")
 
-popd
+select_genes=$(echo "$select_genes_ntriples" | sed -rn "s/<${select_genes_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+
+gene_container=$(./create-container.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Genes" \
+  --slug "genes" \
+  --parent "$uniprot_container" \
+  "${request_base}service")
+
+./append-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --first "$select_genes" \
+  "$gene_container"
+
+popd || exit
