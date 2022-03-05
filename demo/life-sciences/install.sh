@@ -21,13 +21,13 @@ printf "\n### Creating authorization to make the app public\n\n"
 
 "$SCRIPT_ROOT"/admin/acl/make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --request-base "$request_base"
 
-printf "\n### Creating containers\n\n"
-
-./create-containers.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
-
 printf "\n### Creating services\n\n"
 
 ./create-services.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
+
+printf "\n### Creating containers\n\n"
+
+./create-containers.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 printf "\n### Creating charts\n\n"
 

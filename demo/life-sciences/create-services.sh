@@ -19,7 +19,7 @@ else
     request_base="$base"
 fi
 
-pwd=$(realpath -s $PWD)
+pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"
 
