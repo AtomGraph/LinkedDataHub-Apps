@@ -70,7 +70,7 @@ do
 
     popd > /dev/null
 
-    query=$(echo "$query_ntriples" || sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+    query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
     queries+=("$query")
 
     # upload file
