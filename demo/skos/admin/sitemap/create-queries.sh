@@ -19,18 +19,18 @@ else
     request_base="$base"
 fi
 
-pwd=$(realpath -s $PWD)
+pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"/admin/sitemap
 
 ./create-describe.sh \
--b "${base}admin/" \
--f "$cert_pem_file" \
--p "$cert_password" \
---uri "${base}ns/templates#DescribeConcept" \
---label "Describe concept" \
---slug describe-concept \
---query-file "$pwd/queries/describe-concept.rq" \
-"${request_base}admin/sitemap/queries/"
+  -b "${base}admin/" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --uri "${base}ns/templates#DescribeConcept" \
+  --label "Describe concept" \
+  --slug describe-concept \
+  --query-file "$pwd/queries/describe-concept.rq" \
+  "${request_base}admin/sitemap/queries/"
 
 popd

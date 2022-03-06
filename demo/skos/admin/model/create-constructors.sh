@@ -19,28 +19,28 @@ else
     request_base="$base"
 fi
 
-pwd=$(realpath -s $PWD)
+pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"/admin/model
 
 ./create-construct.sh \
--b "${base}admin/" \
--f "$cert_pem_file" \
--p "$cert_password" \
---uri "${base}ns/domain#ConstructConcept" \
---label "Construct concept" \
---slug construct-concept \
---query-file "$pwd/queries/construct-concept.rq" \
-"${request_base}admin/model/queries/"
+  -b "${base}admin/" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --uri "${base}ns/domain#ConstructConcept" \
+  --label "Construct concept" \
+  --slug construct-concept \
+  --query-file "$pwd/queries/construct-concept.rq" \
+  "${request_base}service"
 
 ./create-construct.sh \
--b "${base}admin/" \
--f "$cert_pem_file" \
--p "$cert_password" \
---uri "${base}ns/domain#ConstructConceptScheme" \
---label "Construct concept scheme" \
---slug construct-concept-scheme \
---query-file "$pwd/queries/construct-concept-scheme.rq" \
-"${request_base}admin/model/queries/"
+  -b "${base}admin/" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --uri "${base}ns/domain#ConstructConceptScheme" \
+  --label "Construct concept scheme" \
+  --slug construct-concept-scheme \
+  --query-file "$pwd/queries/construct-concept-scheme.rq" \
+  "${request_base}service"
 
 popd

@@ -19,11 +19,11 @@ else
     request_base="$base"
 fi
 
-pwd=$(realpath -s $PWD)
+pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"
 
-query=$(
+query_doc=$(
 ./create-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
@@ -33,18 +33,30 @@ query=$(
   "${request_base}service"
 )
 
+pushd . > /dev/null && cd "$SCRIPT_ROOT"
+
+query_ntriples=$(./get-document.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --accept 'application/n-triples' \
+  "$query_doc")
+
+popd > /dev/null
+
+query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+
 ./create-result-set-chart.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --title "Top selling products" \
-  --query "${query}#this" \
+  --query "$query" \
   --chart-type "https://w3id.org/atomgraph/client#BarChart" \
   --category-var-name "productName" \
   --series-var-name "totalSales" \
   "${request_base}service"
 
-query=$(
+query_doc=$(
 ./create-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
@@ -54,12 +66,24 @@ query=$(
   "${request_base}service"
 )
 
+pushd . > /dev/null && cd "$SCRIPT_ROOT"
+
+query_ntriples=$(./get-document.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --accept 'application/n-triples' \
+  "$query_doc")
+
+popd > /dev/null
+
+query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+
 ./create-result-set-chart.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --title "Sales by region per year" \
-  --query "${query}#this" \
+  --query "$query" \
   --chart-type "https://w3id.org/atomgraph/client#Table" \
   --category-var-name "year" \
   --series-var-name "regionName" \
