@@ -20,37 +20,6 @@ else
 fi
 
 path="${filename#*$pwd/}" # strip the leading $pwd/
-extension="${filename##*.}"
-
-case "$extension" in
-  xsl)
-    content_type="text/xsl"
-    ;;
-  css)
-    content_type="text/css"
-    ;;
-  png)
-    content_type="image/png"
-    ;;
-  gif)
-    content_type="image/gif"
-    ;;
-  jpg)
-    content_type="image/jpg"
-    ;;
-  svg)
-    content_type="image/svg+xml"
-    ;;
-  webm)
-    content_type="video/webm"
-    ;;
-  ttl)
-    content_type="text/turtle"
-    ;;
-esac
-
-[ -z "$content_type" ] && echo "Unrecognized file extension of ${filename}, skipping file" && exit 1
-
 title="${filename##*/}" # strip folders
 
 pushd . && cd "$SCRIPT_ROOT/imports"
@@ -61,7 +30,6 @@ pushd . && cd "$SCRIPT_ROOT/imports"
   -p "$cert_password" \
   --title "$title" \
   --file "$filename" \
-  --file-content-type "$content_type" \
-  "${request_base}uploads"
+  "${request_base}service"
 
 popd
