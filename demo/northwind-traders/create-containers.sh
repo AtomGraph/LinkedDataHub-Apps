@@ -85,8 +85,8 @@ customer_container=$(./create-container.sh \
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --first "$select_categories" \
-  "$category_container"
+  --first "$select_customers" \
+  "$customer_container"
 
 
 select_employees_doc=$(./create-select.sh \
@@ -319,4 +319,4 @@ territory_container=$(./create-container.sh \
   --first "$select_territories" \
   "$territory_container"
 
-popd
+popd || exit

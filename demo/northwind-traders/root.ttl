@@ -1,3 +1,5 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:	<http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:	<https://www.w3.org/ns/ldt/document-hierarchy#> .
@@ -7,7 +9,11 @@
 <> a def:Root ;
     dct:title "Root" ;
     dct:description "Knowledge Graph representation of the Northwind Traders sample database" ;
-    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
+    ldh:content <#content> .
+
+<#content> a ldh:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
         <div class="page-header">
             <h2>Northwind Traders knowledge graph</h2>
             <p class="lead">Features include CSV data <a href="imports/" target="_blank">imports</a>, <a href="charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation)</p>

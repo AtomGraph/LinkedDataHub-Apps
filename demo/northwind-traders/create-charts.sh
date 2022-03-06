@@ -25,45 +25,45 @@ pushd . && cd "$SCRIPT_ROOT"
 
 query=$(
 ./create-select.sh  \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Top selling products" \
---query-file "${pwd}/queries/charts/select-products-by-sales.rq" \
-"${request_base}service"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Top selling products" \
+  --query-file "${pwd}/queries/charts/select-products-by-sales.rq" \
+  "${request_base}service"
 )
 
 ./create-result-set-chart.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Top selling products" \
---query "${query}#this" \
---chart-type "https://w3id.org/atomgraph/client#BarChart" \
---category-var-name "productName" \
---series-var-name "totalSales" \
-"${request_base}service"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Top selling products" \
+  --query "${query}#this" \
+  --chart-type "https://w3id.org/atomgraph/client#BarChart" \
+  --category-var-name "productName" \
+  --series-var-name "totalSales" \
+  "${request_base}service"
 
 query=$(
 ./create-select.sh  \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Sales by region per year" \
---query-file "${pwd}/queries/charts/select-sales-by-regions-by-year.rq" \
-"${request_base}service"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Sales by region per year" \
+  --query-file "${pwd}/queries/charts/select-sales-by-regions-by-year.rq" \
+  "${request_base}service"
 )
 
 ./create-result-set-chart.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Sales by region per year" \
---query "${query}#this" \
---chart-type "https://w3id.org/atomgraph/client#Table" \
---category-var-name "year" \
---series-var-name "regionName" \
---series-var-name "totalSales" \
-"${request_base}service"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Sales by region per year" \
+  --query "${query}#this" \
+  --chart-type "https://w3id.org/atomgraph/client#Table" \
+  --category-var-name "year" \
+  --series-var-name "regionName" \
+  --series-var-name "totalSales" \
+  "${request_base}service"
 
 popd

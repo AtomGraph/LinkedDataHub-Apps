@@ -2,7 +2,7 @@
 
 if [ "$#" -ne 5 ] && [ "$#" -ne 6 ]; then
   echo "Usage:   $0" '$base $cert_pem_file $cert_password $pwd $abs_filename [$request_base]' >&2
-  echo "Example: $0" 'https://linkeddatahub.com/my-context/my-dataspace/ ../../ssl/owner/cert.pem Password /folder /folder/file.ttl' >&2
+  echo "Example: $0" 'https://localhost:4443/ ../../ssl/owner/cert.pem Password /folder /folder/file.ttl' >&2
   echo "Note: special characters such as $ need to be escaped in passwords!" >&2
   exit 1
 fi
@@ -56,12 +56,12 @@ title="${filename##*/}" # strip folders
 pushd . && cd "$SCRIPT_ROOT/imports"
 
 ./create-file.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "$title" \
---file "$filename" \
---file-content-type "$content_type" \
-"${request_base}uploads"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "$title" \
+  --file "$filename" \
+  --file-content-type "$content_type" \
+  "${request_base}uploads"
 
 popd

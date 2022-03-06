@@ -20,7 +20,7 @@ else
 fi
 
 cat root.ttl | turtle --base="${base}" | "$SCRIPT_ROOT"/update-document.sh \
--f "$cert_pem_file" \
--p "$cert_password" \
--t "application/n-triples" \
-"$request_base"
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  -t "application/n-triples" \
+  "$request_base"
