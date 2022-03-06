@@ -2,7 +2,7 @@
 
 if [ "$#" -ne 1 ]; then
   echo "Usage:   $0" '$base' >&2
-  echo "Example: $0" 'https://localhost/' >&2
+  echo "Example: $0" 'https://localhost:4443/' >&2
   exit 1
 fi
 

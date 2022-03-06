@@ -82,7 +82,7 @@ do
       --title "$title" \
       --file "$pwd/${csv_filename}" \
       --file-content-type "text/csv" \
-      "${request_base}uploads")
+      "${request_base}service")
 
     file_doc=$(echo "$file_doc" | sed -e "s|$base|$request_base|g")
 
