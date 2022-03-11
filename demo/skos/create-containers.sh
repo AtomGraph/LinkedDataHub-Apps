@@ -47,7 +47,7 @@ concept_container=$(./create-container.sh \
   --title "Concepts" \
   --slug "concepts" \
   --parent "$base" \
-  "$request_base")
+  "${request_base}service")
 
 ./append-content.sh \
   -f "$cert_pem_file" \
@@ -80,7 +80,7 @@ concept_scheme_container=$(./create-container.sh \
   --title "Concept schemes" \
   --slug "concept-schemes" \
   --parent "$base" \
-  "$request_base")
+  "${request_base}service")
 
 ./append-content.sh \
   -f "$cert_pem_file" \
