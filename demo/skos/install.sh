@@ -47,13 +47,7 @@ printf "\n### Creating constraints\n\n"
 
 ./create-constraints.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
-printf "\n### Creating restrictions\n\n"
-
-./create-restrictions.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
-
 cd ..
-
-pushd . && cd ./admin
 
 printf "\n### Clearing ontologies\n\n"
 
