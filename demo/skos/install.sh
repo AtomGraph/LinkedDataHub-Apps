@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
   echo "Usage:   $0" '$base $cert_pem_file $cert_password [$request_base]' >&2
@@ -52,18 +52,6 @@ printf "\n### Creating restrictions\n\n"
 ./create-restrictions.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 cd ..
-
-cd sitemap
-
-printf "\n### Creating template queries\n\n"
-
-./create-queries.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
-
-printf "\n### Creating templates\n\n"
-
-./create-templates.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
-
-popd
 
 pushd . && cd ./admin
 

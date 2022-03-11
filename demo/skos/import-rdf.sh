@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 [ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
 
@@ -24,25 +24,25 @@ pwd=$(realpath -s "$PWD")
 pushd . && cd "$SCRIPT_ROOT"/imports
 
 ./import-rdf.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---request-base "$request_base" \
---title "UN thesaurus SKOS (part 1)" \
---query-file "$pwd/queries/skos-import.rq" \
---file "$pwd/files/unesco-thesaurus.part1.ttl" \
---file-content-type "text/turtle" \
---action "$base"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --request-base "$request_base" \
+  --title "UN thesaurus SKOS (part 1)" \
+  --query-file "$pwd/queries/skos-import.rq" \
+  --file "$pwd/files/unesco-thesaurus.part1.ttl" \
+  --file-content-type "text/turtle" \
+  --action "$base"
 
 #./import-rdf.sh \
-#-b "$base" \
-#-f "$cert_pem_file" \
-#-p "$cert_password" \
-#--request-base "$request_base" \
-#--title "UN thesaurus SKOS" \
-#--query-file "$pwd/queries/skos-import.rq" \
-#--file "$pwd/files/unesco-thesaurus.part2.ttl" \
-#--file-content-type "text/turtle" \
-#--action "$base"
+#  -b "$base" \
+#  -f "$cert_pem_file" \
+#  -p "$cert_password" \
+#  --request-base "$request_base" \
+#  --title "UN thesaurus SKOS" \
+#  --query-file "$pwd/queries/skos-import.rq" \
+#  --file "$pwd/files/unesco-thesaurus.part2.ttl" \
+#  --file-content-type "text/turtle" \
+#  --action "$base"
 
 popd > /dev/null

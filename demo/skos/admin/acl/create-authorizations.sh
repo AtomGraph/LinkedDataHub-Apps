@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 [ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
 
@@ -26,23 +26,23 @@ pushd . && cd "$SCRIPT_ROOT"/admin/acl
 sha1sum=$(sha1sum "$pwd"/../../files/skos.xsl | cut -d ' ' -f 1)
 
 ./create-authorization.sh \
--b "${base}admin/" \
--f "$cert_pem_file" \
--p "$cert_password" \
---label "Public SKOS XSLT stylesheet" \
---agent-class http://xmlns.com/foaf/0.1/Agent \
---to "${base}uploads/${sha1sum}/" \
---read \
-"${request_base}admin/acl/authorizations/"
+  -b "${base}admin/" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --label "Public SKOS XSLT stylesheet" \
+  --agent-class http://xmlns.com/foaf/0.1/Agent \
+  --to "${base}uploads/${sha1sum}/" \
+  --read \
+"${request_base}admin/service"
 
 ./create-authorization.sh \
--b "${base}admin/" \
--f "$cert_pem_file" \
--p "$cert_password" \
---label "Read access to graph items" \
---agent-class "http://www.w3.org/ns/auth/acl#AuthenticatedAgent" \
---to-all-in "https://www.w3.org/ns/ldt/document-hierarchy#Item" \
---read \
-"${request_base}admin/acl/authorizations/"
+  -b "${base}admin/" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --label "Read access to graph items" \
+  --agent-class "http://www.w3.org/ns/auth/acl#AuthenticatedAgent" \
+  --to-all-in "https://www.w3.org/ns/ldt/document-hierarchy#Item" \
+  --read \
+"${request_base}admin/service"
 
 popd

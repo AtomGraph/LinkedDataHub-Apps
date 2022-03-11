@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 [ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
 
@@ -23,42 +23,69 @@ pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"
 
-select_concepts=$(./create-select.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Select concepts" \
---slug select-concepts \
---query-file "$pwd/queries/select-concepts.rq" \
-"${request_base}queries/")
+select_concepts_doc=$(./create-select.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Select concepts" \
+  --slug select-concepts \
+  --query-file "$pwd/queries/select-concepts.rq" \
+  "${request_base}service")
 
-./create-container.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Concepts" \
---slug "concepts" \
---select "${select_concepts}#this" \
---parent "$base" \
-"$request_base"
+select_concepts_ntriples=$(./get-document.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --accept 'application/n-triples' \
+  "$select_concepts_doc")
 
-select_concept_schemes=$(./create-select.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Select concept schemes" \
---slug select-concept-schemes \
---query-file "$pwd/queries/select-concept-schemes.rq" \
-"${request_base}queries/")
+select_concepts=$(echo "$select_concepts_ntriples" | sed -rn "s/<${select_concepts_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
 
-./create-container.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Concept schemes" \
---slug "concept-schemes" \
---select "${select_concept_schemes}#this" \
---parent "$base" \
-"$request_base"
+concept_container=$(./create-container.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Concepts" \
+  --slug "concepts" \
+  --parent "$base" \
+  "$request_base")
+
+./append-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --first "$select_concepts" \
+  "$concept_container"
+
+
+select_concept_schemes_doc=$(./create-select.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Select concept schemes" \
+  --slug select-concept-schemes \
+  --query-file "$pwd/queries/select-concept-schemes.rq" \
+  "${request_base}service")
+
+select_concept_schemes_ntriples=$(./get-document.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --accept 'application/n-triples' \
+  "$select_concepts_doc")
+
+select_concept_schemes=$(echo "$select_concept_schemes_ntriples" | sed -rn "s/<${select_concept_schemes_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+
+concept_scheme_container=$(./create-container.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Concept schemes" \
+  --slug "concept-schemes" \
+  --parent "$base" \
+  "$request_base")
+
+./append-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --first "$select_concept_schemes" \
+  "$concept_scheme_container"
 
 popd

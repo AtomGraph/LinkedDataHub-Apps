@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 [ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
 
@@ -19,17 +19,7 @@ else
     request_base="$base"
 fi
 
-pushd . && cd "$SCRIPT_ROOT"/admin 
-
-./clear-ontology.sh \
--f "$cert_pem_file" \
--p "$cert_password" \
-"${request_base}admin/model/ontologies/domain/"
-
-./clear-ontology.sh \
--f "$cert_pem_file" \
--p "$cert_password" \
-"${request_base}admin/sitemap/ontologies/templates/"
+pushd . && cd "$SCRIPT_ROOT"/admin
 
 ./clear-ontology.sh \
 -f "$cert_pem_file" \

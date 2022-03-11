@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 [ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
 
@@ -22,13 +22,13 @@ fi
 pushd . && cd "$SCRIPT_ROOT"/admin/model
 
 ./create-property-constraint.sh \
--b "${base}admin/" \
--f "$cert_pem_file" \
--p "$cert_password" \
---uri "${base}ns/domain#MissingPrefLabel" \
---label "Missing skos:prefLabel" \
---slug missing-pref-label \
---property "http://www.w3.org/2004/02/skos/core#prefLabel" \
-"${request_base}admin/model/constraints/"
+  -b "${base}admin/" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --uri "${base}ns/domain#MissingPrefLabel" \
+  --label "Missing skos:prefLabel" \
+  --slug missing-pref-label \
+  --property "http://www.w3.org/2004/02/skos/core#prefLabel" \
+  "${request_base}admin/model/constraints/"
 
 popd

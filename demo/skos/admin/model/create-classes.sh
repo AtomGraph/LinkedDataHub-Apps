@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 [ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
 
@@ -22,53 +22,25 @@ fi
 pushd . && cd "$SCRIPT_ROOT"/admin/model
 
 ./create-class.sh \
--b "${base}admin/" \
--f "$cert_pem_file" \
--p "$cert_password" \
---uri "${base}ns/domain#Concept" \
---label "Concept" \
---slug concept \
---constructor "${base}ns/domain#ConstructConcept" \
---sub-class-of "${base}ns/domain#TopicOfConceptItem" \
---path "{isPrimaryTopicOf.slug}/" \
---fragment "this" \
---constraint "${base}ns/domain#MissingPrefLabel" \
-"${request_base}admin/model/classes/"
+  -b "${base}admin/" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --uri "http://www.w3.org/2004/02/skos/core#Concept" \
+  --label "Concept" \
+  --slug concept \
+  --constructor "${base}ns/domain#ConstructConcept" \
+  --constraint "${base}ns/domain#MissingPrefLabel" \
+  "${request_base}admin/model/classes/"
 
 ./create-class.sh \
--b "${base}admin/" \
--f "$cert_pem_file" \
--p "$cert_password" \
---uri "${base}ns/domain#ConceptItem" \
---label "Concept item" \
---slug concept-item \
---sub-class-of "${base}ns/domain/default#Item" \
---sub-class-of "${base}ns/domain#ItemOfConceptContainer" \
-"${request_base}admin/model/classes/"
-
-./create-class.sh \
--b "${base}admin/" \
--f "$cert_pem_file" \
--p "$cert_password" \
---uri "${base}ns/domain#ConceptScheme" \
---label "Concept scheme" \
---slug concept-scheme \
---constructor "${base}ns/domain#ConstructConceptScheme" \
---sub-class-of "${base}ns/domain#TopicOfConceptSchemeItem" \
---path "{isPrimaryTopicOf.slug}/" \
---fragment "this" \
---constraint "${base}admin/ns#MissingTitle" \
-"${request_base}admin/model/classes/"
-
-./create-class.sh \
--b "${base}admin/" \
--f "$cert_pem_file" \
--p "$cert_password" \
---uri "${base}ns/domain#ConceptSchemeItem" \
---label "Concept scheme item" \
---slug concept-scheme-item \
---sub-class-of "${base}ns/domain/default#Item" \
---sub-class-of "${base}ns/domain#ItemOfConceptSchemeContainer" \
-"${request_base}admin/model/classes/"
+  -b "${base}admin/" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --uri "http://www.w3.org/2004/02/skos/core#ConceptScheme" \
+  --label "Concept scheme" \
+  --slug concept-scheme \
+  --constructor "${base}ns/domain#ConstructConceptScheme" \
+  --constraint "${base}admin/ns#MissingTitle" \
+  "${request_base}admin/model/classes/"
 
 popd
