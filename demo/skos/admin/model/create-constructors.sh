@@ -27,20 +27,20 @@ pushd . && cd "$SCRIPT_ROOT"/admin/model
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --uri "${base}ns/domain#ConstructConcept" \
+  --uri "${base}admin/model/ontologies/namespace/#ConstructConcept" \
   --label "Construct concept" \
   --slug construct-concept \
   --query-file "$pwd/queries/construct-concept.rq" \
-  "${request_base}service"
+  "${request_base}admin/model/ontologies/namespace/"
 
 ./create-construct.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --uri "${base}ns/domain#ConstructConceptScheme" \
+  --uri "${base}admin/model/ontologies/namespace/#ConstructConceptScheme" \
   --label "Construct concept scheme" \
   --slug construct-concept-scheme \
   --query-file "$pwd/queries/construct-concept-scheme.rq" \
-  "${request_base}service"
+  "${request_base}admin/model/ontologies/namespace/"
 
 popd

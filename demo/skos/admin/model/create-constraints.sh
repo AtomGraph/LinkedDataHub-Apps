@@ -25,10 +25,10 @@ pushd . && cd "$SCRIPT_ROOT"/admin/model
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --uri "${base}ns/domain#MissingPrefLabel" \
+  --uri "${base}admin/model/ontologies/namespace/#MissingPrefLabel" \
   --label "Missing skos:prefLabel" \
   --slug missing-pref-label \
   --property "http://www.w3.org/2004/02/skos/core#prefLabel" \
-  "${request_base}admin/model/constraints/"
+  "${request_base}admin/model/ontologies/namespace/"
 
 popd
