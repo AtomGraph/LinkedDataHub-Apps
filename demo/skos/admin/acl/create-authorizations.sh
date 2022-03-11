@@ -33,7 +33,7 @@ sha1sum=$(sha1sum "$pwd"/../../files/skos.xsl | cut -d ' ' -f 1)
   --agent-class http://xmlns.com/foaf/0.1/Agent \
   --to "${base}uploads/${sha1sum}/" \
   --read \
-"${request_base}admin/service"
+  "${request_base}admin/service"
 
 ./create-authorization.sh \
   -b "${base}admin/" \
@@ -43,6 +43,6 @@ sha1sum=$(sha1sum "$pwd"/../../files/skos.xsl | cut -d ' ' -f 1)
   --agent-class "http://www.w3.org/ns/auth/acl#AuthenticatedAgent" \
   --to-all-in "https://www.w3.org/ns/ldt/document-hierarchy#Item" \
   --read \
-"${request_base}admin/service"
+  "${request_base}admin/service"
 
 popd

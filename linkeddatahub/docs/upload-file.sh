@@ -20,36 +20,16 @@ else
 fi
 
 path="${filename#*$pwd/}" # strip the leading $pwd/
-extension="${filename##*.}"
-
-case "$extension" in
-  png)
-    content_type="image/png"
-    ;;
-  jpg)
-    content_type="image/jpg"
-    ;;
-  svg)
-    content_type="image/svg+xml"
-    ;;
-  webm)
-    content_type="video/webm"
-    ;;
-esac
-
-[ -z "$content_type" ] && echo "Unrecognized file extension of ${filename}, skipping file" && exit 1
-
 title="${filename##*/}" # strip folders
 
 pushd . && cd "$SCRIPT_ROOT/imports"
 
 ./create-file.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "${title}" \
---file "${filename}" \
---file-content-type "${content_type}" \
-"${request_base}files/"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "$title" \
+  --file "$filename" \
+  "${request_base}service"
 
 popd

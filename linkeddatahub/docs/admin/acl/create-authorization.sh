@@ -30,13 +30,13 @@ pushd . && cd "$SCRIPT_ROOT/admin/acl"
 printf "\n### Creating authorization for %s\n" "${base}${path}"
 
 ./create-authorization.sh \
--b "${base}admin/" \
--f "${cert_pem_file}" \
--p "${cert_password}" \
---label "Write ${path}" \
---agent "${webid_uri}" \
---to "${base}${path}" \
---write \
-"${request_base}admin/acl/authorizations/"
+  -b "${base}admin/" \
+  -f "${cert_pem_file}" \
+  -p "${cert_password}" \
+  --label "Write ${path}" \
+  --agent "${webid_uri}" \
+  --to "${base}${path}" \
+  --write \
+  "${request_base}admin/service"
 
 popd
