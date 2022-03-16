@@ -51,18 +51,19 @@
             <p>In order to change the <a href="../reference/administration/acl/" target="_blank">access control</a> or the <a href="../reference/administration/model/" target="_blank">model</a> of a dataspace,
               you need to be an administrator, i.e. a member of the <a href="../reference/administration/acl/#groups" target="_blank">owners group</a>.</p>
         </div>
-        <p class="lead"><a href="../user-guide/administration/change-model/" target="_blank">Follow a tutorial to change the model: a class and its constructor.</a></p>
+        <p class="lead"><a href="../user-guide/change-model/" target="_blank">Follow a tutorial to change the model: a class and its constructor.</a></p>
     </div>
     <div>
         <h2 id="create-instance">Create an instance</h2>
         <p>Go back to the end-user application and refresh the page — the previously created classes should now be available for instance creation. Follow these steps:</p>
         <ol>
             <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
-            <li>Click on <samp>Concept</samp> in the drop-down list that appears</li>
-            <li>Fill out the mandatory fields in the form:
+            <li>Click on <samp>Instance</samp> in the drop-down list that appears. An editing form will open.</li>
+            <li>In the resource of <samp>Type</samp> <samp>Instance</samp>, click on the <samp>Instance</samp> typeahead input, type <samp>Concept</samp> and select the class from the list</li>
+            <li>Fill out the mandatory fields in the form that appeared:
                 <dl>
-                    <dt>Title</dt>
-                    <dd>Enter concept title</dd>
+                    <dt>Preferred label</dt>
+                    <dd>Enter concept label</dd>
                     <dt>Title</dt>
                     <dd>Enter document title</dd>
                 </dl>
