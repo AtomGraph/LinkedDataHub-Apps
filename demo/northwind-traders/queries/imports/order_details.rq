@@ -7,13 +7,16 @@ PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
 
 CONSTRUCT
 {
-    ?order schema:orderedItem ?orderItem .
+    GRAPH ?orderDoc
+    {
+        ?order schema:orderedItem ?orderItem .
 
-    ?orderItem a schema:OrderItem ;
-        schema:orderedItem ?product ;
-        schema:orderQuantity ?quantity ;
-        schema:discount ?discount ;
-        schema:price ?price .
+        ?orderItem a schema:OrderItem ;
+            schema:orderedItem ?product ;
+            schema:orderQuantity ?quantity ;
+            schema:discount ?discount ;
+            schema:price ?price .
+    }
 }
 WHERE
 {
@@ -23,7 +26,8 @@ WHERE
         <#quantity> ?quantityString ;
         <#discount> ?discountString .
 
-    BIND(uri(concat(str(<orders/>), encode_for_uri(?orderID), "/#this")) AS ?order)
+    BIND(uri(concat(str(<orders/>), encode_for_uri(?orderID))) AS ?orderDoc)
+    BIND(uri(concat(str(?orderDoc), "/#this")) AS ?order)
     BIND(uri(concat(str(<orders/>), encode_for_uri(?orderID), "/#", STRUUID())) AS ?orderItem)
     BIND(uri(concat(str(<products/>), encode_for_uri(?productID), "/#this")) AS ?product)
     BIND (STRDT(?unitPrice, xsd:float) AS ?price)
