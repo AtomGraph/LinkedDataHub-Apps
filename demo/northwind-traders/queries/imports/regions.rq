@@ -7,7 +7,7 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 CONSTRUCT
 {
     ?item a dh:Item ;
-        sioc:has_container ?this ;
+        sioc:has_container <regions/> ;
         dh:slug ?regionID ;
         dct:title ?regionDescription ;
         foaf:primaryTopic ?region .

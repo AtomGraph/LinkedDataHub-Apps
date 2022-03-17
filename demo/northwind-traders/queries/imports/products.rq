@@ -8,7 +8,7 @@ PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
 CONSTRUCT
 {
     ?item a dh:Item ;
-        sioc:has_container ?this ;
+        sioc:has_container <products/> ;
         dh:slug ?productID ;
         dct:title ?productName ;
         foaf:primaryTopic ?product .

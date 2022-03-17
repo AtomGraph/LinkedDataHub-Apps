@@ -2,13 +2,17 @@ PREFIX schema:     <https://schema.org/>
 
 CONSTRUCT
 {
-    ?employee schema:areaServed ?territory
+    GRAPH ?item
+    {
+        ?employee schema:areaServed ?territory
+    }
 }
 WHERE
 {
     ?employee_territory <#employeeID> ?employeeID ;
         <#territoryID> ?territoryID .
 
-    BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/#this")) AS ?employee)
+    BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/")) AS ?item)
+    BIND(uri(concat(str(?item), "#this")) AS ?employee)
     BIND(uri(concat(str(<territories/>), encode_for_uri(?territoryID), "/#this")) AS ?territory)
 }

@@ -21,7 +21,6 @@ else
 fi
 
 titles=()
-slugs=()
 queries=()
 files=()
 
@@ -38,35 +37,31 @@ done < <(tail -n +2 "$imports_csv")
 index=0
 for row in "${arr_csv[@]}"
 do
-    path=$(echo "$row" | cut -d "," -f 1)
-    slug=$(echo "$row" | cut -d "," -f 2)
-    query_filename=$(echo "$row" | cut -d "," -f 3)
-    csv_filename=$(echo "$row" | cut -d "," -f 4)
-    title=$(echo "$row" | cut -d "," -f 5)
+    query_filename=$(echo "$row" | cut -d "," -f 1)
+    csv_filename=$(echo "$row" | cut -d "," -f 2)
+    title=$(echo "$row" | cut -d "," -f 3)
 
-    paths+=("$path")
-    slugs+=("$slug")
     titles+=("$title")
     
     # create query
 
     query_doc=$(./create-query.sh \
-    -b "$base" \
-    -f "$cert_pem_file" \
-    -p "$cert_password" \
-    --title "$title" \
-    --query-file "$pwd/${query_filename}" \
-    "${request_base}service")
+      -b "$base" \
+      -f "$cert_pem_file" \
+      -p "$cert_password" \
+      --title "$title" \
+      --query-file "$pwd/${query_filename}" \
+      "${request_base}service")
 
     query_doc=$(echo "$query_doc" | sed -e "s|$base|$request_base|g")
 
     pushd . > /dev/null && cd "$SCRIPT_ROOT"
 
     query_ntriples=$(./get-document.sh \
-    -f "$cert_pem_file" \
-    -p "$cert_password" \
-    --accept 'application/n-triples' \
-    "$query_doc")
+      -f "$cert_pem_file" \
+      -p "$cert_password" \
+      --accept 'application/n-triples' \
+      "$query_doc")
 
     popd > /dev/null
 
@@ -76,13 +71,13 @@ do
     # upload file
 
     file_doc=$(./create-file.sh \
-    -b "$base" \
-    -f "$cert_pem_file" \
-    -p "$cert_password" \
-    --title "$title" \
-    --file "$pwd/${csv_filename}" \
-    --file-content-type "text/csv" \
-    "${request_base}service")
+      -b "$base" \
+      -f "$cert_pem_file" \
+      -p "$cert_password" \
+      --title "$title" \
+      --file "$pwd/${csv_filename}" \
+      --file-content-type "text/csv" \
+      "${request_base}service")
 
     file_doc=$(echo "$file_doc" | sed -e "s|$base|$request_base|g")
 
@@ -106,18 +101,18 @@ done
 
 # start imports - postpone until after documents are created so we don't get concurrent updates to the triplestore
 
-for i in "${!slugs[@]}"; do
+for i in "${!files[@]}"; do
     printf "\n### Importing CSV from %s\n\n" "${files[$i]}"
 
     ./create-csv-import.sh \
-    -b "$base" \
-    -f "$cert_pem_file" \
-    -p "$cert_password" \
-    --title "${titles[$i]}" \
-    --action "${base}${paths[$i]}${slugs[$i]}/" \
-    --query "${queries[$i]}" \
-    --file "${files[$i]}" \
-    --delimiter ","
+      -b "$base" \
+      -f "$cert_pem_file" \
+      -p "$cert_password" \
+      --title "${titles[$i]}" \
+      --query "${queries[$i]}" \
+      --file "${files[$i]}" \
+      --delimiter "," \
+      "${request_base}imports"
 done
 
 popd

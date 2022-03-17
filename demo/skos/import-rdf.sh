@@ -31,8 +31,7 @@ pushd . && cd "$SCRIPT_ROOT"/imports
   --title "UN thesaurus SKOS (part 1)" \
   --query-file "$pwd/queries/skos-import.rq" \
   --file "$pwd/files/unesco-thesaurus.part1.ttl" \
-  --file-content-type "text/turtle" \
-  --action "$base"
+  --file-content-type "text/turtle"
 
 #./import-rdf.sh \
 #  -b "$base" \
@@ -42,7 +41,6 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 #  --title "UN thesaurus SKOS" \
 #  --query-file "$pwd/queries/skos-import.rq" \
 #  --file "$pwd/files/unesco-thesaurus.part2.ttl" \
-#  --file-content-type "text/turtle" \
-#  --action "$base"
+#  --file-content-type "text/turtle"
 
 popd > /dev/null

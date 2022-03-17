@@ -9,7 +9,7 @@ PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#>
 CONSTRUCT
 {
     ?item a dh:Item ;
-        sioc:has_container ?this ;
+        sioc:has_container <customers/> ;
         dh:slug ?customerID ;
         dct:title ?companyName ;
         foaf:primaryTopic ?customer ;

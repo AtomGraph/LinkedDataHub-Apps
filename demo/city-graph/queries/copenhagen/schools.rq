@@ -10,7 +10,7 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 CONSTRUCT
 {
     ?item a dh:Item ;
-        sioc:has_container ?this ;
+        sioc:has_container <copenhagen/schools/> ;
         dh:slug ?id ;
         dct:title ?name ;
         foaf:primaryTopic ?school .
