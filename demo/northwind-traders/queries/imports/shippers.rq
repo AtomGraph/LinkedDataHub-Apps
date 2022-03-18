@@ -7,13 +7,12 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 CONSTRUCT
 {
     ?item a dh:Item ;
-        sioc:has_container <shippers/> ;
+        sioc:has_container ?container ;
         dh:slug ?shipperID ;
         dct:title ?companyName ;
         foaf:primaryTopic ?shipper .
 
     ?shipper a schema:Corporation ;
-        foaf:isPrimaryTopicOf ?item ;
         dct:title ?companyName ;
         schema:legalName ?companyName ;
         schema:identifier ?shipperID ;
@@ -21,10 +20,12 @@ CONSTRUCT
 }
 WHERE
 {
+    BIND (uri(concat(str($base), "shippers/")) AS ?container)
+
     ?shipper_row <#shipperID> ?shipperID ;
         <#companyName> ?companyName ;
         <#phone> ?phone .
 
-    BIND(uri(concat(str(<shippers/>), encode_for_uri(?shipperID), "/")) AS ?item)
-    BIND(uri(concat(str(<shippers/>), encode_for_uri(?shipperID), "/#this")) AS ?shipper)
+    BIND(uri(concat(str(?container), encode_for_uri(?shipperID), "/")) AS ?item)
+    BIND(uri(concat(str(?item), "#this")) AS ?shipper)
 }

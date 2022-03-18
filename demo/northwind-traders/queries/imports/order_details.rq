@@ -26,10 +26,10 @@ WHERE
         <#quantity> ?quantityString ;
         <#discount> ?discountString .
 
-    BIND(uri(concat(str(<orders/>), encode_for_uri(?orderID))) AS ?item)
-    BIND(uri(concat(str(?item), "/#this")) AS ?order)
-    BIND(uri(concat(str(<orders/>), encode_for_uri(?orderID), "/#", STRUUID())) AS ?orderItem)
-    BIND(uri(concat(str(<products/>), encode_for_uri(?productID), "/#this")) AS ?product)
+    BIND(uri(concat(str($base), "orders/", encode_for_uri(?orderID), "/")) AS ?item)
+    BIND(uri(concat(str(?item), "#this")) AS ?order)
+    BIND(uri(concat(str(?item), "#", STRUUID())) AS ?orderItem)
+    BIND(uri(concat(str($base), "products/", encode_for_uri(?productID), "/#this")) AS ?product)
     BIND (STRDT(?unitPrice, xsd:float) AS ?price)
     BIND (STRDT(?quantityString, xsd:integer) AS ?quantity)
     BIND (STRDT(?discountString, xsd:float) AS ?discount)

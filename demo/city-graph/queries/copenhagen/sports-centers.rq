@@ -10,12 +10,11 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 CONSTRUCT
 {
     ?item a dh:Item ;
-        sioc:has_container <copenhagen/sports-centers/> ;
+        sioc:has_container ?container ;
         dh:slug ?id ;
         dct:title ?name ;
         foaf:primaryTopic ?sportCenter .
     ?sportCenter a schema:SportsActivityLocation ;
-        foaf:isPrimaryTopicOf ?item ;
         geo:lat ?lat ;
         geo:long ?long ;
         dct:title ?name ;
@@ -28,6 +27,7 @@ CONSTRUCT
 WHERE
 {
     BIND (BNODE() AS ?item)
+    BIND (uri(concat(str($base), "copenhagen/sports-centers/")) AS ?container)
 
     ?sportCenter <#FID> ?id ;
         <#name> ?name ;

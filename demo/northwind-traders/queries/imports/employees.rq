@@ -9,14 +9,13 @@ PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#>
 CONSTRUCT
 {
     ?item a dh:Item ;
-        sioc:has_container <employees/> ;
+        sioc:has_container ?container ;
         dh:slug ?employeeID ;
         dct:title ?lastName ;
         foaf:primaryTopic ?employee ;
         foaf:topic ?postalAddress .
 
     ?employee a schema:Person ;
-        foaf:isPrimaryTopicOf ?item ;
         schema:identifier ?employeeID ;
         dct:title ?lastName ;
         dct:description ?title ;
@@ -45,6 +44,8 @@ CONSTRUCT
 }
 WHERE
 {
+    BIND (uri(concat(str($base), "employees/")) AS ?container)
+
     ?employee_row <#employeeID> ?employeeID ;
         <#lastName> ?lastName ;
         <#firstName> ?firstName ;
@@ -68,15 +69,15 @@ WHERE
     }
     OPTIONAL {
         ?employee_row <#reportsTo> ?reportsTo
-        BIND(uri(concat(str(<employees/>), encode_for_uri(?reportsTo), "/#this")) AS ?reportsToEmployee)
+        BIND(uri(concat(str(?container), encode_for_uri(?reportsTo), "/#this")) AS ?reportsToEmployee)
     }
 
     BIND(xsd:float(?lat_string) AS ?lat)
     BIND(xsd:float(?long_string) AS ?long)
-    BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/")) AS ?item)
-    BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/#this")) AS ?employee)
-    BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/#address")) AS ?postalAddress)
+    BIND(uri(concat(str(?container), encode_for_uri(?employeeID), "/")) AS ?item)
+    BIND(uri(concat(str(?item), "#this")) AS ?employee)
+    BIND(uri(concat(str(?item), "#address")) AS ?postalAddress)
     BIND(strdt(substr(?birthDateString, 1, 10), xsd:date) AS ?birthDate)
     BIND(strdt(substr(?hireDateString, 1, 10), xsd:date) AS ?hireDate)
-    BIND(uri(concat(str(<uploads/>), encode_for_uri(?photoHash), "/")) AS ?photo)
+    BIND(uri(concat(str($base), "uploads/", encode_for_uri(?photoHash))) AS ?photo)
 }

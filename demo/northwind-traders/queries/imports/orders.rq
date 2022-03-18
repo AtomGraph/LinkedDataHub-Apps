@@ -8,14 +8,13 @@ PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
 CONSTRUCT
 {
     ?item a dh:Item ;
-        sioc:has_container <orders/> ;
+        sioc:has_container ?container ;
         dh:slug ?orderID ;
         dct:title ?orderID ;
         foaf:primaryTopic ?order ;
         foaf:topic ?orderDelivery, ?deliveryAddress .
 
     ?order a schema:Order ;
-        foaf:isPrimaryTopicOf ?item ;
         schema:identifier ?orderID ;
         dct:title ?orderID ;
         schema:customer ?customer ;
@@ -41,6 +40,8 @@ CONSTRUCT
 }
 WHERE
 {
+    BIND (uri(concat(str($base), "orders/")) AS ?container)
+
     ?order_row <#orderID> ?orderID ;
         <#customerID> ?customerID ;
         <#employeeID> ?employeeID ;
@@ -62,13 +63,13 @@ WHERE
         ?order_row <#shipRegion> ?shipRegion
     }
 
-    BIND(uri(concat(str(<orders/>), encode_for_uri(?orderID), "/")) AS ?item)
-    BIND(uri(concat(str(<orders/>), encode_for_uri(?orderID), "/#this")) AS ?order)
-    BIND(uri(concat(str(<orders/>), encode_for_uri(?orderID), "/#delivery")) AS ?orderDelivery)
-    BIND(uri(concat(str(<orders/>), encode_for_uri(?orderID), "/#delivery-address")) AS ?deliveryAddress)
-    BIND(uri(concat(str(<employees/>), encode_for_uri(?employeeID), "/#this")) AS ?employee)
-    BIND(uri(concat(str(<customers/>), encode_for_uri(?customerID), "/#this")) AS ?customer)
-    BIND(uri(concat(str(<shippers/>), encode_for_uri(?shipVia), "/#this")) AS ?shipper)
+    BIND(uri(concat(str(?container), encode_for_uri(?orderID), "/")) AS ?item)
+    BIND(uri(concat(str(?item), "#this")) AS ?order)
+    BIND(uri(concat(str(?item), "#delivery")) AS ?orderDelivery)
+    BIND(uri(concat(str(?item), "#delivery-address")) AS ?deliveryAddress)
+    BIND(uri(concat(str($base), "employees/", encode_for_uri(?employeeID), "/#this")) AS ?employee)
+    BIND(uri(concat(str($base), "customers/", encode_for_uri(?customerID), "/#this")) AS ?customer)
+    BIND(uri(concat(str($base), "shippers/", encode_for_uri(?shipVia), "/#this")) AS ?shipper)
     BIND(strdt(?orderDateString, xsd:date) AS ?orderDate)
     BIND(strdt(?requiredDateString, xsd:date) AS ?requiredDate)
     BIND(strdt(?freightString, xsd:float) AS ?freight)

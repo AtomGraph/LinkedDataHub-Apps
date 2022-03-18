@@ -13,7 +13,6 @@ CONSTRUCT
        dct:title ?city_name ;
        foaf:primaryTopic ?postalArea .
   ?postalArea a schema:PostalAddress ;
-         foaf:isPrimaryTopicOf ?item ;
          dbo:postalCode ?postal_code ;
          dbo:municipality ?municipality ;
          dbo:municipalityCode ?municipalityCode ;

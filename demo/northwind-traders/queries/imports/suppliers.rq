@@ -9,14 +9,13 @@ PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#>
 CONSTRUCT
 {
     ?item a dh:Item ;
-        sioc:has_container <suppliers/> ;
+        sioc:has_container ?container ;
         dh:slug ?supplierID ;
         dct:title ?companyName ;
         foaf:primaryTopic ?supplier ;
         foaf:topic ?contactPoint, ?employee, ?postalAddress .
 
     ?supplier a schema:Corporation ;
-        foaf:isPrimaryTopicOf ?item ;
         schema:identifier ?supplierID ;
         dct:title ?companyName ;
         schema:legalName ?companyName ;
@@ -50,6 +49,8 @@ CONSTRUCT
 }
 WHERE
 {
+    BIND (uri(concat(str($base), "shippers/")) AS ?container)
+
     ?supplier_row <#supplierID> ?supplierID ;
         <#companyName> ?companyName ;
         <#contactName> ?contactName ;
@@ -78,10 +79,10 @@ WHERE
         BIND(xsd:float(?long_string) AS ?long)
     }
 
-    BIND(uri(concat(str(<suppliers/>), encode_for_uri(?supplierID), "/")) AS ?item)
-    BIND(uri(concat(str(<suppliers/>), encode_for_uri(?supplierID), "/#this")) AS ?supplier)
-    BIND(uri(concat(str(<suppliers/>), encode_for_uri(?supplierID), "/#contact-point")) AS ?contactPoint)
-    BIND(uri(concat(str(<suppliers/>), encode_for_uri(?supplierID), "/#employee")) AS ?employee)
-    BIND(uri(concat(str(<suppliers/>), encode_for_uri(?supplierID), "/#postal-address")) AS ?postalAddress)
+    BIND(uri(concat(str(?container), encode_for_uri(?supplierID), "/")) AS ?item)
+    BIND(uri(concat(str(?item), "#this")) AS ?supplier)
+    BIND(uri(concat(str(?item), "#contact-point")) AS ?contactPoint)
+    BIND(uri(concat(str(?item), "#employee")) AS ?employee)
+    BIND(uri(concat(str(?item), "#postal-address")) AS ?postalAddress)
 
 }

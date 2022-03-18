@@ -7,13 +7,12 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 CONSTRUCT
 {
     ?item a dh:Item ;
-        sioc:has_container <territories/> ;
+        sioc:has_container ?container ;
         dh:slug ?territoryID ;
         dct:title ?territoryDescription ;
         foaf:primaryTopic ?territory .
 
     ?territory a schema:City ;
-        foaf:isPrimaryTopicOf ?item ;
         dct:title ?territoryDescription ;
         schema:name ?territoryDescription ;
         schema:identifier ?territoryID ;
@@ -21,11 +20,13 @@ CONSTRUCT
 }
 WHERE
 {
+    BIND (uri(concat(str($base), "territories/")) AS ?container)
+
     ?territory_row <#territoryID> ?territoryID ;
         <#territoryDescription> ?territoryDescription ;
         <#regionID> ?regionID .
 
-    BIND(uri(concat(str(<territories/>), encode_for_uri(?territoryID), "/")) AS ?item)
-    BIND(uri(concat(str(<territories/>), encode_for_uri(?territoryID), "/#this")) AS ?territory)
-    BIND(uri(concat(str(<regions/>), encode_for_uri(?regionID), "/#this")) AS ?region)
+    BIND(uri(concat(str(?container), encode_for_uri(?territoryID), "/")) AS ?item)
+    BIND(uri(concat(str(?item), "#this")) AS ?territory)
+    BIND(uri(concat(str($base), "regions/", encode_for_uri(?regionID), "/#this")) AS ?region)
 }
