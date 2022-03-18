@@ -49,7 +49,7 @@ CONSTRUCT
 }
 WHERE
 {
-    BIND (uri(concat(str($base), "shippers/")) AS ?container)
+    BIND (uri(concat(str($base), "suppliers/")) AS ?container)
 
     ?supplier_row <#supplierID> ?supplierID ;
         <#companyName> ?companyName ;
