@@ -112,7 +112,7 @@ for i in "${!files[@]}"; do
       --query "${queries[$i]}" \
       --file "${files[$i]}" \
       --delimiter "," \
-      "${request_base}imports"
+      "${request_base}importer"
 done
 
 popd
