@@ -71,6 +71,11 @@ protein_container=$(./create-container.sh \
   --parent "$uniprot_container" \
   "${request_base}service")
 
+./remove-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  "$protein_container"
+
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -104,6 +109,11 @@ gene_container=$(./create-container.sh \
   --slug "genes" \
   --parent "$uniprot_container" \
   "${request_base}service")
+
+./remove-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  "$gene_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \

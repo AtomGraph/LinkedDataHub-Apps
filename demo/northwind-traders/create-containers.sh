@@ -49,6 +49,11 @@ category_container=$(./create-container.sh \
   --parent "$base" \
   "${request_base}service")
 
+./remove-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  "$category_container"
+
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -81,6 +86,11 @@ customer_container=$(./create-container.sh \
   --slug "customers" \
   --parent "$base" \
   "${request_base}service")
+
+./remove-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  "$customer_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
@@ -115,6 +125,11 @@ employees_container=$(./create-container.sh \
   --parent "$base" \
   "${request_base}service")
 
+./remove-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  "$employees_container"
+
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -147,6 +162,11 @@ order_container=$(./create-container.sh \
   --slug "orders" \
   --parent "$base" \
   "${request_base}service")
+
+./remove-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  "$order_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
@@ -181,6 +201,11 @@ product_container=$(./create-container.sh \
   --parent "$base" \
   "${request_base}service")
 
+./remove-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  "$product_container"
+
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -213,6 +238,11 @@ region_container=$(./create-container.sh \
   --slug "regions" \
   --parent "$base" \
   "${request_base}service")
+
+./remove-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  "$region_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
@@ -247,6 +277,11 @@ shipper_container=$(./create-container.sh \
   --parent "$base" \
   "${request_base}service")
 
+./remove-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  "$shipper_container"
+
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -280,6 +315,11 @@ supplier_container=$(./create-container.sh \
   --parent "$base" \
   "${request_base}service")
 
+./remove-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  "$supplier_container"
+
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -312,6 +352,11 @@ territory_container=$(./create-container.sh \
   --slug "territories" \
   --parent "$base" \
   "${request_base}service")
+
+./remove-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  "$territory_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \

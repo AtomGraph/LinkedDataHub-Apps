@@ -49,6 +49,11 @@ concept_container=$(./create-container.sh \
   --parent "$base" \
   "${request_base}service")
 
+./remove-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  "$concept_container"
+
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -81,6 +86,11 @@ concept_scheme_container=$(./create-container.sh \
   --slug "concept-schemes" \
   --parent "$base" \
   "${request_base}service")
+
+./remove-content.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  "$concept_scheme_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \

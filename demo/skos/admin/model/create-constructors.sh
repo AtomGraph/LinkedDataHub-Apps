@@ -27,7 +27,7 @@ pushd . && cd "$SCRIPT_ROOT"/admin/model
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --uri "${base}admin/model/ontologies/namespace/#ConstructConcept" \
+  --uri "{$base}ns#ConstructConcept" \
   --label "Construct concept" \
   --slug construct-concept \
   --query-file "$pwd/queries/construct-concept.rq" \
@@ -37,7 +37,7 @@ pushd . && cd "$SCRIPT_ROOT"/admin/model
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --uri "${base}admin/model/ontologies/namespace/#ConstructConceptScheme" \
+  --uri "{$base}ns#ConstructConceptScheme" \
   --label "Construct concept scheme" \
   --slug construct-concept-scheme \
   --query-file "$pwd/queries/construct-concept-scheme.rq" \

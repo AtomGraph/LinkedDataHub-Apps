@@ -76,7 +76,6 @@ CONSTRUCT
 {
     ?thing ?p ?o ;
         a ?type ;
-        foaf:isPrimaryTopicOf ?item ;
         ?p ?o .
     ?item a dh:Item ;
         sioc:has_container ?container ;
@@ -113,8 +112,7 @@ WHERE
             <ul>
                 <li><code>BASE</code> value is set to the application's base URI</li>
                 <li><code>?this</code> binding is set to the value of the target container</li>
-                <li>produce items (documents) and pair them with topic resources using
-                    <code>foaf:primaryTopic</code>/<code>foaf:isPrimaryTopicOf</code> properties</li>
+                <li>produce items (documents) and pair them with topic resources using the <code>foaf:primaryTopic</code> property</li>
                 <li>use<code>OPTIONAL</code> for optional cell values</li>
                 <li>use <code>BIND()</code> to introduce new values and/or cast literals to the appropriate result
                     datatype or URI</li>
@@ -136,8 +134,7 @@ WHERE
     skos:narrower :concept4938 , :concept7597 ;
     skos:prefLabel "Right to education"@en , "Droit à l'éducation"@fr , "Derecho a la educación"@es , "Право на образование"@ru ;
     skos:related :concept9 , :concept556 , :concept557 , :concept1519 , :concept5052 ;
-    skos:topConceptOf &lt;http://vocabularies.unesco.org/thesaurus&gt; ;
-    foaf:isPrimaryTopicOf &lt;concepts/c499e66a-8036-4637-929d-0d809177883e/&gt; .
+    skos:topConceptOf &lt;http://vocabularies.unesco.org/thesaurus&gt; .
 
 &lt;concepts/c499e66a-8036-4637-929d-0d809177883e/&gt; a dh:Item ;
     sioc:has_container &lt;concepts/&gt; ;
@@ -150,8 +147,7 @@ WHERE
     skos:broader :concept389 ;
     skos:inScheme &lt;http://vocabularies.unesco.org/thesaurus&gt; ;
     skos:prefLabel "Talent"@en , "Talent"@fr , "Talento"@es , "Талант"@ru ;
-    skos:related :concept993 , :concept996 , :concept3086 ;
-    foaf:isPrimaryTopicOf &lt;concepts/f41910fa-9077-4656-8f73-752fd923a79b/&gt; .
+    skos:related :concept993 , :concept996 , :concept3086 .
 
 &lt;concepts/f41910fa-9077-4656-8f73-752fd923a79b/&gt; a dh:Item ;
     sioc:has_container &lt;concepts/&gt; ;
@@ -164,8 +160,7 @@ WHERE
     skos:altLabel "Entrevue"@fr ;
     skos:broader :concept4725 ;
     skos:inScheme &lt;http://vocabularies.unesco.org/thesaurus&gt; ;
-    skos:prefLabel "Interviews"@en , "Entretien"@fr , "Entrevista"@es , "Интервью"@ru ;
-    foaf:isPrimaryTopicOf &lt;concepts/2afb2e06-5081-4db1-9255-660fcd1b3ec8/&gt; .
+    skos:prefLabel "Interviews"@en , "Entretien"@fr , "Entrevista"@es , "Интервью"@ru .
 
 &lt;concepts/2afb2e06-5081-4db1-9255-660fcd1b3ec8/&gt; a dh:Item ;
     sioc:has_container &lt;concepts/&gt; ;

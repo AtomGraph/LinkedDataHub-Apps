@@ -72,7 +72,7 @@ WHERE {}</pre>
                         <ol>
                             <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
                             <li>Click on <samp>CONSTRUCT</samp> in the drop-down list that appears</li>
-                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/admin/model/ontologies/namespace/#ConstructConcept</samp></li>
+                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns#ConstructConcept</samp></li>
                             <li>Fill out the mandatory fields in the form:
                                 <dl>
                                     <dt>Label</dt>
@@ -96,7 +96,7 @@ pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/model
   -b "${base}admin/" \\
   -f "$cert_pem_file" \\
   -p "$cert_password" \\
-  --uri "${base}admin/model/ontologies/namespace/#ConstructConcept" \\
+  --uri "${base}ns#ConstructConcept" \\
   --label "Construct concept" \\
   --slug construct-concept \\
   --query-file "$pwd/queries/construct-concept.rq" \\
@@ -148,7 +148,7 @@ popd</pre>
   -b "${base}" \\
   -f "${cert_pem_file}" \\
   -p "${cert_password}" \\
-  --uri "https://localhost:4443/admin/model/ontologies/namespace/#MissingPrefLabel" \\
+  --uri "https://localhost:4443/ns#MissingPrefLabel" \\
   --label "Missing skos:prefLabel" \\
   --slug missing-pref-label \\
   --property "http://www.w3.org/2004/02/skos/core#prefLabel" \\
@@ -175,7 +175,7 @@ popd</pre>
                         <ol>
                             <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
                             <li>Click on <samp>Class</samp> in the drop-down list that appears</li>
-                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/admin/model/ontologies/namespace/#Concept</samp></li>
+                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns#Concept</samp></li>
                             <li>Fill out the mandatory fields in the form:
                                 <dl>
                                     <dt>Label</dt>
@@ -198,11 +198,11 @@ popd</pre>
   -b "${base}" \\
   -f "${cert_pem_file}" \\
   -p "${cert_password}" \\
-  --uri "${base}admin/model/ontologies/namespace/#Concept" \\
+  --uri "${base}ns#Concept" \\
   --label "Concept" \\
   --slug concept \\
-  --constructor "${base}admin/model/ontologies/namespace/#ConstructConcept" \\
-  --constraint "${base}admin/model/ontologies/namespace/#MissingPrefLabel" \\
+  --constructor "{$base}ns#ConstructConcept" \\
+  --constraint "{$base}ns#MissingPrefLabel" \\
   "${base}admin/model/ontologies/namespace/"
 
 popd</pre>

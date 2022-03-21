@@ -94,12 +94,11 @@ PREFIX  sioc: &lt;http://rdfs.org/sioc/ns#&gt;
 CONSTRUCT
   {
     ?item a dh:Item ;
-        sioc:has_container ?this ;
+        sioc:has_container ?container ;
         dct:title ?name ;
         dh:slug ?countryCode ;
         foaf:primaryTopic ?country .
     ?country a &lt;http://dbpedia.org/ontology/Place&gt; ;
-        foaf:isPrimaryTopicOf ?item ;
         dct:identifier ?countryCode ;
         geo:lat ?lat ;
         geo:long ?long ;
@@ -108,19 +107,21 @@ CONSTRUCT
 WHERE
   { 
     BIND(bnode() AS ?item)
+    BIND (uri(concat(str($base), "countries/")) AS ?container)
+
     ?country  &lt;#countryCode&gt;  ?countryCode ;
               &lt;#latitude&gt;     ?latString ;
               &lt;#longitude&gt;    ?longString ;
-              &lt;#name&gt;         ?name
+              &lt;#name&gt;         ?name .
+
     BIND(xsd:float(?latString) AS ?lat)
     BIND(xsd:float(?longString) AS ?long)
   }</code></pre>
             <p>These are the rules that hold for mapping queries:</p>
             <ul>
-                <li><code>BASE</code> value is set to the application's base URI</li>
-                <li><code>?this</code> binding is set to the value of the target container</li>
-                <li>produce items (documents) and pair them with topic resources using
-                    <code>foaf:primaryTopic</code>/<code>foaf:isPrimaryTopicOf</code> properties</li>
+                <li><code>BASE</code> value is automatically set to the imported file's URI. Do not add an explicit <code>BASE</code> to the query.</li>
+                <li><code>$base</code> binding is set to the value of the application's baseURI</li>
+                <li>produce items (documents) and pair them with topic resources using the <code>foaf:primaryTopic</code> property</li>
                 <li>use<code>OPTIONAL</code> for optional cell values</li>
                 <li>use <code>BIND()</code> to introduce new values and/or cast literals to the appropriate result
                     datatype or URI</li>
@@ -134,7 +135,6 @@ WHERE
     foaf:primaryTopic _:country .
 
 _:country a &lt;https://linkeddatahub.com/demo/city-graph/ns#Country&gt; ;
-    foaf:isPrimaryTopicOf _:item ;
     dct:identifier "AD" ;
     geo:lat 42.5 ;
     geo:long 1.6 ;

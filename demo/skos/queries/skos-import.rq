@@ -9,7 +9,6 @@ CONSTRUCT
 {
     ?thing ?p ?o ;
         a ?type ;
-        foaf:isPrimaryTopicOf ?item ;
         ?p ?o .
     ?item a ?itemType ;
         sioc:has_container ?container ;
