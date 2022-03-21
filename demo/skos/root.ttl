@@ -9,13 +9,17 @@
 <> a def:Root ;
     dct:title "Root" ;
     dct:description "SKOS-based editor of thesauri, lexicons, vocabularies, taxonomies, and classification schemes" ;
-    ldh:content <#content> .
+    ldh:content <#page-header> .
 
-<#content> a ldh:Content ;
-    rdf:rest () ;
+<#page-header> a ldh:Content ;
+    rdf:rest <#select-children> ;
     rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
         <div class="page-header">
             <h2>SKOS editor</h2>
             <p class="lead">Features include resource creation and editing (requires authentication), RDF data import as well as a customized layout (broader/narrower/related sections of concepts).</p>
         </div>
     </div>"""^^rdf:XMLLiteral .
+
+<#select-children> a ldh:Content ;
+    rdf:first ldh:SelectChildren ;
+    rdf:rest rdf:nil .

@@ -1,3 +1,5 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:	<http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:	<https://www.w3.org/ns/ldt/document-hierarchy#> .
@@ -7,9 +9,17 @@
 <> a def:Root ;
     dct:title "Root" ;
     dct:description "Life-sciences data explorer. Datasets from EBI RDF, ChEMBL, UniProt etc." ;
-    sioc:content """<div xmlns="http://www.w3.org/1999/xhtml">
-        <div class="page-header">
+    ldh:content <#page-header> .
+
+<#page-header> a ldh:Content ;
+    rdf:rest <#select-children> ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    <div class="page-header">
             <h2>Life-sciences data explorer</h2>
             <p class="lead">Connects to an external SPARQL endpoint with a sample dataset from UniProt. Features include a custom container query, <a href="charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation).</p>
         </div>
     </div>"""^^rdf:XMLLiteral .
+
+<#select-children> a ldh:Content ;
+    rdf:first ldh:SelectChildren ;
+    rdf:rest rdf:nil .
