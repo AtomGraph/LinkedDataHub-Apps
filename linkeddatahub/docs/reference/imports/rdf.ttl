@@ -110,12 +110,11 @@ WHERE
 }</code></pre>
             <p>These are the rules that hold for mapping queries:</p>
             <ul>
-                <li><code>BASE</code> value is set to the application's base URI</li>
-                <li><code>?this</code> binding is set to the value of the target container</li>
+                <li>the base URI of the query is the URI of the CSV file (does not need to be explicitly specified as <code>BASE</code>)</li>
+                <li><code>$base</code> binding value is set to the application's base URI</li>
                 <li>produce items (documents) and pair them with topic resources using the <code>foaf:primaryTopic</code> property</li>
                 <li>use<code>OPTIONAL</code> for optional cell values</li>
-                <li>use <code>BIND()</code> to introduce new values and/or cast literals to the appropriate result
-                    datatype or URI</li>
+                <li>use <code>BIND()</code> to introduce new values and/or cast literals to the appropriate result datatype or URI</li>
             </ul>
             <p>Blank node resources in the output will be skolemized depending on their RDF types.</p>
             <p>We are planning to provide a UI-based mapping tool in the future.</p>

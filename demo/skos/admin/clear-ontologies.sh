@@ -22,8 +22,9 @@ fi
 pushd . && cd "$SCRIPT_ROOT"/admin
 
 ./clear-ontology.sh \
--f "$cert_pem_file" \
--p "$cert_password" \
-"${base}admin/model/ontologies/namespace/"
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  -b "${request_base}admin/" \
+  --ontology "${base}ns#"
 
 popd

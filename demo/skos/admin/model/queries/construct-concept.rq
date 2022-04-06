@@ -3,7 +3,7 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 
 CONSTRUCT
 {
-    ?this skos:inScheme [ a skos:ConceptScheme ] ;
+    $this skos:inScheme [ a skos:ConceptScheme ] ;
         skos:topConceptOf [ a skos:ConceptScheme ] ;
         skos:prefLabel [ a xsd:string ] ;
         skos:altLabel [ a xsd:string ] ;

@@ -96,7 +96,7 @@ PREFIX sioc:    &lt;http://rdfs.org/sioc/ns#&gt;
 PREFIX dct:     &lt;http://purl.org/dc/terms/&gt;
 
 CONSTRUCT {
-  ?this sioc:content "&lt;div xmlns=\\"http://www.w3.org/1999/xhtml\\"&gt;&lt;/div&gt;"^^rdf:XMLLiteral .
+  $this sioc:content "&lt;div xmlns=\\"http://www.w3.org/1999/xhtml\\"&gt;&lt;/div&gt;"^^rdf:XMLLiteral .
 }
 WHERE {}</code></pre>
             <p>An instance of these classes by default have a content property with XML literal.</p>
