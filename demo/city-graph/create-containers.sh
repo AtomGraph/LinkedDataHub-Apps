@@ -32,7 +32,7 @@ parent=$(
   "${request_base}service"
 )
 
-if [ -z "$parent"]; then
+if [ -z "$parent" ]; then
     exit 1
 fi
 
