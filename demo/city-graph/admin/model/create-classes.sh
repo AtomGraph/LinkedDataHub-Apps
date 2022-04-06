@@ -25,7 +25,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --uri "{$base}ns#BicycleParking" \
+  --uri "${base}ns#BicycleParking" \
   --label "Bicycle parking" \
   --slug bicycle-parking \
   --sub-class-of "https://schema.org/CivicStructure" \
@@ -35,7 +35,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --uri "{$base}ns#ChargingStation" \
+  --uri "${base}ns#ChargingStation" \
   --label "Charging station" \
   --slug charging-station \
   --sub-class-of "https://schema.org/CivicStructure" \
@@ -45,7 +45,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --uri "{$base}ns#Library" \
+  --uri "${base}ns#Library" \
   --label "Library" \
   --slug library \
   --sub-class-of "https://schema.org/Library" \
@@ -55,7 +55,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --uri "{$base}ns#ParkingFacility" \
+  --uri "${base}ns#ParkingFacility" \
   --label "Parking facility" \
   --slug parking-facility \
   --sub-class-of "https://schema.org/ParkingFacility" \
@@ -65,7 +65,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --uri "{$base}ns#Place" \
+  --uri "${base}ns#Place" \
   --label "Place" \
   --slug place \
   --sub-class-of "https://schema.org/CivicStructure" \
@@ -75,7 +75,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --uri "{$base}ns#Playground" \
+  --uri "${base}ns#Playground" \
   --label "Playground" \
   --slug playground \
   --sub-class-of "https://schema.org/Playground" \
@@ -85,7 +85,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --uri "{$base}ns#School" \
+  --uri "${base}ns#School" \
   --label "School" \
   --slug school \
   --sub-class-of "https://schema.org/School" \
@@ -95,7 +95,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --uri "{$base}ns#SportsCenter" \
+  --uri "${base}ns#SportsCenter" \
   --label "Sports center" \
   --slug sports-center \
   --sub-class-of "https://schema.org/CivicStructure" \
@@ -105,7 +105,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --uri "{$base}ns#PublicToilet" \
+  --uri "${base}ns#PublicToilet" \
   --label "Toilet" \
   --slug public-toilet \
   --sub-class-of "http://schema.org/PublicToilet" \

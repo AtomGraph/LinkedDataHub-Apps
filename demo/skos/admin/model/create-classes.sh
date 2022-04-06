@@ -28,8 +28,8 @@ pushd . && cd "$SCRIPT_ROOT"/admin/model
   --uri "http://www.w3.org/2004/02/skos/core#Concept" \
   --label "Concept" \
   --slug concept \
-  --constructor "{$base}ns#ConstructConcept" \
-  --constraint "{$base}ns#MissingPrefLabel" \
+  --constructor "${base}ns#ConstructConcept" \
+  --constraint "${base}ns#MissingPrefLabel" \
   "${request_base}admin/model/ontologies/namespace/"
 
 ./create-class.sh \
@@ -39,8 +39,8 @@ pushd . && cd "$SCRIPT_ROOT"/admin/model
   --uri "http://www.w3.org/2004/02/skos/core#ConceptScheme" \
   --label "Concept scheme" \
   --slug concept-scheme \
-  --constructor "{$base}ns#ConstructConceptScheme" \
-  --constraint "{$base}ns#MissingTitle" \
+  --constructor "${base}ns#ConstructConceptScheme" \
+  --constraint "${base}ns#MissingTitle" \
   "${request_base}admin/model/ontologies/namespace/"
 
 popd

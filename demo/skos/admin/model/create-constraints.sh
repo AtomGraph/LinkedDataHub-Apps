@@ -25,7 +25,7 @@ pushd . && cd "$SCRIPT_ROOT"/admin/model
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --uri "{$base}ns#MissingPrefLabel" \
+  --uri "${base}ns#MissingPrefLabel" \
   --label "Missing skos:prefLabel" \
   --slug missing-pref-label \
   --property "http://www.w3.org/2004/02/skos/core#prefLabel" \
