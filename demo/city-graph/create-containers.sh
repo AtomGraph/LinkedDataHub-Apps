@@ -23,13 +23,13 @@ pushd . && cd "$SCRIPT_ROOT"
 
 parent=$(
 ./create-container.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Copenhagen" \
---slug "copenhagen" \
---parent "$base" \
-"${request_base}service"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Copenhagen" \
+  --slug "copenhagen" \
+  --parent "$base" \
+  "${request_base}service"
 )
 
 if [ -z "$parent"]; then
@@ -43,84 +43,84 @@ else
 fi
 
 ./create-container.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Places" \
---slug "places" \
---parent "$parent" \
-"${request_base}service"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Places" \
+  --slug "places" \
+  --parent "$parent" \
+  "${request_base}service"
 
 ./create-container.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Bicycle parkings" \
---slug "bicycle-parkings" \
---parent "$parent" \
-"${request_base}service"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Bicycle parkings" \
+  --slug "bicycle-parkings" \
+  --parent "$parent" \
+  "${request_base}service"
 
 ./create-container.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Charging stations" \
---slug "charging-stations" \
---parent "$parent" \
-"${request_base}service"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Charging stations" \
+  --slug "charging-stations" \
+  --parent "$parent" \
+  "${request_base}service"
 
 ./create-container.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Libraries" \
---slug "libraries" \
---parent "$parent" \
-"${request_base}service"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Libraries" \
+  --slug "libraries" \
+  --parent "$parent" \
+  "${request_base}service"
 
 ./create-container.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Parking facilities" \
---slug "parking-facilities" \
---parent "$parent" \
-"${request_base}service"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Parking facilities" \
+  --slug "parking-facilities" \
+  --parent "$parent" \
+  "${request_base}service"
 
 ./create-container.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Playgrounds" \
---slug "playgrounds" \
---parent "$parent" \
-"${request_base}service"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Playgrounds" \
+  --slug "playgrounds" \
+  --parent "$parent" \
+  "${request_base}service"
 
 ./create-container.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Schools" \
---slug "schools" \
---parent "$parent" \
-"${request_base}service"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Schools" \
+  --slug "schools" \
+  --parent "$parent" \
+  "${request_base}service"
 
 ./create-container.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Sport centers" \
---slug "sports-centers" \
---parent "$parent" \
-"${request_base}service"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Sport centers" \
+  --slug "sports-centers" \
+  --parent "$parent" \
+  "${request_base}service"
 
 ./create-container.sh \
--b "$base" \
--f "$cert_pem_file" \
--p "$cert_password" \
---title "Public toilets" \
---slug "public-toilets" \
---parent "$parent" \
-"${request_base}service"
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --title "Public toilets" \
+  --slug "public-toilets" \
+  --parent "$parent" \
+  "${request_base}service"
 
 popd

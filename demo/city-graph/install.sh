@@ -25,7 +25,8 @@ cd admin/model
 
 printf "\n### Adding schema.org import to domain ontology\n\n"
 
-./add-imports.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
+# disable schema.org as import because its URI does not resolve to an ontology
+# ./add-imports.sh "$base" "$cert_pem_file" "$cert_password" "$request_base"
 
 printf "\n### Creating classes\n\n"
 
