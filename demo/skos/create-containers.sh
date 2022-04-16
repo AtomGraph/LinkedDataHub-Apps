@@ -52,11 +52,13 @@ concept_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$concept_container" \
   "$concept_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$concept_container" \
   --first "$select_concepts" \
   "$concept_container"
 
@@ -90,11 +92,13 @@ concept_scheme_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$concept_scheme_container" \
   "$concept_scheme_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$concept_scheme_container" \
   --first "$select_concept_schemes" \
   "$concept_scheme_container"
 

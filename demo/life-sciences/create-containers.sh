@@ -74,13 +74,14 @@ protein_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$protein_container" \
   "$protein_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --first "$select_proteins" \
-  "$protein_container"
+  --this "$protein_container" \
+  --first "$select_proteins"
 
 select_genes_doc=$(
 ./create-select.sh  \
@@ -113,11 +114,13 @@ gene_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$gene_container" \
   "$gene_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$gene_container" \
   --first "$select_genes" \
   "$gene_container"
 

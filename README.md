@@ -4,9 +4,11 @@ System, demo, and user-submitted applications built on LinkedDataHub. Completely
 
 ## Prerequisites
 
-The installation scripts in this repository use [LinkedDataHub's CLI scripts](https://linkeddatahub.com/linkeddatahub/docs/reference/command-line-interface/). You need to set `SCRIPT_ROOT` environmental variable to the [`scripts` subfolder](https://github.com/AtomGraph/LinkedDataHub/tree/master/scripts) of your LinkedDataHub fork or clone, for example:
+The installation scripts in this repository use [LinkedDataHub's CLI scripts](https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/command-line-interface/). You need to set `SCRIPT_ROOT` environmental variable to the [`scripts` subfolder](https://github.com/AtomGraph/LinkedDataHub/tree/master/scripts) of your LinkedDataHub fork or clone, for example:
 
     export SCRIPT_ROOT="/c/Users/namedgraph/WebRoot/AtomGraph/LinkedDataHub/scripts"
+
+__Note that app installation scripts are not idempotent. Subsequent runs might continue adding data but are not guaranteed to succeed.__
 
 ## Apps
 
@@ -41,7 +43,7 @@ The installation scripts in this repository use [LinkedDataHub's CLI scripts](ht
     <dd>Faceted search</dd>
     <dd>Related results (parallax navigation)</dd>
     <dd>Custom <code>SELECT</code> query for each container that includes links to related resources (1:N relationships) from which faceted search options are generated</dd>
-    <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/imports/csv/" target="_blank">Import from CSV</a></dd>
+    <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/imports/csv/" target="_blank">Import from CSV</a></dd>
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
     <dd>570 lines of SPARQL</dd>
@@ -60,8 +62,7 @@ The installation scripts in this repository use [LinkedDataHub's CLI scripts](ht
     <dt>Live instance</dt>
     <dd><a href="https://linkeddatahub.com/demo/city-graph/" target="_blank">https://linkeddatahub.com/demo/city-graph/</a></dd>
     <dt>Features</dt>
-    <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/imports/csv/" target="_blank">Import from CSV</a></dd>
-    <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/administration/sitemap/#templates" target="_blank">Item template</a> with a <a href="https://linkeddatahub.com/linkeddatahub/docs/reference/administration/sitemap/#queries" target="_blank">query</a> that describes not only the requested resource, but also other resources with coordinates in a bounding box around it</dd>
+    <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/imports/csv/" target="_blank">Import from CSV</a></dd>
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
     <dd>479 lines of SPARQL</dd>
@@ -99,11 +100,10 @@ The installation scripts in this repository use [LinkedDataHub's CLI scripts](ht
     <dt>Live instance</dt>
     <dd><a href="https://linkeddatahub.com/demo/skos/" target="_blank">https://linkeddatahub.com/demo/skos/</a></dd>
     <dt>Features</dt>
-    <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/stylesheets/" target="_blank">Custom stylesheet</a></dd>
-    <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/administration/model/#classes" target="_blank">Classes</a></dd>
-    <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/administration/model/#constructors" target="_blank">Constructors</a></dd>
-    <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/administration/model/#constraints" target="_blank">Constraints</a></dd>
-    <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/reference/administration/model/#restrictions" target="_blank">Restrictions</a></dd>
+    <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/stylesheets/" target="_blank">Custom stylesheet</a></dd>
+    <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/administration/model/#classes" target="_blank">Classes</a></dd>
+    <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/administration/model/#constructors" target="_blank">Constructors</a></dd>
+    <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/administration/model/#constraints" target="_blank">Constraints</a></dd>
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
     <dd>44 lines of SPARQL</dd>

@@ -21,6 +21,7 @@ fi
 
 pushd . && cd "$SCRIPT_ROOT"
 
+parent=$(
 ./create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
@@ -29,10 +30,11 @@ pushd . && cd "$SCRIPT_ROOT"
   --slug "copenhagen" \
   --parent "$base" \
   "${request_base}service"
+)
 
-# to make the script idempotent, we cannot use the Location value because only the first 201 Created response will return it, not 200 OK when container already exists
-
-parent="${base}copenhagen/"
+if [ -z "$parent" ]; then
+    exit 1
+fi
 
 if [ -z "$request_base" ] ; then
     request_parent="$parent"

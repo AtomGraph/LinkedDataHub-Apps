@@ -49,15 +49,19 @@ category_container=$(./create-container.sh \
   --parent "$base" \
   "${request_base}service")
 
+# category_container=$(echo "$category_container" | sed -e "s|$base|$request_base|g")
+
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$category_container" \
   "$category_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --first "$select_categories" \
+  --this "$category_container" \
   "$category_container"
 
 
@@ -90,11 +94,13 @@ customer_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$customer_container" \
   "$customer_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$customer_container" \
   --first "$select_customers" \
   "$customer_container"
 
@@ -128,11 +134,13 @@ employees_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$employees_container" \
   "$employees_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$employees_container" \
   --first "$select_employees" \
   "$employees_container"
 
@@ -166,11 +174,13 @@ order_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$order_container"
   "$order_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$order_container" \
   --first "$select_orders" \
   "$order_container"
 
@@ -204,11 +214,13 @@ product_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$product_container" \
   "$product_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$product_container" \
   --first "$select_products" \
   "$product_container"
 
@@ -242,11 +254,13 @@ region_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$region_container" \
   "$region_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$region_container" \
   --first "$select_regions" \
   "$region_container"
 
@@ -280,11 +294,13 @@ shipper_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$shipper_container" \
   "$shipper_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$shipper_container" \
   --first "$select_shippers" \
   "$shipper_container"
 
@@ -318,11 +334,13 @@ supplier_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$supplier_container" \
   "$supplier_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$supplier_container" \
   --first "$select_suppliers" \
   "$supplier_container"
 
@@ -356,11 +374,13 @@ territory_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$territory_container" \
   "$territory_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --this "$territory_container" \
   --first "$select_territories" \
   "$territory_container"
 
