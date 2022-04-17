@@ -38,12 +38,13 @@ pushd . > /dev/null && cd "$SCRIPT_ROOT"
 query_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --proxy "$request_base" \
   --accept 'application/n-triples' \
   "$query_doc")
 
 popd > /dev/null
 
-query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
 ./create-result-set-chart.sh \
   -b "$base" \
@@ -71,12 +72,13 @@ pushd . > /dev/null && cd "$SCRIPT_ROOT"
 query_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --proxy "$request_base" \
   --accept 'application/n-triples' \
   "$query_doc")
 
 popd > /dev/null
 
-query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
 ./create-result-set-chart.sh \
   -b "$base" \
