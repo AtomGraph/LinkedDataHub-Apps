@@ -59,7 +59,8 @@ do
       -f "$cert_pem_file" \
       -p "$cert_password" \
       --proxy "$request_base" \
-      --accept 'application/n-triples')
+      --accept 'application/n-triples' \
+      "$query_doc")
 
     popd > /dev/null
 
@@ -83,7 +84,8 @@ do
       -f "$cert_pem_file" \
       -p "$cert_password" \
       --proxy "$request_base" \
-      --accept 'application/n-triples')
+      --accept 'application/n-triples' \
+      "$file_doc")
 
     popd > /dev/null
 
