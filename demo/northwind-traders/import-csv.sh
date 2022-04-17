@@ -49,19 +49,17 @@ do
       -b "$base" \
       -f "$cert_pem_file" \
       -p "$cert_password" \
+      --proxy "$request_base" \
       --title "$title" \
-      --query-file "$pwd/${query_filename}" \
-      "${request_base}service")
-
-    query_doc=$(echo "$query_doc" | sed -e "s|$base|$request_base|g")
+      --query-file "$pwd/${query_filename}")
 
     pushd . > /dev/null && cd "$SCRIPT_ROOT"
 
     query_ntriples=$(./get-document.sh \
       -f "$cert_pem_file" \
       -p "$cert_password" \
-      --accept 'application/n-triples' \
-      "$query_doc")
+      --proxy "$request_base" \
+      --accept 'application/n-triples')
 
     popd > /dev/null
 
@@ -74,20 +72,18 @@ do
       -b "$base" \
       -f "$cert_pem_file" \
       -p "$cert_password" \
+      --proxy "$request_base" \
       --title "$title" \
       --file "$pwd/${csv_filename}" \
-      --file-content-type "text/csv" \
-      "${request_base}service")
-
-    file_doc=$(echo "$file_doc" | sed -e "s|$base|$request_base|g")
+      --file-content-type "text/csv")
 
     pushd . > /dev/null && cd "$SCRIPT_ROOT"
 
     file_ntriples=$(./get-document.sh \
       -f "$cert_pem_file" \
       -p "$cert_password" \
-      --accept 'application/n-triples' \
-      "$file_doc")
+      --proxy "$request_base" \
+      --accept 'application/n-triples')
 
     popd > /dev/null
 
@@ -108,11 +104,11 @@ for i in "${!files[@]}"; do
       -b "$base" \
       -f "$cert_pem_file" \
       -p "$cert_password" \
+      --proxy "$request_base" \
       --title "${titles[$i]}" \
       --query "${queries[$i]}" \
       --file "${files[$i]}" \
-      --delimiter "," \
-      "${request_base}importer"
+      --delimiter ","
 done
 
 popd

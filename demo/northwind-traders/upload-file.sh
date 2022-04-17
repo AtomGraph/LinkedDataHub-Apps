@@ -28,8 +28,8 @@ pushd . && cd "$SCRIPT_ROOT/imports"
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --proxy "$request_base" \
   --title "$title" \
-  --file "$filename" \
-  "${request_base}service"
+  --file "$filename"
 
 popd

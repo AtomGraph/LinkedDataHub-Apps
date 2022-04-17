@@ -28,9 +28,9 @@ query_doc=$(
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --proxy "$request_base" \
   --title "Top selling products" \
-  --query-file "${pwd}/queries/charts/select-products-by-sales.rq" \
-  "${request_base}service"
+  --query-file "${pwd}/queries/charts/select-products-by-sales.rq"
 )
 
 pushd . > /dev/null && cd "$SCRIPT_ROOT"
@@ -49,21 +49,21 @@ query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xml
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --proxy "$request_base" \
   --title "Top selling products" \
   --query "$query" \
   --chart-type "https://w3id.org/atomgraph/client#BarChart" \
   --category-var-name "productName" \
-  --series-var-name "totalSales" \
-  "${request_base}service"
+  --series-var-name "totalSales"
 
 query_doc=$(
 ./create-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --proxy "$request_base" \
   --title "Sales by region per year" \
-  --query-file "${pwd}/queries/charts/select-sales-by-regions-by-year.rq" \
-  "${request_base}service"
+  --query-file "${pwd}/queries/charts/select-sales-by-regions-by-year.rq"
 )
 
 pushd . > /dev/null && cd "$SCRIPT_ROOT"
@@ -82,12 +82,12 @@ query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xml
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
+  --proxy "$request_base" \
   --title "Sales by region per year" \
   --query "$query" \
   --chart-type "https://w3id.org/atomgraph/client#Table" \
   --category-var-name "year" \
   --series-var-name "regionName" \
-  --series-var-name "totalSales" \
-  "${request_base}service"
+  --series-var-name "totalSales"
 
 popd
