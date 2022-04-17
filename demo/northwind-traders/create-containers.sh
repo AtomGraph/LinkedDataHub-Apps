@@ -39,7 +39,7 @@ select_categories_ntriples=$(./get-document.sh \
   --accept 'application/n-triples' \
   "$select_categories_doc")
 
-select_categories=$(echo "$select_categories_ntriples" | sed -rn "s/<${select_categories_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+select_categories=$(echo "$select_categories_ntriples" | sed -rn "s/<${select_categories_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
 category_container=$(./create-container.sh \
   -b "$base" \
@@ -80,7 +80,7 @@ select_customers_ntriples=$(./get-document.sh \
   --accept 'application/n-triples' \
   "$select_customers_doc")
 
-select_customers=$(echo "$select_customers_ntriples" | sed -rn "s/<${select_customers_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+select_customers=$(echo "$select_customers_ntriples" | sed -rn "s/<${select_customers_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
 customer_container=$(./create-container.sh \
   -b "$base" \
@@ -121,7 +121,7 @@ select_employees_ntriples=$(./get-document.sh \
   --accept 'application/n-triples' \
   "$select_employees_doc")
 
-select_employees=$(echo "$select_employees_ntriples" | sed -rn "s/<${select_employees_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+select_employees=$(echo "$select_employees_ntriples" | sed -rn "s/<${select_employees_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
 employees_container=$(./create-container.sh \
   -b "$base" \
@@ -162,7 +162,7 @@ select_orders_ntriples=$(./get-document.sh \
   --accept 'application/n-triples' \
   "$select_orders_doc")
 
-select_orders=$(echo "$select_orders_ntriples" | sed -rn "s/<${select_orders_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+select_orders=$(echo "$select_orders_ntriples" | sed -rn "s/<${select_orders_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
 order_container=$(./create-container.sh \
   -b "$base" \
@@ -203,7 +203,7 @@ select_products_ntriples=$(./get-document.sh \
   --accept 'application/n-triples' \
   "$select_products_doc")
 
-select_products=$(echo "$select_products_ntriples" | sed -rn "s/<${select_products_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+select_products=$(echo "$select_products_ntriples" | sed -rn "s/<${select_products_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
 product_container=$(./create-container.sh \
   -b "$base" \
@@ -244,7 +244,7 @@ select_regions_ntriples=$(./get-document.sh \
   --accept 'application/n-triples' \
   "$select_regions_doc")
 
-select_regions=$(echo "$select_regions_ntriples" | sed -rn "s/<${select_regions_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+select_regions=$(echo "$select_regions_ntriples" | sed -rn "s/<${select_regions_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
 region_container=$(./create-container.sh \
   -b "$base" \
@@ -285,7 +285,7 @@ select_shippers_ntriples=$(./get-document.sh \
   --accept 'application/n-triples' \
   "$select_shippers_doc")
 
-select_shippers=$(echo "$select_shippers_ntriples" | sed -rn "s/<${select_shippers_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+select_shippers=$(echo "$select_shippers_ntriples" | sed -rn "s/<${select_shippers_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
 shipper_container=$(./create-container.sh \
   -b "$base" \
@@ -326,7 +326,7 @@ select_suppliers_ntriples=$(./get-document.sh \
   --accept 'application/n-triples' \
   "$select_suppliers_doc")
 
-select_suppliers=$(echo "$select_suppliers_ntriples" | sed -rn "s/<${select_suppliers_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+select_suppliers=$(echo "$select_suppliers_ntriples" | sed -rn "s/<${select_suppliers_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
 supplier_container=$(./create-container.sh \
   -b "$base" \
@@ -367,7 +367,7 @@ select_territories_ntriples=$(./get-document.sh \
   --accept 'application/n-triples' \
   "$select_territories_doc")
 
-select_territories=$(echo "$select_territories_ntriples" | sed -rn "s/<${select_territories_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p")
+select_territories=$(echo "$select_territories_ntriples" | sed -rn "s/<${select_territories_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
 territory_container=$(./create-container.sh \
   -b "$base" \
