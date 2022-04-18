@@ -3,8 +3,8 @@
 [ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
 
 if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
-  echo "Usage:   $0" '$base $cert_pem_file $cert_password [$request_base]' >&2
-  echo "Example: $0" 'https://localhost:4443/ ../../../ssl/owner/cert.pem Password' >&2
+  echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy]' >&2
+  echo "Example: $0" 'https://localhost:4443/ ../../../ssl/owner/cert.pem Password [https://localhost:5443/]' >&2
   echo "Note: special characters such as $ need to be escaped in passwords!" >&2
   exit 1
 fi
@@ -15,9 +15,9 @@ cert_password="$3"
 imports_csv="$(dirname "$(realpath "$0")")/imports.csv"
 
 if [ -n "$4" ]; then
-    request_base="$4"
+    proxy="$4"
 else
-    request_base="$base"
+    proxy="$base"
 fi
 
 titles=()
@@ -49,23 +49,22 @@ do
       -b "$base" \
       -f "$cert_pem_file" \
       -p "$cert_password" \
+      --proxy "$proxy" \
       --title "$title" \
-      --query-file "$pwd/${query_filename}" \
-      "${request_base}service")
-
-    query_doc=$(echo "$query_doc" | sed -e "s|$base|$request_base|g")
+      --query-file "$pwd/${query_filename}")
 
     pushd . > /dev/null && cd "$SCRIPT_ROOT"
 
     query_ntriples=$(./get-document.sh \
       -f "$cert_pem_file" \
       -p "$cert_password" \
+      --proxy "$proxy" \
       --accept 'application/n-triples' \
       "$query_doc")
 
     popd > /dev/null
 
-    query=$(echo "$query_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+    query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
     queries+=("$query")
 
     # upload file
@@ -74,24 +73,23 @@ do
       -b "$base" \
       -f "$cert_pem_file" \
       -p "$cert_password" \
+      --proxy "$proxy" \
       --title "$title" \
       --file "$pwd/${csv_filename}" \
-      --file-content-type "text/csv" \
-      "${request_base}service")
-
-    file_doc=$(echo "$file_doc" | sed -e "s|$base|$request_base|g")
+      --file-content-type "text/csv")
 
     pushd . > /dev/null && cd "$SCRIPT_ROOT"
 
     file_ntriples=$(./get-document.sh \
     -f "$cert_pem_file" \
     -p "$cert_password" \
+      --proxy "$proxy" \
     --accept 'application/n-triples' \
     "$file_doc")
 
     popd > /dev/null
 
-    file=$(echo "$file_ntriples" | grep '<http://xmlns.com/foaf/0.1/primaryTopic>' | cut -d " " -f 3 | cut -d "<" -f 2 | cut -d ">" -f 1) # cut < > from URI
+    file=$(echo "$file_ntriples" | sed -rn "s/<${file_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
     files+=("$file")
 
     # iterate
@@ -108,11 +106,11 @@ for i in "${!files[@]}"; do
       -b "$base" \
       -f "$cert_pem_file" \
       -p "$cert_password" \
+      --proxy "$proxy" \
       --title "${titles[$i]}" \
       --query "${queries[$i]}" \
       --file "${files[$i]}" \
-      --delimiter "," \
-      "${request_base}importer"
+      --delimiter ","
 done
 
 popd
