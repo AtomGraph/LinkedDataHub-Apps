@@ -81,11 +81,11 @@ do
     pushd . > /dev/null && cd "$SCRIPT_ROOT"
 
     file_ntriples=$(./get-document.sh \
-    -f "$cert_pem_file" \
-    -p "$cert_password" \
+      -f "$cert_pem_file" \
+      -p "$cert_password" \
       --proxy "$proxy" \
-    --accept 'application/n-triples' \
-    "$file_doc")
+      --accept 'application/n-triples' \
+      "$file_doc")
 
     popd > /dev/null
 

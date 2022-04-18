@@ -30,14 +30,16 @@ select_categories_doc=$(./create-select.sh \
   --proxy "$proxy" \
   --title "Select categories" \
   --slug select-categories \
-  --query-file "$pwd/queries/select-categories.rq")
+  --query-file "$pwd/queries/select-categories.rq"
+)
 
 select_categories_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --accept 'application/n-triples' \
-  "$select_categories_doc")
+  "$select_categories_doc"
+)
 
 select_categories=$(echo "$select_categories_ntriples" | sed -rn "s/<${select_categories_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
@@ -48,7 +50,8 @@ category_container=$(./create-container.sh \
   --proxy "$proxy" \
   --title "Categories" \
   --slug "categories" \
-  --parent "$base")
+  --parent "$base"
+)
 
 ./remove-content.sh \
   -f "$cert_pem_file" \
@@ -71,14 +74,16 @@ select_customers_doc=$(./create-select.sh \
   --proxy "$proxy" \
   --title "Select customers" \
   --slug select-customers \
-  --query-file "$pwd/queries/select-customers.rq")
+  --query-file "$pwd/queries/select-customers.rq"
+)
 
 select_customers_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --accept 'application/n-triples' \
-  "$select_customers_doc")
+  "$select_customers_doc"
+)
 
 select_customers=$(echo "$select_customers_ntriples" | sed -rn "s/<${select_customers_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
@@ -89,7 +94,8 @@ customer_container=$(./create-container.sh \
   --proxy "$proxy" \
   --title "Customers" \
   --slug "customers" \
-  --parent "$base")
+  --parent "$base"
+)
 
 ./remove-content.sh \
   -f "$cert_pem_file" \
@@ -112,14 +118,16 @@ select_employees_doc=$(./create-select.sh \
   --proxy "$proxy" \
   --title "Select employees" \
   --slug select-employees \
-  --query-file "$pwd/queries/select-employees.rq")
+  --query-file "$pwd/queries/select-employees.rq"
+)
 
 select_employees_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --accept 'application/n-triples' \
-  "$select_employees_doc")
+  "$select_employees_doc"
+)
 
 select_employees=$(echo "$select_employees_ntriples" | sed -rn "s/<${select_employees_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
@@ -130,7 +138,8 @@ employees_container=$(./create-container.sh \
   --proxy "$proxy" \
   --title "Employees" \
   --slug "employees" \
-  --parent "$base")
+  --parent "$base"
+)
 
 ./remove-content.sh \
   -f "$cert_pem_file" \
@@ -153,14 +162,16 @@ select_orders_doc=$(./create-select.sh \
   --proxy "$proxy" \
   --title "Select orders" \
   --slug select-orders \
-  --query-file "$pwd/queries/select-orders.rq")
+  --query-file "$pwd/queries/select-orders.rq"
+)
 
 select_orders_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --accept 'application/n-triples' \
-  "$select_orders_doc")
+  "$select_orders_doc"
+)
 
 select_orders=$(echo "$select_orders_ntriples" | sed -rn "s/<${select_orders_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
@@ -171,7 +182,8 @@ order_container=$(./create-container.sh \
   --proxy "$proxy" \
   --title "Orders" \
   --slug "orders" \
-  --parent "$base")
+  --parent "$base"
+)
 
 ./remove-content.sh \
   -f "$cert_pem_file" \
@@ -194,14 +206,16 @@ select_products_doc=$(./create-select.sh \
   --proxy "$proxy" \
   --title "Select products" \
   --slug select-products \
-  --query-file "$pwd/queries/select-products.rq")
+  --query-file "$pwd/queries/select-products.rq"
+)
 
 select_products_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --accept 'application/n-triples' \
-  "$select_products_doc")
+  "$select_products_doc"
+)
 
 select_products=$(echo "$select_products_ntriples" | sed -rn "s/<${select_products_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
@@ -212,7 +226,8 @@ product_container=$(./create-container.sh \
   --proxy "$proxy" \
   --title "Products" \
   --slug "products" \
-  --parent "$base")
+  --parent "$base"
+)
 
 ./remove-content.sh \
   -f "$cert_pem_file" \
@@ -235,14 +250,16 @@ select_regions_doc=$(./create-select.sh \
   --proxy "$proxy" \
   --title "Select regions" \
   --slug select-regions \
-  --query-file "$pwd/queries/select-regions.rq")
+  --query-file "$pwd/queries/select-regions.rq"
+)
 
 select_regions_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --accept 'application/n-triples' \
-  "$select_regions_doc")
+  "$select_regions_doc"
+)
 
 select_regions=$(echo "$select_regions_ntriples" | sed -rn "s/<${select_regions_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
@@ -253,7 +270,8 @@ region_container=$(./create-container.sh \
   --proxy "$proxy" \
   --title "Regions" \
   --slug "regions" \
-  --parent "$base")
+  --parent "$base"
+)
 
 ./remove-content.sh \
   -f "$cert_pem_file" \
@@ -276,14 +294,16 @@ select_shippers_doc=$(./create-select.sh \
   --proxy "$proxy" \
   --title "Select shippers" \
   --slug select-shippers \
-  --query-file "$pwd/queries/select-shippers.rq")
+  --query-file "$pwd/queries/select-shippers.rq"
+)
 
 select_shippers_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --accept 'application/n-triples' \
-  "$select_shippers_doc")
+  "$select_shippers_doc"
+)
 
 select_shippers=$(echo "$select_shippers_ntriples" | sed -rn "s/<${select_shippers_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
@@ -294,7 +314,8 @@ shipper_container=$(./create-container.sh \
   --proxy "$proxy" \
   --title "Shippers" \
   --slug "shippers" \
-  --parent "$base")
+  --parent "$base"
+)
 
 ./remove-content.sh \
   -f "$cert_pem_file" \
@@ -317,14 +338,16 @@ select_suppliers_doc=$(./create-select.sh \
   --proxy "$proxy" \
   --title "Select suppliers" \
   --slug select-suppliers \
-  --query-file "$pwd/queries/select-suppliers.rq")
+  --query-file "$pwd/queries/select-suppliers.rq"
+)
 
 select_suppliers_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --accept 'application/n-triples' \
-  "$select_suppliers_doc")
+  "$select_suppliers_doc"
+)
 
 select_suppliers=$(echo "$select_suppliers_ntriples" | sed -rn "s/<${select_suppliers_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
@@ -335,7 +358,8 @@ supplier_container=$(./create-container.sh \
   --proxy "$proxy" \
   --title "Suppliers" \
   --slug "suppliers" \
-  --parent "$base")
+  --parent "$base"
+)
 
 ./remove-content.sh \
   -f "$cert_pem_file" \
@@ -358,14 +382,16 @@ select_territories_doc=$(./create-select.sh \
   --proxy "$proxy" \
   --title "Select territories" \
   --slug select-territories \
-  --query-file "$pwd/queries/select-territories.rq")
+  --query-file "$pwd/queries/select-territories.rq"
+)
 
 select_territories_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --accept 'application/n-triples' \
-  "$select_territories_doc")
+  "$select_territories_doc"
+)
 
 select_territories=$(echo "$select_territories_ntriples" | sed -rn "s/<${select_territories_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
@@ -376,7 +402,8 @@ territory_container=$(./create-container.sh \
   --proxy "$proxy" \
   --title "Territories" \
   --slug "territories" \
-  --parent "$base")
+  --parent "$base"
+)
 
 ./remove-content.sh \
   -f "$cert_pem_file" \
