@@ -3,8 +3,8 @@
 [ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
 
 if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
-  echo "Usage:   $0" '$base $cert_pem_file $cert_password [$request_base]' >&2
-  echo "Example: $0" 'https://localhost:4443/ ../../../ssl/owner/cert.pem Password' >&2
+  echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy]' >&2
+  echo "Example: $0" 'https://localhost:4443/ ../../../ssl/owner/cert.pem Password [https://localhost:5443/]' >&2
   echo "Note: special characters such as $ need to be escaped in passwords!" >&2
   exit 1
 fi
@@ -14,9 +14,9 @@ cert_pem_file="$(realpath -s "$2")"
 cert_password="$3"
 
 if [ -n "$4" ]; then
-    request_base="$4"
+    proxy="$4"
 else
-    request_base="$base"
+    proxy="$base"
 fi
 
 pwd=$(realpath -s "$PWD")
@@ -27,7 +27,7 @@ select_categories_doc=$(./create-select.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Select categories" \
   --slug select-categories \
   --query-file "$pwd/queries/select-categories.rq")
@@ -35,7 +35,7 @@ select_categories_doc=$(./create-select.sh \
 select_categories_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --accept 'application/n-triples' \
   "$select_categories_doc")
 
@@ -45,7 +45,7 @@ category_container=$(./create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Categories" \
   --slug "categories" \
   --parent "$base")
@@ -53,13 +53,13 @@ category_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   "$category_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --first "$select_categories" \
   "$category_container"
 
@@ -68,7 +68,7 @@ select_customers_doc=$(./create-select.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Select customers" \
   --slug select-customers \
   --query-file "$pwd/queries/select-customers.rq")
@@ -76,7 +76,7 @@ select_customers_doc=$(./create-select.sh \
 select_customers_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --accept 'application/n-triples' \
   "$select_customers_doc")
 
@@ -86,7 +86,7 @@ customer_container=$(./create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Customers" \
   --slug "customers" \
   --parent "$base")
@@ -94,13 +94,13 @@ customer_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   "$customer_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --first "$select_customers" \
   "$customer_container"
 
@@ -109,7 +109,7 @@ select_employees_doc=$(./create-select.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Select employees" \
   --slug select-employees \
   --query-file "$pwd/queries/select-employees.rq")
@@ -117,7 +117,7 @@ select_employees_doc=$(./create-select.sh \
 select_employees_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --accept 'application/n-triples' \
   "$select_employees_doc")
 
@@ -127,7 +127,7 @@ employees_container=$(./create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Employees" \
   --slug "employees" \
   --parent "$base")
@@ -135,13 +135,13 @@ employees_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   "$employees_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --first "$select_employees" \
   "$employees_container"
 
@@ -150,7 +150,7 @@ select_orders_doc=$(./create-select.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Select orders" \
   --slug select-orders \
   --query-file "$pwd/queries/select-orders.rq")
@@ -158,7 +158,7 @@ select_orders_doc=$(./create-select.sh \
 select_orders_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --accept 'application/n-triples' \
   "$select_orders_doc")
 
@@ -168,7 +168,7 @@ order_container=$(./create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Orders" \
   --slug "orders" \
   --parent "$base")
@@ -176,13 +176,13 @@ order_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   "$order_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --first "$select_orders" \
   "$order_container"
 
@@ -191,7 +191,7 @@ select_products_doc=$(./create-select.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Select products" \
   --slug select-products \
   --query-file "$pwd/queries/select-products.rq")
@@ -199,7 +199,7 @@ select_products_doc=$(./create-select.sh \
 select_products_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --accept 'application/n-triples' \
   "$select_products_doc")
 
@@ -209,7 +209,7 @@ product_container=$(./create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Products" \
   --slug "products" \
   --parent "$base")
@@ -217,13 +217,13 @@ product_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   "$product_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --first "$select_products" \
   "$product_container"
 
@@ -232,7 +232,7 @@ select_regions_doc=$(./create-select.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Select regions" \
   --slug select-regions \
   --query-file "$pwd/queries/select-regions.rq")
@@ -240,7 +240,7 @@ select_regions_doc=$(./create-select.sh \
 select_regions_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --accept 'application/n-triples' \
   "$select_regions_doc")
 
@@ -250,7 +250,7 @@ region_container=$(./create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Regions" \
   --slug "regions" \
   --parent "$base")
@@ -258,13 +258,13 @@ region_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   "$region_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --first "$select_regions" \
   "$region_container"
 
@@ -273,7 +273,7 @@ select_shippers_doc=$(./create-select.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Select shippers" \
   --slug select-shippers \
   --query-file "$pwd/queries/select-shippers.rq")
@@ -281,7 +281,7 @@ select_shippers_doc=$(./create-select.sh \
 select_shippers_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --accept 'application/n-triples' \
   "$select_shippers_doc")
 
@@ -291,7 +291,7 @@ shipper_container=$(./create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Shippers" \
   --slug "shippers" \
   --parent "$base")
@@ -299,13 +299,13 @@ shipper_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   "$shipper_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --first "$select_shippers" \
   "$shipper_container"
 
@@ -314,7 +314,7 @@ select_suppliers_doc=$(./create-select.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Select suppliers" \
   --slug select-suppliers \
   --query-file "$pwd/queries/select-suppliers.rq")
@@ -322,7 +322,7 @@ select_suppliers_doc=$(./create-select.sh \
 select_suppliers_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --accept 'application/n-triples' \
   "$select_suppliers_doc")
 
@@ -332,7 +332,7 @@ supplier_container=$(./create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Suppliers" \
   --slug "suppliers" \
   --parent "$base")
@@ -340,13 +340,13 @@ supplier_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   "$supplier_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --first "$select_suppliers" \
   "$supplier_container"
 
@@ -355,7 +355,7 @@ select_territories_doc=$(./create-select.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Select territories" \
   --slug select-territories \
   --query-file "$pwd/queries/select-territories.rq")
@@ -363,7 +363,7 @@ select_territories_doc=$(./create-select.sh \
 select_territories_ntriples=$(./get-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --accept 'application/n-triples' \
   "$select_territories_doc")
 
@@ -373,7 +373,7 @@ territory_container=$(./create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "Territories" \
   --slug "territories" \
   --parent "$base")
@@ -381,13 +381,13 @@ territory_container=$(./create-container.sh \
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   "$territory_container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --first "$select_territories" \
   "$territory_container"
 

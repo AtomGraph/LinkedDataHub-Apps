@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 if [ "$#" -ne 5 ] && [ "$#" -ne 6 ]; then
-  echo "Usage:   $0" '$base $cert_pem_file $cert_password $pwd $abs_filename [$request_base]' >&2
-  echo "Example: $0" 'https://localhost:4443/ ../../ssl/owner/cert.pem Password /folder /folder/file.ttl' >&2
+  echo "Usage:   $0" '$base $cert_pem_file $cert_password $pwd $abs_filename [$proxy]' >&2
+  echo "Example: $0" 'https://localhost:4443/ ../../ssl/owner/cert.pem Password /folder /folder/file.ttl [https://localhost:5443/]' >&2
   echo "Note: special characters such as $ need to be escaped in passwords!" >&2
   exit 1
 fi
@@ -14,9 +14,9 @@ pwd="$4"
 filename="$5"
 
 if [ -n "$6" ]; then
-    request_base="$6"
+    proxy="$6"
 else
-    request_base="$base"
+    proxy="$base"
 fi
 
 path="${filename#*$pwd/}" # strip the leading $pwd/
@@ -28,7 +28,7 @@ pushd . && cd "$SCRIPT_ROOT/imports"
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$request_base" \
+  --proxy "$proxy" \
   --title "$title" \
   --file "$filename"
 
