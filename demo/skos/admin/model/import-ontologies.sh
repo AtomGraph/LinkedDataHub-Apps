@@ -19,7 +19,7 @@ else
     proxy="$base"
 fi
 
-pushd . && cd "$SCRIPT_ROOT"/admin/model
+pushd . && cd "$SCRIPT_ROOT"
 
 skos_doc=$(./create-item.sh \
   -b "${base}admin/" \
