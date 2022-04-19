@@ -82,7 +82,8 @@ select_concept_schemes_ntriples=$(./get-document.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --accept 'application/n-triples' \
-  "$select_concepts_doc")
+  "$select_concept_schemes_doc"
+)
 
 select_concept_schemes=$(echo "$select_concept_schemes_ntriples" | sed -rn "s/<${select_concept_schemes_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
