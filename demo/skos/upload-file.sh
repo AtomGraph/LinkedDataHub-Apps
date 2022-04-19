@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ "$#" -ne 5 ] && [ "$#" -ne 6 ]; then
+if [ "$#" -ne 6 ] && [ "$#" -ne 7 ]; then
   echo "Usage:   $0" '$base $cert_pem_file $cert_password $pwd $abs_filename content_type [$proxy]' >&2
   echo "Example: $0" 'https://localhost:4443/ ../../ssl/owner/cert.pem Password /folder /folder/file.ttl 'text/css' [https://localhost:5443/]' >&2
   echo "Note: special characters such as $ need to be escaped in passwords!" >&2
