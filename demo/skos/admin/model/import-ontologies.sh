@@ -44,3 +44,15 @@ pushd . && cd "$SCRIPT_ROOT"/admin/model
   --graph "$skos_doc"
 
 popd
+
+pushd . && cd "$SCRIPT_ROOT/admin"
+
+./add-ontology-import.sh \
+  -b "${base}admin/" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --import "http://www.w3.org/2004/02/skos/core" \
+  "${base}admin/model/ontologies/namespace/"
+
+popd
