@@ -21,12 +21,26 @@ fi
 
 pushd . && cd "$SCRIPT_ROOT"/admin/model
 
+skos_doc=$(./create-item.sh \
+  -b "${base}admin/" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --title "SKOS" \
+  --slug "skos" \
+  --parent "${base}admin/model/ontologies/"
+)
+
+popd
+
+pushd . && cd "$SCRIPT_ROOT"/admin/model
+
 ./import-ontology.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --source "http://www.w3.org/2004/02/skos/core" \
-  --graph "${base}admin/model/ontologies/skos/"
+  --graph "$skos_doc"
 
 popd
