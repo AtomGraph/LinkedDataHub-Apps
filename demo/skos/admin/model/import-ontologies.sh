@@ -28,7 +28,7 @@ skos_doc=$(./create-item.sh \
   --proxy "$proxy" \
   --title "SKOS" \
   --slug "skos" \
-  --parent "${base}admin/model/ontologies/"
+  --container "${base}admin/model/ontologies/"
 )
 
 popd

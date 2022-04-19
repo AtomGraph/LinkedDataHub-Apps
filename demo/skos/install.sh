@@ -51,9 +51,11 @@ printf "\n### Clearing ontologies\n\n"
 
 popd
 
-printf "\n### Uploading files\n\n"
+printf "\n### Uploading CSS/XSLT files\n\n"
 
-find "${pwd}/files" -type f -exec ./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
+./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "${pwd}/files/bootstrap.min.css" 'text/css' "$proxy" \;
+
+./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "${pwd}/files/skos.xsl" 'text/xsl' "$proxy" \;
 
 printf "\n### Creating containers\n\n"
 
