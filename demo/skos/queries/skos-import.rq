@@ -1,4 +1,3 @@
-PREFIX dom:   <ns/domain#>
 PREFIX dh:    <https://www.w3.org/ns/ldt/document-hierarchy#>
 PREFIX sioc:  <http://rdfs.org/sioc/ns#>
 PREFIX foaf:  <http://xmlns.com/foaf/0.1/>
@@ -7,12 +6,9 @@ PREFIX dct:   <http://purl.org/dc/terms/>
 
 CONSTRUCT
 {
-    ?thing ?p ?o ;
-        a ?type ;
-        ?p ?o .
-    ?item a ?itemType ;
+    ?thing ?p ?o .
+    ?item a dh:Item ;
         sioc:has_container ?container ;
-        dh:slug ?id ;
         dct:title ?prefLabel ;
         foaf:primaryTopic ?thing .
 }
@@ -22,18 +18,13 @@ WHERE
     {
         {
             ?thing a skos:Concept
-            BIND (dom:Concept AS ?type)
-            BIND (dom:ConceptItem AS ?itemType)
             BIND (<concepts/> AS ?container)
         }
         UNION
         {
             ?thing a skos:ConceptScheme
-            BIND (dom:ConceptScheme AS ?type)
-            BIND (dom:ConceptSchemeItem AS ?itemType)
             BIND (<concept-schemes/> AS ?container)
         }
-        BIND(struuid() AS ?id)
         BIND (BNODE() AS ?item)
         ?thing ?p ?o
         OPTIONAL
