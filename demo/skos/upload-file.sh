@@ -31,6 +31,7 @@ pushd . && cd "$SCRIPT_ROOT/imports"
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "$title" \
-  --file "$filename"
+  --file "$filename" \
+  --file-content-type "$content_type"
 
 popd

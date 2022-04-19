@@ -53,9 +53,9 @@ popd
 
 printf "\n### Uploading CSS/XSLT files\n\n"
 
-./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "${pwd}/files/bootstrap.min.css" 'text/css' "$proxy" \;
+./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "${pwd}/files/bootstrap.min.css" 'text/css' "$proxy"
 
-./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "${pwd}/files/skos.xsl" 'text/xsl' "$proxy" \;
+./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "${pwd}/files/skos.xsl" 'text/xsl' "$proxy"
 
 printf "\n### Creating containers\n\n"
 
