@@ -35,6 +35,10 @@ cd ..
 
 cd model
 
+printf "\n### Import ontologies\n\n"
+
+./import-ontologies.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+
 printf "\n### Creating constraints\n\n"
 
 ./create-constraints.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
