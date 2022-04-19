@@ -10,10 +10,6 @@ WHERE
         GRAPH ?conceptGraph
           { ?concept  skos:prefLabel  ?prefLabel }
         OPTIONAL
-          { GRAPH ?narrowerGraph
-              { ?concept  skos:narrower  ?narrower }
-          }
-        OPTIONAL
           { GRAPH ?broaderGraph
               { ?concept  skos:broader  ?broader }
           }
