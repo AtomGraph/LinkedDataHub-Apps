@@ -6,11 +6,14 @@ PREFIX dct:   <http://purl.org/dc/terms/>
 
 CONSTRUCT
 {
-    ?thing ?p ?o .
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dct:title ?prefLabel ;
-        foaf:primaryTopic ?thing .
+    GRAPH ?item
+    {
+        ?thing ?p ?o .
+        ?item a dh:Item ;
+            sioc:has_container ?container ;
+            dct:title ?prefLabel ;
+            foaf:primaryTopic ?thing .
+    }
 }
 WHERE
 {
@@ -18,14 +21,14 @@ WHERE
     {
         {
             ?thing a skos:Concept
-            BIND (<concepts/> AS ?container)
+            BIND (uri(concat(str($base), "concepts/")) AS ?container)
         }
         UNION
         {
             ?thing a skos:ConceptScheme
-            BIND (<concept-schemes/> AS ?container)
+            BIND (uri(concat(str($base), "concept-schemes/")) AS ?container)
         }
-        BIND (BNODE() AS ?item)
+        BIND (uri(concat(str(?container), STRUUID(), "/")) AS ?item)
         ?thing ?p ?o
         OPTIONAL
         {
