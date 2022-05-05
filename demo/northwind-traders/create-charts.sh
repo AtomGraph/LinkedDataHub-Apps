@@ -52,6 +52,7 @@ query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xml
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Top selling products" \
+  --slug top-selling-products \
   --query "$query" \
   --chart-type "https://w3id.org/atomgraph/client#BarChart" \
   --category-var-name "productName" \
@@ -86,6 +87,7 @@ query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xml
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Sales by region per year" \
+  --slug sales-by-region-per-year \
   --query "$query" \
   --chart-type "https://w3id.org/atomgraph/client#Table" \
   --category-var-name "year" \
