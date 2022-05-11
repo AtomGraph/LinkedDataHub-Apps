@@ -28,7 +28,7 @@ xmlns:foaf="&foaf;"
 xmlns:bs2="http://graphity.org/xsl/bootstrap/2.3.2"
 exclude-result-prefixes="#all">
 
-    <xsl:param name="ldh:baseUri" as="xs:anyURI" static="yes"/>
+    <xsl:param name="ldh:base" as="xs:anyURI" static="yes"/>
 
     <xsl:import _href="{resolve-uri('static/com/atomgraph/linkeddatahub/xsl/bootstrap/2.3.2/layout.xsl', $ldh:baseUri)}"/>
 
