@@ -4,7 +4,7 @@ PREFIX  sioc: <http://rdfs.org/sioc/ns#>
 
 SELECT DISTINCT  ?supplier
 WHERE
-  { GRAPH ?docGraph
+  { GRAPH ?doc
       { ?doc    sioc:has_container  $this ;
                   foaf:primaryTopic   ?supplier .
         ?supplier  schema:legalName   ?companyName

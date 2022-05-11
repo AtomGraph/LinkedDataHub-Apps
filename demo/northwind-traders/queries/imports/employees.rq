@@ -69,7 +69,7 @@ WHERE
     }
     OPTIONAL {
         ?employee_row <#reportsTo> ?reportsTo
-        BIND(uri(concat(str(?container), encode_for_uri(?reportsTo), "/#this")) AS ?reportsToEmployee)
+        BIND(uri(concat(str($base), "employees/", encode_for_uri(?reportsTo), "/#this")) AS ?reportsToEmployee) # cannot use ?container since it's undefined in the OPTIONAL scope
     }
 
     BIND(xsd:float(?lat_string) AS ?lat)

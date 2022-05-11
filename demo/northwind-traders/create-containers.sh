@@ -64,6 +64,7 @@ category_container=$(./create-container.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --first "$select_categories" \
+  --mode "https://w3id.org/atomgraph/client#GridMode" \
   "$category_container"
 
 
@@ -152,6 +153,7 @@ employees_container=$(./create-container.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --first "$select_employees" \
+  --mode "https://w3id.org/atomgraph/client#GridMode" \
   "$employees_container"
 
 
