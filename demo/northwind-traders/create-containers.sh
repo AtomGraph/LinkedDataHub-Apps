@@ -109,6 +109,7 @@ customer_container=$(./create-container.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --first "$select_customers" \
+  --mode "https://w3id.org/atomgraph/client#TableMode" \
   "$customer_container"
 
 
@@ -198,6 +199,7 @@ order_container=$(./create-container.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --first "$select_orders" \
+  --mode "https://w3id.org/atomgraph/client#TableMode" \
   "$order_container"
 
 
@@ -242,6 +244,7 @@ product_container=$(./create-container.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --first "$select_products" \
+  --mode "https://w3id.org/atomgraph/client#TableMode" \
   "$product_container"
 
 
@@ -374,6 +377,7 @@ supplier_container=$(./create-container.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --first "$select_suppliers" \
+  --mode "https://w3id.org/atomgraph/client#TableMode" \
   "$supplier_container"
 
 
@@ -418,6 +422,7 @@ territory_container=$(./create-container.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --first "$select_territories" \
+  --mode "https://w3id.org/atomgraph/client#TableMode" \
   "$territory_container"
 
 popd || exit
