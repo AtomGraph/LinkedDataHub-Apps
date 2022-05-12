@@ -30,6 +30,7 @@ query_doc=$(
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Top selling products" \
+  --fragment this \
   --query-file "${pwd}/queries/charts/select-products-by-sales.rq"
 )
 
@@ -53,6 +54,7 @@ query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xml
   --proxy "$proxy" \
   --title "Top selling products" \
   --slug top-selling-products \
+  --fragment this \
   --query "$query" \
   --chart-type "https://w3id.org/atomgraph/client#BarChart" \
   --category-var-name "productName" \
@@ -65,6 +67,7 @@ query_doc=$(
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Sales by region per year" \
+  --fragment this \
   --query-file "${pwd}/queries/charts/select-sales-by-regions-by-year.rq"
 )
 
@@ -88,6 +91,7 @@ query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xml
   --proxy "$proxy" \
   --title "Sales by region per year" \
   --slug sales-by-region-per-year \
+  --fragment this \
   --query "$query" \
   --chart-type "https://w3id.org/atomgraph/client#Table" \
   --category-var-name "year" \
