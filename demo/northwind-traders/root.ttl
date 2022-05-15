@@ -12,7 +12,7 @@
     ldh:content <#page-header> .
 
 <#page-header> a ldh:Content ;
-    rdf:rest <#select-children> ;
+    rdf:rest <#top-selling-products> ;
     rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
         <div class="page-header">
             <h2>Northwind Traders</h2>
