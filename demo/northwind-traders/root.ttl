@@ -23,6 +23,17 @@
 
 <#top-selling-products> a ldh:Content ;
     rdf:first <charts/top-selling-products/#this> ;
+    rdf:rest <#top-manager-header> .
+
+<#top-manager-header> a ldh:Content ;
+    rdf:rest <#top-manager> ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+        <h2>Top manager</h2>
+        <p>Meet the top manager of Northwind Traders.</p>
+    </div>"""^^rdf:XMLLiteral .
+
+<#top-manager> a ldh:Content ;
+    rdf:first <employees/2/#this> ;
     rdf:rest <#select-children> .
 
 <#select-children> a ldh:Content ;
