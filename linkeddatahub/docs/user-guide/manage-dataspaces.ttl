@@ -88,7 +88,7 @@
                                     </ol>
                                     <p>The following video shows the creation of both a context and a dataspace:</p>
                                     <p>
-                                        <object data="../../uploads/4c86a3410134d090a7bb7e178a6f82874bc66fa1/" type="video/webm"></object>
+                                        <object data="../../uploads/4c86a3410134d090a7bb7e178a6f82874bc66fa1" type="video/webm"></object>
                                     </p>
                                 </div>
                                 <div class="tab-pane">
@@ -137,7 +137,7 @@ popd</pre>
                                             </ol>
                                             <p>The following video shows the creation of both a context and a dataspace:</p>
                                             <p>
-                                                <object data="../../uploads/4c86a3410134d090a7bb7e178a6f82874bc66fa1/" type="video/webm"></object>
+                                                <object data="../../uploads/4c86a3410134d090a7bb7e178a6f82874bc66fa1" type="video/webm"></object>
                                             </p>
                                         </div>
                                         <div class="tab-pane">

@@ -54,7 +54,7 @@ services:
         <p>In the examples below we assume that the graph contains a SKOS taxonomy with concept instances, which can also have broader/narrower concepts.</p>
         <p>At this point, the default layout of the current document, its topic concept, and narrower/broader concepts looks like this:</p>
         <div class="thumbnail">
-            <img alt="Default layout" src="../../uploads/74b49af5c822acf41ad661d0d27a60443151838d/"></img>
+            <img alt="Default layout" src="../../uploads/74b49af5c822acf41ad661d0d27a60443151838d"></img>
         </div>
     </div>
     <div>
@@ -80,7 +80,7 @@ services:
         <p>We can render broader concepts by making a copy of the key and the template above and replacing all occurences of <code>skos:narrower</code> with <code>skos:broader</code> and vice versa.</p>
         <p>With the overriding template, the layout looks like this:</p>
         <div class="thumbnail">
-            <img alt="Augmented output" src="../../uploads/38d12825c3927e2d5493ca76f2b744c7b5fe867b/"></img>
+            <img alt="Augmented output" src="../../uploads/38d12825c3927e2d5493ca76f2b744c7b5fe867b"></img>
         </div>
     </div>
     <div>
@@ -108,7 +108,7 @@ services:
         </ul>
         <p>With the supressing templates, the layout now looks like this:</p>
         <div class="thumbnail">
-            <img alt="Suppressed output" src="../../uploads/e1a566461208a41faee39238f395f2f79fec8421/"></img>
+            <img alt="Suppressed output" src="../../uploads/e1a566461208a41faee39238f395f2f79fec8421"></img>
         </div>
     </div>
 </div>"""^^rdf:XMLLiteral .

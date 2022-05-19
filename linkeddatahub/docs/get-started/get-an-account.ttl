@@ -54,7 +54,7 @@
                                     <p>Sign up to an existing instance of LinkedDataHub. Click the <span class="btn btn-primary">Sign up</span> button and fill out the form with your
                                         details to get a WebID, as shown below.</p>
                                     <p>
-                                        <img alt="Signup" src="../../uploads/8c17ca6be73aabfab3028d9b06b4878ef6c300e7/"></img>
+                                        <img alt="Signup" src="../../uploads/8c17ca6be73aabfab3028d9b06b4878ef6c300e7"></img>
                                     </p>
                                     <p>You will get an email with a <samp>.p12</samp> file attached, which is your WebID certificate. The certificate's password is the one you entered in the signup form.</p>
                                 </div>

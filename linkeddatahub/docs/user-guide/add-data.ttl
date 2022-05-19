@@ -24,7 +24,7 @@
     <div>
         <h2 id="from-linked-data">From Linked Data</h2>
         <p>
-            <object data="../../uploads/73e3f6ba966796c54e25c5dc41057e36471ae554/" type="video/webm"></object>
+            <object data="../../uploads/73e3f6ba966796c54e25c5dc41057e36471ae554" type="video/webm"></object>
         </p>
         <p>To copy the contents of the current RDF document (local or remote) into a local document, follow these steps:</p>
         <ol>

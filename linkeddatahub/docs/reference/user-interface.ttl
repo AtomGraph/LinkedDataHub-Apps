@@ -27,12 +27,12 @@
             the search box will not be visible if the user is not authorized to access the search container.</em></p>
     </div>
     <p>
-        <img alt="User interface" src="../../uploads/5aedc6ac31996b7332623edcd91dc3864c51df8c/"></img>
+        <img alt="User interface" src="../../uploads/5aedc6ac31996b7332623edcd91dc3864c51df8c"></img>
     </p>
     <div>
         <h2 id="nav-bar">Navigation bar</h2>
         <p>
-            <img alt="Navigation bar" src="../../uploads/cd27577395dec18a2b3fb5867feeb60fe828cb43/"></img>
+            <img alt="Navigation bar" src="../../uploads/cd27577395dec18a2b3fb5867feeb60fe828cb43"></img>
         </p>
         <p>The application title or logo in the top-left always links to the root container of the current application.</p>
         <p><dfn>Search box</dfn> lets users <a href="../documents/#search" title="Search action">search for resources</a>
@@ -52,7 +52,7 @@
     <div>
         <h2 id="action-bar">Action bar</h2>
         <p>
-            <img alt="Action bar" src="../../uploads/4656ea9036a2b6d48a3233e0bc3cdc0f698ae0f2/"></img>
+            <img alt="Action bar" src="../../uploads/4656ea9036a2b6d48a3233e0bc3cdc0f698ae0f2"></img>
         </p>
         <p>The <span class="btn btn-primary">Create</span> button invokes <a href="#create-edit">create dialog</a> through which
         resources can be <a href="../documents/#create">created</a> as instances of the
@@ -150,7 +150,7 @@
     <div>
         <h2 id="create-edit">Create/Edit dialog</h2>
         <p>
-            <img alt="Create/Edit dialog" src="../../uploads/fa4ec808c4dca4fe6b5a610d3e028ad48f8ed9af/"></img>
+            <img alt="Create/Edit dialog" src="../../uploads/fa4ec808c4dca4fe6b5a610d3e028ad48f8ed9af"></img>
         </p>
         <p>Resources are <a href="../documents/#create">created</a> and <a href="../documents/#update">updated</a> using
         the same form-based dialog. The form can display either a document alone, or a document paired with its topic resource.

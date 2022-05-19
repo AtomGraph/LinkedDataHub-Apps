@@ -22,7 +22,7 @@
         <p>For <code>DESCRIBE</code> and <code>CONSTRUCT</code> results, it is possible to switch the
         <a href="../../reference/user-interface/#layout-modes">layout mode</a> using a button above to the results.</p>
         <p>
-            <img alt="SPARQL endpoint" src="../../uploads/9e1d4e69c4a0ae30f5fa373db839dc46b3569685/"></img>
+            <img alt="SPARQL endpoint" src="../../uploads/9e1d4e69c4a0ae30f5fa373db839dc46b3569685"></img>
         </p>
         <div>
             <h2 id="save-query">Saving queries</h2>

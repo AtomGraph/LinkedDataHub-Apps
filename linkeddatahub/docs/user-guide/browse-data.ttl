@@ -21,7 +21,7 @@
     <p>The browser supports all standard RDF formats as well as JSON-LD embedded in HTML page's <code>&lt;script&gt;</code> elements, which is often used to publish <a href="https://schema.org/" target="_blank">schema.org</a> metadata.</p>
     <p>When the data loads successfully, you can navigate it the same way as your local documents, switch between different layout modes etc. You can also <a href="../add-data/">add the data</a> into your dataspace.</p>
     <p>
-        <img alt="Browsing schema.org metadata" src="../../uploads/8c2ccf560bd4d582310f472d7a7bd2584d9da4bf/"></img>
+        <img alt="Browsing schema.org metadata" src="../../uploads/8c2ccf560bd4d582310f472d7a7bd2584d9da4bf"></img>
     </p>
     <p>If an RDF document cannot be read from the supplied URL, an error message will be shown.</p>
 </div>"""^^rdf:XMLLiteral .

@@ -1,0 +1,54 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<reference/configuration/> a dh:Item ;
+    sioc:has_container <reference/> ;
+    dct:title "Configuration" ;
+    dct:description "Overview of configuration options" ;
+    ldh:content <#content> .
+
+<#content> a ldh:Content ;
+    rdf:rest () ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Overview of configuration options</p>
+    <p>LinkedDataHub is configured using environment variables in the <code>docker-compose.yml</code> file (environment-specific configuration should go into <code>docker-compose.override.yml</code> instead).</p>
+    <div>
+        <h2 id="webid-signup">WebID signup</h2>
+    </div>
+    <div>
+        <h2 id="social-login">Social login</h2>
+        <dl>
+            <dt><samp>GOOGLE_CLIENT_ID</samp></dt>
+            <dd><a href="https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid">OAuth client ID</code></dd>
+            <dd><a href="../../get-started/get-an-account/">Login with Google</a> authentication is enable when this value is provided</dd>
+            <dt><samp>GOOGLE_CLIENT_SECRET</samp></dt>
+            <dd><a href="https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid">OAuth client secret</code></dd>
+        </dl>
+    </div>
+    <div>
+        <h2 id="email-server">Email server</h2>
+        <dl>
+            <dt><samp>MAIL_SMTP_HOST</samp></dt>
+            <dd>Hostname of the email server</dd>
+            <dt><samp>MAIL_SMTP_PORT</samp></dt>
+            <dd>Port number of the email server</dd>
+            <dt><samp>MAIL_USER</samp></dt>
+            <dd>Username</dd>
+            <dt><samp>MAIL_PASSWORD</samp></dt>
+            <dd>Password (if required)</dd>
+        </dl>
+    </div>
+    <div>
+        <h2 id="linked-data">Linked Data</h2>
+        <dl>
+            <dt><samp>ENABLE_LINKED_DATA_PROXY</samp></dt>
+            <dd><samp>false</samp> to disable (enabled by default)</dd>
+        </dl>
+    </div>
+
+</div>"""^^rdf:XMLLiteral .
