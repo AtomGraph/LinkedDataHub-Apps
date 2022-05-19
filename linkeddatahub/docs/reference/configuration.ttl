@@ -24,10 +24,10 @@
         <h2 id="social-login">Social login</h2>
         <dl>
             <dt><samp>GOOGLE_CLIENT_ID</samp></dt>
-            <dd><a href="https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid">OAuth client ID</code></dd>
+            <dd><a href="https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid">OAuth client ID</a></dd>
             <dd><a href="../../get-started/get-an-account/">Login with Google</a> authentication is enable when this value is provided</dd>
             <dt><samp>GOOGLE_CLIENT_SECRET</samp></dt>
-            <dd><a href="https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid">OAuth client secret</code></dd>
+            <dd><a href="https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid">OAuth client secret</a></dd>
         </dl>
     </div>
     <div>
