@@ -17,3 +17,7 @@
     rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">How to import data into LinkedDataHub</p>
 </div>"""^^rdf:XMLLiteral .
+
+<#select-children> a ldh:Content ;
+    rdf:first ldh:SelectChildren ;
+    rdf:rest rdf:nil .

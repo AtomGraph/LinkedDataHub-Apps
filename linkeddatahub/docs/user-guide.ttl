@@ -13,7 +13,11 @@
     ldh:content <#content> .
 
 <#content> a ldh:Content ;
-    rdf:rest () ;
+    rdf:rest <#select-children> ;
     rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Step-by-step tutorials for everyday tasks with LinkedDataHub</p>
 </div>"""^^rdf:XMLLiteral .
+
+<#select-children> a ldh:Content ;
+    rdf:first ldh:SelectChildren ;
+    rdf:rest rdf:nil .

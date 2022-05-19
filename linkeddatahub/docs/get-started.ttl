@@ -13,7 +13,7 @@
     ldh:content <#content> .
 
 <#content> a ldh:Content ;
-    rdf:rest () ;
+    rdf:rest <#select-children> ;
     rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">All the basics of LinkedDataHub. From installation to customizing the model and user interface.</p>
     <p>This guide will show how a LinkedDataHub application can be used to manage domain-specific RDF classes and instances. As an example, we will us <a href="https://www.w3.org/TR/skos-primer/" target="_blank">SKOS</a> concepts and concept schemes.</p>
@@ -85,3 +85,7 @@
         <p class="lead"><a href="../user-guide/change-layout/" target="_blank">Follow a tutorial to change the layout: create an XSLT stylesheet and override a template.</a></p>
     </div>
 </div>"""^^rdf:XMLLiteral .
+
+<#select-children> a ldh:Content ;
+    rdf:first ldh:SelectChildren ;
+    rdf:rest rdf:nil .
