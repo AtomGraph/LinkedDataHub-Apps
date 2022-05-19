@@ -19,6 +19,11 @@
     <p>LinkedDataHub is configured using environment variables in the <code>docker-compose.yml</code> file (environment-specific configuration should go into <code>docker-compose.override.yml</code> instead).</p>
     <div>
         <h2 id="webid-signup">WebID signup</h2>
+        <dl>
+            <dt><samp>ENABLE_WEBID_SIGNUP</samp></dt>
+            <dd><samp>false</samp> to disable (enabled by default)</dd>
+            <dd><em>Currently this will only hide the signup button in the UI, without disabling the endpoint</em></dd>
+        </dl>
     </div>
     <div>
         <h2 id="social-login">Social login</h2>
