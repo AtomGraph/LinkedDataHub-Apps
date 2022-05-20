@@ -170,7 +170,7 @@
                 <xsl:map-entry key="'30d8cc764648ebd67497413b16a94fca56c8e1e4'" select="xs:anyURI('files/videos/Edit.webm')"/>
                 <xsl:map-entry key="'7db898019986d1aa0bfee7bd1423874d82cb0233'" select="xs:anyURI('files/videos/Upload.webm')"/>
                 <xsl:map-entry key="'d9ec2ef2b2f1268affa6deb3f3f971bdf6a56b64'" select="xs:anyURI('files/videos/View.webm')"/>
-                <xsl:map-entry key="'48a29226674c16723226492b01210eb8be58a407'" select="xs:anyURI('files/videos/DocTree.gif')"/>
+                <xsl:map-entry key="'092ae7413af1e6560ca90ae5eed89aea1b4ecd51'" select="xs:anyURI('files/videos/DocTree.gif')"/>
                 <xsl:map-entry key="'ffb24b79848a40266d880638b0699c4c8a4e41ec'" select="xs:anyURI('files/videos/ParallaxNav.gif')"/>
             </xsl:map>
         </xsl:param>

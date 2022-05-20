@@ -22,13 +22,13 @@
             can be expanded to reveal the children documents.</p>
         <p>The widget can be accessed by sliding the mouse to the left edge of the screen (on responsive layouts, it is always visible).</p>
         <p>
-            <img alt="Document tree" src="../../uploads/48a29226674c16723226492b01210eb8be58a407"></img>
+            <img alt="Document tree" src="../../uploads/092ae7413af1e6560ca90ae5eed89aea1b4ecd51"></img>
         </p>
     </div>
     <div>
         <h2 id="parallax">Parallax</h2>
         <p>Parallax navigation is a rather unique navigation approach that lends itself perfectly to graph data. It is enabled for container content and shown as <samp>Related results</samp> in the
-            <a href="../../reference/user-interface/#right-nav">right-side navigation</a>. Parallax allows &quot;jumping&quot; from a result set to a related result set using the selected RDF property. It works in
+            <a href="../../reference/user-interface/#right-nav">right-side navigation</a>. Parallax allows "jumping" from a result set to a related result set using the selected RDF property. It works in
             combination with faceted search which can be used to filter the initial result set.</p>
         <p>For example, facets can be used to filter a set products that belong to a certain category, and then parallax can be used to jump to a set of companies that provide those products, and then further on to
             a set representatives of those companies.</p>
