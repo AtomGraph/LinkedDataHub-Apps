@@ -139,13 +139,12 @@
     </div>
     <div>
         <h2 id="left-nav">Left navigation</h2>
-        <p>Depending on the type of the current container, a faceted search that filters its children using combinations
+        <p>It depends on the type of the content block. For containers, a faceted search that filters its children using combinations
         of subclass types can also be shown.</p>
     </div>
     <div>
         <h2 id="right-nav">Right navigation</h2>
-        <p>The right-side navigation shows details of the current document, such as creator and creation/modification
-        date. Additionally, it can show contextual links depending on the type of current document.</p>
+        <p>It depends on the type of the content block. For containers, a list of <a href="../../user-guide/navigation/#parallax">parallax navigation</a> properties is show.</p>
     </div>
     <div>
         <h2 id="create-edit">Create/Edit dialog</h2>
