@@ -121,6 +121,10 @@
                             <td>Create <a href="../administration/acl/#groups">group</a></td>
                             <td><samp>admin/acl/create-group.sh</samp></td>
                         </tr>
+                        <tr>
+                            <td>Make application publicly readable to any agent</td>
+                            <td><samp>admin/acl/make-public.sh</samp></td>
+                        </tr>
                     </tbody>
                     <tbody>
                         <tr>
@@ -135,8 +139,16 @@
                             <td><samp>admin/model/create-construct.sh</samp></td>
                         </tr>
                         <tr>
+                            <td>Create <a href="../administration/model/#ontologies">ontology</a></td>
+                            <td><samp>admin/model/create-ontology.sh</samp></td>
+                        </tr>
+                        <tr>
                             <td>Create <a href="../administration/model/#constraints">property constraint</a></td>
                             <td><samp>admin/model/create-property-constraint.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Create <code>SELECT</code> query</td>
+                            <td><samp>admin/model/create-select.sh</samp></td>
                         </tr>
                         <tr>
                             <td>Import ontology</td>

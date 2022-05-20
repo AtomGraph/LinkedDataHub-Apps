@@ -91,11 +91,11 @@
                         <header>
                             <h1><xsl:value-of select="/html/head/title"/></h1>
                         </header>
+                        <!-- copy the remaining content -->
+                        <xsl:apply-templates/>
                         <nav>
                             <xsl:sequence select="$children"/>
                         </nav>
-                        <!-- copy the remaining content -->
-                        <xsl:apply-templates/>
                     </main>
                 </div>
             </div>

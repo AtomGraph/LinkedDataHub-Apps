@@ -113,9 +113,6 @@
             </div>
             <div class="tab-pane">
                 <p>To sign in, click on the <span class="btn btn-primary">Login with Google</span> button. A unique agent URI will be assigned to you and used to authenticate you with the applications on the platform.</p>
-                <div class="alert alert-info">
-                    <p>In the Cloud version, WebID access using TLS client certificates is currently disabled.</p>
-                </div>
             </div>
           </div>
         </div>

@@ -157,12 +157,12 @@
 						>
 							<xsl:value-of select="convert:get-objects(/trix:trix/trix:graph, ., 'http://purl.org/dc/terms/title')"/>
 						</a>
-                        <xsl:if test="convert:get-objects(/trix:trix/trix:graph, ., 'http://purl.org/dc/terms/description')">
-                            <p>
-                                <xsl:value-of select="convert:get-objects(/trix:trix/trix:graph, ., 'http://purl.org/dc/terms/description')"/>
-                            </p>
-                        </xsl:if>
 					</h2>
+                    <xsl:if test="convert:get-objects(/trix:trix/trix:graph, ., 'http://purl.org/dc/terms/description')">
+                        <p>
+                            <xsl:value-of select="convert:get-objects(/trix:trix/trix:graph, ., 'http://purl.org/dc/terms/description')"/>
+                        </p>
+                    </xsl:if>
 				</div>
 			</xsl:for-each>
 		</xsl:where-populated>	

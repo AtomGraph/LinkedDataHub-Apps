@@ -52,7 +52,7 @@
         <h2 id="linked-data">Linked Data</h2>
         <dl>
             <dt><samp>ENABLE_LINKED_DATA_PROXY</samp></dt>
-            <dd><samp>false</samp> to disable (enabled by default)</dd>
+            <dd><samp>false</samp> to disable the <a href="../http-api/#ld-proxy">Linked Data proxy</a> (enabled by default)</dd>
         </dl>
     </div>
 
