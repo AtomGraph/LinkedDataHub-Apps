@@ -1,0 +1,23 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<reference/data-management/> a dh:Container ;
+    sioc:has_parent <reference/> ;
+    dct:title "Data management" ;
+    dct:description "Management actions that can be performed on documents (graphs) and their content" ;
+    ldh:content <#content> .
+    
+<#content> a ldh:Content ;
+    rdf:rest <#select-children> ;
+    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Management actions that can be performed on documents (graphs) and their content.</p>
+</div>"""^^rdf:XMLLiteral .
+
+<#select-children> a ldh:Content ;
+    rdf:first ldh:SelectChildren ;
+    rdf:rest rdf:nil .

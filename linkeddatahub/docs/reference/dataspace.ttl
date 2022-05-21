@@ -30,7 +30,7 @@
         <dl>
             <dt>Base URI</dt>
             <dd>Base URI is a URI by which an application can be identified. All request URIs processed by an application are relative to one of its base URIs.</dd>
-            <dd>URIs in the <a href="../dataset-structure/">application dataset</a> are usually (but not necessarily) relative to its base URIs.</dd>
+            <dd>URIs in the <a href="../dataset/">application dataset</a> are usually (but not necessarily) relative to its base URIs.</dd>
             <dt>Service</dt>
             <dd><a href="#services">SPARQL service</a></dd>
             <dt>Ontology</dt>
@@ -86,12 +86,12 @@
             </div>
           </div>
         </div>
-        <p>LinkedDataHub imports the <a href="../dataset-structure/#default-datasets">default datasets</a> for each application type
+        <p>LinkedDataHub imports the <a href="../dataset/#default-datasets">default datasets</a> for each application type
             into its service. The dataset URIs are rebased to be relative to the base URI of the application.</p>
     </div>
     <div>
         <h2 id="services">Services</h2>
-        <p>A service is a persistent SPARQL 1.1-compatible store from which the application's RDF dataset is accessible over HTTP. LinkedDataHub supports
+        <p>A service is a persistent SPARQL 1.1-compatible store from which the application's <a href="../dataset/">RDF dataset</a> is accessible over HTTP. LinkedDataHub supports
             generic services as well as triplestore-specific services which support easier configuration and optimized access. HTTP Basic is
             suppported as an authentication scheme. Contact us regarding support for vendor-specific authentication such as API keys.</p>
         <div class="alert alert-info">

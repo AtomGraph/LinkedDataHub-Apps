@@ -6,9 +6,9 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<user-guide/create-document/> a dh:Item ;
-    sioc:has_container <user-guide/> ;
-    dct:title "Create document" ;
+<user-guide/create-data/create-documents/> a dh:Item ;
+    sioc:has_container <user-guide/create-data/> ;
+    dct:title "Create documents" ;
     dct:description "Learn how to create container and item documents" ;
     ldh:content <#content> .
     
@@ -19,7 +19,7 @@
     <p class="text-center">
         <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/paetjTkFBxE" width="560"></iframe>
     </p>
-    <p>To create a container document (which can have <a href="../../reference/documents/#hierarchy" target="_blank">children documents</a>), follow these steps:</p>
+    <p>To create a container document (which can have <a href="../../../reference/data-management/documents/#hierarchy" target="_blank">children documents</a>), follow these steps:</p>
     <div class="tabbable">
         <ul class="nav nav-tabs">
             <li class="active"><a>User interface</a></li>
@@ -43,7 +43,7 @@
                     </ol>
                     <p>See how below:</p>
                     <p>
-                        <object data="../../uploads/490945931415b9ab201ed85f296a84c8a11134d1" type="video/webm"></object>
+                        <object data="../../../uploads/490945931415b9ab201ed85f296a84c8a11134d1" type="video/webm"></object>
                     </p>
                 </div>
             </div>
@@ -68,5 +68,5 @@ popd</pre>
     </div>
     <p>A container titled <samp>Concepts</samp> should appear with the URI <a href="https://localhost:4443/concepts/" target="_blank">https://localhost:4443/concepts/</a>.</p>
     <p>To create an item document, choose <samp>Item</samp> at step #2 above.</p>
-    <p class="lead"><a href="../../reference/documents/" target="_blank">Read more about document management.</a></p>
+    <p class="lead"><a href="../../../reference/data-management/documents/" target="_blank">Read more about document management.</a></p>
 </div>"""^^rdf:XMLLiteral .

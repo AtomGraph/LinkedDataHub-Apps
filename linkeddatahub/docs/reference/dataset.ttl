@@ -6,9 +6,9 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<reference/dataset-structure/> a dh:Item ;
+<reference/dataset/> a dh:Item ;
     sioc:has_container <reference/> ;
-    dct:title "Dataset structure" ;
+    dct:title "RDF dataset" ;
     dct:description "The default RDF dataset structure used by LinkedDataHub" ;
     ldh:content <#content> .
     
@@ -37,5 +37,9 @@
         <p>The default datasets of administration and end-user applications can be found in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/platform/datasets/admin.trig" target="_blank"><samp>platform/datasets/admin.trig</samp></a> and
             <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/platform/datasets/end-user.trig" target="_blank"><samp>platform/datasets/end-user.trig</samp></a>, respectively.</p>
         <p>RDF terms (classes, properties etc.) used in the default datasets come from well-known vocabularies FOAF and SIOC (with additional LinkedDataHub-specific assertions) as well as  <a href="../administration/model/">system ontologies</a>.</p>
+    </div>
+    <div>
+        <h2 id="storage">Storage</h2>
+        <p>The dataset of each application is stored in an RDF triplestore which is accessed as a <a href="../dataspace/#services">SPARQL service</a>. End-user applications and admin applications have separate datasets and are backed by two different services.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .

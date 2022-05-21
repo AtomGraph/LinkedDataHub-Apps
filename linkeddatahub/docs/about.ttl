@@ -24,7 +24,8 @@
         <h2 id="notebook">Knowledge Graph notebook</h2>
         <p>As an RDF-native noteook, LinkedDataHub provides a number of features for end-users:</p>
         <ul>
-            <li><a href="../user-guide/create-content/" target="_blank">creating structured content</a> from Linked Data and SPARQL resources (<strong>new in 3.x</strong>)</li>
+            <li><a href="../user-guide/create-data/create-content/" target="_blank">creating structured content</a> from Linked Data and SPARQL resources (<strong>new in 3.x</strong>)</li>
+            <li><a href="../user-guide/create-data/create-documents/" target="_blank">creating RDF documents (graphs)</a></li>
             <li><a href="../user-guide/browse-data/" target="_blank">browsing Linked Data</a></li>
             <li><a href="../user-guide/add-data/" target="_blank">forking RDF resources</a> to the local dataspace (<strong>new in 3.x</strong>)</li>
             <li><a href="../user-guide/search-data/" target="_blank">searching</a> and <a href="../user-guide/query-data/" target="_blank">querying</a> SPARQL endpoints</li>

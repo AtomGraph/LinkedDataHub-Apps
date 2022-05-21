@@ -21,6 +21,10 @@
         <a href="https://www.w3.org/TR/sparql11-http-rdf-update/" target="_blank">SPARQL 1.1 Graph Store Protocol</a>. It adds a few <a href="#graph-names">conventions</a> and <a href="#constraints">constraints</a>
         on top of it however.</p>
     <div>
+        <h2 id="auth">Authentication</h2>
+        <p></p>
+    </div>
+    <div>
         <h2 id="acl">Access control</h2>
         <p>All HTTP access to <a href="#documents">documents</a> is subject to <a href="../administration/acl/">access
             control</a>. Requesting a resource with insufficient access rights will result in <code>403 Forbidden</code> response. That  means either:</p>
@@ -34,7 +38,7 @@
         <h2 id="documents">Managing documents</h2>
         <p>LinkedDataHub supports the <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#indirect-graph-identification" target="_blank">indirect graph identification</a> using the <code>service</code> endpoint and the
             <code>graph</code> URL parameter as well as the <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#direct-graph-identification" target="_blank">direct identification</a>, since every document is also a
-            <a href="../dataset-structure/">named graph</a>.</p>
+            <a href="../dataset/#structure">named graph</a>.</p>
         <table class="table">
             <thead>
                 <tr>
@@ -148,9 +152,17 @@
     </div>
     <div>
         <h2 id="sparql">Executing SPARQL</h2>
-        <p>Every LinkedDataHub application provides a SPARQL endpoint on <code>sparql</code> path (relative to the application's base URI). It supports
+        <p>Every LinkedDataHub application provides a SPARQL endpoint on <code>sparql</code> path (relative to the application's base URI). It supports the
             <a href="https://www.w3.org/TR/sparql11-protocol/" target="_blank">SPARQL 1.1 Protocol</a> and serves as a proxy for the service endpoint of the
             application.</p>
+    </div>
+    <div>
+        <h2 id="ld-proxy">Linked Data proxy</h2>
+        <p>LinkedDataHub works as a <dfn>Linked Data proxy</dfn> (from the end-user perspective, as a <dfn>Linked Data browser</dfn>) when a URL is provided using the <code>uri</code> query parameter.
+            All HTTP methods are supported.</p>
+        <p>If the URL dereferences successfully as RDF, LinkedDataHub forwards its response body (re-serializing it to enable content negotiation).
+            During a write request, the request body is forwarded to the provided URL.</p>
+        <p>The proxy only accepts external (non-relative to the current application's base URI) URLs; local URLs have to be dereferenced directly.</p>
     </div>
     <div>
         <h2 id="con-neg">Content negotiation</h2>

@@ -64,7 +64,7 @@
     skos:prefLabel "Interviews"@en , "Entretien"@fr , "Entrevista"@es , "Интервью"@ru .</pre>
         <div>
             <h3 id="transformation">Transformation</h3>
-            <p>This step is used to transform the RDF data that is being imported, if necessary (to a different vocabulary, for example). It also connects instances in the imported data to the documents in LinkedDataHub's <a href="../../dataset-structure/" target="_blank">dataset</a>.</p>
+            <p>This step is used to transform the RDF data that is being imported, if necessary (to a different vocabulary, for example). It also connects instances in the imported data to the documents in LinkedDataHub's <a href="../../dataset/" target="_blank">dataset</a>.</p>
             <p>The mapping is a user-defined SPARQL <code>CONSTRUCT</code>. In this case we give each SKOS concept from the imported dataset an additional RDF type and pair the concept with its item (document):</p>
             <pre><code>PREFIX dh:    &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt;
 PREFIX sioc:  &lt;http://rdfs.org/sioc/ns#&gt;

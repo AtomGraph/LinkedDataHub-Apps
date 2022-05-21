@@ -79,7 +79,7 @@ _:e8f2e8e9-3d02-4bf5-b4f1-4794ba5b52c9
         <div>
             <h3 id="vocabulary-conversion">Vocabulary conversion</h3>
             <p>This step provides a semantic "lift" for the generic RDF output of the previous step by mapping it
-                to classes and properties from specific vocabularies. It also connects instances in the imported data to the documents in LinkedDataHub's <a href="../../dataset-structure/" target="_blank">dataset</a>.</p>
+                to classes and properties from specific vocabularies. It also connects instances in the imported data to the documents in LinkedDataHub's <a href="../../dataset/" target="_blank">dataset</a>.</p>
             <p>The mapping is a user-defined SPARQL
                 <code>CONSTRUCT</code> query which transforms <em>one row at a time</em>. In this case we produce a SKOS concept paired with its item (document) for each country:</p>
             <pre><code>PREFIX  ldh:  &lt;https://w3id.org/atomgraph/linkeddatahub#&gt;
