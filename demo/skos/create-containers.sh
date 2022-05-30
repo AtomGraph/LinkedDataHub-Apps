@@ -63,7 +63,7 @@ concept_container=$(./create-container.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --first "$select_concepts" \
+  --value "$select_concepts" \
   "$concept_container"
 
 
@@ -107,7 +107,7 @@ concept_scheme_container=$(./create-container.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --first "$select_concept_schemes" \
+  --value "$select_concept_schemes" \
   "$concept_scheme_container"
 
 popd

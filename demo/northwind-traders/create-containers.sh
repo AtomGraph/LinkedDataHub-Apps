@@ -63,7 +63,7 @@ category_container=$(./create-container.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --first "$select_categories" \
+  --value "$select_categories" \
   --mode "https://w3id.org/atomgraph/client#GridMode" \
   "$category_container"
 
@@ -108,7 +108,7 @@ customer_container=$(./create-container.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --first "$select_customers" \
+  --value "$select_customers" \
   --mode "https://w3id.org/atomgraph/client#TableMode" \
   "$customer_container"
 
@@ -153,7 +153,7 @@ employees_container=$(./create-container.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --first "$select_employees" \
+  --value "$select_employees" \
   --mode "https://w3id.org/atomgraph/client#GridMode" \
   "$employees_container"
 
@@ -198,7 +198,7 @@ order_container=$(./create-container.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --first "$select_orders" \
+  --value "$select_orders" \
   --mode "https://w3id.org/atomgraph/client#TableMode" \
   "$order_container"
 
@@ -243,7 +243,7 @@ product_container=$(./create-container.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --first "$select_products" \
+  --value "$select_products" \
   --mode "https://w3id.org/atomgraph/client#TableMode" \
   "$product_container"
 
@@ -288,7 +288,7 @@ region_container=$(./create-container.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --first "$select_regions" \
+  --value "$select_regions" \
   "$region_container"
 
 
@@ -332,7 +332,7 @@ shipper_container=$(./create-container.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --first "$select_shippers" \
+  --value "$select_shippers" \
   "$shipper_container"
 
 
@@ -376,7 +376,7 @@ supplier_container=$(./create-container.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --first "$select_suppliers" \
+  --value "$select_suppliers" \
   --mode "https://w3id.org/atomgraph/client#TableMode" \
   "$supplier_container"
 
@@ -421,7 +421,7 @@ territory_container=$(./create-container.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --first "$select_territories" \
+  --value "$select_territories" \
   --mode "https://w3id.org/atomgraph/client#TableMode" \
   "$territory_container"
 

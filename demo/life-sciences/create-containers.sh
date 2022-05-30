@@ -84,7 +84,7 @@ protein_container=$(./create-container.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --first "$select_proteins" \
+  --value "$select_proteins" \
   "$protein_container"
 
 select_genes_doc=$(
@@ -127,7 +127,7 @@ gene_container=$(./create-container.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --first "$select_genes" \
+  --value "$select_genes" \
   "$gene_container"
 
 popd || exit

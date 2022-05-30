@@ -9,11 +9,14 @@
 <> a def:Root ;
     dct:title "Root" ;
     dct:description "Knowledge Graph representation of the Northwind Traders sample database" ;
-    ldh:content <#page-header> .
+    rdf:_1 <#page-header> ;
+    rdf:_2 <#top-selling-products> ;
+    rdf:_3 <#top-manager-header> ;
+    rdf:_4 <#top-manager> ;
+    rdf:_5 <#select-children> .
 
 <#page-header> a ldh:Content ;
-    rdf:rest <#top-selling-products> ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
         <div class="page-header">
             <h2>Northwind Traders</h2>
             <p class="lead">The iconic sample database converted to an RDF Knowledge Graph</p>
@@ -24,20 +27,16 @@
     </div>"""^^rdf:XMLLiteral .
 
 <#top-selling-products> a ldh:Content ;
-    rdf:first <charts/top-selling-products/#this> ;
-    rdf:rest <#top-manager-header> .
+    rdf:value <charts/top-selling-products/#this> .
 
 <#top-manager-header> a ldh:Content ;
-    rdf:rest <#top-manager> ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
         <h2>Top manager</h2>
         <p>Meet the top manager of Northwind Traders.</p>
     </div>"""^^rdf:XMLLiteral .
 
 <#top-manager> a ldh:Content ;
-    rdf:first <employees/2/#this> ;
-    rdf:rest <#select-children> .
+    rdf:value <employees/2/#this> .
 
 <#select-children> a ldh:Content ;
-    rdf:first ldh:SelectChildren ;
-    rdf:rest rdf:nil .
+    rdf:value ldh:SelectChildren .

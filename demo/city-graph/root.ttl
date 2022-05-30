@@ -9,11 +9,11 @@
 <> a def:Root ;
     dct:title "Root" ;
     dct:description "Geospatial and other open data about cities, imported by transforming CSV files to RDF" ;
-    ldh:content <#page-header> .
+    rdf:_1 <#page-header> ;
+    rdf:_2 <#select-children> .
 
 <#page-header> a ldh:Content ;
-    rdf:rest <#select-children> ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <div class="page-header">
             <h2>City Graph</h2>
             <p class="lead">Geospatial and other open data about Copenhagen. Features include CSV imports, color-coded <a href="geo/" target="_blank">map layout</a> and a custom resource description query which loads 10 nearest objects.</p>
@@ -21,5 +21,4 @@
     </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Content ;
-    rdf:first ldh:SelectChildren ;
-    rdf:rest rdf:nil .
+    rdf:value ldh:SelectChildren .
