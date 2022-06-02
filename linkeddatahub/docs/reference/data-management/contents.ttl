@@ -10,11 +10,10 @@
     sioc:has_container <reference/data-management/> ;
     dct:title "Content management" ;
     dct:description "Content blocks and the basic data content actions" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
 
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Content blocks and the basic data content actions.</p>
     <div>
         <p>Content list is a new <a href="../reference/user-interface/#layout-modes" target="_blank">layout mode</a> introduced in LinkedDataHub 3.x. Content instance in the list can currently be of following types:</p>

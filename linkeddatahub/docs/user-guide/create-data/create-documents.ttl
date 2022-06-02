@@ -10,11 +10,10 @@
     sioc:has_container <user-guide/create-data/> ;
     dct:title "Create documents" ;
     dct:description "Learn how to create container and item documents" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
     
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to create container and item documents</p>
     <p class="text-center">
         <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/paetjTkFBxE" width="560"></iframe>
@@ -53,13 +52,12 @@
                     <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"
 
 ./create-container.sh \\
--b "https://localhost:4443/" \\
--f certs/owner.p12.pem \\
--p "${OWNER_KEY_PASSWORD}" \\
---title "${title}" \\
---slug "${slug}" \\
---parent "https://localhost:4443/" \\
-"https://localhost:4443/"
+  -b "https://localhost:4443/" \\
+  -f certs/owner.p12.pem \\
+  -p "$OWNER_KEY_PASSWORD" \\
+  --title "$title" \\
+  --slug "$slug" \\
+  --parent "https://localhost:4443/" \\
 
 popd</pre>
                 </div>

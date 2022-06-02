@@ -10,11 +10,10 @@
     sioc:has_container <user-guide/> ;
     dct:title "Manage dataspaces" ;
     dct:description "Create or change a dataspace, configure SPARQL services and XSLT stylesheets" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
     
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Step by step guide to creating a new dataspace backed by SPARQL services</p>
     <div class="tabbable">
         <ul class="nav nav-tabs">

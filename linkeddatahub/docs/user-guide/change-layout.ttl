@@ -10,11 +10,10 @@
     sioc:has_container <user-guide/> ;
     dct:title "Change layout" ;
     dct:description "How to customize the layout of an application and the UI of the resources" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
     
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">How to customize the layout of an application and the UI of the resources</p>
     <p>LinkedDataHub's user interface is simply a rendering of the underlying Linked Data resource descriptions, which are exposed via the <a href="../../reference/http-api/" target="_blank">HTTP API</a>.</p>
     <p>LinkedDataHub provides <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheets</a> that render a default UI layout. When building an application you might want to render a custom

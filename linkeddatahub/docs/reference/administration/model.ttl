@@ -10,11 +10,11 @@
     sioc:has_parent <reference/administration/> ;
     dct:title "Model" ;
     dct:description "Ontology classes, constraints, properties etc." ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
     
 <#content> a ldh:Content ;
     rdf:rest <#select-children> ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <div>
         <h2 id="ontologies">Ontologies</h2>
         <p>Ontologies are sets of domain concepts. The domain can span both documents (information resources) and abstract/physical things
@@ -123,5 +123,5 @@ WHERE {}</code></pre>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Content ;
-    rdf:first ldh:SelectChildren ;
+    rdf:value ldh:SelectChildren ;
     rdf:rest rdf:nil .

@@ -10,14 +10,13 @@
     sioc:has_parent <user-guide/> ;
     dct:title "Import data" ;
     dct:description "How to import data into LinkedDataHub" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
     
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">How to import data into LinkedDataHub</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Content ;
-    rdf:first ldh:SelectChildren ;
+    rdf:value ldh:SelectChildren ;
     rdf:rest rdf:nil .

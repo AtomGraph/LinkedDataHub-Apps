@@ -10,11 +10,10 @@
     sioc:has_container <get-started/> ;
     dct:title "Get an account" ;
     dct:description "How to get login to LinkedDataHub" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
     
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">This guide describes how to login to LinkedDataHub.</p>
     <div>
         <div class="tabbable">

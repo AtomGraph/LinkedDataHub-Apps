@@ -10,11 +10,10 @@
     sioc:has_container <reference/> ;
     dct:title "User interface" ;
     dct:description "A walk through the main features of application user interface" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
     
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">This guide walks through the main features of LinkedDataHub user interface.
         See <a href="../documents/">Document management</a> guide for basic definitions such as application and document.</p>
     <div class="alert alert-info">

@@ -10,11 +10,10 @@
     sioc:has_container <get-started/> ;
     dct:title "Request access" ;
     dct:description "How to get access to an application" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
     
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">This guide describes how to get access to an application.</p>
     <div>
         <p>After you have logged in to LinkedDataHub, by default you do not have access rights to view or edit the documents in the dataspace. The owner of the dataspace has to create

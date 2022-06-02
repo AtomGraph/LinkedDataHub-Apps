@@ -10,16 +10,16 @@
     sioc:has_parent <reference/> ;
     dct:title "Administration" ;
     dct:description "Access control and domain model management" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
 
 <#content> a ldh:Content ;
     rdf:rest <#select-children> ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Access control and domain model management</p>
     <p>Administration is provided in a separate LDT application, which is paired with each <a href="../dataspace/#end-user-apps">end-user
         application</a>.</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Content ;
-    rdf:first ldh:SelectChildren ;
+    rdf:value ldh:SelectChildren ;
     rdf:rest rdf:nil .

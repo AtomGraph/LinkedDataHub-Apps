@@ -10,11 +10,10 @@
     sioc:has_container <user-guide/> ;
     dct:title "Change the model" ;
     dct:description "Change the model: create constructors, classes, and constraints" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
     
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Change the model: create constructors, classes, and constraints</p>
     <div>
         <h2 id="change-model">Change the model</h2>
@@ -112,7 +111,7 @@ popd</pre>
     </div>
     <div>
         <h2 id="create-constraint">Create a constraint</h2>
-        <p>To control data quality, we probably want to make some of the instance properties mandatory. For example, a <samp>Concept</samp> instance should always have a <code>skos:prefLabel</code> value.</p>
+        <p>To control data quality, we probably want to make some of the instance properties mandatory. For example, a <samp>skos:Concept</samp> instance should always have a <code>skos:prefLabel</code> value.</p>
         <div class="tabbable">
             <ul class="nav nav-tabs">
                 <li class="active"><a>User interface</a></li>
@@ -145,9 +144,9 @@ popd</pre>
                         <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/model
 
 ./create-property-constraint.sh \\
-  -b "${base}" \\
-  -f "${cert_pem_file}" \\
-  -p "${cert_password}" \\
+  -b "$base" \\
+  -f "$cert_pem_file" \\
+  -p "$cert_password" \\
   --uri "https://localhost:4443/ns#MissingPrefLabel" \\
   --label "Missing skos:prefLabel" \\
   --slug missing-pref-label \\
@@ -195,10 +194,10 @@ popd</pre>
                         <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/model
 
 ./create-class.sh \\
-  -b "${base}" \\
-  -f "${cert_pem_file}" \\
-  -p "${cert_password}" \\
-  --uri "${base}ns#Concept" \\
+  -b "$base" \\
+  -f "$cert_pem_file" \\
+  -p "$cert_password" \\
+  --uri "http://www.w3.org/2004/02/skos/core#Concept" \\
   --label "Concept" \\
   --slug concept \\
   --constructor "{$base}ns#ConstructConcept" \\

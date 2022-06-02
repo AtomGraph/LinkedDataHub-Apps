@@ -10,11 +10,10 @@
     sioc:has_container <user-guide/import-data/> ;
     dct:title "Import CSV data" ;
     dct:description "Step by step guide to converting CSV data to RDF and importing into end-user application" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
     
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Step by step guide to converting CSV data to RDF and importing into end-user application</p>
     <p class="lead"><a href="../../../reference/imports/csv/" target="_blank">Read more on how CSV imports work.</a></p>
     <p>There are 3 main components that comprise a CSV import:</p>
@@ -82,8 +81,6 @@
                                 <dd>Start typing the name of your CSV file and select it from the typeahead.</dd>
                                 <dt>Query</dt>
                                 <dd>Select the corresponding mapping query using the typeahead.</dd>
-                                <dt>Target container</dt>
-                                <dd>Select the target container using the typeahead.</dd>
                                 <dt>Title</dt>
                                 <dd>Import title</dd>
                                 <dt>Title</dt>

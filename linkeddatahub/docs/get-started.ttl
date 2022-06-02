@@ -10,11 +10,11 @@
     sioc:has_parent <> ;
     dct:title "Get started" ;
     dct:description "All the basics of LinkedDataHub. From installation to extending the model and user interface." ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
 
 <#content> a ldh:Content ;
     rdf:rest <#select-children> ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">All the basics of LinkedDataHub. From installation to customizing the model and user interface.</p>
     <p>This guide will show how a LinkedDataHub application can be used to manage domain-specific RDF classes and instances. As an example, we will us <a href="https://www.w3.org/TR/skos-primer/" target="_blank">SKOS</a> concepts and concept schemes.</p>
     <p>Note that all <a href="../reference/data-management/documents/#manage" target="_blank">management actions</a> can also be performed using the <a href="../reference/command-line-interface/" target="_blank">CLI (Command Line Interface)</a>. Where applicable, the UI and CLI instructions are shown side by side. The <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/skos" target="_blank">SKOS demo app</a> which implements the SKOS example which is used in this guide.</p>
@@ -55,24 +55,8 @@
     </div>
     <div>
         <h2 id="create-instance">Create an instance</h2>
-        <p>Go back to the end-user application and refresh the page — the previously created classes should now be available for instance creation. Follow these steps:</p>
-        <ol>
-            <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
-            <li>Click on <samp>Instance</samp> in the drop-down list that appears. An editing form will open.</li>
-            <li>In the resource of <samp>Type</samp> <samp>Instance</samp>, click on the <samp>Instance</samp> typeahead input, type <samp>Concept</samp> and select the class from the list</li>
-            <li>Fill out the mandatory fields in the form that appeared:
-                <dl>
-                    <dt>Preferred label</dt>
-                    <dd>Enter concept label</dd>
-                    <dt>Title</dt>
-                    <dd>Enter document title</dd>
-                </dl>
-            </li>
-            <li>Click <span class="btn btn-primary">Save</span></li>
-        </ol>
-        <p>A concept and its item should appear with the URI <samp>https://localhost:4443/concepts/{slug}/</samp>, depending on the optional URI slug value (a unique UUID string is assigned by default).</p>
-        <p>Congratulations! You have just created the first concept instance based on your model.</p>
-        <p class="lead"><a href="../reference/data-management/documents/" target="_blank">Read more about document management.</a></p>
+        <p></p>
+        <p class="lead"><a href="../user-guide/create-data/create-instances/" target="_blank">Learn how to create instances.</a></p>
     </div>
     <div>
         <h2 id="import-csv">Import CSV data</h2>
@@ -87,5 +71,5 @@
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Content ;
-    rdf:first ldh:SelectChildren ;
+    rdf:value ldh:SelectChildren ;
     rdf:rest rdf:nil .

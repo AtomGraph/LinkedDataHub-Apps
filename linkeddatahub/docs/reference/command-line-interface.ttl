@@ -10,11 +10,10 @@
     sioc:has_container <reference/> ;
     dct:title "Command line interface" ;
     dct:description "CLI scripts can be used perform all actions available in the UI" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
 
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">CLI scripts can be used perform all actions available in the UI</p>
     <p>LinkedDataHub CLI wraps the <a href="../http-api/">HTTP API</a> into a set of shell scripts with convenient parameters. The scripts should run on any Unix-based system.
         They can be used for testing, automation, scheduled execution and such. It is usually much quicker to perform actions using CLI rather than the

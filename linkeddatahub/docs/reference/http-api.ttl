@@ -11,11 +11,10 @@
     sioc:has_container <reference/> ;
     dct:title "HTTP API" ;
     dct:description "Learn how to access and manage RDF data over generic HTTP API" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
 
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to read and write RDF data from/to LinkedDataHub applications over HTTP</p>
     <p>LinkedDataHub implements a uniform, generic RESTful Linked Data API as defined by the
         <a href="https://www.w3.org/TR/sparql11-http-rdf-update/" target="_blank">SPARQL 1.1 Graph Store Protocol</a>. It adds a few <a href="#graph-names">conventions</a> and <a href="#constraints">constraints</a>

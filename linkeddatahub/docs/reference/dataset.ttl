@@ -10,11 +10,10 @@
     sioc:has_container <reference/> ;
     dct:title "RDF dataset" ;
     dct:description "The default RDF dataset structure used by LinkedDataHub" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
     
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">The default RDF dataset structure used by LinkedDataHub.</p>
     <div>
         <h2 id="structure">Structure</h2>

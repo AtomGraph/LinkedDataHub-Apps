@@ -10,11 +10,10 @@
     sioc:has_container <user-guide/import-data/> ;
     dct:title "Import RDF data" ;
     dct:description "Step by step guide to importing RDF data" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
     
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Step by step guide to importing RDF data</p>
     <p>There are multiple ways to import RDF data into LinkedDataHub.</p>
     <div>

@@ -10,11 +10,10 @@
     sioc:has_container <user-guide/> ;
     dct:title "Query data" ;
     dct:description "Learn how to query application data with SPARQL, store queries and charts" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
     
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
         <p class="lead">This guide describes how the application dataset can be queried using SPARQL.</p>
         <p>The <a href="../../reference/dataspace/#end-user-apps">end-user application</a> dataset can be queried using SPARQL 1.1
             endpoint, which is available via link in the <a href="../../user-interface/#nav-bar">navigation bar</a>.</p>

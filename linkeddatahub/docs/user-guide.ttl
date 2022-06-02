@@ -10,14 +10,14 @@
     sioc:has_parent <> ;
     dct:title "User guide" ;
     dct:description "Step-by-step tutorials for everyday tasks with LinkedDataHub" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
 
 <#content> a ldh:Content ;
     rdf:rest <#select-children> ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Step-by-step tutorials for everyday tasks with LinkedDataHub</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Content ;
-    rdf:first ldh:SelectChildren ;
+    rdf:value ldh:SelectChildren ;
     rdf:rest rdf:nil .

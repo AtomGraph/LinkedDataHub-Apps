@@ -10,11 +10,10 @@
     sioc:has_container <user-guide/> ;
     dct:title "Change system base URI" ;
     dct:description "How to change host, port, or the path LinkedDataHub service runs on" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
     
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">How to change host, port, or the path LinkedDataHub service runs on</p>
     <div class="tabbable">
         <ul class="nav nav-tabs">

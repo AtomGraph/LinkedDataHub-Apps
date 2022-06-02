@@ -10,11 +10,10 @@
     sioc:has_container <reference/data-management/> ;
     dct:title "Document management" ;
     dct:description "Document hierarchy and the basic data management actions" ;
-    ldh:content <#content> .
+    rdf:_1 <#content> .
 
 <#content> a ldh:Content ;
-    rdf:rest () ;
-    rdf:first """<div xmlns="http://www.w3.org/1999/xhtml">
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">This guide explains the document hierarchy and the basic data management actions.</p>
     <div>
         <h2 id="dataspace">Dataspace</h2>
