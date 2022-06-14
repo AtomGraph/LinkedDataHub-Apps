@@ -77,7 +77,6 @@
                     <dd>Click the input field and select the content's blank node identifier from the dropdown, or paste its URI if it already has one.</dd>
                 </dl>
             </li>
-            </li>
             <li>Click <span class="btn btn-primary">Save</span> at the bottom of the form to submit it</li>
         </ol>
         <p>To remove content, follow these steps:</p>
