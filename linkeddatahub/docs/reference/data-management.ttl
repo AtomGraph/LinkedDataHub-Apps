@@ -10,14 +10,13 @@
     sioc:has_parent <reference/> ;
     dct:title "Data management" ;
     dct:description "Management actions that can be performed on documents (graphs) and their content" ;
-    rdf:_1 <#content> .
-    
+    rdf:_1 <#content> ;
+    rdf:_2 <#select-children> .
+
 <#content> a ldh:Content ;
-    rdf:rest <#select-children> ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Management actions that can be performed on documents (graphs) and their content.</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Content ;
-    rdf:value ldh:SelectChildren ;
-    rdf:rest rdf:nil .
+    rdf:value ldh:SelectChildren .

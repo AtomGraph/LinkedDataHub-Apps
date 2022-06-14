@@ -15,33 +15,33 @@
 <#content> a ldh:Content ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to create of built-in and user-defined classes</p>
+    <p class="text-center">
+        <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/i1hBLUGDhGM" width="560"></iframe>
+    </p>
+    <p><dfn>Built-in classes</dfn> (such as <samp>Container</samp>, <samp>Item</samp>, <samp>SELECT</samp> etc.) ship with <a href="../../../reference/administration/model/#ontologies">system ontologies</a> in LinkedDataHub while <dfn>user-defined classes</dfn> come from ontologies imported by the user (see the user guide on <a href="../../change-model/">changing the model</a> on how to do that).</p>
     <div>
         <h2>Built-in classes</h2>
-        <p></p>
+        <p>To create instances of built-in classes, follow these steps:</p>
+        <ol>
+            <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
+            <li>In the drop-down list that appears click on the menu item of the class you want to create an instance for. An editing form will open.</li>
+            <li>Fill out the fields in the form that appeared. The mandatory properties are rendered in bold, without providing their values you will not be able to save the instance form.</li>
+            <li>Click <span class="btn btn-primary">Save</span></li>
+            <li>In case there were errors such as missing or malformed values, an error message will be shown and the offending property and value will be highlighted. Fix them or you will not be able to save the instance form.</li>
+        </ol>
+        <p>You will be redirected to the document of the newly created instance.</p>
     </div>
     <div>
         <h2>User-defined classes</h2>
-        <p>Follow these steps:</p>
+        <p>To create instances of user-defined classes, follow these steps:</p>
         <ol>
             <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
             <li>Click on <samp>Instance</samp> in the drop-down list that appears. An editing form will open.</li>
-            <li>In the resource of <samp>Type</samp> <samp>Instance</samp>, click on the <samp>Instance</samp> typeahead input, type <samp>Concept</samp> and select the class from the list</li>
-            <li>Fill out the mandatory fields in the form that appeared:
-                <dl>
-                    <dt>Preferred label</dt>
-                    <dd>Enter concept label</dd>
-                    <dt>Title</dt>
-                    <dd>Enter document title</dd>
-                </dl>
-            </li>
+            <li>In the resource of <samp>Type</samp> <samp>Instance</samp>, click on the <samp>Instance</samp> typeahead input, type the class name and select the class from the list</li>
+            <li>Fill out the fields in the form that appeared. The mandatory properties are rendered in bold, without providing their values you will not be able to save the instance form.</li>
+            <li>In case there were errors such as missing or malformed values, an error message will be shown and the offending property and value will be highlighted. Fix them or you will not be able to save the instance form.</li>
             <li>Click <span class="btn btn-primary">Save</span></li>
         </ol>
-        <p>A concept and its item should appear with the URI <samp>https://localhost:4443/concepts/{slug}/</samp>, depending on the optional URI slug value (a unique UUID string is assigned by default).</p>
+        <p>You will be redirected to the document of the newly created instance.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .
-
-
-
-
-        
-        

@@ -17,12 +17,13 @@
     <p class="lead">Change the model: create constructors, classes, and constraints</p>
     <div>
         <h2 id="change-model">Change the model</h2>
-        <p>In order to be able to manage SKOS concepts and concept schemes, we need to create <a href="../../reference/administration/model/#classes" target="_blank">classes</a> that represent them in the <a href="../../reference/administration/model/" target="_blank">model</a> of our dataspace. Not only will they serve as RDF types of the instances, but will have <a href="../../reference/administration/model/#constructors" target="_blank">constructors</a> attached that define the default properties and their (data)types for that class.</p>
+        <p>In order to be able to manage instances, we need to create <a href="../../reference/administration/model/#classes" target="_blank">classes</a> that represent them in the <a href="../../reference/administration/model/" target="_blank">model</a> of our dataspace. Not only will they serve as RDF types of the instances, but will have <a href="../../reference/administration/model/#constructors" target="_blank">constructors</a> attached that define the default properties and their (data)types for that class.</p>
         <p>Model is managed in the <a href="../../reference/dataspace/#admin-apps" target="_blank">administration application</a> of a dataspace. Head there by clicking the <span class="btn btn-settings">Settings</span> in the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a> and then choosing <samp>Administration</samp>.</p>
         <div class="alert alert-info">
             <p>In order to manage the <a href="../../reference/administration/acl/" target="_blank">access control</a>, or the <a href="../../reference/administration/model/" target="_blank">model</a> of a dataspace,
             the agent needs to be a member of the <a href="../../reference/administration/acl/#groups" target="_blank">owners group</a>.</p>
         </div>
+        <p>We will use the SKOS ontology and its <samp>skos:Concept</samp> class as an example in this guide.</p>
     </div>
     <div>
         <h2 id="create-constructor">Create a constructor</h2>

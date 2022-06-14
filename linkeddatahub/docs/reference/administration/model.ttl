@@ -11,9 +11,8 @@
     dct:title "Model" ;
     dct:description "Ontology classes, constraints, properties etc." ;
     rdf:_1 <#content> .
-    
+
 <#content> a ldh:Content ;
-    rdf:rest <#select-children> ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <div>
         <h2 id="ontologies">Ontologies</h2>
@@ -121,7 +120,3 @@ WHERE {}</code></pre>
         <p>LinkedDataHub allows definition of new properties.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .
-
-<#select-children> a ldh:Content ;
-    rdf:value ldh:SelectChildren ;
-    rdf:rest rdf:nil .

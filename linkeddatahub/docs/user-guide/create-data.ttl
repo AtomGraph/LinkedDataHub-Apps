@@ -10,7 +10,8 @@
     sioc:has_parent <user-guide/> ;
     dct:title "Create data" ;
     dct:description "How to create documents, content, and instances" ;
-    rdf:_1 <#content> .
+    rdf:_1 <#content> ;
+    rdf:_2 <#select-children> .
     
 <#content> a ldh:Content ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
@@ -20,5 +21,4 @@
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Content ;
-    rdf:value ldh:SelectChildren ;
-    rdf:rest rdf:nil .
+    rdf:value ldh:SelectChildren .

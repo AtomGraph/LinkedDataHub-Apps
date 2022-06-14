@@ -10,14 +10,13 @@
     sioc:has_parent <> ;
     dct:title "Reference" ;
     dct:description "A list of LinkedDataHub's features and their functions, split into general and administration parts" ;
-    rdf:_1 <#content> .
+    rdf:_1 <#content> ;
+    rdf:_2 <#select-children> .
 
 <#content> a ldh:Content ;
-    rdf:rest <#select-children> ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">A list of LinkedDataHub's features and their functions, split into general and administration parts</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Content ;
-    rdf:value ldh:SelectChildren ;
-    rdf:rest rdf:nil .
+    rdf:value ldh:SelectChildren .
