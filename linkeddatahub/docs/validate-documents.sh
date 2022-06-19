@@ -1,1 +1,1 @@
-find . -name '*.ttl' -type f -exec trig --validate {} \;
+find . -name '*.ttl' -type f -exec echo {} \; -exec trig --validate {} \;
