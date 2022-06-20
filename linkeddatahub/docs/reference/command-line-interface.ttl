@@ -26,7 +26,7 @@
     </div>
     <div>
         <h2 id="usage">Usage</h2>
-        <p>A usage message with parameters of a script is printed when the scripted is run without any arguments. There can be named parameters and default parameters, both of those can be optional. For example:
+        <p>A usage message with parameters of a script is printed when the scripted is run without any arguments. There can be named parameters and default parameters, both of those can be optional. For example:</p>
         <pre>~/WebRoot/AtomGraph/LinkedDataHub/scripts$ ./create-select.sh
 Creates a SPARQL SELECT query.
 
