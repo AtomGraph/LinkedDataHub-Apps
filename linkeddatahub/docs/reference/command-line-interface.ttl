@@ -25,6 +25,25 @@
         <p>They also use the <a href="https://jena.apache.org/documentation/tools/" target="_blank">Jena's CLI commands</a> internally, so make sure to have them on <code>$PATH</code> before running the scripts.</p>
     </div>
     <div>
+        <h2 id="parameters">Parameters</h2>
+        <p>Common parameters used by most scripts include:</p>
+        <dl>
+            <dt>-f</dt>
+            <dt>--cert-pem-file</dt>
+            <dd><samp>.pem</samp> file with the WebID certificate of the agent</dd>
+            <dt>-p</dt>
+            <dt>--cert-password</dt>
+            <dd>Password of the WebID certificate</dd>
+            <dt>-b</dt>
+            <dt>--base</dt>
+            <dd>Base URI of the application</dd>
+            <dt>--proxy</dt>
+            <dd>The host this request will be proxied through (optional)</dd>
+            <dd>It can be used with port 5443 for which the client certificate authentication is always enabled, for example <samp>--proxy https://localhost:5443/</samp></dd>
+        </dl>
+        <p>Other parameters are script-specific.</p>
+    </div>
+    <div>
         <h2 id="usage">Usage</h2>
         <p>A usage message with parameters of a script is printed when the scripted is run without any arguments. There can be named parameters and default parameters, both of those can be optional. For example:</p>
         <pre>~/WebRoot/AtomGraph/LinkedDataHub/scripts$ ./create-select.sh
