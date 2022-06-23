@@ -42,7 +42,7 @@
         <p>You will need to create documents if you want to store data in LinkedDataHub. Documents are RDF Linked Data resources as well as named graphs in the application's dataset.</p>
         <p>There are types of documents supported by LinkedDataHub: containers and items. Containers can have children documents, just like folders in a filesystem. Items usually contain content and/or are paired with
             non-informations resources such as abstract concepts or physical objects.</p>
-        <p class="lead"><a href="../user-guide/create-document/" target="_blank">Follow a tutorial to create a container.</a></p>
+        <p class="lead"><a href="../user-guide/create-data/create-documents/" target="_blank">Follow a tutorial to create a container.</a></p>
     </div>
     <div>
         <h2 id="create-instance">Create an instance</h2>
