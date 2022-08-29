@@ -32,7 +32,7 @@
             <dl>
                 <dt><samp>GOOGLE_CLIENT_ID</samp></dt>
                 <dd><a href="https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid">OAuth client ID</a></dd>
-                <dd><a href="../../get-started/get-an-account/">Login with Google</a> authentication is enable when this value is provided</dd>
+                <dd><a href="../../get-started/get-an-account/">Login with Google</a> authentication is enabled when this value is provided</dd>
                 <dt><samp>GOOGLE_CLIENT_SECRET</samp></dt>
                 <dd><a href="https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid">OAuth client secret</a></dd>
             </dl>
@@ -61,9 +61,14 @@
     <div>
         <h2 id="nginx">nginx</h2>
         <dl>
+            <dt>SERVER_CERT_FILE</dt>
+            <dd>Location of the server's SSL certificate. By default <samp>/etc/nginx/ssl/server.crt</samp>.</dd>
+            <dt>SERVER_KEY_FILE</dt>
+            <dd>Location of the server's SSL certificate's key. By default <samp>/etc/nginx/ssl/server.key</samp>.</dd>
             <dt>SSL_VERIFY_CLIENT</dt>
             <dd><samp>off</samp> to disable TLS client certificate authentication on the <samp>$HTTPS_PORT</samp> port, which also disables LinkedDataHub's <a href="../../get-started/get-an-account/">WebID-TLS authentication method</a>.</dd>
             <dd>This option can be used to avoid the certificate prompt in the browser in end-user facing applications. The client certificate authentication is still available on port 5443.</dd>
+            <dd><samp>optional_no_ca</samp> to enable it.</dd>
         </dl>
     </div>
 </div>"""^^rdf:XMLLiteral .
