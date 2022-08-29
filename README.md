@@ -19,8 +19,6 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
 <dl>
     <dt>Source</dt>
     <dd><a href="../../tree/master/linkeddatahub/docs/">linkeddatahub/docs/</a></dd>
-    <dt>Live instance</dt>
-    <dd><a href="https://linkeddatahub.com/linkeddatahub/docs/">https://linkeddatahub.com/linkeddatahub/docs/</a></dd>
     <dt>Features</dt>
     <dd>XHTML document content is rendered from RDF literals</dd>
     <dt>Lines of code</dt>
@@ -78,8 +76,6 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
 <dl>
     <dt>Source</dt>
     <dd><a href="../../tree/master/demo/life-sciences/" target="_blank">demo/life-sciences/</a></dd>
-    <dt>Live instance</dt>
-    <dd><a href="https://linkeddatahub.com/demo/life-sciences/" target="_blank">https://linkeddatahub.com/demo/life-sciences/</a></dd>
     <dt>Features</dt>
     <dd>Charts</dd>
     <dt>Lines of code</dt>
