@@ -37,7 +37,7 @@
             control</a>. Requesting a resource with insufficient access rights will result in <code>403 Forbidden</code> response. That  means either:</p>
         <ul>
             <li>the user is not authenticated and public access to the resource is not allowed</li>
-            <li>the user is authenticated but the associated agent does not have an authorization to <a href="../documents/#manage">perform the action</a> on the
+            <li>the user is authenticated but the associated agent does not have an authorization to <a href="../data-management/documents/#manage">perform the action</a> on the
                 requested resource</li>
         </ul>
     </div>
