@@ -60,7 +60,7 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
     <dt>Live instance</dt>
     <dd><a href="https://linkeddatahub.com/demo/city-graph/" target="_blank">https://linkeddatahub.com/demo/city-graph/</a></dd>
     <dt>Features</dt>
-    <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/imports/csv/" target="_blank">Import from CSV</a></dd>
+    <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/imports/csv/" target="_blank">Import from CSV</a></dd>
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
     <dd>479 lines of SPARQL</dd>
