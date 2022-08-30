@@ -15,6 +15,9 @@
 <#content> a ldh:Content ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Navigate the document hierarchy, related results, and backlinks</p>
+    <p class="text-center">
+        <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/5uzpHxu6YNo" width="560"></iframe>
+    </p>
     <div>
         <h2 id="doc-tree">Document tree</h2>
         <p>Document tree is a widget that enables quick overview of the application's <a href="../../reference/data-management/documents/#hierarchy">document hierarchy</a>. Each document is shown as a node in the tree; container documents
