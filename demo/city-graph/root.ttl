@@ -13,7 +13,7 @@
     rdf:_1 <#page-header> ;
     rdf:_2 <#content-blocks> ;
     rdf:_3 <#main-library> ;
-    rdf:_4 <#check-out> ;
+    rdf:_4 <#charts> ;
     rdf:_5 <#largest-parkings> ;
     rdf:_6 <#check-out> ;
     rdf:_7 <#select-children> .
