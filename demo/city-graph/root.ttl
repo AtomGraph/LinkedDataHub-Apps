@@ -14,7 +14,9 @@
     rdf:_2 <#content-blocks> ;
     rdf:_3 <#main-library> ;
     rdf:_4 <#check-out> ;
-    rdf:_5 <#select-children> .
+    rdf:_5 <#largest-parkings> ;
+    rdf:_6 <#check-out> ;
+    rdf:_7 <#select-children> .
 
 <#page-header> a ldh:Content ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
@@ -34,6 +36,14 @@
 <#main-library> a ldh:Content ;
     rdf:value <copenhagen/places/stednavn_punkt.fid-361ad8c1_150a94a2aab_-83b/> ;
     ac:mode ac:MapMode .
+
+<#charts> a ldh:Content ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <p>What are the largest parkest facilities in Copenhagen? Let's find out in this SPARQL-driven chart.</p>
+    </div>"""^^rdf:XMLLiteral .
+
+<#largest-parkings> a ldh:Content ;
+    rdf:value <charts/largest-parkings/#this> .
 
 <#check-out> a ldh:Content ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">

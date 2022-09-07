@@ -47,6 +47,10 @@ printf "\n### Creating containers\n\n"
 
 ./create-containers.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
+printf "\n### Creating charts\n\n"
+
+./create-charts.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+
 printf "\n### Importing CSV data\n\n"
 
 ./import-csv.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"

@@ -38,7 +38,7 @@ WHERE
         <#address> ?address ;
         <#lat> ?lat_string ;
         <#postcode> ?postcode ;
-        <#parkingSpace> ?spaces ;
+        <#parkingSpace> ?spaces_string ;
         <#parkingType> ?parkingType ;
         <#information> ?information ;
         <#long> ?long_string . 
@@ -55,4 +55,5 @@ WHERE
 
     BIND(xsd:float(?lat_string) AS ?lat)
     BIND(xsd:float(?long_string) AS ?long)
+    BIND(xsd:integer(?spaces_string) AS ?spaces)
 }
