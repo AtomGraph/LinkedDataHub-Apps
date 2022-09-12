@@ -11,26 +11,23 @@
     dct:title "Root" ;
     dct:description "Geospatial and other open data about cities, imported by transforming CSV files to RDF" ;
     rdf:_1 <#page-header> ;
-    rdf:_2 <#content-blocks> ;
-    rdf:_3 <#main-library> ;
-    rdf:_4 <#charts> ;
-    rdf:_5 <#largest-parkings> ;
-    rdf:_6 <#check-out> ;
-    rdf:_7 <#select-children> .
+    rdf:_2 <#main-library> ;
+    rdf:_3 <#charts> ;
+    rdf:_4 <#largest-parkings> ;
+    rdf:_5 <#check-out> ;
+    rdf:_6 <#select-children> .
 
 <#page-header> a ldh:Content ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
         <div class="page-header">
             <h2>City Graph</h2>
-            <p class="lead">Geospatial and other open data about Copenhagen. Features include CSV imports and a color-coded <a href="geo/" target="_blank">map layout</a>.</p>
+            <p class="lead">Geospatial and other open data about the city of Copenhagen</p>
+            <p>Features include CSV data <a href="imports/" target="_blank">imports</a>, SPARQL-based <a href="charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation) as well as
+                rich documents composed of structured content backed by RDF Knowledge Graph data.</p>
+            <p>This application was created on <a href="https://atomgraph.github.io/LinkedDataHub/" target="_blank">LinkedDataHub</a> using the low code paradigm: no programming was required, only scripts that
+                invoke LinkedDataHub's CLI commands.</p>
+            <p>For example, below we have embedded Copenhagen's Main Library in map mode.</p>
         </div>
-    </div>"""^^rdf:XMLLiteral .
-
-<#content-blocks> a ldh:Content ;
-    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-        <p>LinkedDataHub enables rich documents composed of structured content blocks that are backed by RDF Knowledge Graph data. HTML content, Linked Data resources, collections (containers), charts, SPARQL query results —
-            all of them can be used as blocks, presented in any of the layout modes. And of course, new custom block types can be introduced by extending LinkedDataHub.</p>
-        <p>As an example, below we have embedded Copenhagen's Main Library in map mode.</p>
     </div>"""^^rdf:XMLLiteral .
 
 <#main-library> a ldh:Content ;
