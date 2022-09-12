@@ -22,12 +22,12 @@
         <div class="page-header">
             <h2>City Graph</h2>
             <p class="lead">Geospatial and other open data about the city of Copenhagen</p>
-            <p>Features include CSV data <a href="imports/" target="_blank">imports</a>, SPARQL-based <a href="charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation) as well as
-                rich documents composed of structured content backed by RDF Knowledge Graph data.</p>
-            <p>This application was created on <a href="https://atomgraph.github.io/LinkedDataHub/" target="_blank">LinkedDataHub</a> using the low code paradigm: no programming was required, only scripts that
-                invoke LinkedDataHub's CLI commands.</p>
-            <p>For example, below we have embedded Copenhagen's Main Library in map mode.</p>
         </div>
+        <p>Features include CSV data <a href="imports/" target="_blank">imports</a>, SPARQL-based <a href="charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation) as well as
+            rich documents composed of structured content backed by RDF Knowledge Graph data.</p>
+        <p>This application was created on <a href="https://atomgraph.github.io/LinkedDataHub/" target="_blank">LinkedDataHub</a> using the low code paradigm: no programming was required, only scripts that
+            invoke LinkedDataHub's CLI commands.</p>
+        <p>For example, below we have embedded Copenhagen's Main Library in map mode.</p>
     </div>"""^^rdf:XMLLiteral .
 
 <#main-library> a ldh:Content ;
