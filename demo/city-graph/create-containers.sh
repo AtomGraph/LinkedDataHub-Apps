@@ -43,7 +43,8 @@ fi
   --proxy "$proxy" \
   --title "Places" \
   --slug "places" \
-  --parent "$parent"
+  --parent "$parent" \
+  --mode "https://w3id.org/atomgraph/client#MapMode"
 
 ./create-container.sh \
   -b "$base" \
@@ -52,7 +53,8 @@ fi
   --proxy "$proxy" \
   --title "Bicycle parkings" \
   --slug "bicycle-parkings" \
-  --parent "$parent"
+  --parent "$parent" \
+  --mode "https://w3id.org/atomgraph/client#MapMode"
 
 ./create-container.sh \
   -b "$base" \
@@ -61,7 +63,8 @@ fi
   --proxy "$proxy" \
   --title "Charging stations" \
   --slug "charging-stations" \
-  --parent "$parent"
+  --parent "$parent" \
+  --mode "https://w3id.org/atomgraph/client#MapMode"
 
 ./create-container.sh \
   -b "$base" \
@@ -70,7 +73,8 @@ fi
   --proxy "$proxy" \
   --title "Libraries" \
   --slug "libraries" \
-  --parent "$parent"
+  --parent "$parent" \
+  --mode "https://w3id.org/atomgraph/client#MapMode"
 
 ./create-container.sh \
   -b "$base" \
@@ -79,7 +83,8 @@ fi
   --proxy "$proxy" \
   --title "Parking facilities" \
   --slug "parking-facilities" \
-  --parent "$parent"
+  --parent "$parent" \
+  --mode "https://w3id.org/atomgraph/client#MapMode"
 
 ./create-container.sh \
   -b "$base" \
@@ -88,7 +93,8 @@ fi
   --proxy "$proxy" \
   --title "Playgrounds" \
   --slug "playgrounds" \
-  --parent "$parent"
+  --parent "$parent" \
+  --mode "https://w3id.org/atomgraph/client#MapMode"
 
 ./create-container.sh \
   -b "$base" \
@@ -97,7 +103,8 @@ fi
   --proxy "$proxy" \
   --title "Schools" \
   --slug "schools" \
-  --parent "$parent"
+  --parent "$parent" \
+  --mode "https://w3id.org/atomgraph/client#MapMode"
 
 ./create-container.sh \
   -b "$base" \
@@ -106,7 +113,8 @@ fi
   --proxy "$proxy" \
   --title "Sport centers" \
   --slug "sports-centers" \
-  --parent "$parent"
+  --parent "$parent" \
+  --mode "https://w3id.org/atomgraph/client#MapMode"
 
 ./create-container.sh \
   -b "$base" \
@@ -115,6 +123,7 @@ fi
   --proxy "$proxy" \
   --title "Public toilets" \
   --slug "public-toilets" \
-  --parent "$parent"
+  --parent "$parent" \
+  --mode "https://w3id.org/atomgraph/client#MapMode"
 
 popd

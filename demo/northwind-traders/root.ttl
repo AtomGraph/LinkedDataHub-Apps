@@ -20,10 +20,12 @@
         <div class="page-header">
             <h2>Northwind Traders</h2>
             <p class="lead">The iconic sample database converted to an RDF Knowledge Graph</p>
-            <p>Features include CSV data <a href="imports/" target="_blank">imports</a>, SPARQL-based <a href="charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation).</p>
-            <p>This application was created on <a href="https://atomgraph.github.io/LinkedDataHub/" target="_blank">LinkedDataHub</a> using the low code paradigm: no programming was required, only scripts that invoke LinkedDataHub's CLI commands.</p>
-            <p>Below is an example of a chart, which is embedded into a document just by using its URI.</p>
         </div>
+        <p>Features include CSV data <a href="imports/" target="_blank">imports</a>, SPARQL-based <a href="charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation) as well as
+            rich documents composed of structured content backed by RDF Knowledge Graph data.</p>
+        <p>This application was created on <a href="https://atomgraph.github.io/LinkedDataHub/" target="_blank">LinkedDataHub</a> using the low code paradigm: no programming was required, only scripts that
+            invoke LinkedDataHub's CLI commands.</p>
+        <p>Below is an example of a chart, which is embedded into a document just by using its URI.</p>
     </div>"""^^rdf:XMLLiteral .
 
 <#top-selling-products> a ldh:Content ;

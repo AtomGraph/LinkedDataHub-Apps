@@ -1,0 +1,14 @@
+PREFIX schema:     <https://schema.org/> 
+PREFIX dct:        <http://purl.org/dc/terms/>
+
+SELECT DISTINCT ?name ?spaces
+WHERE
+{
+    GRAPH ?g
+    { ?parking a schema:ParkingFacility ;
+        dct:title ?name ;      
+      schema:maximumAttendeeCapacity ?spaces .
+  	}
+}
+ORDER BY DESC(?spaces)
+LIMIT 100

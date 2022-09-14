@@ -39,9 +39,17 @@ printf "\n### Clearing ontologies\n\n"
 
 cd ..
 
+printf "\n### Updating documents\n\n"
+
+./update-documents.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+
 printf "\n### Creating containers\n\n"
 
 ./create-containers.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+
+printf "\n### Creating charts\n\n"
+
+./create-charts.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
 printf "\n### Importing CSV data\n\n"
 
