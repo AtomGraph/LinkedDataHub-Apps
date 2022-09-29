@@ -25,16 +25,16 @@ printf "\n### Creating authorization to make the app public\n\n"
 
 printf "\n### Creating authorizations\n\n"
 
-find "${pwd}" -name '*.ttl' -exec ./admin/acl/create-authorization.sh "${base}" "${cert_pem_file}" "${cert_password}" "${pwd}" {} "$proxy" \;
+find "${pwd}" -name '*.ttl' -exec ./admin/acl/create-authorization.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
 
 printf "\n### Update documents\n\n"
 
-find "${pwd}" -name '*.ttl' -exec ./update-document.sh "${base}" "${cert_pem_file}" "${cert_password}" "${pwd}" {} "$proxy" \;
+find "${pwd}" -name '*.ttl' -exec ./update-document.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
 
 printf "\n### Uploading images\n\n"
 
-find "${pwd}/files/images" -type f -exec ./upload-file.sh "${base}" "${cert_pem_file}" "${cert_password}" "${pwd}" {} "$proxy" \;
+find "${pwd}/files/images" -type f -exec ./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
 
 printf "\n### Uploading videos\n\n"
 
-find "${pwd}/files/videos" -type f -exec ./upload-file.sh "${base}" "${cert_pem_file}" "${cert_password}" "${pwd}" {} "$proxy" \;
+find "${pwd}/files/videos" -type f -exec ./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
