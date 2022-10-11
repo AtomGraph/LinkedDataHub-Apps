@@ -27,7 +27,7 @@
         </p>
         <p>To copy the contents of the current RDF document (local or remote) into a local document, follow these steps:</p>
         <ol>
-            <li>Click on the <span class="btn btn-primary">Save</span> button on the right side of the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a>.
+            <li>Click on the <span class="btn btn-save-as">Save</span> button on the right side of the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a>.
                 A form will open with the following fields:
                 <dl>
                     <dt>Source</dt>
@@ -36,7 +36,7 @@
                     <dd>The target document. You can start typing to find it by its label, or paste its URI here. You can also create a new document here by clicking the <span>[+]</span> button next to the input.</dd>
                 </dl>
             </li>
-            <li>Click <span class="btn btn-primary">Save</span> to perform the fork operation.</li>
+            <li>Click <span class="btn btn-primary btn-save">Save</span> to perform the fork operation.</li>
         </ol>
     </div>
     <div>
@@ -54,7 +54,7 @@
                 <dd>The target document. Start typing to find it by its label, or paste its URI here. You can also create a new document here by clicking the <span>[+]</span> button next to the input.</dd>
             </dl>
             </li>
-            <li>Click <span class="btn btn-primary">Save</span> to perform the fork operation.</li>
+            <li>Click <span class="btn btn-primary btn-save">Save</span> to perform the fork operation.</li>
         </ol>
     </div>
 </div>"""^^rdf:XMLLiteral .

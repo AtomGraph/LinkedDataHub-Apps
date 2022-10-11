@@ -25,7 +25,7 @@
         </p>
         <div>
             <h2 id="save-query">Saving queries</h2>
-            <p>If you want to save the query string which is currently in the editor, click the <span class="btn">Save</span> button underneath the editor form. A document creation form will open where the query
+            <p>If you want to save the query string which is currently in the editor, click the <span class="btn btn-save-query btn-save">Save</span> button underneath the editor form. A document creation form will open where the query
                 string will be filled in, you only need to enter the titles of the query and its document. You can then access the query by navigating to the query container via the dropdown in the
                 <a href="../../reference/user-interface/#action-bar" target="_blank">breadcrumb bar</a>.</p>
             <p>You will not be able to save invalid query strings.</p>
@@ -35,7 +35,7 @@
             <p>The SPARQL editor includes an interactive chart pane which can be used to visualize the query results. You can change the chart type, select its category and one or more series.</p>
             <p>The chart pane supports both graph query (<code>CONSTRUCT</code>, <code>DESCRIBE</code>) and result set query (<code>SELECT</code>, <code>ASK</code>) results. For graph results, the category and series are
                 rendered from resource properties; for result sets, they are rendered from variable names.</p>
-            <p>If you want to save the chart with properties which are currently selected, click the <span class="btn">Save</span> button underneath the chart pane. That will open two document creation forms: one for
+            <p>If you want to save the chart with properties which are currently selected, click the <span class="btn btn-primary btn-save-chart btn-save">Save</span> button underneath the chart pane. That will open two document creation forms: one for
                 the query, and the second one for the chart (as the chart depends on the query). The query string and chart properties will be filled in, you only need to
                 enter the titles of the query and the chart and their document. You can then access the chart by navigating to the chart container via the dropdown in the
                 <a href="../../reference/user-interface/#action-bar" target="_blank">breadcrumb bar</a>.</p>
