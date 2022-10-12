@@ -40,8 +40,6 @@
         view. Learn more about query possibilities in the <a href="../../user-guide/query-data/">Query data</a> section.</p>
         <p>Current application can be switched using a dropdown on the right. Different users have access to
         different applications, depending on their authorizations.</p>
-        <p>Currently <a href="../../get-started/get-an-account/#log-in" title="Log in">logged-in user's</a> account is accessible via the icon on
-            the right, which opens a drop-down. You can log out by clicking the <span class="btn">Logout</span> button.</p>
         <div class="alert alert-info">
             <p><em>Due to current web browser limitations, it is not possible to logout using client certificate authentication.
               As a workaround, you can close the browser, and click <span class="btn">Cancel</span> when asked to select a
@@ -53,7 +51,7 @@
         <p>
             <img alt="Action bar" src="../../uploads/4656ea9036a2b6d48a3233e0bc3cdc0f698ae0f2"></img>
         </p>
-        <p>The <span class="btn btn-primary">Create</span> button invokes <a href="#create-edit">create dialog</a> through which
+        <p>The <span class="btn btn-primary create-action">Create <span class="caret"></span></span> button invokes <a href="#create-edit">create dialog</a> through which
         resources can be <a href="../documents/#create">created</a> as instances of the
         <a href="../administration/model/#classes">classes</a> defined in the model.</p>
         <p>The path leading from the current document up the parent/child hierarchy to the root container is shown in
@@ -128,7 +126,7 @@
     </div>
     <div>
         <h2 id="pagination">Pagination</h2>
-        <p>Pagination is only available for container resources. <span class="btn">Prev</span>/<span class="btn">Next</span>
+        <p>Pagination is only available for container resources. <span class="btn" style="background-image: url('../../files/icons/ic_navigate_before_black_24px.svg'); background-position: center center; background-repeat: no-repeat; width: 64px; height: 1em;"></span>/<span class="btn" style="background-image: url('../../files/icons/ic_navigate_next_black_24px.svg'); background-position: center center; background-repeat: no-repeat; width: 64px; height: 1em;"></span>
         pager buttons, located above and below the <a href="#main-content">main content</a>, link to the page before
         the current one and after the current one, respectively.</p>
     </div>

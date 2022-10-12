@@ -24,7 +24,7 @@
             <div class="tab-pane active">
                 <div>
                     <ol>
-                        <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
+                        <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner</li>
                         <li>Click on <samp>File</samp> in the drop-down list that appears</li>
                         <li>Fill out the mandatory fields in the form:
                             <dl>
@@ -36,7 +36,7 @@
                                 <dd>Enter document title</dd>
                             </dl>
                         </li>
-                        <li>Click <span class="btn btn-primary">Save</span></li>
+                        <li>Click <span class="btn btn-primary btn-save">Save</span></li>
                     </ol>
                     <p>See how below:</p>
                     <p>

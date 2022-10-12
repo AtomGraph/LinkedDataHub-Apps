@@ -35,13 +35,13 @@
             <li>Make sure you're in the content layout mode</li>
             <li>At the bottom of the content list, click one of the two buttons:
                 <ul>
-                    <li><span class="btn btn-primary">Resource</span> in order to create resource content</li>
-                    <li><span class="btn btn-primary">HTML</span> in order to create HTML content</li>
+                    <li><span class="btn btn-primary create-action add-resource-content">Resource</span> in order to create resource content</li>
+                    <li><span class="btn btn-primary create-action add-xhtml-content">HTML</span> in order to create HTML content</li>
                 </ul>
             </li>
             <li>In the case of HTML, add content in the WYSIWYG editor</li>
             <li>In the case of URI resource, start typing its label and select the resource from the dropdown, or paste its URI into the input</li>
-            <li>Click the <span class="btn btn-primary">Save</span> button to save the content</li>
+            <li>Click the <span class="btn btn-primary btn-save">Save</span> button to save the content</li>
         </ol>
         <p>To edit content, follow these steps:</p>
         <ol>
@@ -60,8 +60,8 @@
         <p>This method requires switching the whole document into edit mode, but it is more general as it treats the content blocks as regular RDF resources.</p>
         <p>To create content and add it to the document in edit mode, follow these steps:</p>
         <ol>
-            <li>Click the <span class="btn">Edit</span> button in the <a href="../../../reference/user-interface/#action-bar" target="_blank">action bar</a> to open the editing form for the current document</li>
-            <li>Scroll to the end of the form and click the <span class="btn btn-primary">Content</span> creation button</li>
+            <li>Click the <span class="btn btn-edit active"></span> button in the <a href="../../../reference/user-interface/#action-bar" target="_blank">action bar</a> to open the editing form for the current document</li>
+            <li>Scroll to the end of the form and click the <span class="btn btn-primary add-constructor create-action">Content</span> creation button</li>
             <li>In the dropdown next to <samp>Value</samp> you can toggle between resource content and HTML content</li>
             <li>In the new content fieldset that appears, fill out these fields:
                 <dl>
@@ -78,7 +78,7 @@
                     <dd>Click the input field and select the content's blank node identifier from the dropdown, or paste its URI if it already has one.</dd>
                 </dl>
             </li>
-            <li>Click <span class="btn btn-primary">Save</span> at the bottom of the form to submit it</li>
+            <li>Click <span class="btn btn-primary btn-save">Save</span> at the bottom of the form to submit it</li>
         </ol>
         <p>To remove content, follow these steps:</p>
         <ol>

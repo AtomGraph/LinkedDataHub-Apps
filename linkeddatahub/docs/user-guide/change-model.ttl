@@ -18,7 +18,7 @@
     <div>
         <h2 id="change-model">Change the model</h2>
         <p>In order to be able to manage instances, we need to create <a href="../../reference/administration/model/#classes" target="_blank">classes</a> that represent them in the <a href="../../reference/administration/model/" target="_blank">model</a> of our dataspace. Not only will they serve as RDF types of the instances, but will have <a href="../../reference/administration/model/#constructors" target="_blank">constructors</a> attached that define the default properties and their (data)types for that class.</p>
-        <p>Model is managed in the <a href="../../reference/dataspace/#admin-apps" target="_blank">administration application</a> of a dataspace. Head there by clicking the <span class="btn btn-settings">Settings</span> in the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a> and then choosing <samp>Administration</samp>.</p>
+        <p>Model is managed in the <a href="../../reference/dataspace/#admin-apps" target="_blank">administration application</a> of a dataspace. Head there by clicking the <span class="btn dropdown-toggle btn-settings"></span> in the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a> and then choosing <samp>Administration</samp>.</p>
         <div class="alert alert-info">
             <p>In order to manage the <a href="../../reference/administration/acl/" target="_blank">access control</a>, or the <a href="../../reference/administration/model/" target="_blank">model</a> of a dataspace,
             the agent needs to be a member of the <a href="../../reference/administration/acl/#groups" target="_blank">owners group</a>.</p>
@@ -70,7 +70,7 @@ WHERE {}</pre>
                     <div>
                         <p>In the administration application, follow these steps:</p>
                         <ol>
-                            <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
+                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner</li>
                             <li>Click on <samp>CONSTRUCT</samp> in the drop-down list that appears</li>
                             <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns#ConstructConcept</samp></li>
                             <li>Fill out the mandatory fields in the form:
@@ -82,7 +82,7 @@ WHERE {}</pre>
                                     <dd>Enter the SPARQL <code>CONSTRUCT</code> query string</dd>
                                 </dl>
                             </li>
-                            <li>Click <span class="btn btn-primary">Save</span></li>
+                            <li>Click <span class="btn btn-primary btn-save">Save</span></li>
                         </ol>
                     </div>
                 </div>
@@ -123,7 +123,7 @@ popd</pre>
                     <div>
                         <p>In the administration application, follow these steps:</p>
                         <ol>
-                            <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
+                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner</li>
                             <li>Click on <samp>Missing property value</samp> in the drop-down list that appears</li>
                             <li>Fill out the fields in the form:
                                 <dl>
@@ -136,7 +136,7 @@ popd</pre>
                                     <dd>Enter <samp>http://www.w3.org/2004/02/skos/core#prefLabel</samp></dd>
                                 </dl>
                             </li>
-                            <li>Click <span class="btn btn-primary">Save</span></li>
+                            <li>Click <span class="btn btn-primary btn-save">Save</span></li>
                         </ol>
                     </div>
                 </div>
@@ -173,7 +173,7 @@ popd</pre>
                     <div>
                         <p>In the administration application, follow these steps to create the concept class:</p>
                         <ol>
-                            <li>Click the <span class="btn btn-primary">Create</span> dropdown in the top-left corner</li>
+                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner</li>
                             <li>Click on <samp>Class</samp> in the drop-down list that appears</li>
                             <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns#Concept</samp></li>
                             <li>Fill out the mandatory fields in the form:
@@ -186,7 +186,7 @@ popd</pre>
                                     <dd>Select <samp>Construct concept</samp> from the list — this is the query we created beforehand</dd>
                                 </dl>
                             </li>
-                            <li>Click <span class="btn btn-primary">Save</span></li>
+                            <li>Click <span class="btn btn-primary btn-save">Save</span></li>
                         </ol>
                     </div>
                 </div>
