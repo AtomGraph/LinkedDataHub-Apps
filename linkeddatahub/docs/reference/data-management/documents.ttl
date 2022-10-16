@@ -112,7 +112,7 @@
     </div>
     <div>
         <h2 id="files">Files</h2>
-        <p>System container with uploaded files can be found in the <a href="../../user-interface/#doc-tree">document tree</a>.</p>
+        <p>System container with uploaded files can be found in the <a href="../../user-interface/#document-tree">document tree</a>.</p>
         <div>
             <h3 id="upload">Upload</h3>
             <p>Files <a href="../../../user-guide/upload-file/" target="_blank">can be uploaded</a> by selecting the File type in the <a href="../../user-interface/#action-bar">action bar</a>.</p>
