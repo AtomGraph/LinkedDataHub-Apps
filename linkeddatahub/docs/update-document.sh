@@ -27,7 +27,7 @@ pushd . && cd "$SCRIPT_ROOT"
 
 printf "\n### Updating %s\n" "${base}${path}"
 
-cat "${filename}" | turtle --base="${base}" | "$SCRIPT_ROOT"/update-document.sh \
+cat "$filename" | turtle --base="$base" | "$SCRIPT_ROOT"/update-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
