@@ -18,7 +18,7 @@
     <p>You can fork (copy the contents of) any RDF document to a namedgraph in your dataspace. Two sources of RDF are supported: RDF resources on the web (Linked Data), and RDF file uploads.</p>
     <div class="alert alert-info">
         <p>Adding data this way will cause a blocking request, so use it for small amounts of data only (e.g. a few thousands of RDF triples).
-        For larger data, use asynchronous <a href="../../reference/imports/rdf/" target="_blank">RDF imports</a>.</p>
+        For larger data, use asynchronous <a href="../import-data/import-rdf-data/" target="_blank">RDF imports</a>.</p>
     </div>
     <div>
         <h2 id="from-linked-data">From Linked Data</h2>
@@ -33,7 +33,7 @@
                     <dt>Source</dt>
                     <dd>URI of the source document</dd>
                     <dt>Graph</dt>
-                    <dd>The target document. You can start typing to find it by its label, or paste its URI here. You can also create a new document here by clicking the <span>[+]</span> button next to the input.</dd>
+                    <dd>The target document. You can start typing to find it by its label, or paste its URI here. You can also create a new document here by clicking the <span class="btn">[+]</span> button next to the input.</dd>
                 </dl>
             </li>
             <li>Click <span class="btn btn-primary btn-save">Save</span> to perform the fork operation.</li>
@@ -51,7 +51,7 @@
                 <dt>Filename</dt>
                 <dd>Select the file on your computer</dd>
                 <dt>Graph</dt>
-                <dd>The target document. Start typing to find it by its label, or paste its URI here. You can also create a new document here by clicking the <span>[+]</span> button next to the input.</dd>
+                <dd>The target document. Start typing to find it by its label, or paste its URI here. You can also create a new document here by clicking the <span class="btn">[+]</span> button next to the input.</dd>
             </dl>
             </li>
             <li>Click <span class="btn btn-primary btn-save">Save</span> to perform the fork operation.</li>

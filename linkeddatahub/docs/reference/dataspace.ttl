@@ -25,16 +25,16 @@
     </div>
     <div>
         <h2 id="applications">Applications</h2>
-        <p>All LDT applications have the following properties:</p>
+        <p>All LDT applications have the following traits:</p>
         <dl>
             <dt>Base URI</dt>
             <dd>Base URI is a URI by which an application can be identified. All request URIs processed by an application are relative to one of its base URIs.</dd>
             <dd>URIs in the <a href="../dataset/">application dataset</a> are usually (but not necessarily) relative to its base URIs.</dd>
             <dt>Service</dt>
             <dd><a href="#services">SPARQL service</a></dd>
-            <dt>Ontology</dt>
-            <dd>Ontology defines the terms (classes, properties etc.) of the application domain as well as its LDT templates. It can import
-                other ontologies from within the application as well as from external applications.</dd>
+            <dt>Namespace ontology</dt>
+            <dd><a href="../administration/model/#ontologies">Ontology</a> defines the terms (classes, properties, constraints etc.) of the application's domain. It can import
+                other ontologies from within the application as well as from external documents.</dd>
             <dd>Ontologies as <a href="../administration/model/">managed in the administration</a> application.</dd>
         </dl>
         <div class="alert alert-info">
