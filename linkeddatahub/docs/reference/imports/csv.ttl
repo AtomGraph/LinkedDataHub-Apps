@@ -91,8 +91,7 @@ _:e8f2e8e9-3d02-4bf5-b4f1-4794ba5b52c9
         <div>
             <h4 id="vocabulary-conversion-example">Example</h4>
             <p>In this example we produce a SKOS concept paired with its item (document) for each country:</p>
-            <pre><code>PREFIX  ldh:  &lt;https://w3id.org/atomgraph/linkeddatahub#&gt;
-PREFIX  geo:  &lt;http://www.w3.org/2003/01/geo/wgs84_pos#&gt;
+            <pre><code>PREFIX  geo:  &lt;http://www.w3.org/2003/01/geo/wgs84_pos#&gt;
 PREFIX  dh:   &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt;
 PREFIX  dct:  &lt;http://purl.org/dc/terms/&gt;
 PREFIX  rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
@@ -127,9 +126,8 @@ WHERE
     BIND(xsd:float(?longString) AS ?long)
   }</code></pre>
              <p>When the import is complete, you should be able to see the imported documents as children of the <samp>${base}countries/</samp> container.</p>
-            <p>The result of our mapping  (only the first resource is shown):</p>
-            <pre>PREFIX  ldh:  &lt;https://w3id.org/atomgraph/linkeddatahub#&gt;
-PREFIX  geo:  &lt;http://www.w3.org/2003/01/geo/wgs84_pos#&gt;
+            <p>The result of our mapping:</p>
+            <pre>PREFIX  geo:  &lt;http://www.w3.org/2003/01/geo/wgs84_pos#&gt;
 PREFIX  dh:   &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt;
 PREFIX  dct:  &lt;http://purl.org/dc/terms/&gt;
 PREFIX  rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
@@ -137,17 +135,41 @@ PREFIX  xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt;
 PREFIX  foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
 PREFIX  sioc: &lt;http://rdfs.org/sioc/ns#&gt;
 
-_:item a &lt;https://w3id.org/atomgraph/linkeddatahub##Item&gt; ;
+&lt;https://localhost:4443/countries/AD/&gt; a dh:Item ;
     sioc:has_container &lt;https://localhost:4443/countries/&gt; ;
     dct:title "Andorra" ;
     dh:slug "AD" ;
-    foaf:primaryTopic _:country .
+    foaf:primaryTopic &lt;https://localhost:4443/countries/AD/#id459bdd90-a309-49f9-92b2-1b9b5d110471&gt; .
 
-_:country a &lt;http://dbpedia.org/ontology/Country&gt; ;
+&lt;https://localhost:4443/countries/AD/#id459bdd90-a309-49f9-92b2-1b9b5d110471&gt; a &lt;http://dbpedia.org/ontology/Country&gt; ;
     dct:identifier "AD" ;
     geo:lat 42.5 ;
     geo:long 1.6 ;
-    dct:title "Andorra" .</pre>
+    dct:title "Andorra" .
+
+&lt;https://localhost:4443/countries/AE/&gt; a dh:Item ;
+    sioc:has_container &lt;https://localhost:4443/countries/&gt; ;
+    dct:title "United Arab Emirates" ;
+    dh:slug "AE" ;
+    foaf:primaryTopic &lt;https://localhost:4443/countries/AE/#id7ad9b80b-8fbf-4696-92fa-61facf6c2066&gt; .
+
+&lt;https://localhost:4443/countries/AE/#id7ad9b80b-8fbf-4696-92fa-61facf6c2066&gt; a &lt;http://dbpedia.org/ontology/Country&gt; ;
+    dct:identifier "AE" ;
+    geo:lat 23.4 ;
+    geo:long 53.8 ;
+    dct:title "United Arab Emirates" .
+
+&lt;https://localhost:4443/countries/AF/&gt; a dh:Item ;
+    sioc:has_container &lt;https://localhost:4443/countries/&gt; ;
+    dct:title "Afghanistan" ;
+    dh:slug "AF" ;
+    foaf:primaryTopic &lt;https://localhost:4443/countries/AF/#id5de2fd91-158a-47d8-a302-d1af205fe59f&gt; .
+
+&lt;https://localhost:4443/countries/AF/#id5de2fd91-158a-47d8-a302-d1af205fe59f&gt; a &lt;http://dbpedia.org/ontology/Country&gt; ;
+    dct:identifier "AF" ;
+    geo:lat 33.9 ;
+    geo:long 67.7 ;
+    dct:title "Afghanistan" .</pre>
         </div>
     </div>
     <p class="lead">If you are ready to import some CSV, see our step-by-step tutorial on <a href="../../../user-guide/import-data/import-csv-data/">creating an CSV import</a>.</p>
