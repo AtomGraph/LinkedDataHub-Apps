@@ -44,6 +44,7 @@
             <li>authentication using WebID and OpenID Connect</li>
             <li><a href="../reference/administration/acl/" target="_blank">access control</a> using WAC authorizations</li>
         </ul>
+        <p class="lead">Checkout the user guide on <a href="../user-guide/build-apps/">application building</a>.</p>
     </div>
     <div>
         <h2 id="architecture">Architecture</h2>
