@@ -20,7 +20,7 @@
     <p>The following sections are split by component/layer and explain how to extend them when building bespoke apps.</p>
     <div>
         <h2 id="docker">Docker</h2>
-        <p>You can go a long way just by mounting files (e.g. config files, ontologies, stylesheets) into LinkedDataHub's default Docker setup. But you may also want to build a dedicated Docker image for your app using LinkedDataHub as the base. Usually this is done to <code>COPY</code> files inside the the image or <code>RUN</code> addition commands.</p>
+        <p>You can go a long way just by mounting files (e.g. config files, ontologies, stylesheets) into LinkedDataHub's default Docker setup. But you may also want to build a dedicated Docker image for your app using LinkedDataHub as the base. Usually this is done to <code>COPY</code> files inside the the image or <code>RUN</code> additional commands.</p>
         <p>Here's an sample Dockerfile that copies custom stylesheets into the app's Docker image:</p>
         <pre>FROM atomgraph/linkeddatahub:4.0.0
 
