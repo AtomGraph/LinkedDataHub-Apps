@@ -23,6 +23,29 @@ printf "\n### Creating authorization to make the app public\n\n"
 
 "$SCRIPT_ROOT"/admin/acl/make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
 
+cd admin/model
+
+# printf "\n### Adding ontology import\n\n"
+
+./add-imports.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+
+printf "\n### Importing ontology document\n\n"
+
+cat northwind-traders.ttl | turtle --base="${base}admin/model/ontologies/nortwind-traders/" | "$SCRIPT_ROOT"/update-document.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  -t "application/n-triples" \
+  "${base}admin/model/ontologies/nortwind-traders/"
+
+cd ..
+
+printf "\n### Clearing ontologies\n\n"
+
+./clear-ontologies.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+
+cd ..
+
 printf "\n### Creating containers\n\n"
 
 ./create-containers.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
