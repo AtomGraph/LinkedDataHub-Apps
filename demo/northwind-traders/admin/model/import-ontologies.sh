@@ -19,13 +19,33 @@ else
     proxy="$base"
 fi
 
-pushd . && cd "$SCRIPT_ROOT/admin"
+pwd=$(realpath -s "$PWD")
 
-./add-ontology-import.sh \
+pushd . && cd "$SCRIPT_ROOT"
+
+printf "\n### Creating ontology item\n\n"
+
+ont_doc=$(./create-item.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --import "https://schema.org" \
-  "${base}admin/model/ontologies/namespace/"
+  --title "Northwind Traders" \
+  --slug "northwind-traders" \
+  --container "${base}admin/model/ontologies/"
+)
+
+popd
+
+pushd . && cd "$SCRIPT_ROOT"
+
+printf "\n### Appending ontology document\n\n"
+
+cat northwind-traders.ttl | turtle --base="$ont_doc" | "$SCRIPT_ROOT"/create-document.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  -t "application/n-triples" \
+  "$ont_doc"
 
 popd
