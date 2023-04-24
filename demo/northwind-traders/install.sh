@@ -29,9 +29,20 @@ cd admin/model
 
 ./add-imports.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
-printf "\n### Importing ontology document\n\n"
+printf "\n### Creating ontology item\n\n"
 
-cat northwind-traders.ttl | turtle --base="${base}admin/model/ontologies/nortwind-traders/" | "$SCRIPT_ROOT"/update-document.sh \
+"$SCRIPT_ROOT"/create-item.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --title "Northwind Traders" \
+  --slug "northwind-traders" \
+  --container "${base}admin/model/ontologies/"
+
+printf "\n### Appending ontology document\n\n"
+
+cat northwind-traders.ttl | turtle --base="${base}admin/model/ontologies/nortwind-traders/" | "$SCRIPT_ROOT"/create-document.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
