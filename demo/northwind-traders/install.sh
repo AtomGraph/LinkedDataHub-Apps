@@ -31,7 +31,9 @@ cd admin/model
 
 printf "\n### Creating ontology item\n\n"
 
-"$SCRIPT_ROOT"/create-item.sh \
+pushd . && cd "$SCRIPT_ROOT"
+
+./create-item.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -39,6 +41,8 @@ printf "\n### Creating ontology item\n\n"
   --title "Northwind Traders" \
   --slug "northwind-traders" \
   --container "${base}admin/model/ontologies/"
+
+popd
 
 printf "\n### Appending ontology document\n\n"
 
