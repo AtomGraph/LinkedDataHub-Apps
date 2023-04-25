@@ -50,16 +50,27 @@
 
 # restrictions
 
-[]
-    a                  owl:Restriction ;
-    owl:onProperty     :broker ;
+[] a owl:Restriction ;
+    owl:onProperty :broker ;
     owl:minCardinality 1 ;
     owl:maxCardinality 1 ;
-    rdfs:isDefinedBy   : .
+    rdfs:isDefinedBy : .
 
-[]
-    a                  owl:Restriction ;
-    owl:onProperty     :address ;
+[] a owl:Restriction ;
+    owl:onProperty :address ;
     owl:minCardinality 1 ;
     owl:maxCardinality 1 ;
-    rdfs:isDefinedBy   : .
+    rdfs:isDefinedBy : .
+
+# contents
+
+@prefix ldh:  <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix sp:   <http://spinrdf.org/sp#> .
+
+:Person ldh:template <#content-76b5d972-86e8-424b-83fb-d0d7abe3bb75> .
+
+<#content-76b5d972-86e8-424b-83fb-d0d7abe3bb75> a ldh:Content ;
+    rdf:value  <#query-53e279eb-3c8c-42bd-8a81-fea183d2be01> .
+
+<#query-53e279eb-3c8c-42bd-8a81-fea183d2be01> a sp:Select ;
+    sp:text   "SELECT DISTINCT ?instance { GRAPH ?g { ?instance <https://schema.org/broker> $this } }" .
