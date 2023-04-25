@@ -26,7 +26,7 @@ pushd . && cd "$SCRIPT_ROOT"
 printf "\n### Creating ontology item\n\n"
 
 ont_doc=$(./create-item.sh \
-  -b "$base" \
+  -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
