@@ -25,13 +25,13 @@ printf "\n### Creating authorization to make the app public\n\n"
 
 cd admin/model
 
-# printf "\n### Adding ontology import\n\n"
-
-./add-imports.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
-
 printf "\n### Import ontologies\n\n"
 
 ./import-ontologies.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+
+# printf "\n### Adding ontology import\n\n"
+
+./add-imports.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
 printf "\n### Clearing ontologies\n\n"
 
