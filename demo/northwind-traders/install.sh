@@ -35,6 +35,8 @@ printf "\n### Import ontologies\n\n"
 
 printf "\n### Clearing ontologies\n\n"
 
+cd ..
+
 ./clear-ontologies.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
 cd ..
