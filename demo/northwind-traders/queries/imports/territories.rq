@@ -6,17 +6,20 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dh:slug ?territoryID ;
-        dct:title ?territoryDescription ;
-        foaf:primaryTopic ?territory .
+    GRAPH ?item
+    {
+        ?item a dh:Item ;
+            sioc:has_container ?container ;
+            dh:slug ?territoryID ;
+            dct:title ?territoryDescription ;
+            foaf:primaryTopic ?territory .
 
-    ?territory a schema:City ;
-        dct:title ?territoryDescription ;
-        schema:name ?territoryDescription ;
-        schema:identifier ?territoryID ;
-        schema:containedInPlace ?region .
+        ?territory a schema:City ;
+            dct:title ?territoryDescription ;
+            schema:name ?territoryDescription ;
+            schema:identifier ?territoryID ;
+            schema:containedInPlace ?region .
+    }
 }
 WHERE
 {

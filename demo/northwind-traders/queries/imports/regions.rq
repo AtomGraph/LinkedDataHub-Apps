@@ -6,16 +6,19 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dh:slug ?regionID ;
-        dct:title ?regionDescription ;
-        foaf:primaryTopic ?region .
+    GRAPH ?item
+    {
+        ?item a dh:Item ;
+            sioc:has_container ?container ;
+            dh:slug ?regionID ;
+            dct:title ?regionDescription ;
+            foaf:primaryTopic ?region .
 
-    ?region a schema:Place ;
-        dct:title ?regionDescription ;
-        schema:name ?regionDescription ;
-        schema:identifier ?regionID .
+        ?region a schema:Place ;
+            dct:title ?regionDescription ;
+            schema:name ?regionDescription ;
+            schema:identifier ?regionID .
+    }
 }
 WHERE
 {

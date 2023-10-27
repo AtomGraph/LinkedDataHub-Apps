@@ -8,39 +8,42 @@ PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#>
 
 CONSTRUCT
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dh:slug ?employeeID ;
-        dct:title ?lastName ;
-        foaf:primaryTopic ?employee ;
-        foaf:topic ?postalAddress .
+    GRAPH ?item
+    {
+        ?item a dh:Item ;
+            sioc:has_container ?container ;
+            dh:slug ?employeeID ;
+            dct:title ?lastName ;
+            foaf:primaryTopic ?employee ;
+            foaf:topic ?postalAddress .
 
-    ?employee a schema:Person ;
-        schema:identifier ?employeeID ;
-        dct:title ?lastName ;
-        dct:description ?title ;
-        schema:givenName ?firstName ;
-        schema:familyName ?lastName ;
-        schema:jobTitle ?title ;
-        schema:honorificPrefix  ?titleOfCourtesy ;
-        schema:birthDate ?birthDate;
-        # ?hireDate
-        schema:address ?postalAddress ;
-        schema:telephone ?homePhone ;
-        schema:telephone ?extension ;
-        schema:description ?notes ;
-        schema:sponsor ?reportsToEmployee ;
-        geo:lat ?lat ;
-        geo:long ?long ;
-        foaf:img ?photo .
+        ?employee a schema:Person ;
+            schema:identifier ?employeeID ;
+            dct:title ?lastName ;
+            dct:description ?title ;
+            schema:givenName ?firstName ;
+            schema:familyName ?lastName ;
+            schema:jobTitle ?title ;
+            schema:honorificPrefix  ?titleOfCourtesy ;
+            schema:birthDate ?birthDate;
+            # ?hireDate
+            schema:address ?postalAddress ;
+            schema:telephone ?homePhone ;
+            schema:telephone ?extension ;
+            schema:description ?notes ;
+            schema:sponsor ?reportsToEmployee ;
+            geo:lat ?lat ;
+            geo:long ?long ;
+            foaf:img ?photo .
 
-    ?postalAddress a schema:PostalAddress ;
-        foaf:page ?item ;
-        schema:addressCountry ?country ;
-        schema:addressLocality ?city ;
-        schema:postalCode ?postalCode ;
-        schema:streetAddress ?address ;
-        schema:addressRegion ?region .
+        ?postalAddress a schema:PostalAddress ;
+            foaf:page ?item ;
+            schema:addressCountry ?country ;
+            schema:addressLocality ?city ;
+            schema:postalCode ?postalCode ;
+            schema:streetAddress ?address ;
+            schema:addressRegion ?region .
+    }
 }
 WHERE
 {
