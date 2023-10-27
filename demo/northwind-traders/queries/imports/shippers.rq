@@ -6,17 +6,20 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dh:slug ?shipperID ;
-        dct:title ?companyName ;
-        foaf:primaryTopic ?shipper .
+    GRAPH ?item
+    {
+        ?item a dh:Item ;
+            sioc:has_container ?container ;
+            dh:slug ?shipperID ;
+            dct:title ?companyName ;
+            foaf:primaryTopic ?shipper .
 
-    ?shipper a schema:Corporation ;
-        dct:title ?companyName ;
-        schema:legalName ?companyName ;
-        schema:identifier ?shipperID ;
-        schema:telephone ?phone .
+        ?shipper a schema:Corporation ;
+            dct:title ?companyName ;
+            schema:legalName ?companyName ;
+            schema:identifier ?shipperID ;
+            schema:telephone ?phone .
+    }
 }
 WHERE
 {

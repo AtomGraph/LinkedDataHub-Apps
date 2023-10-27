@@ -8,44 +8,47 @@ PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#>
 
 CONSTRUCT
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dh:slug ?supplierID ;
-        dct:title ?companyName ;
-        foaf:primaryTopic ?supplier ;
-        foaf:topic ?contactPoint, ?employee, ?postalAddress .
+    GRAPH ?item
+    {
+        ?item a dh:Item ;
+            sioc:has_container ?container ;
+            dh:slug ?supplierID ;
+            dct:title ?companyName ;
+            foaf:primaryTopic ?supplier ;
+            foaf:topic ?contactPoint, ?employee, ?postalAddress .
 
-    ?supplier a schema:Corporation ;
-        schema:identifier ?supplierID ;
-        dct:title ?companyName ;
-        schema:legalName ?companyName ;
-        schema:contactPoint ?contactPoint ;
-        schema:employee ?employee .
+        ?supplier a schema:Corporation ;
+            schema:identifier ?supplierID ;
+            dct:title ?companyName ;
+            schema:legalName ?companyName ;
+            schema:contactPoint ?contactPoint ;
+            schema:employee ?employee .
 
-    ?contactPoint a schema:ContactPoint ;
-        foaf:page ?item ;
-        schema:telephone ?phone ;
-        schema:faxNumber ?fax ;
-        schema:url ?homePage .
+        ?contactPoint a schema:ContactPoint ;
+            foaf:page ?item ;
+            schema:telephone ?phone ;
+            schema:faxNumber ?fax ;
+            schema:url ?homePage .
 
-    ?employee a schema:Person ;
-        foaf:page ?item ;
-        schema:name ?contactName ;
-        dct:title ?contactName ;
-        schema:jobTitle ?contactTitle ;
-        schema:telephone ?phone ;
-        schema:faxNumber ?fax ;
-        schema:address ?postalAddress ;
-        geo:lat ?lat ;
-        geo:long ?long .
+        ?employee a schema:Person ;
+            foaf:page ?item ;
+            schema:name ?contactName ;
+            dct:title ?contactName ;
+            schema:jobTitle ?contactTitle ;
+            schema:telephone ?phone ;
+            schema:faxNumber ?fax ;
+            schema:address ?postalAddress ;
+            geo:lat ?lat ;
+            geo:long ?long .
 
-    ?postalAddress a schema:PostalAddress ;
-        foaf:page ?item ;
-        schema:addressCountry ?country ;
-        schema:addressLocality ?city ;
-        schema:postalCode ?postalCode ;
-        schema:streetAddress ?address ;
-        schema:addressRegion ?region .
+        ?postalAddress a schema:PostalAddress ;
+            foaf:page ?item ;
+            schema:addressCountry ?country ;
+            schema:addressLocality ?city ;
+            schema:postalCode ?postalCode ;
+            schema:streetAddress ?address ;
+            schema:addressRegion ?region .
+    }
 }
 WHERE
 {

@@ -7,24 +7,27 @@ PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
 
 CONSTRUCT
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dh:slug ?productID ;
-        dct:title ?productName ;
-        foaf:primaryTopic ?product .
+    GRAPH ?item
+    {
+        ?item a dh:Item ;
+            sioc:has_container ?container ;
+            dh:slug ?productID ;
+            dct:title ?productName ;
+            foaf:primaryTopic ?product .
 
-    ?product a schema:Product ;
-        schema:identifier ?productID ;
-        dct:title ?productName ;
-        schema:name ?productName ;
-        schema:provider ?supplier ;
-        schema:category ?category ;
-        schema:description ?quantityPerUnit ;
-        schema:price ?unitPrice .
-        # ?unitsInStock ;
-        # ?unitsOnOrder ;
-        # ?reorderLevel ;
-        # ?discontinued - schema:Discontinued
+        ?product a schema:Product ;
+            schema:identifier ?productID ;
+            dct:title ?productName ;
+            schema:name ?productName ;
+            schema:provider ?supplier ;
+            schema:category ?category ;
+            schema:description ?quantityPerUnit ;
+            schema:price ?unitPrice .
+            # ?unitsInStock ;
+            # ?unitsOnOrder ;
+            # ?reorderLevel ;
+            # ?discontinued - schema:Discontinued
+    }
 }
 WHERE
 {

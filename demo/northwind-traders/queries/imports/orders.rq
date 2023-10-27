@@ -7,36 +7,39 @@ PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
 
 CONSTRUCT
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dh:slug ?orderID ;
-        dct:title ?orderID ;
-        foaf:primaryTopic ?order ;
-        foaf:topic ?orderDelivery, ?deliveryAddress .
+    GRAPH ?item
+    {
+        ?item a dh:Item ;
+            sioc:has_container ?container ;
+            dh:slug ?orderID ;
+            dct:title ?orderID ;
+            foaf:primaryTopic ?order ;
+            foaf:topic ?orderDelivery, ?deliveryAddress .
 
-    ?order a schema:Order ;
-        schema:identifier ?orderID ;
-        dct:title ?orderID ;
-        schema:customer ?customer ;
-        schema:broker ?employee ;
-        schema:orderDate ?orderDate ;
-        schema:orderDelivery ?orderDelivery .
+        ?order a schema:Order ;
+            schema:identifier ?orderID ;
+            dct:title ?orderID ;
+            schema:customer ?customer ;
+            schema:broker ?employee ;
+            schema:orderDate ?orderDate ;
+            schema:orderDelivery ?orderDelivery .
 
-    ?orderDelivery a schema:ParcelDelivery ;
-        foaf:page ?item ;
-        schema:expectedArrivalUntil ?requiredDate ;
-        # ?shippedDate ;
-        schema:deliveryAddress ?deliveryAddress ;
-        schema:provider ?shipper .
+        ?orderDelivery a schema:ParcelDelivery ;
+            foaf:page ?item ;
+            schema:expectedArrivalUntil ?requiredDate ;
+            # ?shippedDate ;
+            schema:deliveryAddress ?deliveryAddress ;
+            schema:provider ?shipper .
 
-    ?deliveryAddress a schema:PostalAddress ;
-        foaf:page ?item ;
-        schema:addressCountry ?shipCountry ;
-        schema:addressLocality ?shipCity ;
-        schema:postalCode ?shipPostalCode ;
-        schema:streetAddress ?shipAddress ;
-        schema:location ?deliveryLocation ;
-        schema:addressRegion ?shipRegion .
+        ?deliveryAddress a schema:PostalAddress ;
+            foaf:page ?item ;
+            schema:addressCountry ?shipCountry ;
+            schema:addressLocality ?shipCity ;
+            schema:postalCode ?shipPostalCode ;
+            schema:streetAddress ?shipAddress ;
+            schema:location ?deliveryLocation ;
+            schema:addressRegion ?shipRegion .
+    }
 }
 WHERE
 {
