@@ -33,7 +33,7 @@ select_categories_doc=$(./create-select.sh \
   --query-file "$pwd/queries/select-categories.rq"
 )
 
-select_categories_ntriples=$(./get-document.sh \
+select_categories_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -78,7 +78,7 @@ select_customers_doc=$(./create-select.sh \
   --query-file "$pwd/queries/select-customers.rq"
 )
 
-select_customers_ntriples=$(./get-document.sh \
+select_customers_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -123,7 +123,7 @@ select_employees_doc=$(./create-select.sh \
   --query-file "$pwd/queries/select-employees.rq"
 )
 
-select_employees_ntriples=$(./get-document.sh \
+select_employees_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -168,7 +168,7 @@ select_orders_doc=$(./create-select.sh \
   --query-file "$pwd/queries/select-orders.rq"
 )
 
-select_orders_ntriples=$(./get-document.sh \
+select_orders_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -213,7 +213,7 @@ select_products_doc=$(./create-select.sh \
   --query-file "$pwd/queries/select-products.rq"
 )
 
-select_products_ntriples=$(./get-document.sh \
+select_products_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -258,7 +258,7 @@ select_regions_doc=$(./create-select.sh \
   --query-file "$pwd/queries/select-regions.rq"
 )
 
-select_regions_ntriples=$(./get-document.sh \
+select_regions_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -302,7 +302,7 @@ select_shippers_doc=$(./create-select.sh \
   --query-file "$pwd/queries/select-shippers.rq"
 )
 
-select_shippers_ntriples=$(./get-document.sh \
+select_shippers_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -346,7 +346,7 @@ select_suppliers_doc=$(./create-select.sh \
   --query-file "$pwd/queries/select-suppliers.rq"
 )
 
-select_suppliers_ntriples=$(./get-document.sh \
+select_suppliers_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -391,7 +391,7 @@ select_territories_doc=$(./create-select.sh \
   --query-file "$pwd/queries/select-territories.rq"
 )
 
-select_territories_ntriples=$(./get-document.sh \
+select_territories_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \

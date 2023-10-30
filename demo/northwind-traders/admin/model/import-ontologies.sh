@@ -41,7 +41,7 @@ pushd . && cd "$SCRIPT_ROOT"
 
 printf "\n### Appending ontology document\n\n"
 
-cat "$pwd"/northwind-traders.ttl | turtle --base="$ont_doc" | "$SCRIPT_ROOT"/create-document.sh \
+cat "$pwd"/northwind-traders.ttl | turtle --base="$ont_doc" | "$SCRIPT_ROOT"/post.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
