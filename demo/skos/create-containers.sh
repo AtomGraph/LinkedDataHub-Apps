@@ -33,7 +33,7 @@ select_concepts_doc=$(./create-select.sh \
   --query-file "$pwd/queries/select-concepts.rq"
 )
 
-select_concepts_ntriples=$(./get-document.sh \
+select_concepts_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -77,7 +77,7 @@ select_concept_schemes_doc=$(./create-select.sh \
   --query-file "$pwd/queries/select-concept-schemes.rq"
 )
 
-select_concept_schemes_ntriples=$(./get-document.sh \
+select_concept_schemes_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \

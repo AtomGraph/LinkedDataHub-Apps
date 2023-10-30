@@ -35,7 +35,7 @@ uniprot_container=$(./create-container.sh \
 
 uniprot_service_doc="${base}services/uniprot/"
 
-uniprot_service_ntriples=$(./get-document.sh \
+uniprot_service_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -55,7 +55,7 @@ select_proteins_doc=$(
   --service "$uniprot_service"
 )
 
-select_proteins_ntriples=$(./get-document.sh \
+select_proteins_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -98,7 +98,7 @@ select_genes_doc=$(
   --service "$uniprot_service"
 )
 
-select_genes_ntriples=$(./get-document.sh \
+select_genes_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \

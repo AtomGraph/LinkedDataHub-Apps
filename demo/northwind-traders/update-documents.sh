@@ -19,7 +19,7 @@ else
     proxy="$base"
 fi
 
-cat root.ttl | turtle --base="${base}" | "$SCRIPT_ROOT"/update-document.sh \
+cat root.ttl | turtle --base="${base}" | "$SCRIPT_ROOT"/put.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \

@@ -55,7 +55,7 @@ do
 
     pushd . > /dev/null && cd "$SCRIPT_ROOT"
 
-    query_ntriples=$(./get-document.sh \
+    query_ntriples=$(./get.sh \
       -f "$cert_pem_file" \
       -p "$cert_password" \
       --proxy "$proxy" \
@@ -80,7 +80,7 @@ do
 
     pushd . > /dev/null && cd "$SCRIPT_ROOT"
 
-    file_ntriples=$(./get-document.sh \
+    file_ntriples=$(./get.sh \
       -f "$cert_pem_file" \
       -p "$cert_password" \
       --proxy "$proxy" \
