@@ -21,7 +21,7 @@ fi
 
 pushd . && cd "$SCRIPT_ROOT/admin/model"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -32,7 +32,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --sub-class-of "https://schema.org/CivicStructure" \
   "${base}admin/model/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -43,7 +43,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --sub-class-of "https://schema.org/CivicStructure" \
   "${base}admin/model/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -54,7 +54,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --sub-class-of "https://schema.org/Library" \
   "${base}admin/model/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -65,7 +65,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --sub-class-of "https://schema.org/ParkingFacility" \
   "${base}admin/model/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -76,7 +76,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --sub-class-of "https://schema.org/CivicStructure" \
   "${base}admin/model/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -87,7 +87,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --sub-class-of "https://schema.org/Playground" \
   "${base}admin/model/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -98,7 +98,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --sub-class-of "https://schema.org/School" \
   "${base}admin/model/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -109,7 +109,7 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --sub-class-of "https://schema.org/CivicStructure" \
   "${base}admin/model/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \

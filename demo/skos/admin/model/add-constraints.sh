@@ -21,7 +21,7 @@ fi
 
 pushd . && cd "$SCRIPT_ROOT"/admin/model
 
-./create-property-constraint.sh \
+./add-property-constraint.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
