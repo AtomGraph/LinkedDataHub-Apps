@@ -25,11 +25,9 @@ path="${path}/" # add trailing slash
 
 webid_uri=$("$SCRIPT_ROOT"/webid-uri.sh "$cert_pem_file")
 
-pushd . && cd "$SCRIPT_ROOT/admin/acl"
-
 printf "\n### Creating authorization for %s\n" "${base}${path}"
 
-./create-authorization.sh \
+"$SCRIPT_ROOT"/admin/acl/create-authorization.sh \
   -b "${base}admin/" \
   -f "${cert_pem_file}" \
   -p "${cert_password}" \
@@ -38,5 +36,3 @@ printf "\n### Creating authorization for %s\n" "${base}${path}"
   --agent "${webid_uri}" \
   --to "${base}${path}" \
   --write
-
-popd
