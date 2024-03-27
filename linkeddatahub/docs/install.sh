@@ -29,7 +29,7 @@ find "${pwd}" -name '*.ttl' -exec ./admin/acl/create-authorization.sh "$base" "$
 
 printf "\n### Update documents\n\n"
 
-find "${pwd}" -name '*.ttl' -exec ./put.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
+find "${pwd}" -name '*.ttl' -exec ./update-document.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
 
 printf "\n### Uploading images\n\n"
 
