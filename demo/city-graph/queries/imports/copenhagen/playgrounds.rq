@@ -9,36 +9,33 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dct:title ?name ;
-        dh:slug ?id ;
-        foaf:primaryTopic ?playground .
-    ?playground a schema:Playground ;
-        geo:lat ?lat ;
-        geo:long ?long ;
-        dct:identifier ?id ;
-        dct:title ?name ;
-        schema:streetAddress ?address_description;
-        foaf:based_near [ dct:title ?area ] ;
-        rdf:type [ dct:title ?playground_type ] ;
-        schema:typicalAgeRange ?age_group ;
-        dct:description  ?description ;
-        foaf:page ?link .
+    GRAPH ?item
+    {
+        ?item a dh:Item ;
+            sioc:has_container ?container ;
+            dct:title ?name ;
+            dh:slug ?id ;
+            foaf:primaryTopic ?playground .
+        ?playground a schema:Playground ;
+            geo:lat ?lat ;
+            geo:long ?long ;
+            dct:identifier ?id ;
+            dct:title ?name ;
+            schema:streetAddress ?address_description;
+            foaf:based_near [ dct:title ?area ] ;
+            rdf:type [ dct:title ?playground_type ] ;
+            schema:typicalAgeRange ?age_group ;
+            dct:description  ?description ;
+            foaf:page ?link .
+    }
 }
 WHERE
 {
-    BIND (BNODE() as ?item)
-    BIND (uri(concat(str($base), "copenhagen/playgrounds/")) AS ?container)
-
     ?playground <#FID> ?id ;
         <#name> ?name ;
         <#address_description> ?address_description ;
         <#lat> ?lat_string ;
         <#long> ?long_string  .
-
-    BIND (xsd:float(?lat_string) AS ?lat) .
-    BIND (xsd:float(?long_string) AS ?long) .
 
     OPTIONAL 
     { ?playground <#area> ?area}
@@ -51,4 +48,9 @@ WHERE
     OPTIONAL 
     { ?playground <#link> ?linkString 
     BIND (URI(?linkString) AS ?link)}
+
+    BIND(uri(concat(str($base), "copenhagen/playgrounds/")) AS ?container)
+    BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
+    BIND(xsd:float(?lat_string) AS ?lat) .
+    BIND(xsd:float(?long_string) AS ?long) .
 }
