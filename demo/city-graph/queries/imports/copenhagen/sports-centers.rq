@@ -16,6 +16,7 @@ CONSTRUCT
             dh:slug ?id ;
             dct:title ?name ;
             foaf:primaryTopic ?sportCenter .
+
         ?sportCenter a schema:SportsActivityLocation ;
             geo:lat ?lat ;
             geo:long ?long ;

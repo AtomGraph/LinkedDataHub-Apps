@@ -23,12 +23,11 @@ CONSTRUCT
 }
 WHERE
 {
-    BIND (uri(concat(str($base), "shippers/")) AS ?container)
-
     ?shipper_row <#shipperID> ?shipperID ;
         <#companyName> ?companyName ;
         <#phone> ?phone .
 
+    BIND(uri(concat(str($base), "shippers/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?shipperID), "/")) AS ?item)
     BIND(uri(concat(str(?item), "#this")) AS ?shipper)
 }

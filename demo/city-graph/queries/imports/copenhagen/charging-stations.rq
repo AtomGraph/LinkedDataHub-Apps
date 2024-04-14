@@ -17,6 +17,7 @@ CONSTRUCT
             dh:slug ?id ;
             dct:title ?name ;
             foaf:primaryTopic ?charger .
+
         ?charger a ns:ChargingStation ;
             geo:lat ?lat ;
             geo:long ?long ;

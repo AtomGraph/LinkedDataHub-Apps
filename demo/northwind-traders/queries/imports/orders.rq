@@ -43,8 +43,6 @@ CONSTRUCT
 }
 WHERE
 {
-    BIND (uri(concat(str($base), "orders/")) AS ?container)
-
     ?order_row <#orderID> ?orderID ;
         <#customerID> ?customerID ;
         <#employeeID> ?employeeID ;
@@ -66,6 +64,7 @@ WHERE
         ?order_row <#shipRegion> ?shipRegion
     }
 
+    BIND(uri(concat(str($base), "orders/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?orderID), "/")) AS ?item)
     BIND(uri(concat(str(?item), "#this")) AS ?order)
     BIND(uri(concat(str(?item), "#delivery")) AS ?orderDelivery)
