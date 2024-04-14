@@ -10,27 +10,27 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dh:slug ?id ;
-        dct:title ?name ;
-        foaf:primaryTopic ?library .
-    ?library a schema:Library ;
-        geo:lat ?lat ;
-        geo:long ?long ;
-        dct:title ?name ;
-        schema:streetAddress ?address ;
-        schema:postalCode ?postcode ;
-        dbo:district ?district ;
-        foaf:page ?link ;
-        foaf:mbox ?email ;
-        dct:identifier ?id .
+    GRAPH ?item
+    {
+        ?item a dh:Item ;
+            sioc:has_container ?container ;
+            dh:slug ?id ;
+            dct:title ?name ;
+            foaf:primaryTopic ?library .
+        ?library a schema:Library ;
+            geo:lat ?lat ;
+            geo:long ?long ;
+            dct:title ?name ;
+            schema:streetAddress ?address ;
+            schema:postalCode ?postcode ;
+            dbo:district ?district ;
+            foaf:page ?link ;
+            foaf:mbox ?email ;
+            dct:identifier ?id .
+    }
 }
 WHERE
 {
-    BIND (BNODE() AS ?item)
-    BIND (uri(concat(str($base), "copenhagen/libraries/")) AS ?container)
-
     ?library <#FID> ?id ;
         <#name> ?name ;
         <#address> ?address ;
@@ -38,9 +38,6 @@ WHERE
         <#postcode> ?postcode ;
         <#postdistrikt> ?district ;
         <#long> ?long_string . 
-
-    BIND(xsd:float(?lat_string) AS ?lat)
-    BIND(xsd:float(?long_string) AS ?long)
 
     OPTIONAL 
     {
@@ -52,4 +49,9 @@ WHERE
         ?library <#link> ?linkString
         BIND (URI(?linkString) AS ?link)
     }
+
+    BIND(uri(concat(str($base), "copenhagen/libraries/")) AS ?container)
+    BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
+    BIND(xsd:float(?lat_string) AS ?lat)
+    BIND(xsd:float(?long_string) AS ?long)
 }

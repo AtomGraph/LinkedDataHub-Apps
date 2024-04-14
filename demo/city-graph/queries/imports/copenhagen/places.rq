@@ -10,31 +10,33 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT 
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dct:title ?name ;
-        dh:slug ?id ;
-        foaf:primaryTopic ?place .
-    ?place a schema:Place ;
-        geo:lat ?lat ;
-        geo:long ?long ;
-        dct:identifier ?id ;
-        dct:title ?name ;
-        dct:subject [ skos:prefLabel ?category_name ] .
+    GRAPH ?item
+    {
+        ?item a dh:Item ;
+            sioc:has_container ?container ;
+            dct:title ?name ;
+            dh:slug ?id ;
+            foaf:primaryTopic ?place .
+        ?place a schema:Place ;
+            geo:lat ?lat ;
+            geo:long ?long ;
+            dct:identifier ?id ;
+            dct:title ?name ;
+            dct:subject [ skos:prefLabel ?category_name ] .
+    }
 }
 WHERE
 {
-    BIND (BNODE() as ?item)
-    BIND (uri(concat(str($base), "copenhagen/places/")) AS ?container)
-
     ?place <#FID> ?id ;
         <#name> ?name ;
         <#lat> ?lat_string ;
         <#long> ?long_string
 
-    BIND(xsd:float(?lat_string) AS ?lat)
-    BIND(xsd:float(?long_string) AS ?long)
-
     OPTIONAL
       { ?place  <#category>  ?category_name }
+
+    BIND(uri(concat(str($base), "copenhagen/places/")) AS ?container)
+    BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
+    BIND(xsd:float(?lat_string) AS ?lat)
+    BIND(xsd:float(?long_string) AS ?long)
 }

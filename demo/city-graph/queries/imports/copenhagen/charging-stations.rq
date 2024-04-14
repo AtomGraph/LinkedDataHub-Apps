@@ -10,33 +10,30 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dh:slug ?id ;
-        dct:title ?name ;
-        foaf:primaryTopic ?charger .
-    ?charger a ns:ChargingStation ;
-        geo:lat ?lat ;
-        geo:long ?long ;
-        schema:streetAddress ?address ;
-        dct:title ?name ;
-        schema:additionalProperty ?chargeType ;
-        schema:maximumAttendeeCapacity ?spaces ;
-        schema:serviceOperator ?operator ;
-        schema:comment ?information ;
-        dct:identifier ?id .
+    GRAPH ?item
+    {
+        ?item a dh:Item ;
+            sioc:has_container ?container ;
+            dh:slug ?id ;
+            dct:title ?name ;
+            foaf:primaryTopic ?charger .
+        ?charger a ns:ChargingStation ;
+            geo:lat ?lat ;
+            geo:long ?long ;
+            schema:streetAddress ?address ;
+            dct:title ?name ;
+            schema:additionalProperty ?chargeType ;
+            schema:maximumAttendeeCapacity ?spaces ;
+            schema:serviceOperator ?operator ;
+            schema:comment ?information ;
+            dct:identifier ?id .
+    }
 }
 WHERE
 {
-    BIND (BNODE() AS ?item)
-    BIND (uri(concat(str($base), "copenhagen/charging-stations/")) AS ?container)
-
     ?charger <#FID> ?id ;
         <#lat> ?lat_string ;
         <#long> ?long_string . 
-
-    BIND(xsd:float(?lat_string) AS ?lat)
-    BIND(xsd:float(?long_string) AS ?long)
 
     OPTIONAL 
     { ?charger <#name> ?name }
@@ -50,4 +47,10 @@ WHERE
     { ?charger <#operator> ?operator }
     OPTIONAL 
     { ?charger <#bem> ?information }
+
+    BIND(uri(concat(str($base), "copenhagen/charging-stations/")) AS ?container)
+    BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
+    BIND(xsd:float(?lat_string) AS ?lat)
+    BIND(xsd:float(?long_string) AS ?long)
+
 }
