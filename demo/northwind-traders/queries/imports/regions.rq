@@ -22,11 +22,10 @@ CONSTRUCT
 }
 WHERE
 {
-    BIND (uri(concat(str($base), "regions/")) AS ?container)
-
     ?region_row <#regionID> ?regionID ;
         <#regionDescription> ?regionDescription.
 
+    BIND(uri(concat(str($base), "regions/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?regionID), "/")) AS ?item)
     BIND(uri(concat(str(?item), "#this")) AS ?region)
 }

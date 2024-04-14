@@ -17,6 +17,7 @@ CONSTRUCT
             dh:slug ?id ;
             dct:title ?name ;
             foaf:primaryTopic ?parking .
+
         ?parking a schema:ParkingFacility ;
             geo:lat ?lat ;
             geo:long ?long ;

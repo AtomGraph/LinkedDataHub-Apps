@@ -25,13 +25,12 @@ CONSTRUCT
 }
 WHERE
 {
-    BIND (uri(concat(str($base), "categories/")) AS ?container)
-
     ?category_row <#categoryID> ?categoryID ;
         <#description> ?description ;
         <#categoryName> ?categoryName ;
         <#pictureHash> ?pictureHash .
 
+    BIND(uri(concat(str($base), "categories/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?categoryID), "/")) AS ?item)
     BIND(uri(concat(str(?item), "#this")) AS ?category)
     BIND(uri(concat(str($base), "uploads/", encode_for_uri(?pictureHash))) AS ?picture)

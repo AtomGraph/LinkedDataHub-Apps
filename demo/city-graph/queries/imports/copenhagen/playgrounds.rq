@@ -16,6 +16,7 @@ CONSTRUCT
             dct:title ?name ;
             dh:slug ?id ;
             foaf:primaryTopic ?playground .
+
         ?playground a schema:Playground ;
             geo:lat ?lat ;
             geo:long ?long ;

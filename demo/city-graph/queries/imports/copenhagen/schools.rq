@@ -16,6 +16,7 @@ CONSTRUCT
             dh:slug ?id ;
             dct:title ?name ;
             foaf:primaryTopic ?school .
+
         ?school a schema:School ;
             geo:lat ?lat ;
             geo:long ?long ;

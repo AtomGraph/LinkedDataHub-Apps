@@ -18,6 +18,7 @@ CONSTRUCT
             dh:slug ?id ;
             dct:title ?name ;
             foaf:primaryTopic ?bicyleParking .
+
         ?bicyleParking a ns:BicycleParking ;
             geo:lat ?lat ;
             geo:long ?long ;

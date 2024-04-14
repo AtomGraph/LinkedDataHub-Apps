@@ -47,8 +47,6 @@ CONSTRUCT
 }
 WHERE
 {
-    BIND (uri(concat(str($base), "employees/")) AS ?container)
-
     ?employee_row <#employeeID> ?employeeID ;
         <#lastName> ?lastName ;
         <#firstName> ?firstName ;
@@ -75,11 +73,12 @@ WHERE
         BIND(uri(concat(str($base), "employees/", encode_for_uri(?reportsTo), "/#this")) AS ?reportsToEmployee) # cannot use ?container since it's undefined in the OPTIONAL scope
     }
 
-    BIND(xsd:float(?lat_string) AS ?lat)
-    BIND(xsd:float(?long_string) AS ?long)
+    BIND(uri(concat(str($base), "employees/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?employeeID), "/")) AS ?item)
     BIND(uri(concat(str(?item), "#this")) AS ?employee)
     BIND(uri(concat(str(?item), "#address")) AS ?postalAddress)
+    BIND(xsd:float(?lat_string) AS ?lat)
+    BIND(xsd:float(?long_string) AS ?long)
     BIND(strdt(substr(?birthDateString, 1, 10), xsd:date) AS ?birthDate)
     BIND(strdt(substr(?hireDateString, 1, 10), xsd:date) AS ?hireDate)
     BIND(uri(concat(str($base), "uploads/", encode_for_uri(?photoHash))) AS ?photo)
