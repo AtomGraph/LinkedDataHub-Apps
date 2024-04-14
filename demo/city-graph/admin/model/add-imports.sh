@@ -26,6 +26,6 @@ pushd . && cd "$SCRIPT_ROOT/admin"
   -p "$cert_password" \
   --proxy "$proxy" \
   --import "https://schema.org" \
-  "${base}admin/model/ontologies/namespace/"
+  "${base}admin/ontologies/namespace/"
 
 popd

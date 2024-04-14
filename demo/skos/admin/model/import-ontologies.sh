@@ -28,7 +28,7 @@ skos_doc=$(./create-item.sh \
   --proxy "$proxy" \
   --title "SKOS" \
   --slug "skos" \
-  --container "${base}admin/model/ontologies/"
+  --container "${base}admin/ontologies/"
 )
 
 popd
@@ -52,6 +52,6 @@ pushd . && cd "$SCRIPT_ROOT/admin"
   -p "$cert_password" \
   --proxy "$proxy" \
   --import "http://www.w3.org/2004/02/skos/core" \
-  "${base}admin/model/ontologies/namespace/"
+  "${base}admin/ontologies/namespace/"
 
 popd

@@ -30,6 +30,6 @@ pushd . && cd "$SCRIPT_ROOT"/admin/model
   --label "Missing skos:prefLabel" \
   --slug missing-pref-label \
   --property "http://www.w3.org/2004/02/skos/core#prefLabel" \
-  "${base}admin/model/ontologies/namespace/"
+  "${base}admin/ontologies/namespace/"
 
 popd

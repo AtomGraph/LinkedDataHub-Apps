@@ -32,7 +32,7 @@ ont_doc=$(./create-item.sh \
   --proxy "$proxy" \
   --title "Northwind Traders" \
   --slug "northwind-traders" \
-  --container "${base}admin/model/ontologies/"
+  --container "${base}admin/ontologies/"
 )
 
 popd
