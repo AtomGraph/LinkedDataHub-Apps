@@ -30,11 +30,9 @@ query_doc=$(
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Top selling products" \
-  --fragment this \
   --query-file "${pwd}/queries/charts/select-products-by-sales.rq"
+# --fragment this \
 )
-
-pushd . > /dev/null && cd "$SCRIPT_ROOT"
 
 query_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
@@ -42,8 +40,6 @@ query_ntriples=$(./get.sh \
   --proxy "$proxy" \
   --accept 'application/n-triples' \
   "$query_doc")
-
-popd > /dev/null
 
 query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
@@ -53,12 +49,11 @@ query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xml
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Top selling products" \
-  --slug top-selling-products \
-  --fragment this \
   --query "$query" \
   --chart-type "https://w3id.org/atomgraph/client#BarChart" \
   --category-var-name "productName" \
   --series-var-name "totalSales"
+#  --fragment this \
 
 query_doc=$(
 ./create-select.sh  \
@@ -67,11 +62,9 @@ query_doc=$(
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Sales by region per year" \
-  --fragment this \
   --query-file "${pwd}/queries/charts/select-sales-by-regions-by-year.rq"
+#  --fragment this \
 )
-
-pushd . > /dev/null && cd "$SCRIPT_ROOT"
 
 query_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
@@ -90,12 +83,11 @@ query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xml
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Sales by region per year" \
-  --slug sales-by-region-per-year \
-  --fragment this \
   --query "$query" \
   --chart-type "https://w3id.org/atomgraph/client#Table" \
   --category-var-name "year" \
   --series-var-name "regionName" \
   --series-var-name "totalSales"
+#  --fragment this \
 
 popd

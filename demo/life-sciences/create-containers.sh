@@ -45,7 +45,7 @@ uniprot_service_ntriples=$(./get.sh \
 uniprot_service=$(echo "$uniprot_service_ntriples" | sed -rn "s/<${uniprot_service_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
 select_proteins_doc=$(
-./create-select.sh  \
+./create-select.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -88,7 +88,7 @@ protein_container=$(./create-container.sh \
   "$protein_container"
 
 select_genes_doc=$(
-./create-select.sh  \
+./create-select.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
