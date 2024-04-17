@@ -30,8 +30,8 @@ query_doc=$(
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Largest parking facilities" \
-  --fragment this \
   --query-file "${pwd}/queries/charts/parking-facilities-by-spaces.rq"
+  #--fragment this \
 )
 
 pushd . > /dev/null && cd "$SCRIPT_ROOT"
@@ -54,10 +54,10 @@ query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xml
   --proxy "$proxy" \
   --title "Largest parking facilities" \
   --slug largest-parkings \
-  --fragment this \
   --query "$query" \
   --chart-type "https://w3id.org/atomgraph/client#BarChart" \
   --category-var-name "name" \
   --series-var-name "spaces"
+#  --fragment this \
 
 popd
