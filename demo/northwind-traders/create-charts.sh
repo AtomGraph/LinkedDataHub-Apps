@@ -23,71 +23,87 @@ pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"
 
-query_doc=$(
-./create-select.sh  \
+chart_container=$(./create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --title "Top selling products" \
-  --query-file "${pwd}/queries/charts/select-products-by-sales.rq"
-# --fragment this \
+  --title "Charts" \
+  --slug "charts" \
+  --parent "$base" \
+  --mode "https://w3id.org/atomgraph/client#MapMode"
 )
 
-query_ntriples=$(./get.sh \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --accept 'application/n-triples' \
-  "$query_doc")
-
-query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
-
-./create-result-set-chart.sh \
+chart_doc=$(./create-item.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Top selling products" \
-  --query "$query" \
+  --slug "select-products-by-sales" \
+  --container "$chart_container"
+)
+
+query_id="top-selling-products"
+
+./add-select.sh  \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --title "Products by sales" \
+  --fragment "$query_id" \
+  --query-file "${pwd}/queries/charts/select-products-by-sales.rq" \
+  "$chart_doc"
+
+./add-result-set-chart.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --title "Top selling products" \
+  --fragment this \
+  --query "${chart_doc}#${query_id}" \
   --chart-type "https://w3id.org/atomgraph/client#BarChart" \
   --category-var-name "productName" \
-  --series-var-name "totalSales"
-#  --fragment this \
+  --series-var-name "totalSales" \
+  "$chart_doc"
 
-query_doc=$(
-./create-select.sh  \
+
+chart_doc=$(./create-item.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Sales by region per year" \
-  --query-file "${pwd}/queries/charts/select-sales-by-regions-by-year.rq"
-#  --fragment this \
+  --slug "select-products-by-sales" \
+  --container "$chart_container"
 )
 
-query_ntriples=$(./get.sh \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --accept 'application/n-triples' \
-  "$query_doc")
+query_id="select-sales-by-regions-by-year"
 
-popd > /dev/null
-
-query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
-
-./create-result-set-chart.sh \
+./add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Sales by region per year" \
-  --query "$query" \
+  --fragment "$query_id" \
+  --query-file "${pwd}/queries/charts/select-sales-by-regions-by-year.rq" \
+  "$chart_doc"
+
+./add-result-set-chart.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --title "Sales by region per year" \
+  --fragment this \
+  --query "${chart_doc}#${query_id}" \
   --chart-type "https://w3id.org/atomgraph/client#Table" \
   --category-var-name "year" \
   --series-var-name "regionName" \
-  --series-var-name "totalSales"
-#  --fragment this \
+  --series-var-name "totalSales" \
+  "$chart_doc"
 
 popd
