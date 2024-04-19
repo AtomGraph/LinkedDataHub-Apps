@@ -23,6 +23,7 @@ pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"
 
+# TO-DO: should be provided
 chart_container=$(./create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
@@ -34,17 +35,17 @@ chart_container=$(./create-container.sh \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 )
 
-chart_doc=$(./create-item.sh \
+query_doc=$(./create-item.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --title "Top selling products" \
-  --slug "select-products-by-sales" \
-  --container "$chart_container"
+  --title "Products by sales" \
+  --slug "products-by-sales" \
+  --container "${base}queries/"
 )
 
-query_id="top-selling-products"
+query_id="this"
 
 ./add-select.sh  \
   -b "$base" \
@@ -54,7 +55,17 @@ query_id="top-selling-products"
   --title "Products by sales" \
   --fragment "$query_id" \
   --query-file "${pwd}/queries/charts/select-products-by-sales.rq" \
-  "$chart_doc"
+  "$query_doc"
+
+chart_doc=$(./create-item.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --title "Top selling products" \
+  --slug "top-selling-products" \
+  --container "$chart_container"
+)
 
 ./add-result-set-chart.sh \
   -b "$base" \
@@ -63,12 +74,34 @@ query_id="top-selling-products"
   --proxy "$proxy" \
   --title "Top selling products" \
   --fragment this \
-  --query "${chart_doc}#${query_id}" \
+  --query "${query_doc}#${query_id}" \
   --chart-type "https://w3id.org/atomgraph/client#BarChart" \
   --category-var-name "productName" \
   --series-var-name "totalSales" \
   "$chart_doc"
 
+
+query_doc=$(./create-item.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --title "Sales by region per year" \
+  --slug "sales-by-region-per-year" \
+  --container "${base}queries/"
+)
+
+query_id="sales-by-regions-by-year"
+
+./add-select.sh  \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --title "Sales by region per year" \
+  --fragment "$query_id" \
+  --query-file "${pwd}/queries/charts/select-sales-by-regions-by-year.rq" \
+  "$query_doc"
 
 chart_doc=$(./create-item.sh \
   -b "$base" \
@@ -79,18 +112,6 @@ chart_doc=$(./create-item.sh \
   --slug "select-products-by-sales" \
   --container "$chart_container"
 )
-
-query_id="select-sales-by-regions-by-year"
-
-./add-select.sh  \
-  -b "$base" \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --title "Sales by region per year" \
-  --fragment "$query_id" \
-  --query-file "${pwd}/queries/charts/select-sales-by-regions-by-year.rq" \
-  "$chart_doc"
 
 ./add-result-set-chart.sh \
   -b "$base" \
