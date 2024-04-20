@@ -119,7 +119,7 @@ chart_doc=$(./create-item.sh \
   --proxy "$proxy" \
   --title "Sales by region per year" \
   --fragment this \
-  --query "${chart_doc}#${query_id}" \
+  --query "${query_doc}#${query_id}" \
   --chart-type "https://w3id.org/atomgraph/client#Table" \
   --category-var-name "year" \
   --series-var-name "regionName" \
