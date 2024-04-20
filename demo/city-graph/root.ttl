@@ -48,4 +48,4 @@
     </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Content ;
-    rdf:value ldh:SelectChildren .
+    rdf:value ldh:ChildrenView .
