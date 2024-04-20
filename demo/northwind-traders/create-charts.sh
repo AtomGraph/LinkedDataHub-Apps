@@ -31,8 +31,7 @@ chart_container=$(./create-container.sh \
   --proxy "$proxy" \
   --title "Charts" \
   --slug "charts" \
-  --parent "$base" \
-  --mode "https://w3id.org/atomgraph/client#MapMode"
+  --parent "$base"
 )
 
 query_doc=$(./create-item.sh \
@@ -109,7 +108,7 @@ chart_doc=$(./create-item.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Sales by region per year" \
-  --slug "select-products-by-sales" \
+  --slug "sales-by-regions-by-year" \
   --container "$chart_container"
 )
 
