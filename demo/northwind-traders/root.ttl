@@ -41,4 +41,4 @@
     rdf:value <employees/2/#this> .
 
 <#select-children> a ldh:Content ;
-    rdf:value ldh:SelectChildren .
+    rdf:value ldh:ChildrenView .
