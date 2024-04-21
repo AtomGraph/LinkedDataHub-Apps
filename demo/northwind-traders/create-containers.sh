@@ -90,8 +90,8 @@ query_doc=$(./create-item.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --title "Select categories" \
-  --slug "select-categories" \
+  --title "Select customers" \
+  --slug "select-customers" \
   --container "${base}queries/"
 )
 
