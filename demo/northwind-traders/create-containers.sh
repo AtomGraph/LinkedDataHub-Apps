@@ -66,7 +66,7 @@ view_id="category-view"
   --proxy "$proxy" \
   --title "Category view" \
   --fragment "$view_id" \
-  --query "${$query_doc}#${view_id}" \
+  --query "${query_doc}#${view_id}" \
   "$container"
 
 ./remove-content.sh \
