@@ -23,16 +23,7 @@ pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"
 
-# TO-DO: should be provided
-chart_container=$(./create-container.sh \
-  -b "$base" \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --title "Charts" \
-  --slug "charts" \
-  --parent "$base"
-)
+# top selling products
 
 query_doc=$(./create-item.sh \
   -b "$base" \
@@ -63,7 +54,7 @@ chart_doc=$(./create-item.sh \
   --proxy "$proxy" \
   --title "Top selling products" \
   --slug "top-selling-products" \
-  --container "$chart_container"
+  --container "${base}charts/"
 )
 
 ./add-result-set-chart.sh \
@@ -79,6 +70,7 @@ chart_doc=$(./create-item.sh \
   --series-var-name "totalSales" \
   "$chart_doc"
 
+# sales by region per year
 
 query_doc=$(./create-item.sh \
   -b "$base" \
@@ -109,7 +101,7 @@ chart_doc=$(./create-item.sh \
   --proxy "$proxy" \
   --title "Sales by region per year" \
   --slug "sales-by-regions-by-year" \
-  --container "$chart_container"
+  --container "${base}charts/"
 )
 
 ./add-result-set-chart.sh \
