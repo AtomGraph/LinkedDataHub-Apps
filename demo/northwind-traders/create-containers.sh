@@ -23,27 +23,31 @@ pwd=$(realpath -s "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"
 
-select_categories_doc=$(./create-select.sh \
+# categories
+
+query_doc=$(./create-item.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Select categories" \
-  --slug select-categories \
-  --query-file "$pwd/queries/select-categories.rq"
+  --slug "select-categories" \
+  --container "${base}queries/"
 )
 
-select_categories_ntriples=$(./get.sh \
+query_id="this"
+
+./add-select.sh  \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --accept 'application/n-triples' \
-  "$select_categories_doc"
-)
+  --title "Select categories" \
+  --fragment "$query_id" \
+  --query-file "$pwd/queries/select-categories.rq"
+  "$query_doc"
 
-select_categories=$(echo "$select_categories_ntriples" | sed -rn "s/<${select_categories_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
-
-category_container=$(./create-container.sh \
+container=$(./create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -53,20 +57,43 @@ category_container=$(./create-container.sh \
   --parent "$base"
 )
 
+view_id="category-view"
+
+./add-query-view.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --title "Category view" \
+  --fragment "$view_id" \
+  --query "${container}#${view_id}" \
+  "$container"
+
 ./remove-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  "$category_container"
+  "$container"
 
 ./append-content.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --value "$select_categories" \
+  --value "${container}#${view_id}" \
   --mode "https://w3id.org/atomgraph/client#GridMode" \
-  "$category_container"
+  "$container"
 
+# customers
+
+query_doc=$(./create-item.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --title "Select categories" \
+  --slug "select-categories" \
+  --container "${base}queries/"
+)
 
 select_customers_doc=$(./create-select.sh \
   -b "$base" \
