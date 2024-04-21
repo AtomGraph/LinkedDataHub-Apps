@@ -44,7 +44,7 @@ query_id="this"
   --proxy "$proxy" \
   --title "Select categories" \
   --fragment "$query_id" \
-  --query-file "$pwd/queries/select-categories.rq"
+  --query-file "$pwd/queries/select-categories.rq" \
   "$query_doc"
 
 container=$(./create-container.sh \
@@ -66,7 +66,7 @@ view_id="category-view"
   --proxy "$proxy" \
   --title "Category view" \
   --fragment "$view_id" \
-  --query "${container}#${view_id}" \
+  --query "${$query_doc}#${view_id}" \
   "$container"
 
 ./remove-content.sh \
