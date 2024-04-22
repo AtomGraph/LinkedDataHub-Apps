@@ -210,8 +210,8 @@ query_doc=$(./create-item.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --title "Select employees" \
-  --slug "select-employees" \
+  --title "Select orders" \
+  --slug "select-orders" \
   --container "${base}queries/"
 )
 
@@ -222,9 +222,9 @@ query_id="this"
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --title "Select employees" \
+  --title "Select orders" \
   --fragment "$query_id" \
-  --query-file "$pwd/queries/select-employees.rq" \
+  --query-file "$pwd/queries/select-orders.rq" \
   "$query_doc"
 
 container=$(./create-container.sh \
@@ -509,7 +509,7 @@ query_doc=$(./create-item.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Select territories" \
-  --slug "select-suppliers" \
+  --slug "select-territories" \
   --container "${base}queries/"
 )
 
