@@ -21,6 +21,16 @@ fi
 
 pushd . && cd "$SCRIPT_ROOT"
 
+service_doc=$(./create-item.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --title "Uniprot" \
+  --slug "uniprot" \
+  --container "${base}services/"
+)
+
 ./create-generic-service.sh \
   -b "$base" \
   -f "$cert_pem_file" \
@@ -28,6 +38,7 @@ pushd . && cd "$SCRIPT_ROOT"
   --proxy "$proxy" \
   --title "Uniprot" \
   --endpoint https://sparql.uniprot.org/sparql \
-  --slug "uniprot"
+  --slug "uniprot" \
+  "$service_doc"
 
 popd
