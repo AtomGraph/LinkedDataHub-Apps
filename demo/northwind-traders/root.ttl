@@ -29,7 +29,7 @@
         <p>Below is an example of a chart, which is embedded into a document just by using its URI.</p>
     </div>"""^^rdf:XMLLiteral .
 
-<#top-selling-products> a ldh:ResultSetChart ;
+<#top-selling-products> a ldh:Object ;
     rdf:value <charts/top-selling-products/#this> .
 
 <#top-manager-header> a ldh:XHTML ;
