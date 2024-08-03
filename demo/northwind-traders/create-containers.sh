@@ -54,6 +54,7 @@ query_id="select-categories"
   "$container"
 
 ./add-view-block.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -92,6 +93,7 @@ query_id="select-customers"
   "$container"
 
 ./add-view-block.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -130,6 +132,7 @@ query_id="select-employees"
   "$container"
 
 ./add-view-block.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -168,6 +171,7 @@ query_id="select-orders"
   "$container"
 
 ./add-view-block.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -206,6 +210,7 @@ query_id="select-products"
   "$container"
 
 ./add-view-block.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -244,6 +249,7 @@ query_id="select-regions"
   "$container"
 
 ./add-view-block.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -281,6 +287,7 @@ query_id="select-shippers"
   "$container"
 
 ./add-view-block.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -318,6 +325,7 @@ query_id="select-suppliers"
   "$container"
 
 ./add-view-block.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -356,6 +364,7 @@ query_id="select-territories"
   "$container"
 
 ./add-view-block.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
