@@ -1,13 +1,12 @@
 PREFIX  schema: <https://schema.org/>
-PREFIX  foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX  sioc: <http://rdfs.org/sioc/ns#>
 
 SELECT DISTINCT  ?customer
 WHERE
   { GRAPH ?doc
-      { ?doc    sioc:has_container  $this ;
-                  foaf:primaryTopic   ?customer .
-        ?customer  schema:legalName   ?companyName
+      { ?customer  a                schema:Corporation ;
+                  schema:legalName  ?companyName
+        GRAPH ?orderDoc
+          { ?order  schema:customer  ?customer }
       }
   }
 ORDER BY ?companyName
