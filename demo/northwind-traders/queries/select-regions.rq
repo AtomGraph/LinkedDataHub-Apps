@@ -1,13 +1,11 @@
 PREFIX  schema: <https://schema.org/>
-PREFIX  foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX  sioc: <http://rdfs.org/sioc/ns#>
 
 SELECT DISTINCT  ?region
 WHERE
   { GRAPH ?doc
-      { ?doc     sioc:has_container  $this ;
-                 foaf:primaryTopic   ?region .
-        ?region  schema:name         ?regionDescription
+      { ?region  a            schema:Place ;
+                 schema:name  ?regionDescription
+        FILTER NOT EXISTS { ?region schema:containedInPlace [] }
       }
   }
 ORDER BY ?regionDescription
