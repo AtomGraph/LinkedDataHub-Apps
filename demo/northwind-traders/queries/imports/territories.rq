@@ -1,17 +1,12 @@
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
-PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy#>
-PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT
 {
-    GRAPH ?item
+    GRAPH ?graph
     {
-        ?item a dh:Item ;
-            sioc:has_container ?container ;
-            dh:slug ?territoryID ;
-            dct:title ?territoryDescription ;
+        ?graph dct:title ?territoryDescription ;
             foaf:primaryTopic ?territory .
 
         ?territory a schema:City ;
@@ -28,7 +23,7 @@ WHERE
         <#regionID> ?regionID .
 
     BIND(uri(concat(str($base), "territories/")) AS ?container)
-    BIND(uri(concat(str(?container), encode_for_uri(?territoryID), "/")) AS ?item)
-    BIND(uri(concat(str(?item), "#this")) AS ?territory)
+    BIND(uri(concat(str(?container), encode_for_uri(?territoryID), "/")) AS ?graph)
+    BIND(uri(concat(str(?graph), "#this")) AS ?territory)
     BIND(uri(concat(str($base), "regions/", encode_for_uri(?regionID), "/#this")) AS ?region)
 }

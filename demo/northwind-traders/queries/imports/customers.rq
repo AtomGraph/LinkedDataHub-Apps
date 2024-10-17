@@ -1,19 +1,14 @@
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
-PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy#>
-PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
 PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#>
 
 CONSTRUCT
 {
-    GRAPH ?item
+    GRAPH ?graph
     {
-        ?item a dh:Item ;
-            sioc:has_container ?container ;
-            dh:slug ?customerID ;
-            dct:title ?companyName ;
+        ?graph dct:title ?companyName ;
             foaf:primaryTopic ?customer ;
             foaf:topic ?contactPoint, ?employee, ?postalAddress .
 
@@ -25,12 +20,12 @@ CONSTRUCT
             schema:employee ?employee .
 
         ?contactPoint a schema:ContactPoint ;
-            foaf:page ?item ;
+            foaf:page ?graph ;
             schema:telephone ?phone ;
             schema:faxNumber ?fax .
 
         ?employee a schema:Person ;
-            foaf:page ?item ;
+            foaf:page ?graph ;
             schema:name ?contactName ;
             dct:title ?contactName ;
             schema:jobTitle ?contactTitle ;
@@ -41,7 +36,7 @@ CONSTRUCT
             geo:long ?long .
 
         ?postalAddress a schema:PostalAddress ;
-            foaf:page ?item ;
+            foaf:page ?graph ;
             schema:addressCountry ?country ;
             schema:addressLocality ?city ;
             schema:postalCode ?postalCode ;
@@ -77,9 +72,9 @@ WHERE
     }
 
     BIND(uri(concat(str($base), "customers/")) AS ?container)
-    BIND(uri(concat(str(?container), encode_for_uri(?customerID), "/")) AS ?item)
-    BIND(uri(concat(str(?item), "#this")) AS ?customer)
-    BIND(uri(concat(str(?item), "#contact-point")) AS ?contactPoint)
-    BIND(uri(concat(str(?item), "#employee")) AS ?employee)
-    BIND(uri(concat(str(?item), "#postal-address")) AS ?postalAddress)
+    BIND(uri(concat(str(?container), encode_for_uri(?customerID), "/")) AS ?graph)
+    BIND(uri(concat(str(?graph), "#this")) AS ?customer)
+    BIND(uri(concat(str(?graph), "#contact-point")) AS ?contactPoint)
+    BIND(uri(concat(str(?graph), "#employee")) AS ?employee)
+    BIND(uri(concat(str(?graph), "#postal-address")) AS ?postalAddress)
 }
