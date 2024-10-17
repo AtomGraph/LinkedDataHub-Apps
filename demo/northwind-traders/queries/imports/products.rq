@@ -1,18 +1,13 @@
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
-PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy#>
-PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
 
 CONSTRUCT
 {
-    GRAPH ?item
+    GRAPH ?graph
     {
-        ?item a dh:Item ;
-            sioc:has_container ?container ;
-            dh:slug ?productID ;
-            dct:title ?productName ;
+        ?graph dct:title ?productName ;
             foaf:primaryTopic ?product .
 
         ?product a schema:Product ;
@@ -43,8 +38,8 @@ WHERE
         <#discontinued> ?discontinuedString .
 
     BIND (uri(concat(str($base), "products/")) AS ?container)
-    BIND(uri(concat(str(?container), encode_for_uri(?productID), "/")) AS ?item)
-    BIND(uri(concat(str(?item), "#this")) AS ?product)
+    BIND(uri(concat(str(?container), encode_for_uri(?productID), "/")) AS ?graph)
+    BIND(uri(concat(str(?graph), "#this")) AS ?product)
     BIND(uri(concat(str($base), "suppliers/", encode_for_uri(?supplierID), "/#this")) AS ?supplier)
     BIND(uri(concat(str($base), "categories/", encode_for_uri(?categoryID), "/#this")) AS ?category)
     BIND (STRDT(?unitPriceString, xsd:float) AS ?unitPrice)

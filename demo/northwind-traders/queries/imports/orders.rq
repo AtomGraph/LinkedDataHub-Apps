@@ -1,18 +1,13 @@
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
-PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy#>
-PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
 
 CONSTRUCT
 {
-    GRAPH ?item
+    GRAPH ?graph
     {
-        ?item a dh:Item ;
-            sioc:has_container ?container ;
-            dh:slug ?orderID ;
-            dct:title ?orderID ;
+        ?graph dct:title ?orderID ;
             foaf:primaryTopic ?order ;
             foaf:topic ?orderDelivery, ?deliveryAddress .
 
@@ -25,14 +20,14 @@ CONSTRUCT
             schema:orderDelivery ?orderDelivery .
 
         ?orderDelivery a schema:ParcelDelivery ;
-            foaf:page ?item ;
+            foaf:page ?graph ;
             schema:expectedArrivalUntil ?requiredDate ;
             # ?shippedDate ;
             schema:deliveryAddress ?deliveryAddress ;
             schema:provider ?shipper .
 
         ?deliveryAddress a schema:PostalAddress ;
-            foaf:page ?item ;
+            foaf:page ?graph ;
             schema:addressCountry ?shipCountry ;
             schema:addressLocality ?shipCity ;
             schema:postalCode ?shipPostalCode ;
@@ -65,10 +60,10 @@ WHERE
     }
 
     BIND(uri(concat(str($base), "orders/")) AS ?container)
-    BIND(uri(concat(str(?container), encode_for_uri(?orderID), "/")) AS ?item)
-    BIND(uri(concat(str(?item), "#this")) AS ?order)
-    BIND(uri(concat(str(?item), "#delivery")) AS ?orderDelivery)
-    BIND(uri(concat(str(?item), "#delivery-address")) AS ?deliveryAddress)
+    BIND(uri(concat(str(?container), encode_for_uri(?orderID), "/")) AS ?graph)
+    BIND(uri(concat(str(?graph), "#this")) AS ?order)
+    BIND(uri(concat(str(?graph), "#delivery")) AS ?orderDelivery)
+    BIND(uri(concat(str(?graph), "#delivery-address")) AS ?deliveryAddress)
     BIND(uri(concat(str($base), "employees/", encode_for_uri(?employeeID), "/#this")) AS ?employee)
     BIND(uri(concat(str($base), "customers/", encode_for_uri(?customerID), "/#this")) AS ?customer)
     BIND(uri(concat(str($base), "shippers/", encode_for_uri(?shipVia), "/#this")) AS ?shipper)
