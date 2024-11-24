@@ -15,7 +15,7 @@ install:
 		echo "Password cannot be empty. Aborting."; \
 		exit 1; \
 	fi; \
-	read -p "Enter Proxy URL (optional) $(PROXY_URL_DEFAULT): " PROXY_URL; \
+	read -p "Enter Proxy URL (optional) [$(PROXY_URL_DEFAULT)]: " PROXY_URL; \
 	if [ -n "$${PROXY_URL}" ]; then \
 		./install.sh "$${BASE_URL}" "$${CERT_PATH}" "$${PASSWORD}" "$${PROXY_URL}"; \
 	else \
