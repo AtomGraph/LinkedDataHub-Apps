@@ -41,5 +41,8 @@
 <#top-manager> a ldh:Object ;
     rdf:value <employees/2/#this> .
 
-<#select-children> a ldh:View ;
+<#select-children> a ldh:Object ;
+    rdf:value <#select-children-view> .
+
+<#select-children-view> a ldh:View ;
     spin:query ldh:SelectChildren .
