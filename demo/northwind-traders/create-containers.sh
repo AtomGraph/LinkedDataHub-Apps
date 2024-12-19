@@ -41,7 +41,7 @@ container=$(./create-container.sh \
   --proxy "$proxy" \
   "$container"
 
-query_id="select-categories"
+query_id="select-categories-query"
 
 ./add-select.sh  \
   -b "$base" \
@@ -53,13 +53,27 @@ query_id="select-categories"
   --query-file "$pwd/queries/select-categories.rq" \
   "$container"
 
-./add-view-block.sh \
+view_id="select-categories-view"
+
+./add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
+  --fragment "$view_id" \
   --query "${container}#${query_id}" \
   --mode "https://w3id.org/atomgraph/client#GridMode" \
+  "$container"
+
+object_id="select-categories"
+
+./add-object-block.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$object_id" \
+  --value "${container}#${view_id}" \
   "$container"
 
 # customers
@@ -92,7 +106,7 @@ query_id="select-customers"
   --query-file "$pwd/queries/select-customers.rq" \
   "$container"
 
-./add-view-block.sh \
+./add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -131,7 +145,7 @@ query_id="select-employees"
   --query-file "$pwd/queries/select-employees.rq" \
   "$container"
 
-./add-view-block.sh \
+./add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -170,7 +184,7 @@ query_id="select-orders"
   --query-file "$pwd/queries/select-orders.rq" \
   "$container"
 
-./add-view-block.sh \
+./add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -209,7 +223,7 @@ query_id="select-products"
   --query-file "$pwd/queries/select-products.rq" \
   "$container"
 
-./add-view-block.sh \
+./add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -248,7 +262,7 @@ query_id="select-regions"
   --query-file "$pwd/queries/select-regions.rq" \
   "$container"
 
-./add-view-block.sh \
+./add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -286,7 +300,7 @@ query_id="select-shippers"
   --query-file "$pwd/queries/select-shippers.rq" \
   "$container"
 
-./add-view-block.sh \
+./add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -324,7 +338,7 @@ query_id="select-suppliers"
   --query-file "$pwd/queries/select-suppliers.rq" \
   "$container"
 
-./add-view-block.sh \
+./add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -363,7 +377,7 @@ query_id="select-territories"
   --query-file "$pwd/queries/select-territories.rq" \
   "$container"
 
-./add-view-block.sh \
+./add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
