@@ -13,7 +13,7 @@
     dct:description "Learn how to access and manage RDF data over generic HTTP API" ;
     rdf:_1 <#content> .
 
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to read and write RDF data from/to LinkedDataHub applications over HTTP</p>
     <p>LinkedDataHub implements a uniform, generic RESTful Linked Data API as defined by the

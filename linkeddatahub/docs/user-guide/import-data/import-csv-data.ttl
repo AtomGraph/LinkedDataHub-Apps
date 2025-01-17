@@ -12,7 +12,7 @@
     dct:description "Step by step guide to converting CSV data to RDF and importing into end-user application" ;
     rdf:_1 <#content> .
     
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Step by step guide to converting CSV data to RDF and importing into end-user application</p>
     <p class="lead"><a href="../../../reference/imports/csv/" target="_blank">Read more on how CSV imports work.</a></p>

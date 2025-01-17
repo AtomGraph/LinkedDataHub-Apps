@@ -12,7 +12,7 @@
     dct:description "Content blocks and the basic data content actions" ;
     rdf:_1 <#content> .
 
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Content blocks and the basic data content actions.</p>
     <div>

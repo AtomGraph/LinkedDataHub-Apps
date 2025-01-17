@@ -13,7 +13,7 @@
     dct:description "CSV imports and mapping to RDF using SPARQL CONSTRUCT" ;
     rdf:_1 <#content> .
     
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">CSV imports and mapping to RDF using SPARQL CONSTRUCT</p>
     <p><a href="https://en.wikipedia.org/wiki/Comma-separated_values" target="_blank">CSV</a> is a plain-text format for

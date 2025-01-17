@@ -12,7 +12,7 @@
     dct:description "An RDF-native Knowledge Graph notebook" ;
     rdf:_1 <#content> .
 
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">LinkedDataHub is a Knowledge Graph notebook by
         <a href="https://atomgraph.com" target="_blank">AtomGraph</a> that fully exploits the federated features of RDF and SPARQL.

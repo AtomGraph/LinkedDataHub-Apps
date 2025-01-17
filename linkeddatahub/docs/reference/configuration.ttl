@@ -12,7 +12,7 @@
     dct:description "Overview of configuration options" ;
     rdf:_1 <#content> .
 
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Overview of configuration options</p>
     <p>LinkedDataHub is configured using environment variables in the <samp>docker-compose.yml</samp> file (environment-specific configuration should go into <samp>docker-compose.override.yml</samp> instead).</p>

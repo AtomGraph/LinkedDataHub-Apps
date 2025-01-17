@@ -5,6 +5,7 @@
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
+@prefix spin:	<http://spinrdf.org/spin#> .
 
 <get-started/> a dh:Container ;
     sioc:has_parent <> ;
@@ -13,7 +14,7 @@
     rdf:_1 <#content> ;
     rdf:_2 <#select-children> .
 
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">All the basics of LinkedDataHub. From installation to customizing the model and user interface.</p>
     <p>This guide will show how a LinkedDataHub application can be used to manage domain-specific RDF classes and instances. As an example, we will us <a href="https://www.w3.org/TR/skos-primer/" target="_blank">SKOS</a> concepts and concept schemes.</p>
@@ -68,5 +69,8 @@
     </div>
 </div>"""^^rdf:XMLLiteral .
 
-<#select-children> a ldh:Content ;
-    rdf:value ldh:ChildrenView .
+<#select-children> a ldh:Object ;
+    rdf:value <#select-children-view> .
+
+<#select-children-view> a ldh:View ;
+    spin:query ldh:SelectChildren .
