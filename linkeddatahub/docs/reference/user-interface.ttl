@@ -12,7 +12,7 @@
     dct:description "A walk through the main features of application user interface" ;
     rdf:_1 <#content> .
     
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">This guide walks through the main features of LinkedDataHub user interface.
         See <a href="../documents/">Document management</a> guide for basic definitions such as application and document.</p>

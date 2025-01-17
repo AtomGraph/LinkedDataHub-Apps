@@ -13,7 +13,7 @@
     dct:description "RDF imports and transforming RDF using SPARQL CONSTRUCT" ;
     rdf:_1 <#content> .
     
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">RDF imports and transforming RDF using SPARQL CONSTRUCT</p>
     <p>An RDF import is a combination of multiple resources:</p>

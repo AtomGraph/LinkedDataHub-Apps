@@ -12,7 +12,7 @@
     dct:description "Fork RDF data from Linked Data resources and SPARQL results" ;
     rdf:_1 <#content> .
     
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Fork RDF data from Linked Data resources and SPARQL results</p>
     <p>You can fork (copy the contents of) any RDF document to a namedgraph in your dataspace. Two sources of RDF are supported: RDF resources on the web (Linked Data), and RDF file uploads.</p>

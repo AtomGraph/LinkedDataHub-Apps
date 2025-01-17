@@ -12,7 +12,7 @@
     dct:description "Using LinkedDataHub as a low-code platform for Knowledge Graph applications" ;
     rdf:_1 <#content> .
     
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Using LinkedDataHub as a low-code platform for Knowledge Graph applications</p>
     <p>Every component in LinkedDataHub is data-driven and was designed with extensibility in mind. You can override behavior (e.g. Java method or XSLT template) without having to modify LinkedDataHub's
