@@ -25,7 +25,8 @@ printf "\n### Creating authorization to make the app public\n\n"
 
 printf "\n### Creating authorizations\n\n"
 
-find "${pwd}" -name '*.ttl' -exec ./admin/acl/create-authorization.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
+# should not be necessary with LDH v5
+# find "${pwd}" -name '*.ttl' -exec ./admin/acl/create-authorization.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
 
 printf "\n### Update documents\n\n"
 
