@@ -26,11 +26,29 @@ printf "\n### Creating authorization to make the app public\n\n"
 printf "\n### Creating authorizations\n\n"
 
 # should not be necessary with LDH v5
-# find "${pwd}" -name '*.ttl' -exec ./admin/acl/create-authorization.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
+# find "$pwd" -name '*.ttl' -exec ./admin/acl/create-authorization.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
 
-printf "\n### Update documents\n\n"
+printf "\n### Update documents (traverse folders recursively)\n\n"
 
-find "${pwd}" -name '*.ttl' -exec ./update-document.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
+update_documents() {
+  local folder="$1"
+
+  # Iterate over .ttl files in the current folder
+  for ttl_file in "$folder"/*.ttl; do
+    if [[ -f "$ttl_file" ]]; then
+      ./update-document.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "$ttl_file" "$proxy"
+    fi
+  done
+
+  # Recurse into subdirectories
+  for subfolder in "$folder"/*/; do
+    if [[ -d "$subfolder" ]]; then
+      update_documents "$subfolder"
+    fi
+  done
+}
+
+update_documents "$pwd"
 
 printf "\n### Uploading images\n\n"
 
