@@ -32,21 +32,25 @@ printf "\n### Update documents (traverse folders recursively)\n\n"
 
 update_documents() {
   local folder="$1"
-  echo "LOCAL FOLDER: $folder"
+
+  # Remove trailing slash from folder path if it exists
+  folder="${folder%/}"
+
+  echo "LOCAL FOLDER: $folder"  # Debug output
 
   # Iterate over .ttl files in the current folder
   for ttl_file in "$folder"/*.ttl; do
     if [[ -f "$ttl_file" ]]; then
-       echo "Found .ttl file: $ttl_file"  # Debug output
+      echo "Found .ttl file: $ttl_file"  # Debug output
       ./update-document.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "$ttl_file" "$proxy"
     fi
   done
 
   # Recurse into subdirectories
-  for subfolder in "$folder"/*/; do
+  for subfolder in "$folder"*; do
     if [[ -d "$subfolder" ]]; then
       echo "Entering subfolder: $subfolder"  # Debug output
-      update_documents "$subfolder"
+      update_documents "$subfolder"  # Pass the subfolder without a trailing slash
     fi
   done
 }
