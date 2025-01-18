@@ -32,6 +32,7 @@ printf "\n### Update documents (traverse folders recursively)\n\n"
 
 update_documents() {
   local folder="$1"
+  echo "LOCAL FOLDER: $folder"
 
   # Iterate over .ttl files in the current folder
   for ttl_file in "$folder"/*.ttl; do
