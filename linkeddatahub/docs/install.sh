@@ -46,13 +46,8 @@ update_documents() {
     fi
   done
 
-  # Recurse into subdirectories
-  for subfolder in "$folder"*; do
-    if [[ -d "$subfolder" ]]; then
-      echo "Entering subfolder: $subfolder"  # Debug output
-      update_documents "$subfolder"  # Pass the subfolder without a trailing slash
-    fi
-  done
+  # Use find to recurse into subdirectories and process them with -exec
+  find "$folder" -mindepth 1 -maxdepth 1 -type d -exec echo "Entering subfolder: {}" \; -exec update_documents {} \;
 }
 
 update_documents "$pwd"
