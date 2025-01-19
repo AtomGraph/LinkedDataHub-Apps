@@ -6,8 +6,8 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
     
-<user-guide/navigate-data/> a dh:Item ;
-    sioc:has_container <user-guide/> ;
+<> a dh:Item ;
+    sioc:has_container <..> ;
     dct:title "Navigate data" ;
     dct:description "Navigate the document hierarchy, related results, and backlinks" ;
     rdf:_1 <#content> .

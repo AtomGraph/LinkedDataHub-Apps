@@ -6,8 +6,8 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<reference/configuration/> a dh:Item ;
-    sioc:has_container <reference/> ;
+<> a dh:Item ;
+    sioc:has_container <..> ;
     dct:title "Configuration" ;
     dct:description "Overview of configuration options" ;
     rdf:_1 <#content> .

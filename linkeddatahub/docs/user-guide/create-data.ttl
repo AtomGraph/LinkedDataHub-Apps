@@ -7,8 +7,8 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 @prefix spin:	<http://spinrdf.org/spin#> .
 
-<user-guide/create-data/> a dh:Container ;
-    sioc:has_parent <user-guide/> ;
+<> a dh:Container ;
+    sioc:has_parent <..> ;
     dct:title "Create data" ;
     dct:description "How to create documents, content, and instances" ;
     rdf:_1 <#content> ;

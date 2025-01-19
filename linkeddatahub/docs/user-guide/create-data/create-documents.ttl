@@ -6,8 +6,8 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<user-guide/create-data/create-documents/> a dh:Item ;
-    sioc:has_container <user-guide/create-data/> ;
+<> a dh:Item ;
+    sioc:has_container <..> ;
     dct:title "Create documents" ;
     dct:description "Learn how to create container and item documents" ;
     rdf:_1 <#content> .

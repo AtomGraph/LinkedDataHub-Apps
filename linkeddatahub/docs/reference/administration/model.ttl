@@ -6,8 +6,8 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<reference/administration/model/> a dh:Container ;
-    sioc:has_parent <reference/administration/> ;
+<> a dh:Container ;
+    sioc:has_parent <..> ;
     dct:title "Model" ;
     dct:description "Ontology classes, constraints, properties etc." ;
     rdf:_1 <#content> .

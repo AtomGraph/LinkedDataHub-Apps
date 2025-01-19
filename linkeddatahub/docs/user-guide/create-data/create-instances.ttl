@@ -6,8 +6,8 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<user-guide/create-data/create-instances/> a dh:Item ;
-    sioc:has_container <user-guide/create-data/> ;
+<> a dh:Item ;
+    sioc:has_container <..> ;
     dct:title "Create instances" ;
     dct:description "Learn how to create of built-in and user-defined classes" ;
     rdf:_1 <#content> .

@@ -6,8 +6,8 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<get-started/get-an-account/> a dh:Item ;
-    sioc:has_container <get-started/> ;
+<> a dh:Item ;
+    sioc:has_container <..> ;
     dct:title "Get an account" ;
     dct:description "How to get login to LinkedDataHub" ;
     rdf:_1 <#content> .

@@ -6,34 +6,19 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
-<about/> a dh:Item ;
-    sioc:has_container <> ;
+<> a dh:Item ;
+    sioc:has_container <..> ;
     dct:title "About LinkedDataHub" ;
-    dct:description "An RDF-native Knowledge Graph notebook" ;
+    dct:description "An RDF-native Knowledge Graph application platform" ;
     rdf:_1 <#content> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">LinkedDataHub is a Knowledge Graph notebook by
+    <p class="lead">LinkedDataHub is a Knowledge Graph application platform by
         <a href="https://atomgraph.com" target="_blank">AtomGraph</a> that fully exploits the federated features of RDF and SPARQL.
-        It can also be used as a low code application development platform.</p>
-    <p>LinkedDataHub is an open source project that has its roots as a Linked Data publishing framework. However, in the 3.x release we are focusing on Linked Data consumption, as we consider
+        It can also be used as an RDF-native content management platform.</p>
+    <p>LinkedDataHub is an open source project that has its roots as a Linked Data publishing framework. However, since the 3.x release we have focused on Linked Data consumption, as we consider
             publishing a solved problem but continue to see a shortage of user-friendly consumption tools.</p>
-    <div>
-        <h2 id="notebook">Knowledge Graph notebook</h2>
-        <p>As an RDF-native noteook, LinkedDataHub provides a number of features for end-users:</p>
-        <ul>
-            <li><a href="../user-guide/create-data/create-content/" target="_blank">creating structured content</a> from Linked Data and SPARQL resources (<strong>new in 3.x</strong>)</li>
-            <li><a href="../user-guide/create-data/create-documents/" target="_blank">creating RDF documents (graphs)</a></li>
-            <li><a href="../user-guide/browse-data/" target="_blank">browsing Linked Data</a></li>
-            <li><a href="../user-guide/add-data/" target="_blank">forking RDF resources</a> to the local dataspace (<strong>new in 3.x</strong>)</li>
-            <li><a href="../user-guide/search-data/" target="_blank">searching</a> and <a href="../user-guide/query-data/" target="_blank">querying</a> SPARQL endpoints</li>
-            <li>creating collections from SPARQL queries</li>
-            <li>editing remote and local RDF documents</li>
-            <li><a href="../user-guide/import-data/import-csv-data/" target="_blank">importing CSV data</a> by mapping it to RDF using SPARQL</li>
-            <li>visualizing query results as graphs, charts etc.</li>
-        </ul>
-    </div>
     <div>
         <h2 id="platform">Low code application platform</h2>
         <p>LinkedDataHub is also a low code RDF Knowledge Graph application platform. It offers comprehensive development and management features:</p>
@@ -45,6 +30,21 @@
             <li><a href="../reference/administration/acl/" target="_blank">access control</a> using WAC authorizations</li>
         </ul>
         <p class="lead">Checkout the user guide on <a href="../user-guide/build-apps/">application building</a>.</p>
+    </div>
+    <div>
+        <h2 id="cms">Content management system</h2>
+        <p>As an RDF-native CMS, LinkedDataHub provides a number of features for end-users:</p>
+        <ul>
+            <li><a href="../user-guide/create-data/create-content/" target="_blank">creating structured content</a> from Linked Data and SPARQL resources (<strong>new in 3.x</strong>)</li>
+            <li><a href="../user-guide/create-data/create-documents/" target="_blank">creating RDF documents (graphs)</a></li>
+            <li><a href="../user-guide/browse-data/" target="_blank">browsing Linked Data</a></li>
+            <li><a href="../user-guide/add-data/" target="_blank">forking RDF resources</a> to the local dataspace (<strong>new in 3.x</strong>)</li>
+            <li><a href="../user-guide/search-data/" target="_blank">searching</a> and <a href="../user-guide/query-data/" target="_blank">querying</a> SPARQL endpoints</li>
+            <li>creating collections from SPARQL queries</li>
+            <li>editing remote and local RDF documents</li>
+            <li><a href="../user-guide/import-data/import-csv-data/" target="_blank">importing CSV data</a> by mapping it to RDF using SPARQL</li>
+            <li>visualizing query results as graphs, charts etc.</li>
+        </ul>
     </div>
     <div>
         <h2 id="architecture">Architecture</h2>

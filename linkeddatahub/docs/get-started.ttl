@@ -7,8 +7,8 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 @prefix spin:	<http://spinrdf.org/spin#> .
 
-<get-started/> a dh:Container ;
-    sioc:has_parent <> ;
+<> a dh:Container ;
+    sioc:has_parent <..> ;
     dct:title "Get started" ;
     dct:description "All the basics of LinkedDataHub. From installation to extending the model and user interface." ;
     rdf:_1 <#content> ;

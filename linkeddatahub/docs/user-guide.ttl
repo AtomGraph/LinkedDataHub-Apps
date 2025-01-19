@@ -7,8 +7,8 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 @prefix spin:	<http://spinrdf.org/spin#> .
 
-<user-guide/> a dh:Container ;
-    sioc:has_parent <> ;
+<> a dh:Container ;
+    sioc:has_parent <..> ;
     dct:title "User guide" ;
     dct:description "Step-by-step tutorials for everyday tasks with LinkedDataHub" ;
     rdf:_1 <#content> ;

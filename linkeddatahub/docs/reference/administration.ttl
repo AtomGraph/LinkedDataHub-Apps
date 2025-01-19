@@ -7,8 +7,8 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 @prefix spin:	<http://spinrdf.org/spin#> .
 
-<reference/administration/> a dh:Container ;
-    sioc:has_parent <reference/> ;
+<> a dh:Container ;
+    sioc:has_parent <..> ;
     dct:title "Administration" ;
     dct:description "Access control and domain model management" ;
     rdf:_1 <#content> ;
