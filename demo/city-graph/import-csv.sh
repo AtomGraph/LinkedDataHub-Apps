@@ -10,7 +10,7 @@ if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
 fi
 
 base="$1"
-cert_pem_file=$(realpath -s "$2")
+cert_pem_file=$(realpath "$2")
 cert_password="$3"
 imports_csv="$(dirname "$(realpath "$0")")/imports.csv"
 
@@ -24,7 +24,7 @@ titles=()
 queries=()
 files=()
 
-pwd=$(realpath -s "$PWD")
+pwd=$(realpath "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"/imports
 
