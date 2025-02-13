@@ -4,9 +4,11 @@ System, demo, and user-submitted applications built on LinkedDataHub. Completely
 
 ## Prerequisites
 
-The installation scripts in this repository use [LinkedDataHub's CLI scripts](https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/command-line-interface/). You need to set `SCRIPT_ROOT` environmental variable to the [`scripts` subfolder](https://github.com/AtomGraph/LinkedDataHub/tree/master/scripts) of your LinkedDataHub fork or clone, for example:
+The installation scripts in this repository use [LinkedDataHub's CLI scripts](https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/command-line-interface/). You need to add the `bin` (and its subfolders) of your LinkedDataHub fork or clone to `$PATH`, for example:
 
-    export SCRIPT_ROOT="/c/Users/namedgraph/WebRoot/AtomGraph/LinkedDataHub/scripts"
+```shell
+    export PATH="$(find bin -type d -exec realpath {} \; | tr '\n' ':')$PATH"
+```
 
 __Note that app installation scripts are not idempotent. Subsequent runs might continue adding data but are not guaranteed to succeed.__
 
