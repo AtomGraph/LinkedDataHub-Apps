@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-[ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
-
 if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
   echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy]' >&2
   echo "Example: $0" 'https://localhost:4443/ ../../../ssl/owner/cert.pem Password [https://localhost:5443/]' >&2
@@ -21,11 +19,9 @@ fi
 
 pwd=$(realpath "$PWD")
 
-pushd . && cd "$SCRIPT_ROOT"
-
 # categories
 
-container=$(./create-container.sh \
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -35,7 +31,7 @@ container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-block.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -43,7 +39,7 @@ container=$(./create-container.sh \
 
 query_id="select-categories-query"
 
-./add-select.sh  \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -55,7 +51,7 @@ query_id="select-categories-query"
 
 view_id="select-categories-view"
 
-./add-view.sh \
+add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -67,7 +63,7 @@ view_id="select-categories-view"
 
 object_id="select-categories"
 
-./add-object-block.sh \
+add-object-block.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -78,7 +74,7 @@ object_id="select-categories"
 
 # customers
 
-container=$(./create-container.sh \
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -88,7 +84,7 @@ container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-block.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -96,7 +92,7 @@ container=$(./create-container.sh \
 
 query_id="select-customers-query"
 
-./add-select.sh  \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -108,7 +104,7 @@ query_id="select-customers-query"
 
 view_id="select-customers-view"
 
-./add-view.sh \
+add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -120,7 +116,7 @@ view_id="select-customers-view"
 
 object_id="select-customers"
 
-./add-object-block.sh \
+add-object-block.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -131,7 +127,7 @@ object_id="select-customers"
 
 # employees
 
-container=$(./create-container.sh \
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -141,7 +137,7 @@ container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-block.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -149,7 +145,7 @@ container=$(./create-container.sh \
 
 query_id="select-employees-query"
 
-./add-select.sh  \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -161,7 +157,7 @@ query_id="select-employees-query"
 
 view_id="select-employees-view"
 
-./add-view.sh \
+add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -173,7 +169,7 @@ view_id="select-employees-view"
 
 object_id="select-employees"
 
-./add-object-block.sh \
+add-object-block.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -184,7 +180,7 @@ object_id="select-employees"
 
 # orders
 
-container=$(./create-container.sh \
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -194,7 +190,7 @@ container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-block.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -202,7 +198,7 @@ container=$(./create-container.sh \
 
 query_id="select-orders-query"
 
-./add-select.sh  \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -214,7 +210,7 @@ query_id="select-orders-query"
 
 view_id="select-orders-view"
 
-./add-view.sh \
+add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -226,7 +222,7 @@ view_id="select-orders-view"
 
 object_id="select-orders"
 
-./add-object-block.sh \
+add-object-block.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -237,7 +233,7 @@ object_id="select-orders"
 
 # products
 
-container=$(./create-container.sh \
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -247,7 +243,7 @@ container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-block.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -255,7 +251,7 @@ container=$(./create-container.sh \
 
 query_id="select-products-query"
 
-./add-select.sh  \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -267,7 +263,7 @@ query_id="select-products-query"
 
 view_id="select-products-view"
 
-./add-view.sh \
+add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -279,7 +275,7 @@ view_id="select-products-view"
 
 object_id="select-products"
 
-./add-object-block.sh \
+add-object-block.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -290,7 +286,7 @@ object_id="select-products"
 
 # regions
 
-container=$(./create-container.sh \
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -300,7 +296,7 @@ container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-block.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -308,7 +304,7 @@ container=$(./create-container.sh \
 
 query_id="select-regions-query"
 
-./add-select.sh  \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -320,7 +316,7 @@ query_id="select-regions-query"
 
 view_id="select-regions-view"
 
-./add-view.sh \
+add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -331,7 +327,7 @@ view_id="select-regions-view"
 
 object_id="select-regions"
 
-./add-object-block.sh \
+add-object-block.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -342,7 +338,7 @@ object_id="select-regions"
 
 # shippers
 
-container=$(./create-container.sh \
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -352,7 +348,7 @@ container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-block.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -360,7 +356,7 @@ container=$(./create-container.sh \
 
 query_id="select-shippers-query"
 
-./add-select.sh  \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -372,7 +368,7 @@ query_id="select-shippers-query"
 
 view_id="select-shippers-view"
 
-./add-view.sh \
+add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -383,7 +379,7 @@ view_id="select-shippers-view"
 
 object_id="select-shippers"
 
-./add-object-block.sh \
+add-object-block.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -394,7 +390,7 @@ object_id="select-shippers"
 
 # suppliers
 
-container=$(./create-container.sh \
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -404,7 +400,7 @@ container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-block.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -412,7 +408,7 @@ container=$(./create-container.sh \
 
 query_id="select-suppliers-query"
 
-./add-select.sh  \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -424,7 +420,7 @@ query_id="select-suppliers-query"
 
 view_id="select-suppliers-view"
 
-./add-view.sh \
+add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -436,7 +432,7 @@ view_id="select-suppliers-view"
 
 object_id="select-suppliers"
 
-./add-object-block.sh \
+add-object-block.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -447,7 +443,7 @@ object_id="select-suppliers"
 
 # territories
 
-container=$(./create-container.sh \
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -457,7 +453,7 @@ container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-block.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -465,7 +461,7 @@ container=$(./create-container.sh \
 
 query_id="select-territories-query"
 
-./add-select.sh  \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -477,7 +473,7 @@ query_id="select-territories-query"
 
 view_id="select-territories-view"
 
-./add-view.sh \
+add-view.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -489,7 +485,7 @@ view_id="select-territories-view"
 
 object_id="select-territories"
 
-./add-object-block.sh \
+add-object-block.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -498,5 +494,3 @@ object_id="select-territories"
   --fragment "$object_id" \
   --value "${container}#${view_id}" \
   "$container"
-
-popd || exit

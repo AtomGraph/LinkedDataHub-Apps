@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-[ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
-
 if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
   echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy]' >&2
   echo "Example: $0" 'https://localhost:4443/demo/northwind-traders/ ../../../../../ssl/owner/cert.pem Password [https://localhost:5443/]' >&2
@@ -21,11 +19,9 @@ fi
 
 pwd=$(realpath "$PWD")
 
-pushd . && cd "$SCRIPT_ROOT"
-
 printf "\n### Creating ontology item\n\n"
 
-ont_doc=$(./create-item.sh \
+ont_doc=$(create-item.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -35,17 +31,11 @@ ont_doc=$(./create-item.sh \
   --container "${base}admin/ontologies/"
 )
 
-popd
-
-pushd . && cd "$SCRIPT_ROOT"
-
 printf "\n### Appending ontology document\n\n"
 
-cat "$pwd"/northwind-traders.ttl | turtle --base="$ont_doc" | "$SCRIPT_ROOT"/post.sh \
+cat "$pwd"/northwind-traders.ttl | turtle --base="$ont_doc" | post.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   -t "application/n-triples" \
   "$ont_doc"
-
-popd

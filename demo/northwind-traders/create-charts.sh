@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-[ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
-
 if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
   echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy]' >&2
   echo "Example: $0" 'https://localhost:4443/ ../../../ssl/owner/cert.pem Password [https://localhost:5443/]' >&2
@@ -21,11 +19,9 @@ fi
 
 pwd=$(realpath "$PWD")
 
-pushd . && cd "$SCRIPT_ROOT"
-
 # top selling products
 
-query_doc=$(./create-item.sh \
+query_doc=$(create-item.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -37,7 +33,7 @@ query_doc=$(./create-item.sh \
 
 query_id="this"
 
-./add-select.sh  \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -47,7 +43,7 @@ query_id="this"
   --query-file "${pwd}/queries/charts/select-products-by-sales.rq" \
   "$query_doc"
 
-chart_doc=$(./create-item.sh \
+chart_doc=$(create-item.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -57,7 +53,7 @@ chart_doc=$(./create-item.sh \
   --container "${base}charts/"
 )
 
-./add-result-set-chart.sh \
+add-result-set-chart.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -72,7 +68,7 @@ chart_doc=$(./create-item.sh \
 
 # sales by region per year
 
-query_doc=$(./create-item.sh \
+query_doc=$(create-item.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -84,7 +80,7 @@ query_doc=$(./create-item.sh \
 
 query_id="sales-by-regions-by-year"
 
-./add-select.sh  \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -94,7 +90,7 @@ query_id="sales-by-regions-by-year"
   --query-file "${pwd}/queries/charts/select-sales-by-regions-by-year.rq" \
   "$query_doc"
 
-chart_doc=$(./create-item.sh \
+chart_doc=$(create-item.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -104,7 +100,7 @@ chart_doc=$(./create-item.sh \
   --container "${base}charts/"
 )
 
-./add-result-set-chart.sh \
+add-result-set-chart.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -117,5 +113,3 @@ chart_doc=$(./create-item.sh \
   --series-var-name "regionName" \
   --series-var-name "totalSales" \
   "$chart_doc"
-
-popd

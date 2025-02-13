@@ -7,7 +7,7 @@ System, demo, and user-submitted applications built on LinkedDataHub. Completely
 The installation scripts in this repository use [LinkedDataHub's CLI scripts](https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/command-line-interface/). You need to add the `bin` (and its subfolders) of your LinkedDataHub fork or clone to `$PATH`, for example:
 
 ```shell
-    export PATH="$(find bin -type d -exec realpath {} \; | tr '\n' ':')$PATH"
+export PATH="$(find bin -type d -exec realpath {} \; | tr '\n' ':')$PATH"
 ```
 
 __Note that app installation scripts are not idempotent. Subsequent runs might continue adding data but are not guaranteed to succeed.__
