@@ -92,7 +92,7 @@ WHERE {}</pre>
 
 pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/model
 
-./create-construct.sh \\
+create-construct.sh \\
   -b "${base}admin/" \\
   -f "$cert_pem_file" \\
   -p "$cert_password" \\
@@ -144,7 +144,7 @@ popd</pre>
                     <div>
                         <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/model
 
-./create-property-constraint.sh \\
+create-property-constraint.sh \\
   -b "$base" \\
   -f "$cert_pem_file" \\
   -p "$cert_password" \\
@@ -194,7 +194,7 @@ popd</pre>
                     <div>
                         <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/model
 
-./create-class.sh \\
+create-class.sh \\
   -b "$base" \\
   -f "$cert_pem_file" \\
   -p "$cert_password" \\

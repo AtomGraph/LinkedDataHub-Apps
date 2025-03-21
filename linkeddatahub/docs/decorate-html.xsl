@@ -84,7 +84,7 @@
             <div class="container-fluid">
                 <div class="row-fluid">
                     <nav class="span2">
-                        <h2>LinkedDataHub v3</h2>
+                        <!-- <h2>LinkedDataHub v3</h2> -->
 
                         <xsl:copy-of select="$outline"/>
                     </nav>

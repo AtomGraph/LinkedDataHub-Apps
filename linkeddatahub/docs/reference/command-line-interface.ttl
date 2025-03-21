@@ -18,10 +18,11 @@
     <p>LinkedDataHub CLI wraps the <a href="../http-api/">HTTP API</a> into a set of shell scripts with convenient parameters. The scripts should run on any Unix-based system.
         They can be used for testing, automation, scheduled execution and such. It is usually much quicker to perform actions using CLI rather than the
         <a href="../user-interface/">user interface</a>, as well as easier to reproduce.</p>
-    <p>Some scripts correspond to a single request to LinkedDataHub, others combine others into tasks with multiple interdependent requests, such as CSV import.</p>
+    <p>Some scripts correspond to a single request to LinkedDataHub, others combine others into tasks with multiple interdependent requests, such as the CSV import.</p>
     <p>You will need to supply a <samp>.pem</samp> file of your <a href="../../get-started/#get-webid">WebID certificate</a> as well as its password as script arguments, among others.</p>
     <div class="alert alert-info">
-        <p>The CLI scripts use the environmental variable <code>$SCRIPT_ROOT</code>, which should point to the <samp>scripts</samp> in your LinkedDataHub fork.</p>
+        <p>The CLI scripts live in the <samp>bin</samp> folder and need to be added to the <code>$PATH</code> environmental variable. For example:</p>
+        <pre>export PATH="$(find bin -type d -exec realpath {} \\; | tr '\n' ':')$PATH"</pre>
         <p>They also use the <a href="https://jena.apache.org/documentation/tools/" target="_blank">Jena's CLI commands</a> internally, so make sure to have them on <code>$PATH</code> before running the scripts.</p>
     </div>
     <div>
@@ -46,10 +47,10 @@
     <div>
         <h2 id="usage">Usage</h2>
         <p>A usage message with parameters of a script is printed when the scripted is run without any arguments. There can be named parameters and default parameters, both of those can be optional. For example:</p>
-        <pre>~/WebRoot/AtomGraph/LinkedDataHub/scripts$ ./create-select.sh
+        <pre>$ create-select.sh
 Creates a SPARQL SELECT query.
 
-Usage:  ./create-select.sh options
+Usage:  create-select.sh options
 
 Options:
   -f, --cert-pem-file CERT_FILE        .pem file with the WebID certificate of the agent
@@ -66,7 +67,7 @@ Options:
   --service SERVICE_URI                URI of the SPARQL service specific to this query (optional)</pre>
         <p>The optional parameters are marked with <samp>(Optional)</samp>. In this case there is no default argument, but some scripts require document (named graph) URI as the default parameter, e.g. ontology document URL.</p>
         <p>This is how a <samp>create-select.sh</samp> invocation would look like:</p>
-        <pre>./create-select.sh \\
+        <pre>create-select.sh \\
   -b "$base" \\
   -f "$cert_pem_file" \\
   -p "$cert_password" \\
@@ -233,7 +234,7 @@ Options:
           </div>
         </div>
         <p>Usage example:</p>
-        <pre>./create-file.sh https://localhost:4443/ \\
+        <pre>create-file.sh https://localhost:4443/ \\
   -f "$cert_pem_file" \\
   -p "$cert_password" \\
   --title "Friends" \\

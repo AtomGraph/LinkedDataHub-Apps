@@ -16,15 +16,30 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Content blocks and the basic data content actions.</p>
     <div>
-        <p>Content list is a new <a href="../reference/user-interface/#layout-modes" target="_blank">layout mode</a> introduced in LinkedDataHub 3.x. Content instance in the list can currently be of following types:</p>
-        <ul>
-            <li>HTML fragment</li>
-            <li>RDF resource</li>
-            <li>SPARQL <code>SELECT</code> query</li>
-            <li>Chart (graph or result set)</li>
-        </ul>
-        <p>Content other than HTML content is called <dfn>resource content</dfn>. The HTML content is part of the document while resource content is simply embedded (transcluded) into the HTML page.</p>
-        <p>The content instances are attached to the document using <a href="https://www.w3.org/TR/rdf-schema/#ch_seq" target="_blank">RDF sequence properties</a> <samp>rdf:_1</samp>, <samp>rdf:_2</samp> etc.
-            The index number in the property URI indicates the position of the content block on the document's content list.</p>
+        <p>Content list is a <a href="../reference/user-interface/#layout-modes" target="_blank">layout mode</a> introduced in LinkedDataHub 3.x. It allow composition of rich, structured web documents using multiple types of content blocks.</p>
+        <p>The blocks are attached to the document resource using <a href="https://www.w3.org/TR/rdf-schema/#ch_seq" target="_blank">RDF sequence properties</a> <samp>rdf:_1</samp>, <samp>rdf:_2</samp> etc.
+        The index number in the property URI indicates the position of the content block on the document's content list.</p>
+        <p>The blocks have 2 main types: XHTML and object.</p>
+        <div>
+            <h2 id="xhtml-block">XHTML block</h2>
+            <p>XHTML block is simply a fragment of XHTML, stored as a canonical XML literal in the RDF document. It can be edited using a WYSIWYG editor.</p>
+        </div>
+        <div>
+            <h2 id="object-block">Object block</h2>
+            <p>Blocks other than HTML content is called an <dfn>object</dfn> and has to have a URI that dereferences to RDF. The HTML content is part of the document while resource content is simply embedded (transcluded) into the HTML page. Conceptually, you can think of it as the equivalent of the <code>&lt;object&gt;</code> element in HTML.</p>
+            <p>Currently supported object block types are described below. New types of object blocks can be easily introduced, each with a potentially custom HTML rendering or visualization.</p>
+            <div>
+                <h3 id="query-block">Query block</h3>
+                <p></p>
+            </div>
+            <div>
+                <h3 id="chart-block">Chart block</h3>
+                <p></p>
+            </div>
+            <div>
+                <h3 id="view-block">View block</h3>
+                <p></p>
+            </div>
+        </div>
     </div>
 </div>"""^^rdf:XMLLiteral .

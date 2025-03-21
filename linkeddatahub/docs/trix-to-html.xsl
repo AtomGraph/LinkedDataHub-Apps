@@ -175,6 +175,10 @@
 	<xsl:template name="generate-outline">
 		<xsl:param name="parent-resource"/>
 		<xsl:param name="base-uri"/>
+		<xsl:message>
+			$parent-resource = <xsl:value-of select="$parent-resource"/>
+			$base-uri = <xsl:value-of select="$base-uri"/>
+		</xsl:message>
 		<xsl:variable name="resource-statements" select="/trix:trix/trix:graph/trix:triple[*[1]=$parent-resource]"/>
 		<!-- exclude the top-level document -->
 		<xsl:if test="not($parent-resource = 'file:///')">

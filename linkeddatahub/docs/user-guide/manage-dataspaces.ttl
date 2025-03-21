@@ -94,7 +94,7 @@
                                     <div>
                                         <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT/apps"
 
-./create-context.sh \\
+create-context.sh \\
 -b "${base}" \\
 -f "${cert_pem_file}" \\
 -p "${cert_password}" \\
@@ -143,7 +143,7 @@ popd</pre>
                                             <div>
                                                 <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT/apps"
 
-./create-app.sh \\
+create-app.sh \\
 -b "${base}" \\
 -f "${cert_pem_file}" \\
 -p "${cert_password}" \\

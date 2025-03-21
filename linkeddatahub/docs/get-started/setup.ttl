@@ -60,15 +60,17 @@ OWNER_LOCALITY=Copenhagen
 OWNER_STATE_OR_PROVINCE=Denmark
 OWNER_COUNTRY_NAME=DK</pre>
                         </li>
-                        <li>Setup SSL certificates/keys by running this from command line (replace <code>$owner_cert_pwd</code> and <code>$secretary_cert_pwd</code> with your own passwords):
-                            <pre>./scripts/setup.sh .env ssl $owner_cert_pwd $secretary_cert_pwd 3650</pre>
-                            The script will create an `ssl` sub-folder where the SSL certificates and/or public keys will be placed.
+                        <li>Setup the server's SSL certificates by running this from command line:
+                            <pre>./bin/server-cert-gen.sh .env nginx ssl</pre>
+                            The script will create an `ssl/server` sub-folder where the SSL certificate will be stored.
                         </li>
                         <li>Run this from command line:
                             <pre>docker-compose up --build</pre>
-                            LinkedDataHub will start and create the following sub-folders:
+                            LinkedDataHub will start and mount the following sub-folders:
                             <ol>
-                                <li><samp>data</samp> where the triplestore(s) will persist RDF data</li>
+                                <li><samp>data</samp> where the backend triplestores will persist RDF data</li>
+                                <li><samp>datasets</samp> where the owner and secretary agent metadata is persisted</li>
+                                <li><samp>ssl/owner</samp> and <samp>ssl/secretary</samp> where the owner and secretary SSL certificates and WebID public keys are persisted</li>
                                 <li><samp>uploads</samp> where LinkedDataHub stores content-hashed file uploads</li>
                            </ol>
                         </li>
@@ -80,9 +82,9 @@ OWNER_COUNTRY_NAME=DK</pre>
                 <div>
                     <h2 id="reset">Reset</h2>
                     <p>If you need to start fresh and wipe the existing setup (e.g. after configuring a new base URI), you can do that using:</p>
-                    <pre>sudo rm -rf data uploads &amp;&amp; docker-compose down -v</pre>
+                    <pre>sudo rm -rf data datasets uploads ssl &amp;&amp; docker-compose down -v</pre>
                     <div class="alert alert-info">
-                        <p>This will remove persisted data and files as well as the Docker volumes.</p>
+                        <p>This will remove persisted RDF data, SSL keys, and uploaded files as well as the Docker volumes.</p>
                     </div>
                 </div>
                 <p class="lead">Is LinkedDataHub running? Proceed to <a href="../get-an-account/">get an account</a>.</p>

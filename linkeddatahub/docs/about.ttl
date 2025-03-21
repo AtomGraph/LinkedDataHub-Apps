@@ -32,7 +32,7 @@
         <p class="lead">Checkout the user guide on <a href="../user-guide/build-apps/">application building</a>.</p>
     </div>
     <div>
-        <h2 id="cms">Content management system</h2>
+        <h2 id="kms">Federated knowledge management and collaboration system</h2>
         <p>As an RDF-native CMS, LinkedDataHub provides a number of features for end-users:</p>
         <ul>
             <li><a href="../user-guide/create-data/create-content/" target="_blank">creating structured content</a> from Linked Data and SPARQL resources (<strong>new in 3.x</strong>)</li>
@@ -49,7 +49,7 @@
     <div>
         <h2 id="architecture">Architecture</h2>
         <p>Architecturally LinkedDataHub is a read-write RDF Graph Store combined with a rich Linked Data/SPARQL client. LinkedDataHub does not persist RDF data itself but rather serves it from, and stores it in,
-            a backing triplestore, which by default is <a href="https://jena.apache.org/documentation/fuseki2/" target="_blank">Apache Jena Fuseki</a>.</p>
+            a backing triplestore, which by default is the <a href="https://jena.apache.org/documentation/fuseki2/" target="_blank">Apache Jena Fuseki</a>.</p>
         <p>Every document in LinkedDataHub's dataspace is also a named graph in the Graph Store and has both RDF and HTML representations. The client is implemented using XSLT 3.0, a standard, declarative data transformation language. It can connect to any Linked Data resource or SPARQL 1.1 endpoint.</p>
         <p>Version 3.x does not use <a href="https://atomgraph.github.io/Linked-Data-Templates/" target="_blank">Linked Data Templates</a> anymore but they can still be used to publish Linked Data from SPARQL endpoints
             using <a href="https://github.com/AtomGraph/Processor" target="_blank">Processor</a>.</p>

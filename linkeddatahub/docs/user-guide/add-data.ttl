@@ -41,20 +41,12 @@
     </div>
     <div>
         <h2 id="from-file">From file</h2>
-        <p>To upload the contents of an RDF file into a local document, follow these steps:</p>
-        <ol>
-            <li>Click on the <span class="btn btn-primary">Add data</span> button on the left side of the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a>. A form will open, asking you
-                to fill out the following fields:
-            <dl>
-                <dt>Format</dt>
-                <dd>Choose the RDF format of the file</dd>
-                <dt>Filename</dt>
-                <dd>Select the file on your computer</dd>
-                <dt>Graph</dt>
-                <dd>The target document. Start typing to find it by its label, or paste its URI here. You can also create a new document here by clicking the <span class="btn">[+]</span> button next to the input.</dd>
-            </dl>
-            </li>
-            <li>Click <span class="btn btn-primary btn-save">Save</span> to perform the fork operation.</li>
-        </ol>
+        <p>To upload the contents of an RDF file into a document, simnply drag the file from your filesystem into LinkedDataHub. The following syntaxes are supported:</p>
+        <ul>
+            <li>N-Triples (.nt)</li>
+            <li>Turtle (.ttl)</li>
+            <li>RDF/XML (.rdf and .owl)</li>
+            <li>JSON-LD (.jsonld)</li>
+        </ul>
     </div>
 </div>"""^^rdf:XMLLiteral .
