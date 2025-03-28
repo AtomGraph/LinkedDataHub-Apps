@@ -62,7 +62,7 @@ OWNER_COUNTRY_NAME=DK</pre>
                         </li>
                         <li>Setup the server's SSL certificates by running this from command line:
                             <pre>./bin/server-cert-gen.sh .env nginx ssl</pre>
-                            The script will create an `ssl/server` sub-folder where the SSL certificate will be stored.
+                            The script will create an <code>ssl/server</code> sub-folder where the SSL certificate will be stored.
                         </li>
                         <li>Run this from command line:
                             <pre>docker-compose up --build</pre>

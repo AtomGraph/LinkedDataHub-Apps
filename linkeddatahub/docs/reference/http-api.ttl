@@ -179,13 +179,15 @@
         </dl>
         <h3>Admin app only</h3>
         <dl>
-            <dt><samp>admin/request%20accesss</samp></dt>
-            <dd>Access request</dd>
+            <dt><samp>admin/access</samp></dt>
+            <dd>Access metadata (for the authenticated agent)</dd>
+            <dt><samp>admin/access/request</samp></dt>
+            <dd>Access request (for the authenticated agent)</dd>
             <dt><samp>admin/sign%20up</samp></dt>
-            <dd>WebID-TLS agent signup</dd>
+            <dd>WebID-WebID agent signup</dd>
             <dt><samp>admin/oauth2/login</samp></dt>
             <dd>OpenID Connect with Google signup</dd>
-            <dt><samp>oauth2/authorize/google</samp></dt>
+            <dt><samp>admin/oauth2/authorize/google</samp></dt>
             <dd>OpenID Connect callback</dd>
             <dt><samp>admin/clear</samp></dt>
             <dd>Clears the specified ontology from memory cache and reloads it from the admin SPARQL endpoint</dd>
