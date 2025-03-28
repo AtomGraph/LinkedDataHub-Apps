@@ -16,7 +16,7 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Content blocks and the basic data content actions.</p>
     <div>
-        <p>Content list is a <a href="../reference/user-interface/#layout-modes" target="_blank">layout mode</a> introduced in LinkedDataHub 3.x. It allow composition of rich, structured web documents from multiple types of content blocks.</p>
+        <p>Content list is a <a href="../../user-interface/#layout-modes" target="_blank">layout mode</a> introduced in LinkedDataHub 3.x. It allow composition of rich, structured web documents from multiple types of content blocks.</p>
         <p>The blocks are attached to the document resource using <a href="https://www.w3.org/TR/rdf-schema/#ch_seq" target="_blank">RDF sequence properties</a> <samp>rdf:_1</samp>, <samp>rdf:_2</samp> etc.
         The index number in the property URI indicates the position of the content block on the document's content list.</p>
         <p>The blocks have 2 main types: XHTML and object.</p>
@@ -26,7 +26,7 @@
         </div>
         <div>
             <h2 id="object-block">Object block</h2>
-            <p>Blocks other than HTML content is called an <dfn>object</dfn> and has to have a URI that dereferences. Objects are embedded (transcluded) into the HTML page.</p>
+            <p>Blocks other than HTML content is called an <dfn>object</dfn> and has to have a URI that dereferences. Objects are embedded (transcluded) into the HTML page. You can use any <a href="../resources/">RDF resource</a> or uploaded file as an object.</p>
             <p>LinkedDataHub will first attempt to load RDF data from the URI and render it. If that fails, it will simply embed it using the HTML <code>&lt;object&gt;</code> element. Object blocks can be used to embed queries, charts, and other LinkedDataHub system resources.</p>
         </div>
     </div>
