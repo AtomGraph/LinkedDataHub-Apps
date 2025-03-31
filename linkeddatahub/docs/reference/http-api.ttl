@@ -136,30 +136,64 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    <div>
-        <h2 id="graph-names">Graph names</h2>
-        <p>Unlike earlier versions, LinkedDataHub 5.x manages the <a href="../data-management/documents/#hierarchy">document hierarchy</a> automatically.</p>
-        <p>By default, LinkedDataHub treats an RDF document as an item by giving it the <code>dh:Item</code> type and attaching it to the parent container using <code>sioc:has_container</code>. If the client wants to create a container instead, it has to explicitly add the <code>dh:Container</code> type on the document resource; the new container will be attached to its parent using <code>sioc:has_container</code>.</p>
-        <p>In either case, the URI of the new document's will be relative to its parent's. For example (Turtle syntax):</p>
-        <pre><code>@prefix dh:     &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+        <div>
+            <h3 id="document-metadata">Document metadata</h3>
+            <p>Unlike earlier versions, LinkedDataHub 5.x manages the <a href="../data-management/documents/#hierarchy">document hierarchy</a> automatically.</p>
+            <p>By default, LinkedDataHub treats an RDF document as an item by giving it the <code>dh:Item</code> type and attaching it to the parent container using <code>sioc:has_container</code>. If the client wants to create a container instead, it has to explicitly add the <code>dh:Container</code> type on the document resource; the new container will be attached to its parent using <code>sioc:has_container</code>. In either case, the URI of the new document's will be relative to its parent's.</p>
+            <p>LinkedDataHub will also manage additional document metadata, such as its owner and creation/modification timestamps.</p>
+            <p>For example, this HTTP request to create a new container (Turtle syntax):</p>
+            <pre><code>PUT /namedgraph/new-container/ HTTP/1.1
+Host: linkeddatahub.com
+Content-Type: text/turtle
+
+@prefix dh:     &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
 @prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
-@prefix sioc:   &lt;http://rdfs.org/sioc/ns#&gt; .
-@prefix foaf:   &lt;http://xmlns.com/foaf/0.1/&gt; .
 
 &lt;&gt; a dh:Container ;
     dct:title "New container" .</code></pre>
-    </div>
-    <div>
-        <h2 id="constraints">Built-in constraints</h2>
-        <p>LinkedDataHub has a few built-in constraints that are not found in the standard Graph Store Protocol:</p>
-        <ul>
-            <li>It's not possible delete the root document</li>
-            <li>It's not possible to modify or delete the documents of the owner agent and the secretary agent</li>
-            <li>A document (which is also a named graph in the graph store) must always contain an RDF resource with its URI and type <code>def:Root</code>, <code>dh:Container</code>, or <code>dh:Item</code>
-                (see <a href="../administration/model/#ontologies">ontologies</a>)</li>
-        </ul>
-        <p>The built in constraints are similar to, but separate from the <a href="../administration/model/#constraints">ontology constraints</a>.</p>
+            <p>will produce the following document triples:</p>
+            <pre><code>@prefix dh:     &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+@prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
+@prefix xsd:    &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+@prefix sioc:   &lt;http://rdfs.org/sioc/ns#&gt; .
+@prefix acl:    &lt;http://www.w3.org/ns/auth/acl#&gt; .
+
+&lt;https://linkeddatahub.com/namedgraph/new-container/&gt;
+    a dh:Container ;
+    dct:created "2025-03-31T21:46:21.984Z"^^xsd:dateTime ;
+    dct:creator &lt;https://linkeddatahub.com/namedgraph/admin/acl/agents/fda0009e-191b-4f07-838c-5daf2a74b35f/#this&gt; ;
+    dct:title "New container" ;
+    sioc:has_parent &lt;https://linkeddatahub.com/namedgraph/&gt; ;
+    acl:owner &lt;https://linkeddatahub.com/namedgraph/admin/acl/agents/fda0009e-191b-4f07-838c-5daf2a74b35f/#this&gt; .</code></pre>     
+        <p>The HTTP request to produce a new item can be empty:</p>
+            <pre><code>PUT /namedgraph/new-container/ HTTP/1.1
+Host: linkeddatahub.com
+Content-Type: text/turtle</code></pre>
+            <p>It will create an item document with the following triples:</p>
+            <pre><code>@prefix dh:    &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+@prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
+@prefix xsd:    &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+@prefix sioc:   &lt;http://rdfs.org/sioc/ns#&gt; .
+@prefix acl:    &lt;http://www.w3.org/ns/auth/acl#&gt; .
+
+&lt;https://linkeddatahub.com/namedgraph/new-item/&gt;
+    a dh:Item ;
+    dct:created "2025-03-31T20:45:42.802Z"^^xsd:dateTime ;
+    dct:creator &lt;https://linkeddatahub.com/acl/agents/d47e1f9b-c8d0-4546-840f-5d9fbb479da2/#id9d3814f2-53bc-42e9-b1ab-46cbc9a94263&gt; ;
+    sioc:has_container &lt;https://linkeddatahub.com/namedgraph/&gt; ;
+    acl:owner &lt;https://linkeddatahub.com/admin/acl/agents/d47e1f9b-c8d0-4546-840f-5d9fbb479da2/#id9d3814f2-53bc-42e9-b1ab-46cbc9a94263&gt; .</code></pre>
+        </div>
+        <div>
+            <h3 id="constraints">Built-in constraints</h3>
+            <p>LinkedDataHub has a few built-in constraints that are not found in the standard Graph Store Protocol:</p>
+            <ul>
+                <li>It's not possible delete the root document</li>
+                <li>It's not possible to modify or delete the documents of the owner agent and the secretary agent</li>
+                <li>A document (which is also a named graph in the graph store) must always contain an RDF resource with its URI and type <code>def:Root</code>, <code>dh:Container</code>, or <code>dh:Item</code>
+                    (see <a href="../administration/model/#ontologies">ontologies</a>)</li>
+            </ul>
+            <p>The built in constraints are similar to, but separate from the <a href="../administration/model/#constraints">ontology constraints</a>.</p>
+        </div>
     </div>
     <div>
         <h2 id="sparql">Executing SPARQL</h2>

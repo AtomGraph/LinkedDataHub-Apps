@@ -18,7 +18,7 @@
     <p class="text-center">
         <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/4WXFm732H3I" width="560"></iframe>
     </p>
-    <p><dfn>Built-in classes</dfn> (such as <samp>Container</samp>, <samp>Item</samp>, <samp>SELECT</samp> etc.) ship with <a href="../../../reference/administration/model/#ontologies">system ontologies</a> in LinkedDataHub while <dfn>user-defined classes</dfn> come from ontologies imported by the user (see the user guide on <a href="../../change-model/">changing the model</a> on how to do that).</p>
+    <p><a href="../../../reference/data-management/resources/#built-in-classes">Built-in classes</a> (such as <samp>Container</samp>, <samp>Item</samp>, <samp>SELECT</samp> etc.) ship with <a href="../../../reference/administration/model/#ontologies">system ontologies</a> in LinkedDataHub while <dfn>user-defined classes</dfn> come from ontologies imported by the user (see the user guide on <a href="../../change-model/">changing the model</a> on how to do that).</p>
     <div>
         <h2>Built-in classes</h2>
         <p>To create instances of built-in classes, follow these steps:</p>

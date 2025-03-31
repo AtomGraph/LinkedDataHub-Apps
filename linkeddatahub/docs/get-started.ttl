@@ -46,10 +46,10 @@
         <p class="lead"><a href="../user-guide/create-data/create-documents/" target="_blank">Follow a tutorial to create a container.</a></p>
     </div>
     <div>
-        <h2 id="create-instance">Create an instance</h2>
+        <h2 id="create-resource">Create a resource</h2>
         <p>Out of the box, you can create instances of classes that LinkedDataHub ships with by default. Those are built-in classes in system ontologies such as container and item mentioned above, all forms of SPARQL queries, charts, data imports, files etc.</p>
         <p>LinkedDataHub also allows creation of instances of user-defined classes from ontologies imported by the user.</p>
-        <p class="lead"><a href="../user-guide/create-data/create-instances/" target="_blank">Learn how to create instances of built-in and user-defined classes.</a></p>
+        <p class="lead"><a href="../user-guide/create-data/create-resources/" target="_blank">Learn how to create instances of built-in and user-defined classes.</a></p>
     </div>
     <div>
         <h2 id="change-model">Change the model</h2>
