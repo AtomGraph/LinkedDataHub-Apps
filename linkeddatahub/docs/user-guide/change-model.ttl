@@ -70,7 +70,7 @@ WHERE {}</pre>
                     <div>
                         <p>In the administration application, follow these steps:</p>
                         <ol>
-                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner</li>
+                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
                             <li>Click on <samp>CONSTRUCT</samp> in the drop-down list that appears</li>
                             <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns#ConstructConcept</samp></li>
                             <li>Fill out the mandatory fields in the form:
@@ -123,7 +123,7 @@ popd</pre>
                     <div>
                         <p>In the administration application, follow these steps:</p>
                         <ol>
-                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner</li>
+                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
                             <li>Click on <samp>Missing property value</samp> in the drop-down list that appears</li>
                             <li>Fill out the fields in the form:
                                 <dl>
@@ -173,7 +173,7 @@ popd</pre>
                     <div>
                         <p>In the administration application, follow these steps to create the concept class:</p>
                         <ol>
-                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner</li>
+                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
                             <li>Click on <samp>Class</samp> in the drop-down list that appears</li>
                             <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns#Concept</samp></li>
                             <li>Fill out the mandatory fields in the form:

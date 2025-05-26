@@ -33,7 +33,7 @@
                     <dt>Source</dt>
                     <dd>URI of the source document</dd>
                     <dt>Graph</dt>
-                    <dd>The target document. You can start typing to find it by its label, or paste its URI here. You can also create a new document here by clicking the <span class="btn">[+]</span> button next to the input.</dd>
+                    <dd>The target document. You can start typing to find it by its label, or paste its URI here.</dd>
                 </dl>
             </li>
             <li>Click <span class="btn btn-primary btn-save">Save</span> to perform the fork operation.</li>

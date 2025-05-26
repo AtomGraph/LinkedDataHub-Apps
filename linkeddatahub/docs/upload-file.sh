@@ -22,14 +22,10 @@ fi
 path="${filename#*$pwd/}" # strip the leading $pwd/
 title="${filename##*/}" # strip folders
 
-pushd . && cd "$SCRIPT_ROOT/imports"
-
-./create-file.sh \
+create-file.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "$title" \
   --file "$filename"
-
-popd

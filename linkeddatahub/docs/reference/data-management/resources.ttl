@@ -27,22 +27,32 @@
             <p>LinkedDataHub's built-in <a href="../../administration/model/#classes">classes</a> have pre-defined <a href="../../administration/model/#constructors">constructors</a>, <a href="../../administration/model/#constraints">constraints</a> and often a customized UI rendering (implemented by <a href="../../stylesheets/#overriding-templates">overriding generic XSLT templates</a> with type-specific templates) as well, for example a query editor or a chart.</p>
             <div>
                 <h3 id="query">Query</h3>
+                <p>
+                    <img alt="Query block" src="../../uploads/b03751192d0b4c28fbea354511b8bd3a755c0000"></img>
+                </p>
                 <p>Queries are SPARQL 1.1 query strings that can be executed interactively. They can be defined with a SPARQL 
                 service that they execute against, otherwise they execute against the application's own SPARQL service.</p>
                 <p>It is only possible to save valid SPARQL 1.1 query strings. SPARQL updates are currently not supported.</p>
             </div>
             <div>
                 <h3 id="view">View</h3>
+                <p>
+                    <img alt="View block" src="../../uploads/97792fb1084524c89c92b6f99b070ac1b283d4f6"></img>
+                </p>
                 <p>Views are interactive, paginated, and optionally ordered results of a SPARQL <code>SELECT</code> result set.
                 What is rendered in the UI is not directly the tabular result however, but descriptions of the resources selected
                 by the result set. That is achieved by on-the-fly SPARQL query rewriting.</p>
                 <p>To render paginated lists of resources, legacy applications would normally have a dedicated API endpoint that
                 supports pagination, ordering etc. In LinkedDataHub, views achieve the same functionality by simply building the
-                SPARQL query string on the client-side. Therefore views can be seen as client-side &quot;containers&quot;.</p>
-                <p>Views can be rendered in multiple layout modes: properties, list, grid, table, map, chart etc.</p>
+                SPARQL query string on the client-side. Therefore views can be seen as client-side "containers".</p>
+                <p>Views can be rendered in multiple layout modes: properties, list, grid, table, map, chart etc. They also show
+                the total number of results and allow result ordering by property.</p>
             </div>
             <div>
                 <h3 id="chart">Chart</h3>
+                <p>
+                    <img alt="Chart block" src="../../uploads/d24700397698d347eacc0bf18f0469e14c76f52c"></img>
+                </p>
                 <p>Charts can render results of both tabular SPARQL <code>SELECT</code> results and graph results of
                 <code>DESCRIBE</code> and <code>CONSTRUCT</code>. In that sense they are similar to the chart layout mode in 
                 views, but charts also store the chart type as well as the category and series information: variable names in the

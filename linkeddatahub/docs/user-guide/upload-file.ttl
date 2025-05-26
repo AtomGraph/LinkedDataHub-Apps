@@ -24,7 +24,7 @@
             <div class="tab-pane active">
                 <div>
                     <ol>
-                        <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner</li>
+                        <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
                         <li>Click on <samp>File</samp> in the drop-down list that appears</li>
                         <li>Fill out the mandatory <dfn>File</dfn> fields in the form:
                             <dl>

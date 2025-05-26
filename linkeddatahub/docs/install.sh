@@ -21,7 +21,7 @@ pwd="$(realpath "$PWD")"
 
 printf "\n### Creating authorization to make the app public\n\n"
 
-"$SCRIPT_ROOT"/admin/acl/make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
+make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
 
 printf "\n### Creating authorizations\n\n"
 

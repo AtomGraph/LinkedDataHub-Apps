@@ -95,31 +95,80 @@ Options:
                     </thead>
                     <tbody>
                         <tr>
-                            <th colspan="2">General</th>
+                            <th colspan="2">Low-level (Graph Store Protocol)</th>
+                        </tr>
+                        <tr>
+                            <td><samp>GET</samp> request</td>
+                            <td><samp>get.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td><samp>POST</samp> request</td>
+                            <td><samp>post.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td><samp>PUT</samp> request</td>
+                            <td><samp>put.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td><samp>DELETE</samp> request</td>
+                            <td><samp>delete.sh</samp></td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <th colspan="2">Documents</th>
                         </tr>
                         <tr>
                             <td>Create document</td>
                             <td><samp>create-document.sh</samp></td>
                         </tr>
                         <tr>
-                            <td>Update document</td>
-                            <td><samp>update-document.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create container</td>
+                            <td>Create container document</td>
                             <td><samp>create-container.sh</samp></td>
                         </tr>
                         <tr>
-                            <td>Create item</td>
+                            <td>Create item document</td>
                             <td><samp>create-item.sh</samp></td>
                         </tr>
+                    </tbody>
+
+                    <tbody>
                         <tr>
-                            <td>Create result set chart</td>
-                            <td><samp>create-result-set-chart.sh</samp></td>
+                            <th colspan="2">Content</th>
                         </tr>
                         <tr>
-                            <td>Create <code>SELECT</code> query</td>
-                            <td><samp>create-select.sh</samp></td>
+                            <td>Append object block (instance of <samp>ldh:Object</samp>) to the document</td>
+                            <td><samp>add-object-block.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Append XHTML block (instance of <samp>ldh:XHTML</samp>) to the document</td>
+                            <td><samp>add-xhtml-block.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Remove block from the document</td>
+                            <td><samp>remove-block.sh</samp></td>
+                        </tr>
+                    </tbody>
+
+                    <tbody>
+                        <tr>
+                            <th colspan="2">Instances of system classes</th>
+                        </tr>
+                        <tr>
+                            <td>Append service (instance of <samp>ldh:GenericService</samp>) to the document</td>
+                            <td><samp>add-generic-service.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Apend result set chart (instance of <samp>ldh:ResultSetChart</samp>) to the document</td>
+                            <td><samp>add-result-set-chart.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Append <code>SELECT</code> query (instance of <samp>sp:Select</samp>) to the document</td>
+                            <td><samp>add-select.sh</samp></td>
+                        </tr>
+                        <tr>
+                            <td>Append SPARQL view (instance of <samp>ldh:View</samp>) to the document</td>
+                            <td><samp>add-view.sh</samp></td>
                         </tr>
                     </tbody>
                     <tbody>

@@ -32,7 +32,6 @@
                     <p>Prerequisites:</p>
                     <ul>
                         <li>bash shell. It should be included by default on Linux. On Windows you can install the <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" target="_blank">Windows Subsystem for Linux</a>.</li>
-                        <li>Java's <a href="https://docs.oracle.com/en/java/javase/11/tools/keytool.html" target="_blank">keytool</a> available on <code>$PATH</code>. It comes with the JDK.</li>
                         <li><a href="https://www.openssl.org/" target="_blank">openssl</a> available on <code>$PATH</code>.</li>
                         <li><a href="https://docs.docker.com/install/" target="_blank">Docker</a> installed</li>
                         <li><a href="https://docs.docker.com/compose/install/" target="_blank">Docker Compose</a> installed</li>

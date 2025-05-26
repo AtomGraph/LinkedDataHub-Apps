@@ -33,8 +33,6 @@
                             <dl>
                                 <dt>Title</dt>
                                 <dd>Enter <samp>Concepts</samp></dd>
-                                <dt>URI slug</dt>
-                                <dd>Enter <samp>concepts</samp> — this will be the relative path of the container</dd>
                             </dl>
                         </li>
                         <li>Click <span class="btn btn-primary btn-save">Save</span></li>
