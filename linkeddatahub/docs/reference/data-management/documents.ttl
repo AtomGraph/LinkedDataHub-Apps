@@ -43,39 +43,31 @@
     <div>
         <h2 id="manage">Manage documents</h2>
         <p>The following actions can also be performed using the <a href="../../command-line-interface/" target="_blank">command line interface</a>.</p>
-        <div>
-            <h3 id="create">Create</h3>
-            <p>
-                <object data="../../../uploads/490945931415b9ab201ed85f296a84c8a11134d1" type="video/webm"></object>
-            </p>
-            <p>Create a new child document by clicking the <span class="btn btn-primary">Create</span> button on the left of the navbar.</p>
-            <p>The corresponding CLI scripts are <a href="../../command-line-interface/#scripts"><samp>create-container.sh</samp></a> and <a href="../../command-line-interface/#scripts"><samp>create-item.sh</samp></a>.</p>
-        </div>
-        <div>
-            <h3 id="edit">Edit</h3>
-            <p>
-                <object data="../../../uploads/???" type="video/webm"></object>
-            </p>
-            <p>Opens an editing form for the current document.</p>
-            <p>The corresponding CLI script is <a href="../../command-line-interface/#scripts"><samp>put.sh</samp></a>.</p>
-        </div>
-        <div>
-            <h3 id="delete">Delete</h3>
-            <p>
-                <object data="../../../uploads/121916e2a51476351451c218b1a6dec9de2e7774" type="video/webm"></object>
-            </p>
-            <p>This action deletes the current document by deleting the graph with its description.</p>
-            <p>Deleting a container currently does not delete any of its descendants.</p>
-            <p>It is not possible to delete the root container.</p>
-            <p>The corresponding CLI script is <a href="../../command-line-interface/#scripts"><samp>delete.sh</samp></a>.</p>
-        </div>
-        <div>
-            <h3 id="download">Download</h3>
-            <p>
-                <object data="../../../uploads/9f9c3fc45ed41d6dad05762b501512b002f0efc5" type="video/webm"></object>
-            </p>
-            <p>Download action returns the description of the current document as RDF data in the selected format.</p>
-            <p>The corresponding CLI script is <a href="../../command-line-interface/#scripts"><samp>get.sh</samp></a>.</p>
-        </div>
+        <table class="table table-striped" id="actions">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <td>Description</td>
+                    <td>CLI script</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Create</th>
+                    <td>Create a new child document by clicking the <span class="btn btn-primary">Create</span> button on the left of the navbar</td>
+                    <td><a href="../../command-line-interface/#scripts"><samp>create-item.sh</samp></a></td>
+                </tr>
+                <tr>
+                    <th>Edit</th>
+                    <td>Open the current document editing form by clicking the <span class="btn btn-edit">Edit</span> button in the middle section of the navbar bar</td>
+                    <td><a href="../../command-line-interface/#scripts"><samp>put.sh</samp></a></td>
+                </tr>
+                <tr>
+                    <th>Delete</th>
+                    <td>Delete the current document by clicking the <span class="btn btn-delete">Delete</span> in the action bar (the right section of the navbar)</td>
+                    <td><a href="../../command-line-interface/#scripts"><samp>delete.sh</samp></a></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>"""^^rdf:XMLLiteral .

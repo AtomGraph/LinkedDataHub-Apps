@@ -27,7 +27,9 @@
         <div>
             <h2 id="object-block">Object block</h2>
             <p>Blocks other than HTML content is called an <dfn>object</dfn> and has to have a URI that dereferences. Objects are embedded (transcluded) into the HTML page. You can use any <a href="../resources/">RDF resource</a> or uploaded file as an object.</p>
-            <p>LinkedDataHub will first attempt to load RDF data from the URI and render it. If that fails, it will simply embed it using the HTML <code>&lt;object&gt;</code> element. Object blocks can be used to embed queries, charts, and other LinkedDataHub system resources.</p>
+            <p>LinkedDataHub will first attempt to load RDF data from the obejct URI and render it as block. If that fails, it will simply embed it using the HTML <code>&lt;object&gt;</code> element. Object blocks can be used to embed queries, charts, and other LinkedDataHub system resources.</p>
+            <h3 id="object-block-ui">User interface</h3>
+            <p>Built-in block types use a UI convention where their UI is split into left, main, and right content areas. The layout of the main content may depend on the active mode of the block. Left and right sections are block-type specific.</p>
         </div>
     </div>
 </div>"""^^rdf:XMLLiteral .

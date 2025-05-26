@@ -137,15 +137,15 @@ Options:
                             <th colspan="2">Content</th>
                         </tr>
                         <tr>
-                            <td>Append object block (instance of <samp>ldh:Object</samp>) to the document</td>
+                            <td>Append object block (instance of <samp>ldh:Object</samp>) to document</td>
                             <td><samp>add-object-block.sh</samp></td>
                         </tr>
                         <tr>
-                            <td>Append XHTML block (instance of <samp>ldh:XHTML</samp>) to the document</td>
+                            <td>Append XHTML block (instance of <samp>ldh:XHTML</samp>) to document</td>
                             <td><samp>add-xhtml-block.sh</samp></td>
                         </tr>
                         <tr>
-                            <td>Remove block from the document</td>
+                            <td>Remove block from document</td>
                             <td><samp>remove-block.sh</samp></td>
                         </tr>
                     </tbody>
@@ -155,25 +155,25 @@ Options:
                             <th colspan="2">Instances of system classes</th>
                         </tr>
                         <tr>
-                            <td>Append service (instance of <samp>ldh:GenericService</samp>) to the document</td>
+                            <td>Append service (instance of <samp>ldh:GenericService</samp>) to document</td>
                             <td><samp>add-generic-service.sh</samp></td>
                         </tr>
                         <tr>
-                            <td>Apend result set chart (instance of <samp>ldh:ResultSetChart</samp>) to the document</td>
+                            <td>Apend result set chart (instance of <samp>ldh:ResultSetChart</samp>) to document</td>
                             <td><samp>add-result-set-chart.sh</samp></td>
                         </tr>
                         <tr>
-                            <td>Append <code>SELECT</code> query (instance of <samp>sp:Select</samp>) to the document</td>
+                            <td>Append <code>SELECT</code> query (instance of <samp>sp:Select</samp>) to document</td>
                             <td><samp>add-select.sh</samp></td>
                         </tr>
                         <tr>
-                            <td>Append SPARQL view (instance of <samp>ldh:View</samp>) to the document</td>
+                            <td>Append SPARQL view (instance of <samp>ldh:View</samp>) to document</td>
                             <td><samp>add-view.sh</samp></td>
                         </tr>
                     </tbody>
                     <tbody>
                         <tr>
-                            <th colspan="2">Imports</th>
+                            <th colspan="2"><a href="../imports/">Imports</a></th>
                         </tr>
                         <tr>
                             <td>Create file</td>
