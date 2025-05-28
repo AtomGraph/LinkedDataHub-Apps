@@ -19,6 +19,8 @@ else
     proxy="$base"
 fi
 
+echo "Uploading file: $filename"  # Debug output
+
 path="${filename#*$pwd/}" # strip the leading $pwd/
 title="${filename##*/}" # strip folders
 

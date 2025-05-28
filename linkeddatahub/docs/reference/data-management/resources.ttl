@@ -28,7 +28,7 @@
             <div>
                 <h3 id="query">Query</h3>
                 <p>
-                    <img alt="Query block" src="../../uploads/b03751192d0b4c28fbea354511b8bd3a755c0000"></img>
+                    <img alt="Query block" src="../../../uploads/cbe31147634bb2be12f1a4f60ff56f690a33542e"></img>
                 </p>
                 <p>Queries are SPARQL 1.1 query strings that can be executed interactively. They can be defined with a SPARQL 
                 service that they execute against, otherwise they execute against the application's own SPARQL service.</p>
@@ -37,7 +37,7 @@
             <div>
                 <h3 id="view">View</h3>
                 <p>
-                    <img alt="View block" src="../../uploads/97792fb1084524c89c92b6f99b070ac1b283d4f6"></img>
+                    <img alt="View block" src="../../../uploads/97792fb1084524c89c92b6f99b070ac1b283d4f6"></img>
                 </p>
                 <p>Views are interactive, paginated, and optionally ordered results of a SPARQL <code>SELECT</code> result set.
                 What is rendered in the UI is not directly the tabular result however, but descriptions of the resources selected
@@ -51,12 +51,12 @@
             <div>
                 <h3 id="chart">Chart</h3>
                 <p>
-                    <img alt="Chart block" src="../../uploads/d24700397698d347eacc0bf18f0469e14c76f52c"></img>
+                    <img alt="Chart block" src="../../../uploads/fde3b3b56d1ff518921f0a604cb45bbf0ae87650"></img>
                 </p>
                 <p>Charts can render results of both tabular SPARQL <code>SELECT</code> results and graph results of
                 <code>DESCRIBE</code> and <code>CONSTRUCT</code>. In that sense they are similar to the chart layout mode in 
                 views, but charts also store the chart type as well as the category and series information: variable names in the
-                case of tabular results,and property URIs in the case of graph results.</p>
+                case of tabular results, and property URIs in the case of graph results.</p>
                 <p>The default chart type is the table. Other chart types might not apply to all result data; for example a
                 scatter chart will need a numeric or datetime values for both category and series.</p>
             </div>

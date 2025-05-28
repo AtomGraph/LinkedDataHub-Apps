@@ -47,15 +47,15 @@
             <thead>
                 <tr>
                     <th>Action</th>
-                    <td>Description</td>
-                    <td>CLI script</td>
+                    <th>Description</th>
+                    <th>CLI script</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <th>Create</th>
                     <td>Create a new child document by clicking the <span class="btn btn-primary">Create</span> button on the left of the navbar</td>
-                    <td><a href="../../command-line-interface/#scripts"><samp>create-item.sh</samp></a></td>
+                    <td><a href="../../command-line-interface/#scripts"><samp>create-container.sh</samp></a> <a href="../../command-line-interface/#scripts"><samp>create-item.sh</samp></a></td>
                 </tr>
                 <tr>
                     <th>Edit</th>
