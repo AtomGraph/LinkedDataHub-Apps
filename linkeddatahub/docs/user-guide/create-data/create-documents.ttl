@@ -46,17 +46,13 @@
             <div class="tab-pane">
                 <div>
                     <p>Replace <code>$OWNER_KEY_PASSWORD</code> with its value from the <samp>.env</samp> file and execute the following command:</p>
-                    <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"
-
-create-container.sh \\
+                    <pre>create-container.sh \\
   -b "https://localhost:4443/" \\
 -f "$cert_pem_file" \\
 -p "$cert_password" \\
   --title "$title" \\
   --slug "$slug" \\
-  --parent "https://localhost:4443/"
-
-popd</pre>
+  --parent "https://localhost:4443/"</pre>
                 </div>
             </div>
         </div>

@@ -90,8 +90,6 @@ WHERE {}</pre>
                     <div>
                             <pre>pwd=$(realpath -s $PWD)
 
-pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/model
-
 create-construct.sh \\
   -b "${base}admin/" \\
   -f "$cert_pem_file" \\
@@ -99,10 +97,8 @@ create-construct.sh \\
   --uri "${base}ns#ConstructConcept" \\
   --label "Construct concept" \\
   --slug construct-concept \\
-  --query-file "$pwd/queries/construct-concept.rq" \\
-  "${base}admin/model/ontologies/namespace/"
-
-popd</pre>
+  --query-file "${pwd}/queries/construct-concept.rq" \\
+  "${base}admin/model/ontologies/namespace/"</pre>
                     </div>
                 </div>
             </div>
@@ -142,9 +138,7 @@ popd</pre>
                 </div>
                 <div class="tab-pane">
                     <div>
-                        <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/model
-
-create-property-constraint.sh \\
+                        <pre>create-property-constraint.sh \\
   -b "$base" \\
   -f "$cert_pem_file" \\
   -p "$cert_password" \\
@@ -152,9 +146,7 @@ create-property-constraint.sh \\
   --label "Missing skos:prefLabel" \\
   --slug missing-pref-label \\
   --property "http://www.w3.org/2004/02/skos/core#prefLabel" \\
-  "${base}admin/model/ontologies/namespace/"
-
-popd</pre>
+  "${base}admin/model/ontologies/namespace/"</pre>
                     </div>
                 </div>
             </div>
@@ -192,9 +184,7 @@ popd</pre>
                 </div>
                 <div class="tab-pane">
                     <div>
-                        <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"/admin/model
-
-create-class.sh \\
+                        <pre>create-class.sh \\
   -b "$base" \\
   -f "$cert_pem_file" \\
   -p "$cert_password" \\
@@ -203,9 +193,7 @@ create-class.sh \\
   --slug concept \\
   --constructor "{$base}ns#ConstructConcept" \\
   --constraint "{$base}ns#MissingPrefLabel" \\
-  "${base}admin/model/ontologies/namespace/"
-
-popd</pre>
+  "${base}admin/model/ontologies/namespace/"</pre>
                     </div>
                 </div>
             </div>

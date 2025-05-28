@@ -47,17 +47,13 @@
             <div class="tab-pane">
                 <div>
                     <p>Replace <code>$OWNER_KEY_PASSWORD</code> with its value from the <samp>.env</samp> file and execute the following command:</p>
-                    <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT/imports"
-
-create-file.sh \\
+                    <pre>create-file.sh \\
 -b "https://localhost:4443/" \\
 -f "$cert_pem_file" \\
 -p "$cert_password" \\
 --title "$title" \\
 --file "$filename" \\
---file-content-type "$content_type"
-
-popd</pre>
+--file-content-type "$content_type"</pre>
                 </div>
             </div>
         </div>

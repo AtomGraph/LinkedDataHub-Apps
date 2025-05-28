@@ -175,7 +175,7 @@
             <ul>
                 <li>Graph-level modes that apply to <code>rdf:RDF</code>
                     <ul>
-                        <li><code>bs2:Block</code> which renders full resource description with all properties</li>
+                        <li><dfn>default mode</dfn> which renders full resource descriptions</li>
                         <li><code>bs2:BlockList</code> renders a list of resources</li>
                         <li><code>xhtml:Table</code> renders a table with resources as rows and properties as columns</li>
                         <li><code>bs2:Grid</code> renders a gallery of thumbnails</li>
@@ -184,7 +184,7 @@
                 </li>
                 <li>Resource-level templates modes that apply to <code>rdf:Description</code>
                     <ul>
-                        <li><code>bs2:Block</code> renders full resource description (by default header and property list)</li>
+                        <li><dfn>default mode</dfn> renders full resource description (by default header and property list)</li>
                         <li><code>bs2:Header</code> renders resource header (by default with type information)</li>
                         <li><code>bs2:PropertyList</code> renders definition list with property names and values (by default grouped by resource types)</li>
                     </ul>

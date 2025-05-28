@@ -23,7 +23,7 @@
         <dt>XHTML</dt>
         <dd>A fragment of XHTML that is embedded onto the page</dd>
         <dt>Object</dt>
-        <dd>RDF URI resources that get transcluded into the page
+        <dd>RDF URI resources that get transcluded into the page. <a href="../../../reference/data-management/resources/#built-in-classes">Built-in resource</a> examples:
             <dl>
                 <dt>Linked Data resource</dt>
                 <dd>Any URI that resolves to RDF data</dd>

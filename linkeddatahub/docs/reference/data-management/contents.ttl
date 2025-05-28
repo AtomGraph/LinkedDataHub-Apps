@@ -19,7 +19,8 @@
         <p>Content list is a <a href="../../user-interface/#layout-modes" target="_blank">layout mode</a> introduced in LinkedDataHub 3.x. It allow composition of rich, structured web documents from multiple types of content blocks.</p>
         <p>The blocks are attached to the document resource using <a href="https://www.w3.org/TR/rdf-schema/#ch_seq" target="_blank">RDF sequence properties</a> <samp>rdf:_1</samp>, <samp>rdf:_2</samp> etc.
         The index number in the property URI indicates the position of the content block on the document's content list.</p>
-        <p>The blocks have 2 main types: XHTML and object.</p>
+        <p>The blocks have 2 main types: XHTML (<code>ldh:XHTML</code>) and object (<code>ldh:Object</code>).</p>
+        <p>The blocks can be re-arranged by dragging one of them and dropping them in a different position.</p>
         <div>
             <h2 id="xhtml-block">XHTML block</h2>
             <p>XHTML block is simply a fragment of XHTML, stored as a canonical XML literal in the RDF document. It can be edited using a WYSIWYG editor.</p>
