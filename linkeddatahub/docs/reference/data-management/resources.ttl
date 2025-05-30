@@ -41,7 +41,9 @@
                 </p>
                 <p>Views are interactive, paginated, and optionally ordered results of a SPARQL <code>SELECT</code> result set.
                 What is rendered in the UI is not directly the tabular result however, but descriptions of the resources selected
-                by the result set. That is achieved by on-the-fly SPARQL query rewriting.</p>
+                by the result set. That is achieved by on-the-fly SPARQL query rewriting: the <code>SELECT</code> is wrapped into
+                a <code>DESCRIBE</code> query; <code>DESCRIBE</code> reuses the same variables from the <code>SELECT</code> projection.
+                <em>This will not work for all <code>SELECT</code> queries.</em></p>
                 <p>To render paginated lists of resources, legacy applications would normally have a dedicated API endpoint that
                 supports pagination, ordering etc. In LinkedDataHub, views achieve the same functionality by simply building the
                 SPARQL query string on the client-side. Therefore views can be seen as client-side "containers".</p>
