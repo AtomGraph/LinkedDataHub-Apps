@@ -37,68 +37,112 @@
     <p>Content other than HTML content is called <dfn>object</dfn>. The HTML content is part of the document while resource content is simply embedded (transcluded) into the HTML page.</p>
     <div>
         <h2 id="xhtml-blocks">XHTML blocks</h2>
-        <div>
-            <h3 id="add-xhtml-block">Add block</h3>
-            <p>To create a new XHTML block, follow these steps:</p>
-            <ol>
-                <li>Make sure you're in the content layout mode</li>
-                <li>At the bottom of the page, click the <span class="btn btn-primary create-action add-constructor">XHTML</span> button</li>
-                <li>Add content in the WYSIWYG editor</li>
-                <li>Click the <span class="btn btn-primary btn-save">Save</span> button to save the block</li>
-            </ol>
-            <p>After this, a new XHTML block should be appended to the page, replacing the form.</p>
-        </div>
-        <div>
-            <h3 id="edit-xhtml-block">Edit block</h3>
-            <p>To edit an XHTML block, follow these steps:</p>
-            <ol>
-                <li>Move the mouse to the very top-right of the block element where an editing button <span class="btn btn-edit"></span> should appear</li>
-                <li>Make changes in the WYSIWYG editor that appears</li>
-                <li>Click <span class="btn btn-primary btn-save">Save</span> to save the block</li>
-            </ol>
-            <p>To remove an XHTML block, follow these steps:</p>
-            <ol>
-                <li>Move the mouse to the very top-right of the block element where an editing button should appear</li>
-                <li>Click the <span class="btn btn-remove-resource"></span> button (in the top-right of the block) to remove the block</li>
-            </ol>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a>User interface</a></li>
+                <li><a>Command line interface</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div>
+                        <h3 id="add-xhtml-block">Add block</h3>
+                        <p>To create a new XHTML block, follow these steps:</p>
+                        <ol>
+                            <li>Make sure you're in the content layout mode</li>
+                            <li>At the bottom of the page, click the <span class="btn btn-primary create-action add-constructor">XHTML</span> button</li>
+                            <li>Add content in the WYSIWYG editor</li>
+                            <li>Click the <span class="btn btn-primary btn-save">Save</span> button to save the block</li>
+                        </ol>
+                        <p>After this, a new XHTML block should be appended to the page, replacing the form.</p>
+                    </div>
+                    <div>
+                        <h3 id="edit-xhtml-block">Edit block</h3>
+                        <p>To edit an XHTML block, follow these steps:</p>
+                        <ol>
+                            <li>Move the mouse to the very top-right of the block element where an editing button <span class="btn btn-edit"></span> should appear</li>
+                            <li>Make changes in the WYSIWYG editor that appears</li>
+                            <li>Click <span class="btn btn-primary btn-save">Save</span> to save the block</li>
+                        </ol>
+                        <p>To remove an XHTML block, follow these steps:</p>
+                        <ol>
+                            <li>Move the mouse to the very top-right of the block element where an editing button should appear</li>
+                            <li>Click the <span class="btn btn-remove-resource"></span> button (in the top-right of the block) to remove the block</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="tab-pane">
+                    <div>
+                        <p>To add a new XHTML block with the value <samp>&lt;p&gt;A paragraph&lt;/p&gt;</samp>, replace <code>$owner_cert_password</code> with the value of the corresponding secret and execute the following command:</p>
+                        <pre>add-xhtml-block.sh \\
+    -b "https://localhost:4443/" \\
+    -f "./ssl/owner/cert.pem" \\
+    -p "$owner_cert_password" \\
+    --fragment "new-xhtml-block" \\
+    --value "&lt;div xmlns=\\\\\\"http://www.w3.org/1999/xhtml\\\\\\"&gt;&lt;p&gt;A paragraph&lt;/p&gt;&lt;/div&gt;" \\
+    "https://localhost:4443/test/"</pre>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div>
         <h2 id="object-blocks">Object blocks</h2>
-        <div>
-            <h3 id="add-object-block">Add block</h3>
-            <p>To create a new object block, follow these steps:</p>
-            <ol>
-                <li>Make sure you're in the content layout mode</li>
-                <li>At the bottom of the page, click the <span class="btn btn-primary create-action add-constructor">Object</span> button</li>
-                <li>Fill out values in the form that appears
-                    <dl>
-                        <dt>Value</dt>
-                        <dd>The URI of the object resource</dd>
-                    </dl>
-                </li>
-                <li>Click the <span class="btn btn-primary btn-save">Save</span> button to save the block</li>
-            </ol>
-            <p>After this, a new object block should be appended to the page, replacing the form.</p>
-        </div>
-        <div>
-            <h3 id="edit-object-block">Edit block</h3>
-            <p>To edit an object block, follow these steps:</p>
-            <ol>
-                <li>Move the mouse to the very top-right of the block element where an editing button <span class="btn btn-edit"></span> should appear</li>
-                <li>Make changes in the editing form:
-                    <dl>
-                        <dt>Value</dt>
-                        <dd>The URI of the object resource</dd>
-                    </dl>
-                </li>
-                <li>Click <span class="btn btn-primary btn-save">Save</span> at the bottom of the form to save the block</li>
-            </ol>
-            <p>To remove an object block, follow these steps:</p>
-            <ol>
-                <li>Move the mouse to the very top-right of the block element where an editing button should appear</li>
-                <li>Click the <span class="btn btn-remove-resource"></span> button (in the top-right of the block) to remove the block</li>
-            </ol>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a>User interface</a></li>
+                <li><a>Command line interface</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div>
+                        <h3 id="add-object-block">Add block</h3>
+                        <p>To create a new object block, follow these steps:</p>
+                        <ol>
+                            <li>Make sure you're in the content layout mode</li>
+                            <li>At the bottom of the page, click the <span class="btn btn-primary create-action add-constructor">Object</span> button</li>
+                            <li>Fill out values in the form that appears
+                                <dl>
+                                    <dt>Value</dt>
+                                    <dd>The URI of the object resource</dd>
+                                </dl>
+                            </li>
+                            <li>Click the <span class="btn btn-primary btn-save">Save</span> button to save the block</li>
+                        </ol>
+                        <p>After this, a new object block should be appended to the page, replacing the form.</p>
+                    </div>
+                    <div>
+                        <h3 id="edit-object-block">Edit block</h3>
+                        <p>To edit an object block, follow these steps:</p>
+                        <ol>
+                            <li>Move the mouse to the very top-right of the block element where an editing button <span class="btn btn-edit"></span> should appear</li>
+                            <li>Make changes in the editing form:
+                                <dl>
+                                    <dt>Value</dt>
+                                    <dd>The URI of the object resource</dd>
+                                </dl>
+                            </li>
+                            <li>Click <span class="btn btn-primary btn-save">Save</span> at the bottom of the form to save the block</li>
+                        </ol>
+                        <p>To remove an object block, follow these steps:</p>
+                        <ol>
+                            <li>Move the mouse to the very top-right of the block element where an editing button should appear</li>
+                            <li>Click the <span class="btn btn-remove-resource"></span> button (in the top-right of the block) to remove the block</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="tab-pane">
+                    <div>
+                        <p>To add a new object block with the value <samp>http://dbpedia.org/resource/Copenhagen</samp>, replace <code>$owner_cert_password</code> with the value of the corresponding secret and execute the following command:</p>
+                        <pre>add-object-block.sh \\
+    -b "https://localhost:4443/" \\
+    -f "./ssl/owner/cert.pem" \\
+    -p "$owner_cert_password" \\
+    --fragment "object-block" \\
+    --value "http://dbpedia.org/resource/Copenhagen" \\
+    "https://localhost:4443/test/"</pre>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!--

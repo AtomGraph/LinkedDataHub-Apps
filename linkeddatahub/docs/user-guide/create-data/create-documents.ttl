@@ -45,13 +45,13 @@
             </div>
             <div class="tab-pane">
                 <div>
-                    <p>Replace <code>$OWNER_KEY_PASSWORD</code> with its value from the <samp>.env</samp> file and execute the following command:</p>
+                    <p>Replace <code>$owner_cert_password</code> with the value of the corresponding secret and execute the following command:</p>
                     <pre>create-container.sh \\
   -b "https://localhost:4443/" \\
--f "$cert_pem_file" \\
--p "$cert_password" \\
-  --title "$title" \\
-  --slug "$slug" \\
+  -f "./ssl/owner/cert.pem" \\
+  -p "$owner_cert_password" \\
+  --title "Concepts" \\
+  --slug "concepts" \\
   --parent "https://localhost:4443/"</pre>
                 </div>
             </div>
