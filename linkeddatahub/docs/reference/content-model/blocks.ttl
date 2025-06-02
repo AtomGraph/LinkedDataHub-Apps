@@ -45,7 +45,7 @@
                         </tr>
                         <tr>
                             <th>Delete</th>
-                            <td></td>
+                            <td>Click the <span class="btn btn-edit"></span> button in the top-right corner of the block (it will only appear when you move the mouse close to that corner). Click the <span class="btn btn-remove"></span> button to delete the block.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -95,15 +95,15 @@
                     <tbody>
                         <tr>
                             <th>Create</th>
-                            <td></td>
+                            <td>Click the <span class="btn btn-primary create-action">Object</span> button at the bottom of the page (in content mode). Enter the object's value URI.</td>
                         </tr>
                         <tr>
                             <th>Update</th>
-                            <td></td>
+                            <td>Click the <span class="btn btn-edit"></span> button in the top-right corner of the block (it will only appear when you move the mouse close to that corner). Change the object's value URI.</td>
                         </tr>
                         <tr>
                             <th>Delete</th>
-                            <td></td>
+                            <td>Click the <span class="btn btn-edit"></span> button in the top-right corner of the block (it will only appear when you move the mouse close to that corner). Click the <span class="btn btn-remove"></span> button to delete the block.</td>
                         </tr>
                     </tbody>
                 </table>
