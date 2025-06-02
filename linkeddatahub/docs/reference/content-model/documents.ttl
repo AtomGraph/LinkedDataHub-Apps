@@ -73,7 +73,7 @@
     acl:owner &lt;https://localhost:4443/admin/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .</pre>
     </div>
     <div>
-        <h2 id="manage">Manage documents</h2>
+        <h2 id="management">Management</h2>
         <div>
             <h3><a href="../../user-interface/">User interface</a></h3>
             <table class="table table-striped" id="actions">

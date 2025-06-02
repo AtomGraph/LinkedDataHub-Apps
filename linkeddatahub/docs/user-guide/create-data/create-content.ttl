@@ -77,9 +77,9 @@
     -b "https://localhost:4443/" \\
     -f "./ssl/owner/cert.pem" \\
     -p "$owner_cert_password" \\
-    --fragment "new-xhtml-block" \\
+    --fragment "xhtml-block" \\
     --value "&lt;div xmlns=\\\\\\"http://www.w3.org/1999/xhtml\\\\\\"&gt;&lt;p&gt;A paragraph&lt;/p&gt;&lt;/div&gt;" \\
-    "https://localhost:4443/test/"</pre>
+    "https://localhost:4443/concepts/example/"</pre>
                     </div>
                 </div>
             </div>
@@ -139,7 +139,7 @@
     -p "$owner_cert_password" \\
     --fragment "object-block" \\
     --value "http://dbpedia.org/resource/Copenhagen" \\
-    "https://localhost:4443/test/"</pre>
+    "https://localhost:4443/concepts/example/"</pre>
                     </div>
                 </div>
             </div>
