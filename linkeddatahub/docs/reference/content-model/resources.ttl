@@ -1,0 +1,100 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+  
+<> a dh:Container ;
+    sioc:has_parent <..> ;
+    dct:title "Resources" ;
+    dct:description "RDF resources and their management" ;
+    rdf:_1 <#content> ;
+    rdf:_2 <#select-children> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">RDF resources and their management</p>
+    <div>
+        <p>Within <a href="../documents/">documents</a>, users can create RDF resources, i.e. instances of both built-in and user-defined RDF classes.</p>
+        <p>Built-in classes are defined in <a href="../../administration/ontologies/#ontologies">system ontologies</a> while user-defined classes are defined in user ontologies.</p>
+        <div>
+            <h2 id="user-defined-classes">User-defined classes</h2>
+            <p>TBD</p>
+        </div>
+        <div>
+            <h2 id="built-in-classes">Built-in classes</h2>
+            <p>LinkedDataHub's built-in <a href="../../administration/ontologies/#classes">classes</a> have pre-defined <a href="../../administration/ontologies/#constructors">constructors</a>, <a href="../../administration/ontologies/#constraints">constraints</a> and often a customized UI rendering (implemented by <a href="../../stylesheets/#overriding-templates">overriding generic XSLT templates</a> with type-specific templates) as well, for example a query editor or a chart.</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Class</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="queries/"><samp>ASK</samp></a></td>
+                        <td><code>sp:Ask</code></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><samp>Application</samp></td>
+                        <td><code>ldh:Application</code></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="queries/"><samp>CONSTRUCT</samp></a></td>
+                        <td><code>sp:Construct</code></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><samp>CSV import</samp></td>
+                        <td><code>ldh:CSVImport</code></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><samp>File</samp></td>
+                        <td><code>nfo:FileDataObject</code></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="charts/"><samp>Graph chart</samp></a></td>
+                        <td><code>ldh:GraphChart</code></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><samp>RDF import</samp></td>
+                        <td><code>ldh:RDFImport</code></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="charts/"><samp>Result set chart</samp></a></td>
+                        <td><code>ldh:ResultSetChart</code></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="queries/"><samp>Select</samp></a></td>
+                        <td><code>sp:Select</code></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><samp>Service</samp></td>
+                        <td><code>sd:Service</code></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><a href="views/"><samp>View</samp></a></td>
+                        <td><code>ldh:View</code></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>"""^^rdf:XMLLiteral .
+
+<#select-children> a ldh:Object ;
+    rdf:value ldh:ChildrenView .

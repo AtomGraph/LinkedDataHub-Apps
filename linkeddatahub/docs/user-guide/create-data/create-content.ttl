@@ -23,7 +23,7 @@
         <dt>XHTML</dt>
         <dd>A fragment of XHTML that is embedded onto the page</dd>
         <dt>Object</dt>
-        <dd>RDF URI resources that get transcluded into the page. <a href="../../../reference/data-management/resources/#built-in-classes">Built-in resource</a> examples:
+        <dd>RDF URI resources that get transcluded into the page. <a href="../../../reference/user-interface/resources/#built-in-classes">Built-in resource</a> examples:
             <dl>
                 <dt>Linked Data resource</dt>
                 <dd>Any URI that resolves to RDF data</dd>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="tab-pane">
                     <div>
-                        <p>To add a new XHTML block with the value <samp>&lt;p&gt;A paragraph&lt;/p&gt;</samp>, replace <code>$owner_cert_password</code> with the value of the corresponding secret and execute the following command:</p>
+                        <p>To add a new XHTML block with the value <samp>&lt;p&gt;A paragraph&lt;/p&gt;</samp>, replace <samp>owner_cert_password</samp> with the value of the corresponding secret and execute the following command:</p>
                         <pre>add-xhtml-block.sh \\
     -b "https://localhost:4443/" \\
     -f "./ssl/owner/cert.pem" \\
@@ -132,7 +132,7 @@
                 </div>
                 <div class="tab-pane">
                     <div>
-                        <p>To add a new object block with the value <samp>http://dbpedia.org/resource/Copenhagen</samp>, replace <code>$owner_cert_password</code> with the value of the corresponding secret and execute the following command:</p>
+                        <p>To add a new object block with the value <samp>http://dbpedia.org/resource/Copenhagen</samp>, replace <samp>$owner_cert_password</samp> with the value of the corresponding secret and execute the following command:</p>
                         <pre>add-object-block.sh \\
     -b "https://localhost:4443/" \\
     -f "./ssl/owner/cert.pem" \\
@@ -150,5 +150,5 @@
         <h2 id="content-templates">Content templates</h2>
     </div>
     -->
-    <p class="lead"><a href="../../../reference/data-management/contents/" target="_blank">Read more about content management.</a></p>
+    <p class="lead"><a href="../../../reference/content-model/blocks/" target="_blank">Read more about content blocks.</a></p>
 </div>"""^^rdf:XMLLiteral .

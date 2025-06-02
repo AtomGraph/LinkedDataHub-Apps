@@ -61,7 +61,7 @@ OWNER_COUNTRY_NAME=DK</pre>
                         </li>
                         <li>Setup the server's SSL certificates by running this from command line:
                             <pre>./bin/server-cert-gen.sh .env nginx ssl</pre>
-                            The script will create an <code>ssl/server</code> sub-folder where the SSL certificate will be stored.
+                            The script will create an <samp>ssl/server</samp> sub-folder where the SSL certificate will be stored.
                         </li>
                         <li>Run this from command line:
                             <pre>docker-compose up --build</pre>
@@ -74,9 +74,8 @@ OWNER_COUNTRY_NAME=DK</pre>
                            </ol>
                         </li>
                     </ol>
-                    <p>You are now the owner of this LinkedDataHub instance; <samp>certs/owner.p12</samp> is your WebID certificate. Password is the <samp>OWNER_KEY_PASSWORD</samp> value.</p>
-                    <p>After a successful startup, the last line of the Docker log should read:</p>
-                    <pre>linkeddatahub_1    | 02-Feb-2020 02:02:20.200 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 3420 ms</pre>
+                    <p>You are now the owner of this LinkedDataHub instance; <samp>certs/owner.p12</samp> is your WebID certificate. Password is the <samp>owner_cert_password</samp> secret value.</p>
+                    <p>After a successful startup you should see periodic healtcheck requests being made to the <samp>https://localhost:4443/ns</samp> URL.</p>
                 </div>
                 <div>
                     <h2 id="reset">Reset</h2>

@@ -33,7 +33,7 @@
         Currently the only way to determine when it completes is to refresh the import item and check the import
         status (completed/failed). Upon successful report, metadata such as the number of imported RDF triples is attached
         to the import.</p>
-    <p>The resulting RDF is split into documents (named graphs), which are then created one by one and validated against <a href="../../administration/model/#constraints">constraints</a> in the process.
+    <p>The resulting RDF is split into documents (named graphs), which are then created one by one and validated against <a href="../../administration/ontologies/#constraints">constraints</a> in the process.
         Constraint violations, if any, are attached to the import item.</p>
     <div>
         <p>Lets assume we want to import SKOS concept data:</p>

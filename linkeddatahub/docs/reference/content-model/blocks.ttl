@@ -1,0 +1,139 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+  
+<> a dh:Item ;
+    sioc:has_container <..> ;
+    dct:title "Content blocks" ;
+    dct:description "Content blocks and the basic data content actions" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Content blocks and the basic data content actions.</p>
+    <div>
+        <p>Content list is a <a href="../../user-interface/#layout-modes" target="_blank">layout mode</a> introduced in LinkedDataHub 3.x. It allow composition of rich, structured web documents from multiple types of content blocks.</p>
+        <p>The blocks are attached to the document resource using <a href="https://www.w3.org/TR/rdf-schema/#ch_seq" target="_blank">RDF sequence properties</a> <code>rdf:_1</code>, <code>rdf:_2</code> etc.
+        The index number in the property URI indicates the position of the content block on the document's content list.</p>
+        <p>The blocks have 2 main types: XHTML (<code>ldh:XHTML</code>) and object (<code>ldh:Object</code>).</p>
+        <p>The blocks can be re-arranged by dragging one of them and dropping them in a different position.</p>
+        <div>
+            <h2 id="xhtml-block">XHTML block</h2>
+            <p>XHTML block is simply a fragment of XHTML, stored as a canonical XML literal in the RDF document. It can be edited using a WYSIWYG editor.</p>
+            <div>
+                <h3>User interface</h3>
+                <p>The following actions can also be performed using the <a href="../../command-line-interface/" target="_blank">command line interface</a>.</p>
+                <table class="table table-striped" id="actions">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Create</th>
+                            <td>Click the <span class="btn btn-primary create-action">XHTML</span> button at the bottom of the page (in content mode). Create the XHTML content in the WYSIWYG editor.</td>
+                        </tr>
+                        <tr>
+                            <th>Update</th>
+                            <td>Click the <span class="btn btn-edit"></span> button in the top-right corner of the block (it will only appear when you move the mouse close to that corner). Change the XHTML content in the WYSIWYG editor.</td>
+                        </tr>
+                        <tr>
+                            <th>Delete</th>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <h3>Command line interface</h3>
+                <p>The following actions can also be performed using the <a href="../../command-line-interface/" target="_blank">command line interface</a>.</p>
+                <table class="table table-striped" id="actions">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>CLI script</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Create</th>
+                            <td><a href="../../command-line-interface/#scripts"><samp>add-xhtml-block.sh</samp></a></td>
+                        </tr>
+                        <tr>
+                            <th>Update</th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Delete</th>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <h2 id="object-block">Object block</h2>
+            <p>Blocks other than HTML content is called an <dfn>object</dfn> and has to have a URI that dereferences. Objects are embedded (transcluded) into the HTML page. You can use any <a href="../resources/">RDF resource</a> or uploaded file as an object.</p>
+            <p>LinkedDataHub will first attempt to load RDF data from the obejct URI and render it as block. If that fails, it will simply embed it using the HTML <code>&lt;object&gt;</code> element. Object blocks can be used to embed queries, charts, and other LinkedDataHub system resources.</p>
+            <p>Built-in block types use a UI convention where their UI is split into left, main, and right content areas. The layout of the main content may depend on the active mode of the block. Left and right sections are block-type specific.</p>
+            <div>
+                <h3>User interface</h3>
+                <p>The following actions can also be performed using the <a href="../../command-line-interface/" target="_blank">command line interface</a>.</p>
+                <table class="table table-striped" id="actions">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Create</th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Update</th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Delete</th>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <h3>Command line interface</h3>
+                <p>The following actions can also be performed using the <a href="../../command-line-interface/" target="_blank">command line interface</a>.</p>
+                <table class="table table-striped" id="actions">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>CLI script</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Create</th>
+                            <td><a href="../../command-line-interface/#scripts"><samp>add-object-block.sh</samp></a></td>
+                        </tr>
+                        <tr>
+                            <th>Update</th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Delete</th>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>"""^^rdf:XMLLiteral .

@@ -95,9 +95,9 @@
                 <div>
                     <p>Checkout the <a href="../../../reference/command-line-interface/">Command line interface</a> (CLI) scripts into a folder on your machine. Provide a list of arguments to the <samp>import-csv</samp> script and execute it. For example:</p>
                     <pre>import-csv.sh \\
-    -b https://localhost:4443/ \\
-    -f "$cert_pem_file" \\
-    -p "$cert_password" \\
+    -b "https://localhost:4443/" \\
+    -f "https://localhost:4443/" \\
+    -p "$owner_cert_password" \\
     --title "Places" \\
     --query-file places.rq \\
     --file places.csv</pre>

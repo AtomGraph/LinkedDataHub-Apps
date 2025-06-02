@@ -18,7 +18,7 @@
     <p class="text-center">
         <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/paetjTkFBxE" width="560"></iframe>
     </p>
-    <p>To create a container document (which can have <a href="../../../reference/data-management/documents/#hierarchy" target="_blank">children documents</a>), follow these steps:</p>
+    <p>To create a container document (which can have <a href="../../../reference/user-interface/documents/#hierarchy" target="_blank">children documents</a>) with a custom URL, follow these steps:</p>
     <div class="tabbable">
         <ul class="nav nav-tabs">
             <li class="active"><a>User interface</a></li>
@@ -35,6 +35,8 @@
                                 <dd>Enter <samp>Concepts</samp></dd>
                             </dl>
                         </li>
+                        <li>To customize the container URL, click on the dropdown in the top-right corner of the form</li>
+                        <li>Replace the generated unique relative URI with <samp>concepts</samp></li>
                         <li>Click <span class="btn btn-primary btn-save">Save</span></li>
                     </ol>
                     <p>See how below:</p>
@@ -45,7 +47,7 @@
             </div>
             <div class="tab-pane">
                 <div>
-                    <p>Replace <code>$owner_cert_password</code> with the value of the corresponding secret and execute the following command:</p>
+                    <p>Replace <samp>owner_cert_password</samp> with the value of the corresponding secret and execute the following command:</p>
                     <pre>create-container.sh \\
   -b "https://localhost:4443/" \\
   -f "./ssl/owner/cert.pem" \\
@@ -58,6 +60,5 @@
         </div>
     </div>
     <p>A container titled <samp>Concepts</samp> should appear with the URI <a href="https://localhost:4443/concepts/" target="_blank">https://localhost:4443/concepts/</a>.</p>
-    <p>To create an item document, choose <samp>Item</samp> at step #2 above.</p>
-    <p class="lead"><a href="../../../reference/data-management/documents/" target="_blank">Read more about document management.</a></p>
+    <p class="lead"><a href="../../../reference/user-interface/documents/" target="_blank">Read more about document management.</a></p>
 </div>"""^^rdf:XMLLiteral .

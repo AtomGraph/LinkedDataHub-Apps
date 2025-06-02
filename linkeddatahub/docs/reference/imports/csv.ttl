@@ -40,7 +40,7 @@
         to the import.</p>
     <p>The mapping is done <em>one row at a time</em>, with each row resulting in a new created document, which should attach to the <a href="../../dataset/#structure">document hierarchy</a>. The documents have to be URI resources. The server will automatically assign URIs for the documents constructed in the default graph. Alternatively, it is possible to explicitly specify the document graph using a <code>GRAPH</code> block in the <code>CONSTRUCT</code> template (which is a
     <a href="https://jena.apache.org/documentation/query/construct-quad.html" target="_blank">Jena-specific extension</a> of SPARQL 1.1).</p>
-    <p>The resulting RDF data is validated against <a href="../../administration/model/#constraints">constraints</a> in the process. Constraint violations, if any, are attached to the import item.</p>
+    <p>The resulting RDF data is validated against <a href="../../administration/ontologies/#constraints">constraints</a> in the process. Constraint violations, if any, are attached to the import item.</p>
     <p>We provide an running example of CSV data that will be shown as RDF conversion in the following
         sections:</p>
     <pre>countryCode,latitude,longitude,name

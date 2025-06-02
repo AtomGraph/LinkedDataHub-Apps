@@ -8,7 +8,7 @@
 
 <> a dh:Container ;
     sioc:has_parent <..> ;
-    dct:title "Model" ;
+    dct:title "Ontologies" ;
     dct:description "Ontology classes, constraints, properties etc." ;
     rdf:_1 <#content> .
 

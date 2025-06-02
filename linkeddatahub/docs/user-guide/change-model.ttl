@@ -17,17 +17,17 @@
     <p class="lead">Change the model: create constructors, classes, and constraints</p>
     <div>
         <h2 id="change-model">Change the model</h2>
-        <p>In order to be able to manage instances, we need to create <a href="../../reference/administration/model/#classes" target="_blank">classes</a> that represent them in the <a href="../../reference/administration/model/" target="_blank">model</a> of our dataspace. Not only will they serve as RDF types of the instances, but will have <a href="../../reference/administration/model/#constructors" target="_blank">constructors</a> attached that define the default properties and their (data)types for that class.</p>
+        <p>In order to be able to manage instances, we need to create <a href="../../reference/administration/ontologies/#classes" target="_blank">classes</a> that represent them in the <a href="../../reference/administration/ontologies/" target="_blank">model</a> of our dataspace. Not only will they serve as RDF types of the instances, but will have <a href="../../reference/administration/ontologies/#constructors" target="_blank">constructors</a> attached that define the default properties and their (data)types for that class.</p>
         <p>Model is managed in the <a href="../../reference/dataspace/#admin-apps" target="_blank">administration application</a> of a dataspace. Head there by clicking the <span class="btn dropdown-toggle btn-settings"></span> in the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a> and then choosing <samp>Administration</samp>.</p>
         <div class="alert alert-info">
-            <p>In order to manage the <a href="../../reference/administration/acl/" target="_blank">access control</a>, or the <a href="../../reference/administration/model/" target="_blank">model</a> of a dataspace,
+            <p>In order to manage the <a href="../../reference/administration/acl/" target="_blank">access control</a>, or the <a href="../../reference/administration/ontologies/" target="_blank">model</a> of a dataspace,
             the agent needs to be a member of the <a href="../../reference/administration/acl/#groups" target="_blank">owners group</a>.</p>
         </div>
         <p>We will use the SKOS ontology and its <samp>skos:Concept</samp> class as an example in this guide.</p>
     </div>
     <div>
         <h2 id="create-constructor">Create a constructor</h2>
-        <p>We will use the following SPARQL <code>CONSTRUCT</code> query as a <a href="../../reference/administration/model/#constructors" target="_blank">constructor</a> for our <samp>Concept</samp> class and save it in a file under <samp>queries/construct-concept.rq</samp>.</p>
+        <p>We will use the following SPARQL <code>CONSTRUCT</code> query as a <a href="../../reference/administration/ontologies/#constructors" target="_blank">constructor</a> for our <samp>Concept</samp> class and save it in a file under <samp>queries/construct-concept.rq</samp>.</p>
         <pre>PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
 PREFIX xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt;
 
@@ -92,8 +92,8 @@ WHERE {}</pre>
 
 create-construct.sh \\
   -b "${base}admin/" \\
-  -f "$cert_pem_file" \\
-  -p "$cert_password" \\
+  -f "https://localhost:4443/" \\
+  -p "$owner_cert_password" \\
   --uri "${base}ns#ConstructConcept" \\
   --label "Construct concept" \\
   --slug construct-concept \\
@@ -104,7 +104,7 @@ create-construct.sh \\
             </div>
         </div>
         <p>Follow the same steps for <samp>Concept scheme</samp>.</p>
-        <p class="lead"><a href="../../reference/administration/model/#constructors" target="_blank">Read more about constructors.</a></p>
+        <p class="lead"><a href="../../reference/administration/ontologies/#constructors" target="_blank">Read more about constructors.</a></p>
     </div>
     <div>
         <h2 id="create-constraint">Create a constraint</h2>
@@ -140,8 +140,8 @@ create-construct.sh \\
                     <div>
                         <pre>create-property-constraint.sh \\
   -b "$base" \\
-  -f "$cert_pem_file" \\
-  -p "$cert_password" \\
+  -f "https://localhost:4443/" \\
+  -p "$owner_cert_password" \\
   --uri "https://localhost:4443/ns#MissingPrefLabel" \\
   --label "Missing skos:prefLabel" \\
   --slug missing-pref-label \\
@@ -151,7 +151,7 @@ create-construct.sh \\
                 </div>
             </div>
         </div>
-        <p class="lead"><a href="../../reference/administration/model/#constraints" target="_blank">Read more about constraints.</a></p>
+        <p class="lead"><a href="../../reference/administration/ontologies/#constraints" target="_blank">Read more about constraints.</a></p>
     </div>
     <div>
         <h2 id="create-classes">Create classes</h2>
@@ -186,8 +186,8 @@ create-construct.sh \\
                     <div>
                         <pre>create-class.sh \\
   -b "$base" \\
-  -f "$cert_pem_file" \\
-  -p "$cert_password" \\
+  -f "https://localhost:4443/" \\
+  -p "$owner_cert_password" \\
   --uri "http://www.w3.org/2004/02/skos/core#Concept" \\
   --label "Concept" \\
   --slug concept \\
@@ -199,6 +199,6 @@ create-construct.sh \\
             </div>
         </div>
         <p>Follow the same steps for <samp>Concept scheme</samp>.</p>
-        <p class="lead"><a href="../../reference/administration/model/#classes" target="_blank">Read more about classes.</a></p>
+        <p class="lead"><a href="../../reference/administration/ontologies/#classes" target="_blank">Read more about classes.</a></p>
     </div>
 </div>"""^^rdf:XMLLiteral .

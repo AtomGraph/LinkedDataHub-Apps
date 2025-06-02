@@ -9,18 +9,15 @@
 
 <> a dh:Container ;
     sioc:has_parent <..> ;
-    dct:title "Data management" ;
-    dct:description "Management actions that can be performed on documents (graphs) and their content" ;
+    dct:title "Content model" ;
+    dct:description "Document and content structure as well as actions that can be performed on them" ;
     rdf:_1 <#content> ;
     rdf:_2 <#select-children> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Management actions that can be performed on documents (graphs) and their content.</p>
+    <p class="lead">Document and content structure as well as actions that can be performed on them.</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Object ;
-    rdf:value <#select-children-view> .
-
-<#select-children-view> a ldh:View ;
-    spin:query ldh:SelectChildren .
+    rdf:value ldh:ChildrenView .

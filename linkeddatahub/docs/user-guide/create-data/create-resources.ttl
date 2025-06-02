@@ -18,7 +18,7 @@
     <p class="text-center">
         <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/4WXFm732H3I" width="560"></iframe>
     </p>
-    <p><a href="../../../reference/data-management/resources/#built-in-classes">Built-in classes</a> (such as <samp>Container</samp>, <samp>Item</samp>, <samp>SELECT</samp> etc.) ship with <a href="../../../reference/administration/model/#ontologies">system ontologies</a> in LinkedDataHub while <dfn>user-defined classes</dfn> come from ontologies imported by the user (see the user guide on <a href="../../change-model/">changing the model</a> on how to do that).</p>
+    <p><a href="../../../reference/content-model/resources/#built-in-classes">Built-in classes</a> (such as <samp>Container</samp>, <samp>Item</samp>, <samp>SELECT</samp> etc.) ship with <a href="../../../reference/administration/ontologies/#ontologies">system ontologies</a> in LinkedDataHub while <dfn>user-defined classes</dfn> come from ontologies imported by the user (see the user guide on <a href="../../change-model/">changing the model</a> on how to do that).</p>
     <p>Note that in order to create class instances, you have to be in <a href="">properties mode</a>.</p>
     <div>
         <h2>Built-in classes</h2>
@@ -45,7 +45,7 @@
         </ol>
         <p>You will be redirected to the document of the newly created instance.</p>
         <div class="alert alert-info">
-            <p>You can only create instances of classes that have <a href="../../../reference/administration/model/#constructors">constructors</a>.</p>
+            <p>You can only create instances of classes that have <a href="../../../reference/administration/ontologies/#constructors">constructors</a>.</p>
         </div>
     </div>
 </div>"""^^rdf:XMLLiteral .

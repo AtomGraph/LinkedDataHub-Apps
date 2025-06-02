@@ -18,7 +18,7 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">All the basics of LinkedDataHub. From installation to customizing the model and user interface.</p>
     <p>This guide will show how a LinkedDataHub application can be used to manage domain-specific RDF classes and instances. As an example, we will us <a href="https://www.w3.org/TR/skos-primer/" target="_blank">SKOS</a> concepts and concept schemes.</p>
-    <p>Note that all <a href="../reference/data-management/documents/#manage" target="_blank">management actions</a> can also be performed using the <a href="../reference/command-line-interface/" target="_blank">CLI (Command Line Interface)</a>. Where applicable, the UI and CLI instructions are shown side by side. The <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/skos" target="_blank">SKOS demo app</a> which implements the SKOS example which is used in this guide.</p>
+    <p>Note that all <a href="../reference/content-model/documents/#manage" target="_blank">management actions</a> can also be performed using the <a href="../reference/command-line-interface/" target="_blank">CLI (Command Line Interface)</a>. Where applicable, the UI and CLI instructions are shown side by side. The <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/skos" target="_blank">SKOS demo app</a> which implements the SKOS example which is used in this guide.</p>
     <div>
         <h2 id="setup">Setup</h2>
         <p>Setup is only required if you plan to run your own instance of LinkedDataHub. It consists of few steps, which involve creating a configuration file and running a
@@ -53,7 +53,7 @@
     </div>
     <div>
         <h2 id="change-model">Change the model</h2>
-        <p>In order to be able to instance data, we need to create <a href="../reference/administration/model/#classes" target="_blank">classes</a> that represent them (and ontologies where those classes are defined) in the <a href="../reference/administration/model/" target="_blank">model</a> of our dataspace. Not only will they serve as RDF types of the instances, but will have <a href="../reference/administration/model/#constructors" target="_blank">constructors</a> attached that define the default properties and their (data)types for that class.</p>
+        <p>In order to be able to instance data, we need to create <a href="../reference/administration/ontologies/#classes" target="_blank">classes</a> that represent them (and ontologies where those classes are defined) in the <a href="../reference/administration/ontologies/" target="_blank">model</a> of our dataspace. Not only will they serve as RDF types of the instances, but will have <a href="../reference/administration/ontologies/#constructors" target="_blank">constructors</a> attached that define the default properties and their (data)types for that class.</p>
         <p class="lead"><a href="../user-guide/change-model/" target="_blank">Follow a tutorial to change the model: create a class and its constructor.</a></p>
     </div>
 
@@ -70,7 +70,4 @@
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Object ;
-    rdf:value <#select-children-view> .
-
-<#select-children-view> a ldh:View ;
-    spin:query ldh:SelectChildren .
+    rdf:value ldh:ChildrenView .

@@ -15,12 +15,10 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">This guide walks through the main features of LinkedDataHub user interface.
-        See <a href="../documents/">Document management</a> guide for basic definitions such as application and document.</p>
-    <div class="alert alert-info">
-        <p>User interface is only one of the interfaces LinkedDataHub provides. The other one is the <a href="../command-line-interface/">
-            Command line interface</a>, which supports most of the UI actions.</p>
-        <p>The UI layout <a href="../../user-guide/change-layout/" target="_blank">can be customized</a> and extended using <a href="../../reference/stylesheets/" target="_blank">stylesheets</a>.</p>
-    </div>
+        See <a href="../content-model/">Content model</a> guide for definitions of LinkedDataHub components such documents, content blocks, and resources.</p>
+    <p>User interface is only one of the interfaces LinkedDataHub provides. The other one is the <a href="../command-line-interface/">
+        Command line interface</a>, which supports most of the UI actions.</p>
+    <p>The UI layout <a href="../../user-guide/change-layout/" target="_blank">can be customized</a> and extended using <a href="../../reference/stylesheets/" target="_blank">stylesheets</a>.</p>
     <div class="alert alert-info">
         <p><em>Note that user interface features are subject to <a href="../administration/acl/">access control</a>. For example,
             the search box will not be visible if the user is not authorized to access the search container.</em></p>
@@ -38,8 +36,6 @@
         within the current application that have the specified keyword in their titles, descriptions etc. Results are shown in a dropdown list.</p>
         <p>Application's <dfn>SPARQL endpoint</dfn> is accessible on the right. It offers a query editor and a result
         view. Learn more about query possibilities in the <a href="../../user-guide/query-data/">Query data</a> section.</p>
-        <p>Current application can be switched using a dropdown on the right. Different users have access to
-        different applications, depending on their authorizations.</p>
         <div class="alert alert-info">
             <p><em>Due to current web browser limitations, it is not possible to logout using client certificate authentication.
               As a workaround, you can close the browser, and click <span class="btn">Cancel</span> when asked to select a
@@ -53,7 +49,7 @@
         </p>
         <p>The <span class="btn btn-primary create-action">Create <span class="caret"></span></span> button invokes <a href="#create-edit">create dialog</a> through which
         resources can be <a href="../documents/#create">created</a> as instances of the
-        <a href="../administration/model/#classes">classes</a> defined in the model.</p>
+        <a href="../administration/ontologies/#classes">classes</a> defined in the model.</p>
         <p>The path leading from the current document up the parent/child hierarchy to the root container is shown in
         the <dfn>breadcrumb bar</dfn>, where the current document is always the last breadcrumb. The user can always
         open any of the ascendant containers by clicking breadcrumbs left from the current one. The icon shows the
@@ -69,7 +65,7 @@
         <h2 id="document-tree">Document tree</h2>
         <p>Document tree shows the document hierarchy of the dataspace. By clicking on a container, it expands to show its children.</p>
         <p>In a desktop layout mode, the document tree folds out when the mouse is moved to the left edge of the screen. In a responsive layout, it is always shown.</p>
-        <p>The document tree also provides shortcuts to <a href="../data-management/documents/#hierarchy">system containers</a>:</p>
+        <p>The document tree also provides shortcuts to <a href="../content-model/documents/#hierarchy">system containers</a>:</p>
         <dl>
           <dt>Latest</dt>
           <dd>A container with the latest resources in the application's dataset by creation/modification date</dd>
@@ -92,15 +88,15 @@
         <p>Currently supported document layout modes:</p>
         <dl>
             <dt>Content</dt>
-            <dd>List of content blocks. Shown only if the current document has items in its content list or there is a content template defined for its type.</dd>
+            <dd>List of <a href="../content-model/blocks/">content blocks</a>. Shown only if the current document has items in its content list or there is a content template defined for its type.</dd>
             <dt>Properties</dt>
-            <dd>The most detailed view showing every property/value of every resource in the current document.</dd>
+            <dd>The most detailed view showing every property/value of every <a href="../content-model/resources/">resource</a> in the current document.</dd>
             <dt>Map</dt>
-            <dd>Shows an interacitve map with all resources in the current document that have geo coordinates</dd>
+            <dd>Shows an interacitve map with all <a href="../content-model/resources/">resources</a> in the current document that have geo coordinates</dd>
             <dt>Chart</dt>
-            <dd>Renders the metadata of the resources in the current document as a chart with (multiple chart types are supported, such as table, scatter chart, timeline etc.)</dd>
+            <dd>Renders the metadata of the <a href="../content-model/resources/">resources</a> in the current document as a chart with (multiple chart types are supported, such as table, scatter chart, timeline etc.)</dd>
             <dt>Graph</dt>
-            <dd>Renders resources in the current document graphically as nodes in a network using
+            <dd>Renders <a href="../content-model/resources/">resources</a> in the current document graphically as nodes in a network using
             force-directed layout.</dd>
         </dl>
     </div>

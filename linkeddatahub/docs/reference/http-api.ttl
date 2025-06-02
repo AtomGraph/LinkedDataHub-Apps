@@ -37,7 +37,7 @@
             control</a>. Requesting a document with insufficient access rights will result in <code>403 Forbidden</code> response. That  means either:</p>
         <ul>
             <li>the user is not authenticated and public access to the document is not allowed</li>
-            <li>the user is authenticated but the associated agent does not have an authorization to <a href="../data-management/documents/#manage">perform the action</a> on the
+            <li>the user is authenticated but the associated agent does not have an authorization to <a href="../content-model/documents/#manage">perform the action</a> on the
                 requested document</li>
         </ul>
     </div>
@@ -92,7 +92,7 @@
                 </tr>
                 <tr>
                     <td><code>422 Unprocessable Entity</code></td>
-                    <td><a href="../administration/model/#constraints">Constraint</a> violation</td>
+                    <td><a href="../administration/ontologies/#constraints">Constraint</a> violation</td>
                 </tr>
                 <tr>
                     <th rowspan="5"><code id="ld-put">PUT</code></th>
@@ -114,7 +114,7 @@
                 </tr>
                 <tr>
                     <td><code>422 Unprocessable Entity</code></td>
-                    <td><a href="../administration/model/#constraints">Constraint</a> violation</td>
+                    <td><a href="../administration/ontologies/#constraints">Constraint</a> violation</td>
                 </tr>
                 <tr>
                     <th rowspan="2"><code id="ld-delete">DELETE</code></th>
@@ -138,7 +138,7 @@
         </table>
         <div>
             <h3 id="document-metadata">Document metadata</h3>
-            <p>Unlike earlier versions, LinkedDataHub 5.x manages the <a href="../data-management/documents/#hierarchy">document hierarchy</a> automatically.</p>
+            <p>Unlike earlier versions, LinkedDataHub 5.x manages the <a href="../content-model/documents/#hierarchy">document hierarchy</a> automatically.</p>
             <p>By default, LinkedDataHub treats an RDF document as an item by giving it the <code>dh:Item</code> type and attaching it to the parent container using <code>sioc:has_container</code>. If the client wants to create a container instead, it has to explicitly add the <code>dh:Container</code> type on the document resource; the new container will be attached to its parent using <code>sioc:has_container</code>. In either case, the URI of the new document's will be relative to its parent's.</p>
             <p>LinkedDataHub will also manage additional document metadata, such as its owner and creation/modification timestamps.</p>
             <p>For example, this HTTP request to create a new container (Turtle syntax):</p>
@@ -190,9 +190,9 @@ Content-Type: text/turtle</code></pre>
                 <li>It's not possible delete the root document</li>
                 <li>It's not possible to modify or delete the documents of the owner agent and the secretary agent</li>
                 <li>A document (which is also a named graph in the graph store) must always contain an RDF resource with its URI and type <code>def:Root</code>, <code>dh:Container</code>, or <code>dh:Item</code>
-                    (see <a href="../administration/model/#ontologies">ontologies</a>)</li>
+                    (see <a href="../administration/ontologies/#ontologies">ontologies</a>)</li>
             </ul>
-            <p>The built in constraints are similar to, but separate from the <a href="../administration/model/#constraints">ontology constraints</a>.</p>
+            <p>The built in constraints are similar to, but separate from the <a href="../administration/ontologies/#constraints">ontology constraints</a>.</p>
         </div>
     </div>
     <div>

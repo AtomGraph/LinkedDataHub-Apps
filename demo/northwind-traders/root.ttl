@@ -42,7 +42,4 @@
     rdf:value <employees/2/#this> .
 
 <#select-children> a ldh:Object ;
-    rdf:value <#select-children-view> .
-
-<#select-children-view> a ldh:View ;
-    spin:query ldh:SelectChildren .
+    rdf:value ldh:ChildrenView .

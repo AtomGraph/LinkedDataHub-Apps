@@ -19,13 +19,16 @@
         It can also be used as an RDF-native content management platform.</p>
     <p>LinkedDataHub is an open source project that has its roots as a Linked Data publishing framework. However, since the 3.x release we have focused on Linked Data consumption, as we consider
             publishing a solved problem but continue to see a shortage of user-friendly consumption tools.</p>
+    <p class="text-center">
+        <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/LaOouEYhp_c" width="560"></iframe>
+    </p>
     <div>
         <h2 id="platform">Low code application platform</h2>
         <p>LinkedDataHub is also a low code RDF Knowledge Graph application platform. It offers comprehensive development and management features:</p>
         <ul>
             <li>rich <a href="../reference/stylesheets/" target="_blank">UI component library</a> that can be customized without writing program code</li>
-            <li>SPARQL-based templates for instance creation and editing forms (<a href="../reference/administration/model/#constructors" target="_blank">constructors</a>)</li>
-            <li>SPIN and SHACL <a href="../reference/administration/model/#constraints" target="_blank">constraints</a> for validation of incoming data</li>
+            <li>SPARQL-based templates for instance creation and editing forms (<a href="../reference/administration/ontologies/#constructors" target="_blank">constructors</a>)</li>
+            <li>SPIN and SHACL <a href="../reference/administration/ontologies/#constraints" target="_blank">constraints</a> for validation of incoming data</li>
             <li>authentication using WebID and OpenID Connect</li>
             <li><a href="../reference/administration/acl/" target="_blank">access control</a> using WAC authorizations</li>
         </ul>

@@ -46,11 +46,11 @@
             </div>
             <div class="tab-pane">
                 <div>
-                    <p>Replace <code>$OWNER_KEY_PASSWORD</code> with its value from the <samp>.env</samp> file and execute the following command:</p>
+                    <p>Replace <samp>owner_cert_password</samp> with its value from the <samp>.env</samp> file and execute the following command:</p>
                     <pre>create-file.sh \\
 -b "https://localhost:4443/" \\
--f "$cert_pem_file" \\
--p "$cert_password" \\
+-f "./ssl/owner/cert.pem" \\
+-p "$owner_cert_password" \\
 --title "$title" \\
 --file "$filename" \\
 --file-content-type "$content_type"</pre>

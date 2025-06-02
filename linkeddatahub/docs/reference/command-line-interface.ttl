@@ -69,8 +69,8 @@ Options:
         <p>This is how a <samp>create-select.sh</samp> invocation would look like:</p>
         <pre>create-select.sh \\
   -b "$base" \\
-  -f "$cert_pem_file" \\
-  -p "$cert_password" \\
+  -f "./ssl/owner/cert.pem" \\
+  -p "$owner_cert_password" \\
   --proxy "$proxy" \\
   --title "Select concepts" \\
   --slug select-concepts \\
@@ -228,10 +228,10 @@ Options:
                     </tbody>
                     <tbody>
                         <tr>
-                            <th colspan="2"><a href="../administration/model/">Model</a></th>
+                            <th colspan="2"><a href="../administration/ontologies/">Ontologies</a></th>
                         </tr>
                         <tr>
-                            <td>Create <a href="../administration/model/#classes">class</a></td>
+                            <td>Create <a href="../administration/ontologies/#classes">class</a></td>
                             <td><samp>admin/model/create-class.sh</samp></td>
                         </tr>
                         <tr>
@@ -239,11 +239,11 @@ Options:
                             <td><samp>admin/model/create-construct.sh</samp></td>
                         </tr>
                         <tr>
-                            <td>Create <a href="../administration/model/#ontologies">ontology</a></td>
+                            <td>Create <a href="../administration/ontologies/#ontologies">ontology</a></td>
                             <td><samp>admin/model/create-ontology.sh</samp></td>
                         </tr>
                         <tr>
-                            <td>Create <a href="../administration/model/#constraints">property constraint</a></td>
+                            <td>Create <a href="../administration/ontologies/#constraints">property constraint</a></td>
                             <td><samp>admin/model/create-property-constraint.sh</samp></td>
                         </tr>
                         <tr>
@@ -284,8 +284,8 @@ Options:
         </div>
         <p>Usage example:</p>
         <pre>create-file.sh https://localhost:4443/ \\
-  -f "$cert_pem_file" \\
-  -p "$cert_password" \\
+  -f "./ssl/owner/cert.pem" \\
+  -p "$owner_cert_password" \\
   --title "Friends" \\
   --file-slug 646af756-a49f-40da-a25e-ea8d81f6d306 \\
   --file friends.csv \\
