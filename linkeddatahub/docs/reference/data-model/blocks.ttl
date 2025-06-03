@@ -1,0 +1,29 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+  
+<> a dh:Container ;
+    sioc:has_parent <..> ;
+    dct:title "Content blocks" ;
+    dct:description "Content blocks and the basic data content actions" ;
+    rdf:_1 <#content> ;
+    rdf:_2 <#select-children> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Content blocks and the basic data content actions.</p>
+    <div>
+        <p>Content list is a <a href="../../user-interface/#layout-modes" target="_blank">layout mode</a> introduced in LinkedDataHub 3.x. It allow composition of rich, structured web documents from multiple types of content blocks.</p>
+        <p>The blocks are attached to the document resource using <a href="https://www.w3.org/TR/rdf-schema/#ch_seq" target="_blank">RDF sequence properties</a> <code>rdf:_1</code>, <code>rdf:_2</code> etc.
+        The index number in the property URI indicates the position of the content block on the document's content list.</p>
+        <p>The blocks have 2 main types: XHTML (<code>ldh:XHTML</code>) and object (<code>ldh:Object</code>).</p>
+        <p>The blocks can be re-arranged by dragging one of them and dropping them in a different position.</p>
+    </div>
+</div>"""^^rdf:XMLLiteral .
+
+<#select-children> a ldh:Object ;
+    rdf:value ldh:ChildrenView .

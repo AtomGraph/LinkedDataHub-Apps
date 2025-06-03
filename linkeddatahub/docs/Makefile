@@ -24,3 +24,6 @@ install:
 
 validate:
 	./validate-documents.sh
+
+htnl:
+	./ttl-to-html.sh

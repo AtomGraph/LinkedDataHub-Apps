@@ -150,5 +150,5 @@
         <h2 id="content-templates">Content templates</h2>
     </div>
     -->
-    <p class="lead"><a href="../../../reference/content-model/blocks/" target="_blank">Read more about content blocks.</a></p>
+    <p class="lead"><a href="../../../reference/data-model/blocks/" target="_blank">Read more about content blocks.</a></p>
 </div>"""^^rdf:XMLLiteral .

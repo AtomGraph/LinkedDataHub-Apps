@@ -46,45 +46,24 @@
             <dt>Stylesheet</dt>
             <dd><a href="../stylesheets/" target="_blank">XSLT stylesheet</a> that renders the applications layout</dd>
         </dl>
-        <div class="tabbable">
-          <ul class="nav nav-tabs">
-            <li class="active"><a>All versions</a></li>
-            <li><a>LinkedDataHub Cloud</a></li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active">
-                <div>
-                    <h3 id="end-user-apps">End-user</h3>
-                    <p>The base URI of an end-user application is also the base URI of its dataspace.</p>
-                    <p>Every end-user application is related to one <a href="#admin-apps">administration application</a>.</p>
-                </div>
-                <div>
-                    <h3 id="admin-apps">Administration</h3>
-                    <p>Every administration application is related to one <a href="#end-user-apps">end-user application</a>. It cannot exist standalone.</p>
-                    <p>The base URI(s) of an administration application is the base URI(s) of its end-user application with <code>admin/</code> appended
-                        to it. Note that any URIs in the end-user application that are equal or relative to the admin application base URI <em>will not
-                        be accessible</em>.</p>
-                    <p>Administration application provides means to control the <a href="../administration/ontologies/">domain model</a> and the
-                        <a href="../administration/acl/">access control</a> of its end-user application. Only dataspace owners have access to its
-                        administration application.</p>
-                    <div class="alert alert-info">
-                        <p>The agent which installs the adminstration application dataset becomes <a href="../administration/acl/#groups">the owner</a> of
-                            its dataspace.</p>
-                    </div>
-                </div>
+        <div>
+            <h3 id="end-user-apps">End-user</h3>
+            <p>The base URI of an end-user application is also the base URI of its dataspace.</p>
+            <p>Every end-user application is related to one <a href="#admin-apps">administration application</a>.</p>
+        </div>
+        <div>
+            <h3 id="admin-apps">Administration</h3>
+            <p>Every administration application is related to one <a href="#end-user-apps">end-user application</a>. It cannot exist standalone.</p>
+            <p>The base URI(s) of an administration application is the base URI(s) of its end-user application with <code>admin/</code> appended
+                to it. Note that any URIs in the end-user application that are equal or relative to the admin application base URI <em>will not
+                be accessible</em>.</p>
+            <p>Administration application provides means to control the <a href="../administration/ontologies/">domain model</a> and the
+                <a href="../administration/acl/">access control</a> of its end-user application. Only dataspace owners have access to its
+                administration application.</p>
+            <div class="alert alert-info">
+                <p>The agent which installs the adminstration application dataset becomes <a href="../administration/acl/#groups">the owner</a> of
+                    its dataspace.</p>
             </div>
-            <div class="tab-pane">
-                <p class="text-center">
-                    <img alt="Dataspace hierarchy" src="../../uploads/3cbf6ccd5f92b84111e2425263da050db0e4663f"></img>
-                </p>
-                <div>
-                    <h3 id="contexts">Contexts</h3>
-                    <p>Contexts are special meta-applications that allow creation of dataspaces (that will belong to the context) and  also list public dataspaces that belong to them.</p>
-                    <p>The concept can be compared to <a href="https://tomcat.apache.org/tomcat-8.0-doc/config/context.html" target="_blank">servlet context</a>
-                        (to which multiple servlets can be added) in Java EE architecture. However, LinkedDataHub concepts and dataspaces are purely RDF data structures and not software artifacts.</p>
-                </div>
-            </div>
-          </div>
         </div>
         <p>LinkedDataHub imports the <a href="../dataset/#default-datasets">default datasets</a> for each application type
             into its service. The dataset URIs are rebased to be relative to the base URI of the application.</p>

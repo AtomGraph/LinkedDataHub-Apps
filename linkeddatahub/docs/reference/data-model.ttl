@@ -9,7 +9,7 @@
 
 <> a dh:Container ;
     sioc:has_parent <..> ;
-    dct:title "Content model" ;
+    dct:title "Data model" ;
     dct:description "Document and content structure as well as actions that can be performed on them" ;
     rdf:_1 <#content> ;
     rdf:_2 <#select-children> .

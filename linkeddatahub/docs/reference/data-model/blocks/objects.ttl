@@ -1,0 +1,85 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+  
+<> a dh:Item ;
+    sioc:has_container <..> ;
+    dct:title "Object blocks" ;
+    dct:description "Blocks that embed/transclude any dereferenceable URI" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Blocks that embed/transclude any dereferenceable URI</p>
+    <p>Blocks other than HTML content is called an <dfn>object</dfn> and has to have a URI that dereferences. Objects are embedded (transcluded) into the HTML page. You can use any <a href="../../resources/">RDF resource</a> or uploaded file as an object.</p>
+    <p>LinkedDataHub will first attempt to load RDF data from the obejct URI and render it as block. If that fails, it will simply embed it using the HTML <code>&lt;object&gt;</code> element. Object blocks can be used to embed queries, charts, and other LinkedDataHub system resources.</p>
+    <p>Built-in block types use a UI convention where their UI is split into left, main, and right content areas. The layout of the main content may depend on the active mode of the block. Left and right sections are block-type specific.</p>
+    <div>
+        <h2 id="rdf-serialization">RDF serialization</h2>
+        <pre>@prefix ldh: &lt;https://w3id.org/atomgraph/linkeddatahub#&gt; .
+@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix ac: &lt;https://w3id.org/atomgraph/client#&gt; .
+
+&lt;https://localhost:4443/concepts/example/#object-block&gt;
+a       ldh:Object ;
+rdf:value &lt;http://dbpedia.org/resource/Copenhagen&gt; ;
+ac:mode  ac:MapMode .</pre>
+    </div>
+    <div>
+        <h2 id="management">Management</h2>
+        <div>
+            <h3><a href="../../../user-interface/">User interface</a></h3>
+            <table class="table table-striped" id="actions">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Create</th>
+                        <td>Click the <span class="btn btn-primary create-action">Object</span> button at the bottom of the page (in content mode). Enter the object's value URI. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                    </tr>
+                    <tr>
+                        <th>Update</th>
+                        <td>Click the <span class="btn btn-edit"></span> button in the top-right corner of the block (it will only appear when you move the mouse close to that corner). Change the object's value URI. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                    </tr>
+                    <tr>
+                        <th>Delete</th>
+                        <td>Click the <span class="btn btn-remove-resource"></span> button in the top-right corner of the block (it will only appear when you move the mouse close to that corner). Click the <span class="btn btn-remove"></span> button to delete the block.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <h3><a href="../../../command-line-interface/">Command line interface</a></h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>CLI script</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Create</th>
+                        <td><a href="../../../command-line-interface/#scripts"><samp>add-object-block.sh</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Update</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Delete</th>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>"""^^rdf:XMLLiteral .

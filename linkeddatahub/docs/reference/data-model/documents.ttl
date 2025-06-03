@@ -1,0 +1,36 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+  
+<> a dh:Container ;
+    sioc:has_parent <..> ;
+    dct:title "Documents" ;
+    dct:description "Document hierarchy and the basic data management actions" ;
+    rdf:_1 <#content> ;
+    rdf:_2 <#select-children> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Document structure and the basic data management actions.</p>
+    <div>
+        <h2 id="hierarchy">Document hierarchy</h2>
+        <p>The basic structure of resources in a LinkedDataHub <a href="../../dataspace/#applications">application</a> is analogous to the file system, but built using RDF
+            resources and relationships between them instead. There is a hierarchy of <dfn>containers</dfn> (folders),
+            which are collections of <dfn>items</dfn> (files) as well as sub-containers (sub-folders). Both containers
+            (instances of <code>dh:Container</code>) and items (instances of <code>dh:Item</code>) are <dfn>documents</dfn> (instances of <code>foaf:Document</code>). Items cannot contain other documents.</p>
+        <p>The first level of resources in a container is referred to as its <dfn>children</dfn> (of which that container
+            is the <dfn>parent</dfn>, while all levels down the hierarchy are collectively referred to as
+            <dfn>descendants</dfn>.</p>
+        <p>When a user logs in, the application loads its root container (unless a specific URI was requested). From there,
+            users can navigate down the resource hierarchy, starting with children of the <dfn>root container</dfn>. At
+            any moment there is only one <dfn>current document</dfn> per page, on which management actions can
+            be performed: it can be viewed, edited etc.</p>
+    </div>
+</div>"""^^rdf:XMLLiteral .
+
+<#select-children> a ldh:Object ;
+    rdf:value ldh:ChildrenView .
