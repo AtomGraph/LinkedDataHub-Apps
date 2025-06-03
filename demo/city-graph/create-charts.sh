@@ -10,7 +10,7 @@ if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
 fi
 
 base="$1"
-cert_pem_file=$(realpath -s "$2")
+cert_pem_file=$(realpath "$2")
 cert_password="$3"
 
 if [ -n "$4" ]; then
@@ -19,24 +19,44 @@ else
     proxy="$base"
 fi
 
-pwd=$(realpath -s "$PWD")
+pwd=$(realpath "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"
 
-query_doc=$(
-./create-select.sh  \
+chart_container=$(./create-container.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --title "Charts" \
+  --slug "charts" \
+  --parent "$parent" \
+  --mode "https://w3id.org/atomgraph/client#MapMode"
+)
+
+parking_facilities_doc=$(./create-item.sh \
+  -b "${base}admin/" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --title "Parking facilities" \
+  --slug "parking-facilities" \
+  --container "$chart_container"
+)
+
+./add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Largest parking facilities" \
-  --fragment this \
+  --fragment "parking-facilities-by-spaces" \
   --query-file "${pwd}/queries/charts/parking-facilities-by-spaces.rq"
-)
+  "$parking_facilities_doc"
 
 pushd . > /dev/null && cd "$SCRIPT_ROOT"
 
-query_ntriples=$(./get-document.sh \
+query_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -54,10 +74,10 @@ query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xml
   --proxy "$proxy" \
   --title "Largest parking facilities" \
   --slug largest-parkings \
-  --fragment this \
   --query "$query" \
   --chart-type "https://w3id.org/atomgraph/client#BarChart" \
   --category-var-name "name" \
   --series-var-name "spaces"
+#  --fragment this \
 
 popd

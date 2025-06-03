@@ -6,13 +6,13 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
    
-<user-guide/change-layout/> a dh:Item ;
-    sioc:has_container <user-guide/> ;
+<> a dh:Item ;
+    sioc:has_container <..> ;
     dct:title "Change layout" ;
     dct:description "How to customize the layout of an application and the UI of the resources" ;
     rdf:_1 <#content> .
     
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">How to customize the layout of an application and the UI of the resources</p>
     <p>LinkedDataHub's user interface is simply a rendering of the underlying Linked Data resource descriptions, which are exposed via the <a href="../../reference/http-api/" target="_blank">HTTP API</a>.</p>
@@ -61,7 +61,7 @@ services:
         <p>Keep the default output using <code>&lt;xsl:apply-imports&gt;</code> or <code>&lt;xsl:next-match&gt;</code> and add new output before/after it:</p>
         <pre><code>&lt;xsl:key name="resources-by-broader" match="*[@rdf:about] | *[@rdf:nodeID]" use="skos:broader/@rdf:resource"/&gt;
         
-&lt;xsl:template match="*[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources-by-broader', @rdf:about)]  | *[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources', skos:narrower/@rdf:resource)]" mode="bs2:Block" priority="1"&gt;
+&lt;xsl:template match="*[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources-by-broader', @rdf:about)]  | *[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources', skos:narrower/@rdf:resource)]" priority="1"&gt;
     &lt;xsl:next-match/&gt;
 
     &lt;h3&gt;Narrower concepts&lt;/h3&gt;
@@ -91,7 +91,7 @@ services:
         <p>In the above example, we have rendered <code>skos:narrower</code> properties in our own special way. Which means that the default output of the same properties from <code>bs2:PropertyList</code> is no longer desired.</p>
         <p>You can specify an empty template at any level (graph/property/resource) to disable output of that layout mode. For example, this will suppress the default rendering of concepts which are
             now shown in the customized broader/narrower list:</p>
-        <pre><code>&lt;xsl:template match="*[key('resources', skos:narrower/@rdf:resource)/foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri] | *[key('resources', skos:broader/@rdf:resource)/foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri] | *[@rdf:about = key('resources', key('resources', $ac:uri)/foaf:primaryTopic/@rdf:resource)/skos:narrower/@rdf:resource] | *[@rdf:about = key('resources', key('resources', $ac:uri)/foaf:primaryTopic/@rdf:resource)/skos:broader/@rdf:resource]" mode="bs2:Block"/&gt;</code></pre>
+        <pre><code>&lt;xsl:template match="*[key('resources', skos:narrower/@rdf:resource)/foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri] | *[key('resources', skos:broader/@rdf:resource)/foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri] | *[@rdf:about = key('resources', key('resources', $ac:uri)/foaf:primaryTopic/@rdf:resource)/skos:narrower/@rdf:resource] | *[@rdf:about = key('resources', key('resources', $ac:uri)/foaf:primaryTopic/@rdf:resource)/skos:broader/@rdf:resource]"/&gt;</code></pre>
         <p>The match pattern will match the resource descriptions that:</p>
         <ul>
             <li>have narrower concept(s) in the RDF graph that are the primary topic of the current document</li>

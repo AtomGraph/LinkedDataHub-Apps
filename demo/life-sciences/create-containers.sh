@@ -10,7 +10,7 @@ if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
 fi
 
 base="$1"
-cert_pem_file=$(realpath -s "$2")
+cert_pem_file=$(realpath "$2")
 cert_password="$3"
 
 if [ -n "$4" ]; then
@@ -19,7 +19,7 @@ else
     proxy="$base"
 fi
 
-pwd=$(realpath -s "$PWD")
+pwd=$(realpath "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"
 
@@ -35,7 +35,7 @@ uniprot_container=$(./create-container.sh \
 
 uniprot_service_doc="${base}services/uniprot/"
 
-uniprot_service_ntriples=$(./get-document.sh \
+uniprot_service_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -45,7 +45,7 @@ uniprot_service_ntriples=$(./get-document.sh \
 uniprot_service=$(echo "$uniprot_service_ntriples" | sed -rn "s/<${uniprot_service_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
 
 select_proteins_doc=$(
-./create-select.sh  \
+./create-select.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -55,7 +55,7 @@ select_proteins_doc=$(
   --service "$uniprot_service"
 )
 
-select_proteins_ntriples=$(./get-document.sh \
+select_proteins_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -88,7 +88,7 @@ protein_container=$(./create-container.sh \
   "$protein_container"
 
 select_genes_doc=$(
-./create-select.sh  \
+./create-select.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -98,7 +98,7 @@ select_genes_doc=$(
   --service "$uniprot_service"
 )
 
-select_genes_ntriples=$(./get-document.sh \
+select_genes_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \

@@ -1,51 +1,47 @@
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
-PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy#>
-PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
 PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#>
 
 CONSTRUCT
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dh:slug ?employeeID ;
-        dct:title ?lastName ;
-        foaf:primaryTopic ?employee ;
-        foaf:topic ?postalAddress .
+    GRAPH ?graph
+    {
+        ?graph dct:title ?lastName ;
+            foaf:primaryTopic ?employee ;
+            foaf:topic ?postalAddress .
 
-    ?employee a schema:Person ;
-        schema:identifier ?employeeID ;
-        dct:title ?lastName ;
-        dct:description ?title ;
-        schema:givenName ?firstName ;
-        schema:familyName ?lastName ;
-        schema:jobTitle ?title ;
-        schema:honorificPrefix  ?titleOfCourtesy ;
-        schema:birthDate ?birthDate;
-        # ?hireDate
-        schema:address ?postalAddress ;
-        schema:telephone ?homePhone ;
-        schema:telephone ?extension ;
-        schema:description ?notes ;
-        schema:sponsor ?reportsToEmployee ;
-        geo:lat ?lat ;
-        geo:long ?long ;
-        foaf:img ?photo .
+        ?employee a schema:Person ;
+            schema:identifier ?employeeID ;
+            dct:title ?lastName ;
+            dct:description ?title ;
+            schema:givenName ?firstName ;
+            schema:familyName ?lastName ;
+            schema:jobTitle ?title ;
+            schema:honorificPrefix  ?titleOfCourtesy ;
+            schema:birthDate ?birthDate;
+            # ?hireDate
+            schema:address ?postalAddress ;
+            schema:telephone ?homePhone ;
+            schema:telephone ?extension ;
+            schema:description ?notes ;
+            schema:sponsor ?reportsToEmployee ;
+            geo:lat ?lat ;
+            geo:long ?long ;
+            foaf:img ?photo .
 
-    ?postalAddress a schema:PostalAddress ;
-        foaf:page ?item ;
-        schema:addressCountry ?country ;
-        schema:addressLocality ?city ;
-        schema:postalCode ?postalCode ;
-        schema:streetAddress ?address ;
-        schema:addressRegion ?region .
+        ?postalAddress a schema:PostalAddress ;
+            foaf:page ?graph ;
+            schema:addressCountry ?country ;
+            schema:addressLocality ?city ;
+            schema:postalCode ?postalCode ;
+            schema:streetAddress ?address ;
+            schema:addressRegion ?region .
+    }
 }
 WHERE
 {
-    BIND (uri(concat(str($base), "employees/")) AS ?container)
-
     ?employee_row <#employeeID> ?employeeID ;
         <#lastName> ?lastName ;
         <#firstName> ?firstName ;
@@ -72,11 +68,12 @@ WHERE
         BIND(uri(concat(str($base), "employees/", encode_for_uri(?reportsTo), "/#this")) AS ?reportsToEmployee) # cannot use ?container since it's undefined in the OPTIONAL scope
     }
 
+    BIND(uri(concat(str($base), "employees/")) AS ?container)
+    BIND(uri(concat(str(?container), encode_for_uri(?employeeID), "/")) AS ?graph)
+    BIND(uri(concat(str(?graph), "#this")) AS ?employee)
+    BIND(uri(concat(str(?graph), "#address")) AS ?postalAddress)
     BIND(xsd:float(?lat_string) AS ?lat)
     BIND(xsd:float(?long_string) AS ?long)
-    BIND(uri(concat(str(?container), encode_for_uri(?employeeID), "/")) AS ?item)
-    BIND(uri(concat(str(?item), "#this")) AS ?employee)
-    BIND(uri(concat(str(?item), "#address")) AS ?postalAddress)
     BIND(strdt(substr(?birthDateString, 1, 10), xsd:date) AS ?birthDate)
     BIND(strdt(substr(?hireDateString, 1, 10), xsd:date) AS ?hireDate)
     BIND(uri(concat(str($base), "uploads/", encode_for_uri(?photoHash))) AS ?photo)

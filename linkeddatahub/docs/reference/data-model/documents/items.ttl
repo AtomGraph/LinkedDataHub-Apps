@@ -1,0 +1,88 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+  
+<> a dh:Item ;
+    sioc:has_container <..> ;
+    dct:title "Items" ;
+    dct:description "Items are analogous to files in a filesystem" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Items are analogous to files in a filesystem</p>
+    <div>
+        <h2 id="rdf-serialization">RDF serialization</h2>
+        <p>Document roperties such as <code>sioc:has_container</code>, <code>dct:created</code>, <code>dct:modified</code>, <code>acl:owner</code> are <a href="../../../../http-api.#document-metadata">automatically managed</a> by LinkedDataHub.</p>
+        <pre>@prefix dh: &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+@prefix dct: &lt;http://purl.org/dc/terms/&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+@prefix sioc: &lt;http://rdfs.org/sioc/ns#&gt; .
+@prefix acl: &lt;http://www.w3.org/ns/auth/acl#&gt; .
+
+&lt;https://localhost:4443/concepts/example/&gt;
+    a       dh:Item ;
+    dct:created "2025-06-02T19:49:48.126Z"^^xsd:dateTime ;
+    dct:creator &lt;https://localhost:4443/admin/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; ;
+    dct:title "Example" ;
+    sioc:has_container &lt;https://localhost:4443/2005d1e1-de5c-4c0d-bcab-002c203ff1a9/&gt; ;
+    acl:owner &lt;https://localhost:4443/admin/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .</pre>    
+    </div>
+    <div>
+        <h2 id="management">Management</h2>
+        <div>
+            <h3 id="management-ui"><a href="../../../user-interface/">User interface</a></h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Create</th>
+                        <td>Create a new child document by clicking the <span class="btn btn-primary create-action">Create</span> button on the left of the navbar. Fill out the form. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                    </tr>
+                    <tr>
+                        <th>Update</th>
+                        <td>Open the current document editing form by clicking the <span class="btn btn-edit">Edit</span> button in the middle section of the navbar. Make changes. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                    </tr>
+                    <tr>
+                        <th>Delete</th>
+                        <td>Delete the current document by clicking the <span class="btn btn-delete">Delete</span> in the action bar (the right section of the navbar)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <h3 id="management-cli"><a href="../../../command-line-interface/">Command line interface</a></h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>CLI script</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Create</th>
+                        <td><a href="../../../command-line-interface/#scripts"><samp>create-item.sh</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Update</th>
+                        <td><a href="../../../command-line-interface/#scripts"><samp>put.sh</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Delete</th>
+                        <td><a href="../../../command-line-interface/#scripts"><samp>delete.sh</samp></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>"""^^rdf:XMLLiteral .

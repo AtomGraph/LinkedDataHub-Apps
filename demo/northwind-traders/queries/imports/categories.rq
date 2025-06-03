@@ -1,35 +1,32 @@
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
-PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy#>
-PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dh:slug ?categoryID ;
-        dct:title ?categoryName ;
-        foaf:primaryTopic ?category .
+    GRAPH ?graph
+    {
+        ?graph dct:title ?categoryName ;
+            foaf:primaryTopic ?category .
 
-    ?category a schema:ProductGroup ;
-        dct:title ?categoryName ;
-        dct:description ?description ;
-        schema:name ?categoryName ;
-        schema:identifier ?categoryID ;
-        schema:description ?description ;
-        foaf:depiction ?picture .
+        ?category a schema:ProductGroup ;
+            dct:title ?categoryName ;
+            dct:description ?description ;
+            schema:name ?categoryName ;
+            schema:identifier ?categoryID ;
+            schema:description ?description ;
+            foaf:depiction ?picture .
+    }
 }
 WHERE
 {
-    BIND (uri(concat(str($base), "categories/")) AS ?container)
-
     ?category_row <#categoryID> ?categoryID ;
         <#description> ?description ;
         <#categoryName> ?categoryName ;
         <#pictureHash> ?pictureHash .
 
-    BIND(uri(concat(str(?container), encode_for_uri(?categoryID), "/")) AS ?item)
-    BIND(uri(concat(str(?item), "#this")) AS ?category)
+    BIND(uri(concat(str($base), "categories/")) AS ?container)
+    BIND(uri(concat(str(?container), encode_for_uri(?categoryID), "/")) AS ?graph)
+    BIND(uri(concat(str(?graph), "#this")) AS ?category)
     BIND(uri(concat(str($base), "uploads/", encode_for_uri(?pictureHash))) AS ?picture)
 }

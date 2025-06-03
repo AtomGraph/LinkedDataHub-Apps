@@ -6,19 +6,19 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
-<user-guide/create-data/create-documents/> a dh:Item ;
-    sioc:has_container <user-guide/create-data/> ;
+<> a dh:Item ;
+    sioc:has_container <..> ;
     dct:title "Create documents" ;
     dct:description "Learn how to create container and item documents" ;
     rdf:_1 <#content> .
     
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to create container and item documents</p>
     <p class="text-center">
         <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/paetjTkFBxE" width="560"></iframe>
     </p>
-    <p>To create a container document (which can have <a href="../../../reference/data-management/documents/#hierarchy" target="_blank">children documents</a>), follow these steps:</p>
+    <p>To create a container document (which can have <a href="../../../reference/user-interface/documents/#hierarchy" target="_blank">children documents</a>) with a custom URL, follow these steps:</p>
     <div class="tabbable">
         <ul class="nav nav-tabs">
             <li class="active"><a>User interface</a></li>
@@ -33,10 +33,10 @@
                             <dl>
                                 <dt>Title</dt>
                                 <dd>Enter <samp>Concepts</samp></dd>
-                                <dt>URI slug</dt>
-                                <dd>Enter <samp>concepts</samp> — this will be the relative path of the container</dd>
                             </dl>
                         </li>
+                        <li>To customize the container URL, click on the dropdown in the top-right corner of the form</li>
+                        <li>Replace the generated unique relative URI with <samp>concepts</samp></li>
                         <li>Click <span class="btn btn-primary btn-save">Save</span></li>
                     </ol>
                     <p>See how below:</p>
@@ -47,23 +47,18 @@
             </div>
             <div class="tab-pane">
                 <div>
-                    <p>Replace <code>$OWNER_KEY_PASSWORD</code> with its value from the <samp>.env</samp> file and execute the following command:</p>
-                    <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT"
-
-./create-container.sh \\
+                    <p>Replace <samp>owner_cert_password</samp> with the value of the corresponding secret and execute the following command:</p>
+                    <pre>create-container.sh \\
   -b "https://localhost:4443/" \\
--f "$cert_pem_file" \\
--p "$cert_password" \\
-  --title "$title" \\
-  --slug "$slug" \\
-  --parent "https://localhost:4443/"
-
-popd</pre>
+  -f ./ssl/owner/cert.pem \\
+  -p "$owner_cert_password" \\
+  --title "Concepts" \\
+  --slug "concepts" \\
+  --parent "https://localhost:4443/"</pre>
                 </div>
             </div>
         </div>
     </div>
     <p>A container titled <samp>Concepts</samp> should appear with the URI <a href="https://localhost:4443/concepts/" target="_blank">https://localhost:4443/concepts/</a>.</p>
-    <p>To create an item document, choose <samp>Item</samp> at step #2 above.</p>
-    <p class="lead"><a href="../../../reference/data-management/documents/" target="_blank">Read more about document management.</a></p>
+    <p class="lead"><a href="../../../reference/user-interface/documents/" target="_blank">Read more about document management.</a></p>
 </div>"""^^rdf:XMLLiteral .

@@ -6,13 +6,13 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
     
-<user-guide/add-data/> a dh:Item ;
-    sioc:has_container <user-guide/> ;
+<> a dh:Item ;
+    sioc:has_container <..> ;
     dct:title "Add data" ;
     dct:description "Fork RDF data from Linked Data resources and SPARQL results" ;
     rdf:_1 <#content> .
     
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Fork RDF data from Linked Data resources and SPARQL results</p>
     <p>You can fork (copy the contents of) any RDF document to a namedgraph in your dataspace. Two sources of RDF are supported: RDF resources on the web (Linked Data), and RDF file uploads.</p>
@@ -23,7 +23,7 @@
     <div>
         <h2 id="from-linked-data">From Linked Data</h2>
         <p>
-            <object data="../../uploads/73e3f6ba966796c54e25c5dc41057e36471ae554" type="video/webm"></object>
+            <object data="../../uploads/91f6ea24b8ab9bee4a0456cf2b72e0552e9aa42c" type="video/webm"></object>
         </p>
         <p>To copy the contents of the current RDF document (local or remote) into a local document, follow these steps:</p>
         <ol>
@@ -33,7 +33,7 @@
                     <dt>Source</dt>
                     <dd>URI of the source document</dd>
                     <dt>Graph</dt>
-                    <dd>The target document. You can start typing to find it by its label, or paste its URI here. You can also create a new document here by clicking the <span class="btn">[+]</span> button next to the input.</dd>
+                    <dd>The target document. You can start typing to find it by its label, or paste its URI here.</dd>
                 </dl>
             </li>
             <li>Click <span class="btn btn-primary btn-save">Save</span> to perform the fork operation.</li>
@@ -41,20 +41,12 @@
     </div>
     <div>
         <h2 id="from-file">From file</h2>
-        <p>To upload the contents of an RDF file into a local document, follow these steps:</p>
-        <ol>
-            <li>Click on the <span class="btn btn-primary">Add data</span> button on the left side of the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a>. A form will open, asking you
-                to fill out the following fields:
-            <dl>
-                <dt>Format</dt>
-                <dd>Choose the RDF format of the file</dd>
-                <dt>Filename</dt>
-                <dd>Select the file on your computer</dd>
-                <dt>Graph</dt>
-                <dd>The target document. Start typing to find it by its label, or paste its URI here. You can also create a new document here by clicking the <span class="btn">[+]</span> button next to the input.</dd>
-            </dl>
-            </li>
-            <li>Click <span class="btn btn-primary btn-save">Save</span> to perform the fork operation.</li>
-        </ol>
+        <p>To upload the contents of an RDF file into a document, simnply drag the file from your filesystem into LinkedDataHub. The following syntaxes are supported:</p>
+        <ul>
+            <li>N-Triples (.nt)</li>
+            <li>Turtle (.ttl)</li>
+            <li>RDF/XML (.rdf and .owl)</li>
+            <li>JSON-LD (.jsonld)</li>
+        </ul>
     </div>
 </div>"""^^rdf:XMLLiteral .

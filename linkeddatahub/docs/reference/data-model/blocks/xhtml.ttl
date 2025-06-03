@@ -1,0 +1,82 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+  
+<> a dh:Item ;
+    sioc:has_container <..> ;
+    dct:title "XHTML blocks" ;
+    dct:description "Blocks that embed XHTML markup as an RDF literal" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Blocks that embed XHTML markup as an RDF literal</p>
+    <p>XHTML block is simply a fragment of XHTML, stored as a canonical XML literal in the RDF document. It can be edited using a WYSIWYG editor.</p>
+    <div>
+        <h2 id="rdf-serialization">RDF serialization</h2>
+        <pre>@prefix ldh: &lt;https://w3id.org/atomgraph/linkeddatahub#&gt; .
+@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+
+&lt;https://localhost:4443/concepts/example/#xhtml-block&gt;
+a       ldh:XHTML ;
+rdf:value "&lt;div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"&gt;\\n&lt;p&gt;A paragraph&lt;/p&gt;\\n&lt;/div&gt;"^^rdf:XMLLiteral .</pre>
+    </div>
+    <div>
+        <h2 id="management">Management</h2>
+        <div>
+            <h3 id="management-ui"><a href="../../../user-interface/">User interface</a></h3>
+            <p>Content blocks can only be managed when the <a href="../../../user-interface/#layout-modes" target="_blank"><samp>Content</samp> layout mode</a> is active.</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Create</th>
+                        <td>Click the <span class="btn btn-primary create-action">XHTML</span> button at the bottom of the page (in content mode). Create the XHTML content in the WYSIWYG editor. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                    </tr>
+                    <tr>
+                        <th>Update</th>
+                        <td>Click the <span class="btn btn-edit"></span> button in the top-right corner of the block (it will only appear when you move the mouse close to that corner). Change the XHTML content in the WYSIWYG editor. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                    </tr>
+                    <tr>
+                        <th>Delete</th>
+                        <td>Click the <span class="btn btn-edit"></span> button in the top-right corner of the block (it will only appear when you move the mouse close to that corner). Click the <span class="btn btn-remove-resource"></span> button to delete the block.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <h3 id="management-cli"><a href="../../../command-line-interface/">Command line interface</a></h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>CLI script</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Create</th>
+                        <td><a href="../../../command-line-interface/#scripts"><samp>add-xhtml-block.sh</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Update</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Delete</th>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>"""^^rdf:XMLLiteral .

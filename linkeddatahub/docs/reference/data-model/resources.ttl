@@ -1,0 +1,156 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+  
+<> a dh:Container ;
+    sioc:has_parent <..> ;
+    dct:title "Resources" ;
+    dct:description "RDF resources and their management" ;
+    rdf:_1 <#content> ;
+    rdf:_2 <#select-children> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">RDF resources and their management</p>
+    <div>
+        <p>Within <a href="../documents/">documents</a>, users can create RDF resources, i.e. instances of both built-in and user-defined RDF classes.</p>
+        <p>Built-in classes are defined in <a href="../../administration/ontologies/#ontologies">system ontologies</a> while user-defined classes are defined in user ontologies.</p>
+        <div>
+            <h2 id="user-defined-classes">User-defined classes</h2>
+            <p>TBD</p>
+        </div>
+        <div>
+            <h2 id="built-in-classes">Built-in classes</h2>
+            <p>LinkedDataHub's built-in <a href="../../administration/ontologies/#classes">classes</a> have pre-defined <a href="../../administration/ontologies/#constructors">constructors</a>, <a href="../../administration/ontologies/#constraints">constraints</a> and often a customized UI rendering (implemented by <a href="../../stylesheets/#overriding-templates">overriding generic XSLT templates</a> with type-specific templates) as well, for example a query editor or a chart.</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Class</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><samp>ASK</samp></td>
+                        <td><code>sp:Ask</code></td>
+                        <td><a href="queries/">SPARQL <code>ASK</code> query</a></td>
+                    </tr>
+                    <tr>
+                        <td><samp>Application</samp></td>
+                        <td><code>ldh:Application</code></td>
+                        <td><a href="../../dataspace/#applications">Remote LinkedDataHub application</a></td>
+                    </tr>
+                    <tr>
+                        <td><samp>CONSTRUCT</samp></td>
+                        <td><code>sp:Construct</code></td>
+                        <td><a href="queries/">SPARQL <code>CONSTRUCT</code> query</a></td>
+                    </tr>
+                    <tr>
+                        <td><samp>CSV import</samp></td>
+                        <td><code>ldh:CSVImport</code></td>
+                        <td>Async <a href="../../imports/csv/">CSV data import</a></td>
+                    </tr>
+                    <tr>
+                        <td><samp>File</samp></td>
+                        <td><code>nfo:FileDataObject</code></td>
+                        <td>File to upload</td>
+                    </tr>
+                    <tr>
+                        <td><samp>Graph chart</samp></td>
+                        <td><code>ldh:GraphChart</code></td>
+                        <td><a href="charts/">Chart based on <code>CONSTRUCT</code>/<code>DESCRIBE</code> query results</a></td>
+                    </tr>
+                    <tr>
+                        <td><samp>RDF import</samp></td>
+                        <td><code>ldh:RDFImport</code></td>
+                        <td>Async <a href="../../imports/rdf/">RDF data import</a></td>
+                    </tr>
+                    <tr>
+                        <td><samp>Result set chart</samp></td>
+                        <td><code>ldh:ResultSetChart</code></td>
+                        <td><a href="charts/">Chart based on <code>SELECT</code> query results</a></td>
+                    </tr>
+                    <tr>
+                        <td><samp>Select</samp></td>
+                        <td><code>sp:Select</code></td>
+                        <td><a href="queries/">SPARQL <code>SELECT</code> query</a></td>
+                    </tr>
+                    <tr>
+                        <td><samp>Service</samp></td>
+                        <td><code>sd:Service</code></td>
+                        <td>SPARQL service (identified by its endpoint URL)</td>
+                    </tr>
+                    <tr>
+                        <td><samp>View</samp></td>
+                        <td><code>ldh:View</code></td>
+                        <td><a href="views/">View based on <code>SELECT</code> query results</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Resources that have customized UIs (such as queries, views, charts) are documented in more detail.</p>
+            <div>
+                <h2 id="management">Management</h2>
+                <div>
+                    <h3><a href="../../user-interface/">User interface</a></h3>
+                    <p>Resources can only be managed when the <a href="../../user-interface/#layout-modes" target="_blank"><samp>Properties</samp> layout mode</a> is active.</p>
+                    <table class="table table-striped" id="actions">
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Create</th>
+                                <td>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page. Fill out the fields in the form that appears. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                            </tr>
+                            <tr>
+                                <th>Update</th>
+                                <td>Click the <span class="btn btn-edit"></span> button in the top-right corner of the resource header (in the middle column of the content). Make changes in the form that appears. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                            </tr>
+                            <tr>
+                                <th>Delete</th>
+                                <td>Click the <span class="btn btn-edit"></span> button in the top-right corner of the resource header. Click the <span class="btn btn-remove-resource"></span> button to delete the block.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3><a href="../../command-line-interface/">Command line interface</a></h3>
+                    <p>The following actions can also be performed using the <a href="../../command-line-interface/" target="_blank">command line interface</a>.</p>
+                    <table class="table table-striped" id="actions">
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>CLI script</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Create</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Update</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Delete</th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>"""^^rdf:XMLLiteral .
+
+<#select-children> a ldh:Object ;
+    rdf:value ldh:ChildrenView .

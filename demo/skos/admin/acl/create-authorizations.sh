@@ -10,7 +10,7 @@ if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
 fi
 
 base="$1"
-cert_pem_file=$(realpath -s "$2")
+cert_pem_file=$(realpath "$2")
 cert_password="$3"
 
 if [ -n "$4" ]; then
@@ -19,7 +19,7 @@ else
     proxy="$base"
 fi
 
-pwd=$(realpath -s "$PWD")
+pwd=$(realpath "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"/admin/acl
 

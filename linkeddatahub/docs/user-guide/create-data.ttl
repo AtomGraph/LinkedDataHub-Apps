@@ -5,20 +5,21 @@
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
+@prefix spin:	<http://spinrdf.org/spin#> .
 
-<user-guide/create-data/> a dh:Container ;
-    sioc:has_parent <user-guide/> ;
+<> a dh:Container ;
+    sioc:has_parent <..> ;
     dct:title "Create data" ;
     dct:description "How to create documents, content, and instances" ;
     rdf:_1 <#content> ;
     rdf:_2 <#select-children> .
     
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">How to create documents, content, and instances</p>
     <p>Documents are RDF documents stored in the <a href="../../reference/dataset/">application's dataset</a>. They contain descriptions of resources, e.g. instances created by the user, imported from files, or loaded from Linked Data.</p>
     <p>Each document can have content, which is a chain (RDF list) of URI resources and XHTML literals.</p>
 </div>"""^^rdf:XMLLiteral .
 
-<#select-children> a ldh:Content ;
-    rdf:value ldh:SelectChildren .
+<#select-children> a ldh:Object ;
+    rdf:value ldh:ChildrenView .

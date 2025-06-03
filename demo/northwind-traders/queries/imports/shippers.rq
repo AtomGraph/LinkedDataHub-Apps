@@ -1,31 +1,28 @@
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
-PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy#>
-PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dh:slug ?shipperID ;
-        dct:title ?companyName ;
-        foaf:primaryTopic ?shipper .
+    GRAPH ?graph
+    {
+        ?graph dct:title ?companyName ;
+            foaf:primaryTopic ?shipper .
 
-    ?shipper a schema:Corporation ;
-        dct:title ?companyName ;
-        schema:legalName ?companyName ;
-        schema:identifier ?shipperID ;
-        schema:telephone ?phone .
+        ?shipper a schema:Corporation ;
+            dct:title ?companyName ;
+            schema:legalName ?companyName ;
+            schema:identifier ?shipperID ;
+            schema:telephone ?phone .
+    }
 }
 WHERE
 {
-    BIND (uri(concat(str($base), "shippers/")) AS ?container)
-
     ?shipper_row <#shipperID> ?shipperID ;
         <#companyName> ?companyName ;
         <#phone> ?phone .
 
-    BIND(uri(concat(str(?container), encode_for_uri(?shipperID), "/")) AS ?item)
-    BIND(uri(concat(str(?item), "#this")) AS ?shipper)
+    BIND(uri(concat(str($base), "shippers/")) AS ?container)
+    BIND(uri(concat(str(?container), encode_for_uri(?shipperID), "/")) AS ?graph)
+    BIND(uri(concat(str(?graph), "#this")) AS ?shipper)
 }

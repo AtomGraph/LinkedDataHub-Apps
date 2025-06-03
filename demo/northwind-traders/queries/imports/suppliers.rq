@@ -1,56 +1,52 @@
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
-PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy#>
-PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
 PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#>
 
 CONSTRUCT
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dh:slug ?supplierID ;
-        dct:title ?companyName ;
-        foaf:primaryTopic ?supplier ;
-        foaf:topic ?contactPoint, ?employee, ?postalAddress .
+    GRAPH ?graph
+    {
+        ?graph dct:title ?companyName ;
+            foaf:primaryTopic ?supplier ;
+            foaf:topic ?contactPoint, ?employee, ?postalAddress .
 
-    ?supplier a schema:Corporation ;
-        schema:identifier ?supplierID ;
-        dct:title ?companyName ;
-        schema:legalName ?companyName ;
-        schema:contactPoint ?contactPoint ;
-        schema:employee ?employee .
+        ?supplier a schema:Corporation ;
+            schema:identifier ?supplierID ;
+            dct:title ?companyName ;
+            schema:legalName ?companyName ;
+            schema:contactPoint ?contactPoint ;
+            schema:employee ?employee .
 
-    ?contactPoint a schema:ContactPoint ;
-        foaf:page ?item ;
-        schema:telephone ?phone ;
-        schema:faxNumber ?fax ;
-        schema:url ?homePage .
+        ?contactPoint a schema:ContactPoint ;
+            foaf:page ?graph ;
+            schema:telephone ?phone ;
+            schema:faxNumber ?fax ;
+            schema:url ?homePage .
 
-    ?employee a schema:Person ;
-        foaf:page ?item ;
-        schema:name ?contactName ;
-        dct:title ?contactName ;
-        schema:jobTitle ?contactTitle ;
-        schema:telephone ?phone ;
-        schema:faxNumber ?fax ;
-        schema:address ?postalAddress ;
-        geo:lat ?lat ;
-        geo:long ?long .
+        ?employee a schema:Person ;
+            foaf:page ?graph ;
+            schema:name ?contactName ;
+            dct:title ?contactName ;
+            schema:jobTitle ?contactTitle ;
+            schema:telephone ?phone ;
+            schema:faxNumber ?fax ;
+            schema:address ?postalAddress ;
+            geo:lat ?lat ;
+            geo:long ?long .
 
-    ?postalAddress a schema:PostalAddress ;
-        foaf:page ?item ;
-        schema:addressCountry ?country ;
-        schema:addressLocality ?city ;
-        schema:postalCode ?postalCode ;
-        schema:streetAddress ?address ;
-        schema:addressRegion ?region .
+        ?postalAddress a schema:PostalAddress ;
+            foaf:page ?graph ;
+            schema:addressCountry ?country ;
+            schema:addressLocality ?city ;
+            schema:postalCode ?postalCode ;
+            schema:streetAddress ?address ;
+            schema:addressRegion ?region .
+    }
 }
 WHERE
 {
-    BIND (uri(concat(str($base), "suppliers/")) AS ?container)
-
     ?supplier_row <#supplierID> ?supplierID ;
         <#companyName> ?companyName ;
         <#contactName> ?contactName ;
@@ -79,10 +75,10 @@ WHERE
         BIND(xsd:float(?long_string) AS ?long)
     }
 
-    BIND(uri(concat(str(?container), encode_for_uri(?supplierID), "/")) AS ?item)
-    BIND(uri(concat(str(?item), "#this")) AS ?supplier)
-    BIND(uri(concat(str(?item), "#contact-point")) AS ?contactPoint)
-    BIND(uri(concat(str(?item), "#employee")) AS ?employee)
-    BIND(uri(concat(str(?item), "#postal-address")) AS ?postalAddress)
-
+    BIND(uri(concat(str($base), "suppliers/")) AS ?container)
+    BIND(uri(concat(str(?container), encode_for_uri(?supplierID), "/")) AS ?graph)
+    BIND(uri(concat(str(?graph), "#this")) AS ?supplier)
+    BIND(uri(concat(str(?graph), "#contact-point")) AS ?contactPoint)
+    BIND(uri(concat(str(?graph), "#employee")) AS ?employee)
+    BIND(uri(concat(str(?graph), "#postal-address")) AS ?postalAddress)
 }

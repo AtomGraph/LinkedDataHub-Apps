@@ -6,13 +6,13 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
     
-<user-guide/navigate-data/> a dh:Item ;
-    sioc:has_container <user-guide/> ;
+<> a dh:Item ;
+    sioc:has_container <..> ;
     dct:title "Navigate data" ;
     dct:description "Navigate the document hierarchy, related results, and backlinks" ;
     rdf:_1 <#content> .
     
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Navigate the document hierarchy, related results, and backlinks</p>
     <p class="text-center">
@@ -20,7 +20,7 @@
     </p>
     <div>
         <h2 id="document-tree">Document tree</h2>
-        <p>Document tree is a widget that enables quick overview of the application's <a href="../../reference/data-management/documents/#hierarchy">document hierarchy</a>. Each document is shown as a node in the tree; container documents
+        <p>Document tree is a widget that enables quick overview of the application's <a href="../../reference/user-interface/documents/#hierarchy">document hierarchy</a>. Each document is shown as a node in the tree; container documents
             can be expanded to reveal the children documents.</p>
         <p>The widget can be accessed by sliding the mouse to the left edge of the screen (on responsive layouts, it is always visible).</p>
         <p>
@@ -28,19 +28,11 @@
         </p>
     </div>
     <div>
-        <h2 id="parallax">Parallax</h2>
-        <p>Parallax navigation is a rather unique navigation approach that lends itself perfectly to graph data. It is enabled for container content and shown as <samp>Related results</samp> in the
-            <a href="../../reference/user-interface/#right-nav">right-side navigation</a>. Parallax allows "jumping" from a result set to a related result set using the selected RDF property. It works in
-            combination with faceted search which can be used to filter the initial result set.</p>
-        <p>For example, facets can be used to filter a set products that belong to a certain category, and then parallax can be used to jump to a set of companies that provide those products, and then further on to
-            a set representatives of those companies.</p>
-        <p>
-            <img alt="Related results" src="../../uploads/ffb24b79848a40266d880638b0699c4c8a4e41ec"></img>
-        </p>
-    </div>
-    <div>
         <h2 id="backlinks">Backlinks</h2>
         <p>Backlinks are shown in the <a href="../../reference/user-interface/#right-nav">right-side navigation</a> for every resource in <a href="../../reference/user-interface/#layout-modes">property layout mode</a>.
             They display a list of resources which have properties with the current resource as the object.</p>
+    </div>
+    <div>
+
     </div>
 </div>"""^^rdf:XMLLiteral .

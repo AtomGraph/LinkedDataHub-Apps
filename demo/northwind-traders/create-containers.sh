@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-[ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
-
 if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
   echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy]' >&2
   echo "Example: $0" 'https://localhost:4443/ ../../../ssl/owner/cert.pem Password [https://localhost:5443/]' >&2
@@ -10,7 +8,7 @@ if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
 fi
 
 base="$1"
-cert_pem_file="$(realpath -s "$2")"
+cert_pem_file="$(realpath "$2")"
 cert_password="$3"
 
 if [ -n "$4" ]; then
@@ -19,31 +17,11 @@ else
     proxy="$base"
 fi
 
-pwd=$(realpath -s "$PWD")
+pwd=$(realpath "$PWD")
 
-pushd . && cd "$SCRIPT_ROOT"
+# categories
 
-select_categories_doc=$(./create-select.sh \
-  -b "$base" \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --title "Select categories" \
-  --slug select-categories \
-  --query-file "$pwd/queries/select-categories.rq"
-)
-
-select_categories_ntriples=$(./get-document.sh \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --accept 'application/n-triples' \
-  "$select_categories_doc"
-)
-
-select_categories=$(echo "$select_categories_ntriples" | sed -rn "s/<${select_categories_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
-
-category_container=$(./create-container.sh \
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -53,42 +31,50 @@ category_container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-content.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  "$category_container"
+  "$container"
 
-./append-content.sh \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --value "$select_categories" \
-  --mode "https://w3id.org/atomgraph/client#GridMode" \
-  "$category_container"
+query_id="select-categories-query"
 
-
-select_customers_doc=$(./create-select.sh \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --title "Select customers" \
-  --slug select-customers \
-  --query-file "$pwd/queries/select-customers.rq"
-)
+  --title "Select categories" \
+  --fragment "$query_id" \
+  --query-file "$pwd/queries/select-categories.rq" \
+  "$container"
 
-select_customers_ntriples=$(./get-document.sh \
+view_id="select-categories-view"
+
+add-view.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --accept 'application/n-triples' \
-  "$select_customers_doc"
-)
+  --fragment "$view_id" \
+  --query "${container}#${query_id}" \
+  --mode "https://w3id.org/atomgraph/client#GridMode" \
+  "$container"
 
-select_customers=$(echo "$select_customers_ntriples" | sed -rn "s/<${select_customers_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
+object_id="select-categories"
 
-customer_container=$(./create-container.sh \
+add-object-block.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$object_id" \
+  --value "${container}#${view_id}" \
+  "$container"
+
+# customers
+
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -98,42 +84,50 @@ customer_container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-content.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  "$customer_container"
+  "$container"
 
-./append-content.sh \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --value "$select_customers" \
-  --mode "https://w3id.org/atomgraph/client#TableMode" \
-  "$customer_container"
+query_id="select-customers-query"
 
-
-select_employees_doc=$(./create-select.sh \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --title "Select employees" \
-  --slug select-employees \
-  --query-file "$pwd/queries/select-employees.rq"
-)
+  --title "Select customers" \
+  --fragment "$query_id" \
+  --query-file "$pwd/queries/select-customers.rq" \
+  "$container"
 
-select_employees_ntriples=$(./get-document.sh \
+view_id="select-customers-view"
+
+add-view.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --accept 'application/n-triples' \
-  "$select_employees_doc"
-)
+  --fragment "$view_id" \
+  --query "${container}#${query_id}" \
+  --mode "https://w3id.org/atomgraph/client#TableMode" \
+  "$container"
 
-select_employees=$(echo "$select_employees_ntriples" | sed -rn "s/<${select_employees_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
+object_id="select-customers"
 
-employees_container=$(./create-container.sh \
+add-object-block.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$object_id" \
+  --value "${container}#${view_id}" \
+  "$container"
+
+# employees
+
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -143,42 +137,50 @@ employees_container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-content.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  "$employees_container"
+  "$container"
 
-./append-content.sh \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --value "$select_employees" \
-  --mode "https://w3id.org/atomgraph/client#GridMode" \
-  "$employees_container"
+query_id="select-employees-query"
 
-
-select_orders_doc=$(./create-select.sh \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --title "Select orders" \
-  --slug select-orders \
-  --query-file "$pwd/queries/select-orders.rq"
-)
+  --title "Select employees" \
+  --fragment "$query_id" \
+  --query-file "$pwd/queries/select-employees.rq" \
+  "$container"
 
-select_orders_ntriples=$(./get-document.sh \
+view_id="select-employees-view"
+
+add-view.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --accept 'application/n-triples' \
-  "$select_orders_doc"
-)
+  --fragment "$view_id" \
+  --query "${container}#${query_id}" \
+  --mode "https://w3id.org/atomgraph/client#GridMode" \
+  "$container"
 
-select_orders=$(echo "$select_orders_ntriples" | sed -rn "s/<${select_orders_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
+object_id="select-employees"
 
-order_container=$(./create-container.sh \
+add-object-block.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$object_id" \
+  --value "${container}#${view_id}" \
+  "$container"
+
+# orders
+
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -188,42 +190,50 @@ order_container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-content.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  "$order_container"
+  "$container"
 
-./append-content.sh \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --value "$select_orders" \
-  --mode "https://w3id.org/atomgraph/client#TableMode" \
-  "$order_container"
+query_id="select-orders-query"
 
-
-select_products_doc=$(./create-select.sh \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --title "Select products" \
-  --slug select-products \
-  --query-file "$pwd/queries/select-products.rq"
-)
+  --title "Select orders" \
+  --fragment "$query_id" \
+  --query-file "$pwd/queries/select-orders.rq" \
+  "$container"
 
-select_products_ntriples=$(./get-document.sh \
+view_id="select-orders-view"
+
+add-view.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --accept 'application/n-triples' \
-  "$select_products_doc"
-)
+  --fragment "$view_id" \
+  --query "${container}#${query_id}" \
+  --mode "https://w3id.org/atomgraph/client#TableMode" \
+  "$container"
 
-select_products=$(echo "$select_products_ntriples" | sed -rn "s/<${select_products_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
+object_id="select-orders"
 
-product_container=$(./create-container.sh \
+add-object-block.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$object_id" \
+  --value "${container}#${view_id}" \
+  "$container"
+
+# products
+
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -233,42 +243,50 @@ product_container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-content.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  "$product_container"
+  "$container"
 
-./append-content.sh \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --value "$select_products" \
-  --mode "https://w3id.org/atomgraph/client#TableMode" \
-  "$product_container"
+query_id="select-products-query"
 
-
-select_regions_doc=$(./create-select.sh \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --title "Select regions" \
-  --slug select-regions \
-  --query-file "$pwd/queries/select-regions.rq"
-)
+  --title "Select products" \
+  --fragment "$query_id" \
+  --query-file "$pwd/queries/select-products.rq" \
+  "$container"
 
-select_regions_ntriples=$(./get-document.sh \
+view_id="select-products-view"
+
+add-view.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --accept 'application/n-triples' \
-  "$select_regions_doc"
-)
+  --fragment "$view_id" \
+  --query "${container}#${query_id}" \
+  --mode "https://w3id.org/atomgraph/client#TableMode" \
+  "$container"
 
-select_regions=$(echo "$select_regions_ntriples" | sed -rn "s/<${select_regions_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
+object_id="select-products"
 
-region_container=$(./create-container.sh \
+add-object-block.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$object_id" \
+  --value "${container}#${view_id}" \
+  "$container"
+
+# regions
+
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -278,41 +296,49 @@ region_container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-content.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  "$region_container"
+  "$container"
 
-./append-content.sh \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --value "$select_regions" \
-  "$region_container"
+query_id="select-regions-query"
 
-
-select_shippers_doc=$(./create-select.sh \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --title "Select shippers" \
-  --slug select-shippers \
-  --query-file "$pwd/queries/select-shippers.rq"
-)
+  --title "Select regions" \
+  --fragment "$query_id" \
+  --query-file "$pwd/queries/select-regions.rq" \
+  "$container"
 
-select_shippers_ntriples=$(./get-document.sh \
+view_id="select-regions-view"
+
+add-view.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --accept 'application/n-triples' \
-  "$select_shippers_doc"
-)
+  --fragment "$view_id" \
+  --query "${container}#${query_id}" \
+  "$container"
 
-select_shippers=$(echo "$select_shippers_ntriples" | sed -rn "s/<${select_shippers_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
+object_id="select-regions"
 
-shipper_container=$(./create-container.sh \
+add-object-block.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$object_id" \
+  --value "${container}#${view_id}" \
+  "$container"
+
+# shippers
+
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -322,41 +348,49 @@ shipper_container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-content.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  "$shipper_container"
+  "$container"
 
-./append-content.sh \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --value "$select_shippers" \
-  "$shipper_container"
+query_id="select-shippers-query"
 
-
-select_suppliers_doc=$(./create-select.sh \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --title "Select suppliers" \
-  --slug select-suppliers \
-  --query-file "$pwd/queries/select-suppliers.rq"
-)
+  --title "Select shippers" \
+  --fragment "$query_id" \
+  --query-file "$pwd/queries/select-shippers.rq" \
+  "$container"
 
-select_suppliers_ntriples=$(./get-document.sh \
+view_id="select-shippers-view"
+
+add-view.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --accept 'application/n-triples' \
-  "$select_suppliers_doc"
-)
+  --fragment "$view_id" \
+  --query "${container}#${query_id}" \
+  "$container"
 
-select_suppliers=$(echo "$select_suppliers_ntriples" | sed -rn "s/<${select_suppliers_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
+object_id="select-shippers"
 
-supplier_container=$(./create-container.sh \
+add-object-block.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$object_id" \
+  --value "${container}#${view_id}" \
+  "$container"
+
+# suppliers
+
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -366,42 +400,50 @@ supplier_container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-content.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  "$supplier_container"
+  "$container"
 
-./append-content.sh \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --value "$select_suppliers" \
-  --mode "https://w3id.org/atomgraph/client#TableMode" \
-  "$supplier_container"
+query_id="select-suppliers-query"
 
-
-select_territories_doc=$(./create-select.sh \
+add-select.sh  \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --title "Select territories" \
-  --slug select-territories \
-  --query-file "$pwd/queries/select-territories.rq"
-)
+  --title "Select suppliers" \
+  --fragment "$query_id" \
+  --query-file "$pwd/queries/select-suppliers.rq" \
+  "$container"
 
-select_territories_ntriples=$(./get-document.sh \
+view_id="select-suppliers-view"
+
+add-view.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --accept 'application/n-triples' \
-  "$select_territories_doc"
-)
+  --fragment "$view_id" \
+  --query "${container}#${query_id}" \
+  --mode "https://w3id.org/atomgraph/client#TableMode" \
+  "$container"
 
-select_territories=$(echo "$select_territories_ntriples" | sed -rn "s/<${select_territories_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
+object_id="select-suppliers"
 
-territory_container=$(./create-container.sh \
+add-object-block.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$object_id" \
+  --value "${container}#${view_id}" \
+  "$container"
+
+# territories
+
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -411,18 +453,44 @@ territory_container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-content.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  "$territory_container"
+  "$container"
 
-./append-content.sh \
+query_id="select-territories-query"
+
+add-select.sh  \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --value "$select_territories" \
+  --title "Select territories" \
+  --fragment "$query_id" \
+  --query-file "$pwd/queries/select-territories.rq" \
+  "$container"
+
+view_id="select-territories-view"
+
+add-view.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$view_id" \
+  --query "${container}#${query_id}" \
   --mode "https://w3id.org/atomgraph/client#TableMode" \
-  "$territory_container"
+  "$container"
 
-popd || exit
+object_id="select-territories"
+
+add-object-block.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$view_id" \
+  --fragment "$object_id" \
+  --value "${container}#${view_id}" \
+  "$container"

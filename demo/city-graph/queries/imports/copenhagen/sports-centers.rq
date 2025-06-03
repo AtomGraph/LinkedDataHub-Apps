@@ -9,35 +9,33 @@ PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT
 {
-    ?item a dh:Item ;
-        sioc:has_container ?container ;
-        dh:slug ?id ;
-        dct:title ?name ;
-        foaf:primaryTopic ?sportCenter .
-    ?sportCenter a schema:SportsActivityLocation ;
-        geo:lat ?lat ;
-        geo:long ?long ;
-        dct:title ?name ;
-        schema:streetAddress ?address ;
-        schema:postalCode ?postcode ;
-        foaf:mbox ?email ;
-        foaf:page ?link ;
-        dct:identifier ?id .
+    GRAPH ?item
+    {
+        ?item a dh:Item ;
+            sioc:has_container ?container ;
+            dh:slug ?id ;
+            dct:title ?name ;
+            foaf:primaryTopic ?sportCenter .
+
+        ?sportCenter a schema:SportsActivityLocation ;
+            geo:lat ?lat ;
+            geo:long ?long ;
+            dct:title ?name ;
+            schema:streetAddress ?address ;
+            schema:postalCode ?postcode ;
+            foaf:mbox ?email ;
+            foaf:page ?link ;
+            dct:identifier ?id .
+    }
 }
 WHERE
 {
-    BIND (BNODE() AS ?item)
-    BIND (uri(concat(str($base), "copenhagen/sports-centers/")) AS ?container)
-
     ?sportCenter <#FID> ?id ;
         <#name> ?name ;
         <#address> ?address ;
         <#lat> ?lat_string ;
         <#postcode> ?postcode ;
         <#long> ?long_string .
-
-    BIND(xsd:float(?lat_string) AS ?lat)
-    BIND(xsd:float(?long_string) AS ?long)
 
     OPTIONAL {
         ?sportCenter <#email> ?emailString
@@ -47,4 +45,9 @@ WHERE
         ?sportCenter <#link> ?linkString
         BIND (URI(?linkString) AS ?link) 
     }
+
+    BIND(uri(concat(str($base), "copenhagen/sports-centers/")) AS ?container)
+    BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
+    BIND(xsd:float(?lat_string) AS ?lat)
+    BIND(xsd:float(?long_string) AS ?long)
 }

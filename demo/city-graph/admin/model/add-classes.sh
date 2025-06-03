@@ -10,7 +10,7 @@ if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
 fi
 
 base="$1"
-cert_pem_file=$(realpath -s "$2")
+cert_pem_file=$(realpath "$2")
 cert_password="$3"
 
 if [ -n "$4" ]; then
@@ -21,7 +21,7 @@ fi
 
 pushd . && cd "$SCRIPT_ROOT/admin/model"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -30,9 +30,9 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --label "Bicycle parking" \
   --slug bicycle-parking \
   --sub-class-of "https://schema.org/CivicStructure" \
-  "${base}admin/model/ontologies/namespace/"
+  "${base}admin/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -41,9 +41,9 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --label "Charging station" \
   --slug charging-station \
   --sub-class-of "https://schema.org/CivicStructure" \
-  "${base}admin/model/ontologies/namespace/"
+  "${base}admin/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -52,9 +52,9 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --label "Library" \
   --slug library \
   --sub-class-of "https://schema.org/Library" \
-  "${base}admin/model/ontologies/namespace/"
+  "${base}admin/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -63,9 +63,9 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --label "Parking facility" \
   --slug parking-facility \
   --sub-class-of "https://schema.org/ParkingFacility" \
-  "${base}admin/model/ontologies/namespace/"
+  "${base}admin/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -74,9 +74,9 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --label "Place" \
   --slug place \
   --sub-class-of "https://schema.org/CivicStructure" \
-  "${base}admin/model/ontologies/namespace/"
+  "${base}admin/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -85,9 +85,9 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --label "Playground" \
   --slug playground \
   --sub-class-of "https://schema.org/Playground" \
-  "${base}admin/model/ontologies/namespace/"
+  "${base}admin/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -96,9 +96,9 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --label "School" \
   --slug school \
   --sub-class-of "https://schema.org/School" \
-  "${base}admin/model/ontologies/namespace/"
+  "${base}admin/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -107,9 +107,9 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --label "Sports center" \
   --slug sports-center \
   --sub-class-of "https://schema.org/CivicStructure" \
-  "${base}admin/model/ontologies/namespace/"
+  "${base}admin/ontologies/namespace/"
 
-./create-class.sh \
+./add-class.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -118,6 +118,6 @@ pushd . && cd "$SCRIPT_ROOT/admin/model"
   --label "Toilet" \
   --slug public-toilet \
   --sub-class-of "http://schema.org/PublicToilet" \
-  "${base}admin/model/ontologies/namespace/"
+  "${base}admin/ontologies/namespace/"
 
 popd

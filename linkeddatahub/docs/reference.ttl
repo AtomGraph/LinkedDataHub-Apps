@@ -5,18 +5,19 @@
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
+@prefix spin:	<http://spinrdf.org/spin#> .
 
-<reference/> a dh:Container ;
-    sioc:has_parent <> ;
+<> a dh:Container ;
+    sioc:has_parent <..> ;
     dct:title "Reference" ;
     dct:description "A list of LinkedDataHub's features and their functions, split into general and administration parts" ;
     rdf:_1 <#content> ;
     rdf:_2 <#select-children> .
 
-<#content> a ldh:Content ;
+<#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">A list of LinkedDataHub's features and their functions, split into general and administration parts</p>
 </div>"""^^rdf:XMLLiteral .
 
-<#select-children> a ldh:Content ;
-    rdf:value ldh:SelectChildren .
+<#select-children> a ldh:Object ;
+    rdf:value ldh:ChildrenView .

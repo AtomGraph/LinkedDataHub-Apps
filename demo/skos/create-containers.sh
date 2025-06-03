@@ -10,7 +10,7 @@ if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
 fi
 
 base="$1"
-cert_pem_file=$(realpath -s "$2")
+cert_pem_file=$(realpath "$2")
 cert_password="$3"
 
 if [ -n "$4" ]; then
@@ -19,7 +19,7 @@ else
     proxy="$base"
 fi
 
-pwd=$(realpath -s "$PWD")
+pwd=$(realpath "$PWD")
 
 pushd . && cd "$SCRIPT_ROOT"
 
@@ -33,7 +33,7 @@ select_concepts_doc=$(./create-select.sh \
   --query-file "$pwd/queries/select-concepts.rq"
 )
 
-select_concepts_ntriples=$(./get-document.sh \
+select_concepts_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
@@ -77,7 +77,7 @@ select_concept_schemes_doc=$(./create-select.sh \
   --query-file "$pwd/queries/select-concept-schemes.rq"
 )
 
-select_concept_schemes_ntriples=$(./get-document.sh \
+select_concept_schemes_ntriples=$(./get.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \

@@ -10,7 +10,7 @@ if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
 fi
 
 base="$1"
-cert_pem_file=$(realpath -s "$2")
+cert_pem_file=$(realpath "$2")
 cert_password="$3"
 
 if [ -n "$4" ]; then
@@ -21,7 +21,7 @@ fi
 
 pushd . && cd "$SCRIPT_ROOT"/admin/model
 
-./create-property-constraint.sh \
+./add-property-constraint.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -30,6 +30,6 @@ pushd . && cd "$SCRIPT_ROOT"/admin/model
   --label "Missing skos:prefLabel" \
   --slug missing-pref-label \
   --property "http://www.w3.org/2004/02/skos/core#prefLabel" \
-  "${base}admin/model/ontologies/namespace/"
+  "${base}admin/ontologies/namespace/"
 
 popd
