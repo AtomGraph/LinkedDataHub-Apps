@@ -25,5 +25,5 @@ install:
 validate:
 	./validate-documents.sh
 
-htnl:
+ttl-to-html:
 	./ttl-to-html.sh

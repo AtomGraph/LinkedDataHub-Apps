@@ -2,14 +2,6 @@
 <map xmlns="http://www.w3.org/2005/xpath-functions">
   <array key="files">
     <map>
-      <string key="name">.DS_Store</string>
-      <string key="sha1">495dc0d217dbc3e7cb0c015a4aa9af3e7011d37f</string>
-    </map>
-    <map>
-      <string key="name">images/.DS_Store</string>
-      <string key="sha1">cfbb2af0822a6f6971398c3159fa29ca24e52ee0</string>
-    </map>
-    <map>
       <string key="name">images/create context.png</string>
       <string key="sha1">44c15645d600ae3cb74ce7ba85e814726b631e25</string>
     </map>
@@ -70,20 +62,8 @@
       <string key="sha1">38d12825c3927e2d5493ca76f2b744c7b5fe867b</string>
     </map>
     <map>
-      <string key="name">images/reference/.DS_Store</string>
-      <string key="sha1">fd3c4c4f8054fd6402b52d4bf60aed1a9da855fc</string>
-    </map>
-    <map>
-      <string key="name">images/reference/data-management/.DS_Store</string>
-      <string key="sha1">d16f1784ae2301677df9076d5c613d0051a9697e</string>
-    </map>
-    <map>
       <string key="name">images/reference/data-management/resources/view-block.png</string>
       <string key="sha1">97792fb1084524c89c92b6f99b070ac1b283d4f6</string>
-    </map>
-    <map>
-      <string key="name">images/reference/data-management/resources/.DS_Store</string>
-      <string key="sha1">df2fbeb1400acda0909a32c1cf6bf492f1121e07</string>
     </map>
     <map>
       <string key="name">images/reference/data-management/resources/query-block.png</string>
@@ -98,6 +78,10 @@
       <string key="sha1">9e1d4e69c4a0ae30f5fa373db839dc46b3569685</string>
     </map>
     <map>
+      <string key="name">videos/RequestAccess.mov</string>
+      <string key="sha1">759bf3041ddb8e19c63aeb6782065d15ecca7d3a</string>
+    </map>
+    <map>
       <string key="name">videos/AddData.webm</string>
       <string key="sha1">91f6ea24b8ab9bee4a0456cf2b72e0552e9aa42c</string>
     </map>
@@ -108,6 +92,10 @@
     <map>
       <string key="name">videos/ParallaxNav.gif</string>
       <string key="sha1">ffb24b79848a40266d880638b0699c4c8a4e41ec</string>
+    </map>
+    <map>
+      <string key="name">videos/RequestAccess.webm</string>
+      <string key="sha1">5b699202e4ffcbb3b56b37b24b9537e83339c4c7</string>
     </map>
     <map>
       <string key="name">videos/Edit.webm</string>
