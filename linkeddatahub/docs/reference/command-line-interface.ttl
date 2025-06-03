@@ -18,10 +18,11 @@
     <p>LinkedDataHub CLI wraps the <a href="../http-api/">HTTP API</a> into a set of shell scripts with convenient parameters. The scripts should run on any Unix-based system.
         They can be used for testing, automation, scheduled execution and such. It is usually much quicker to perform actions using CLI rather than the
         <a href="../user-interface/">user interface</a>, as well as easier to reproduce.</p>
-    <p>Some scripts correspond to a single request to LinkedDataHub, others combine others into tasks with multiple interdependent requests, such as CSV import.</p>
+    <p>Some scripts correspond to a single request to LinkedDataHub, others combine others into tasks with multiple interdependent requests, such as the CSV import.</p>
     <p>You will need to supply a <samp>.pem</samp> file of your <a href="../../get-started/#get-webid">WebID certificate</a> as well as its password as script arguments, among others.</p>
     <div class="alert alert-info">
-        <p>The CLI scripts use the environmental variable <code>$SCRIPT_ROOT</code>, which should point to the <samp>scripts</samp> in your LinkedDataHub fork.</p>
+        <p>The CLI scripts live in the <samp>bin</samp> folder and need to be added to the <code>$PATH</code> environmental variable. For example:</p>
+        <pre>export PATH="$(find bin -type d -exec realpath {} \\; | tr '\n' ':')$PATH"</pre>
         <p>They also use the <a href="https://jena.apache.org/documentation/tools/" target="_blank">Jena's CLI commands</a> internally, so make sure to have them on <code>$PATH</code> before running the scripts.</p>
     </div>
     <div>
@@ -46,10 +47,10 @@
     <div>
         <h2 id="usage">Usage</h2>
         <p>A usage message with parameters of a script is printed when the scripted is run without any arguments. There can be named parameters and default parameters, both of those can be optional. For example:</p>
-        <pre>~/WebRoot/AtomGraph/LinkedDataHub/scripts$ ./create-select.sh
+        <pre>$ create-select.sh
 Creates a SPARQL SELECT query.
 
-Usage:  ./create-select.sh options
+Usage:  create-select.sh options
 
 Options:
   -f, --cert-pem-file CERT_FILE        .pem file with the WebID certificate of the agent
@@ -66,10 +67,10 @@ Options:
   --service SERVICE_URI                URI of the SPARQL service specific to this query (optional)</pre>
         <p>The optional parameters are marked with <samp>(Optional)</samp>. In this case there is no default argument, but some scripts require document (named graph) URI as the default parameter, e.g. ontology document URL.</p>
         <p>This is how a <samp>create-select.sh</samp> invocation would look like:</p>
-        <pre>./create-select.sh \\
+        <pre>create-select.sh \\
   -b "$base" \\
-  -f "$cert_pem_file" \\
-  -p "$cert_password" \\
+  -f ./ssl/owner/cert.pem \\
+  -p "$owner_cert_password" \\
   --proxy "$proxy" \\
   --title "Select concepts" \\
   --slug select-concepts \\
@@ -78,164 +79,180 @@ Options:
     <div>
         <h2 id="scripts">Scripts</h2>
         <p>Currently supported:</p>
-        <div class="tabbable">
-          <ul class="nav nav-tabs">
-            <li class="active"><a>All versions</a></li>
-            <li><a>LinkedDataHub Cloud</a></li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Purpose</th>
-                            <th>Script</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th colspan="2">General</th>
-                        </tr>
-                        <tr>
-                            <td>Create document</td>
-                            <td><samp>create-document.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Update document</td>
-                            <td><samp>update-document.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create container</td>
-                            <td><samp>create-container.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create item</td>
-                            <td><samp>create-item.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create result set chart</td>
-                            <td><samp>create-result-set-chart.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create <code>SELECT</code> query</td>
-                            <td><samp>create-select.sh</samp></td>
-                        </tr>
-                    </tbody>
-                    <tbody>
-                        <tr>
-                            <th colspan="2">Imports</th>
-                        </tr>
-                        <tr>
-                            <td>Create file</td>
-                            <td><samp>imports/create-file.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create query</td>
-                            <td><samp>imports/create-query.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create CSV import</td>
-                            <td><samp>imports/create-csv-import.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Import CSV data</td>
-                            <td><samp>imports/import-csv.sh</samp></td>
-                        </tr>
-                    </tbody>
-                    <tbody>
-                        <tr>
-                            <th colspan="2"><a href="../administration/">Administration</a></th>
-                        </tr>
-                        <tr>
-                            <td>Add <code>owl:import</code> to ontology</td>
-                            <td><samp>admin/add-ontology-import.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Clear and reload ontology</td>
-                            <td><samp>admin/clear-ontology.sh</samp></td>
-                        </tr>
-                    </tbody>
-                    <tbody>
-                        <tr>
-                            <th colspan="2"><a href="../administration/acl/">Access control</a></th>
-                        </tr>
-                        <tr>
-                            <td>Add <a href="../administration/acl/#agents">agent</a> to <a href="../administration/acl/#groups">group</a></td>
-                            <td><samp>admin/acl/add-agent-to-group.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create <a href="../administration/acl/#authorizations">authorization</a></td>
-                            <td><samp>admin/acl/create-authorization.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create <a href="../administration/acl/#groups">group</a></td>
-                            <td><samp>admin/acl/create-group.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Make application publicly readable to any agent</td>
-                            <td><samp>admin/acl/make-public.sh</samp></td>
-                        </tr>
-                    </tbody>
-                    <tbody>
-                        <tr>
-                            <th colspan="2"><a href="../administration/model/">Model</a></th>
-                        </tr>
-                        <tr>
-                            <td>Create <a href="../administration/model/#classes">class</a></td>
-                            <td><samp>admin/model/create-class.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create <code>CONSTRUCT</code> query</td>
-                            <td><samp>admin/model/create-construct.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create <a href="../administration/model/#ontologies">ontology</a></td>
-                            <td><samp>admin/model/create-ontology.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create <a href="../administration/model/#constraints">property constraint</a></td>
-                            <td><samp>admin/model/create-property-constraint.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create <code>SELECT</code> query</td>
-                            <td><samp>admin/model/create-select.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Import ontology</td>
-                            <td><samp>admin/model/import-ontology.sh</samp></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="tab-pane">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Purpose</th>
-                            <th>Script</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th colspan="2">Dataspaces</th>
-                        </tr>
-                        <tr>
-                            <td>Create context</td>
-                            <td><samp>apps/create-context.sh</samp></td>
-                        </tr>
-                        <tr>
-                            <td>Create dataspace</td>
-                            <td><samp>apps/create-app.sh</samp></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-          </div>
-        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Purpose</th>
+                    <th>Script</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th colspan="2">Low-level (Graph Store Protocol)</th>
+                </tr>
+                <tr>
+                    <td><samp>GET</samp> request</td>
+                    <td><samp>get.sh</samp></td>
+                </tr>
+                <tr>
+                    <td><samp>POST</samp> request</td>
+                    <td><samp>post.sh</samp></td>
+                </tr>
+                <tr>
+                    <td><samp>PUT</samp> request</td>
+                    <td><samp>put.sh</samp></td>
+                </tr>
+                <tr>
+                    <td><samp>DELETE</samp> request</td>
+                    <td><samp>delete.sh</samp></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <th colspan="2">Documents</th>
+                </tr>
+                <tr>
+                    <td>Create document</td>
+                    <td><samp>create-document.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Create container document</td>
+                    <td><samp>create-container.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Create item document</td>
+                    <td><samp>create-item.sh</samp></td>
+                </tr>
+            </tbody>
+
+            <tbody>
+                <tr>
+                    <th colspan="2">Content</th>
+                </tr>
+                <tr>
+                    <td>Append object block (instance of <samp>ldh:Object</samp>) to document</td>
+                    <td><samp>add-object-block.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Append XHTML block (instance of <samp>ldh:XHTML</samp>) to document</td>
+                    <td><samp>add-xhtml-block.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Remove block from document</td>
+                    <td><samp>remove-block.sh</samp></td>
+                </tr>
+            </tbody>
+
+            <tbody>
+                <tr>
+                    <th colspan="2">Instances of system classes</th>
+                </tr>
+                <tr>
+                    <td>Append service (instance of <samp>ldh:GenericService</samp>) to document</td>
+                    <td><samp>add-generic-service.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Apend result set chart (instance of <samp>ldh:ResultSetChart</samp>) to document</td>
+                    <td><samp>add-result-set-chart.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Append <code>SELECT</code> query (instance of <samp>sp:Select</samp>) to document</td>
+                    <td><samp>add-select.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Append SPARQL view (instance of <samp>ldh:View</samp>) to document</td>
+                    <td><samp>add-view.sh</samp></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <th colspan="2"><a href="../imports/">Imports</a></th>
+                </tr>
+                <tr>
+                    <td>Create file</td>
+                    <td><samp>imports/create-file.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Create query</td>
+                    <td><samp>imports/create-query.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Create CSV import</td>
+                    <td><samp>imports/create-csv-import.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Import CSV data</td>
+                    <td><samp>imports/import-csv.sh</samp></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <th colspan="2"><a href="../administration/">Administration</a></th>
+                </tr>
+                <tr>
+                    <td>Add <code>owl:import</code> to ontology</td>
+                    <td><samp>admin/add-ontology-import.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Clear and reload ontology</td>
+                    <td><samp>admin/clear-ontology.sh</samp></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <th colspan="2"><a href="../administration/acl/">Access control</a></th>
+                </tr>
+                <tr>
+                    <td>Add <a href="../administration/acl/#agents">agent</a> to <a href="../administration/acl/#groups">group</a></td>
+                    <td><samp>admin/acl/add-agent-to-group.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Create <a href="../administration/acl/#authorizations">authorization</a></td>
+                    <td><samp>admin/acl/create-authorization.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Create <a href="../administration/acl/#groups">group</a></td>
+                    <td><samp>admin/acl/create-group.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Make application publicly readable to any agent</td>
+                    <td><samp>admin/acl/make-public.sh</samp></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <th colspan="2"><a href="../administration/ontologies/">Ontologies</a></th>
+                </tr>
+                <tr>
+                    <td>Create <a href="../administration/ontologies/#classes">class</a></td>
+                    <td><samp>admin/model/create-class.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Create <code>CONSTRUCT</code> query</td>
+                    <td><samp>admin/model/create-construct.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Create <a href="../administration/ontologies/#ontologies">ontology</a></td>
+                    <td><samp>admin/model/create-ontology.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Create <a href="../administration/ontologies/#constraints">property constraint</a></td>
+                    <td><samp>admin/model/create-property-constraint.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Create <code>SELECT</code> query</td>
+                    <td><samp>admin/model/create-select.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Import ontology</td>
+                    <td><samp>admin/model/import-ontology.sh</samp></td>
+                </tr>
+            </tbody>
+        </table>
         <p>Usage example:</p>
-        <pre>./create-file.sh https://localhost:4443/ \\
-  -f "$cert_pem_file" \\
-  -p "$cert_password" \\
+        <pre>create-file.sh https://localhost:4443/ \\
+  -f ./ssl/owner/cert.pem \\
+  -p "$owner_cert_password" \\
   --title "Friends" \\
   --file-slug 646af756-a49f-40da-a25e-ea8d81f6d306 \\
   --file friends.csv \\

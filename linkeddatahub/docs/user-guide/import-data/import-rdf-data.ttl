@@ -84,10 +84,10 @@
                 <div class="tab-pane">
                     <div>
                         <p>Checkout the <a href="../../../reference/command-line-interface/">Command line interface</a> (CLI) scripts into a folder on your machine. Provide a list of arguments to the <samp>import-rdf</samp> script and execute it. For example:</p>
-                        <pre>./import-rdf.sh \\
-    -b https://localhost:4443/ \\
-    -f "$cert_pem_file" \\
-    -p "$cert_password" \\
+                        <pre>import-rdf.sh \\
+    -b "https://localhost:4443/" \\
+    -f ./ssl/owner/cert.pem \\
+    -p "$owner_cert_password" \\
     --title "Concepts" \\
     --file concepts.ttl \\
     --file-content-type "text/turtle" \\
@@ -164,10 +164,10 @@
                 <div class="tab-pane">
                     <div>
                         <p>Checkout the <a href="../../../reference/command-line-interface/">Command line interface</a> (CLI) scripts into a folder on your machine. Provide a list of arguments to the <samp>import-rdf</samp> script and execute it. For example:</p>
-                        <pre>./import-rdf.sh \\
-    -b https://localhost:4443/ \\
-    -f "$cert_pem_file" \\
-    -p "$cert_password" \\
+                        <pre>import-rdf.sh \\
+    -b "https://localhost:4443/" \\
+    -f ./ssl/owner/cert.pem \\
+    -p "$owner_cert_password" \\
     --title "Concepts" \\
     --file concepts.ttl \\
     --file-content-type "text/turtle" \\

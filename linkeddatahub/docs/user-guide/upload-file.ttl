@@ -24,7 +24,7 @@
             <div class="tab-pane active">
                 <div>
                     <ol>
-                        <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner</li>
+                        <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
                         <li>Click on <samp>File</samp> in the drop-down list that appears</li>
                         <li>Fill out the mandatory <dfn>File</dfn> fields in the form:
                             <dl>
@@ -46,18 +46,14 @@
             </div>
             <div class="tab-pane">
                 <div>
-                    <p>Replace <code>$OWNER_KEY_PASSWORD</code> with its value from the <samp>.env</samp> file and execute the following command:</p>
-                    <pre>pushd . &amp;&amp; cd "$SCRIPT_ROOT/imports"
-
-./create-file.sh \\
+                    <p>Replace <samp>owner_cert_password</samp> with its value from the <samp>.env</samp> file and execute the following command:</p>
+                    <pre>create-file.sh \\
 -b "https://localhost:4443/" \\
--f "$cert_pem_file" \\
--p "$cert_password" \\
+-f ./ssl/owner/cert.pem \\
+-p "$owner_cert_password" \\
 --title "$title" \\
 --file "$filename" \\
---file-content-type "$content_type"
-
-popd</pre>
+--file-content-type "$content_type"</pre>
                 </div>
             </div>
         </div>

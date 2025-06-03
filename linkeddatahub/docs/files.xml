@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map xmlns="http://www.w3.org/2005/xpath-functions">
+  <array key="files">
+    <map>
+      <string key="name">images/create context.png</string>
+      <string key="sha1">44c15645d600ae3cb74ce7ba85e814726b631e25</string>
+    </map>
+    <map>
+      <string key="name">images/action.png</string>
+      <string key="sha1">4656ea9036a2b6d48a3233e0bc3cdc0f698ae0f2</string>
+    </map>
+    <map>
+      <string key="name">images/navigation bar.png</string>
+      <string key="sha1">cd27577395dec18a2b3fb5867feeb60fe828cb43</string>
+    </map>
+    <map>
+      <string key="name">images/ontologies.svg</string>
+      <string key="sha1">fbce3e0e3ea48e51985e999f4c3ef66e7a7aaa52</string>
+    </map>
+    <map>
+      <string key="name">images/request-access2.png</string>
+      <string key="sha1">e81e9a3b41b96016b6d81c1eb719e52a533a5733</string>
+    </map>
+    <map>
+      <string key="name">images/request-access1.png</string>
+      <string key="sha1">704f6e248ef0151a8241f1ef74e1b78225433fc7</string>
+    </map>
+    <map>
+      <string key="name">images/search.png</string>
+      <string key="sha1">8c4383351477a5405a9883d23d9255670b9396f7</string>
+    </map>
+    <map>
+      <string key="name">images/layout.png</string>
+      <string key="sha1">5aedc6ac31996b7332623edcd91dc3864c51df8c</string>
+    </map>
+    <map>
+      <string key="name">images/change-layout-default.png</string>
+      <string key="sha1">74b49af5c822acf41ad661d0d27a60443151838d</string>
+    </map>
+    <map>
+      <string key="name">images/browse-data.png</string>
+      <string key="sha1">8c2ccf560bd4d582310f472d7a7bd2584d9da4bf</string>
+    </map>
+    <map>
+      <string key="name">images/signup.png</string>
+      <string key="sha1">cf383c52ac014823a2627b055cca06b21d8fe8b0</string>
+    </map>
+    <map>
+      <string key="name">images/contexts.svg</string>
+      <string key="sha1">3cbf6ccd5f92b84111e2425263da050db0e4663f</string>
+    </map>
+    <map>
+      <string key="name">images/change-layout-suppress.png</string>
+      <string key="sha1">e1a566461208a41faee39238f395f2f79fec8421</string>
+    </map>
+    <map>
+      <string key="name">images/create edit.png</string>
+      <string key="sha1">fa4ec808c4dca4fe6b5a610d3e028ad48f8ed9af</string>
+    </map>
+    <map>
+      <string key="name">images/change-layout-augment.png</string>
+      <string key="sha1">38d12825c3927e2d5493ca76f2b744c7b5fe867b</string>
+    </map>
+    <map>
+      <string key="name">images/reference/data-management/resources/view-block.png</string>
+      <string key="sha1">97792fb1084524c89c92b6f99b070ac1b283d4f6</string>
+    </map>
+    <map>
+      <string key="name">images/reference/data-management/resources/query-block.png</string>
+      <string key="sha1">cbe31147634bb2be12f1a4f60ff56f690a33542e</string>
+    </map>
+    <map>
+      <string key="name">images/reference/data-management/resources/chart-block.png</string>
+      <string key="sha1">fde3b3b56d1ff518921f0a604cb45bbf0ae87650</string>
+    </map>
+    <map>
+      <string key="name">images/sparql endpoint.jpg</string>
+      <string key="sha1">9e1d4e69c4a0ae30f5fa373db839dc46b3569685</string>
+    </map>
+    <map>
+      <string key="name">videos/RequestAccess.mov</string>
+      <string key="sha1">759bf3041ddb8e19c63aeb6782065d15ecca7d3a</string>
+    </map>
+    <map>
+      <string key="name">videos/AddData.webm</string>
+      <string key="sha1">91f6ea24b8ab9bee4a0456cf2b72e0552e9aa42c</string>
+    </map>
+    <map>
+      <string key="name">videos/Create.webm</string>
+      <string key="sha1">490945931415b9ab201ed85f296a84c8a11134d1</string>
+    </map>
+    <map>
+      <string key="name">videos/ParallaxNav.gif</string>
+      <string key="sha1">ffb24b79848a40266d880638b0699c4c8a4e41ec</string>
+    </map>
+    <map>
+      <string key="name">videos/RequestAccess.webm</string>
+      <string key="sha1">5b699202e4ffcbb3b56b37b24b9537e83339c4c7</string>
+    </map>
+    <map>
+      <string key="name">videos/Edit.webm</string>
+      <string key="sha1">30d8cc764648ebd67497413b16a94fca56c8e1e4</string>
+    </map>
+    <map>
+      <string key="name">videos/View.webm</string>
+      <string key="sha1">d9ec2ef2b2f1268affa6deb3f3f971bdf6a56b64</string>
+    </map>
+    <map>
+      <string key="name">videos/Download.webm</string>
+      <string key="sha1">9f9c3fc45ed41d6dad05762b501512b002f0efc5</string>
+    </map>
+    <map>
+      <string key="name">videos/CreateContextDataspace.webm</string>
+      <string key="sha1">4c86a3410134d090a7bb7e178a6f82874bc66fa1</string>
+    </map>
+    <map>
+      <string key="name">videos/Delete.webm</string>
+      <string key="sha1">121916e2a51476351451c218b1a6dec9de2e7774</string>
+    </map>
+    <map>
+      <string key="name">videos/Upload.webm</string>
+      <string key="sha1">7db898019986d1aa0bfee7bd1423874d82cb0233</string>
+    </map>
+    <map>
+      <string key="name">videos/DocTree.gif</string>
+      <string key="sha1">092ae7413af1e6560ca90ae5eed89aea1b4ecd51</string>
+    </map>
+  </array>
+</map>

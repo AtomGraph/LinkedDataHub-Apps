@@ -14,18 +14,19 @@
     
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Learn how to create of built-in and user-defined classes</p>
+    <p class="lead">Learn how to create instances of built-in and user-defined classes</p>
     <p class="text-center">
         <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/4WXFm732H3I" width="560"></iframe>
     </p>
-    <p><dfn>Built-in classes</dfn> (such as <samp>Container</samp>, <samp>Item</samp>, <samp>SELECT</samp> etc.) ship with <a href="../../../reference/administration/model/#ontologies">system ontologies</a> in LinkedDataHub while <dfn>user-defined classes</dfn> come from ontologies imported by the user (see the user guide on <a href="../../change-model/">changing the model</a> on how to do that).</p>
+    <p><a href="../../../reference/data-model/resources/#built-in-classes">Built-in classes</a> (such as <samp>Container</samp>, <samp>Item</samp>, <samp>SELECT</samp> etc.) ship with <a href="../../../reference/administration/ontologies/#ontologies">system ontologies</a> in LinkedDataHub while <dfn>user-defined classes</dfn> come from ontologies imported by the user (see the user guide on <a href="../../change-model/">changing the model</a> on how to do that).</p>
+    <p>Note that in order to create class instances, you have to be in <a href="">properties mode</a>.</p>
     <div>
         <h2>Built-in classes</h2>
         <p>To create instances of built-in classes, follow these steps:</p>
         <ol>
-            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner</li>
+            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
             <li>In the drop-down list that appears click on the menu item of the class you want to create an instance for. An editing form will open.</li>
-            <li>Fill out the fields in the form that appeared. The mandatory properties are rendered in bold, without providing their values you will not be able to save the instance form.</li>
+            <li>Fill out the fields in the form that appears. The mandatory properties are rendered in bold, without providing their values you will not be able to save the instance form.</li>
             <li>Click <span class="btn btn-primary btn-save">Save</span></li>
             <li>In case there were errors such as missing or malformed values, an error message will be shown and the offending property and value will be highlighted. Fix them or you will not be able to save the instance form.</li>
         </ol>
@@ -35,16 +36,16 @@
         <h2>User-defined classes</h2>
         <p>To create instances of user-defined classes, follow these steps:</p>
         <ol>
-            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner</li>
+            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
             <li>Click on <samp>Instance</samp> in the drop-down list that appears. An editing form will open.</li>
             <li>In the resource of <samp>Type</samp> <samp>Instance</samp>, click on the <samp>Instance</samp> typeahead input, type the class name and select the class from the list</li>
-            <li>Fill out the fields in the form that appeared. The mandatory properties are rendered in bold, without providing their values you will not be able to save the instance form.</li>
+            <li>Fill out the fields in the form that appears. The mandatory properties are rendered in bold, without providing their values you will not be able to save the instance form.</li>
             <li>Click <span class="btn btn-primary btn-save">Save</span></li>
             <li>In case there were errors such as missing or malformed values, an error message will be shown and the offending property and value will be highlighted. Fix them or you will not be able to save the instance form.</li>
         </ol>
         <p>You will be redirected to the document of the newly created instance.</p>
         <div class="alert alert-info">
-            <p>You can only create instances of classes that have <a href="../../../reference/administration/model/#constructors">constructors</a>.</p>
+            <p>You can only create instances of classes that have <a href="../../../reference/administration/ontologies/#constructors">constructors</a>.</p>
         </div>
     </div>
 </div>"""^^rdf:XMLLiteral .

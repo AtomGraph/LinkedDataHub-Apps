@@ -17,15 +17,16 @@
     <p class="lead">LinkedDataHub dataspaces, applications, and services</p>
     <div>
         <h2 id="dataspaces">Dataspaces</h2>
-        <p>The LinkedDataHub URI address space is split into <dfn>dataspaces</dfn>. Every dataspace consists of a pair of LDT applications:
+        <p>The LinkedDataHub URI address space is split into <dfn>dataspaces</dfn>. Every dataspace consists of a pair of LinkedDataHub applications:
             <a href="#end-user-apps">end-user</a> and <a href="#admin-apps">administration</a>.</p>
         <p>The end-user app will be available on the given base URI; the admin app will be available
             at that base URI with <code>admin/</code> appended. The <a href="../administration/acl/#agents">agent</a> that installed the admin dataset will be the application <dfn>owner</dfn>.</p>
         <p>The <dfn>secretary</dfn> is a special agent which represents the software application itself. It is distinct from the owner agent and is used to delegate the owner's access.</p>
+        <p class="lead">See also the <a href="../administration/">administration reference</a>.</p>    
     </div>
     <div>
         <h2 id="applications">Applications</h2>
-        <p>All LDT applications have the following traits:</p>
+        <p>All LinkedDataHub applications have the following traits:</p>
         <dl>
             <dt>Base URI</dt>
             <dd>Base URI is a URI by which an application can be identified. All request URIs processed by an application are relative to one of its base URIs.</dd>
@@ -33,9 +34,9 @@
             <dt>Service</dt>
             <dd><a href="#services">SPARQL service</a></dd>
             <dt>Namespace ontology</dt>
-            <dd><a href="../administration/model/#ontologies">Ontology</a> that defines the terms (classes, properties, constraints etc.) of the application's domain. It can import
+            <dd><a href="../administration/ontologies/#ontologies">Ontology</a> that defines the terms (classes, properties, constraints etc.) of the application's domain. It can import
                 other ontologies from within the application as well as from external documents.</dd>
-            <dd>Ontologies as <a href="../administration/model/">managed in the administration</a> application.</dd>
+            <dd>Ontologies as <a href="../administration/ontologies/">managed in the administration</a> application.</dd>
         </dl>
         <div class="alert alert-info">
             <p>Base URI must end with a forward slash (<code>/</code>).</p>
@@ -45,45 +46,24 @@
             <dt>Stylesheet</dt>
             <dd><a href="../stylesheets/" target="_blank">XSLT stylesheet</a> that renders the applications layout</dd>
         </dl>
-        <div class="tabbable">
-          <ul class="nav nav-tabs">
-            <li class="active"><a>All versions</a></li>
-            <li><a>LinkedDataHub Cloud</a></li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active">
-                <div>
-                    <h3 id="end-user-apps">End-user</h3>
-                    <p>The base URI of an end-user application is also the base URI of its dataspace.</p>
-                    <p>Every end-user application is related to one <a href="#admin-apps">administration application</a>.</p>
-                </div>
-                <div>
-                    <h3 id="admin-apps">Administration</h3>
-                    <p>Every administration application is related to one <a href="#end-user-apps">end-user application</a>. It cannot exist standalone.</p>
-                    <p>The base URI(s) of an administration application is the base URI(s) of its end-user application with <code>admin/</code> appended
-                        to it. Note that any URIs in the end-user application that are equal or relative to the admin application base URI <em>will not
-                        be accessible</em>.</p>
-                    <p>Administration application provides means to control the <a href="../administration/model/">domain model</a> and the
-                        <a href="../administration/acl/">access control</a> of its end-user application. Only dataspace owners have access to its
-                        administration application.</p>
-                    <div class="alert alert-info">
-                        <p>The agent which installs the adminstration application dataset becomes <a href="../administration/acl/#groups">the owner</a> of
-                            its dataspace.</p>
-                    </div>
-                </div>
+        <div>
+            <h3 id="end-user-apps">End-user</h3>
+            <p>The base URI of an end-user application is also the base URI of its dataspace.</p>
+            <p>Every end-user application is related to one <a href="#admin-apps">administration application</a>.</p>
+        </div>
+        <div>
+            <h3 id="admin-apps">Administration</h3>
+            <p>Every administration application is related to one <a href="#end-user-apps">end-user application</a>. It cannot exist standalone.</p>
+            <p>The base URI(s) of an administration application is the base URI(s) of its end-user application with <code>admin/</code> appended
+                to it. Note that any URIs in the end-user application that are equal or relative to the admin application base URI <em>will not
+                be accessible</em>.</p>
+            <p>Administration application provides means to control the <a href="../administration/ontologies/">domain model</a> and the
+                <a href="../administration/acl/">access control</a> of its end-user application. Only dataspace owners have access to its
+                administration application.</p>
+            <div class="alert alert-info">
+                <p>The agent which installs the adminstration application dataset becomes <a href="../administration/acl/#groups">the owner</a> of
+                    its dataspace.</p>
             </div>
-            <div class="tab-pane">
-                <p class="text-center">
-                    <img alt="Dataspace hierarchy" src="../../uploads/3cbf6ccd5f92b84111e2425263da050db0e4663f"></img>
-                </p>
-                <div>
-                    <h3 id="contexts">Contexts</h3>
-                    <p>Contexts are special meta-applications that allow creation of dataspaces (that will belong to the context) and  also list public dataspaces that belong to them.</p>
-                    <p>The concept can be compared to <a href="https://tomcat.apache.org/tomcat-8.0-doc/config/context.html" target="_blank">servlet context</a>
-                        (to which multiple servlets can be added) in Java EE architecture. However, LinkedDataHub concepts and dataspaces are purely RDF data structures and not software artifacts.</p>
-                </div>
-            </div>
-          </div>
         </div>
         <p>LinkedDataHub imports the <a href="../dataset/#default-datasets">default datasets</a> for each application type
             into its service. The dataset URIs are rebased to be relative to the base URI of the application.</p>
@@ -115,6 +95,20 @@
             <h3 id="custom-services">Custom services</h3>
             <p>LinkedDataHub has extension points for vendor-specific SPARQL services, which can be used to implement proprietary authentication schemes, for example.</p>
         </div>
+    </div>
+    <div>
+        <h2 id="hierarchy">Document hierarchy</h2>
+        <p>The basic structure of resources in an application is analogous to the file system, but built using RDF
+            resources and relationships between them instead. There is a hierarchy of <dfn>containers</dfn> (folders),
+            which are collections of <dfn>items</dfn> (files) as well as sub-containers (sub-folders). Both containers
+            and items are <dfn>documents</dfn>. Items cannot contain other documents.</p>
+        <p>The first level of resources in a container is referred to as its <dfn>children</dfn> (of which that container
+            is the <dfn>parent</dfn>), while all levels down the hierarchy are collectively referred to as
+            <dfn>descendants</dfn>.</p>
+        <p>When a user logs in, the application loads its root container (unless a specific URI was requested). From there,
+            users can navigate down the resource hierarchy, starting with children of the <dfn>root container</dfn>. At
+            any moment there is only one <dfn>current document</dfn> per page, on which <a href="#manage">actions</a> can
+            be performed: it can be viewed, edited etc.</p>
     </div>
     <p class="lead">If you are ready to create a dataspace, see our step-by-step tutorial on <a href="../../user-guide/manage-dataspaces/">dataspace management</a>.</p>
 </div>"""^^rdf:XMLLiteral .

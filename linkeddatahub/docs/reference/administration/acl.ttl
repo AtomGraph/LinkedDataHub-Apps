@@ -65,7 +65,7 @@
         <h2 id="user-accounts">User accounts</h2>
         <p>User account is a subclass of the <a href="http://rdfs.org/sioc/spec/#term_UserAccount"><code>sioc:UserAccount</code></a>
             class. An account is the actual instance that performs actions on the application
-            (<a href="../reference/data-management/documents/#manage">manages documents</a>, <a href="../../user-guide/import-data/import-csv-data/">imports data</a> etc.). An
+            (<a href="../reference/data-model/documents/#manage">manages documents</a>, <a href="../../user-guide/import-data/import-csv-data/">imports data</a> etc.). An
             account always belongs to an <a href="#agents">agent</a>.</p>
     </div>
     -->

@@ -21,3 +21,9 @@ install:
 	else \
 		./install.sh "$${BASE_URL}" "$${CERT_PATH}" "$${PASSWORD}"; \
 	fi
+
+validate:
+	./validate-documents.sh
+
+ttl-to-html:
+	./ttl-to-html.sh

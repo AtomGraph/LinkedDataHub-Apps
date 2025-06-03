@@ -47,13 +47,13 @@
                               <div class="tab-content">
                                 <div class="tab-pane active">
                                     <p>Complete the <a href="../setup/">setup</a> and run own an instance of LinkedDataHub.</p>
-                                    <p>The <samp>ssl/owner/keystore.p12</samp> file is your WebID certificate. The password is the <samp>$owner_cert_pwd</samp> value you supplied <samp>./scripts/setup.sh</samp> file.</p>
+                                    <p>The <samp>ssl/owner/keystore.p12</samp> file is your WebID certificate. The password is the <samp>owner_cert_password</samp> Docker secret value.</p>
                                 </div>
                                 <div class="tab-pane">
                                     <p>Sign up to an existing instance of LinkedDataHub. Click the <span class="btn btn-primary">Sign up</span> button and fill out the form with your
                                         details to get a WebID, as shown below.</p>
                                     <p>
-                                        <img alt="Signup" src="../../uploads/8c17ca6be73aabfab3028d9b06b4878ef6c300e7"></img>
+                                        <img alt="Signup" src="../../uploads/cf383c52ac014823a2627b055cca06b21d8fe8b0"></img>
                                     </p>
                                     <p>You will get an email with a <samp>.p12</samp> file attached, which is your WebID certificate. The certificate's password is the one you entered in the signup form.</p>
                                 </div>

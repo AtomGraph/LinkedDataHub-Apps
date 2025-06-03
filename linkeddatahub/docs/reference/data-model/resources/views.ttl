@@ -1,0 +1,50 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+  
+<> a dh:Item ;
+    sioc:has_container <..> ;
+    dct:title "Views" ;
+    dct:description "Paginated views based on SPARQL queries" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Paginated views based on SPARQL queries</p>
+    <p>
+        <img alt="View" src="../../../../uploads/97792fb1084524c89c92b6f99b070ac1b283d4f6"></img>
+    </p>
+    <p>Views are interactive, paginated, and optionally ordered results of a SPARQL <code>SELECT</code> result set.
+    What is rendered in the UI is not directly the tabular result however, but descriptions of the resources selected
+    by the result set. That is achieved by on-the-fly SPARQL query rewriting: the <code>SELECT</code> is wrapped into
+    a <code>DESCRIBE</code> query; <code>DESCRIBE</code> reuses the same variables from the <code>SELECT</code> projection.
+    <em>This will not work for all <code>SELECT</code> queries.</em></p>
+    <p>To render paginated lists of resources, legacy applications would normally have a dedicated API endpoint that
+    supports pagination, ordering etc. In LinkedDataHub, views achieve the same functionality by simply building the
+    SPARQL query string on the client-side. Therefore views can be seen as client-side "containers".</p>
+    <p>Views can be rendered in multiple layout modes: properties, list, grid, table, map, chart etc. They also show
+    the total number of results and allow result ordering by property.</p>
+    <div>
+        <h2 id="layout-modes">Layout modes</h2>
+        <p>View results can be rendered using the same layout modes as the <a href="../../../user-interface/#layout-modes">document layout modes</a>.</p>
+    </div>
+    <div>
+        <h2 id="faceted-search">Faceted search</h2>
+        <p>On the left side, views provide faceted search which acts as a filter that narrows down the view results.</p>
+        <p>By default the facets are generic and inferred from the triple patterns of the SPARQL <code>SELECT</code> query used by the view. They can be <a href="../../../stylesheets/#overriding-templates">customized using XSLT</a>.</p>
+    </div>
+    <div>
+        <h2 id="parallax">Parallax navigation</h2>
+        <p>Parallax navigation is a rather unique navigation approach that lends itself perfectly to graph data. It is enabled for container content and shown as <samp>Related results</samp> on the right side of the view. Parallax allows "jumping" from a result set to a related result set using the selected RDF property. It works in
+            combination with faceted search which can be used to filter the initial result set.</p>
+        <p>For example, facets can be used to filter a set products that belong to a certain category, and then parallax can be used to jump to a set of companies that provide those products, and then further on to
+            a set representatives of those companies.</p>
+        <p>
+            <img alt="Related results" src="../../../../uploads/ffb24b79848a40266d880638b0699c4c8a4e41ec"></img>
+        </p>
+    </div>
+</div>"""^^rdf:XMLLiteral .

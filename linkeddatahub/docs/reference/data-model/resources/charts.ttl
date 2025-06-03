@@ -1,0 +1,31 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+  
+<> a dh:Item ;
+    sioc:has_container <..> ;
+    dct:title "Charts" ;
+    dct:description "Interactive charts based on SPARQL queries" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Interactive charts based on SPARQL queries</p>
+    <p>
+        <img alt="Chart" src="../../../../uploads/fde3b3b56d1ff518921f0a604cb45bbf0ae87650"></img>
+    </p>
+    <p>Charts can render results both types of SPARQL results:</p>
+    <ul>
+        <li>tabular <code>SELECT</code> results</li>
+        <li>graph results of <code>DESCRIBE</code> and <code>CONSTRUCT</code></li>
+    </ul>
+    <p>In that sense they are similar to the chart layout mode in 
+    <a href="../views/">views</a>, but charts also store the chart type as well as the category and series information: variable names in the
+    case of tabular results, and property URIs in the case of graph results.</p>
+    <p>The default chart type is the table. Other chart types might not apply to all result data; for example a
+    scatter chart will need a numeric or datetime values for both category and series.</p>
+</div>"""^^rdf:XMLLiteral .
