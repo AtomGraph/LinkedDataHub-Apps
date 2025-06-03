@@ -69,7 +69,7 @@ Options:
         <p>This is how a <samp>create-select.sh</samp> invocation would look like:</p>
         <pre>create-select.sh \\
   -b "$base" \\
-  -f "./ssl/owner/cert.pem" \\
+  -f ./ssl/owner/cert.pem \\
   -p "$owner_cert_password" \\
   --proxy "$proxy" \\
   --title "Select concepts" \\
@@ -284,7 +284,7 @@ Options:
         </div>
         <p>Usage example:</p>
         <pre>create-file.sh https://localhost:4443/ \\
-  -f "./ssl/owner/cert.pem" \\
+  -f ./ssl/owner/cert.pem \\
   -p "$owner_cert_password" \\
   --title "Friends" \\
   --file-slug 646af756-a49f-40da-a25e-ea8d81f6d306 \\

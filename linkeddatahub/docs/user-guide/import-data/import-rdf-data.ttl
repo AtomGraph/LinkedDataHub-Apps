@@ -86,7 +86,7 @@
                         <p>Checkout the <a href="../../../reference/command-line-interface/">Command line interface</a> (CLI) scripts into a folder on your machine. Provide a list of arguments to the <samp>import-rdf</samp> script and execute it. For example:</p>
                         <pre>import-rdf.sh \\
     -b "https://localhost:4443/" \\
-    -f "https://localhost:4443/" \\
+    -f ./ssl/owner/cert.pem \\
     -p "$owner_cert_password" \\
     --title "Concepts" \\
     --file concepts.ttl \\
@@ -166,7 +166,7 @@
                         <p>Checkout the <a href="../../../reference/command-line-interface/">Command line interface</a> (CLI) scripts into a folder on your machine. Provide a list of arguments to the <samp>import-rdf</samp> script and execute it. For example:</p>
                         <pre>import-rdf.sh \\
     -b "https://localhost:4443/" \\
-    -f "https://localhost:4443/" \\
+    -f ./ssl/owner/cert.pem \\
     -p "$owner_cert_password" \\
     --title "Concepts" \\
     --file concepts.ttl \\

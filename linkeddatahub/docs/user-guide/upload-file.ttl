@@ -49,7 +49,7 @@
                     <p>Replace <samp>owner_cert_password</samp> with its value from the <samp>.env</samp> file and execute the following command:</p>
                     <pre>create-file.sh \\
 -b "https://localhost:4443/" \\
--f "./ssl/owner/cert.pem" \\
+-f ./ssl/owner/cert.pem \\
 -p "$owner_cert_password" \\
 --title "$title" \\
 --file "$filename" \\

@@ -92,7 +92,7 @@ WHERE {}</pre>
 
 create-construct.sh \\
   -b "${base}admin/" \\
-  -f "https://localhost:4443/" \\
+  -f ./ssl/owner/cert.pem \\
   -p "$owner_cert_password" \\
   --uri "${base}ns#ConstructConcept" \\
   --label "Construct concept" \\
@@ -140,7 +140,7 @@ create-construct.sh \\
                     <div>
                         <pre>create-property-constraint.sh \\
   -b "$base" \\
-  -f "https://localhost:4443/" \\
+  -f ./ssl/owner/cert.pem \\
   -p "$owner_cert_password" \\
   --uri "https://localhost:4443/ns#MissingPrefLabel" \\
   --label "Missing skos:prefLabel" \\
@@ -186,7 +186,7 @@ create-construct.sh \\
                     <div>
                         <pre>create-class.sh \\
   -b "$base" \\
-  -f "https://localhost:4443/" \\
+  -f ./ssl/owner/cert.pem \\
   -p "$owner_cert_password" \\
   --uri "http://www.w3.org/2004/02/skos/core#Concept" \\
   --label "Concept" \\

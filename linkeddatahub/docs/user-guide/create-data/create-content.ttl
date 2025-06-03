@@ -75,7 +75,7 @@
                         <p>To add a new XHTML block with the value <samp>&lt;p&gt;A paragraph&lt;/p&gt;</samp>, replace <samp>owner_cert_password</samp> with the value of the corresponding secret and execute the following command:</p>
                         <pre>add-xhtml-block.sh \\
     -b "https://localhost:4443/" \\
-    -f "./ssl/owner/cert.pem" \\
+    -f ./ssl/owner/cert.pem \\
     -p "$owner_cert_password" \\
     --fragment "xhtml-block" \\
     --value "&lt;div xmlns=\\\\\\"http://www.w3.org/1999/xhtml\\\\\\"&gt;&lt;p&gt;A paragraph&lt;/p&gt;&lt;/div&gt;" \\
@@ -135,7 +135,7 @@
                         <p>To add a new object block with the value <samp>http://dbpedia.org/resource/Copenhagen</samp>, replace <samp>$owner_cert_password</samp> with the value of the corresponding secret and execute the following command:</p>
                         <pre>add-object-block.sh \\
     -b "https://localhost:4443/" \\
-    -f "./ssl/owner/cert.pem" \\
+    -f ./ssl/owner/cert.pem \\
     -p "$owner_cert_password" \\
     --fragment "object-block" \\
     --value "http://dbpedia.org/resource/Copenhagen" \\
