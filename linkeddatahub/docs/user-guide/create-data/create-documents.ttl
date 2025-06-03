@@ -18,7 +18,7 @@
     <p class="text-center">
         <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/paetjTkFBxE" width="560"></iframe>
     </p>
-    <p>To create a container document (which can have <a href="../../../reference/user-interface/documents/#hierarchy" target="_blank">children documents</a>) with a custom URL, follow these steps:</p>
+    <p>To create a container document (which can have <a href="../../../reference/data-model/documents/#hierarchy" target="_blank">children documents</a>) with a custom URL, follow these steps:</p>
     <div class="tabbable">
         <ul class="nav nav-tabs">
             <li class="active"><a>User interface</a></li>
@@ -60,5 +60,5 @@
         </div>
     </div>
     <p>A container titled <samp>Concepts</samp> should appear with the URI <a href="https://localhost:4443/concepts/" target="_blank">https://localhost:4443/concepts/</a>.</p>
-    <p class="lead"><a href="../../../reference/user-interface/documents/" target="_blank">Read more about document management.</a></p>
+    <p class="lead"><a href="../../../reference/data-model/documents/" target="_blank">Read more about document management.</a></p>
 </div>"""^^rdf:XMLLiteral .
