@@ -49,7 +49,7 @@
     </xsl:template>
     
     <xsl:template match="title/text()">
-        <xsl:value-of select=" 'LinkedDataHub v3 - ' || . "/>
+        <xsl:value-of select=" 'LinkedDataHub v5 - ' || . "/>
     </xsl:template>
     
     <xsl:template match="body">

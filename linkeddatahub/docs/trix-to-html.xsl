@@ -196,6 +196,7 @@
 						$parent-resource (: which is the parent resource :)
 					)
 				">
+					<xsl:sort select="convert:get-objects(/trix:trix/trix:graph, ., 'http://purl.org/dc/terms/title')"/>
 					<li>
 						<!-- mark the current document as active -->
 						<xsl:if test="convert:relativize-uri(convert:filename-for-resource(.), $base-uri) = ''">
