@@ -49,7 +49,7 @@
     </xsl:template>
     
     <xsl:template match="title/text()">
-        <xsl:value-of select=" 'LinkedDataHub v3 - ' || . "/>
+        <xsl:value-of select=" 'LinkedDataHub v5 - ' || . "/>
     </xsl:template>
     
     <xsl:template match="body">
@@ -64,11 +64,14 @@
                             <ul class="nav">
                                 <li class="active">
                                     <div class="btn-group">
-                                        <a class="btn" href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/">Documentation v3</a>
+                                        <a class="btn" href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/">Documentation v5</a>
                                         <button class="btn dropdown-toggle" data-toggle="dropdown">
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/v3/">Documentation v3</a>
+                                            </li>
                                             <li>
                                                 <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/v2/">Documentation v2</a>
                                             </li>
