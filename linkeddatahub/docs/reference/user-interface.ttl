@@ -96,4 +96,14 @@
             force-directed layout.</dd>
         </dl>
     </div>
+    <div>
+        <h2 id="creation-bar">Creation bar</h2>
+        <p>The creation bar serves different functions depending on the current mode:</p>
+        <dl>
+            <dt>Content</dt>
+            <dd>Appends new content blocks to the page</dd>
+            <dt>Other modes</dt>
+            <dd>Creates new resources of the selected type</dd>
+        </dl>
+    </div>
 </div>"""^^rdf:XMLLiteral .
