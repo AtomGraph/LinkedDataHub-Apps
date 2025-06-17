@@ -24,17 +24,15 @@
             the search box will not be visible if the user is not authorized to access the search container.</em></p>
     </div>
     <p>
-        <img alt="User interface" src="../../uploads/5aedc6ac31996b7332623edcd91dc3864c51df8c"></img>
+        <img alt="User interface" src="../../uploads/df0b96b07dc6730536cb11d169ed34dfb25ea403"></img>
     </p>
     <div>
         <h2 id="nav-bar">Navigation bar</h2>
         <p>
-            <img alt="Navigation bar" src="../../uploads/cd27577395dec18a2b3fb5867feeb60fe828cb43"></img>
+            <img alt="Navigation bar" src="../../uploads/ec8cb7afb9cf360c34e859f97646642eb0331518"></img>
         </p>
         <p>The application title or logo in the top-left always links to the root container of the current application.</p>
         <p><dfn>Search box</dfn> lets users search for resources within the current application that have the specified keyword in their titles, descriptions etc. Results are shown in a dropdown list.</p>
-        <p>Application's <dfn>SPARQL endpoint</dfn> is accessible on the right. It offers a query editor and a result
-        view. Learn more about query possibilities in the <a href="../../user-guide/query-data/">Query data</a> section.</p>
         <div class="alert alert-info">
             <p><em>Due to current web browser limitations, it is not possible to logout using client certificate authentication.
               As a workaround, you can close the browser, and click <span class="btn">Cancel</span> when asked to select a
@@ -44,7 +42,7 @@
     <div>
         <h2 id="action-bar">Action bar</h2>
         <p>
-            <img alt="Action bar" src="../../uploads/4656ea9036a2b6d48a3233e0bc3cdc0f698ae0f2"></img>
+            <img alt="Action bar" src="../../uploads/8a141225e1e96418aeb61da51b3b737454d9c01f"></img>
         </p>
         <p>The <span class="btn btn-primary create-action">Create <span class="caret"></span></span> button opens a dialog through which
         <a href="../data-model/documents/">documents</a> can be created.</p>
