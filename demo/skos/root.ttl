@@ -12,7 +12,7 @@
     rdf:_1 <#page-header> ;
     rdf:_2 <#select-children> .
 
-<#page-header> a ldh:Content ;
+<#page-header> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
         <div class="page-header">
             <h2>SKOS editor</h2>
@@ -20,5 +20,5 @@
         </div>
     </div>"""^^rdf:XMLLiteral .
 
-<#select-children> a ldh:Content ;
+<#select-children> a ldh:Object ;
     rdf:value ldh:ChildrenView .

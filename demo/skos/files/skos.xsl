@@ -60,12 +60,6 @@ exclude-result-prefixes="#all">
         </xsl:if>
     </xsl:template>
 
-    <xsl:template match="rdf:RDF[$ac:mode = '&ac;QueryEditorMode']" mode="xhtml:Style" priority="1">
-        <xsl:next-match/>
-        
-        <link href="{resolve-uri('static/css/yasqe.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>
-    </xsl:template>
-
     <!-- this template will match resources that have a skos:broader property which objects are found in the current graph -->
     <xsl:template match="*[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources-by-narrower', @rdf:about)] | *[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources', skos:broader/@rdf:resource)]" mode="bs2:Block" priority="1">
         <xsl:next-match/>

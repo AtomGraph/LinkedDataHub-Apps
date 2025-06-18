@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-[ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
-
 if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
   echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy]' >&2
   echo "Example: $0" 'https://localhost:4443/ ../../../ssl/owner/cert.pem Password [https://localhost:5443/]' >&2
@@ -21,9 +19,7 @@ fi
 
 pwd=$(realpath "$PWD")
 
-pushd . && cd "$SCRIPT_ROOT"/imports
-
-./import-rdf.sh \
+import-rdf.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -42,5 +38,3 @@ pushd . && cd "$SCRIPT_ROOT"/imports
 #  --query-file "$pwd/queries/skos-import.rq" \
 #  --file "$pwd/files/unesco-thesaurus.part2.ttl" \
 #  --file-content-type "text/turtle"
-
-popd > /dev/null

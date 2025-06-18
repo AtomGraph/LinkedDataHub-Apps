@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-[ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
-
 if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
   echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy]' >&2
   echo "Example: $0" 'https://localhost:4443/ ../../../ssl/owner/cert.pem Password [https://localhost:5443/]' >&2
@@ -21,29 +19,9 @@ fi
 
 pwd=$(realpath "$PWD")
 
-pushd . && cd "$SCRIPT_ROOT"
+# concepts
 
-select_concepts_doc=$(./create-select.sh \
-  -b "$base" \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --title "Select concepts" \
-  --slug select-concepts \
-  --query-file "$pwd/queries/select-concepts.rq"
-)
-
-select_concepts_ntriples=$(./get.sh \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --accept 'application/n-triples' \
-  "$select_concepts_doc"
-)
-
-select_concepts=$(echo "$select_concepts_ntriples" | sed -rn "s/<${select_concepts_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
-
-concept_container=$(./create-container.sh \
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -53,41 +31,49 @@ concept_container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-content.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  "$concept_container"
+  "$container"
 
-./append-content.sh \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --value "$select_concepts" \
-  "$concept_container"
+query_id="select-concepts-query"
 
-
-select_concept_schemes_doc=$(./create-select.sh \
+add-select.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --title "Select concept schemes" \
-  --slug select-concept-schemes \
-  --query-file "$pwd/queries/select-concept-schemes.rq"
-)
+  --title "Select concepts" \
+  --fragment "$query_id" \
+  --query-file "${pwd}/queries/select-concepts.rq" \
+  "$container"
 
-select_concept_schemes_ntriples=$(./get.sh \
+view_id="select-concepts-view"
+
+add-view.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --accept 'application/n-triples' \
-  "$select_concept_schemes_doc"
-)
+  --fragment "$view_id" \
+  --query "${container}#${query_id}" \
+  "$container"
 
-select_concept_schemes=$(echo "$select_concept_schemes_ntriples" | sed -rn "s/<${select_concept_schemes_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
+object_id="select-concepts"
 
-concept_scheme_container=$(./create-container.sh \
+add-object-block.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$object_id" \
+  --value "${container}#${view_id}" \
+  "$container"
+
+# concept schemes
+
+container=$(create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -97,17 +83,42 @@ concept_scheme_container=$(./create-container.sh \
   --parent "$base"
 )
 
-./remove-content.sh \
+remove-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  "$concept_scheme_container"
+  "$container"
 
-./append-content.sh \
+query_id="select-concept-schemes-query"
+
+add-select.sh \
+  -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --value "$select_concept_schemes" \
-  "$concept_scheme_container"
+  --title "Select concept schemes" \
+  --fragment "$query_id" \
+  --query-file "${pwd}/queries/select-concept-schemes.rq" \
+  "$container"
 
-popd
+view_id="select-concept-schemes-view"
+
+add-view.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$view_id" \
+  --query "${container}#${query_id}" \
+  "$container"
+
+object_id="select-concept-schemes"
+
+add-object-block.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$object_id" \
+  --value "${container}#${view_id}" \
+  "$container"
