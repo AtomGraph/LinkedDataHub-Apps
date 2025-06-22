@@ -43,6 +43,10 @@ printf "\n### Creating constraints\n\n"
 
 ./add-constraints.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
+printf "\n### Creating block templates\n\n"
+
+./post-class-templates.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+
 cd ..
 
 printf "\n### Clearing ontologies\n\n"

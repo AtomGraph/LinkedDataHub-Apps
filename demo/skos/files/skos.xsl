@@ -39,13 +39,12 @@ exclude-result-prefixes="#all">
     <xsl:key name="resources-by-narrower" match="*[@rdf:about] | *[@rdf:nodeID]" use="skos:narrower/@rdf:resource"/>
     <xsl:key name="resources-by-related" match="*[@rdf:about] | *[@rdf:nodeID]" use="skos:related/@rdf:resource"/>
 
-    <xsl:template match="rdf:RDF" mode="xhtml:Style">
+    <!-- <xsl:template match="rdf:RDF" mode="xhtml:Style">
         <xsl:param name="load-wymeditor" select="not(empty($foaf:Agent//@rdf:about))" as="xs:boolean"/>
 
         <link href="{resolve-uri('static/css/bootstrap.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>
         <link href="{resolve-uri('static/css/bootstrap-responsive.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>
         <link href="{resolve-uri('static/com/atomgraph/client/css/bootstrap.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>
-        <!-- override the CSS stylesheet with the on included in this app -->
         <link href="{resolve-uri('uploads/7266aea2cef4e442833433f80e46577144e8d668', $ldt:base)}" rel="stylesheet" type="text/css"/>
         <link href="{resolve-uri('static/com/atomgraph/linkeddatahub/css/bootstrap.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>
 
@@ -58,46 +57,10 @@ exclude-result-prefixes="#all">
         <xsl:if test="$load-wymeditor">
             <link href="{resolve-uri('static/com/atomgraph/linkeddatahub/js/wymeditor/skins/default/skin.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>
         </xsl:if>
-    </xsl:template>
+    </xsl:template> -->
 
-    <!-- this template will match resources that have a skos:broader property which objects are found in the current graph -->
-    <xsl:template match="*[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources-by-narrower', @rdf:about)] | *[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources', skos:broader/@rdf:resource)]" mode="bs2:Block" priority="1">
-        <xsl:next-match/>
-
-        <h3>Broader concepts</h3>
-        <ul>
-            <xsl:apply-templates select="key('resources-by-narrower', @rdf:about) | key('resources', skos:broader/@rdf:resource)" mode="bs2:List">
-                <xsl:sort select="ac:label(.)"/>
-            </xsl:apply-templates>
-        </ul>
-    </xsl:template>
-
-    <!-- this template will match resources that have a skos:narrower property which objects are found in the current graph -->
-    <xsl:template match="*[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources-by-broader', @rdf:about)] | *[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources', skos:narrower/@rdf:resource)]" mode="bs2:Block" priority="1">
-        <xsl:next-match/>
-
-        <h3>Narrower concepts</h3>
-        <ul>
-            <xsl:apply-templates select="key('resources-by-broader', @rdf:about) | key('resources', skos:narrower/@rdf:resource)" mode="bs2:List">
-                <xsl:sort select="ac:label(.)"/>
-            </xsl:apply-templates>
-        </ul>
-    </xsl:template>
-
-    <!-- this template will match resources that have a skos:related property which objects are found in the current graph -->
-    <xsl:template match="*[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources-by-related', @rdf:about)] | *[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources', skos:related/@rdf:resource)]" mode="bs2:Block" priority="1">
-        <xsl:next-match/>
-
-        <h3>Related concepts</h3>
-        <ul>
-            <xsl:apply-templates select="key('resources-by-related', @rdf:about) | key('resources', skos:related/@rdf:resource)" mode="bs2:List">
-                <xsl:sort select="ac:label(.)"/>
-            </xsl:apply-templates>
-        </ul>
-    </xsl:template>
-
-    <xsl:template match="*[key('resources', skos:narrower/@rdf:resource)/foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri] | *[key('resources', skos:broader/@rdf:resource)/foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri] | *[key('resources', skos:related/@rdf:resource)/foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri] | *[@rdf:about = key('resources', key('resources', $ac:uri)/foaf:primaryTopic/@rdf:resource)/skos:narrower/@rdf:resource] | *[@rdf:about = key('resources', key('resources', $ac:uri)/foaf:primaryTopic/@rdf:resource)/skos:broader/@rdf:resource] | *[@rdf:about = key('resources', key('resources', $ac:uri)/foaf:primaryTopic/@rdf:resource)/skos:related/@rdf:resource]" mode="bs2:Block"/>
-
-    <xsl:template match="*[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources', skos:broader/@rdf:resource)]/skos:broader | *[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources', skos:narrower/@rdf:resource)]/skos:narrower | *[foaf:isPrimaryTopicOf/@rdf:resource = $ac:uri][key('resources', skos:related/@rdf:resource)]/skos:related" mode="bs2:PropertyList"/>
-
+    <xsl:template match="skos:narrower | skos:broader | skos:related" mode="bs2:PropertyList"/>
+        
+        
+    
 </xsl:stylesheet>
