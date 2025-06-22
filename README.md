@@ -69,28 +69,24 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
     <dd>342 lines of installation shell scripts</dd>
 </dl>
 
-### Life sciences
-
-![Life sciences ChEMBL chart](../../raw/master/demo/life-sciences/screenshot.png "Life sciences ChEMBL chart")
-
-**Browser over a collection of molecules as well as a bar chart rendered from a SPARQL result.**
-
-<dl>
-    <dt>Source</dt>
-    <dd><a href="../../tree/master/demo/life-sciences/" target="_blank">demo/life-sciences/</a></dd>
-    <dt>Features</dt>
-    <dd>Charts</dd>
-    <dt>Lines of code</dt>
-    <dd>0 lines of imperative code</dd>
-    <dd>37 lines of SPARQL</dd>
-    <dd>153 lines of installation shell scripts</dd>
-</dl>
-
 ### SKOS
 
 ![SKOS editor view](../../raw/master/demo/skos/screenshot.png "SKOS editor view")
 
 **Basic SKOS editor with a custom UI theme. Concepts and concept schemas can be created, edited, and linked with each other. Ontology types have separate URI templates; required instance properties are validated using constraints.**
+
+_This app uses custom XSLT and CSS stylesheets; those need to be mounted as well as configured in LinkedDataHub to take effect._ For example:
+
+`docker-compose.yml`:
+```yaml
+      - ../LinkedDataHub-Apps/demo/skos/files/skos.xsl:/usr/local/tomcat/webapps/ROOT/static/com/linkeddatahub/demo/skos/xsl/bootstrap/2.3.2/layout.xsl:ro
+      - ../LinkedDataHub-Apps/demo/skos/files/bootstrap.min.css:/usr/local/tomcat/webapps/ROOT/static/com/linkeddatahub/demo/skos/css/bootstrap.css:ro
+```
+
+`config/system-varnish.trig`:
+```
+<urn:linkeddatahub:apps/end-user> ac:stylesheet <static/com/linkeddatahub/demo/skos/xsl/bootstrap/2.3.2/layout.xsl> .
+```
 
 <dl>
     <dt>Source</dt>
