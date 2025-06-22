@@ -102,8 +102,8 @@
         <dl>
             <dt>Content</dt>
             <dd>Appends new content blocks to the page</dd>
-            <dt>Other modes</dt>
-            <dd>Creates new resources of the selected type</dd>
+            <dt>Properties</dt>
+            <dd>Creates new resource of the selected type</dd>
         </dl>
     </div>
 </div>"""^^rdf:XMLLiteral .
