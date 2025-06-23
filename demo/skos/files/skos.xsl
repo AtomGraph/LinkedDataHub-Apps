@@ -39,7 +39,7 @@ exclude-result-prefixes="#all">
 
         <!-- inject custom Bootstrap theme that overrides the default one -->
         <link href="{resolve-uri('static/com/linkeddatahub/demo/skos/css/bootstrap.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>
-        <!-- re-apply LinkedDataHub's Boostratp customizations -->
+        <!-- re-apply LinkedDataHub's Bootstrap customizations -->
         <link href="{resolve-uri('static/com/atomgraph/linkeddatahub/css/bootstrap.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>
 
         <xsl:if test="$load-wymeditor">
