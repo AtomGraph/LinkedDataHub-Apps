@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-[ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
-
 if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
   echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy]' >&2
   echo "Example: $0" 'https://localhost:4443/ ../../../ssl/owner/cert.pem Password [https://localhost:5443/]' >&2
@@ -19,10 +17,8 @@ else
     proxy="$base"
 fi
 
-pushd . && cd "$SCRIPT_ROOT"
-
 parent=$(
-./create-container.sh \
+create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -36,7 +32,7 @@ if [ -z "$parent" ]; then
     exit 1
 fi
 
-./create-container.sh \
+create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -46,7 +42,7 @@ fi
   --parent "$parent" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
-./create-container.sh \
+create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -56,7 +52,7 @@ fi
   --parent "$parent" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
-./create-container.sh \
+create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -66,7 +62,7 @@ fi
   --parent "$parent" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
-./create-container.sh \
+create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -76,7 +72,7 @@ fi
   --parent "$parent" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
-./create-container.sh \
+create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -86,7 +82,7 @@ fi
   --parent "$parent" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
-./create-container.sh \
+create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -96,7 +92,7 @@ fi
   --parent "$parent" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
-./create-container.sh \
+create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -106,7 +102,7 @@ fi
   --parent "$parent" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
-./create-container.sh \
+create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -116,7 +112,7 @@ fi
   --parent "$parent" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
-./create-container.sh \
+create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -125,5 +121,3 @@ fi
   --slug "public-toilets" \
   --parent "$parent" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
-
-popd

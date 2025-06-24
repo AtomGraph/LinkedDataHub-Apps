@@ -19,17 +19,13 @@ fi
 
 printf "\n### Creating authorization to make the app public\n\n"
 
-"$SCRIPT_ROOT"/admin/acl/make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
+make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
 
 cd admin/model
 
-# printf "\n### Adding schema.org import to domain ontology\n\n"
-# disable schema.org as import because its URI does not resolve to an ontology
-# ./add-imports.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
-
 printf "\n### Creating classes\n\n"
 
-./create-classes.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+./add-classes.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
 cd ..
 

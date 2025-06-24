@@ -23,8 +23,6 @@ path="${filename%.*}" # strip the extension
 path="${path#*$pwd/}" # strip the leading $pwd/
 path="${path}/" # add trailing slash
 
-pushd . && cd "$SCRIPT_ROOT"
-
 printf "\n### Updating %s\n" "${base}${path}"
 
 cat "$filename" | turtle --base="${base}${path}" | put.sh \
@@ -33,5 +31,3 @@ cat "$filename" | turtle --base="${base}${path}" | put.sh \
   --proxy "$proxy" \
   -t "application/n-triples" \
   "${base}${path}"
-
-popd

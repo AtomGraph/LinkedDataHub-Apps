@@ -1,22 +1,11 @@
 PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
-PREFIX  foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX  sioc: <http://rdfs.org/sioc/ns#>
 
 SELECT DISTINCT  ?concept ?doc
 WHERE
   { GRAPH ?doc
-      { ?doc  sioc:has_container  $this ;
-              foaf:primaryTopic   ?concept
-        GRAPH ?conceptGraph
-          { ?concept  skos:prefLabel  ?prefLabel }
-        OPTIONAL
-          { GRAPH ?broaderGraph
-              { ?concept  skos:broader  ?broader }
-          }
-        OPTIONAL
-          { GRAPH ?relatedGraph
-              { ?concept  skos:related  ?related }
-          }
+      { ?concept
+                  a               skos:Concept ;
+                  skos:prefLabel  ?prefLabel
       }
   }
 ORDER BY ?prefLabel

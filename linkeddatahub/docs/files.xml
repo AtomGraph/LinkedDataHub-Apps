@@ -2,6 +2,10 @@
 <map xmlns="http://www.w3.org/2005/xpath-functions">
   <array key="files">
     <map>
+      <string key="name">images/.DS_Store</string>
+      <string key="sha1">cfbb2af0822a6f6971398c3159fa29ca24e52ee0</string>
+    </map>
+    <map>
       <string key="name">images/create context.png</string>
       <string key="sha1">44c15645d600ae3cb74ce7ba85e814726b631e25</string>
     </map>
@@ -28,10 +32,6 @@
     <map>
       <string key="name">images/search.png</string>
       <string key="sha1">8c4383351477a5405a9883d23d9255670b9396f7</string>
-    </map>
-    <map>
-      <string key="name">images/layout.png</string>
-      <string key="sha1">5aedc6ac31996b7332623edcd91dc3864c51df8c</string>
     </map>
     <map>
       <string key="name">images/change-layout-default.png</string>
@@ -62,6 +62,10 @@
       <string key="sha1">38d12825c3927e2d5493ca76f2b744c7b5fe867b</string>
     </map>
     <map>
+      <string key="name">images/reference/.DS_Store</string>
+      <string key="sha1">da234ea94b5835d618a1f9926f548bb3e36f3f1d</string>
+    </map>
+    <map>
       <string key="name">images/reference/data-management/resources/view-block.png</string>
       <string key="sha1">97792fb1084524c89c92b6f99b070ac1b283d4f6</string>
     </map>
@@ -72,6 +76,18 @@
     <map>
       <string key="name">images/reference/data-management/resources/chart-block.png</string>
       <string key="sha1">fde3b3b56d1ff518921f0a604cb45bbf0ae87650</string>
+    </map>
+    <map>
+      <string key="name">images/reference/user-interface/layout.png</string>
+      <string key="sha1">df0b96b07dc6730536cb11d169ed34dfb25ea403</string>
+    </map>
+    <map>
+      <string key="name">images/reference/user-interface/action-bar.png</string>
+      <string key="sha1">8a141225e1e96418aeb61da51b3b737454d9c01f</string>
+    </map>
+    <map>
+      <string key="name">images/reference/user-interface/navigation-bar.png</string>
+      <string key="sha1">ec8cb7afb9cf360c34e859f97646642eb0331518</string>
     </map>
     <map>
       <string key="name">images/sparql endpoint.jpg</string>

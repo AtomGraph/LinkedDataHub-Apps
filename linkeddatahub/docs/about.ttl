@@ -19,9 +19,6 @@
         It can also be used as an RDF-native content management platform.</p>
     <p>LinkedDataHub is an open source project that has its roots as a Linked Data publishing framework. However, since the 3.x release we have focused on Linked Data consumption, as we consider
             publishing a solved problem but continue to see a shortage of user-friendly consumption tools.</p>
-    <p class="text-center">
-        <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/LaOouEYhp_c" width="560"></iframe>
-    </p>
     <div>
         <h2 id="platform">Low code application platform</h2>
         <p>LinkedDataHub is also a low code RDF Knowledge Graph application platform. It offers comprehensive development and management features:</p>
@@ -36,6 +33,9 @@
     </div>
     <div>
         <h2 id="kms">Federated knowledge management and collaboration system</h2>
+        <p class="text-center">
+            <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/LaOouEYhp_c" width="560"></iframe>
+        </p>
         <p>As an RDF-native CMS, LinkedDataHub provides a number of features for end-users:</p>
         <ul>
             <li><a href="../user-guide/create-data/create-content/" target="_blank">creating structured content</a> from Linked Data and SPARQL resources (<strong>new in 3.x</strong>)</li>

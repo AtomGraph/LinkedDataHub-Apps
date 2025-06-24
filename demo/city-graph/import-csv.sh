@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-[ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
-
 if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
   echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy]' >&2
   echo "Example: $0" 'https://localhost:4443/ ../../../ssl/owner/cert.pem Password [https://localhost:5443/]' >&2
@@ -26,8 +24,6 @@ files=()
 
 pwd=$(realpath "$PWD")
 
-pushd . && cd "$SCRIPT_ROOT"/imports
-
 arr_csv=() 
 while IFS= read -r line 
 do
@@ -45,7 +41,7 @@ do
     
     # create query
 
-    query_doc=$(./create-query.sh \
+    query_doc=$(create-query.sh \
       -b "$base" \
       -f "$cert_pem_file" \
       -p "$cert_password" \
@@ -53,23 +49,19 @@ do
       --title "$title" \
       --query-file "$pwd/${query_filename}")
 
-    pushd . > /dev/null && cd "$SCRIPT_ROOT"
-
-    query_ntriples=$(./get.sh \
+    query_ntriples=$(get.sh \
       -f "$cert_pem_file" \
       -p "$cert_password" \
       --proxy "$proxy" \
       --accept 'application/n-triples' \
       "$query_doc")
 
-    popd > /dev/null
-
     query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
     queries+=("$query")
 
     # upload file
 
-    file_doc=$(./create-file.sh \
+    file_doc=$(create-file.sh \
       -b "$base" \
       -f "$cert_pem_file" \
       -p "$cert_password" \
@@ -78,16 +70,12 @@ do
       --file "$pwd/${csv_filename}" \
       --file-content-type "text/csv")
 
-    pushd . > /dev/null && cd "$SCRIPT_ROOT"
-
-    file_ntriples=$(./get.sh \
+    file_ntriples=$(get.sh \
       -f "$cert_pem_file" \
       -p "$cert_password" \
       --proxy "$proxy" \
       --accept 'application/n-triples' \
       "$file_doc")
-
-    popd > /dev/null
 
     file=$(echo "$file_ntriples" | sed -rn "s/<${file_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
     files+=("$file")
@@ -102,7 +90,7 @@ done
 for i in "${!files[@]}"; do
     printf "\n### Importing CSV from %s\n\n" "${files[$i]}"
 
-    ./create-csv-import.sh \
+    create-csv-import.sh \
       -b "$base" \
       -f "$cert_pem_file" \
       -p "$cert_password" \
@@ -112,5 +100,3 @@ for i in "${!files[@]}"; do
       --file "${files[$i]}" \
       --delimiter ","
 done
-
-popd

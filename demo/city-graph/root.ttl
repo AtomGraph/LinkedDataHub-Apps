@@ -17,7 +17,7 @@
     rdf:_5 <#check-out> ;
     rdf:_6 <#select-children> .
 
-<#page-header> a ldh:Content ;
+<#page-header> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
         <div class="page-header">
             <h2>City Graph</h2>
@@ -30,22 +30,22 @@
         <p>For example, below we have embedded Copenhagen's Main Library in map mode.</p>
     </div>"""^^rdf:XMLLiteral .
 
-<#main-library> a ldh:Content ;
+<#main-library> a ldh:Object ;
     rdf:value <copenhagen/places/stednavn_punkt.fid-361ad8c1_150a94a2aab_-83b/> ;
     ac:mode ac:MapMode .
 
-<#charts> a ldh:Content ;
+<#charts> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
         <p>What are the largest parking facilities in Copenhagen? Let's find out in this SPARQL-driven chart.</p>
     </div>"""^^rdf:XMLLiteral .
 
-<#largest-parkings> a ldh:Content ;
+<#largest-parkings> a ldh:Object ;
     rdf:value <charts/largest-parkings/#this> .
 
-<#check-out> a ldh:Content ;
+<#check-out> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
         <p>Check out the rest of Copenhagen's geodata in the collection below.</p>
     </div>"""^^rdf:XMLLiteral .
 
-<#select-children> a ldh:Content ;
+<#select-children> a ldh:Object ;
     rdf:value ldh:ChildrenView .

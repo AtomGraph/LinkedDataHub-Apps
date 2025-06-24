@@ -1,0 +1,52 @@
+@prefix :	    <#> .
+@prefix ldh:	<https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sp:	<http://spinrdf.org/sp#> .
+@prefix spin:	<http://spinrdf.org/spin#> .
+@prefix dct:	<http://purl.org/dc/terms/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+# narrower
+
+skos:Concept ldh:template <../../../ns#NarrowerConcepts>.
+
+<../../../ns#NarrowerConcepts> a ldh:View ;
+    dct:title "Narrower concepts" ;
+    spin:query <../../../ns#SelectNarrowerConcepts> ;
+    rdfs:isDefinedBy <../../../ns#> .
+
+<../../../ns#SelectNarrowerConcepts> a sp:Select ;
+    rdfs:label "Select narrower concepts" ;
+    sp:text """
+PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT DISTINCT  ?narrower
+WHERE
+  { GRAPH ?narrowerGraph
+      { $about  skos:narrower  ?narrower }
+  }
+""" ;
+    rdfs:isDefinedBy <../../../ns#> .
+
+# broader
+
+skos:Concept ldh:template <../../../ns#BroaderConcepts>.
+
+<../../../ns#BroaderConcepts> a ldh:View ;
+    dct:title "Broader concepts" ;
+    spin:query <../../../ns#SelectBroaderConcepts> ;
+    rdfs:isDefinedBy <../../../ns#> .
+
+<../../../ns#SelectBroaderConcepts> a sp:Select ;
+    rdfs:label "Select broader concepts" ;
+    sp:text """
+PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT DISTINCT  ?broader
+WHERE
+  { GRAPH ?broaderGraph
+      { $about  skos:broader  ?broader }
+  }
+""" ;
+    rdfs:isDefinedBy <../../../ns#> .
+

@@ -23,7 +23,7 @@ pushd .
 
 printf "\n### Creating authorization to make the app public\n\n"
 
-"$SCRIPT_ROOT"/admin/acl/make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
+make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
 
 printf "\n### Creating authorizations\n\n"
 
@@ -41,7 +41,11 @@ printf "\n### Import ontologies\n\n"
 
 printf "\n### Creating constraints\n\n"
 
-./create-constraints.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+./add-constraints.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+
+printf "\n### Creating block templates\n\n"
+
+./post-class-templates.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
 cd ..
 
@@ -51,11 +55,9 @@ printf "\n### Clearing ontologies\n\n"
 
 popd
 
-printf "\n### Uploading CSS/XSLT files\n\n"
+printf "\n### Uploading files\n\n"
 
-./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "${pwd}/files/bootstrap.min.css" 'text/css' "$proxy"
-
-./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "${pwd}/files/skos.xsl" 'text/xsl' "$proxy"
+find "${pwd}/files" -type f -exec ./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
 
 printf "\n### Creating containers\n\n"
 

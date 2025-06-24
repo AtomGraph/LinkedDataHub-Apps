@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-[ -z "$SCRIPT_ROOT" ] && echo "Need to set SCRIPT_ROOT" && exit 1;
-
 if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
   echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy]' >&2
   echo "Example: $0" 'https://localhost:4443/demo/skos/ ../../../../../ssl/owner/cert.pem Password [https://localhost:5443/]' >&2
@@ -19,9 +17,7 @@ else
     proxy="$base"
 fi
 
-pushd . && cd "$SCRIPT_ROOT"
-
-skos_doc=$(./create-item.sh \
+skos_doc=$(create-item.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -31,11 +27,7 @@ skos_doc=$(./create-item.sh \
   --container "${base}admin/ontologies/"
 )
 
-popd
-
-pushd . && cd "$SCRIPT_ROOT"/admin/model
-
-./import-ontology.sh \
+import-ontology.sh \
   -b "${base}admin/" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -43,15 +35,9 @@ pushd . && cd "$SCRIPT_ROOT"/admin/model
   --source "http://www.w3.org/2004/02/skos/core" \
   --graph "$skos_doc"
 
-popd
-
-pushd . && cd "$SCRIPT_ROOT/admin"
-
-./add-ontology-import.sh \
+add-ontology-import.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
   --import "http://www.w3.org/2004/02/skos/core" \
   "${base}admin/ontologies/namespace/"
-
-popd
