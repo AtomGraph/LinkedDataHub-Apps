@@ -75,10 +75,18 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
 
 **Basic SKOS editor with a custom UI theme. Concepts and concept schemas can be created, edited, and linked with each other. Ontology types have separate URI templates; required instance properties are validated using constraints.**
 
-_This app uses custom XSLT and CSS stylesheets; those need to be mounted as well as configured in LinkedDataHub to take effect._ For example:
+_This app uses custom XSLT and CSS stylesheets; those need to be mounted as well as configured in LinkedDataHub to take effect. The max request payload size needs to be increased as well to accomodate the taxonomy file import._ For example:
 
-`docker-compose.yml`:
+`.env`:
+```
+MAX_CONTENT_LENGTH=4194304
+```
+
+`docker-compose.override.yml`:
 ```yaml
+services:
+  linkeddatahub:
+    volumes:
       - ../LinkedDataHub-Apps/demo/skos/files/skos.xsl:/usr/local/tomcat/webapps/ROOT/static/com/linkeddatahub/demo/skos/xsl/bootstrap/2.3.2/layout.xsl:ro
       - ../LinkedDataHub-Apps/demo/skos/files/bootstrap.min.css:/usr/local/tomcat/webapps/ROOT/static/com/linkeddatahub/demo/skos/css/bootstrap.css:ro
 ```

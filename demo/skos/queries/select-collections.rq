@@ -1,10 +1,9 @@
 PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
-
 SELECT DISTINCT  ?concept ?doc
 WHERE
   { GRAPH ?doc
       { ?concept
-                  a               skos:Concept ;
+                  a               skos:Collection ;
                   skos:prefLabel  ?prefLabel
       }
   }

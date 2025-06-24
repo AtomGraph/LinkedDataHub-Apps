@@ -71,6 +71,58 @@ add-object-block.sh \
   --value "${container}#${view_id}" \
   "$container"
 
+# collections
+
+container=$(create-container.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --title "Collections" \
+  --slug "collections" \
+  --parent "$base"
+)
+
+remove-block.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  "$container"
+
+query_id="select-collections-query"
+
+add-select.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --title "Select collections" \
+  --fragment "$query_id" \
+  --query-file "${pwd}/queries/select-collections.rq" \
+  "$container"
+
+view_id="select-collections-view"
+
+add-view.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$view_id" \
+  --query "${container}#${query_id}" \
+  "$container"
+
+object_id="select-collections"
+
+add-object-block.sh \
+  -b "$base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$proxy" \
+  --fragment "$object_id" \
+  --value "${container}#${view_id}" \
+  "$container"
+
 # concept schemes
 
 container=$(create-container.sh \

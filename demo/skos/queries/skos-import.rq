@@ -6,34 +6,66 @@ PREFIX dct:   <http://purl.org/dc/terms/>
 
 CONSTRUCT
 {
-    GRAPH ?item
+    GRAPH ?subjItem
     {
-        ?thing ?p ?o .
-        ?item a dh:Item ;
-            sioc:has_container ?container ;
+        ?newSubj ?p ?newObj .
+        ?subjItem a dh:Item ;
+            sioc:has_container ?subjContainer ;
             dct:title ?prefLabel ;
-            foaf:primaryTopic ?thing .
+            foaf:primaryTopic ?newSubj .
     }
 }
 WHERE
-{
-    SELECT *
-    {
-        {
-            ?thing a skos:Concept
-            BIND (uri(concat(str($base), "concepts/")) AS ?container)
-        }
+  { SELECT  *
+    WHERE
+      {
+        # rewrite subject URIs
+
+           { ?s  a  skos:Concept
+            BIND(URI(concat(str($base), "concepts/")) AS ?subjContainer)
+            BIND(strafter(str(?s), "http://vocabularies.unesco.org/thesaurus/") AS ?subjId)
+          }
         UNION
-        {
-            ?thing a skos:ConceptScheme
-            BIND (uri(concat(str($base), "concept-schemes/")) AS ?container)
-        }
-        BIND (uri(concat(str(?container), STRUUID(), "/")) AS ?item)
-        ?thing ?p ?o
+          { ?s  a  skos:Collection
+            BIND(URI(concat(str($base), "collections/")) AS ?subjContainer)
+            BIND(strafter(str(?s), "http://vocabularies.unesco.org/thesaurus/") AS ?subjId)
+          }
+        UNION
+          { ?s  a  skos:ConceptScheme
+            BIND(URI(concat(str($base), "concept-schemes/")) AS ?subjContainer)
+            BIND("unesco-thesaurus" AS ?subjId)
+          }
+        BIND(URI(concat(str(?subjContainer), ?subjId, "/")) AS ?subjItem)
+        BIND(URI(concat(str(?subjItem), "#this")) AS ?newSubj)
+
+        ?s  ?p  ?o
+
         OPTIONAL
         {
-            ?thing skos:prefLabel ?prefLabel
-            FILTER (langMatches(lang(?prefLabel), "en"))
+            # rewrite object URIs
+
+            { ?o  a  skos:Concept
+                BIND(URI(concat(str($base), "concepts/")) AS ?objContainer)
+                BIND(strafter(str(?o), "http://vocabularies.unesco.org/thesaurus/") AS ?objId)
+            }
+            UNION
+            { ?o  a  skos:Collection
+                BIND(URI(concat(str($base), "collections/")) AS ?objContainer)
+                BIND(strafter(str(?o), "http://vocabularies.unesco.org/thesaurus/") AS ?objId)
+            }
+            UNION
+            { ?o  a  skos:ConceptScheme
+                BIND(URI(concat(str($base), "concept-schemes/")) AS ?objContainer)
+                BIND("unesco-thesaurus" AS ?objId)
+            }
+            BIND(URI(concat(str(?objContainer), ?objId, "/")) AS ?objItem)
+            BIND(URI(concat(str(?objItem), "#this")) AS ?newObjUri)
         }
-    }
-}
+        BIND (COALESCE(?newObjUri, ?o) AS ?newObj)
+        
+        OPTIONAL
+          { ?s  skos:prefLabel  ?prefLabel
+            FILTER langMatches(lang(?prefLabel), "en")
+          }
+      }
+  }

@@ -24,17 +24,7 @@ import-rdf.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --title "UN thesaurus SKOS (part 1)" \
+  --title "UN thesaurus SKOS" \
   --query-file "$pwd/queries/skos-import.rq" \
-  --file "$pwd/files/unesco-thesaurus.part1.ttl" \
+  --file "$pwd/files/unesco-thesaurus.ttl" \
   --file-content-type "text/turtle"
-
-./import-rdf.sh \
- -b "$base" \
- -f "$cert_pem_file" \
- -p "$cert_password" \
- --proxy "$proxy" \
- --title "UN thesaurus SKOS" \
- --query-file "$pwd/queries/skos-import.rq" \
- --file "$pwd/files/unesco-thesaurus.part2.ttl" \
- --file-content-type "text/turtle"
