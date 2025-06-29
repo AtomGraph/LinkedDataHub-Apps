@@ -46,8 +46,8 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
     <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/imports/csv/" target="_blank">Import from CSV</a></dd>
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
-    <dd>570 lines of SPARQL</dd>
-    <dd>247 lines of installation shell scripts</dd>
+    <dd>681 lines of SPARQL</dd>
+    <dd>951 lines of installation shell scripts</dd>
 </dl>
 
 ### City Graph
@@ -65,8 +65,8 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
     <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/imports/csv/" target="_blank">Import from CSV</a></dd>
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
-    <dd>479 lines of SPARQL</dd>
-    <dd>342 lines of installation shell scripts</dd>
+    <dd>535 lines of SPARQL</dd>
+    <dd>488 lines of installation shell scripts</dd>
 </dl>
 
 ### SKOS
@@ -105,14 +105,14 @@ services:
      -->
      <dt>Features</dt>
     <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/stylesheets/" target="_blank">Custom stylesheet</a></dd>
-    <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/administration/model/#classes" target="_blank">Classes</a></dd>
-    <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/administration/model/#constructors" target="_blank">Constructors</a></dd>
-    <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/administration/model/#constraints" target="_blank">Constraints</a></dd>
+    <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/administration/ontologies/#classes" target="_blank">Classes</a></dd>
+    <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/administration/ontologies/#constructors" target="_blank">Constructors</a></dd>
+    <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/administration/ontologies/#constraints" target="_blank">Constraints</a></dd>
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
-    <dd>44 lines of SPARQL</dd>
-    <dd>324 lines of installation shell scripts</dd>
-    <dd>109 lines of XSLT stylesheet</dd>
+    <dd>107 lines of SPARQL</dd>
+    <dd>499 lines of installation shell scripts</dd>
+    <dd>60 lines of XSLT stylesheet</dd>
 </dl>
 
 __You need to request append/write access to be able to create/edit the data.__
