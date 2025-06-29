@@ -53,7 +53,7 @@ printf "\n### Clearing ontologies\n\n"
 
 ./clear-ontologies.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
-popd
+cd ..
 
 printf "\n### Uploading files\n\n"
 
