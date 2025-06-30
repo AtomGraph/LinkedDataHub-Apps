@@ -99,11 +99,9 @@ services:
 <dl>
     <dt>Source</dt>
     <dd><a href="../../tree/master/demo/skos/" target="_blank">demo/skos/</a></dd>
-    <!-- 
     <dt>Live instance</dt>
     <dd><a href="https://linkeddatahub.com/demo/skos/" target="_blank">https://linkeddatahub.com/demo/skos/</a></dd>
-     -->
-     <dt>Features</dt>
+    <dt>Features</dt>
     <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/stylesheets/" target="_blank">Custom stylesheet</a></dd>
     <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/administration/ontologies/#classes" target="_blank">Classes</a></dd>
     <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/administration/ontologies/#constructors" target="_blank">Constructors</a></dd>
