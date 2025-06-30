@@ -19,8 +19,6 @@ fi
 
 pwd="$(realpath "$PWD")"
 
-pushd .
-
 printf "\n### Creating authorization to make the app public\n\n"
 
 make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
