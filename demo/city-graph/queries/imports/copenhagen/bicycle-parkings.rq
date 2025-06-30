@@ -31,22 +31,22 @@ CONSTRUCT
 }
 WHERE
 {
-    ?bicyleParking <#FID> ?id ;
+    ?bicyleParking_row <#FID> ?id ;
         <#lat> ?lat_string ;
         <#long> ?long_string . 
 
     OPTIONAL 
-    { ?bicyleParking <#name> ?name }
+    { ?bicyleParking_row <#name> ?name }
     OPTIONAL 
-    { ?bicyleParking <#bydel> ?city }
+    { ?bicyleParking_row <#bydel> ?city }
     OPTIONAL 
-    { ?bicyleParking <#vejnavn> ?address }
+    { ?bicyleParking_row <#vejnavn> ?address }
     OPTIONAL 
-    { ?bicyleParking <#antal_pladser> ?spaces }
+    { ?bicyleParking_row <#antal_pladser> ?spaces }
 
     BIND(uri(concat(str($base), "copenhagen/bicycle-parkings/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
+    BIND(uri(concat(str(?item), "#this")) AS ?bicyleParking)
     BIND(xsd:float(?lat_string) AS ?lat)
     BIND(xsd:float(?long_string) AS ?long)
-
 }

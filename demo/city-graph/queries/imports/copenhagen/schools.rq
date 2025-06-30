@@ -32,7 +32,7 @@ CONSTRUCT
 }
 WHERE
 {
-    ?school <#FID> ?id ;
+    ?school_row <#FID> ?id ;
         <#navn> ?name ;
         <#address> ?address ;
         <#omraade> ?region ;
@@ -44,12 +44,13 @@ WHERE
 
     OPTIONAL
     {
-        ?school <#link> ?linkString
+        ?school_row <#link> ?linkString
         BIND (URI(?linkString) AS ?link) 
     }
 
     BIND (uri(concat(str($base), "copenhagen/schools/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
+    BIND(uri(concat(str(?item), "#this")) AS ?school)
     BIND(xsd:float(?lat_string) AS ?lat)
     BIND(xsd:float(?long_string) AS ?long)
 }

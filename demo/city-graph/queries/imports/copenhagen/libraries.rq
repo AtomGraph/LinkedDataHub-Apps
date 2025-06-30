@@ -32,7 +32,7 @@ CONSTRUCT
 }
 WHERE
 {
-    ?library <#FID> ?id ;
+    ?library_row <#FID> ?id ;
         <#name> ?name ;
         <#address> ?address ;
         <#lat> ?lat_string ;
@@ -42,17 +42,18 @@ WHERE
 
     OPTIONAL 
     {
-        ?library <#email> ?emailString
+        ?library_row <#email> ?emailString
         BIND (URI(CONCAT(STR(<mailto:>), ?emailString)) AS ?email)
     }
     OPTIONAL 
     {
-        ?library <#link> ?linkString
+        ?library_row <#link> ?linkString
         BIND (URI(?linkString) AS ?link)
     }
 
     BIND(uri(concat(str($base), "copenhagen/libraries/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
+    BIND(uri(concat(str(?item), "#this")) AS ?library)
     BIND(xsd:float(?lat_string) AS ?lat)
     BIND(xsd:float(?long_string) AS ?long)
 }
