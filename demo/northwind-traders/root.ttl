@@ -8,7 +8,7 @@
 @prefix spin:  <http://spinrdf.org/spin#> .
 
 <> a def:Root ;
-    dct:title "Root" ;
+    dct:title "Northwind Traders" ;
     dct:description "Knowledge Graph representation of the Northwind Traders sample database" ;
     rdf:_1 <#page-header> ;
     rdf:_2 <#top-selling-products> ;

@@ -32,26 +32,27 @@ CONSTRUCT
 }
 WHERE
 {
-    ?playground <#FID> ?id ;
+    ?playground_row <#FID> ?id ;
         <#name> ?name ;
         <#address_description> ?address_description ;
         <#lat> ?lat_string ;
         <#long> ?long_string  .
 
     OPTIONAL 
-    { ?playground <#area> ?area}
+    { ?playground_row <#area> ?area}
     OPTIONAL 
-    { ?playground <#playground_type> ?playground_type}
+    { ?playground_row <#playground_type> ?playground_type}
     OPTIONAL 
-    { ?playground <#age_group> ?age_group}
+    { ?playground_row <#age_group> ?age_group}
     OPTIONAL 
-    { ?playground <#description> ?description}
+    { ?playground_row <#description> ?description}
     OPTIONAL 
-    { ?playground <#link> ?linkString 
+    { ?playground_row <#link> ?linkString 
     BIND (URI(?linkString) AS ?link)}
 
     BIND(uri(concat(str($base), "copenhagen/playgrounds/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
+    BIND(uri(concat(str(?item), "#this")) AS ?playground)
     BIND(xsd:float(?lat_string) AS ?lat) .
     BIND(xsd:float(?long_string) AS ?long) .
 }

@@ -33,21 +33,22 @@ CONSTRUCT
 }
 WHERE
 {
-    ?toilet <#FID> ?id ;
+    ?toilet_row <#FID> ?id ;
         <#title> ?name ;
         <#adresse> ?address ;
         <#latitude> ?lat_string ;
         <#longitude> ?long_string .
 
-    OPTIONAL { ?toilet <#postnr> ?postcode }
-    OPTIONAL { ?toilet <#toilet_type> ?toiletType }
-    OPTIONAL { ?toilet <#handicapadgang> ?accessible }
-    OPTIONAL { ?toilet <#placering> ?location }
-    OPTIONAL { ?toilet <#aabningstid_bemrk> ?comment }
-    OPTIONAL { ?toilet <#opening_hours> ?openingHours }
+    OPTIONAL { ?toilet_row <#postnr> ?postcode }
+    OPTIONAL { ?toilet_row <#toilet_type> ?toiletType }
+    OPTIONAL { ?toilet_row <#handicapadgang> ?accessible }
+    OPTIONAL { ?toilet_row <#placering> ?location }
+    OPTIONAL { ?toilet_row <#aabningstid_bemrk> ?comment }
+    OPTIONAL { ?toilet_row <#opening_hours> ?openingHours }
 
     BIND(uri(concat(str($base), "copenhagen/public-toilets/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
+    BIND(uri(concat(str(?item), "#this")) AS ?toilet)
     BIND(xsd:float(?lat_string) AS ?lat)
     BIND(xsd:float(?long_string) AS ?long)
 }

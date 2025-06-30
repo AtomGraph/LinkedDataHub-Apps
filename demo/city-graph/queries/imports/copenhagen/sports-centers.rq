@@ -30,7 +30,7 @@ CONSTRUCT
 }
 WHERE
 {
-    ?sportCenter <#FID> ?id ;
+    ?sportCenter_row <#FID> ?id ;
         <#name> ?name ;
         <#address> ?address ;
         <#lat> ?lat_string ;
@@ -38,16 +38,17 @@ WHERE
         <#long> ?long_string .
 
     OPTIONAL {
-        ?sportCenter <#email> ?emailString
+        ?sportCenter_row <#email> ?emailString
         BIND (URI(CONCAT(STR(<mailto:>), ?emailString)) AS ?email)
     }
     OPTIONAL {
-        ?sportCenter <#link> ?linkString
+        ?sportCenter_row <#link> ?linkString
         BIND (URI(?linkString) AS ?link) 
     }
 
     BIND(uri(concat(str($base), "copenhagen/sports-centers/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
+    BIND(uri(concat(str(?item), "#this")) AS ?sportCenter)
     BIND(xsd:float(?lat_string) AS ?lat)
     BIND(xsd:float(?long_string) AS ?long)
 }

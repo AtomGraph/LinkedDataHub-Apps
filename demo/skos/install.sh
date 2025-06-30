@@ -19,8 +19,6 @@ fi
 
 pwd="$(realpath "$PWD")"
 
-pushd .
-
 printf "\n### Creating authorization to make the app public\n\n"
 
 make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
@@ -53,7 +51,7 @@ printf "\n### Clearing ontologies\n\n"
 
 ./clear-ontologies.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
-popd
+cd ..
 
 printf "\n### Uploading files\n\n"
 

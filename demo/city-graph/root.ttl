@@ -8,7 +8,7 @@
 @prefix sioc:	<http://rdfs.org/sioc/ns#> .
 
 <> a def:Root ;
-    dct:title "Root" ;
+    dct:title "City Graph" ;
     dct:description "Geospatial and other open data about cities, imported by transforming CSV files to RDF" ;
     rdf:_1 <#page-header> ;
     rdf:_2 <#main-library> ;
@@ -31,7 +31,7 @@
     </div>"""^^rdf:XMLLiteral .
 
 <#main-library> a ldh:Object ;
-    rdf:value <copenhagen/places/stednavn_punkt.fid-361ad8c1_150a94a2aab_-83b/> ;
+    rdf:value <copenhagen/places/stednavn_punkt.fid-361ad8c1_150a94a2aab_-83b/#this> ;
     ac:mode ac:MapMode .
 
 <#charts> a ldh:XHTML ;

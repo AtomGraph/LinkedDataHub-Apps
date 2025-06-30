@@ -7,7 +7,7 @@
 @prefix sioc:	<http://rdfs.org/sioc/ns#> .
 
 <> a def:Root ;
-    dct:title "Root" ;
+    dct:title "SKOS" ;
     dct:description "SKOS-based editor of thesauri, lexicons, vocabularies, taxonomies, and classification schemes" ;
     rdf:_1 <#page-header> ;
     rdf:_2 <#select-children> .
