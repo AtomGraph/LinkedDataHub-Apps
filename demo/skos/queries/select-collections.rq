@@ -1,10 +1,11 @@
 PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
-SELECT DISTINCT  ?concept ?doc
+SELECT DISTINCT  ?collection ?doc
 WHERE
   { GRAPH ?doc
-      { ?concept
+      { ?collection
                   a               skos:Collection ;
                   skos:prefLabel  ?prefLabel
+        FILTER (langMatches(lang(?prefLabel), "en"))
       }
   }
 ORDER BY ?prefLabel

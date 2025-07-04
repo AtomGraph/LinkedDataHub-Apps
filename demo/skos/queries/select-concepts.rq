@@ -6,6 +6,7 @@ WHERE
       { ?concept
                   a               skos:Concept ;
                   skos:prefLabel  ?prefLabel
+        FILTER (langMatches(lang(?prefLabel), "en"))
       }
   }
 ORDER BY ?prefLabel
