@@ -39,6 +39,7 @@ WHERE
         BIND(URI(concat(str(?subjItem), "#this")) AS ?newSubj)
 
         ?s  ?p  ?o
+        FILTER (?p != skos:hasTopConcept) # we'll display these relations using a view
 
         OPTIONAL
         {
