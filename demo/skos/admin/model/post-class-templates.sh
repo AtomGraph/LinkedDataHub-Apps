@@ -17,6 +17,16 @@ else
     proxy="$base"
 fi
 
+# clear the old contents of the namespace ontology
+
+{ echo "BASE <${base}admin/ontologies/namespace/>"; cat patch-ontology.ru; } | patch.sh \
+    -f "$cert_pem_file" \
+    -p "$cert_password" \
+    --proxy "$proxy" \
+    "${base}admin/ontologies/namespace/"
+
+# append the new class templates to the namespace ontology
+
 cat concept-template.ttl | post.sh \
     -f "$cert_pem_file" \
     -p "$cert_password" \
