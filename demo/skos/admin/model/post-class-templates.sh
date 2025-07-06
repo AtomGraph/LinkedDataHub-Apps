@@ -34,6 +34,13 @@ cat concept-template.ttl | post.sh \
     --content-type "text/turtle" \
     "${base}admin/ontologies/namespace/"
 
+cat collection-template.ttl | post.sh \
+    -f "$cert_pem_file" \
+    -p "$cert_password" \
+    --proxy "$proxy" \
+    --content-type "text/turtle" \
+    "${base}admin/ontologies/namespace/"
+
 cat concept-scheme-template.ttl | post.sh \
     -f "$cert_pem_file" \
     -p "$cert_password" \
