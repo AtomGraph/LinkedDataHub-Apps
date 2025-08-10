@@ -63,6 +63,14 @@ OWNER_COUNTRY_NAME=DK</pre>
                             <pre>./bin/server-cert-gen.sh .env nginx ssl</pre>
                             The script will create an <samp>ssl/server</samp> sub-folder where the SSL certificate will be stored.
                         </li>
+                        <li>Create the following secrets with certificate/truststore passwords:
+                            <ul>
+                                <li><samp>secrets/client_truststore_password.txt</samp></li>
+                                <li><samp>secrets/owner_cert_password.txt</samp></li>
+                                <li><samp>secrets/secretary_cert_password.txt</samp></li>
+                            </ul>
+                            The one you will need to remember in order to authenticate with LinkedDataHub <a href="../get-an-account/#install-cert">using WebID client certificate</a> is <samp>owner_cert_password</samp>.
+                        </li>
                         <li>Run this from command line:
                             <pre>docker-compose up --build</pre>
                             LinkedDataHub will start and mount the following sub-folders:
@@ -71,7 +79,7 @@ OWNER_COUNTRY_NAME=DK</pre>
                                 <li><samp>datasets</samp> where the owner and secretary agent metadata is persisted</li>
                                 <li><samp>ssl/owner</samp> and <samp>ssl/secretary</samp> where the owner and secretary SSL certificates and WebID public keys are persisted</li>
                                 <li><samp>uploads</samp> where LinkedDataHub stores content-hashed file uploads</li>
-                           </ol>
+                            </ol>
                         </li>
                     </ol>
                     <p>You are now the owner of this LinkedDataHub instance; <samp>certs/owner.p12</samp> is your WebID certificate. Password is the <samp>owner_cert_password</samp> secret value.</p>
