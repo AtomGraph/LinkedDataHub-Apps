@@ -127,22 +127,66 @@
                     <table class="table table-striped" id="actions">
                         <thead>
                             <tr>
+                                <th>Type</th>
                                 <th>Action</th>
                                 <th>CLI script</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
+                                <td><samp>ASK</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>imports/create-query.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>Application</samp></td>
                                 <th>Create</th>
                                 <td></td>
                             </tr>
                             <tr>
-                                <th>Update</th>
+                                <td><samp>CONSTRUCT</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>admin/model/add-construct.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>CSV import</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>imports/create-csv-import.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>File</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>imports/create-file.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>Graph chart</samp></td>
+                                <th>Create</th>
                                 <td></td>
                             </tr>
                             <tr>
-                                <th>Delete</th>
-                                <td></td>
+                                <td><samp>RDF import</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>imports/create-rdf-import.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>Result set chart</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>add-result-set-chart.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>Select</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>add-select.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>Service</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>add-generic-service.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>View</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>add-view.sh</samp></a></td>
                             </tr>
                         </tbody>
                     </table>
