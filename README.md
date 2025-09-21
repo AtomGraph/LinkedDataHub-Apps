@@ -30,7 +30,7 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
 
 ### Northwind Traders
 
-![Set-based (parallax) navigation](../../raw/master/demo/northwind-traders/screenshot.gif "Set-based (parallax) navigation")
+![Set-based (parallax) navigation](demo/northwind-traders/screenshot.gif "Set-based (parallax) navigation")
 
 **Knowledge Graph representation of the [Northwind Traders](https://powerapps.microsoft.com/en-us/blog/northwind-traders-relational-data-sample/) sample database.**
 
@@ -52,7 +52,7 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
 
 ### City Graph
 
-![City Graph geospatial view](../../raw/master/demo/city-graph/screenshot.png "City Graph geospatial view")
+![City Graph geospatial view](demo/city-graph/screenshot.png "City Graph geospatial view")
 
 **Browser of Copenhagen's geospatial open data, imported from [Copenhagen Open Data](https://data.kk.dk/). Provides a type-colored geospatial overview. Geo resources provide a view with neighbouring resources included.**
 
@@ -71,7 +71,8 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
 
 ### SKOS
 
-![SKOS editor view](../../raw/master/demo/skos/screenshot.png "SKOS editor view")
+![SKOS viewer](demo/skos/screenshot.png "SKOS viewer")
+![SKOS editor](demo/skos/screenshot-edit-mode.png "SKOS editor")
 
 **Basic SKOS editor with a custom UI theme. Concepts and concept schemas can be created, edited, and linked with each other. Ontology types have separate URI templates; required instance properties are validated using constraints.**
 
