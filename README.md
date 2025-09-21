@@ -71,7 +71,8 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
 
 ### SKOS
 
-![SKOS editor view](../../raw/master/demo/skos/screenshot.png "SKOS editor view")
+![SKOS viewer](demo/skos/screenshot.png "SKOS viewer")
+![SKOS editor](demo/skos/screenshot-edit-mode.png "SKOS editor")
 
 **Basic SKOS editor with a custom UI theme. Concepts and concept schemas can be created, edited, and linked with each other. Ontology types have separate URI templates; required instance properties are validated using constraints.**
 
