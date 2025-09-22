@@ -20,7 +20,7 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
 
 <dl>
     <dt>Source</dt>
-    <dd><a href="../../tree/master/linkeddatahub/docs/">linkeddatahub/docs/</a></dd>
+    <dd><a href="linkeddatahub/docs/">linkeddatahub/docs/</a></dd>
     <dt>Features</dt>
     <dd>XHTML document content is rendered from RDF literals</dd>
     <dt>Lines of code</dt>
@@ -36,7 +36,7 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
 
 <dl>
     <dt>Source</dt>
-    <dd><a href="../../tree/master/demo/northwind-traders/" target="_blank">demo/northwind-traders/</a></dd>
+    <dd><a href="demo/northwind-traders/" target="_blank">demo/northwind-traders/</a></dd>
     <dt>Live instance</dt>
     <dd><a href="https://linkeddatahub.com/demo/northwind-traders/" target="_blank">https://linkeddatahub.com/demo/northwind-traders/</a></dd>
     <dt>Features</dt>
@@ -58,7 +58,7 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
 
 <dl>
     <dt>Source</dt>
-    <dd><a href="../../tree/master/demo/city-graph/" target="_blank">demo/city-graph/</a></dd>
+    <dd><a href="demo/city-graph/" target="_blank">demo/city-graph/</a></dd>
     <dt>Live instance</dt>
     <dd><a href="https://linkeddatahub.com/demo/city-graph/" target="_blank">https://linkeddatahub.com/demo/city-graph/</a></dd>
     <dt>Features</dt>
@@ -74,32 +74,11 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
 ![SKOS viewer](demo/skos/screenshot.png "SKOS viewer")
 ![SKOS editor](demo/skos/screenshot-edit-mode.png "SKOS editor")
 
-**Basic SKOS editor with a custom UI theme. Concepts and concept schemas can be created, edited, and linked with each other. Ontology types have separate URI templates; required instance properties are validated using constraints.**
-
-_This app uses custom XSLT and CSS stylesheets; those need to be mounted as well as configured in LinkedDataHub to take effect. The max request payload size needs to be increased as well to accomodate the taxonomy file import._ For example:
-
-`.env`:
-```
-MAX_CONTENT_LENGTH=4194304
-```
-
-`docker-compose.override.yml`:
-```yaml
-services:
-  linkeddatahub:
-    volumes:
-      - ../LinkedDataHub-Apps/demo/skos/files/skos.xsl:/usr/local/tomcat/webapps/ROOT/static/com/linkeddatahub/demo/skos/xsl/bootstrap/2.3.2/layout.xsl:ro
-      - ../LinkedDataHub-Apps/demo/skos/files/bootstrap.min.css:/usr/local/tomcat/webapps/ROOT/static/com/linkeddatahub/demo/skos/css/bootstrap.css:ro
-```
-
-`config/system-varnish.trig`:
-```
-<urn:linkeddatahub:apps/end-user> ac:stylesheet <static/com/linkeddatahub/demo/skos/xsl/bootstrap/2.3.2/layout.xsl> .
-```
+**Basic SKOS editor with a custom UI theme. Concepts, collections and concept schemas can be created, edited, and linked with each other. SKOS types have dedicated content templates; constructors are auto-generated during ontology import; constraints are added using CLI script.**
 
 <dl>
     <dt>Source</dt>
-    <dd><a href="../../tree/master/demo/skos/" target="_blank">demo/skos/</a></dd>
+    <dd><a href="demo/skos/" target="_blank">demo/skos/</a></dd>
     <dt>Live instance</dt>
     <dd><a href="https://linkeddatahub.com/demo/skos/" target="_blank">https://linkeddatahub.com/demo/skos/</a></dd>
     <dt>Features</dt>
