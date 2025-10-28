@@ -117,8 +117,8 @@
                     <tr>
                         <td><code>lapp:</code></td>
                         <td><code>https://w3id.org/atomgraph/linkeddatahub/apps#</code></td>
-                        <td><a href="../administration/ontologies/#apl-ont" target="_blank">AtomGraph Platform</a></td>
-                        <td>LDT application concepts</td>
+                        <td><a href="../administration/ontologies/#apl-ont" target="_blank">LinkedDataHub application ontology</a></td>
+                        <td>LinkedDataHub application concepts</td>
                     </tr>
                     <tr>
                         <td><code>lacl:</code></td>
@@ -150,7 +150,7 @@
                 <dt><code>$ac:forClass</code></dt>
                 <dd>The URI of the class whose instance is being created.</dd>
                 <dt><code>$lapp:Application</code></dt>
-                <dd>RDF/XML document with the metadata of the current LDT application</dd>
+                <dd>RDF/XML document with the metadata of the current LinkedDataHub application</dd>
                 <dt><code>$foaf:Agent</code></dt>
                 <dd>RDF/XML document with the metadata of the currently authenticated agent (if any)</dd>
             </dl>
