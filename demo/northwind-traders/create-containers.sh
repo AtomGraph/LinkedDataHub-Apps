@@ -45,7 +45,7 @@ add-select.sh  \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Select categories" \
-  --fragment "$query_id" \
+  --uri "#${query_id}" \
   --query-file "$pwd/queries/select-categories.rq" \
   "$container"
 
@@ -56,7 +56,7 @@ add-view.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$view_id" \
+  --uri "#${view_id}" \
   --query "${container}#${query_id}" \
   --mode "https://w3id.org/atomgraph/client#GridMode" \
   "$container"
@@ -68,7 +68,7 @@ add-object-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$object_id" \
+  --uri "#${object_id}" \
   --value "${container}#${view_id}" \
   "$container"
 
@@ -98,7 +98,7 @@ add-select.sh  \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Select customers" \
-  --fragment "$query_id" \
+  --uri "#${query_id}" \
   --query-file "$pwd/queries/select-customers.rq" \
   "$container"
 
@@ -109,7 +109,7 @@ add-view.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$view_id" \
+  --uri "#${view_id}" \
   --query "${container}#${query_id}" \
   --mode "https://w3id.org/atomgraph/client#TableMode" \
   "$container"
@@ -121,7 +121,7 @@ add-object-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$object_id" \
+  --uri "#${object_id}" \
   --value "${container}#${view_id}" \
   "$container"
 
@@ -151,7 +151,7 @@ add-select.sh  \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Select employees" \
-  --fragment "$query_id" \
+  --uri "#${query_id}" \
   --query-file "$pwd/queries/select-employees.rq" \
   "$container"
 
@@ -162,7 +162,7 @@ add-view.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$view_id" \
+  --uri "#${view_id}" \
   --query "${container}#${query_id}" \
   --mode "https://w3id.org/atomgraph/client#GridMode" \
   "$container"
@@ -174,7 +174,7 @@ add-object-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$object_id" \
+  --uri "#${object_id}" \
   --value "${container}#${view_id}" \
   "$container"
 
@@ -204,7 +204,7 @@ add-select.sh  \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Select orders" \
-  --fragment "$query_id" \
+  --uri "#${query_id}" \
   --query-file "$pwd/queries/select-orders.rq" \
   "$container"
 
@@ -215,7 +215,7 @@ add-view.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$view_id" \
+  --uri "#${view_id}" \
   --query "${container}#${query_id}" \
   --mode "https://w3id.org/atomgraph/client#TableMode" \
   "$container"
@@ -227,7 +227,7 @@ add-object-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$object_id" \
+  --uri "#${object_id}" \
   --value "${container}#${view_id}" \
   "$container"
 
@@ -257,7 +257,7 @@ add-select.sh  \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Select products" \
-  --fragment "$query_id" \
+  --uri "#${query_id}" \
   --query-file "$pwd/queries/select-products.rq" \
   "$container"
 
@@ -268,7 +268,7 @@ add-view.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$view_id" \
+  --uri "#${view_id}" \
   --query "${container}#${query_id}" \
   --mode "https://w3id.org/atomgraph/client#TableMode" \
   "$container"
@@ -280,7 +280,7 @@ add-object-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$object_id" \
+  --uri "#${object_id}" \
   --value "${container}#${view_id}" \
   "$container"
 
@@ -310,7 +310,7 @@ add-select.sh  \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Select regions" \
-  --fragment "$query_id" \
+  --uri "#${query_id}" \
   --query-file "$pwd/queries/select-regions.rq" \
   "$container"
 
@@ -321,7 +321,7 @@ add-view.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$view_id" \
+  --uri "#${view_id}" \
   --query "${container}#${query_id}" \
   "$container"
 
@@ -332,7 +332,7 @@ add-object-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$object_id" \
+  --uri "#${object_id}" \
   --value "${container}#${view_id}" \
   "$container"
 
@@ -362,7 +362,7 @@ add-select.sh  \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Select shippers" \
-  --fragment "$query_id" \
+  --uri "#${query_id}" \
   --query-file "$pwd/queries/select-shippers.rq" \
   "$container"
 
@@ -373,7 +373,7 @@ add-view.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$view_id" \
+  --uri "#${view_id}" \
   --query "${container}#${query_id}" \
   "$container"
 
@@ -384,7 +384,7 @@ add-object-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$object_id" \
+  --uri "#${object_id}" \
   --value "${container}#${view_id}" \
   "$container"
 
@@ -414,7 +414,7 @@ add-select.sh  \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Select suppliers" \
-  --fragment "$query_id" \
+  --uri "#${query_id}" \
   --query-file "$pwd/queries/select-suppliers.rq" \
   "$container"
 
@@ -425,7 +425,7 @@ add-view.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$view_id" \
+  --uri "#${view_id}" \
   --query "${container}#${query_id}" \
   --mode "https://w3id.org/atomgraph/client#TableMode" \
   "$container"
@@ -437,7 +437,7 @@ add-object-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$object_id" \
+  --uri "#${object_id}" \
   --value "${container}#${view_id}" \
   "$container"
 
@@ -467,7 +467,7 @@ add-select.sh  \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Select territories" \
-  --fragment "$query_id" \
+  --uri "#${query_id}" \
   --query-file "$pwd/queries/select-territories.rq" \
   "$container"
 
@@ -478,7 +478,7 @@ add-view.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$view_id" \
+  --uri "#${view_id}" \
   --query "${container}#${query_id}" \
   --mode "https://w3id.org/atomgraph/client#TableMode" \
   "$container"
@@ -490,7 +490,6 @@ add-object-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$view_id" \
-  --fragment "$object_id" \
+  --uri "#${object_id}" \
   --value "${container}#${view_id}" \
   "$container"

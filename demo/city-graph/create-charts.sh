@@ -37,7 +37,7 @@ add-select.sh  \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Largest parking facilities" \
-  --fragment "$query_id" \
+  --uri "#${query_id}" \
   --query-file "${pwd}/queries/charts/parking-facilities-by-spaces.rq" \
   "$chart_doc"
 
@@ -47,7 +47,7 @@ add-result-set-chart.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Largest parking facilities" \
-  --fragment this \
+  --uri "#this" \
   --query "${chart_doc}#${query_id}" \
   --chart-type "https://w3id.org/atomgraph/client#BarChart" \
   --category-var-name "name" \

@@ -7,6 +7,11 @@ if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
   exit 1
 fi
 
+admin_uri() {
+    local uri="$1"
+    echo "$uri" | sed 's|://|://admin.|'
+}
+
 base="$1"
 cert_pem_file=$(realpath "$2")
 cert_password="$3"
@@ -17,9 +22,12 @@ else
     proxy="$base"
 fi
 
+admin_base=$(admin_uri "$base")
+admin_proxy=$(admin_uri "$proxy")
+
 add-ontology-import.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   --import "https://schema.org/" \
-  "${base}admin/ontologies/namespace/"
+  "${admin_base}ontologies/namespace/"

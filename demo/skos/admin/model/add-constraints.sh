@@ -7,6 +7,11 @@ if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
   exit 1
 fi
 
+admin_uri() {
+    local uri="$1"
+    echo "$uri" | sed 's|://|://admin.|'
+}
+
 base="$1"
 cert_pem_file=$(realpath "$2")
 cert_password="$3"
@@ -17,12 +22,15 @@ else
     proxy="$base"
 fi
 
+admin_base=$(admin_uri "$base")
+admin_proxy=$(admin_uri "$proxy")
+
 add-property-constraint.sh \
-  -b "${base}admin/" \
+  -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   --uri "${base}ns#MissingPrefLabel" \
   --label "Missing skos:prefLabel" \
   --property "http://www.w3.org/2004/02/skos/core#prefLabel" \
-  "${base}admin/ontologies/namespace/"
+  "${admin_base}ontologies/namespace/"

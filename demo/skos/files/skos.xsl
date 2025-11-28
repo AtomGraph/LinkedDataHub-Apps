@@ -56,6 +56,6 @@ exclude-result-prefixes="#all">
         <link href="{resolve-uri('static/com/linkeddatahub/demo/skos/css/bootstrap.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>
     </xsl:template>
 
-    <xsl:template match="skos:narrower | skos:broader | skos:related" mode="bs2:PropertyList"/>
+    <xsl:template match="skos:narrower | skos:broader | skos:related | skos:member" mode="bs2:PropertyList"/>
     
 </xsl:stylesheet>

@@ -17,9 +17,17 @@ else
     proxy="$base"
 fi
 
+admin_uri() {
+    local uri="$1"
+    echo "$uri" | sed 's|://|://admin.|'
+}
+
+admin_base=$(admin_uri "$base")
+admin_proxy=$(admin_uri "$proxy")
+
 clear-ontology.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  -b "${base}admin/" \
-  --proxy "$proxy" \
+  -b "$admin_base" \
+  --proxy "$admin_proxy" \
   --ontology "${base}ns#"

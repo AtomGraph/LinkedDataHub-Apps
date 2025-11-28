@@ -39,7 +39,7 @@ add-select.sh  \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Products by sales" \
-  --fragment "$query_id" \
+  --uri "#${query_id}" \
   --query-file "${pwd}/queries/charts/select-products-by-sales.rq" \
   "$query_doc"
 
@@ -59,7 +59,7 @@ add-result-set-chart.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Top selling products" \
-  --fragment this \
+  --uri "#this" \
   --query "${query_doc}#${query_id}" \
   --chart-type "https://w3id.org/atomgraph/client#BarChart" \
   --category-var-name "productName" \
@@ -86,7 +86,7 @@ add-select.sh  \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Sales by region per year" \
-  --fragment "$query_id" \
+  --uri "#${query_id}" \
   --query-file "${pwd}/queries/charts/select-sales-by-regions-by-year.rq" \
   "$query_doc"
 
@@ -106,7 +106,7 @@ add-result-set-chart.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Sales by region per year" \
-  --fragment this \
+  --uri "#this" \
   --query "${query_doc}#${query_id}" \
   --chart-type "https://w3id.org/atomgraph/client#Table" \
   --category-var-name "year" \

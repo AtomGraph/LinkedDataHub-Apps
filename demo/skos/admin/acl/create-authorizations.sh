@@ -7,6 +7,11 @@ if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
   exit 1
 fi
 
+admin_uri() {
+    local uri="$1"
+    echo "$uri" | sed 's|://|://admin.|'
+}
+
 base="$1"
 cert_pem_file=$(realpath "$2")
 cert_password="$3"
@@ -17,25 +22,28 @@ else
     proxy="$base"
 fi
 
+admin_base=$(admin_uri "$base")
+admin_proxy=$(admin_uri "$proxy")
+
 pwd=$(realpath "$PWD")
 
 sha1sum=$(sha1sum "$pwd"/../../files/skos.xsl | cut -d ' ' -f 1)
 
 create-authorization.sh \
-  -b "${base}admin/" \
+  -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   --label "Public SKOS XSLT stylesheet" \
   --agent-class http://xmlns.com/foaf/0.1/Agent \
   --to "${base}uploads/${sha1sum}/" \
   --read
 
 create-authorization.sh \
-  -b "${base}admin/" \
+  -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-    --proxy "$proxy" \
+    --proxy "$admin_proxy" \
   --label "Read access to graph items" \
   --agent-class "http://www.w3.org/ns/auth/acl#AuthenticatedAgent" \
   --to-all-in "https://www.w3.org/ns/ldt/document-hierarchy#Item" \
