@@ -17,92 +17,100 @@ else
     proxy="$base"
 fi
 
+admin_uri() {
+    local uri="$1"
+    echo "$uri" | sed 's|://|://admin.|'
+}
+
+admin_base=$(admin_uri "$base")
+admin_proxy=$(admin_uri "$proxy")
+
 add-class.sh \
-  -b "${base}admin/" \
+  -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   --uri "${base}ns#BicycleParking" \
   --label "Bicycle parking" \
   --sub-class-of "https://schema.org/CivicStructure" \
-  "${base}admin/ontologies/namespace/"
+  "${admin_base}ontologies/namespace/"
 
 add-class.sh \
-  -b "${base}admin/" \
+  -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   --uri "${base}ns#ChargingStation" \
   --label "Charging station" \
   --sub-class-of "https://schema.org/CivicStructure" \
-  "${base}admin/ontologies/namespace/"
+  "${admin_base}ontologies/namespace/"
 
 add-class.sh \
-  -b "${base}admin/" \
+  -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-    --proxy "$proxy" \
+    --proxy "$admin_proxy" \
   --uri "${base}ns#Library" \
   --label "Library" \
   --sub-class-of "https://schema.org/Library" \
-  "${base}admin/ontologies/namespace/"
+  "${admin_base}ontologies/namespace/"
 
 add-class.sh \
-  -b "${base}admin/" \
+  -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   --uri "${base}ns#ParkingFacility" \
   --label "Parking facility" \
   --sub-class-of "https://schema.org/ParkingFacility" \
-  "${base}admin/ontologies/namespace/"
+  "${admin_base}ontologies/namespace/"
 
 add-class.sh \
-  -b "${base}admin/" \
+  -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   --uri "${base}ns#Place" \
   --label "Place" \
   --sub-class-of "https://schema.org/CivicStructure" \
-  "${base}admin/ontologies/namespace/"
+  "${admin_base}ontologies/namespace/"
 
 add-class.sh \
-  -b "${base}admin/" \
+  -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   --uri "${base}ns#Playground" \
   --label "Playground" \
   --sub-class-of "https://schema.org/Playground" \
-  "${base}admin/ontologies/namespace/"
+  "${admin_base}ontologies/namespace/"
 
 add-class.sh \
-  -b "${base}admin/" \
+  -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   --uri "${base}ns#School" \
   --label "School" \
   --sub-class-of "https://schema.org/School" \
-  "${base}admin/ontologies/namespace/"
+  "${admin_base}ontologies/namespace/"
 
 add-class.sh \
-  -b "${base}admin/" \
+  -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   --uri "${base}ns#SportsCenter" \
   --label "Sports center" \
   --sub-class-of "https://schema.org/CivicStructure" \
-  "${base}admin/ontologies/namespace/"
+  "${admin_base}ontologies/namespace/"
 
 add-class.sh \
-  -b "${base}admin/" \
+  -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   --uri "${base}ns#PublicToilet" \
   --label "Toilet" \
   --sub-class-of "http://schema.org/PublicToilet" \
-  "${base}admin/ontologies/namespace/"
+  "${admin_base}ontologies/namespace/"

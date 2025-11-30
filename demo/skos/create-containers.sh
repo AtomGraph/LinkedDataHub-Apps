@@ -45,7 +45,7 @@ add-select.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Select concepts" \
-  --fragment "$query_id" \
+  --uri "#${query_id}" \
   --query-file "${pwd}/queries/select-concepts.rq" \
   "$container"
 
@@ -56,20 +56,24 @@ add-view.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$view_id" \
+  --uri "#${view_id}" \
   --query "${container}#${query_id}" \
   "$container"
 
 object_id="select-concepts"
+
+echo "AAAA"
 
 add-object-block.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$object_id" \
+  --uri "#${object_id}" \
   --value "${container}#${view_id}" \
   "$container"
+
+echo "BBB"
 
 # collections
 
@@ -97,7 +101,7 @@ add-select.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Select collections" \
-  --fragment "$query_id" \
+  --uri "#${query_id}" \
   --query-file "${pwd}/queries/select-collections.rq" \
   "$container"
 
@@ -108,7 +112,7 @@ add-view.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$view_id" \
+  --uri "#${view_id}" \
   --query "${container}#${query_id}" \
   "$container"
 
@@ -119,7 +123,7 @@ add-object-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$object_id" \
+  --uri "#${object_id}" \
   --value "${container}#${view_id}" \
   "$container"
 
@@ -149,7 +153,7 @@ add-select.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Select concept schemes" \
-  --fragment "$query_id" \
+  --uri "#${query_id}" \
   --query-file "${pwd}/queries/select-concept-schemes.rq" \
   "$container"
 
@@ -160,7 +164,7 @@ add-view.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$view_id" \
+  --uri "#${view_id}" \
   --query "${container}#${query_id}" \
   "$container"
 
@@ -171,6 +175,6 @@ add-object-block.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$proxy" \
-  --fragment "$object_id" \
+  --uri "#${object_id}" \
   --value "${container}#${view_id}" \
   "$container"

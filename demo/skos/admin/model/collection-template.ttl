@@ -1,4 +1,5 @@
 @prefix :	    <#> .
+@prefix ns:     <ns#> .
 @prefix ldh:	<https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sp: 	<http://spinrdf.org/sp#> .
@@ -6,14 +7,14 @@
 @prefix dct:	<http://purl.org/dc/terms/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
-skos:Collection ldh:template <../../../ns#CollectionMembers>.
+skos:Collection ldh:template ns:CollectionMembers.
 
-<../../../ns#CollectionMembers> a ldh:View ;
+ns:CollectionMembers a ldh:View ;
     dct:title "Collection members" ;
-    spin:query <../../../ns#SelectCollectionMembers> ;
-    rdfs:isDefinedBy <../../../ns#> .
+    spin:query ns:SelectCollectionMembers ;
+    rdfs:isDefinedBy ns: .
 
-<../../../ns#SelectCollectionMembers> a sp:Select ;
+ns:SelectCollectionMembers a sp:Select ;
     rdfs:label "Select collection members" ;
     sp:text """
 PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
@@ -31,4 +32,4 @@ WHERE
   }
 ORDER BY ?prefLabel
 """ ;
-    rdfs:isDefinedBy <../../../ns#> .
+    rdfs:isDefinedBy ns: .

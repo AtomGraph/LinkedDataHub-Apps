@@ -7,6 +7,11 @@ if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
   exit 1
 fi
 
+admin_uri() {
+    local uri="$1"
+    echo "$uri" | sed 's|://|://admin.|'
+}
+
 base="$1"
 cert_pem_file=$(realpath "$2")
 cert_password="$3"
@@ -17,25 +22,28 @@ else
     proxy="$base"
 fi
 
+admin_base=$(admin_uri "$base")
+admin_proxy=$(admin_uri "$proxy")
+
 pwd=$(realpath "$PWD")
 
 printf "\n### Creating ontology item\n\n"
 
-ont_doc=$(create-item.sh \
-  -b "${base}admin/" \
+target=$(create-item.sh \
+  -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   --title "Northwind Traders" \
   --slug "northwind-traders" \
-  --container "${base}admin/ontologies/"
+  --container "${admin_base}ontologies/"
 )
 
 printf "\n### Appending ontology document\n\n"
 
-cat "$pwd"/northwind-traders.ttl | turtle --base="$ont_doc" | post.sh \
+cat "$pwd"/northwind-traders.ttl | turtle --base="$target" | post.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   -t "application/n-triples" \
-  "$ont_doc"
+  "$target"

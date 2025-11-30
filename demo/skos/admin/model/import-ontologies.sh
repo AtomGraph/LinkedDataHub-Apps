@@ -7,6 +7,11 @@ if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
   exit 1
 fi
 
+admin_uri() {
+    local uri="$1"
+    echo "$uri" | sed 's|://|://admin.|'
+}
+
 base="$1"
 cert_pem_file=$(realpath "$2")
 cert_password="$3"
@@ -17,27 +22,30 @@ else
     proxy="$base"
 fi
 
-skos_doc=$(create-item.sh \
-  -b "${base}admin/" \
+admin_base=$(admin_uri "$base")
+admin_proxy=$(admin_uri "$proxy")
+
+target=$(create-item.sh \
+  -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   --title "SKOS" \
   --slug "skos" \
-  --container "${base}admin/ontologies/"
+  --container "${admin_base}ontologies/"
 )
 
 import-ontology.sh \
-  -b "${base}admin/" \
+  -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   --source "http://www.w3.org/2004/02/skos/core" \
-  --graph "$skos_doc"
+  --graph "$target"
 
 add-ontology-import.sh \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --proxy "$proxy" \
+  --proxy "$admin_proxy" \
   --import "http://www.w3.org/2004/02/skos/core" \
-  "${base}admin/ontologies/namespace/"
+  "${admin_base}ontologies/namespace/"

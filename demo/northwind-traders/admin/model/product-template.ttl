@@ -1,0 +1,33 @@
+@prefix :	    <#> .
+@prefix ns:     <ns#> .
+@prefix ldh:	<https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sp:	    <http://spinrdf.org/sp#> .
+@prefix spin:	<http://spinrdf.org/spin#> .
+@prefix dct:	<http://purl.org/dc/terms/> .
+@prefix schema: <https://schema.org/> .
+
+# orders containing this product
+
+schema:Product ldh:template ns:OrdersContainingProduct .
+
+ns:OrdersContainingProduct a ldh:View ;
+    dct:title "Orders containing this product" ;
+    spin:query ns:SelectOrdersContainingProduct ;
+    rdfs:isDefinedBy ns: .
+
+ns:SelectOrdersContainingProduct a sp:Select ;
+    rdfs:label "Select orders containing product" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?order
+WHERE
+  { GRAPH ?graph
+      { ?order schema:orderedItem ?orderItem .
+        ?orderItem schema:orderedItem $about
+      }
+  }
+ORDER BY DESC(?order)
+""" ;
+    rdfs:isDefinedBy ns: .

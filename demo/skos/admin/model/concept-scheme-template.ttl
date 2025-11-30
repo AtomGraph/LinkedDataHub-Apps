@@ -1,4 +1,5 @@
 @prefix :	    <#> .
+@prefix ns:     <ns#> .
 @prefix ldh:	<https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sp: 	<http://spinrdf.org/sp#> .
@@ -6,14 +7,14 @@
 @prefix dct:	<http://purl.org/dc/terms/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 
-skos:ConceptScheme ldh:template <../../../ns#ConceptsInScheme>.
+skos:ConceptScheme ldh:template ns:ConceptsInScheme.
 
-<../../../ns#ConceptsInScheme> a ldh:View ;
+ns:ConceptsInScheme a ldh:View ;
     dct:title "Concepts in scheme" ;
-    spin:query <../../../ns#SelectConceptsInScheme> ;
-    rdfs:isDefinedBy <../../../ns#> .
+    spin:query ns:SelectConceptsInScheme ;
+    rdfs:isDefinedBy ns: .
 
-<../../../ns#SelectConceptsInScheme> a sp:Select ;
+ns:SelectConceptsInScheme a sp:Select ;
     rdfs:label "Select concepts in scheme" ;
     sp:text """
 PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
@@ -28,4 +29,4 @@ WHERE
   }
 ORDER BY ?prefLabel
 """ ;
-    rdfs:isDefinedBy <../../../ns#> .
+    rdfs:isDefinedBy ns: .
