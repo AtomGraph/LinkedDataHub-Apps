@@ -35,25 +35,11 @@ admin_proxy=$(admin_uri "$proxy")
 
 # append the new class templates to the namespace ontology
 # prepend @base directive using end-user base URI so that the ns: prefix
-# (defined as <ns#> in the templates) resolves to the end-user namespace
+# (defined as <ns#> in ns.ttl) resolves to the end-user namespace
 # (e.g. https://swib.localhost:4443/ns#) instead of the admin namespace
 # (e.g. https://admin.swib.localhost:4443/ns#)
 
-{ echo "@base <${base}> ."; cat concept-template.ttl; } | post.sh \
-    -f "$cert_pem_file" \
-    -p "$cert_password" \
-    --proxy "$admin_proxy" \
-    --content-type "text/turtle" \
-    "${admin_base}ontologies/namespace/"
-
-{ echo "@base <${base}> ."; cat collection-template.ttl; } | post.sh \
-    -f "$cert_pem_file" \
-    -p "$cert_password" \
-    --proxy "$admin_proxy" \
-    --content-type "text/turtle" \
-    "${admin_base}ontologies/namespace/"
-
-{ echo "@base <${base}> ."; cat concept-scheme-template.ttl; } | post.sh \
+{ echo "@base <${base}> ."; cat ns.ttl; } | post.sh \
     -f "$cert_pem_file" \
     -p "$cert_password" \
     --proxy "$admin_proxy" \

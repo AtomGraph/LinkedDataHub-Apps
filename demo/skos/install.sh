@@ -43,7 +43,7 @@ printf "\n### Creating constraints\n\n"
 
 printf "\n### Creating block templates\n\n"
 
-./post-class-templates.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+./post-ns.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
 cd ..
 

@@ -1,0 +1,193 @@
+@prefix :	    <#> .
+@prefix ns:     <ns#> .
+@prefix ldh:	<https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix sp:	    <http://spinrdf.org/sp#> .
+@prefix spin:	<http://spinrdf.org/spin#> .
+@prefix dct:	<http://purl.org/dc/terms/> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+@prefix schema: <https://schema.org/> .
+
+ns: a owl:Ontology .
+
+# classes
+
+schema:Person a owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:isDefinedBy ns: .
+
+schema:Order a owl:Class ;
+    rdfs:label "Order" ;
+    rdfs:isDefinedBy ns: .
+
+schema:City a owl:Class ;
+    rdfs:label "City" ;
+    rdfs:isDefinedBy ns: .
+
+schema:PostalAddress a owl:Class ;
+    rdfs:label "Postal address" ;
+    rdfs:isDefinedBy ns: .
+
+# properties
+
+schema:broker a owl:ObjectProperty ;
+    rdfs:label "Broker";
+    rdfs:domain schema:Order ;
+    rdfs:range schema:Person ;
+    rdfs:isDefinedBy ns: .
+
+schema:areaServed a owl:ObjectProperty ;
+    rdfs:label "Area served";
+    rdfs:domain schema:Person ;
+    rdfs:range schema:City ;
+    rdfs:isDefinedBy ns: .
+
+schema:address a owl:ObjectProperty ;
+    rdfs:label "Address";
+    rdfs:domain schema:Person ;
+    rdfs:range schema:PostalAddress ;
+    rdfs:isDefinedBy ns: .
+
+# restrictions
+
+[] a owl:Restriction ;
+    owl:onProperty schema:broker ;
+    owl:minCardinality 1 ;
+    owl:maxCardinality 1 ;
+    rdfs:isDefinedBy ns: .
+
+[] a owl:Restriction ;
+    owl:onProperty schema:address ;
+    owl:minCardinality 1 ;
+    owl:maxCardinality 1 ;
+    rdfs:isDefinedBy ns: .
+
+# Person
+
+# orders handled by this employee
+
+schema:Person ldh:template ns:OrdersHandledByEmployee .
+
+ns:OrdersHandledByEmployee a ldh:View ;
+    dct:title "Orders handled by this employee" ;
+    spin:query ns:SelectOrdersHandledByEmployee ;
+    rdfs:isDefinedBy ns: .
+
+ns:SelectOrdersHandledByEmployee a sp:Select ;
+    rdfs:label "Select orders handled by employee" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?order
+WHERE
+  { GRAPH ?graph
+      { ?order schema:broker $about }
+  }
+ORDER BY DESC(?order)
+""" ;
+    rdfs:isDefinedBy ns: .
+
+# Corporation
+
+# orders from this customer
+
+schema:Corporation ldh:template ns:OrdersFromCustomer .
+
+ns:OrdersFromCustomer a ldh:View ;
+    dct:title "Orders from this customer" ;
+    spin:query ns:SelectOrdersFromCustomer ;
+    rdfs:isDefinedBy ns: .
+
+ns:SelectOrdersFromCustomer a sp:Select ;
+    rdfs:label "Select orders from customer" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?order
+WHERE
+  { GRAPH ?graph
+      { ?order schema:customer $about }
+  }
+ORDER BY DESC(?order)
+""" ;
+    rdfs:isDefinedBy ns: .
+
+# products supplied by this supplier
+
+schema:Corporation ldh:template ns:ProductsFromSupplier .
+
+ns:ProductsFromSupplier a ldh:View ;
+    dct:title "Products supplied by this supplier" ;
+    spin:query ns:SelectProductsFromSupplier ;
+    rdfs:isDefinedBy ns: .
+
+ns:SelectProductsFromSupplier a sp:Select ;
+    rdfs:label "Select products from supplier" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?product
+WHERE
+  { GRAPH ?graph
+      { ?product schema:provider $about }
+  }
+ORDER BY ?product
+""" ;
+    rdfs:isDefinedBy ns: .
+
+# Place
+
+# cities in this region
+
+schema:Place ldh:template ns:CitiesInRegion .
+
+ns:CitiesInRegion a ldh:View ;
+    dct:title "Cities in this region" ;
+    spin:query ns:SelectCitiesInRegion ;
+    rdfs:isDefinedBy ns: .
+
+ns:SelectCitiesInRegion a sp:Select ;
+    rdfs:label "Select cities in region" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?city
+WHERE
+  { GRAPH ?graph
+      { ?city schema:containedInPlace $about }
+  }
+ORDER BY ?city
+""" ;
+    rdfs:isDefinedBy ns: .
+
+# Product
+
+# orders containing this product
+
+schema:Product ldh:template ns:OrdersContainingProduct .
+
+ns:OrdersContainingProduct a ldh:View ;
+    dct:title "Orders containing this product" ;
+    spin:query ns:SelectOrdersContainingProduct ;
+    rdfs:isDefinedBy ns: .
+
+ns:SelectOrdersContainingProduct a sp:Select ;
+    rdfs:label "Select orders containing product" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?order
+WHERE
+  { GRAPH ?graph
+      { ?order schema:orderedItem ?orderItem .
+        ?orderItem schema:orderedItem $about
+      }
+  }
+ORDER BY DESC(?order)
+""" ;
+    rdfs:isDefinedBy ns: .
