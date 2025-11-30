@@ -27,14 +27,14 @@ admin_proxy=$(admin_uri "$proxy")
 
 pwd=$(realpath "$PWD")
 
-sha1sum=$(sha1sum "$pwd"/../../files/skos.xsl | cut -d ' ' -f 1)
+sha1sum=$(sha1sum "$pwd"/../../files/layout.xsl | cut -d ' ' -f 1)
 
 create-authorization.sh \
   -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
   --proxy "$admin_proxy" \
-  --label "Public SKOS XSLT stylesheet" \
+  --label "Public layout XSLT stylesheet" \
   --agent-class http://xmlns.com/foaf/0.1/Agent \
   --to "${base}uploads/${sha1sum}/" \
   --read

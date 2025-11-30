@@ -29,7 +29,7 @@ pwd=$(realpath "$PWD")
 
 printf "\n### Creating ontology item\n\n"
 
-target=$(create-item.sh \
+create-item.sh \
   -b "$admin_base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
@@ -37,13 +37,3 @@ target=$(create-item.sh \
   --title "Northwind Traders" \
   --slug "northwind-traders" \
   --container "${admin_base}ontologies/"
-)
-
-printf "\n### Appending ontology document\n\n"
-
-cat "$pwd"/northwind-traders.ttl | turtle --base="$target" | post.sh \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$admin_proxy" \
-  -t "application/n-triples" \
-  "$target"

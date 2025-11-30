@@ -35,32 +35,11 @@ admin_proxy=$(admin_uri "$proxy")
 
 # append the new class templates to the namespace ontology
 # prepend @base directive using end-user base URI so that the ns: prefix
-# (defined as <ns#> in the templates) resolves to the end-user namespace
+# (defined as <ns#> in ns.ttl) resolves to the end-user namespace
 # (e.g. https://northwind-traders.localhost:4443/ns#) instead of the admin namespace
 # (e.g. https://admin.northwind-traders.localhost:4443/ns#)
 
-{ echo "@base <${base}> ."; cat person-template.ttl; } | post.sh \
-    -f "$cert_pem_file" \
-    -p "$cert_password" \
-    --proxy "$admin_proxy" \
-    --content-type "text/turtle" \
-    "${admin_base}ontologies/namespace/"
-
-{ echo "@base <${base}> ."; cat corporation-template.ttl; } | post.sh \
-    -f "$cert_pem_file" \
-    -p "$cert_password" \
-    --proxy "$admin_proxy" \
-    --content-type "text/turtle" \
-    "${admin_base}ontologies/namespace/"
-
-{ echo "@base <${base}> ."; cat place-template.ttl; } | post.sh \
-    -f "$cert_pem_file" \
-    -p "$cert_password" \
-    --proxy "$admin_proxy" \
-    --content-type "text/turtle" \
-    "${admin_base}ontologies/namespace/"
-
-{ echo "@base <${base}> ."; cat product-template.ttl; } | post.sh \
+{ echo "@base <${base}> ."; cat ns.ttl; } | post.sh \
     -f "$cert_pem_file" \
     -p "$cert_password" \
     --proxy "$admin_proxy" \
