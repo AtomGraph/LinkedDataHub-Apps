@@ -480,7 +480,7 @@ add-view.sh \
   --proxy "$proxy" \
   --uri "#${view_id}" \
   --query "${container}#${query_id}" \
-  --mode "https://w3id.org/atomgraph/client#TableMode" \
+  --mode "https://w3id.org/atomgraph/client#MapMode" \
   "$container"
 
 object_id="select-territories"
