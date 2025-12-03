@@ -8,7 +8,7 @@
 @prefix sioc:	<http://rdfs.org/sioc/ns#> .
 
 <> a def:Root ;
-    dct:title "City Graph" ;
+    dct:title "Copenhagen" ;
     dct:description "Geospatial and other open data about cities, imported by transforming CSV files to RDF" ;
     rdf:_1 <#page-header> ;
     rdf:_2 <#main-library> ;
@@ -20,7 +20,7 @@
 <#page-header> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
         <div class="page-header">
-            <h2>City Graph</h2>
+            <h2>Copenhagen</h2>
             <p class="lead">Geospatial and other open data about the city of Copenhagen</p>
         </div>
         <p>Features include CSV data <a href="imports/" target="_blank">imports</a>, SPARQL-based <a href="charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation) as well as
@@ -31,7 +31,7 @@
     </div>"""^^rdf:XMLLiteral .
 
 <#main-library> a ldh:Object ;
-    rdf:value <copenhagen/places/stednavn_punkt.fid-361ad8c1_150a94a2aab_-83b/#this> ;
+    rdf:value <places/stednavn_punkt.fid-361ad8c1_150a94a2aab_-83b/#this> ;
     ac:mode ac:MapMode .
 
 <#charts> a ldh:XHTML ;

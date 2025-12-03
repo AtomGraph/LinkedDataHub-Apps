@@ -73,8 +73,6 @@ add-object-block.sh \
   --value "${container}#${view_id}" \
   "$container"
 
-echo "BBB"
-
 # collections
 
 container=$(create-container.sh \

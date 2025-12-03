@@ -7,7 +7,7 @@
 @prefix sioc:	<http://rdfs.org/sioc/ns#> .
 
 <> a def:Root ;
-    dct:title "SKOS" ;
+    dct:title "Unesco Thesaurus" ;
     dct:description "SKOS-based editor of thesauri, lexicons, vocabularies, taxonomies, and classification schemes" ;
     rdf:_1 <#page-header> ;
     rdf:_2 <#select-children> .
@@ -15,8 +15,25 @@
 <#page-header> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
         <div class="page-header">
-            <h2>SKOS editor</h2>
-            <p class="lead">Features include resource creation and editing (requires authentication), RDF data import as well as a customized layout (broader/narrower/related sections of concepts).</p>
+            <h2>UNESCO Thesaurus</h2>
+        </div>
+        <div class="row-fluid">
+            <div class="span9">
+                <p class="lead">This application demonstrates the capabilities of LinkedDataHub's <a href="https://packages.linkeddatahub.com/skos/#this" target="_blank">SKOS package</a>.</p>
+                <dl>
+                    <dt>Browser</dt>
+                    <dd>Navigate concepts, collections, and concept schemes with parallax navigation through broader/narrower/related relationships</dd>
+                    <dt>Editor</dt>
+                    <dd>Create and edit SKOS resources (requires authentication)</dd>
+                    <dt>RDF Import</dt>
+                    <dd>Import data using SPARQL transformation queries</dd>
+                </dl>
+            </div>
+            <div class="span3">
+                <a href="https://vocabularies.unesco.org/browser/thesaurus/en/" target="_blank">
+                    <img alt="UNESCO Thesaurus" src="uploads/3fd6333140bf7a78f19f6a3aa602ea79d8b572a3" style="max-width: 100%;"></img>
+                </a>
+            </div>
         </div>
     </div>"""^^rdf:XMLLiteral .
 
