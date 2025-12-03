@@ -15,42 +15,40 @@ CONSTRUCT
             sioc:has_container ?container ;
             dh:slug ?id ;
             dct:title ?name ;
-            foaf:primaryTopic ?school .
+            foaf:primaryTopic ?sportCenter .
 
-        ?school a schema:School ;
+        ?sportCenter a schema:SportsActivityLocation ;
             geo:lat ?lat ;
             geo:long ?long ;
             dct:title ?name ;
             schema:streetAddress ?address ;
             schema:postalCode ?postcode ;
-            schema:addressRegion ?region ;
-            dbo:city ?city ;
+            foaf:mbox ?email ;
             foaf:page ?link ;
-            dbo:district ?district ;
             dct:identifier ?id .
     }
 }
 WHERE
 {
-    ?school_row <#FID> ?id ;
-        <#navn> ?name ;
+    ?sportCenter_row <#FID> ?id ;
+        <#name> ?name ;
         <#address> ?address ;
-        <#omraade> ?region ;
         <#lat> ?lat_string ;
-        <#bydelnavn> ?city ;
-        <#postnummer> ?postcode ;
-        <#bby> ?district ;
-        <#long> ?long_string . 
+        <#postcode> ?postcode ;
+        <#long> ?long_string .
 
-    OPTIONAL
-    {
-        ?school_row <#link> ?linkString
+    OPTIONAL {
+        ?sportCenter_row <#email> ?emailString
+        BIND (URI(CONCAT(STR(<mailto:>), ?emailString)) AS ?email)
+    }
+    OPTIONAL {
+        ?sportCenter_row <#link> ?linkString
         BIND (URI(?linkString) AS ?link) 
     }
 
-    BIND (uri(concat(str($base), "copenhagen/schools/")) AS ?container)
+    BIND(uri(concat(str($base), "sports-centers/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
-    BIND(uri(concat(str(?item), "#this")) AS ?school)
+    BIND(uri(concat(str(?item), "#this")) AS ?sportCenter)
     BIND(xsd:float(?lat_string) AS ?lat)
     BIND(xsd:float(?long_string) AS ?long)
 }

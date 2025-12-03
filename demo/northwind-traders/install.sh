@@ -25,23 +25,11 @@ make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$prox
 
 cd admin/model
 
-printf "\n### Import ontologies\n\n"
+printf "\n### Importing namespace ontology\n\n"
 
-./import-ontologies.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
-
-printf "\n### Adding ontology import\n\n"
-
-./add-imports.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
-
-printf "\n### Creating block templates\n\n"
-
-./post-ns.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
-
-printf "\n### Clearing ontologies\n\n"
+./import-ns.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
 cd ..
-
-./clear-ontologies.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
 cd ..
 

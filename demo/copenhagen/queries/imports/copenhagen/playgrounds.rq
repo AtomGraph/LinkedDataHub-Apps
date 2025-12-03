@@ -50,7 +50,7 @@ WHERE
     { ?playground_row <#link> ?linkString 
     BIND (URI(?linkString) AS ?link)}
 
-    BIND(uri(concat(str($base), "copenhagen/playgrounds/")) AS ?container)
+    BIND(uri(concat(str($base), "playgrounds/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
     BIND(uri(concat(str(?item), "#this")) AS ?playground)
     BIND(xsd:float(?lat_string) AS ?lat) .

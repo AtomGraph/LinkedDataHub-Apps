@@ -17,21 +17,6 @@ else
     proxy="$base"
 fi
 
-parent=$(
-create-container.sh \
-  -b "$base" \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --title "Copenhagen" \
-  --slug "copenhagen" \
-  --parent "$base"
-)
-
-if [ -z "$parent" ]; then
-    exit 1
-fi
-
 create-container.sh \
   -b "$base" \
   -f "$cert_pem_file" \
@@ -39,7 +24,7 @@ create-container.sh \
   --proxy "$proxy" \
   --title "Places" \
   --slug "places" \
-  --parent "$parent" \
+  --parent "$base" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
 create-container.sh \
@@ -49,7 +34,7 @@ create-container.sh \
   --proxy "$proxy" \
   --title "Bicycle parkings" \
   --slug "bicycle-parkings" \
-  --parent "$parent" \
+  --parent "$base" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
 create-container.sh \
@@ -59,7 +44,7 @@ create-container.sh \
   --proxy "$proxy" \
   --title "Charging stations" \
   --slug "charging-stations" \
-  --parent "$parent" \
+  --parent "$base" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
 create-container.sh \
@@ -69,7 +54,7 @@ create-container.sh \
   --proxy "$proxy" \
   --title "Libraries" \
   --slug "libraries" \
-  --parent "$parent" \
+  --parent "$base" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
 create-container.sh \
@@ -79,7 +64,7 @@ create-container.sh \
   --proxy "$proxy" \
   --title "Parking facilities" \
   --slug "parking-facilities" \
-  --parent "$parent" \
+  --parent "$base" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
 create-container.sh \
@@ -89,7 +74,7 @@ create-container.sh \
   --proxy "$proxy" \
   --title "Playgrounds" \
   --slug "playgrounds" \
-  --parent "$parent" \
+  --parent "$base" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
 create-container.sh \
@@ -99,7 +84,7 @@ create-container.sh \
   --proxy "$proxy" \
   --title "Schools" \
   --slug "schools" \
-  --parent "$parent" \
+  --parent "$base" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
 create-container.sh \
@@ -109,7 +94,7 @@ create-container.sh \
   --proxy "$proxy" \
   --title "Sport centers" \
   --slug "sports-centers" \
-  --parent "$parent" \
+  --parent "$base" \
   --mode "https://w3id.org/atomgraph/client#MapMode"
 
 create-container.sh \
@@ -119,5 +104,5 @@ create-container.sh \
   --proxy "$proxy" \
   --title "Public toilets" \
   --slug "public-toilets" \
-  --parent "$parent" \
+  --parent "$base" \
   --mode "https://w3id.org/atomgraph/client#MapMode"

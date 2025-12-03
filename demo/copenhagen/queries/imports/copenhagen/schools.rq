@@ -4,7 +4,6 @@ PREFIX dbo:        <http://dbpedia.org/ontology/>
 PREFIX schema:     <https://schema.org/> 
 PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#> 
 PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#> 
-PREFIX rdf:        <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy#>
 PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
@@ -16,44 +15,42 @@ CONSTRUCT
             sioc:has_container ?container ;
             dh:slug ?id ;
             dct:title ?name ;
-            foaf:primaryTopic ?library .
+            foaf:primaryTopic ?school .
 
-        ?library a schema:Library ;
+        ?school a schema:School ;
             geo:lat ?lat ;
             geo:long ?long ;
             dct:title ?name ;
             schema:streetAddress ?address ;
             schema:postalCode ?postcode ;
-            dbo:district ?district ;
+            schema:addressRegion ?region ;
+            dbo:city ?city ;
             foaf:page ?link ;
-            foaf:mbox ?email ;
+            dbo:district ?district ;
             dct:identifier ?id .
     }
 }
 WHERE
 {
-    ?library_row <#FID> ?id ;
-        <#name> ?name ;
+    ?school_row <#FID> ?id ;
+        <#navn> ?name ;
         <#address> ?address ;
+        <#omraade> ?region ;
         <#lat> ?lat_string ;
-        <#postcode> ?postcode ;
-        <#postdistrikt> ?district ;
+        <#bydelnavn> ?city ;
+        <#postnummer> ?postcode ;
+        <#bby> ?district ;
         <#long> ?long_string . 
 
-    OPTIONAL 
+    OPTIONAL
     {
-        ?library_row <#email> ?emailString
-        BIND (URI(CONCAT(STR(<mailto:>), ?emailString)) AS ?email)
-    }
-    OPTIONAL 
-    {
-        ?library_row <#link> ?linkString
-        BIND (URI(?linkString) AS ?link)
+        ?school_row <#link> ?linkString
+        BIND (URI(?linkString) AS ?link) 
     }
 
-    BIND(uri(concat(str($base), "copenhagen/libraries/")) AS ?container)
+    BIND (uri(concat(str($base), "schools/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
-    BIND(uri(concat(str(?item), "#this")) AS ?library)
+    BIND(uri(concat(str(?item), "#this")) AS ?school)
     BIND(xsd:float(?lat_string) AS ?lat)
     BIND(xsd:float(?long_string) AS ?long)
 }

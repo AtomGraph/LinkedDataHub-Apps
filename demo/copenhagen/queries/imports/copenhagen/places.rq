@@ -36,7 +36,7 @@ WHERE
     OPTIONAL
       { ?place_row  <#category>  ?category_name }
 
-    BIND(uri(concat(str($base), "copenhagen/places/")) AS ?container)
+    BIND(uri(concat(str($base), "places/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
     BIND(uri(concat(str(?item), "#this")) AS ?place)
     BIND(xsd:float(?lat_string) AS ?lat)

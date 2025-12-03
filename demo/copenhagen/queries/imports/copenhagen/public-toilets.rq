@@ -46,7 +46,7 @@ WHERE
     OPTIONAL { ?toilet_row <#aabningstid_bemrk> ?comment }
     OPTIONAL { ?toilet_row <#opening_hours> ?openingHours }
 
-    BIND(uri(concat(str($base), "copenhagen/public-toilets/")) AS ?container)
+    BIND(uri(concat(str($base), "public-toilets/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
     BIND(uri(concat(str(?item), "#this")) AS ?toilet)
     BIND(xsd:float(?lat_string) AS ?lat)

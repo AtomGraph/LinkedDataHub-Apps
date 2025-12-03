@@ -25,7 +25,29 @@ admin_uri() {
 admin_base=$(admin_uri "$base")
 admin_proxy=$(admin_uri "$proxy")
 
-# clear the old contents of the namespace ontology
+# create a new document for the SKOS ontology
+
+target=$(create-item.sh \
+  -b "$admin_base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$admin_proxy" \
+  --title "SKOS" \
+  --slug "skos" \
+  --container "${admin_base}ontologies/"
+)
+
+# import the SKOS ontology data
+
+import-ontology.sh \
+  -b "$admin_base" \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  --proxy "$admin_proxy" \
+  --source "http://www.w3.org/2004/02/skos/core" \
+  --graph "$target"
+
+# clear the old properties of the namespace ontology
 
 { echo "BASE <${admin_base}ontologies/namespace/>"; cat patch-ontology.ru; } | patch.sh \
     -f "$cert_pem_file" \
@@ -33,15 +55,20 @@ admin_proxy=$(admin_uri "$proxy")
     --proxy "$admin_proxy" \
     "${admin_base}ontologies/namespace/"
 
-# append the new class templates to the namespace ontology
-# prepend @base directive using end-user base URI so that the ns: prefix
+# append the ns.ttl file to the namespace ontology
+# prepend @base directive using end-user base URI so that the : prefix
 # (defined as <ns#> in ns.ttl) resolves to the end-user namespace
-# (e.g. https://swib.localhost:4443/ns#) instead of the admin namespace
-# (e.g. https://admin.swib.localhost:4443/ns#)
 
-{ echo "@base <${base}> ."; cat ns.ttl; } | post.sh \
+{ echo "@base <${base}ns> ."; cat ns.ttl; } | post.sh \
     -f "$cert_pem_file" \
     -p "$cert_password" \
     --proxy "$admin_proxy" \
     --content-type "text/turtle" \
     "${admin_base}ontologies/namespace/"
+
+clear-ontology.sh \
+  -f "$cert_pem_file" \
+  -p "$cert_password" \
+  -b "$admin_base" \
+  --proxy "$admin_proxy" \
+  --ontology "${base}ns#"

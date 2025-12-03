@@ -1,4 +1,3 @@
-PREFIX ns:         <https://linkeddatahub.com/demo/city-graph/admin/ontologies/namespace/#>
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX dbo:        <http://dbpedia.org/ontology/> 
@@ -17,36 +16,48 @@ CONSTRUCT
             sioc:has_container ?container ;
             dh:slug ?id ;
             dct:title ?name ;
-            foaf:primaryTopic ?bicyleParking .
+            foaf:primaryTopic ?parking .
 
-        ?bicyleParking a ns:BicycleParking ;
+        ?parking a schema:ParkingFacility ;
             geo:lat ?lat ;
             geo:long ?long ;
             dct:title ?name ;
-            dbo:city ?city ;
             schema:streetAddress ?address ;
+            schema:postalCode ?postcode ;
             schema:maximumAttendeeCapacity ?spaces ;
-            dct:identifier ?id .
+            schema:additionalProperty ?parkingType ;
+            schema:comment ?information ;
+            schema:identifier ?id .
+        ?owner a ?ownerType ;
+            schema:owns ?parking .
     }
 }
 WHERE
 {
-    ?bicyleParking_row <#FID> ?id ;
+    ?parking_row <#FID> ?id ;
+        <#name> ?name ;
+        <#address> ?address ;
         <#lat> ?lat_string ;
+        <#postcode> ?postcode ;
+        <#parkingSpace> ?spaces_string ;
+        <#parkingType> ?parkingType ;
+        <#information> ?information ;
         <#long> ?long_string . 
+        {
+            ?parking_row <#owner> 'Privat' .
+            BIND(BNODE() AS ?owner)
+            BIND(schema:Corporation AS ?ownerType)
+        }
+        UNION
+        {
+            ?parking_row <#owner> 'Kommune' .
+            BIND (<http://www.wikidata.org/entity/Q504125> AS ?owner) # Copenhagen Municipality
+        }
 
-    OPTIONAL 
-    { ?bicyleParking_row <#name> ?name }
-    OPTIONAL 
-    { ?bicyleParking_row <#bydel> ?city }
-    OPTIONAL 
-    { ?bicyleParking_row <#vejnavn> ?address }
-    OPTIONAL 
-    { ?bicyleParking_row <#antal_pladser> ?spaces }
-
-    BIND(uri(concat(str($base), "copenhagen/bicycle-parkings/")) AS ?container)
+    BIND(uri(concat(str($base), "parking-facilities/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
-    BIND(uri(concat(str(?item), "#this")) AS ?bicyleParking)
+    BIND(uri(concat(str(?item), "#this")) AS ?parking)
     BIND(xsd:float(?lat_string) AS ?lat)
     BIND(xsd:float(?long_string) AS ?long)
+    BIND(xsd:integer(?spaces_string) AS ?spaces)
 }

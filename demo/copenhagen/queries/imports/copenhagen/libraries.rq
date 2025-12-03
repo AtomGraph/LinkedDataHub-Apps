@@ -16,48 +16,44 @@ CONSTRUCT
             sioc:has_container ?container ;
             dh:slug ?id ;
             dct:title ?name ;
-            foaf:primaryTopic ?parking .
+            foaf:primaryTopic ?library .
 
-        ?parking a schema:ParkingFacility ;
+        ?library a schema:Library ;
             geo:lat ?lat ;
             geo:long ?long ;
             dct:title ?name ;
             schema:streetAddress ?address ;
             schema:postalCode ?postcode ;
-            schema:maximumAttendeeCapacity ?spaces ;
-            schema:additionalProperty ?parkingType ;
-            schema:comment ?information ;
-            schema:identifier ?id .
-        ?owner a ?ownerType ;
-            schema:owns ?parking .
+            dbo:district ?district ;
+            foaf:page ?link ;
+            foaf:mbox ?email ;
+            dct:identifier ?id .
     }
 }
 WHERE
 {
-    ?parking_row <#FID> ?id ;
+    ?library_row <#FID> ?id ;
         <#name> ?name ;
         <#address> ?address ;
         <#lat> ?lat_string ;
         <#postcode> ?postcode ;
-        <#parkingSpace> ?spaces_string ;
-        <#parkingType> ?parkingType ;
-        <#information> ?information ;
+        <#postdistrikt> ?district ;
         <#long> ?long_string . 
-        {
-            ?parking_row <#owner> 'Privat' .
-            BIND(BNODE() AS ?owner)
-            BIND(schema:Corporation AS ?ownerType)
-        }
-        UNION
-        {
-            ?parking_row <#owner> 'Kommune' .
-            BIND (<http://www.wikidata.org/entity/Q504125> AS ?owner) # Copenhagen Municipality
-        }
 
-    BIND(uri(concat(str($base), "copenhagen/parking-facilities/")) AS ?container)
+    OPTIONAL 
+    {
+        ?library_row <#email> ?emailString
+        BIND (URI(CONCAT(STR(<mailto:>), ?emailString)) AS ?email)
+    }
+    OPTIONAL 
+    {
+        ?library_row <#link> ?linkString
+        BIND (URI(?linkString) AS ?link)
+    }
+
+    BIND(uri(concat(str($base), "libraries/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
-    BIND(uri(concat(str(?item), "#this")) AS ?parking)
+    BIND(uri(concat(str(?item), "#this")) AS ?library)
     BIND(xsd:float(?lat_string) AS ?lat)
     BIND(xsd:float(?long_string) AS ?long)
-    BIND(xsd:integer(?spaces_string) AS ?spaces)
 }

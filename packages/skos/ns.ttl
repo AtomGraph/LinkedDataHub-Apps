@@ -9,6 +9,8 @@
 
 # Concept
 
+skos:Concept spin:constraint ns:MissingPrefLabel .
+
 # narrower
 
 skos:Concept ldh:template ns:NarrowerConcepts.
@@ -121,3 +123,9 @@ WHERE
 ORDER BY ?prefLabel
 """ ;
     rdfs:isDefinedBy ns: .
+
+# Constraints
+
+ns:MissingPrefLabel a ldh:MissingPropertyValue ;
+    rdfs:label "Missing skos:prefLabel" ;
+    sp:arg1 skos:prefLabel .

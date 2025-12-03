@@ -1,5 +1,4 @@
 @prefix :	    <#> .
-@prefix ns:     <ns#> .
 @prefix ldh:	<https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -13,25 +12,25 @@
 @prefix foaf:   <http://xmlns.com/foaf/0.1/> .
 @prefix schema: <https://schema.org/> .
 
-ns: a owl:Ontology .
+: a owl:Ontology .
 
 # classes
 
 schema:Person a owl:Class ;
     rdfs:label "Person" ;
-    rdfs:isDefinedBy ns: .
+    rdfs:isDefinedBy : .
 
 schema:Order a owl:Class ;
     rdfs:label "Order" ;
-    rdfs:isDefinedBy ns: .
+    rdfs:isDefinedBy : .
 
 schema:City a owl:Class ;
     rdfs:label "City" ;
-    rdfs:isDefinedBy ns: .
+    rdfs:isDefinedBy : .
 
 schema:PostalAddress a owl:Class ;
     rdfs:label "Postal address" ;
-    rdfs:isDefinedBy ns: .
+    rdfs:isDefinedBy : .
 
 # properties
 
@@ -39,19 +38,19 @@ schema:broker a owl:ObjectProperty ;
     rdfs:label "Broker";
     rdfs:domain schema:Order ;
     rdfs:range schema:Person ;
-    rdfs:isDefinedBy ns: .
+    rdfs:isDefinedBy : .
 
 schema:areaServed a owl:ObjectProperty ;
     rdfs:label "Area served";
     rdfs:domain schema:Person ;
     rdfs:range schema:City ;
-    rdfs:isDefinedBy ns: .
+    rdfs:isDefinedBy : .
 
 schema:address a owl:ObjectProperty ;
     rdfs:label "Address";
     rdfs:domain schema:Person ;
     rdfs:range schema:PostalAddress ;
-    rdfs:isDefinedBy ns: .
+    rdfs:isDefinedBy : .
 
 # restrictions
 
@@ -59,26 +58,26 @@ schema:address a owl:ObjectProperty ;
     owl:onProperty schema:broker ;
     owl:minCardinality 1 ;
     owl:maxCardinality 1 ;
-    rdfs:isDefinedBy ns: .
+    rdfs:isDefinedBy : .
 
 [] a owl:Restriction ;
     owl:onProperty schema:address ;
     owl:minCardinality 1 ;
     owl:maxCardinality 1 ;
-    rdfs:isDefinedBy ns: .
+    rdfs:isDefinedBy : .
 
 # Person
 
 # orders handled by this employee
 
-schema:Person ldh:template ns:OrdersHandledByEmployee .
+schema:Person ldh:template :OrdersHandledByEmployee .
 
-ns:OrdersHandledByEmployee a ldh:View ;
+:OrdersHandledByEmployee a ldh:View ;
     dct:title "Orders handled by this employee" ;
-    spin:query ns:SelectOrdersHandledByEmployee ;
-    rdfs:isDefinedBy ns: .
+    spin:query :SelectOrdersHandledByEmployee ;
+    rdfs:isDefinedBy : .
 
-ns:SelectOrdersHandledByEmployee a sp:Select ;
+:SelectOrdersHandledByEmployee a sp:Select ;
     rdfs:label "Select orders handled by employee" ;
     sp:text """
 PREFIX schema: <https://schema.org/>
@@ -90,20 +89,20 @@ WHERE
   }
 ORDER BY DESC(?order)
 """ ;
-    rdfs:isDefinedBy ns: .
+    rdfs:isDefinedBy : .
 
 # Corporation
 
 # orders from this customer
 
-schema:Corporation ldh:template ns:OrdersFromCustomer .
+schema:Corporation ldh:template :OrdersFromCustomer .
 
-ns:OrdersFromCustomer a ldh:View ;
+:OrdersFromCustomer a ldh:View ;
     dct:title "Orders from this customer" ;
-    spin:query ns:SelectOrdersFromCustomer ;
-    rdfs:isDefinedBy ns: .
+    spin:query :SelectOrdersFromCustomer ;
+    rdfs:isDefinedBy : .
 
-ns:SelectOrdersFromCustomer a sp:Select ;
+:SelectOrdersFromCustomer a sp:Select ;
     rdfs:label "Select orders from customer" ;
     sp:text """
 PREFIX schema: <https://schema.org/>
@@ -115,18 +114,18 @@ WHERE
   }
 ORDER BY DESC(?order)
 """ ;
-    rdfs:isDefinedBy ns: .
+    rdfs:isDefinedBy : .
 
 # products supplied by this supplier
 
-schema:Corporation ldh:template ns:ProductsFromSupplier .
+schema:Corporation ldh:template :ProductsFromSupplier .
 
-ns:ProductsFromSupplier a ldh:View ;
+:ProductsFromSupplier a ldh:View ;
     dct:title "Products supplied by this supplier" ;
-    spin:query ns:SelectProductsFromSupplier ;
-    rdfs:isDefinedBy ns: .
+    spin:query :SelectProductsFromSupplier ;
+    rdfs:isDefinedBy : .
 
-ns:SelectProductsFromSupplier a sp:Select ;
+:SelectProductsFromSupplier a sp:Select ;
     rdfs:label "Select products from supplier" ;
     sp:text """
 PREFIX schema: <https://schema.org/>
@@ -138,20 +137,20 @@ WHERE
   }
 ORDER BY ?product
 """ ;
-    rdfs:isDefinedBy ns: .
+    rdfs:isDefinedBy : .
 
 # Place
 
 # cities in this region
 
-schema:Place ldh:template ns:CitiesInRegion .
+schema:Place ldh:template :CitiesInRegion .
 
-ns:CitiesInRegion a ldh:View ;
+:CitiesInRegion a ldh:View ;
     dct:title "Cities in this region" ;
-    spin:query ns:SelectCitiesInRegion ;
-    rdfs:isDefinedBy ns: .
+    spin:query :SelectCitiesInRegion ;
+    rdfs:isDefinedBy : .
 
-ns:SelectCitiesInRegion a sp:Select ;
+:SelectCitiesInRegion a sp:Select ;
     rdfs:label "Select cities in region" ;
     sp:text """
 PREFIX schema: <https://schema.org/>
@@ -163,20 +162,20 @@ WHERE
   }
 ORDER BY ?city
 """ ;
-    rdfs:isDefinedBy ns: .
+    rdfs:isDefinedBy : .
 
 # Product
 
 # orders containing this product
 
-schema:Product ldh:template ns:OrdersContainingProduct .
+schema:Product ldh:template :OrdersContainingProduct .
 
-ns:OrdersContainingProduct a ldh:View ;
+:OrdersContainingProduct a ldh:View ;
     dct:title "Orders containing this product" ;
-    spin:query ns:SelectOrdersContainingProduct ;
-    rdfs:isDefinedBy ns: .
+    spin:query :SelectOrdersContainingProduct ;
+    rdfs:isDefinedBy : .
 
-ns:SelectOrdersContainingProduct a sp:Select ;
+:SelectOrdersContainingProduct a sp:Select ;
     rdfs:label "Select orders containing product" ;
     sp:text """
 PREFIX schema: <https://schema.org/>
@@ -190,4 +189,4 @@ WHERE
   }
 ORDER BY DESC(?order)
 """ ;
-    rdfs:isDefinedBy ns: .
+    rdfs:isDefinedBy : .
