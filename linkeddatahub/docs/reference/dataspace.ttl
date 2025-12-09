@@ -99,9 +99,9 @@
     <div>
         <h2 id="hierarchy">Document hierarchy</h2>
         <p>The basic structure of resources in an application is analogous to the file system, but built using RDF
-            resources and relationships between them instead. There is a hierarchy of <dfn>containers</dfn> (folders),
-            which are collections of <dfn>items</dfn> (files) as well as sub-containers (sub-folders). Both containers
-            and items are <dfn>documents</dfn>. Items cannot contain other documents.</p>
+            resources and relationships between them instead. There is a hierarchy of <a href="../data-model/documents/containers/" target="_blank">containers</a>,
+            which are collections of <a href="../data-model/documents/items/" target="_blank">items</a> as well as sub-containers. Both containers
+            and items are <a href="../data-model/documents/" target="_blank">documents</a>. Items cannot contain other documents.</p>
         <p>The first level of resources in a container is referred to as its <dfn>children</dfn> (of which that container
             is the <dfn>parent</dfn>), while all levels down the hierarchy are collectively referred to as
             <dfn>descendants</dfn>.</p>
