@@ -29,17 +29,7 @@ cd admin/acl
 
 ./create-authorizations.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
-cd ..
-
-cd model
-
-printf "\n### Importing namespace ontology\n\n"
-
-./import-ns.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
-
-cd ..
-
-cd ..
+cd ../..
 
 printf "\n### Uploading files\n\n"
 
@@ -53,10 +43,10 @@ printf "\n### Updating documents\n\n"
 
 ./update-documents.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
-printf "\n### Importing SKOS vocabulary\n\n"
-
-./import-rdf.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
-
 printf "\n### Installing SKOS package\n\n"
 
 install-package.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy" --package "https://packages.linkeddatahub.com/skos/#this"
+
+printf "\n### Importing SKOS vocabulary\n\n"
+
+./import-rdf.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
