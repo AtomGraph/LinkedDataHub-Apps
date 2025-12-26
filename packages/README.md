@@ -113,13 +113,19 @@ install-package.sh \
 
 ## Prerequisites
 
-Before installing packages, a **master stylesheet** must exist at `/static/<hostname>/layout.xsl` in the webapp directory. A default template is provided at:
+Before installing packages, **master stylesheets** must exist in the webapp directory:
+
+- `/static/xsl/layout.xsl` - End-user application master stylesheet
+- `/static/xsl/admin/layout.xsl` - Admin application master stylesheet
+
+Default templates are provided at:
 
 ```
-src/main/webapp/static/localhost/layout.xsl
+src/main/webapp/static/xsl/layout.xsl
+src/main/webapp/static/xsl/admin/layout.xsl
 ```
 
-This file should be deployed with the application. It contains:
+These files should be deployed with the application. End-user stylesheet contains:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -141,14 +147,17 @@ This file should be deployed with the application. It contains:
 When you install a package, the system:
 
 1. **Fetches package metadata** from the package URI
-2. **Downloads package ontology** (`ns.ttl`) and POSTs it to the namespace graph (`${admin_base}ontologies/namespace/`)
-3. **Downloads package stylesheet** (`layout.xsl`) and saves it to `/static/packages/<package-name>/layout.xsl`
-4. **Updates master stylesheet** at `/static/<hostname>/layout.xsl` by adding import:
+2. **Hashes the package ontology URI** using SHA-1 to create a unique document slug
+3. **Downloads package ontology** (`ns.ttl`) and PUTs it as a document to `${admin_base}ontologies/{hash}/` where `{hash}` is the SHA-1 hash of the ontology URI
+4. **Adds owl:imports** from the namespace ontology to the package ontology in the namespace graph (`${admin_base}ontologies/namespace/`)
+5. **Clears and reloads** the namespace ontology from cache to pick up the new imports
+6. **Downloads package stylesheet** (`layout.xsl`) and saves it to `/static/{package-path}/layout.xsl` where `{package-path}` is derived from the package URI (e.g., `com/linkeddatahub/packages/skos/` for `https://packages.linkeddatahub.com/skos/`)
+7. **Updates master stylesheet** at `/static/xsl/layout.xsl` by adding import:
    ```xml
    <xsl:import href="../com/atomgraph/linkeddatahub/xsl/bootstrap/2.3.2/layout.xsl"/>  <!-- System -->
-   <xsl:import href="../packages/skos/layout.xsl"/>  <!-- Package (added) -->
+   <xsl:import href="../com/linkeddatahub/packages/skos/layout.xsl"/>  <!-- Package (added) -->
    ```
-5. **Adds import to application** (currently manual): `<app> ldh:import <package-uri>`
+8. **Adds import to application** (TODO - currently manual): `<app> ldh:import <package-uri>`
 
 **Note**: The master stylesheet must already exist or installation will fail with `InternalServerErrorException`.
 
@@ -165,39 +174,53 @@ Packages use **installation-time composition**, NOT runtime composition:
 
 ### JAX-RS Endpoints
 
-- **POST `/admin/install-package`** - Installs a package
-  - Parameter: `packageUri` (form-urlencoded)
-  - Requires admin authentication
+**On the admin application**
 
-- **POST `/admin/uninstall-package`** - Uninstalls a package
-  - Parameter: `packageUri` (form-urlencoded)
-  - Requires admin authentication
+- **POST `/packages/install`** - Installs a package
+  - Parameter: `package-uri` (form-urlencoded)
+  - Requires owner/admin authentication
+  - Delegates authenticated agent credentials for PUT requests
+
+- **POST `/packages/uninstall`** - Uninstalls a package
+  - Parameter: `package-uri` (form-urlencoded)
+  - Requires owner/admin authentication
 
 ### File System Structure
 
-After installation:
+After installing the SKOS package:
 
 ```
 webapp/
 ├── static/
-│   ├── packages/
-│   │   └── skos/
-│   │       └── layout.xsl          # Package stylesheet
-│   └── localhost/
-│       └── layout.xsl               # Generated master stylesheet
+│   ├── com/
+│   │   └── linkeddatahub/
+│   │       └── packages/
+│   │           └── skos/
+│   │               └── layout.xsl          # Package stylesheet
+│   └── xsl/
+│       ├── layout.xsl                      # End-user master stylesheet
+│       └── admin/
+│           └── layout.xsl                  # Admin master stylesheet
 ```
 
 ### SPARQL Data Structure
 
 ```turtle
-# In system.trig (application config)
-<urn:linkeddatahub:apps/skos> a lapp:Application ;
-    ldt:ontology <https://localhost:4443/skos/ns#> ;
-    ac:stylesheet <static/localhost/layout.xsl> ;  # Master stylesheet
-    ldh:import <https://packages.linkeddatahub.com/skos/#this> .
+# In admin SPARQL endpoint at <${admin_base}ontologies/{hash}/>
+# Package ontology stored as a document where {hash} is SHA-1 of ontology URI
+<https://packages.linkeddatahub.com/skos/ns.ttl> a owl:Ontology ;
+    # ... package ontology content ...
 
-# In admin SPARQL endpoint (namespace graph)
-# Contains merged package ontologies via owl:imports
+# In admin SPARQL endpoint (namespace graph at <${admin_base}ontologies/namespace/>)
+# Namespace ontology imports package ontology
+<https://localhost:4443/ns#> a owl:Ontology ;
+    owl:imports <https://packages.linkeddatahub.com/skos/ns.ttl> .
+
+# In system.trig (application config)
+<urn:linkeddatahub:apps/end-user> a lapp:EndUserApplication ;
+    ldt:ontology <https://localhost:4443/ns#> ;
+    ac:stylesheet <static/xsl/layout.xsl> ;  # Master stylesheet
+    # ldh:import <package-uri> (TODO - not yet implemented)
 ```
 
 ## Available Packages
