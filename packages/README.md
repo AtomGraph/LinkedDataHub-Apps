@@ -8,32 +8,34 @@ Each package consists of:
 
 ```
 packages/<package-name>/
-├── package.ttl    # Package metadata (ldhp:Package resource)
 ├── ns.ttl         # Ontology with template blocks (ldh:template)
 └── layout.xsl     # XSLT stylesheet with custom templates
 ```
+
+Package metadata is Linked Data that resolves from the package URI (e.g., `https://packages.linkeddatahub.com/skos/#this`).
 
 ### Example: SKOS Package
 
 ```
 packages/skos/
-├── package.ttl    # Metadata: https://packages.linkeddatahub.com/skos/#this
 ├── ns.ttl         # SKOS vocabulary with ldh:template blocks
 └── layout.xsl     # XSLT templates for SKOS concepts, schemes, collections
 ```
 
+Metadata for this package resolves from `https://packages.linkeddatahub.com/skos/#this`.
+
 ## How Packages Work
 
-### 1. Package Metadata (`package.ttl`)
+### 1. Package Metadata
 
-Describes the package using standard LinkedDataHub properties:
+Package metadata resolves as Linked Data from the package URI using standard LinkedDataHub properties:
 
 ```turtle
-@prefix ldhp: <https://w3id.org/atomgraph/linkeddatahub/package#> .
+@prefix lapp: <https://w3id.org/atomgraph/linkeddatahub/apps#> .
 @prefix ldt:  <https://www.w3.org/ns/ldt#> .
 @prefix ac:   <https://w3id.org/atomgraph/client#> .
 
-<https://packages.linkeddatahub.com/skos/#this> a ldhp:Package ;
+<https://packages.linkeddatahub.com/skos/#this> a lapp:Package ;
     rdfs:label "SKOS Package" ;
     dct:description "SKOS vocabulary support with custom templates" ;
     ldt:ontology <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/ns.ttl> ;
@@ -46,18 +48,18 @@ Describes the package using standard LinkedDataHub properties:
 
 Contains two layers:
 
-**A. RDF Vocabulary Classes and Properties**
-```turtle
-skos:Concept a owl:Class ;
-    rdfs:label "Concept" .
+**A. Vocabulary Import**
 
-skos:narrower a owl:ObjectProperty ;
-    rdfs:label "has narrower" .
+Imports the external vocabulary using `owl:imports`:
+
+```turtle
+<https://packages.linkeddatahub.com/skos/ns.ttl> a owl:Ontology ;
+    owl:imports <http://www.w3.org/2004/02/skos/core> .
 ```
 
 **B. Template Blocks (ldh:template)**
 
-SPARQL-based views attached to RDF types:
+SPARQL-based views attached to RDF types from the imported vocabulary:
 
 ```turtle
 skos:Concept ldh:template ns:NarrowerConcepts .
@@ -76,17 +78,19 @@ ns:SelectNarrowerConcepts a sp:Select ;
 
 ### 3. XSLT Stylesheet (`layout.xsl`)
 
-XSLT templates using `bs2:*` modes to override default rendering:
+XSLT templates using system modes to override default rendering:
 
 ```xsl
 <!-- Hide properties from default property list -->
 <xsl:template match="skos:narrower | skos:broader" mode="bs2:PropertyList"/>
 
-<!-- Custom row rendering for concepts -->
-<xsl:template match="*[rdf:type/@rdf:resource = '&skos;Concept']" mode="bs2:Row">
-    <!-- Custom HTML rendering -->
+<!-- Override XHTML head elements -->
+<xsl:template match="*" mode="xhtml:Style">
+    <!-- Custom styles -->
 </xsl:template>
 ```
+
+Available system modes include `bs2:*` (Bootstrap 2.3.2 components), `xhtml:*` (XHTML elements), and others.
 
 ## Installing Packages
 
@@ -230,16 +234,16 @@ webapp/
 ## Creating New Packages
 
 1. Create directory: `packages/<name>/`
-2. Write `package.ttl` with metadata
-3. Write `ns.ttl` with vocabulary and template blocks
-4. Write `layout.xsl` with XSLT templates (using `bs2:*` modes)
-5. Publish as Linked Data at `https://packages.linkeddatahub.com/<name>/#this`
+2. Write `ns.ttl` with vocabulary and template blocks
+3. Write `layout.xsl` with XSLT templates (using system modes like `bs2:*`, `xhtml:*`, etc.)
+4. Publish package metadata as Linked Data at `https://packages.linkeddatahub.com/<name>/#this`
+5. Ensure the metadata contains `ldt:ontology` and `ac:stylesheet` properties pointing to the package resources
 
 ## Vocabulary Reference
 
-### LDHP Vocabulary (`https://w3id.org/atomgraph/linkeddatahub/package#`)
+### LAPP Vocabulary (`https://w3id.org/atomgraph/linkeddatahub/apps#`)
 
-- `ldhp:Package` - Package class
+- `lapp:Package` - Package class
 
 ### Standard Properties (Reused)
 
