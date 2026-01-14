@@ -30,7 +30,7 @@
       <div class="tab-content">
         <div class="tab-pane active">
           <ol>
-            <li>Navigate to the administration application (admin subdomain)</li>
+            <li>Navigate to the administration application</li>
             <li>Click on <dfn>Packages</dfn> in the left navigation menu</li>
             <li>Click the <span class="btn btn-primary">Install package <span class="caret"></span></span> button in the top action bar</li>
             <li>In the install form, select the package you want to install from the <dfn>Package</dfn> dropdown menu</li>

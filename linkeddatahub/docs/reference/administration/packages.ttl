@@ -67,17 +67,17 @@
 &lt;https://packages.linkeddatahub.com/skos/#this&gt; a lapp:Package ;
     rdfs:label "SKOS Package" ;
     dct:description "SKOS vocabulary support with custom templates" ;
-    ldt:ontology &lt;https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/ns.ttl&gt; ;
+    ldt:ontology &lt;https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/ns.ttl#&gt; ;
     ac:stylesheet &lt;https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/layout.xsl&gt; .</pre>
   </div>
   <div>
-    <h2 id="package-ontology">Package ontology (ns.ttl)</h2>
+    <h2 id="package-ontology">Package ontology</h2>
     <p>The package ontology file contains two layers:</p>
     <h3 id="vocabulary-import">Vocabulary import</h3>
     <p>Imports the external vocabulary using <code>owl:imports</code>. See <a href="../ontologies/" target="_blank">Ontologies reference</a> for ontology management details.</p>
-    <pre>&lt;https://packages.linkeddatahub.com/skos/ns.ttl&gt; a owl:Ontology ;
+    <pre>&lt;https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/ns.ttl#&gt; a owl:Ontology ;
     owl:imports &lt;http://www.w3.org/2004/02/skos/core&gt; .</pre>
-    <h3 id="template-blocks">Template blocks (ldh:template)</h3>
+    <h3 id="template-blocks">Template blocks</h3>
     <p>SPARQL-based views attached to RDF types from the imported vocabulary:</p>
     <pre>skos:Concept ldh:template ns:NarrowerConcepts .
 
@@ -92,7 +92,7 @@ ns:SelectNarrowerConcepts a sp:Select ;
     <p>Template blocks define custom views that appear in the UI when viewing resources of the specified type.</p>
   </div>
   <div>
-    <h2 id="package-stylesheet">Package stylesheet (layout.xsl)</h2>
+    <h2 id="package-stylesheet">Package stylesheet</h2>
     <p>XSLT templates using system modes to override default rendering:</p>
     <pre>&lt;!-- Hide properties from default property list --&gt;
 &lt;xsl:template match="skos:narrower | skos:broader" mode="bs2:PropertyList"/&gt;
@@ -105,24 +105,13 @@ ns:SelectNarrowerConcepts a sp:Select ;
     <ul>
       <li><code>bs2:*</code> - Bootstrap 2.3.2 components (PropertyList, Form, etc.)</li>
       <li><code>xhtml:*</code> - XHTML elements (Style, Script, etc.)</li>
-      <li>Additional modes documented in the <a href="../stylesheets/" target="_blank">Stylesheets reference</a></li>
+      <li>Additional modes documented in the <a href="../../stylesheets/" target="_blank">Stylesheets reference</a></li>
     </ul>
   </div>
   <div>
     <h2 id="installing-packages">Installing packages</h2>
     <p>Installation requires Control access to the administration application. See the <a href="../../../user-guide/manage-packages/" target="_blank">step-by-step installation guide</a> for detailed instructions.</p>
-    <h3 id="prerequisites">Prerequisites</h3>
-    <p>Before installing packages, <strong>master stylesheets</strong> must exist in the webapp directory:</p>
-    <ul>
-      <li><code>/static/xsl/layout.xsl</code> - End-user application master stylesheet</li>
-      <li><code>/static/xsl/admin/layout.xsl</code> - Admin application master stylesheet</li>
-    </ul>
-    <p>These files are provided in the application at:</p>
-    <ul>
-      <li><code>src/main/webapp/static/xsl/layout.xsl</code></li>
-      <li><code>src/main/webapp/static/xsl/admin/layout.xsl</code></li>
-    </ul>
-    <p>Installation will fail with <code>InternalServerErrorException</code> if these files do not exist.</p>
+    <p>Installation will fail if these files do not exist.</p>
     <h3 id="installation-process">Installation process</h3>
     <p>When you install a package, the system performs the following steps:</p>
     <ol>
@@ -147,7 +136,7 @@ ns:SelectNarrowerConcepts a sp:Select ;
       <li>Associated queries and stylesheets</li>
     </ul>
     <div class="alert alert-info">
-      <p><strong>Note:</strong> Uninstalling a package does not remove user-created data that uses the package's vocabulary. The data remains accessible but may not be fully functional without the package.</p>
+      <p><strong>Note:</strong> Uninstalling a package does not remove user-created data that uses the package's vocabulary.</p>
     </div>
   </div>
   <div>
@@ -160,14 +149,8 @@ ns:SelectNarrowerConcepts a sp:Select ;
       <li>✅ No runtime overhead</li>
       <li>❌ No dynamic package loading at request time</li>
     </ul>
-    <h3 id="jaxrs-endpoints">JAX-RS endpoints</h3>
-    <p>On the admin application:</p>
-    <dl>
-      <dt>POST <code>/packages/install</code></dt>
-      <dd>Installs a package. Parameter: <code>package-uri</code> (form-urlencoded). Requires owner/admin authentication. Delegates authenticated agent credentials for PUT requests.</dd>
-      <dt>POST <code>/packages/uninstall</code></dt>
-      <dd>Uninstalls a package. Parameter: <code>package-uri</code> (form-urlencoded). Requires owner/admin authentication.</dd>
-    </dl>
+    <h3 id="http-endpoints">HTTP endpoints</h3>
+    <p>Package installation and uninstallation is performed via <a href="../../http-api/#system-endpoints" target="_blank">system endpoints</a> on the admin application. See <code>packages/install</code> and <code>packages/uninstall</code> in the HTTP API reference.</p>
     <h3 id="file-system-structure">File system structure</h3>
     <p>After installing the SKOS package:</p>
     <pre>webapp/
@@ -181,31 +164,13 @@ ns:SelectNarrowerConcepts a sp:Select ;
 │       ├── layout.xsl                      # End-user master stylesheet
 │       └── admin/
 │           └── layout.xsl                  # Admin master stylesheet</pre>
-    <h3 id="sparql-data-structure">SPARQL data structure</h3>
-    <pre># In admin SPARQL endpoint at &lt;${admin_base}ontologies/{hash}/&gt;
-# Package ontology stored as a document where {hash} is SHA-1 of ontology URI
-&lt;https://packages.linkeddatahub.com/skos/ns.ttl&gt; a owl:Ontology ;
-    # ... package ontology content ...
-
-# In admin SPARQL endpoint (namespace graph at &lt;${admin_base}ontologies/namespace/&gt;)
-# Namespace ontology imports package ontology
-&lt;https://localhost:4443/ns#&gt; a owl:Ontology ;
-    owl:imports &lt;https://packages.linkeddatahub.com/skos/ns.ttl&gt; .
-
-# In system.trig (application config)
-&lt;urn:linkeddatahub:apps/end-user&gt; a lapp:EndUserApplication ;
-    ldt:ontology &lt;https://localhost:4443/ns#&gt; ;
-    ac:stylesheet &lt;static/xsl/layout.xsl&gt; ;  # Master stylesheet</pre>
   </div>
   <div>
     <h2 id="creating-packages">Creating custom packages</h2>
     <p>Developers can create custom packages for their own domain vocabularies. The process involves:</p>
-    <h3 id="create-directory">Create package directory</h3>
-    <p>Create a new directory under <code>packages/</code> with your package name:</p>
-    <pre>mkdir packages/schema.org</pre>
-    <h3 id="write-ontology">Write package ontology (ns.ttl)</h3>
+    <h3 id="write-ontology">Write package ontology</h3>
     <p>Create <code>ns.ttl</code> with vocabulary import and template blocks:</p>
-    <pre>&lt;https://packages.linkeddatahub.com/schema.org/ns.ttl&gt; a owl:Ontology ;
+    <pre>&lt;https://raw.githubusercontent.com/you/repo/master/packages/schema.org/ns.ttl#&gt; a owl:Ontology ;
     owl:imports &lt;http://schema.org/&gt; .
 
 # Attach template block to a vocabulary class
@@ -221,7 +186,7 @@ schema:Person ldh:template :PersonKnows .
     WHERE { GRAPH ?graph { $about schema:knows ?person } }
     ORDER BY ?person
     \"\"\" .</pre>
-    <h3 id="write-stylesheet">Write XSLT stylesheet (layout.xsl)</h3>
+    <h3 id="write-stylesheet">Write XSLT stylesheet</h3>
     <p>Create <code>layout.xsl</code> with XSLT templates using system modes like <code>bs2:*</code> and <code>xhtml:*</code>. See the <a href="../stylesheets/" target="_blank">Stylesheets reference</a> for template customization patterns.</p>
     <pre>&lt;xsl:template match="schema:knows" mode="bs2:PropertyList"/&gt;</pre>
     <h3 id="publish-metadata">Publish package metadata</h3>
@@ -229,7 +194,7 @@ schema:Person ldh:template :PersonKnows .
     <pre>&lt;https://packages.linkeddatahub.com/schema.org/#this&gt; a lapp:Package ;
     rdfs:label "Schema.org Package" ;
     dct:description "Schema.org vocabulary support" ;
-    ldt:ontology &lt;https://raw.githubusercontent.com/you/repo/master/packages/schema.org/ns.ttl&gt; ;
+    ldt:ontology &lt;https://raw.githubusercontent.com/you/repo/master/packages/schema.org/ns.ttl#&gt; ;
     ac:stylesheet &lt;https://raw.githubusercontent.com/you/repo/master/packages/schema.org/layout.xsl&gt; .</pre>
     <p>Ensure the metadata contains <code>ldt:ontology</code> and <code>ac:stylesheet</code> properties pointing to the package resources.</p>
     <h3 id="test-installation">Test installation</h3>
@@ -242,21 +207,6 @@ schema:Person ldh:template :PersonKnows .
   </div>
   <div>
     <h2 id="available-packages">Available packages</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Package</th>
-          <th>Description</th>
-          <th>Vocabulary</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><code>skos</code></td>
-          <td>Simple Knowledge Organization System (SKOS) support</td>
-          <td>SKOS Core</td>
-        </tr>
-      </tbody>
-    </table>
+    <p>A curated list of available packages can be found in the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/packages" target="_blank">LinkedDataHub-Apps repository</a>. Each package directory contains the package ontology (<code>ns.ttl</code>) and stylesheet (<code>layout.xsl</code>) files.</p>
   </div>
 </div>"""^^rdf:XMLLiteral .
