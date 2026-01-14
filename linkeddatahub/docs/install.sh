@@ -23,8 +23,6 @@ printf "\n### Creating authorization to make the app public\n\n"
 
 make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
 
-printf "\n### Creating authorizations\n\n"
-
 printf "\n### Update documents (traversing folders recursively)\n\n"
 
 ./update-folder.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "$pwd" "$proxy"
