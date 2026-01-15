@@ -1,54 +1,54 @@
-territoryID,territoryDescription,regionID
-01581,Westboro,1
-01730,Bedford,1
-01833,Georgetown,1
-02116,Boston,1
-02139,Cambridge,1
-02184,Braintree,1
-02903,Providence,1
-03049,Hollis,3
-03801,Portsmouth,3
-06897,Wilton,1
-07960,Morristown,1
-08837,Edison,1
-10019,New York,1
-10038,New York,1
-11747,Mellvile,1
-14450,Fairport,1
-19428,Philadelphia,3
-19713,Neward,1
-20852,Rockville,1
-27403,Greensboro,1
-27511,Cary,1
-29202,Columbia,4
-30346,Atlanta,4
-31406,Savannah,4
-32859,Orlando,4
-33607,Tampa,4
-40222,Louisville,1
-44122,Beachwood,3
-45839,Findlay,3
-48075,Southfield,3
-48084,Troy,3
-48304,Bloomfield Hills,3
-53404,Racine,3
-55113,Roseville,3
-55439,Minneapolis,3
-60179,Hoffman Estates,2
-60601,Chicago,2
-72716,Bentonville,4
-75234,Dallas,4
-78759,Austin,4
-80202,Denver,2
-80909,Colorado Springs,2
-85014,Phoenix,2
-85251,Scottsdale,2
-90405,Santa Monica,2
-94025,Menlo Park,2
-94105,San Francisco,2
-95008,Campbell,2
-95054,Santa Clara,2
-95060,Santa Cruz,2
-98004,Bellevue,2
-98052,Redmond,2
-98104,Seattle,2
+territoryID,territoryDescription,regionID,latitude,longitude
+01581,Westboro,1,42.2679,-71.6176
+01730,Bedford,1,42.4843,-71.2768
+01833,Georgetown,1,42.7281,-70.9822
+02116,Boston,1,42.3492,-71.0768
+02139,Cambridge,1,42.3647,-71.1042
+02184,Braintree,1,42.2093,-70.9963
+02903,Providence,1,41.82,-71.4158
+03049,Hollis,3,42.7485,-71.5772
+03801,Portsmouth,3,43.0729,-70.8052
+06897,Wilton,1,41.2018,-73.4383
+07960,Morristown,1,40.7952,-74.4873
+08837,Edison,1,40.5325,-74.3375
+10019,New York,1,40.7651,-73.9858
+10038,New York,1,40.7101,-74.0013
+11747,Mellvile,1,40.7946,-73.403
+14450,Fairport,1,43.0892,-77.436
+19428,Philadelphia,3,40.0825,-75.3044
+19713,Neward,1,39.6699,-75.7151
+20852,Rockville,1,39.0496,-77.1204
+27403,Greensboro,1,36.0641,-79.8202
+27511,Cary,1,35.7641,-78.7786
+29202,Columbia,4,34.0007,-81.0348
+30346,Atlanta,4,33.9267,-84.3334
+31406,Savannah,4,31.989,-81.0979
+32859,Orlando,4,28.4429,-81.4026
+33607,Tampa,4,27.9625,-82.4895
+40222,Louisville,1,38.2674,-85.6237
+44122,Beachwood,3,41.4701,-81.5232
+45839,Findlay,3,41.0442,-83.6499
+48075,Southfield,3,42.4638,-83.2255
+48084,Troy,3,42.5627,-83.1799
+48304,Bloomfield Hills,3,42.587,-83.2359
+53404,Racine,3,42.7433,-87.8053
+55113,Roseville,3,45.0139,-93.1571
+55439,Minneapolis,3,44.8744,-93.3753
+60179,Hoffman Estates,2,42.0793,-88.2237
+60601,Chicago,2,41.8858,-87.6181
+72716,Bentonville,4,36.3729,-94.2088
+75234,Dallas,4,32.9245,-96.8938
+78759,Austin,4,30.4036,-97.7526
+80202,Denver,2,39.7491,-104.9946
+80909,Colorado Springs,2,38.852,-104.7735
+85014,Phoenix,2,33.5103,-112.0556
+85251,Scottsdale,2,33.4936,-111.9167
+90405,Santa Monica,2,34.01,-118.4717
+94025,Menlo Park,2,37.4396,-122.1864
+94105,San Francisco,2,37.7864,-122.3892
+95008,Campbell,2,37.2803,-121.9539
+95054,Santa Clara,2,37.3924,-121.9623
+95060,Santa Cruz,2,37.0313,-122.1198
+98004,Bellevue,2,47.6155,-122.2072
+98052,Redmond,2,47.6718,-122.1232
+98104,Seattle,2,47.6036,-122.3256

@@ -1,0 +1,51 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix ac:     <https://w3id.org/atomgraph/client#> .
+@prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:	<http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:	<https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:	<http://purl.org/dc/terms/> .
+@prefix sioc:	<http://rdfs.org/sioc/ns#> .
+
+<> a def:Root ;
+    dct:title "Copenhagen" ;
+    dct:description "Geospatial and other open data about cities, imported by transforming CSV files to RDF" ;
+    rdf:_1 <#page-header> ;
+    rdf:_2 <#main-library> ;
+    rdf:_3 <#charts> ;
+    rdf:_4 <#largest-parkings> ;
+    rdf:_5 <#check-out> ;
+    rdf:_6 <#select-children> .
+
+<#page-header> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <div class="page-header">
+            <h2>Copenhagen</h2>
+            <p class="lead">Geospatial and other open data about the city of Copenhagen</p>
+        </div>
+        <p>Features include CSV data <a href="imports/" target="_blank">imports</a>, SPARQL-based <a href="charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation) as well as
+            rich documents composed of structured content backed by RDF Knowledge Graph data.</p>
+        <p>This application was created on <a href="https://atomgraph.github.io/LinkedDataHub/" target="_blank">LinkedDataHub</a> using the low code paradigm: no programming was required, only scripts that
+            invoke LinkedDataHub's CLI commands.</p>
+        <p>For example, below we have embedded Copenhagen's Main Library in map mode.</p>
+    </div>"""^^rdf:XMLLiteral .
+
+<#main-library> a ldh:Object ;
+    rdf:value <places/stednavn_punkt.fid-361ad8c1_150a94a2aab_-83b/#this> ;
+    ac:mode ac:MapMode .
+
+<#charts> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <p>What are the largest parking facilities in Copenhagen? Let's find out in this SPARQL-driven chart.</p>
+    </div>"""^^rdf:XMLLiteral .
+
+<#largest-parkings> a ldh:Object ;
+    rdf:value <charts/largest-parkings/#this> .
+
+<#check-out> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <p>Check out the rest of Copenhagen's geodata in the collection below.</p>
+    </div>"""^^rdf:XMLLiteral .
+
+<#select-children> a ldh:Object ;
+    rdf:value ldh:ChildrenView .

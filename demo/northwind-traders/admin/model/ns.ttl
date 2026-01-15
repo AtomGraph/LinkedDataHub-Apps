@@ -1,0 +1,192 @@
+@prefix :	    <#> .
+@prefix ldh:	<https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix sp:	    <http://spinrdf.org/sp#> .
+@prefix spin:	<http://spinrdf.org/spin#> .
+@prefix dct:	<http://purl.org/dc/terms/> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+@prefix schema: <https://schema.org/> .
+
+: a owl:Ontology .
+
+# classes
+
+schema:Person a owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:isDefinedBy : .
+
+schema:Order a owl:Class ;
+    rdfs:label "Order" ;
+    rdfs:isDefinedBy : .
+
+schema:City a owl:Class ;
+    rdfs:label "City" ;
+    rdfs:isDefinedBy : .
+
+schema:PostalAddress a owl:Class ;
+    rdfs:label "Postal address" ;
+    rdfs:isDefinedBy : .
+
+# properties
+
+schema:broker a owl:ObjectProperty ;
+    rdfs:label "Broker";
+    rdfs:domain schema:Order ;
+    rdfs:range schema:Person ;
+    rdfs:isDefinedBy : .
+
+schema:areaServed a owl:ObjectProperty ;
+    rdfs:label "Area served";
+    rdfs:domain schema:Person ;
+    rdfs:range schema:City ;
+    rdfs:isDefinedBy : .
+
+schema:address a owl:ObjectProperty ;
+    rdfs:label "Address";
+    rdfs:domain schema:Person ;
+    rdfs:range schema:PostalAddress ;
+    rdfs:isDefinedBy : .
+
+# restrictions
+
+[] a owl:Restriction ;
+    owl:onProperty schema:broker ;
+    owl:minCardinality 1 ;
+    owl:maxCardinality 1 ;
+    rdfs:isDefinedBy : .
+
+[] a owl:Restriction ;
+    owl:onProperty schema:address ;
+    owl:minCardinality 1 ;
+    owl:maxCardinality 1 ;
+    rdfs:isDefinedBy : .
+
+# Person
+
+# orders handled by this employee
+
+schema:Person ldh:template :OrdersHandledByEmployee .
+
+:OrdersHandledByEmployee a ldh:View ;
+    dct:title "Orders handled by this employee" ;
+    spin:query :SelectOrdersHandledByEmployee ;
+    rdfs:isDefinedBy : .
+
+:SelectOrdersHandledByEmployee a sp:Select ;
+    rdfs:label "Select orders handled by employee" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?order
+WHERE
+  { GRAPH ?graph
+      { ?order schema:broker $about }
+  }
+ORDER BY DESC(?order)
+""" ;
+    rdfs:isDefinedBy : .
+
+# Corporation
+
+# orders from this customer
+
+schema:Corporation ldh:template :OrdersFromCustomer .
+
+:OrdersFromCustomer a ldh:View ;
+    dct:title "Orders from this customer" ;
+    spin:query :SelectOrdersFromCustomer ;
+    rdfs:isDefinedBy : .
+
+:SelectOrdersFromCustomer a sp:Select ;
+    rdfs:label "Select orders from customer" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?order
+WHERE
+  { GRAPH ?graph
+      { ?order schema:customer $about }
+  }
+ORDER BY DESC(?order)
+""" ;
+    rdfs:isDefinedBy : .
+
+# products supplied by this supplier
+
+schema:Corporation ldh:template :ProductsFromSupplier .
+
+:ProductsFromSupplier a ldh:View ;
+    dct:title "Products supplied by this supplier" ;
+    spin:query :SelectProductsFromSupplier ;
+    rdfs:isDefinedBy : .
+
+:SelectProductsFromSupplier a sp:Select ;
+    rdfs:label "Select products from supplier" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?product
+WHERE
+  { GRAPH ?graph
+      { ?product schema:provider $about }
+  }
+ORDER BY ?product
+""" ;
+    rdfs:isDefinedBy : .
+
+# Place
+
+# cities in this region
+
+schema:Place ldh:template :CitiesInRegion .
+
+:CitiesInRegion a ldh:View ;
+    dct:title "Cities in this region" ;
+    spin:query :SelectCitiesInRegion ;
+    rdfs:isDefinedBy : .
+
+:SelectCitiesInRegion a sp:Select ;
+    rdfs:label "Select cities in region" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?city
+WHERE
+  { GRAPH ?graph
+      { ?city schema:containedInPlace $about }
+  }
+ORDER BY ?city
+""" ;
+    rdfs:isDefinedBy : .
+
+# Product
+
+# orders containing this product
+
+schema:Product ldh:template :OrdersContainingProduct .
+
+:OrdersContainingProduct a ldh:View ;
+    dct:title "Orders containing this product" ;
+    spin:query :SelectOrdersContainingProduct ;
+    rdfs:isDefinedBy : .
+
+:SelectOrdersContainingProduct a sp:Select ;
+    rdfs:label "Select orders containing product" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?order
+WHERE
+  { GRAPH ?graph
+      { ?order schema:orderedItem ?orderItem .
+        ?orderItem schema:orderedItem $about
+      }
+  }
+ORDER BY DESC(?order)
+""" ;
+    rdfs:isDefinedBy : .

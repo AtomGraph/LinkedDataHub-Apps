@@ -32,7 +32,7 @@
             <div class="tab-content">
                 <div class="tab-pane active">
                     <div>
-                        <p>First, either <a href="../upload-file/" target="_blank">upload the XSLT file</a> or mount it using Docker and <samp>docker-compose.override.yml:</samp>:</p>
+                        <p>First, either <a href="../upload-file/" target="_blank">upload the XSLT file</a> or mount it using Docker and <samp>docker-compose.override.yml</samp>:</p>
                         <pre>version: "2.3"
 services:
   linkeddatahub:
