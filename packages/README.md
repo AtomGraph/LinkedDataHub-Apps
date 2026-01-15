@@ -38,7 +38,7 @@ Package metadata resolves as Linked Data from the package URI using standard Lin
 <https://packages.linkeddatahub.com/skos/#this> a lapp:Package ;
     rdfs:label "SKOS Package" ;
     dct:description "SKOS vocabulary support with custom templates" ;
-    ldt:ontology <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/ns.ttl> ;
+    ldt:ontology <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/ns.ttl#> ;
     ac:stylesheet <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/layout.xsl> .
 ```
 
@@ -53,7 +53,7 @@ Contains two layers:
 Imports the external vocabulary using `owl:imports`:
 
 ```turtle
-<https://packages.linkeddatahub.com/skos/ns.ttl> a owl:Ontology ;
+<https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/ns.ttl#> a owl:Ontology ;
     owl:imports <http://www.w3.org/2004/02/skos/core> .
 ```
 
@@ -212,24 +212,23 @@ webapp/
 ```turtle
 # In admin SPARQL endpoint at <${admin_base}ontologies/{hash}/>
 # Package ontology stored as a document where {hash} is SHA-1 of ontology URI
-<https://packages.linkeddatahub.com/skos/ns.ttl> a owl:Ontology ;
+<https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/ns.ttl#> a owl:Ontology ;
     # ... package ontology content ...
 
 # In admin SPARQL endpoint (namespace graph at <${admin_base}ontologies/namespace/>)
 # Namespace ontology imports package ontology
 <https://localhost:4443/ns#> a owl:Ontology ;
-    owl:imports <https://packages.linkeddatahub.com/skos/ns.ttl> .
+    owl:imports <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/ns.ttl#> .
 
 # In system.trig (application config)
 <urn:linkeddatahub:apps/end-user> a lapp:EndUserApplication ;
     ldt:ontology <https://localhost:4443/ns#> ;
     ac:stylesheet <static/xsl/layout.xsl> ;  # Master stylesheet
-    # ldh:import <package-uri> (TODO - not yet implemented)
 ```
 
 ## Available Packages
 
-- **skos** - SKOS vocabulary support (concepts, schemes, collections)
+List of available packagcan be found in the [LinkedDataHub-Apps](https://github.com/AtomGraph/LinkedDataHub-Apps/tree/develop/packages) repository.
 
 ## Creating New Packages
 
@@ -249,7 +248,6 @@ webapp/
 
 - `ldt:ontology` - Points to package ontology URI (from LDT vocabulary)
 - `ac:stylesheet` - Points to package stylesheet URI (from AtomGraph Client vocabulary)
-- `ldh:import` - Application property linking to imported packages (from LDH vocabulary)
 
 ## Notes
 

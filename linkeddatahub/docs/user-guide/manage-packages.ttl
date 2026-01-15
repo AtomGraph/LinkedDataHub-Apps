@@ -29,15 +29,13 @@
       </ul>
       <div class="tab-content">
         <div class="tab-pane active">
+          <p>Follow these steps to install a package through the web interface:</p>
           <ol>
-            <li>Navigate to the administration application</li>
-            <li>Click on <dfn>Packages</dfn> in the left navigation menu</li>
-            <li>Click the <span class="btn btn-primary">Install package <span class="caret"></span></span> button in the top action bar</li>
-            <li>In the install form, select the package you want to install from the <dfn>Package</dfn> dropdown menu</li>
-            <li>Review the package description and dependencies</li>
-            <li>Click <span class="btn btn-primary btn-save">Install</span> to begin installation</li>
-            <li>Wait for the installation process to complete (a progress indicator will be shown)</li>
-            <li>Once complete, you will see a success message and the package will appear in the installed packages list</li>
+            <li>Open the package URI in browser mode by entering its URI in the address bar</li>
+            <li>Click the <span class="btn">Actions</span> dropdown button next to the package</li>
+            <li>Select <span class="btn btn-primary">Install</span> from the dropdown menu</li>
+            <li>Wait for the installation to complete</li>
+            <li>Refresh your browser to ensure the new package functionality is loaded</li>
           </ol>
         </div>
         <div class="tab-pane">
@@ -56,7 +54,7 @@
             <dt><code>-p</code></dt>
             <dd>Owner certificate password</dd>
             <dt><code>--package</code></dt>
-            <dd>Package URI to install (e.g., "https://packages.linkeddatahub.com/skos/#this")</dd>
+            <dd>Package URI to install (e.g., <samp>https://packages.linkeddatahub.com/skos/#this</samp>)</dd>
           </dl>
         </div>
       </div>
@@ -72,16 +70,17 @@
       </ul>
       <div class="tab-content">
         <div class="tab-pane active">
+          <p>Follow these steps to uninstall a package through the web interface:</p>
           <ol>
-            <li>Navigate to the administration application (admin subdomain)</li>
-            <li>Click on <dfn>Packages</dfn> in the left navigation menu</li>
-            <li>Locate the installed package in the list</li>
-            <li>Click on the package to view its details</li>
-            <li>Click the <span class="btn btn-danger">Uninstall</span> button</li>
-            <li>Confirm the uninstallation in the dialog that appears</li>
-            <li>Wait for the uninstallation process to complete</li>
-            <li>The package will be removed from the installed packages list</li>
+            <li>Navigate to the administration application of your dataspace</li>
+            <li>Open the <dfn>Packages</dfn> container to view installed packages</li>
+            <li>Find the package you want to uninstall in the list</li>
+            <li>Click the <span class="btn">Actions</span> dropdown button next to the package</li>
+            <li>Select <span class="btn btn-danger">Uninstall</span> from the dropdown menu</li>
+            <li>Confirm the uninstallation when prompted</li>
+            <li>Wait for the uninstallation to complete</li>
           </ol>
+          <p class="alert alert-warning">Uninstalling a package will remove its ontologies and associated resources. Any data you created using the package's vocabulary will remain in your dataspace but may not display or function correctly without the package.</p>
         </div>
         <div class="tab-pane">
           <p>Execute the following command:</p>
