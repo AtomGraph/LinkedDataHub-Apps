@@ -228,7 +228,7 @@ webapp/
 
 ## Available Packages
 
-List of available packagcan be found in the [LinkedDataHub-Apps](https://github.com/AtomGraph/LinkedDataHub-Apps/tree/develop/packages) repository.
+List of available packages can be found in the [LinkedDataHub-Apps](https://github.com/AtomGraph/LinkedDataHub-Apps/tree/develop/packages) repository.
 
 ## Creating New Packages
 
