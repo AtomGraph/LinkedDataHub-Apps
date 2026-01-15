@@ -52,15 +52,15 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
 
 ### City Graph
 
-![City Graph geospatial view](demo/city-graph/screenshot.png "City Graph geospatial view")
+![City Graph geospatial view](demo/copenhagen/screenshot.png "City Graph geospatial view")
 
 **Browser of Copenhagen's geospatial open data, imported from [Copenhagen Open Data](https://data.kk.dk/). Provides a type-colored geospatial overview. Geo resources provide a view with neighbouring resources included.**
 
 <dl>
     <dt>Source</dt>
-    <dd><a href="demo/city-graph/" target="_blank">demo/city-graph/</a></dd>
+    <dd><a href="demo/copenhagen/" target="_blank">demo/copenhagen/</a></dd>
     <dt>Live instance</dt>
-    <dd><a href="https://linkeddatahub.com/demo/city-graph/" target="_blank">https://linkeddatahub.com/demo/city-graph/</a></dd>
+    <dd><a href="https://copenhagen.demo.linkeddatahub.com/" target="_blank">https://copenhagen.demo.linkeddatahub.com/</a></dd>
     <dt>Features</dt>
     <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/imports/csv/" target="_blank">Import from CSV</a></dd>
     <dt>Lines of code</dt>
@@ -69,18 +69,18 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
     <dd>488 lines of installation shell scripts</dd>
 </dl>
 
-### SKOS
+### Unesco Thesaurus
 
-![SKOS viewer](demo/skos/screenshot.png "SKOS viewer")
-![SKOS editor](demo/skos/screenshot-edit-mode.png "SKOS editor")
+![SKOS viewer](demo/unesco-thesaurus/screenshot.png "SKOS viewer")
+![SKOS editor](demo/unesco-thesaurus/screenshot-edit-mode.png "SKOS editor")
 
 **Basic SKOS editor with a custom UI theme. Concepts, collections and concept schemas can be created, edited, and linked with each other. SKOS types have dedicated content templates; constructors are auto-generated during ontology import; constraints are added using CLI script.**
 
 <dl>
     <dt>Source</dt>
-    <dd><a href="demo/skos/" target="_blank">demo/skos/</a></dd>
+    <dd><a href="demo/unesco-thesaurus/" target="_blank">demo/unesco-thesaurus/</a></dd>
     <dt>Live instance</dt>
-    <dd><a href="https://linkeddatahub.com/demo/skos/" target="_blank">https://linkeddatahub.com/demo/skos/</a></dd>
+    <dd><a href="https://unesco-thesaurus.demo.linkeddatahub.com/" target="_blank">https://unesco-thesaurus.demo.linkeddatahub.com/</a></dd>
     <dt>Features</dt>
     <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/stylesheets/" target="_blank">Custom stylesheet</a></dd>
     <dd><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/administration/ontologies/#classes" target="_blank">Classes</a></dd>
@@ -94,3 +94,46 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
 </dl>
 
 __You need to request append/write access to be able to create/edit the data.__
+
+## Packages
+
+**Reusable vocabulary packages that add domain-specific functionality to LinkedDataHub dataspaces.**
+
+Packages provide ontology imports and custom XSLT templates for rendering specific RDF vocabularies. They use **installation-time composition** - integrating content during installation via JAX-RS endpoints rather than loading dynamically at runtime.
+
+### Structure
+
+Each package consists of:
+- **`ns.ttl`** - Ontology with vocabulary imports (`owl:imports`) and template blocks (`ldh:template`)
+- **`layout.xsl`** - XSLT stylesheet with custom rendering templates using system modes
+
+### Installation
+
+Packages are installed via CLI or from application install scripts:
+
+```bash
+install-package.sh \
+  -b https://localhost:4443/ \
+  -f ssl/owner/cert.pem \
+  -p Password \
+  --package https://packages.linkeddatahub.com/skos/#this
+```
+
+Installation integrates the package by:
+1. Downloading and storing the ontology as a SPARQL document
+2. Adding `owl:imports` to the namespace ontology
+3. Saving the stylesheet and updating master stylesheets with `xsl:import`
+4. Clearing caches to load the new content
+
+### Available Packages
+
+- **[skos](packages/skos/)** - SKOS vocabulary support (concepts, schemes, collections)
+
+### Architecture
+
+- **Declarative only** - RDF + XSLT, no Java code
+- **Installation-time composition** - Pre-composed before loading, no runtime overhead
+- **Template blocks** (`ldh:template`) - SPARQL-based views attached to RDF types
+- **XSLT overrides** - Custom rendering using system modes (`bs2:*`, `xhtml:*`, etc.)
+
+[Read the full packages documentation →](packages/README.md)
