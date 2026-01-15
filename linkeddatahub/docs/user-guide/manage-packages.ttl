@@ -1,0 +1,137 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<> a dh:Item ;
+    sioc:has_container <..> ;
+    dct:title "Manage packages" ;
+    dct:description "Step by step guide to installing and uninstalling packages" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+  <p class="lead">Step by step guide to installing and uninstalling packages in your LinkedDataHub dataspace.</p>
+  <div class="alert alert-info">
+    <p>Package management requires <a href="../../reference/administration/acl/#access-modes" target="_blank">Control access</a> to the administration application. Only users with administrative privileges can install or uninstall packages.</p>
+  </div>
+  <p class="lead"><a href="../../reference/administration/packages/" target="_blank">Read more about how packages work.</a></p>
+  <div>
+    <h2 id="install-package">Install a package</h2>
+    <p>Installing a package adds new functionality to your dataspace by importing ontologies, data, and resources.</p>
+    <div class="tabbable">
+      <ul class="nav nav-tabs">
+        <li class="active"><a>User interface</a></li>
+        <li><a>Command line interface</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active">
+          <p>Follow these steps to install a package through the web interface:</p>
+          <ol>
+            <li>Open the package URI in browser mode by entering its URI in the address bar</li>
+            <li>Click the <span class="btn">Actions</span> dropdown button next to the package</li>
+            <li>Select <span class="btn btn-primary">Install</span> from the dropdown menu</li>
+            <li>Wait for the installation to complete</li>
+            <li>Refresh your browser to ensure the new package functionality is loaded</li>
+          </ol>
+        </div>
+        <div class="tab-pane">
+          <p>Execute the following command:</p>
+          <pre>install-package.sh \\
+  -b "https://localhost:4443/" \\
+  -f ssl/owner/cert.pem \\
+  -p "$owner_cert_password" \\
+  --package "https://packages.linkeddatahub.com/skos/#this"</pre>
+          <p>Parameters:</p>
+          <dl>
+            <dt><code>-b</code></dt>
+            <dd>Base URL of your LinkedDataHub instance</dd>
+            <dt><code>-f</code></dt>
+            <dd>Path to your owner certificate file</dd>
+            <dt><code>-p</code></dt>
+            <dd>Owner certificate password</dd>
+            <dt><code>--package</code></dt>
+            <dd>Package URI to install (e.g., <samp>https://packages.linkeddatahub.com/skos/#this</samp>)</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h2 id="uninstall-package">Uninstall a package</h2>
+    <p>Uninstalling a package removes its ontologies and resources from your dataspace. User-created data that uses the package vocabulary will remain but may not function correctly.</p>
+    <div class="tabbable">
+      <ul class="nav nav-tabs">
+        <li class="active"><a>User interface</a></li>
+        <li><a>Command line interface</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active">
+          <p>Follow these steps to uninstall a package through the web interface:</p>
+          <ol>
+            <li>Navigate to the administration application of your dataspace</li>
+            <li>Open the <dfn>Packages</dfn> container to view installed packages</li>
+            <li>Find the package you want to uninstall in the list</li>
+            <li>Click the <span class="btn">Actions</span> dropdown button next to the package</li>
+            <li>Select <span class="btn btn-danger">Uninstall</span> from the dropdown menu</li>
+            <li>Confirm the uninstallation when prompted</li>
+            <li>Wait for the uninstallation to complete</li>
+          </ol>
+          <p class="alert alert-warning">Uninstalling a package will remove its ontologies and associated resources. Any data you created using the package's vocabulary will remain in your dataspace but may not display or function correctly without the package.</p>
+        </div>
+        <div class="tab-pane">
+          <p>Execute the following command:</p>
+          <pre>uninstall-package.sh \\
+  -b "https://localhost:4443/" \\
+  -f ssl/owner/cert.pem \\
+  -p "$owner_cert_password" \\
+  --package "https://packages.linkeddatahub.com/skos/#this"</pre>
+          <p>Parameters are the same as for installation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h2 id="verify-installation">Verify package installation</h2>
+    <p>After installing a package, verify that it was installed correctly:</p>
+    <ol>
+      <li>Navigate to the administration application</li>
+      <li>Click on <dfn>Ontologies</dfn> in the left navigation menu</li>
+      <li>Verify that the package ontology appears in the list of imported ontologies</li>
+      <li>In the end-user application, check that package-specific classes and properties are available when creating new resources</li>
+      <li>If the package includes stylesheets, verify that custom UI elements are rendering correctly</li>
+    </ol>
+  </div>
+  <div>
+    <h2 id="customize-package-behavior">Customize package behavior</h2>
+    <p>Packages may include custom XSLT stylesheets that affect how data is displayed. You can further customize the behavior by:</p>
+    <ul>
+      <li><a href="../change-layout/#import-stylesheet" target="_blank">Importing additional stylesheets</a> to extend package functionality</li>
+      <li><a href="../change-layout/#override-template" target="_blank">Overriding package templates</a> to customize the rendering of package resources</li>
+      <li>Creating custom views and layouts for package data</li>
+    </ul>
+    <p>See the <a href="../change-layout/" target="_blank">Change layout guide</a> for detailed instructions on stylesheet customization.</p>
+  </div>
+  <div>
+    <h2 id="troubleshooting">Troubleshooting</h2>
+    <h3 id="installation-fails">Installation fails</h3>
+    <p>If package installation fails:</p>
+    <ul>
+      <li>Verify you have Control access to the administration application</li>
+      <li>Check that all package dependencies are met</li>
+      <li>Review the error message for specific issues</li>
+      <li>Ensure the package files are valid and well-formed</li>
+    </ul>
+    <h3 id="package-not-visible">Package functionality not visible</h3>
+    <p>If installed package features are not visible:</p>
+    <ul>
+      <li>Refresh your browser to reload the application</li>
+      <li>Clear the browser cache if stylesheets are not updating</li>
+      <li>Verify the package ontology is imported in the Ontologies section</li>
+      <li>Check that you have appropriate permissions to view package resources</li>
+    </ul>
+  </div>
+</div>"""^^rdf:XMLLiteral .

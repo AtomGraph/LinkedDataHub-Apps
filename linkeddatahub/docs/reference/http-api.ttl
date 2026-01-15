@@ -228,6 +228,10 @@ Content-Type: text/turtle</code></pre>
             <dd>OpenID Connect callback</dd>
             <dt><samp>admin/clear</samp></dt>
             <dd>Clears the specified ontology from memory cache and reloads it from the admin SPARQL endpoint</dd>
+            <dt><samp>packages/install</samp></dt>
+            <dd>Installs a package. Requires owner/admin authentication</dd>
+            <dt><samp>packages/uninstall</samp></dt>
+            <dd>Uninstalls a package. Requires owner/admin authentication</dd>
         </dl>
     </div>
     <div>
