@@ -153,6 +153,8 @@
                     $parent-resource (: which is the parent resource :)
                 )
             ">
+				<!-- sort children by title -->
+				<xsl:sort select="convert:get-objects(/trix:trix/trix:graph, ., 'http://purl.org/dc/terms/title')"/>
 				<div class="well">
 					<h2>
 						<a 
