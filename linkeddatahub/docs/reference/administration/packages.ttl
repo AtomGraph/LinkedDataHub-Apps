@@ -16,6 +16,9 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
   <p class="lead">Packages are reusable bundles of ontologies and stylesheets that provide vocabulary support with custom rendering for specific RDF vocabularies.</p>
   <div class="alert alert-info">
+    <p><strong>Version:</strong> Packages were introduced in LinkedDataHub 5.2.</p>
+  </div>
+  <div class="alert alert-info">
     <p><strong>Note:</strong> Packages are <strong>declarative only</strong> (RDF + XSLT). They contain no Java code and integrate at installation-time, not runtime.</p>
   </div>
   <div>
@@ -126,7 +129,7 @@ ns:SelectNarrowerConcepts a sp:Select ;
 &lt;xsl:import href="../com/linkeddatahub/packages/skos/layout.xsl"/&gt;  &lt;!-- Package (added) --&gt;</pre>
       </li>
     </ol>
-    <div class="alert alert-info">
+    <div class="alert alert-warning">
       <p><strong>Important:</strong> After installing or uninstalling a package, you must restart the Docker service for XSLT stylesheet changes to take effect:</p>
       <pre>docker-compose restart linkeddatahub</pre>
       <p>Do not use <code>--force-recreate</code> as that would overwrite the stylesheet file changes.</p>
