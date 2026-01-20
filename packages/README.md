@@ -2,13 +2,15 @@
 
 This directory contains reusable packages for LinkedDataHub dataspaces. Packages provide vocabulary support with custom ontologies and XSLT templates for rendering specific RDF vocabularies.
 
+> **Version:** Packages were introduced in LinkedDataHub 5.2.
+
 ## Package Structure
 
 Each package consists of:
 
 ```
 packages/<package-name>/
-├── ns.ttl         # Ontology with template blocks (ldh:template)
+├── ns.ttl         # Ontology with property views (ldh:view/ldh:inverseView)
 └── layout.xsl     # XSLT stylesheet with custom templates
 ```
 
@@ -18,7 +20,7 @@ Package metadata is Linked Data that resolves from the package URI (e.g., `https
 
 ```
 packages/skos/
-├── ns.ttl         # SKOS vocabulary with ldh:template blocks
+├── ns.ttl         # SKOS vocabulary with ldh:view attachments to properties
 └── layout.xsl     # XSLT templates for SKOS concepts, schemes, collections
 ```
 
@@ -57,12 +59,12 @@ Imports the external vocabulary using `owl:imports`:
     owl:imports <http://www.w3.org/2004/02/skos/core> .
 ```
 
-**B. Template Blocks (ldh:template)**
+**B. Property Views (ldh:view/ldh:inverseView)**
 
-SPARQL-based views attached to RDF types from the imported vocabulary:
+SPARQL-based views attached to properties from the imported vocabulary:
 
 ```turtle
-skos:Concept ldh:template ns:NarrowerConcepts .
+skos:narrower ldh:view ns:NarrowerConcepts .
 
 ns:NarrowerConcepts a ldh:View ;
     dct:title "Narrower concepts" ;
@@ -75,6 +77,8 @@ ns:SelectNarrowerConcepts a sp:Select ;
     ORDER BY ?narrower
     """ .
 ```
+
+Use `ldh:view` for forward relationships (resource has property) or `ldh:inverseView` for inverse relationships (other resources point to this resource via property).
 
 ### 3. XSLT Stylesheet (`layout.xsl`)
 
@@ -165,6 +169,14 @@ When you install a package, the system:
 
 **Note**: The master stylesheet must already exist or installation will fail with `InternalServerErrorException`.
 
+**Important**: After installing or uninstalling a package, you must restart the Docker service for XSLT stylesheet changes to take effect:
+
+```bash
+docker-compose restart linkeddatahub
+```
+
+Do not use `--force-recreate` as that would overwrite the stylesheet file changes.
+
 ## Architecture
 
 ### Installation-Time vs Runtime
@@ -233,7 +245,7 @@ List of available packages can be found in the [LinkedDataHub-Apps](https://gith
 ## Creating New Packages
 
 1. Create directory: `packages/<name>/`
-2. Write `ns.ttl` with vocabulary and template blocks
+2. Write `ns.ttl` with vocabulary and property views (using `ldh:view` or `ldh:inverseView`)
 3. Write `layout.xsl` with XSLT templates (using system modes like `bs2:*`, `xhtml:*`, etc.)
 4. Publish package metadata as Linked Data at `https://packages.linkeddatahub.com/<name>/#this`
 5. Ensure the metadata contains `ldt:ontology` and `ac:stylesheet` properties pointing to the package resources
@@ -254,5 +266,5 @@ List of available packages can be found in the [LinkedDataHub-Apps](https://gith
 - Packages are **declarative only** (RDF + XSLT, no Java code)
 - Package ontologies use `owl:imports` (handled automatically by Jena)
 - Package stylesheets use `xsl:import` (handled by master stylesheet generation)
-- Template blocks (`ldh:template`) are separate from XSLT overrides
+- Property views (`ldh:view`/`ldh:inverseView`) are separate from XSLT overrides
 - Both mechanisms work independently and complement each other
