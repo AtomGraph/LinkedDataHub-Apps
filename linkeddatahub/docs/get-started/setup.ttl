@@ -82,8 +82,8 @@ OWNER_COUNTRY_NAME=DK</pre>
                             </ol>
                         </li>
                     </ol>
-                    <p>You are now the owner of this LinkedDataHub instance; <samp>certs/owner.p12</samp> is your WebID certificate. Password is the <samp>owner_cert_password</samp> secret value.</p>
-                    <p>After a successful startup you should see periodic healtcheck requests being made to the <samp>https://localhost:4443/ns</samp> URL.</p>
+                    <p>You are now the owner of this LinkedDataHub instance; <samp>ssl/owner/keystore.p12</samp> is your WebID certificate. Password is the <samp>owner_cert_password</samp> secret value.</p>
+                    <p>After a successful startup you should see periodic healthcheck requests being made to the <samp>https://localhost:4443/ns</samp> URL.</p>
                 </div>
                 <div>
                     <h2 id="reset">Reset</h2>
