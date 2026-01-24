@@ -65,7 +65,7 @@
                 <tbody>
                     <tr>
                         <th>Create</th>
-                        <td><a href="../../../command-line-interface/#scripts"><samp>add-xhtml-block.sh</samp></a></td>
+                        <td><a href="../../../command-line-interface/#scripts"><samp>content/add-xhtml-block.sh</samp></a></td>
                     </tr>
                     <tr>
                         <th>Update</th>
