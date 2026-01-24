@@ -103,6 +103,10 @@ Options:
                     <td><samp>put.sh</samp></td>
                 </tr>
                 <tr>
+                    <td><samp>PATCH</samp> request</td>
+                    <td><samp>patch.sh</samp></td>
+                </tr>
+                <tr>
                     <td><samp>DELETE</samp> request</td>
                     <td><samp>delete.sh</samp></td>
                 </tr>
@@ -110,10 +114,6 @@ Options:
             <tbody>
                 <tr>
                     <th colspan="2">Documents</th>
-                </tr>
-                <tr>
-                    <td>Create document</td>
-                    <td><samp>create-document.sh</samp></td>
                 </tr>
                 <tr>
                     <td>Create container document</td>
@@ -131,15 +131,15 @@ Options:
                 </tr>
                 <tr>
                     <td>Append object block (instance of <samp>ldh:Object</samp>) to document</td>
-                    <td><samp>add-object-block.sh</samp></td>
+                    <td><samp>content/add-object-block.sh</samp></td>
                 </tr>
                 <tr>
                     <td>Append XHTML block (instance of <samp>ldh:XHTML</samp>) to document</td>
-                    <td><samp>add-xhtml-block.sh</samp></td>
+                    <td><samp>content/add-xhtml-block.sh</samp></td>
                 </tr>
                 <tr>
                     <td>Remove block from document</td>
-                    <td><samp>remove-block.sh</samp></td>
+                    <td><samp>content/remove-block.sh</samp></td>
                 </tr>
             </tbody>
 
@@ -184,6 +184,14 @@ Options:
                     <td>Import CSV data</td>
                     <td><samp>imports/import-csv.sh</samp></td>
                 </tr>
+                <tr>
+                    <td>Create RDF import</td>
+                    <td><samp>imports/create-rdf-import.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Import RDF data</td>
+                    <td><samp>imports/import-rdf.sh</samp></td>
+                </tr>
             </tbody>
             <tbody>
                 <tr>
@@ -224,28 +232,45 @@ Options:
                     <th colspan="2"><a href="../administration/ontologies/">Ontologies</a></th>
                 </tr>
                 <tr>
-                    <td>Create <a href="../administration/ontologies/#classes">class</a></td>
-                    <td><samp>admin/model/create-class.sh</samp></td>
+                    <td>Add <a href="../administration/ontologies/#classes">class</a></td>
+                    <td><samp>admin/ontologies/add-class.sh</samp></td>
                 </tr>
                 <tr>
-                    <td>Create <code>CONSTRUCT</code> query</td>
-                    <td><samp>admin/model/create-construct.sh</samp></td>
+                    <td>Add <code>CONSTRUCT</code> query</td>
+                    <td><samp>admin/ontologies/add-construct.sh</samp></td>
                 </tr>
                 <tr>
                     <td>Create <a href="../administration/ontologies/#ontologies">ontology</a></td>
-                    <td><samp>admin/model/create-ontology.sh</samp></td>
+                    <td><samp>admin/ontologies/create-ontology.sh</samp></td>
                 </tr>
                 <tr>
-                    <td>Create <a href="../administration/ontologies/#constraints">property constraint</a></td>
-                    <td><samp>admin/model/create-property-constraint.sh</samp></td>
+                    <td>Add <a href="../administration/ontologies/#constraints">property constraint</a></td>
+                    <td><samp>admin/ontologies/add-property-constraint.sh</samp></td>
                 </tr>
                 <tr>
-                    <td>Create <code>SELECT</code> query</td>
-                    <td><samp>admin/model/create-select.sh</samp></td>
+                    <td>Add restriction</td>
+                    <td><samp>admin/ontologies/add-restriction.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Add <code>SELECT</code> query</td>
+                    <td><samp>admin/ontologies/add-select.sh</samp></td>
                 </tr>
                 <tr>
                     <td>Import ontology</td>
-                    <td><samp>admin/model/import-ontology.sh</samp></td>
+                    <td><samp>admin/ontologies/import-ontology.sh</samp></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <th colspan="2"><a href="../administration/packages/">Packages</a></th>
+                </tr>
+                <tr>
+                    <td>Install package</td>
+                    <td><samp>admin/packages/install-package.sh</samp></td>
+                </tr>
+                <tr>
+                    <td>Uninstall package</td>
+                    <td><samp>admin/packages/uninstall-package.sh</samp></td>
                 </tr>
             </tbody>
         </table>

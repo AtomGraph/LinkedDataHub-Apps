@@ -73,7 +73,7 @@
                 <div class="tab-pane">
                     <div>
                         <p>To add a new XHTML block with the value <samp>&lt;p&gt;A paragraph&lt;/p&gt;</samp>, replace <samp>owner_cert_password</samp> with the value of the corresponding secret and execute the following command:</p>
-                        <pre>add-xhtml-block.sh \\
+                        <pre>content/add-xhtml-block.sh \\
     -b "https://localhost:4443/" \\
     -f ./ssl/owner/cert.pem \\
     -p "$owner_cert_password" \\
@@ -133,7 +133,7 @@
                 <div class="tab-pane">
                     <div>
                         <p>To add a new object block with the value <samp>http://dbpedia.org/resource/Copenhagen</samp>, replace <samp>$owner_cert_password</samp> with the value of the corresponding secret and execute the following command:</p>
-                        <pre>add-object-block.sh \\
+                        <pre>content/add-object-block.sh \\
     -b "https://localhost:4443/" \\
     -f ./ssl/owner/cert.pem \\
     -p "$owner_cert_password" \\

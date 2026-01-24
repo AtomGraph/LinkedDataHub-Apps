@@ -117,15 +117,15 @@
                     <td><a href="../administration/ontologies/#constraints">Constraint</a> violation</td>
                 </tr>
                 <tr>
-                    <th rowspan="2"><code id="ld-delete">DELETE</code></th>
-                    <td rowspan="2">Removes the requested document</td>
-                    <td rowspan="2"><code>204 No Content</code></td>
-                    <td><code>400 Bad Request</code></td>
-                    <td>Deleting the root document is not allowed</td>
-                </tr>
-                <tr>
+                    <th rowspan="3"><code id="ld-delete">DELETE</code></th>
+                    <td rowspan="3">Removes the requested document</td>
+                    <td rowspan="3"><code>204 No Content</code></td>
                     <td><code>404 Not Found</code></td>
                     <td>Document with request URI not found</td>
+                </tr>
+                <tr>
+                    <td><code>405 Method Not Allowed</code></td>
+                    <td>Deleting root, owner, or secretary documents is not allowed</td>
                 </tr>
                 <tr>
                     <th rowspan="2"><code id="ld-patch">PATCH</code></th>
@@ -187,11 +187,11 @@ Content-Type: text/turtle</code></pre>
             <h3 id="constraints">Built-in constraints</h3>
             <p>LinkedDataHub has a few built-in constraints that are not found in the standard Graph Store Protocol:</p>
             <ul>
-                <li>It's not possible delete the root document</li>
-                <li>It's not possible to modify or delete the documents of the owner agent and the secretary agent</li>
+                <li>It's not possible to delete the root document (returns <code>405 Method Not Allowed</code>)</li>
+                <li>It's not possible to modify or delete the documents of the owner agent and the secretary agent (returns <code>405 Method Not Allowed</code>)</li>
                 <li>A document can only be created with a URL relative to an existing container (i.e. resolving <samp>..</samp> against the new document's URL must identify an existing container)</li>
             </ul>
-            <p>The built in constraints are similar to, but separate from the <a href="../administration/ontologies/#constraints">ontology constraints</a>.</p>
+            <p>The built-in constraints are similar to, but separate from the <a href="../administration/ontologies/#constraints">ontology constraints</a>.</p>
         </div>
     </div>
     <div>
@@ -207,8 +207,6 @@ Content-Type: text/turtle</code></pre>
         <dl>
             <dt><samp>add</samp></dt>
             <dd>Reads data from the specified URL location or uploaded file into the specified named graph</dd>
-            <dt><samp>importer</samp></dt>
-            <dd>Handles CSV and RDF imports</dd>
             <dt><samp>ns</samp></dt>
             <dd>In-memory namespace ontology as well as its SPARQL endpoint</dd>
             <dt><samp>transform</samp></dt>
@@ -221,11 +219,15 @@ Content-Type: text/turtle</code></pre>
             <dt><samp>admin/access/request</samp></dt>
             <dd>Access request (for the authenticated agent)</dd>
             <dt><samp>admin/sign%20up</samp></dt>
-            <dd>WebID-WebID agent signup</dd>
-            <dt><samp>admin/oauth2/login</samp></dt>
-            <dd>OpenID Connect with Google signup</dd>
-            <dt><samp>admin/oauth2/authorize/google</samp></dt>
-            <dd>OpenID Connect callback</dd>
+            <dd>WebID-TLS agent signup</dd>
+            <dt><samp>oauth2/login/google</samp></dt>
+            <dd>OpenID Connect with Google login</dd>
+            <dt><samp>oauth2/login/orcid</samp></dt>
+            <dd>OpenID Connect with ORCID login</dd>
+            <dt><samp>oauth2/authorize/google</samp></dt>
+            <dd>OpenID Connect with Google callback</dd>
+            <dt><samp>oauth2/authorize/orcid</samp></dt>
+            <dd>OpenID Connect with ORCID callback</dd>
             <dt><samp>admin/clear</samp></dt>
             <dd>Clears the specified ontology from memory cache and reloads it from the admin SPARQL endpoint</dd>
             <dt><samp>packages/install</samp></dt>
