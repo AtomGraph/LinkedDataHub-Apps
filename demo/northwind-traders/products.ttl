@@ -10,7 +10,8 @@
   # Main container document
   <> a dh:Container ;
       dct:title "Products" ;
-      rdf:_1 <#select-products> .
+      rdf:_1 <#top-selling-products> ;
+      rdf:_2 <#select-products> .
 
   # Object block (references the view)
   <#select-products> a ldh:Object ;
@@ -36,3 +37,32 @@
         }
     }
   ORDER BY ?productName""" .
+
+  # Chart block
+  <#top-selling-products> a ldh:ResultSetChart ;
+      dct:title "Top selling products" ;
+      spin:query <#products-by-sales-query> ;
+      ac:chartType <https://w3id.org/atomgraph/client#BarChart> ;
+      ldh:categoryVarName "productName" ;
+      ldh:seriesVarName "totalSales" .
+
+  # Chart SELECT query
+  <#products-by-sales-query> a sp:Select ;
+      dct:title "Products by sales" ;
+      sp:text """PREFIX  schema: <https://schema.org/>
+
+SELECT DISTINCT  ?productName (SUM(?sale) AS ?totalSales)
+WHERE
+  { GRAPH ?orderGraph
+      { ?order    schema:orderedItem    ?orderItem .
+        ?orderItem  schema:orderedItem  ?product ;
+                  schema:orderQuantity  ?quantity ;
+                  schema:price          ?price
+      BIND (?quantity * ?price AS ?sale)
+      }
+    GRAPH ?productGraph
+      { ?product  schema:name  ?productName }
+  }
+GROUP BY ?product ?productName
+ORDER BY DESC(?totalSales)
+LIMIT   5""" .

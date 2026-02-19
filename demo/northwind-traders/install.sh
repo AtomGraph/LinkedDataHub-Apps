@@ -33,10 +33,6 @@ cd ..
 
 cd ..
 
-printf "\n### Creating containers\n\n"
-
-./create-containers.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
-
 printf "\n### Updating documents and uploading files\n\n"
 
 if [[ -f ".root.ttl" ]]; then
@@ -50,10 +46,6 @@ if [[ -f ".root.ttl" ]]; then
 fi
 
 ./update-folder.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "$pwd" "$proxy"
-
-printf "\n### Creating charts\n\n"
-
-./create-charts.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
 printf "\n### Importing CSV data\n\n"
 
