@@ -27,7 +27,7 @@ admin_proxy=$(admin_uri "$proxy")
 
 pwd=$(realpath "$PWD")
 
-sha1sum=$(sha1sum "$pwd"/../../files/layout.xsl | cut -d ' ' -f 1)
+sha1sum=$(sha1sum "$pwd"/../../layout.xsl | cut -d ' ' -f 1)
 
 create-authorization.sh \
   -b "$admin_base" \

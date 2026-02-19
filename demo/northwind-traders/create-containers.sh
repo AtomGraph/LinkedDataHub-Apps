@@ -46,7 +46,7 @@ add-select.sh  \
   --proxy "$proxy" \
   --title "Select categories" \
   --uri "#${query_id}" \
-  --query-file "$pwd/queries/select-categories.rq" \
+  --query-file "$pwd/categories/select-categories.rq" \
   "$container"
 
 view_id="select-categories-view"
@@ -99,7 +99,7 @@ add-select.sh  \
   --proxy "$proxy" \
   --title "Select customers" \
   --uri "#${query_id}" \
-  --query-file "$pwd/queries/select-customers.rq" \
+  --query-file "$pwd/customers/select-customers.rq" \
   "$container"
 
 view_id="select-customers-view"
@@ -152,7 +152,7 @@ add-select.sh  \
   --proxy "$proxy" \
   --title "Select employees" \
   --uri "#${query_id}" \
-  --query-file "$pwd/queries/select-employees.rq" \
+  --query-file "$pwd/employees/select-employees.rq" \
   "$container"
 
 view_id="select-employees-view"
@@ -205,7 +205,7 @@ add-select.sh  \
   --proxy "$proxy" \
   --title "Select orders" \
   --uri "#${query_id}" \
-  --query-file "$pwd/queries/select-orders.rq" \
+  --query-file "$pwd/orders/select-orders.rq" \
   "$container"
 
 view_id="select-orders-view"
@@ -258,7 +258,7 @@ add-select.sh  \
   --proxy "$proxy" \
   --title "Select products" \
   --uri "#${query_id}" \
-  --query-file "$pwd/queries/select-products.rq" \
+  --query-file "$pwd/products/select-products.rq" \
   "$container"
 
 view_id="select-products-view"
@@ -311,7 +311,7 @@ add-select.sh  \
   --proxy "$proxy" \
   --title "Select regions" \
   --uri "#${query_id}" \
-  --query-file "$pwd/queries/select-regions.rq" \
+  --query-file "$pwd/regions/select-regions.rq" \
   "$container"
 
 view_id="select-regions-view"
@@ -363,7 +363,7 @@ add-select.sh  \
   --proxy "$proxy" \
   --title "Select shippers" \
   --uri "#${query_id}" \
-  --query-file "$pwd/queries/select-shippers.rq" \
+  --query-file "$pwd/shippers/select-shippers.rq" \
   "$container"
 
 view_id="select-shippers-view"
@@ -415,7 +415,7 @@ add-select.sh  \
   --proxy "$proxy" \
   --title "Select suppliers" \
   --uri "#${query_id}" \
-  --query-file "$pwd/queries/select-suppliers.rq" \
+  --query-file "$pwd/suppliers/select-suppliers.rq" \
   "$container"
 
 view_id="select-suppliers-view"
@@ -468,7 +468,7 @@ add-select.sh  \
   --proxy "$proxy" \
   --title "Select territories" \
   --uri "#${query_id}" \
-  --query-file "$pwd/queries/select-territories.rq" \
+  --query-file "$pwd/territories/select-territories.rq" \
   "$container"
 
 view_id="select-territories-view"

@@ -8,7 +8,6 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
 <> a dh:Item ;
-    sioc:has_container <..> ;
     dct:title "HTTP API" ;
     dct:description "Learn how to access and manage RDF data over generic HTTP API" ;
     rdf:_1 <#content> .

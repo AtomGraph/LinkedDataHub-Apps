@@ -7,7 +7,6 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
     
 <> a dh:Item ;
-    sioc:has_container <..> ;
     dct:title "Access control" ;
     dct:description "Agents, groups, and authorizations" ;
     rdf:_1 <#content> .

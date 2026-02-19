@@ -7,7 +7,6 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
 <> a dh:Item ;
-    sioc:has_container <..> ;
     dct:title "Create content" ;
     dct:description "Learn how to create data-driven content" ;
     rdf:_1 <#content> .

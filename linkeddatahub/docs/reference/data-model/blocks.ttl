@@ -7,7 +7,6 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
 <> a dh:Container ;
-    sioc:has_parent <..> ;
     dct:title "Content blocks" ;
     dct:description "Content blocks and the basic data content actions" ;
     rdf:_1 <#content> ;

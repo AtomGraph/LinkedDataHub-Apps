@@ -7,7 +7,6 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
     
 <> a dh:Item ;
-    sioc:has_container <..> ;
     dct:title "Import CSV data" ;
     dct:description "Step by step guide to converting CSV data to RDF and importing into end-user application" ;
     rdf:_1 <#content> .

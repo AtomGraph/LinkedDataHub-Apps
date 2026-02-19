@@ -7,7 +7,6 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
     
 <> a dh:Item ;
-    sioc:has_container <..> ;
     dct:title "Build apps" ;
     dct:description "Using LinkedDataHub as a low-code platform for Knowledge Graph applications" ;
     rdf:_1 <#content> .

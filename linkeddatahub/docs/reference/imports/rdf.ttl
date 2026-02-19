@@ -8,7 +8,6 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
 <> a dh:Item ;
-    sioc:has_container <..> ;
     dct:title "RDF imports" ;
     dct:description "RDF imports and transforming RDF using SPARQL CONSTRUCT" ;
     rdf:_1 <#content> .

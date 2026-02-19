@@ -7,7 +7,6 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
 <> a dh:Item ;
-    sioc:has_container <..> ;
     dct:title "Setup" ;
     dct:description "Setup LinkedDataHub on your local machine or access it in the cloud" ;
     rdf:_1 <#content> .

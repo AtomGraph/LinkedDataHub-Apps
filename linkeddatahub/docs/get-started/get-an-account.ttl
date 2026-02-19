@@ -7,7 +7,6 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
 <> a dh:Item ;
-    sioc:has_container <..> ;
     dct:title "Get an account" ;
     dct:description "How to get login to LinkedDataHub" ;
     rdf:_1 <#content> .

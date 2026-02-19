@@ -7,7 +7,6 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
    
 <> a dh:Item ;
-    sioc:has_container <..> ;
     dct:title "Change system base URI" ;
     dct:description "How to change host, port, or the path LinkedDataHub service runs on" ;
     rdf:_1 <#content> .

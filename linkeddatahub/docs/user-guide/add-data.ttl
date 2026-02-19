@@ -7,7 +7,6 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
     
 <> a dh:Item ;
-    sioc:has_container <..> ;
     dct:title "Add data" ;
     dct:description "Fork RDF data from Linked Data resources and SPARQL results" ;
     rdf:_1 <#content> .

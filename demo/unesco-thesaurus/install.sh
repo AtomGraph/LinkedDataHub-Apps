@@ -25,23 +25,29 @@ make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$prox
 
 printf "\n### Creating authorizations\n\n"
 
-cd admin/acl
+cd .admin/acl
 
 ./create-authorizations.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
 cd ../..
 
-printf "\n### Uploading files\n\n"
-
-find "${pwd}/files" -type f -exec ./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
-
 printf "\n### Creating containers\n\n"
 
 ./create-containers.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
-printf "\n### Updating documents\n\n"
+printf "\n### Updating documents and uploading files\n\n"
 
-./update-documents.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+if [[ -f ".root.ttl" ]]; then
+  printf "\n### Updating %s\n" "$base"
+  cat .root.ttl | turtle --base="$base" | put.sh \
+    -f "$cert_pem_file" \
+    -p "$cert_password" \
+    --proxy "$proxy" \
+    -t "application/n-triples" \
+    "$base"
+fi
+
+./update-folder.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "$pwd" "$proxy"
 
 printf "\n### Installing SKOS package\n\n"
 

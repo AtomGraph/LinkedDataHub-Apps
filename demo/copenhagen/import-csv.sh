@@ -68,7 +68,7 @@ do
       --proxy "$proxy" \
       --title "$title" \
       --file "$pwd/${csv_filename}" \
-      --file-content-type "text/csv")
+      --content-type "text/csv")
 
     file_ntriples=$(get.sh \
       -f "$cert_pem_file" \
