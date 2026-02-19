@@ -7,7 +7,6 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
 <> a dh:Container ;
-    sioc:has_parent <..> ;
     dct:title "Documents" ;
     dct:description "Document hierarchy and the basic data management actions" ;
     rdf:_1 <#content> ;

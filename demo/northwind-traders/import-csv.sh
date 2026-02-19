@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
-  echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy]' >&2
-  echo "Example: $0" 'https://localhost:4443/ ../../../ssl/owner/cert.pem Password [https://localhost:5443/]' >&2
+if [ "$#" -ne 4 ] && [ "$#" -ne 5 ]; then
+  echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy] $imports_file' >&2
+  echo "Example: $0" 'https://localhost:4443/ ../../../ssl/owner/cert.pem Password [https://localhost:5443/] "$pwd/imports.csv"' >&2
   echo "Note: special characters such as $ need to be escaped in passwords!" >&2
   exit 1
 fi
@@ -10,22 +10,24 @@ fi
 base="$1"
 cert_pem_file=$(realpath "$2")
 cert_password="$3"
-imports_csv="$(dirname "$(realpath "$0")")/imports.csv"
 
-if [ -n "$4" ]; then
+if [ -n "$5" ]; then
     proxy="$4"
+    imports_csv="$5"
 else
     proxy="$base"
+    imports_csv="$4"
 fi
 
 titles=()
 queries=()
 files=()
+targets=()
 
 pwd=$(realpath "$PWD")
 
-arr_csv=() 
-while IFS= read -r line 
+arr_csv=()
+while IFS= read -r line
 do
     arr_csv+=("$line")
 done < <(tail -n +2 "$imports_csv")
@@ -35,49 +37,46 @@ for row in "${arr_csv[@]}"
 do
     query_filename=$(echo "$row" | cut -d "," -f 1)
     csv_filename=$(echo "$row" | cut -d "," -f 2)
-    title=$(echo "$row" | cut -d "," -f 3)
+    target_path=$(echo "$row" | cut -d "," -f 3)
+    title=$(echo "$row" | cut -d "," -f 4)
 
+    target="${base}${target_path}"
     titles+=("$title")
-    
+    targets+=("$target")
+
     # create query
 
-    query_doc=$(create-query.sh \
+    # Generate query ID for fragment identifier
+    query_id=$(uuidgen | tr '[:upper:]' '[:lower:]')
+
+    add-construct.sh \
       -b "$base" \
       -f "$cert_pem_file" \
       -p "$cert_password" \
       --proxy "$proxy" \
       --title "$title" \
-      --query-file "$pwd/${query_filename}")
+      --uri "#${query_id}" \
+      --query-file "$pwd/${query_filename}" \
+      "$target"
 
-    query_ntriples=$(get.sh \
-      -f "$cert_pem_file" \
-      -p "$cert_password" \
-      --proxy "$proxy" \
-      --accept 'application/n-triples' \
-      "$query_doc")
-
-    query=$(echo "$query_ntriples" | sed -rn "s/<${query_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
+    query="${target}#${query_id}"
     queries+=("$query")
 
     # upload file
 
-    file_doc=$(create-file.sh \
+    add-file.sh \
       -b "$base" \
       -f "$cert_pem_file" \
       -p "$cert_password" \
       --proxy "$proxy" \
       --title "$title" \
       --file "$pwd/${csv_filename}" \
-      --file-content-type "text/csv")
+      --content-type "text/csv" \
+      "$target"
 
-    file_ntriples=$(get.sh \
-      -f "$cert_pem_file" \
-      -p "$cert_password" \
-      --proxy "$proxy" \
-      --accept 'application/n-triples' \
-      "$file_doc")
-
-    file=$(echo "$file_ntriples" | sed -rn "s/<${file_doc//\//\\/}> <http:\/\/xmlns.com\/foaf\/0.1\/primaryTopic> <(.*)> \./\1/p" | head -1)
+    # Calculate file URI from SHA1 hash
+    sha1sum=$(shasum -a 1 "$pwd/${csv_filename}" | awk '{print $1}')
+    file="${base}uploads/${sha1sum}"
     files+=("$file")
 
     # iterate
@@ -90,7 +89,7 @@ done
 for i in "${!files[@]}"; do
     printf "\n### Importing CSV from %s\n\n" "${files[$i]}"
 
-    create-csv-import.sh \
+    add-csv-import.sh \
       -b "$base" \
       -f "$cert_pem_file" \
       -p "$cert_password" \
@@ -98,5 +97,6 @@ for i in "${!files[@]}"; do
       --title "${titles[$i]}" \
       --query "${queries[$i]}" \
       --file "${files[$i]}" \
-      --delimiter ","
+      --delimiter "," \
+      "${targets[$i]}"
 done

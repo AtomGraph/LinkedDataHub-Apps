@@ -1,0 +1,39 @@
+  @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+  @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+  @prefix dct:    <http://purl.org/dc/terms/> .
+  @prefix sp:     <http://spinrdf.org/sp#> .
+  @prefix spin:   <http://spinrdf.org/spin#> .
+  @prefix ac:     <https://w3id.org/atomgraph/client#> .
+  @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+  # Main container document
+  <> a dh:Container ;
+      dct:title "Orders" ;
+      rdf:_1 <#select-orders> .
+
+  # Object block (references the view)
+  <#select-orders> a ldh:Object ;
+      rdf:value <#select-orders-view> .
+
+  # View block (references the query, uses TableMode)
+  <#select-orders-view> a ldh:View ;
+      spin:query <#select-orders-query> ;
+      ac:mode <https://w3id.org/atomgraph/client#TableMode> .
+
+  # SELECT query
+  <#select-orders-query> a sp:Select ;
+      dct:title "Select orders" ;
+      sp:text """PREFIX  schema: <https://schema.org/>
+
+  SELECT DISTINCT  ?order
+  WHERE
+    { GRAPH ?doc
+        { ?order  a                  schema:Order ;
+                  schema:identifier  ?orderID ;
+                  schema:orderDate   ?orderDate ;
+                  schema:customer    ?customer ;
+                  schema:broker      ?employee
+        }
+    }
+  ORDER BY ?orderID""" .

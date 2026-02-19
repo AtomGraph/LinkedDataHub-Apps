@@ -7,7 +7,6 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
 <> a dh:Item ;
-    sioc:has_container <..> ;
     dct:title "Create documents" ;
     dct:description "Learn how to create container and item documents" ;
     rdf:_1 <#content> .

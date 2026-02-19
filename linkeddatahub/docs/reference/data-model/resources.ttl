@@ -7,7 +7,6 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
 <> a dh:Container ;
-    sioc:has_parent <..> ;
     dct:title "Resources" ;
     dct:description "RDF resources and their management" ;
     rdf:_1 <#content> ;

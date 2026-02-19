@@ -46,7 +46,7 @@ add-select.sh \
   --proxy "$proxy" \
   --title "Select concepts" \
   --uri "#${query_id}" \
-  --query-file "${pwd}/queries/select-concepts.rq" \
+  --query-file "${pwd}/concepts/select-concepts.rq" \
   "$container"
 
 view_id="select-concepts-view"
@@ -61,8 +61,6 @@ add-view.sh \
   "$container"
 
 object_id="select-concepts"
-
-echo "AAAA"
 
 add-object-block.sh \
   -b "$base" \
@@ -100,7 +98,7 @@ add-select.sh \
   --proxy "$proxy" \
   --title "Select collections" \
   --uri "#${query_id}" \
-  --query-file "${pwd}/queries/select-collections.rq" \
+  --query-file "${pwd}/collections/select-collections.rq" \
   "$container"
 
 view_id="select-collections-view"
@@ -152,7 +150,7 @@ add-select.sh \
   --proxy "$proxy" \
   --title "Select concept schemes" \
   --uri "#${query_id}" \
-  --query-file "${pwd}/queries/select-concept-schemes.rq" \
+  --query-file "${pwd}/concept-schemes/select-concept-schemes.rq" \
   "$container"
 
 view_id="select-concept-schemes-view"

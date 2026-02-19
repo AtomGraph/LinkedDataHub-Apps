@@ -1,0 +1,45 @@
+  @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+  @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+  @prefix dct:    <http://purl.org/dc/terms/> .
+  @prefix sp:     <http://spinrdf.org/sp#> .
+  @prefix spin:   <http://spinrdf.org/spin#> .
+  @prefix ac:     <https://w3id.org/atomgraph/client#> .
+  @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+  # Main container document
+  <> a dh:Container ;
+      dct:title "Employees" ;
+      rdf:_1 <#select-employees> .
+
+  # Object block (references the view)
+  <#select-employees> a ldh:Object ;
+      rdf:value <#select-employees-view> .
+
+  # View block (references the query, uses GridMode)
+  <#select-employees-view> a ldh:View ;
+      spin:query <#select-employees-query> ;
+      ac:mode <https://w3id.org/atomgraph/client#GridMode> .
+
+  # SELECT query
+  <#select-employees-query> a sp:Select ;
+      dct:title "Select employees" ;
+      sp:text """PREFIX  schema: <https://schema.org/>
+
+  SELECT DISTINCT  ?employee
+  WHERE
+    { GRAPH ?doc
+        { ?employee  a                 schema:Person ;
+                    schema:familyName  ?lastName
+          OPTIONAL
+            { ?employee  schema:areaServed  ?territory }
+          OPTIONAL
+            { ?employee  schema:sponsor  ?reportsToEmployee }
+          FILTER NOT EXISTS { GRAPH ?supplierGraph
+                                { ?supplier  a               schema:Corporation ;
+                                            schema:employee  ?employee
+                                }
+                            }
+        }
+    }
+  ORDER BY ?lastName""" .

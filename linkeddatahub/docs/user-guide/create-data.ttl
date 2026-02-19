@@ -8,7 +8,6 @@
 @prefix spin:	<http://spinrdf.org/spin#> .
 
 <> a dh:Container ;
-    sioc:has_parent <..> ;
     dct:title "Create data" ;
     dct:description "How to create documents, content, and instances" ;
     rdf:_1 <#content> ;

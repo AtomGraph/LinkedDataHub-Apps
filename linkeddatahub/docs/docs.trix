@@ -40,8 +40,8 @@
       <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#value</uri>
       <typedLiteral datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral"><div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">All the basics of LinkedDataHub. From installation to customizing the model and user interface.</p>
-    <p>This guide will show how a LinkedDataHub application can be used to manage domain-specific RDF classes and instances. As an example, we will us <a href="https://www.w3.org/TR/skos-primer/" target="_blank">SKOS</a> concepts and concept schemes.</p>
-    <p>Note that all <a href="../reference/data-model/documents/#manage" target="_blank">management actions</a> can also be performed using the <a href="../reference/command-line-interface/" target="_blank">CLI (Command Line Interface)</a>. Where applicable, the UI and CLI instructions are shown side by side. The <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/skos" target="_blank">SKOS demo app</a> which implements the SKOS example which is used in this guide.</p>
+    <p>This guide will show how a LinkedDataHub application can be used to manage domain-specific RDF classes and instances. As an example, we will use <a href="https://www.w3.org/TR/skos-primer/" target="_blank">SKOS</a> concepts and concept schemes.</p>
+    <p>Note that most management actions can also be performed using the <a href="../reference/command-line-interface/" target="_blank">CLI (Command Line Interface)</a>. Where applicable, the UI and CLI instructions are shown side by side. The <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/unesco-thesaurus" target="_blank">UNESCO Thesaurus demo app</a> demonstrates how SKOS vocabularies can be managed in LinkedDataHub.</p>
     <div>
         <h2 id="setup">Setup</h2>
         <p>Setup is only required if you plan to run your own instance of LinkedDataHub. It consists of few steps, which involve creating a configuration file and running a
@@ -583,8 +583,7 @@
         <h2 id="text-search">Text search</h2>
         <p>You can lookup resources by typing a phrase (it does not have to be complete, start with a few letters) into the input in the <a href="../../reference/user-interface/#nav-bar">navigation bar</a>.</p>
         <p>A dropdown list will appear if there are any matches. Use up/down keys or mouse click to select one of the results, and you will be redirected to its document.</p>
-        <p>The matching is done by looking for substrings using SPARQL <code>regex()</code> in common literal properties such as <code>dct:title</code>, <code>rdfs:label</code>, <code>foaf:name</code>,
-            <code>sioc:content</code> etc. You can find the exact query in <samp>Queries / Select labelled</samp>.</p>
+        <p>The matching is done by looking for substrings using SPARQL <code>regex()</code> in common literal properties such as <code>dct:title</code>, <code>rdfs:label</code>, <code>foaf:name</code> etc. You can find the exact query in <samp>Queries / Select labelled</samp>.</p>
         <p>The same widget is used for autocomplete inputs in the <a href="../../reference/user-interface/#create-edit">create/edit forms</a>.</p>
         <p>
             <img alt="SPARQL endpoint" src="../../uploads/8c4383351477a5405a9883d23d9255670b9396f7"></img>
@@ -664,6 +663,172 @@
   </graph>
   <graph>
     <triple>
+      <uri>file:///user-guide/manage-packages/</uri>
+      <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+      <uri>https://www.w3.org/ns/ldt/document-hierarchy#Item</uri>
+    </triple>
+    <triple>
+      <uri>file:///user-guide/manage-packages/</uri>
+      <uri>http://rdfs.org/sioc/ns#has_container</uri>
+      <uri>file:///user-guide/</uri>
+    </triple>
+    <triple>
+      <uri>file:///user-guide/manage-packages/</uri>
+      <uri>http://purl.org/dc/terms/title</uri>
+      <plainLiteral>Manage packages</plainLiteral>
+    </triple>
+    <triple>
+      <uri>file:///user-guide/manage-packages/</uri>
+      <uri>http://purl.org/dc/terms/description</uri>
+      <plainLiteral>Step by step guide to installing and uninstalling packages</plainLiteral>
+    </triple>
+    <triple>
+      <uri>file:///user-guide/manage-packages/</uri>
+      <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#_1</uri>
+      <uri>file:///user-guide/manage-packages/#content</uri>
+    </triple>
+    <triple>
+      <uri>file:///user-guide/manage-packages/#content</uri>
+      <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+      <uri>https://w3id.org/atomgraph/linkeddatahub#XHTML</uri>
+    </triple>
+    <triple>
+      <uri>file:///user-guide/manage-packages/#content</uri>
+      <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#value</uri>
+      <typedLiteral datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral"><div xmlns="http://www.w3.org/1999/xhtml">
+  <p class="lead">Step by step guide to installing and uninstalling packages in your LinkedDataHub dataspace.</p>
+  <div class="alert alert-info">
+    <p><strong>Version:</strong> Packages were introduced in LinkedDataHub 5.2.</p>
+  </div>
+  <div class="alert alert-info">
+    <p>Package management requires <a href="../../reference/administration/acl/#access-modes" target="_blank">Control access</a> to the administration application. Only users with administrative privileges can install or uninstall packages.</p>
+  </div>
+  <p class="lead"><a href="../../reference/administration/packages/" target="_blank">Read more about how packages work.</a></p>
+  <div class="alert alert-warning">
+    <p><strong>Important:</strong> After installing or uninstalling a package, you must restart the Docker service for XSLT stylesheet changes to take effect:</p>
+    <pre>docker-compose restart linkeddatahub</pre>
+    <p>Do not use <code>--force-recreate</code> as that would overwrite the stylesheet file changes.</p>
+  </div>
+  <div>
+    <h2 id="install-package">Install a package</h2>
+    <p>Installing a package adds new functionality to your dataspace by importing ontologies, data, and resources.</p>
+    <div class="tabbable">
+      <ul class="nav nav-tabs">
+        <li class="active"><a>User interface</a></li>
+        <li><a>Command line interface</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active">
+          <p>Follow these steps to install a package through the web interface:</p>
+          <ol>
+            <li>Open the package URI in browser mode by entering its URI in the address bar</li>
+            <li>Click the <span class="btn">Actions</span> dropdown button next to the package</li>
+            <li>Select <span class="btn btn-primary">Install</span> from the dropdown menu</li>
+            <li>Wait for the installation to complete</li>
+            <li>Refresh your browser to ensure the new package functionality is loaded</li>
+          </ol>
+        </div>
+        <div class="tab-pane">
+          <p>Execute the following command:</p>
+          <pre>install-package.sh \
+  -b "https://localhost:4443/" \
+  -f ssl/owner/cert.pem \
+  -p "$owner_cert_password" \
+  --package "https://packages.linkeddatahub.com/skos/#this"</pre>
+          <p>Parameters:</p>
+          <dl>
+            <dt><code>-b</code></dt>
+            <dd>Base URL of your LinkedDataHub instance</dd>
+            <dt><code>-f</code></dt>
+            <dd>Path to your owner certificate file</dd>
+            <dt><code>-p</code></dt>
+            <dd>Owner certificate password</dd>
+            <dt><code>--package</code></dt>
+            <dd>Package URI to install (e.g., <samp>https://packages.linkeddatahub.com/skos/#this</samp>)</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h2 id="uninstall-package">Uninstall a package</h2>
+    <p>Uninstalling a package removes its ontologies and resources from your dataspace. User-created data that uses the package vocabulary will remain but may not function correctly.</p>
+    <div class="tabbable">
+      <ul class="nav nav-tabs">
+        <li class="active"><a>User interface</a></li>
+        <li><a>Command line interface</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active">
+          <p>Follow these steps to uninstall a package through the web interface:</p>
+          <ol>
+            <li>Navigate to the administration application of your dataspace</li>
+            <li>Open the <dfn>Packages</dfn> container to view installed packages</li>
+            <li>Find the package you want to uninstall in the list</li>
+            <li>Click the <span class="btn">Actions</span> dropdown button next to the package</li>
+            <li>Select <span class="btn btn-danger">Uninstall</span> from the dropdown menu</li>
+            <li>Confirm the uninstallation when prompted</li>
+            <li>Wait for the uninstallation to complete</li>
+          </ol>
+          <p class="alert alert-warning">Uninstalling a package will remove its ontologies and associated resources. Any data you created using the package's vocabulary will remain in your dataspace but may not display or function correctly without the package.</p>
+        </div>
+        <div class="tab-pane">
+          <p>Execute the following command:</p>
+          <pre>uninstall-package.sh \
+  -b "https://localhost:4443/" \
+  -f ssl/owner/cert.pem \
+  -p "$owner_cert_password" \
+  --package "https://packages.linkeddatahub.com/skos/#this"</pre>
+          <p>Parameters are the same as for installation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h2 id="verify-installation">Verify package installation</h2>
+    <p>After installing a package, verify that it was installed correctly:</p>
+    <ol>
+      <li>Navigate to the administration application</li>
+      <li>Click on <dfn>Ontologies</dfn> in the left navigation menu</li>
+      <li>Verify that the package ontology appears in the list of imported ontologies</li>
+      <li>In the end-user application, check that package-specific classes and properties are available when creating new resources</li>
+      <li>If the package includes stylesheets, verify that custom UI elements are rendering correctly</li>
+    </ol>
+  </div>
+  <div>
+    <h2 id="customize-package-behavior">Customize package behavior</h2>
+    <p>Packages may include custom XSLT stylesheets that affect how data is displayed. You can further customize the behavior by:</p>
+    <ul>
+      <li><a href="../change-layout/#import-stylesheet" target="_blank">Importing additional stylesheets</a> to extend package functionality</li>
+      <li><a href="../change-layout/#override-template" target="_blank">Overriding package templates</a> to customize the rendering of package resources</li>
+      <li>Creating custom views and layouts for package data</li>
+    </ul>
+    <p>See the <a href="../change-layout/" target="_blank">Change layout guide</a> for detailed instructions on stylesheet customization.</p>
+  </div>
+  <div>
+    <h2 id="troubleshooting">Troubleshooting</h2>
+    <h3 id="installation-fails">Installation fails</h3>
+    <p>If package installation fails:</p>
+    <ul>
+      <li>Verify you have Control access to the administration application</li>
+      <li>Check that all package dependencies are met</li>
+      <li>Review the error message for specific issues</li>
+      <li>Ensure the package files are valid and well-formed</li>
+    </ul>
+    <h3 id="package-not-visible">Package functionality not visible</h3>
+    <p>If installed package features are not visible:</p>
+    <ul>
+      <li>Refresh your browser to reload the application</li>
+      <li>Clear the browser cache if stylesheets are not updating</li>
+      <li>Verify the package ontology is imported in the Ontologies section</li>
+      <li>Check that you have appropriate permissions to view package resources</li>
+    </ul>
+  </div>
+</div></typedLiteral>
+    </triple>
+  </graph>
+  <graph>
+    <triple>
       <uri>file:///user-guide/import-data/</uri>
       <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
       <uri>https://www.w3.org/ns/ldt/document-hierarchy#Container</uri>
@@ -702,7 +867,8 @@
       <uri>file:///user-guide/import-data/#content</uri>
       <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#value</uri>
       <typedLiteral datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral"><div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">How to import data into LinkedDataHub</p>
+    <p class="lead">How to bulk import data into LinkedDataHub</p>
+    <p>This guide is about bulk data imports running asynchronously, suitable for larger datasets. If you want to simply add RDF data to a document, see the <a href="../add-data/">add data</a> guide.</p>
 </div></typedLiteral>
     </triple>
     <triple>
@@ -778,7 +944,8 @@
     </div>
     <div>
         <h2 id="from-file">From file</h2>
-        <p>To upload the contents of an RDF file into a document, simnply drag the file from your filesystem into LinkedDataHub. The following syntaxes are supported:</p>
+        <p>To upload the contents of an RDF file into a document, simply drag the file from your filesystem into LinkedDataHub when the document's <a href="../../reference/user-interface/#layout-modes">properties mode</a> is active.</p>
+        <p>The following syntaxes are supported:</p>
         <ul>
             <li>N-Triples (.nt)</li>
             <li>Turtle (.ttl)</li>
@@ -1081,7 +1248,7 @@
             <div class="tab-content">
                 <div class="tab-pane active">
                     <div>
-                        <p>First, either <a href="../upload-file/" target="_blank">upload the XSLT file</a> or mount it using Docker and <samp>docker-compose.override.yml:</samp>:</p>
+                        <p>First, either <a href="../upload-file/" target="_blank">upload the XSLT file</a> or mount it using Docker and <samp>docker-compose.override.yml</samp>:</p>
                         <pre>version: "2.3"
 services:
   linkeddatahub:
@@ -1530,7 +1697,7 @@ services:
       <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#value</uri>
       <typedLiteral datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral"><div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Use LinkedDataHub's built-in Linked Data browser to explore remote datasources</p>
-    <p>LinkedDataHub's has a built-in Linked Data browser which is accessed through <a href="../reference/user-interface/#nav-bar">the navigation bar</a>. Enter a <code>http://</code> or <code>https://</code> URL and
+    <p>LinkedDataHub's has a built-in Linked Data browser which is accessed through <a href="../../reference/user-interface/#nav-bar">the navigation bar</a>. Enter a <code>http://</code> or <code>https://</code> URL and
         press <samp>Enter</samp> or click the search button.</p>
     <p>The browser supports all standard RDF formats as well as JSON-LD embedded in HTML page's <code>&lt;script&gt;</code> elements, which is often used to publish <a href="https://schema.org/" target="_blank">schema.org</a> metadata.</p>
     <p>When the data loads successfully, you can navigate it the same way as your local documents, switch between different layout modes etc. You can also <a href="../add-data/">add the data</a> into your dataspace.</p>
@@ -2111,9 +2278,6 @@ ABS_PATH=/linkeddatahub/</pre>
         It can also be used as an RDF-native content management platform.</p>
     <p>LinkedDataHub is an open source project that has its roots as a Linked Data publishing framework. However, since the 3.x release we have focused on Linked Data consumption, as we consider
             publishing a solved problem but continue to see a shortage of user-friendly consumption tools.</p>
-    <p class="text-center">
-        <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/LaOouEYhp_c" width="560"></iframe>
-    </p>
     <div>
         <h2 id="platform">Low code application platform</h2>
         <p>LinkedDataHub is also a low code RDF Knowledge Graph application platform. It offers comprehensive development and management features:</p>
@@ -2128,6 +2292,9 @@ ABS_PATH=/linkeddatahub/</pre>
     </div>
     <div>
         <h2 id="kms">Federated knowledge management and collaboration system</h2>
+        <p class="text-center">
+            <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/LaOouEYhp_c" width="560"></iframe>
+        </p>
         <p>As an RDF-native CMS, LinkedDataHub provides a number of features for end-users:</p>
         <ul>
             <li><a href="../user-guide/create-data/create-content/" target="_blank">creating structured content</a> from Linked Data and SPARQL resources (<strong>new in 3.x</strong>)</li>
@@ -2559,9 +2726,9 @@ Options:
     <div>
         <h2 id="hierarchy">Document hierarchy</h2>
         <p>The basic structure of resources in an application is analogous to the file system, but built using RDF
-            resources and relationships between them instead. There is a hierarchy of <dfn>containers</dfn> (folders),
-            which are collections of <dfn>items</dfn> (files) as well as sub-containers (sub-folders). Both containers
-            and items are <dfn>documents</dfn>. Items cannot contain other documents.</p>
+            resources and relationships between them instead. There is a hierarchy of <a href="../data-model/documents/containers/" target="_blank">containers</a>,
+            which are collections of <a href="../data-model/documents/items/" target="_blank">items</a> as well as sub-containers. Both containers
+            and items are <a href="../data-model/documents/" target="_blank">documents</a>. Items cannot contain other documents.</p>
         <p>The first level of resources in a container is referred to as its <dfn>children</dfn> (of which that container
             is the <dfn>parent</dfn>), while all levels down the hierarchy are collectively referred to as
             <dfn>descendants</dfn>.</p>
@@ -2687,7 +2854,7 @@ Options:
             <p>XSLT stylesheet components used by LinkedDataHub:</p>
             <dl>
                 <dt>Includes</dt>
-                <dd><code>&lt;xsl:include&gt;</code> is used to inclkude one stylesheet into another. The import mechanism is specified in <a href="https://www.w3.org/TR/xslt-30/#include" target="_blank">3.10.2 Stylesheet Inclusion</a> the XSLT 3.0 specification. The templates from the included stylesheets have the same priority as those of the importing stylesheet.</dd>
+                <dd><code>&lt;xsl:include&gt;</code> is used to include one stylesheet into another. The import mechanism is specified in <a href="https://www.w3.org/TR/xslt-30/#include" target="_blank">3.10.2 Stylesheet Inclusion</a> the XSLT 3.0 specification. The templates from the included stylesheets have the same priority as those of the importing stylesheet.</dd>
                 <dt>Imports</dt>
                 <dd><code>&lt;xsl:import&gt;</code> is used to import one stylesheet into another. The import mechanism is specified in <a href="https://www.w3.org/TR/xslt-30/#import" target="_blank">3.10.3 Stylesheet Import</a> the XSLT 3.0 specification. The templates from the imported stylesheets have lower priority than those of the importing stylesheet.</dd>
                 <dt>Parameters</dt>
@@ -2766,8 +2933,8 @@ Options:
                     <tr>
                         <td><code>lapp:</code></td>
                         <td><code>https://w3id.org/atomgraph/linkeddatahub/apps#</code></td>
-                        <td><a href="../administration/ontologies/#apl-ont" target="_blank">AtomGraph Platform</a></td>
-                        <td>LDT application concepts</td>
+                        <td><a href="../administration/ontologies/#apl-ont" target="_blank">LinkedDataHub application ontology</a></td>
+                        <td>LinkedDataHub application concepts</td>
                     </tr>
                     <tr>
                         <td><code>lacl:</code></td>
@@ -2799,7 +2966,7 @@ Options:
                 <dt><code>$ac:forClass</code></dt>
                 <dd>The URI of the class whose instance is being created.</dd>
                 <dt><code>$lapp:Application</code></dt>
-                <dd>RDF/XML document with the metadata of the current LDT application</dd>
+                <dd>RDF/XML document with the metadata of the current LinkedDataHub application</dd>
                 <dt><code>$foaf:Agent</code></dt>
                 <dd>RDF/XML document with the metadata of the currently authenticated agent (if any)</dd>
             </dl>
@@ -3089,7 +3256,7 @@ Options:
       <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#value</uri>
       <typedLiteral datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral"><div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Access control and domain model management</p>
-    <p>Administration is provided in a separate LDT application, which is paired with each <a href="../dataspace/#end-user-apps">end-user
+    <p>Administration is provided in a separate LinkedDataHub application, which is paired with each <a href="../dataspace/#end-user-apps">end-user
         application</a>.</p>
 </div></typedLiteral>
     </triple>
@@ -3149,17 +3316,15 @@ Options:
             the search box will not be visible if the user is not authorized to access the search container.</em></p>
     </div>
     <p>
-        <img alt="User interface" src="../../uploads/5aedc6ac31996b7332623edcd91dc3864c51df8c"></img>
+        <img alt="User interface" src="../../uploads/df0b96b07dc6730536cb11d169ed34dfb25ea403"></img>
     </p>
     <div>
         <h2 id="nav-bar">Navigation bar</h2>
         <p>
-            <img alt="Navigation bar" src="../../uploads/cd27577395dec18a2b3fb5867feeb60fe828cb43"></img>
+            <img alt="Navigation bar" src="../../uploads/ec8cb7afb9cf360c34e859f97646642eb0331518"></img>
         </p>
         <p>The application title or logo in the top-left always links to the root container of the current application.</p>
         <p><dfn>Search box</dfn> lets users search for resources within the current application that have the specified keyword in their titles, descriptions etc. Results are shown in a dropdown list.</p>
-        <p>Application's <dfn>SPARQL endpoint</dfn> is accessible on the right. It offers a query editor and a result
-        view. Learn more about query possibilities in the <a href="../../user-guide/query-data/">Query data</a> section.</p>
         <div class="alert alert-info">
             <p><em>Due to current web browser limitations, it is not possible to logout using client certificate authentication.
               As a workaround, you can close the browser, and click <span class="btn">Cancel</span> when asked to select a
@@ -3169,7 +3334,7 @@ Options:
     <div>
         <h2 id="action-bar">Action bar</h2>
         <p>
-            <img alt="Action bar" src="../../uploads/4656ea9036a2b6d48a3233e0bc3cdc0f698ae0f2"></img>
+            <img alt="Action bar" src="../../uploads/8a141225e1e96418aeb61da51b3b737454d9c01f"></img>
         </p>
         <p>The <span class="btn btn-primary create-action">Create <span class="caret"></span></span> button opens a dialog through which
         <a href="../data-model/documents/">documents</a> can be created.</p>
@@ -3221,6 +3386,16 @@ Options:
             <dt>Graph</dt>
             <dd>Renders <a href="../data-model/resources/">resources</a> in the current document graphically as nodes in a network using
             force-directed layout.</dd>
+        </dl>
+    </div>
+    <div>
+        <h2 id="creation-bar">Creation bar</h2>
+        <p>The creation bar serves different functions depending on the current mode:</p>
+        <dl>
+            <dt>Content</dt>
+            <dd>Appends new content blocks to the page</dd>
+            <dt>Properties</dt>
+            <dd>Creates new resource of the selected type</dd>
         </dl>
     </div>
 </div></typedLiteral>
@@ -3773,7 +3948,7 @@ PREFIX  sioc: &lt;http://rdfs.org/sioc/ns#&gt;
     </div>
     <div>
         <h2 id="documents">Managing documents</h2>
-        <p>eEry document is also a <a href="../dataset/#structure">named graph</a> in the application's RDF dataset. LinkedDataHub supports the SPARQL Graph Store Protocol's <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#direct-graph-identification" target="_blank">direct graph identification</a> as the HTTP CRUD protocol for managing document data.</p>
+        <p>Every document is also a <a href="../dataset/#structure">named graph</a> in the application's RDF dataset. LinkedDataHub supports the SPARQL Graph Store Protocol's <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#direct-graph-identification" target="_blank">direct graph identification</a> as the HTTP CRUD protocol for managing document data.</p>
         <div class="alert alert-info">
             <p>GSP <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#indirect-graph-identification" target="_blank">indirect graph identification</a> is not supported starting with LinkedDataHub version 5.x.</p>
         </div>
@@ -3919,8 +4094,7 @@ Content-Type: text/turtle</code></pre>
             <ul>
                 <li>It's not possible delete the root document</li>
                 <li>It's not possible to modify or delete the documents of the owner agent and the secretary agent</li>
-                <li>A document (which is also a named graph in the graph store) must always contain an RDF resource with its URI and type <code>def:Root</code>, <code>dh:Container</code>, or <code>dh:Item</code>
-                    (see <a href="../administration/ontologies/#ontologies">ontologies</a>)</li>
+                <li>A document can only be created with a URL relative to an existing container (i.e. resolving <samp>..</samp> against the new document's URL must identify an existing container)</li>
             </ul>
             <p>The built in constraints are similar to, but separate from the <a href="../administration/ontologies/#constraints">ontology constraints</a>.</p>
         </div>
@@ -3928,7 +4102,7 @@ Content-Type: text/turtle</code></pre>
     <div>
         <h2 id="sparql">Executing SPARQL</h2>
         <p>Every LinkedDataHub application provides a SPARQL endpoint on <code>sparql</code> path (relative to the application's base URI). It supports the
-            <a href="https://www.w3.org/TR/sparql11-protocol/" target="_blank">SPARQL 1.1 Protocol</a> and serves as a proxy for the service endpoint of the
+            <a href="https://www.w3.org/TR/sparql11-protocol/" target="_blank">SPARQL 1.1 Protocol</a> and serves as a proxy for the backend endpoint of the
             application.</p>
     </div>
     <div>
@@ -3959,6 +4133,10 @@ Content-Type: text/turtle</code></pre>
             <dd>OpenID Connect callback</dd>
             <dt><samp>admin/clear</samp></dt>
             <dd>Clears the specified ontology from memory cache and reloads it from the admin SPARQL endpoint</dd>
+            <dt><samp>packages/install</samp></dt>
+            <dd>Installs a package. Requires owner/admin authentication</dd>
+            <dt><samp>packages/uninstall</samp></dt>
+            <dd>Uninstalls a package. Requires owner/admin authentication</dd>
         </dl>
     </div>
     <div>
@@ -4021,11 +4199,11 @@ Content-Type: text/turtle</code></pre>
     <triple>
       <uri>file:///reference/administration/ontologies/</uri>
       <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
-      <uri>https://www.w3.org/ns/ldt/document-hierarchy#Container</uri>
+      <uri>https://www.w3.org/ns/ldt/document-hierarchy#Item</uri>
     </triple>
     <triple>
       <uri>file:///reference/administration/ontologies/</uri>
-      <uri>http://rdfs.org/sioc/ns#has_parent</uri>
+      <uri>http://rdfs.org/sioc/ns#has_container</uri>
       <uri>file:///reference/administration/</uri>
     </triple>
     <triple>
@@ -4126,14 +4304,11 @@ Content-Type: text/turtle</code></pre>
             <p>Constructors are SPARQL <code>CONSTRUCT</code> queries that serve as templates for class instances.
                 They specify the properties (both mandatory and optional) that the instance is supposed to have, as well as expected datatypes of their
                 values. Constructors are used in create/edit modes. A class can have multiple constructors.</p>
-            <p>For example, one of the constructors of the <code>dh:Container</code> and <code>dh:Item</code> <a href="#classes">classes</a>:</p>
+            <p>For example, the constructor of the <code>ldh:XHTML</code> <a href="#classes">class</a>:</p>
             <pre><code>PREFIX rdf:     &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
-PREFIX xsd:     &lt;http://www.w3.org/2001/XMLSchema#&gt;
-PREFIX sioc:    &lt;http://rdfs.org/sioc/ns#&gt;
-PREFIX dct:     &lt;http://purl.org/dc/terms/&gt;
 
 CONSTRUCT {
-  $this sioc:content "&lt;div xmlns=\"http://www.w3.org/1999/xhtml\"&gt;&lt;/div&gt;"^^rdf:XMLLiteral .
+  $this rdf:value "&lt;div xmlns=\"http://www.w3.org/1999/xhtml\"&gt;&lt;/div&gt;"^^rdf:XMLLiteral .
 }
 WHERE {}</code></pre>
             <p>An instance of these classes by default have a content property with XML literal.</p>
@@ -4158,6 +4333,247 @@ WHERE {}</code></pre>
         <h2 id="properties">Properties</h2>
         <p>LinkedDataHub allows definition of new properties.</p>
     </div>
+</div></typedLiteral>
+    </triple>
+  </graph>
+  <graph>
+    <triple>
+      <uri>file:///reference/administration/packages/</uri>
+      <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+      <uri>https://www.w3.org/ns/ldt/document-hierarchy#Item</uri>
+    </triple>
+    <triple>
+      <uri>file:///reference/administration/packages/</uri>
+      <uri>http://rdfs.org/sioc/ns#has_container</uri>
+      <uri>file:///reference/administration/</uri>
+    </triple>
+    <triple>
+      <uri>file:///reference/administration/packages/</uri>
+      <uri>http://purl.org/dc/terms/title</uri>
+      <plainLiteral>Packages</plainLiteral>
+    </triple>
+    <triple>
+      <uri>file:///reference/administration/packages/</uri>
+      <uri>http://purl.org/dc/terms/description</uri>
+      <plainLiteral>Package management for LinkedDataHub applications</plainLiteral>
+    </triple>
+    <triple>
+      <uri>file:///reference/administration/packages/</uri>
+      <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#_1</uri>
+      <uri>file:///reference/administration/packages/#content</uri>
+    </triple>
+    <triple>
+      <uri>file:///reference/administration/packages/#content</uri>
+      <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+      <uri>https://w3id.org/atomgraph/linkeddatahub#XHTML</uri>
+    </triple>
+    <triple>
+      <uri>file:///reference/administration/packages/#content</uri>
+      <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#value</uri>
+      <typedLiteral datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral"><div xmlns="http://www.w3.org/1999/xhtml">
+  <p class="lead">Packages are reusable bundles of ontologies and stylesheets that provide vocabulary support with custom rendering for specific RDF vocabularies.</p>
+  <div class="alert alert-info">
+    <p><strong>Version:</strong> Packages were introduced in LinkedDataHub 5.2.</p>
+  </div>
+  <div class="alert alert-info">
+    <p><strong>Note:</strong> Packages are <strong>declarative only</strong> (RDF + XSLT). They contain no Java code and integrate at installation-time, not runtime.</p>
+  </div>
+  <div>
+    <h2 id="what-are-packages">What are packages?</h2>
+    <p>A LinkedDataHub package is a reusable component that bundles together a vocabulary ontology and XSLT templates into a single installable unit. Packages enable:</p>
+    <ul>
+      <li>Rapid application setup with pre-configured domain vocabularies</li>
+      <li>Sharing and reusing common vocabulary definitions</li>
+      <li>Custom rendering for vocabulary-specific resources</li>
+      <li>Modular extension of dataspace functionality</li>
+    </ul>
+  </div>
+  <div>
+    <h2 id="package-structure">Package structure</h2>
+    <p>Each package consists of two files:</p>
+    <dl>
+      <dt><code>ns.ttl</code> - Package ontology</dt>
+      <dd>An RDF ontology file that imports the external vocabulary using <code>owl:imports</code> and attaches blocks to properties using <code>ldh:view</code> (forward relationships) or <code>ldh:inverseView</code> (inverse relationships). Blocks are typically <code>ldh:View</code> resources with SPARQL queries that render related data for property values.</dd>
+      <dt><code>layout.xsl</code> - XSLT stylesheet</dt>
+      <dd>XSLT transformation file with templates that override default rendering using system modes like <code>bs2:*</code> (Bootstrap 2.3.2 components) and <code>xhtml:*</code> (XHTML elements). See <a href="../stylesheets/" target="_blank">Stylesheets reference</a> for details on XSLT customization.</dd>
+    </dl>
+    <p>Package files are organized in the LinkedDataHub-Apps repository:</p>
+    <pre>packages/
+├── package-name/
+│   ├── ns.ttl         # Ontology with views
+│   └── layout.xsl     # XSLT stylesheet</pre>
+    <p>Package metadata is published as Linked Data that resolves from the package URI (e.g., <code>https://packages.linkeddatahub.com/skos/#this</code>).</p>
+  </div>
+  <div>
+    <h2 id="package-metadata">Package metadata</h2>
+    <p>Package metadata is published as Linked Data that resolves from the package URI using standard LinkedDataHub properties:</p>
+    <dl>
+      <dt><code>lapp:Package</code></dt>
+      <dd>The RDF class for package descriptors</dd>
+      <dt><code>rdfs:label</code></dt>
+      <dd>Human-readable package name</dd>
+      <dt><code>dct:description</code></dt>
+      <dd>Package description and purpose</dd>
+      <dt><code>ldt:ontology</code></dt>
+      <dd>Points to the package ontology URI (from LDT vocabulary)</dd>
+      <dt><code>ac:stylesheet</code></dt>
+      <dd>Points to the package stylesheet URI (from AtomGraph Client vocabulary)</dd>
+    </dl>
+    <p>Example package metadata:</p>
+    <pre>@prefix lapp: &lt;https://w3id.org/atomgraph/linkeddatahub/apps#&gt; .
+@prefix ldt:  &lt;https://www.w3.org/ns/ldt#&gt; .
+@prefix ac:   &lt;https://w3id.org/atomgraph/client#&gt; .
+
+&lt;https://packages.linkeddatahub.com/skos/#this&gt; a lapp:Package ;
+    rdfs:label "SKOS Package" ;
+    dct:description "SKOS vocabulary support with custom templates" ;
+    ldt:ontology &lt;https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/ns.ttl#&gt; ;
+    ac:stylesheet &lt;https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/layout.xsl&gt; .</pre>
+  </div>
+  <div>
+    <h2 id="package-ontology">Package ontology</h2>
+    <p>The package ontology file contains two layers:</p>
+    <h3 id="vocabulary-import">Vocabulary import</h3>
+    <p>Imports the external vocabulary using <code>owl:imports</code>. See <a href="../ontologies/" target="_blank">Ontologies reference</a> for ontology management details.</p>
+    <pre>&lt;https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/ns.ttl#&gt; a owl:Ontology ;
+    owl:imports &lt;http://www.w3.org/2004/02/skos/core&gt; .</pre>
+    <h3 id="property-views">Property views</h3>
+    <p>SPARQL-based views attached to properties from the imported vocabulary:</p>
+    <pre>skos:narrower ldh:view ns:NarrowerConcepts .
+
+ns:NarrowerConcepts a ldh:View ;
+    dct:title "Narrower concepts" ;
+    spin:query ns:SelectNarrowerConcepts .
+
+ns:SelectNarrowerConcepts a sp:Select ;
+    sp:text """SELECT DISTINCT ?narrower
+    WHERE { GRAPH ?graph { $about skos:narrower ?narrower } }
+    ORDER BY ?narrower""" .</pre>
+    <p>Views are rendered when displaying resources that have the specified property. Use <code>ldh:view</code> for forward relationships (resource has property) or <code>ldh:inverseView</code> for inverse relationships (other resources point to this resource via property).</p>
+  </div>
+  <div>
+    <h2 id="package-stylesheet">Package stylesheet</h2>
+    <p>XSLT templates using system modes to override default rendering:</p>
+    <pre>&lt;!-- Hide properties from default property list --&gt;
+&lt;xsl:template match="skos:narrower | skos:broader" mode="bs2:PropertyList"/&gt;
+
+&lt;!-- Override XHTML head elements --&gt;
+&lt;xsl:template match="*" mode="xhtml:Style"&gt;
+    &lt;!-- Custom styles --&gt;
+&lt;/xsl:template&gt;</pre>
+    <p>Available system modes include:</p>
+    <ul>
+      <li><code>bs2:*</code> - Bootstrap 2.3.2 components (PropertyList, Form, etc.)</li>
+      <li><code>xhtml:*</code> - XHTML elements (Style, Script, etc.)</li>
+      <li>Additional modes documented in the <a href="../../stylesheets/" target="_blank">Stylesheets reference</a></li>
+    </ul>
+  </div>
+  <div>
+    <h2 id="installing-packages">Installing packages</h2>
+    <p>Installation requires Control access to the administration application. See the <a href="../../../user-guide/manage-packages/" target="_blank">step-by-step installation guide</a> for detailed instructions.</p>
+    <p>Installation will fail if these files do not exist.</p>
+    <h3 id="installation-process">Installation process</h3>
+    <p>When you install a package, the system performs the following steps:</p>
+    <ol>
+      <li><strong>Fetches package metadata</strong> from the package URI</li>
+      <li><strong>Hashes the package ontology URI</strong> using SHA-1 to create a unique document slug</li>
+      <li><strong>Downloads package ontology</strong> (<code>ns.ttl</code>) and PUTs it as a document to <code>${admin_base}ontologies/{hash}/</code> where <code>{hash}</code> is the SHA-1 hash of the ontology URI</li>
+      <li><strong>Adds owl:imports</strong> from the namespace ontology to the package ontology in the namespace graph (<code>${admin_base}ontologies/namespace/</code>)</li>
+      <li><strong>Clears and reloads</strong> the namespace ontology from cache to pick up the new imports</li>
+      <li><strong>Downloads package stylesheet</strong> (<code>layout.xsl</code>) and saves it to <code>/static/{package-path}/layout.xsl</code> where <code>{package-path}</code> is derived from the package URI (e.g., <code>com/linkeddatahub/packages/skos/</code> for <code>https://packages.linkeddatahub.com/skos/</code>)</li>
+      <li><strong>Updates master stylesheet</strong> at <code>/static/xsl/layout.xsl</code> by adding import:
+        <pre>&lt;xsl:import href="../com/atomgraph/linkeddatahub/xsl/bootstrap/2.3.2/layout.xsl"/&gt;  &lt;!-- System --&gt;
+&lt;xsl:import href="../com/linkeddatahub/packages/skos/layout.xsl"/&gt;  &lt;!-- Package (added) --&gt;</pre>
+      </li>
+    </ol>
+    <div class="alert alert-warning">
+      <p><strong>Important:</strong> After installing or uninstalling a package, you must restart the Docker service for XSLT stylesheet changes to take effect:</p>
+      <pre>docker-compose restart linkeddatahub</pre>
+      <p>Do not use <code>--force-recreate</code> as that would overwrite the stylesheet file changes.</p>
+    </div>
+  </div>
+  <div>
+    <h2 id="uninstalling-packages">Uninstalling packages</h2>
+    <p>Packages can be safely uninstalled, which removes:</p>
+    <ul>
+      <li>Package ontology imports from the application</li>
+      <li>Package-specific data and resources</li>
+      <li>Associated queries and stylesheets</li>
+    </ul>
+    <div class="alert alert-info">
+      <p><strong>Note:</strong> Uninstalling a package does not remove user-created data that uses the package's vocabulary.</p>
+    </div>
+  </div>
+  <div>
+    <h2 id="architecture">Architecture</h2>
+    <h3 id="installation-time-composition">Installation-time vs runtime</h3>
+    <p>Packages use <strong>installation-time composition</strong>, NOT runtime composition:</p>
+    <ul>
+      <li>✅ Package content is integrated during installation (via JAX-RS endpoints)</li>
+      <li>✅ Ontology and XSLT are pre-composed before being loaded</li>
+      <li>✅ No runtime overhead</li>
+      <li>❌ No dynamic package loading at request time</li>
+    </ul>
+    <h3 id="http-endpoints">HTTP endpoints</h3>
+    <p>Package installation and uninstallation is performed via <a href="../../http-api/#system-endpoints" target="_blank">system endpoints</a> on the admin application. See <code>packages/install</code> and <code>packages/uninstall</code> in the HTTP API reference.</p>
+    <h3 id="file-system-structure">File system structure</h3>
+    <p>After installing the SKOS package:</p>
+    <pre>webapp/
+├── static/
+│   ├── com/
+│   │   └── linkeddatahub/
+│   │       └── packages/
+│   │           └── skos/
+│   │               └── layout.xsl          # Package stylesheet
+│   └── xsl/
+│       ├── layout.xsl                      # End-user master stylesheet
+│       └── admin/
+│           └── layout.xsl                  # Admin master stylesheet</pre>
+  </div>
+  <div>
+    <h2 id="creating-packages">Creating custom packages</h2>
+    <p>Developers can create custom packages for their own domain vocabularies. The process involves:</p>
+    <h3 id="write-ontology">Write package ontology</h3>
+    <p>Create <code>ns.ttl</code> with vocabulary import and views:</p>
+    <pre>&lt;https://raw.githubusercontent.com/you/repo/master/packages/schema.org/ns.ttl#&gt; a owl:Ontology ;
+    owl:imports &lt;http://schema.org/&gt; .
+
+# Attach view to a property
+schema:knows ldh:view :PersonKnows .
+
+:PersonKnows a ldh:View ;
+    dct:title "Knows" ;
+    spin:query :SelectPersonKnows .
+
+:SelectPersonKnows a sp:Select ;
+    sp:text """
+    SELECT DISTINCT ?person
+    WHERE { GRAPH ?graph { $about schema:knows ?person } }
+    ORDER BY ?person
+    """ .</pre>
+    <h3 id="write-stylesheet">Write XSLT stylesheet</h3>
+    <p>Create <code>layout.xsl</code> with XSLT templates using system modes like <code>bs2:*</code> and <code>xhtml:*</code>. See the <a href="../stylesheets/" target="_blank">Stylesheets reference</a> for template customization patterns.</p>
+    <pre>&lt;xsl:template match="schema:knows" mode="bs2:PropertyList"/&gt;</pre>
+    <h3 id="publish-metadata">Publish package metadata</h3>
+    <p>Publish package metadata as Linked Data at your package URI:</p>
+    <pre>&lt;https://packages.linkeddatahub.com/schema.org/#this&gt; a lapp:Package ;
+    rdfs:label "Schema.org Package" ;
+    dct:description "Schema.org vocabulary support" ;
+    ldt:ontology &lt;https://raw.githubusercontent.com/you/repo/master/packages/schema.org/ns.ttl#&gt; ;
+    ac:stylesheet &lt;https://raw.githubusercontent.com/you/repo/master/packages/schema.org/layout.xsl&gt; .</pre>
+    <p>Ensure the metadata contains <code>ldt:ontology</code> and <code>ac:stylesheet</code> properties pointing to the package resources.</p>
+    <h3 id="test-installation">Test installation</h3>
+    <p>Use the CLI to test your package installation:</p>
+    <pre>install-package.sh \
+  -b "https://localhost:4443/" \
+  -f ssl/owner/cert.pem \
+  -p "$cert_password" \
+  --package "https://packages.linkeddatahub.com/schema.org/#this"</pre>
+  </div>
+  <div>
+    <h2 id="available-packages">Available packages</h2>
+    <p>A curated list of available packages can be found in the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/packages" target="_blank">LinkedDataHub-Apps repository</a>. Each package directory contains the package ontology (<code>ns.ttl</code>) and stylesheet (<code>layout.xsl</code>) files.</p>
+  </div>
 </div></typedLiteral>
     </triple>
   </graph>
@@ -4362,7 +4778,7 @@ WHERE {}</code></pre>
       <typedLiteral datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral"><div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Blocks that embed/transclude any dereferenceable URI</p>
     <p>Blocks other than HTML content is called an <dfn>object</dfn> and has to have a URI that dereferences. Objects are embedded (transcluded) into the HTML page. You can use any <a href="../../resources/">RDF resource</a> or uploaded file as an object.</p>
-    <p>LinkedDataHub will first attempt to load RDF data from the obejct URI and render it as block. If that fails, it will simply embed it using the HTML <code>&lt;object&gt;</code> element. Object blocks can be used to embed queries, charts, and other LinkedDataHub system resources.</p>
+    <p>LinkedDataHub will first attempt to load RDF data from the object URI and render it as block. If that fails, it will simply embed it using the HTML <code>&lt;object&gt;</code> element. Object blocks can be used to embed queries, charts, and other LinkedDataHub system resources.</p>
     <p>Built-in block types use a UI convention where their UI is split into left, main, and right content areas. The layout of the main content may depend on the active mode of the block. Left and right sections are block-type specific.</p>
     <div>
         <h2 id="rdf-serialization">RDF serialization</h2>
@@ -4467,7 +4883,7 @@ WHERE {}</code></pre>
       <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#value</uri>
       <typedLiteral datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral"><div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Blocks that embed XHTML markup as an RDF literal</p>
-    <p>XHTML block is simply a fragment of XHTML, stored as a canonical XML literal in the RDF document. It can be edited using a WYSIWYG editor.</p>
+    <p>XHTML block is simply a fragment of XHTML, stored as a <a href="https://www.w3.org/TR/xml-c14n11/" target="_blank">canonical XML</a> literal (<code>rdf:XMLLiteral</code>) in the RDF document. It can be edited using a WYSIWYG editor.</p>
     <div>
         <h2 id="rdf-serialization">RDF serialization</h2>
         <pre>@prefix ldh: &lt;https://w3id.org/atomgraph/linkeddatahub#&gt; .
@@ -4801,7 +5217,7 @@ WHERE {}</code></pre>
     <p class="lead">Items are analogous to files in a filesystem</p>
     <div>
         <h2 id="rdf-serialization">RDF serialization</h2>
-        <p>Document roperties such as <code>sioc:has_container</code>, <code>dct:created</code>, <code>dct:modified</code>, <code>acl:owner</code> are <a href="../../../http-api/#document-metadata">automatically managed</a> by LinkedDataHub.</p>
+        <p>Document properties such as <code>sioc:has_container</code>, <code>dct:created</code>, <code>dct:modified</code>, <code>acl:owner</code> are <a href="../../../http-api/#document-metadata">automatically managed</a> by LinkedDataHub.</p>
         <pre>@prefix dh: &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
 @prefix ldh: &lt;https://w3id.org/atomgraph/linkeddatahub#&gt; .
 @prefix ac: &lt;https://w3id.org/atomgraph/client#&gt; .
@@ -4818,7 +5234,7 @@ WHERE {}</code></pre>
     dct:created "2025-06-02T19:49:48.126Z"^^xsd:dateTime ;
     dct:creator &lt;https://localhost:4443/admin/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; ;
     dct:title "Example" ;
-    sioc:has_container &lt;https://localhost:4443/2005d1e1-de5c-4c0d-bcab-002c203ff1a9/&gt; ;
+    sioc:has_container &lt;https://localhost:4443/concepts/&gt; ;
     acl:owner &lt;https://localhost:4443/admin/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .
     
 &lt;https://localhost:4443/concepts/example/#xhtml-block&gt;
@@ -4924,7 +5340,7 @@ WHERE {}</code></pre>
     <p class="lead">Containers are analogous to folders in a filesystem</p>
     <div>
         <h2 id="rdf-serialization">RDF serialization</h2>
-        <p>Document roperties such as <code>sioc:has_parent</code>, <code>dct:created</code>, <code>dct:modified</code>, <code>acl:owner</code> are <a href="../../../http-api/#document-metadata">automatically managed</a> by LinkedDataHub.</p>
+        <p>Document properties such as <code>sioc:has_parent</code>, <code>dct:created</code>, <code>dct:modified</code>, <code>acl:owner</code> are <a href="../../../http-api/#document-metadata">automatically managed</a> by LinkedDataHub.</p>
         <pre>@prefix dh: &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
 @prefix ldh: &lt;https://w3id.org/atomgraph/linkeddatahub#&gt; .
 @prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
@@ -4943,8 +5359,8 @@ WHERE {}</code></pre>
     acl:owner &lt;https://localhost:4443/admin/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .
 
 &lt;https://localhost:4443/concepts/#select-children&gt;
-a       ldh:Object ;
-rdf:value ldh:ChildrenView .</pre>
+    a       ldh:Object ;
+    rdf:value ldh:ChildrenView .</pre>
     </div>
     <div>
         <h2 id="management">Management</h2>
@@ -5222,22 +5638,66 @@ rdf:value ldh:ChildrenView .</pre>
                     <table class="table table-striped" id="actions">
                         <thead>
                             <tr>
+                                <th>Type</th>
                                 <th>Action</th>
                                 <th>CLI script</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
+                                <td><samp>ASK</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>imports/create-query.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>Application</samp></td>
                                 <th>Create</th>
                                 <td></td>
                             </tr>
                             <tr>
-                                <th>Update</th>
+                                <td><samp>CONSTRUCT</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>admin/ontologies/add-construct.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>CSV import</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>imports/create-csv-import.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>File</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>imports/create-file.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>Graph chart</samp></td>
+                                <th>Create</th>
                                 <td></td>
                             </tr>
                             <tr>
-                                <th>Delete</th>
-                                <td></td>
+                                <td><samp>RDF import</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>imports/create-rdf-import.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>Result set chart</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>add-result-set-chart.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>Select</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>add-select.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>Service</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>add-generic-service.sh</samp></a></td>
+                            </tr>
+                            <tr>
+                                <td><samp>View</samp></td>
+                                <th>Create</th>
+                                <td><a href="../../command-line-interface/#scripts"><samp>add-view.sh</samp></a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -5586,6 +6046,14 @@ OWNER_COUNTRY_NAME=DK</pre>
                             <pre>./bin/server-cert-gen.sh .env nginx ssl</pre>
                             The script will create an <samp>ssl/server</samp> sub-folder where the SSL certificate will be stored.
                         </li>
+                        <li>Create the following secrets with certificate/truststore passwords:
+                            <ul>
+                                <li><samp>secrets/client_truststore_password.txt</samp></li>
+                                <li><samp>secrets/owner_cert_password.txt</samp></li>
+                                <li><samp>secrets/secretary_cert_password.txt</samp></li>
+                            </ul>
+                            The one you will need to remember in order to authenticate with LinkedDataHub <a href="../get-an-account/#install-cert">using WebID client certificate</a> is <samp>owner_cert_password</samp>.
+                        </li>
                         <li>Run this from command line:
                             <pre>docker-compose up --build</pre>
                             LinkedDataHub will start and mount the following sub-folders:
@@ -5594,11 +6062,11 @@ OWNER_COUNTRY_NAME=DK</pre>
                                 <li><samp>datasets</samp> where the owner and secretary agent metadata is persisted</li>
                                 <li><samp>ssl/owner</samp> and <samp>ssl/secretary</samp> where the owner and secretary SSL certificates and WebID public keys are persisted</li>
                                 <li><samp>uploads</samp> where LinkedDataHub stores content-hashed file uploads</li>
-                           </ol>
+                            </ol>
                         </li>
                     </ol>
-                    <p>You are now the owner of this LinkedDataHub instance; <samp>certs/owner.p12</samp> is your WebID certificate. Password is the <samp>owner_cert_password</samp> secret value.</p>
-                    <p>After a successful startup you should see periodic healtcheck requests being made to the <samp>https://localhost:4443/ns</samp> URL.</p>
+                    <p>You are now the owner of this LinkedDataHub instance; <samp>ssl/owner/keystore.p12</samp> is your WebID certificate. Password is the <samp>owner_cert_password</samp> secret value.</p>
+                    <p>After a successful startup you should see periodic healthcheck requests being made to the <samp>https://localhost:4443/ns</samp> URL.</p>
                 </div>
                 <div>
                     <h2 id="reset">Reset</h2>

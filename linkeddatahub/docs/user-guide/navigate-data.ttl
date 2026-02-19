@@ -7,7 +7,6 @@
 @prefix sioc:   <http://rdfs.org/sioc/ns#> .
     
 <> a dh:Item ;
-    sioc:has_container <..> ;
     dct:title "Navigate data" ;
     dct:description "Navigate the document hierarchy, related results, and backlinks" ;
     rdf:_1 <#content> .

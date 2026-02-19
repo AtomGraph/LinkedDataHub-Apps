@@ -2,10 +2,6 @@
 <map xmlns="http://www.w3.org/2005/xpath-functions">
   <array key="files">
     <map>
-      <string key="name">images/.DS_Store</string>
-      <string key="sha1">cfbb2af0822a6f6971398c3159fa29ca24e52ee0</string>
-    </map>
-    <map>
       <string key="name">images/create context.png</string>
       <string key="sha1">44c15645d600ae3cb74ce7ba85e814726b631e25</string>
     </map>
@@ -60,10 +56,6 @@
     <map>
       <string key="name">images/change-layout-augment.png</string>
       <string key="sha1">38d12825c3927e2d5493ca76f2b744c7b5fe867b</string>
-    </map>
-    <map>
-      <string key="name">images/reference/.DS_Store</string>
-      <string key="sha1">da234ea94b5835d618a1f9926f548bb3e36f3f1d</string>
     </map>
     <map>
       <string key="name">images/reference/data-management/resources/view-block.png</string>

@@ -1,0 +1,35 @@
+  @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+  @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+  @prefix dct:    <http://purl.org/dc/terms/> .
+  @prefix sp:     <http://spinrdf.org/sp#> .
+  @prefix spin:   <http://spinrdf.org/spin#> .
+  @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+  # Main container document
+  <> a dh:Container ;
+      dct:title "Regions" ;
+      rdf:_1 <#select-regions> .
+
+  # Object block (references the view)
+  <#select-regions> a ldh:Object ;
+      rdf:value <#select-regions-view> .
+
+  # View block (references the query, no mode specified - uses default)
+  <#select-regions-view> a ldh:View ;
+      spin:query <#select-regions-query> .
+
+  # SELECT query
+  <#select-regions-query> a sp:Select ;
+      dct:title "Select regions" ;
+      sp:text """PREFIX  schema: <https://schema.org/>
+
+  SELECT DISTINCT  ?region
+  WHERE
+    { GRAPH ?doc
+        { ?region  a            schema:Place ;
+                   schema:name  ?regionDescription
+          FILTER NOT EXISTS { ?region schema:containedInPlace [] }
+        }
+    }
+  ORDER BY ?regionDescription""" .

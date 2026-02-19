@@ -8,7 +8,6 @@
 @prefix spin:	<http://spinrdf.org/spin#> .
 
 <> a dh:Container ;
-    sioc:has_parent <..> ;
     dct:title "Import data" ;
     dct:description "How to import data into LinkedDataHub" ;
     rdf:_1 <#content> ;
