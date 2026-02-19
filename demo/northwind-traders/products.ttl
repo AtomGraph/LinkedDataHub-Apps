@@ -42,7 +42,7 @@
   <#top-selling-products> a ldh:ResultSetChart ;
       dct:title "Top selling products" ;
       spin:query <#products-by-sales-query> ;
-      ac:chartType <https://w3id.org/atomgraph/client#BarChart> ;
+      ldh:chartType <https://w3id.org/atomgraph/client#BarChart> ;
       ldh:categoryVarName "productName" ;
       ldh:seriesVarName "totalSales" .
 

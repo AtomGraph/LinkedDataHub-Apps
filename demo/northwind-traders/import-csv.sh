@@ -62,19 +62,8 @@ do
     query="${target}#${query_id}"
     queries+=("$query")
 
-    # upload file
-
-    add-file.sh \
-      -b "$base" \
-      -f "$cert_pem_file" \
-      -p "$cert_password" \
-      --proxy "$proxy" \
-      --title "$title" \
-      --file "$pwd/${csv_filename}" \
-      --content-type "text/csv" \
-      "$target"
-
     # Calculate file URI from SHA1 hash
+    # The files themselves should already be uploaded by update-folder.sh
     sha1sum=$(shasum -a 1 "$pwd/${csv_filename}" | awk '{print $1}')
     file="${base}uploads/${sha1sum}"
     files+=("$file")

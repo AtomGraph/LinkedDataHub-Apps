@@ -43,7 +43,7 @@
   <#sales-by-region-per-year> a ldh:ResultSetChart ;
       dct:title "Sales by region per year" ;
       spin:query <#sales-by-regions-by-year-query> ;
-      ac:chartType <https://w3id.org/atomgraph/client#Table> ;
+      ldh:chartType <https://w3id.org/atomgraph/client#Table> ;
       ldh:categoryVarName "year" ;
       ldh:seriesVarName "regionName" ;
       ldh:seriesVarName "totalSales" .
