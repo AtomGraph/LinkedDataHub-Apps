@@ -1,0 +1,36 @@
+@prefix dh:   <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix ldh:  <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix sp:   <http://spinrdf.org/sp#> .
+@prefix spin: <http://spinrdf.org/spin#> .
+@prefix ac:   <https://w3id.org/atomgraph/client#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# Main container document
+<> a dh:Container ;
+    dct:title "Collections" ;
+    rdf:_1 <#select-collections> .
+
+# Object block (references the view)
+<#select-collections> a ldh:Object ;
+    rdf:value <#select-collections-view> .
+
+# View block (references the query)
+<#select-collections-view> a ldh:View ;
+    spin:query <#select-collections-query> .
+
+# SELECT query
+<#select-collections-query> a sp:Select ;
+    dct:title "Select collections" ;
+    sp:text """PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT DISTINCT  ?collection ?doc
+WHERE
+  { GRAPH ?doc
+      { ?collection
+                  a               skos:Collection ;
+                  skos:prefLabel  ?prefLabel
+        FILTER (langMatches(lang(?prefLabel), "en"))
+      }
+  }
+ORDER BY ?prefLabel""" .

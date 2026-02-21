@@ -19,16 +19,6 @@ fi
 
 pwd=$(realpath "$PWD")
 
-container=$(create-container.sh \
-  -b "$base" \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
-  --title "Imports" \
-  --slug "imports" \
-  --parent "$base"
-)
-
 item=$(create-item.sh \
   -b "$base" \
   -f "$cert_pem_file" \
@@ -36,7 +26,7 @@ item=$(create-item.sh \
   --proxy "$proxy" \
   --title "Unesco Thesaurus" \
   --slug "unesco-thesaurus" \
-  --container "$container"
+  --container "${base}concept-schemes/"
 )
 
 import-rdf.sh \
@@ -45,7 +35,7 @@ import-rdf.sh \
   -p "$cert_password" \
   --proxy "$proxy" \
   --title "Unesco Thesaurus SKOS" \
-  --query-file "$pwd/imports/unesco-thesaurus/skos-import.rq" \
-  --rdf-file "$pwd/imports/unesco-thesaurus/unesco-thesaurus.ttl" \
+  --query-file "$pwd/concept-schemes/unesco-thesaurus/skos-import.rq" \
+  --rdf-file "$pwd/concept-schemes/unesco-thesaurus/unesco-thesaurus.ttl" \
   --content-type "text/turtle" \
   "$item"

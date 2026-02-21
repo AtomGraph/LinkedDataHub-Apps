@@ -31,10 +31,6 @@ cd .admin/acl
 
 cd ../..
 
-printf "\n### Creating containers\n\n"
-
-./create-containers.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
-
 printf "\n### Updating documents and uploading files\n\n"
 
 if [[ -f ".root.ttl" ]]; then
