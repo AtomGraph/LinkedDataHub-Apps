@@ -1,0 +1,203 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<> a dh:Item ;
+    dct:title "Change the model" ;
+    dct:description "Change the model: create constructors, classes, and constraints" ;
+    rdf:_1 <#content> .
+    
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Change the model: create constructors, classes, and constraints</p>
+    <div>
+        <h2 id="change-model">Change the model</h2>
+        <p>In order to be able to manage instances, we need to create <a href="../../reference/administration/ontologies/#classes" target="_blank">classes</a> that represent them in the <a href="../../reference/administration/ontologies/" target="_blank">model</a> of our dataspace. Not only will they serve as RDF types of the instances, but will have <a href="../../reference/administration/ontologies/#constructors" target="_blank">constructors</a> attached that define the default properties and their (data)types for that class.</p>
+        <p>Model is managed in the <a href="../../reference/dataspace/#admin-apps" target="_blank">administration application</a> of a dataspace. Head there by clicking the <span class="btn dropdown-toggle btn-settings"></span> in the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a> and then choosing <samp>Administration</samp>.</p>
+        <div class="alert alert-info">
+            <p>In order to manage the <a href="../../reference/administration/acl/" target="_blank">access control</a>, or the <a href="../../reference/administration/ontologies/" target="_blank">model</a> of a dataspace,
+            the agent needs to be a member of the <a href="../../reference/administration/acl/#groups" target="_blank">owners group</a>.</p>
+        </div>
+        <p>We will use the SKOS ontology and its <samp>skos:Concept</samp> class as an example in this guide.</p>
+    </div>
+    <div>
+        <h2 id="create-constructor">Create a constructor</h2>
+        <p>We will use the following SPARQL <code>CONSTRUCT</code> query as a <a href="../../reference/administration/ontologies/#constructors" target="_blank">constructor</a> for our <samp>Concept</samp> class and save it in a file under <samp>queries/construct-concept.rq</samp>.</p>
+        <pre>PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
+PREFIX xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt;
+
+CONSTRUCT
+{
+  $this skos:inScheme [ a skos:ConceptScheme ] ;
+    skos:topConceptOf [ a skos:ConceptScheme ] ;
+    skos:prefLabel [ a xsd:string ] ;
+    skos:altLabel [ a xsd:string ] ;
+    skos:hiddenLabel [ a xsd:string ] ;
+    skos:notation [ a xsd:string ] ;
+    skos:note [ a xsd:string ] ;
+    skos:changeNote [ a xsd:string ] ;
+    skos:definition [ a xsd:string ] ;
+    skos:editorialNote [ a xsd:string ] ;
+    skos:example [ a xsd:string ] ;
+    skos:historyNote [ a xsd:string ] ;
+    skos:scopeNote [ a xsd:string ] ;
+    skos:semanticRelation [ a skos:Concept ] ;
+    skos:broader [ a skos:Concept ] ;
+    skos:narrower [ a skos:Concept ] ;
+    skos:related [ a skos:Concept ] ;
+    skos:broaderTransitive [ a skos:Concept ] ;
+    skos:narrowerTransitive [ a skos:Concept ] ;
+    skos:mappingRelation [ a skos:Concept ] ;
+    skos:broadMatch [ a skos:Concept ] ;
+    skos:narrowMatch [ a skos:Concept ] ;
+    skos:relatedMatch [ a skos:Concept ] ;
+    skos:exactMatch [ a skos:Concept ] ;
+    skos:closeMatch [ a skos:Concept ] .
+}
+WHERE {}</pre>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a>User interface</a></li>
+                <li><a>Command line interface</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div>
+                        <p>In the administration application, follow these steps:</p>
+                        <ol>
+                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
+                            <li>Click on <samp>CONSTRUCT</samp> in the drop-down list that appears</li>
+                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns#ConstructConcept</samp></li>
+                            <li>Fill out the mandatory fields in the form:
+                                <dl>
+                                    <dt>Label</dt>
+                                    <dd>Enter <samp>Construct concept</samp></dd>
+                                    <dd>Select <samp>Domain</samp> from the list — this is the ontology in which the query is defined</dd>
+                                    <dt>Text</dt>
+                                    <dd>Enter the SPARQL <code>CONSTRUCT</code> query string</dd>
+                                </dl>
+                            </li>
+                            <li>Click <span class="btn btn-primary btn-save">Save</span></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="tab-pane">
+                    <div>
+                            <pre>pwd=$(realpath -s $PWD)
+
+create-construct.sh \\
+  -b "${base}admin/" \\
+  -f ./ssl/owner/cert.pem \\
+  -p "$owner_cert_password" \\
+  --uri "${base}ns#ConstructConcept" \\
+  --label "Construct concept" \\
+  --slug construct-concept \\
+  --query-file "${pwd}/queries/construct-concept.rq" \\
+  "${base}admin/model/ontologies/namespace/"</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p>Follow the same steps for <samp>Concept scheme</samp>.</p>
+        <p class="lead"><a href="../../reference/administration/ontologies/#constructors" target="_blank">Read more about constructors.</a></p>
+    </div>
+    <div>
+        <h2 id="create-constraint">Create a constraint</h2>
+        <p>To control data quality, we probably want to make some of the instance properties mandatory. For example, a <samp>skos:Concept</samp> instance should always have a <code>skos:prefLabel</code> value.</p>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a>User interface</a></li>
+                <li><a>Command line interface</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div>
+                        <p>In the administration application, follow these steps:</p>
+                        <ol>
+                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
+                            <li>Click on <samp>Missing property value</samp> in the drop-down list that appears</li>
+                            <li>Fill out the fields in the form:
+                                <dl>
+                                    <dt>Label</dt>
+                                    <dd>Enter <samp>Missing skos:prefLabel</samp></dd>
+                                    <dt>IsDefinedBy</dt>
+                                    <dd>Type <samp>Domain</samp> into the input (which provides autocomplete)</dd>
+                                    <dd>Select <samp>Domain</samp> from the list — this is the ontology in which the query is defined</dd>
+                                    <dt>Arg1</dt>
+                                    <dd>Enter <samp>http://www.w3.org/2004/02/skos/core#prefLabel</samp></dd>
+                                </dl>
+                            </li>
+                            <li>Click <span class="btn btn-primary btn-save">Save</span></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="tab-pane">
+                    <div>
+                        <pre>create-property-constraint.sh \\
+  -b "$base" \\
+  -f ./ssl/owner/cert.pem \\
+  -p "$owner_cert_password" \\
+  --uri "https://localhost:4443/ns#MissingPrefLabel" \\
+  --label "Missing skos:prefLabel" \\
+  --slug missing-pref-label \\
+  --property "http://www.w3.org/2004/02/skos/core#prefLabel" \\
+  "${base}admin/model/ontologies/namespace/"</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="lead"><a href="../../reference/administration/ontologies/#constraints" target="_blank">Read more about constraints.</a></p>
+    </div>
+    <div>
+        <h2 id="create-classes">Create classes</h2>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a>User interface</a></li>
+                <li><a>Command line interface</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div>
+                        <p>In the administration application, follow these steps to create the concept class:</p>
+                        <ol>
+                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
+                            <li>Click on <samp>Class</samp> in the drop-down list that appears</li>
+                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns#Concept</samp></li>
+                            <li>Fill out the mandatory fields in the form:
+                                <dl>
+                                    <dt>Label</dt>
+                                    <dd>Enter <samp>Concept</samp></dd>
+                                    <dd>Select <samp>Domain</samp> from the list — this is the ontology in which the class is defined</dd>
+                                    <dt>Constructor</dt>
+                                    <dd>Type <samp>Construct concept</samp> into the input (which provides autocomplete)</dd>
+                                    <dd>Select <samp>Construct concept</samp> from the list — this is the query we created beforehand</dd>
+                                </dl>
+                            </li>
+                            <li>Click <span class="btn btn-primary btn-save">Save</span></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="tab-pane">
+                    <div>
+                        <pre>create-class.sh \\
+  -b "$base" \\
+  -f ./ssl/owner/cert.pem \\
+  -p "$owner_cert_password" \\
+  --uri "http://www.w3.org/2004/02/skos/core#Concept" \\
+  --label "Concept" \\
+  --slug concept \\
+  --constructor "{$base}ns#ConstructConcept" \\
+  --constraint "{$base}ns#MissingPrefLabel" \\
+  "${base}admin/model/ontologies/namespace/"</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p>Follow the same steps for <samp>Concept scheme</samp>.</p>
+        <p class="lead"><a href="../../reference/administration/ontologies/#classes" target="_blank">Read more about classes.</a></p>
+    </div>
+</div>"""^^rdf:XMLLiteral .
