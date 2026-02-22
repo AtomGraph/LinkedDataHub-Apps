@@ -17,36 +17,34 @@ else
     proxy="$base"
 fi
 
+pwd="$(realpath "$PWD")"
+
 printf "\n### Creating authorization to make the app public\n\n"
 
 make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
 
-cd admin/model
+cd .admin/model
 
-printf "\n### Creating classes\n\n"
+printf "\n### Importing namespace ontology\n\n"
 
-./add-classes.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+./import-ns.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
-cd ..
+cd ../..
 
-printf "\n### Clearing ontologies\n\n"
+printf "\n### Updating documents and uploading files\n\n"
 
-./clear-ontologies.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+if [[ -f ".root.ttl" ]]; then
+  printf "\n### Updating %s\n" "$base"
+  cat .root.ttl | turtle --base="$base" | put.sh \
+    -f "$cert_pem_file" \
+    -p "$cert_password" \
+    --proxy "$proxy" \
+    -t "application/n-triples" \
+    "$base"
+fi
 
-cd ..
-
-printf "\n### Updating documents\n\n"
-
-./update-documents.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
-
-printf "\n### Creating containers\n\n"
-
-./create-containers.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
-
-printf "\n### Creating charts\n\n"
-
-./create-charts.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+./update-folder.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "$pwd" "$proxy"
 
 printf "\n### Importing CSV data\n\n"
 
-./import-csv.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+./import-csv.sh "$base" "$cert_pem_file" "$cert_password" "$proxy" "$pwd/imports.csv"

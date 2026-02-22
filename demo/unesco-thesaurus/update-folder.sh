@@ -38,7 +38,7 @@ for ttl_file in "$folder"/*.ttl; do
 done
 
 for file in "$folder"/*; do
-  if [[ -f "$file" ]] && [[ "$file" != *.ttl ]] && [[ "$file" != *.sh ]]; then
+  if [[ -f "$file" ]] && [[ "$file" != *.ttl ]] && [[ "$file" != *.sh ]] && [[ "$(basename "$file")" != "Makefile" ]]; then
     stripped="${folder#$pwd/}"
     if [[ "$stripped" == "$folder" ]]; then
       container_path=""
