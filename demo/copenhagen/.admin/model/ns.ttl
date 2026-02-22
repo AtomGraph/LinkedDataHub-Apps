@@ -1,0 +1,56 @@
+@prefix :       <ns#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix schema: <https://schema.org/> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<ns#> a owl:Ontology ;
+    owl:imports schema: ;
+    dct:title "Copenhagen namespace" .
+
+:BicycleParking a rdfs:Class, owl:Class ;
+    rdfs:label "Bicycle parking" ;
+    rdfs:subClassOf schema:CivicStructure ;
+    rdfs:isDefinedBy <ns#> .
+
+:ChargingStation a rdfs:Class, owl:Class ;
+    rdfs:label "Charging station" ;
+    rdfs:subClassOf schema:CivicStructure ;
+    rdfs:isDefinedBy <ns#> .
+
+:Library a rdfs:Class, owl:Class ;
+    rdfs:label "Library" ;
+    rdfs:subClassOf schema:Library ;
+    rdfs:isDefinedBy <ns#> .
+
+:ParkingFacility a rdfs:Class, owl:Class ;
+    rdfs:label "Parking facility" ;
+    rdfs:subClassOf schema:ParkingFacility ;
+    rdfs:isDefinedBy <ns#> .
+
+:Place a rdfs:Class, owl:Class ;
+    rdfs:label "Place" ;
+    rdfs:subClassOf schema:CivicStructure ;
+    rdfs:isDefinedBy <ns#> .
+
+:Playground a rdfs:Class, owl:Class ;
+    rdfs:label "Playground" ;
+    rdfs:subClassOf schema:Playground ;
+    rdfs:isDefinedBy <ns#> .
+
+:School a rdfs:Class, owl:Class ;
+    rdfs:label "School" ;
+    rdfs:subClassOf schema:School ;
+    rdfs:isDefinedBy <ns#> .
+
+:SportsCenter a rdfs:Class, owl:Class ;
+    rdfs:label "Sports center" ;
+    rdfs:subClassOf schema:CivicStructure ;
+    rdfs:isDefinedBy <ns#> .
+
+:PublicToilet a rdfs:Class, owl:Class ;
+    rdfs:label "Toilet" ;
+    rdfs:subClassOf schema:PublicToilet ;
+    rdfs:isDefinedBy <ns#> .

@@ -23,7 +23,7 @@
             <h2>Copenhagen</h2>
             <p class="lead">Geospatial and other open data about the city of Copenhagen</p>
         </div>
-        <p>Features include CSV data <a href="imports/" target="_blank">imports</a>, SPARQL-based <a href="charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation) as well as
+        <p>Features include CSV data <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/imports/csv/" target="_blank">imports</a>, SPARQL-based <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/data-model/resources/charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation) as well as
             rich documents composed of structured content backed by RDF Knowledge Graph data.</p>
         <p>This application was created on <a href="https://atomgraph.github.io/LinkedDataHub/" target="_blank">LinkedDataHub</a> using the low code paradigm: no programming was required, only scripts that
             invoke LinkedDataHub's CLI commands.</p>
@@ -40,7 +40,7 @@
     </div>"""^^rdf:XMLLiteral .
 
 <#largest-parkings> a ldh:Object ;
-    rdf:value <charts/largest-parkings/#this> .
+    rdf:value <parking-facilities/#largest-parkings> .
 
 <#check-out> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
