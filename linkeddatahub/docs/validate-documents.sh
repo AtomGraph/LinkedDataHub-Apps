@@ -1,1 +1,0 @@
-find . -name '*.ttl' -type f -exec echo {} \; -exec trig --validate {} \;
