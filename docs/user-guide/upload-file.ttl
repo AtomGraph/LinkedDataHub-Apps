@@ -46,15 +46,21 @@
             <div class="tab-pane">
                 <div>
                     <p>Replace <samp>owner_cert_password</samp> with its value from the <samp>.env</samp> file and execute the following command:</p>
-                    <pre>create-file.sh \\
+                    <pre>add-file.sh \\
 -b "https://localhost:4443/" \\
 -f ./ssl/owner/cert.pem \\
 -p "$owner_cert_password" \\
 --title "$title" \\
 --file "$filename" \\
---file-content-type "$content_type"</pre>
+--content-type "$content_type"</pre>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="alert alert-warning">
+        <h4>Note about ontology files</h4>
+        <p>If you upload an ontology file (RDF/OWL), be aware that it will not be automatically loaded via <code>owl:imports</code> declarations.
+        This is a technical limitation to prevent circular dependencies during system initialization.</p>
+        <p>For more information on working with ontologies, see the <a href="../../reference/administration/ontologies/">ontologies reference documentation</a>.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .

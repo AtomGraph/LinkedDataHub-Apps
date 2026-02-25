@@ -88,8 +88,8 @@
     -f ./ssl/owner/cert.pem \\
     -p "$owner_cert_password" \\
     --title "Concepts" \\
-    --file concepts.ttl \\
-    --file-content-type "text/turtle" \\
+    --rdf-file concepts.ttl \\
+    --content-type "text/turtle" \\
     --graph "${base}skos/"</pre>
                     </div>
                 </div>
@@ -168,8 +168,8 @@
     -f ./ssl/owner/cert.pem \\
     -p "$owner_cert_password" \\
     --title "Concepts" \\
-    --file concepts.ttl \\
-    --file-content-type "text/turtle" \\
+    --rdf-file concepts.ttl \\
+    --content-type "text/turtle" \\
     --query-file concepts.rq</pre>
                     </div>
                 </div>

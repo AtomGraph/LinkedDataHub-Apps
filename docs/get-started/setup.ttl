@@ -70,6 +70,7 @@ OWNER_COUNTRY_NAME=DK</pre>
                             </ul>
                             The one you will need to remember in order to authenticate with LinkedDataHub <a href="../get-an-account/#install-cert">using WebID client certificate</a> is <samp>owner_cert_password</samp>.
                         </li>
+                        <li>(Optional) If you need to configure Bearer token authentication for SPARQL services, create <samp>secrets/credentials.trig</samp> with your service credentials. See the <a href="../../reference/configuration/#secrets">configuration reference</a> for details.</li>
                         <li>Run this from command line:
                             <pre>docker-compose up --build</pre>
                             LinkedDataHub will start and mount the following sub-folders:
@@ -78,11 +79,47 @@ OWNER_COUNTRY_NAME=DK</pre>
                                 <li><samp>datasets</samp> where the owner and secretary agent metadata is persisted</li>
                                 <li><samp>ssl/owner</samp> and <samp>ssl/secretary</samp> where the owner and secretary SSL certificates and WebID public keys are persisted</li>
                                 <li><samp>uploads</samp> where LinkedDataHub stores content-hashed file uploads</li>
+                                <li><samp>config</samp> where dataspace and service configurations are stored</li>
                             </ol>
                         </li>
                     </ol>
+                    <div class="alert alert-info">
+                        <h4>Configuration files</h4>
+                        <p>LinkedDataHub uses two configuration files for dataspaces and services:</p>
+                        <ul>
+                            <li><samp>config/dataspaces.trig</samp> - Application metadata (base URIs, titles, ontologies)</li>
+                            <li><samp>config/services.trig</samp> - SPARQL service connection details (endpoints, credentials)</li>
+                        </ul>
+                        <p>See the <a href="../../reference/configuration/#config-files">configuration reference</a> and <a href="../../user-guide/manage-dataspaces/">dataspace management guide</a> for more information.</p>
+                    </div>
                     <p>You are now the owner of this LinkedDataHub instance; <samp>ssl/owner/keystore.p12</samp> is your WebID certificate. Password is the <samp>owner_cert_password</samp> secret value.</p>
                     <p>After a successful startup you should see periodic healthcheck requests being made to the <samp>https://localhost:4443/ns</samp> URL.</p>
+                </div>
+                <div>
+                    <h2 id="alternative-triplestores">Using Alternative Triplestores</h2>
+                    <p>By default, LinkedDataHub uses Apache Jena Fuseki as the SPARQL backend. However, you can configure it to use other SPARQL 1.1-compatible triplestores such as QLever, Tentris, or others.</p>
+                    <p>Alternative triplestores may offer different performance characteristics, scalability, or specialized features like advanced text search (QLever) that suit your specific use case.</p>
+                    <div>
+                        <h3>Quick Example: QLever</h3>
+                        <p>To use QLever instead of Fuseki:</p>
+                        <ol>
+                            <li>Update <samp>config/services.trig</samp> to point to your QLever instance (omit <code>a:quadStore</code> for GSP fallback mode)</li>
+                            <li>Create <samp>secrets/credentials.trig</samp> with your QLever Bearer token</li>
+                            <li>Uncomment the <code>credentials</code> secret in <samp>docker-compose.yml</samp></li>
+                            <li>Run <code>docker-compose up --build</code></li>
+                        </ol>
+                        <p>For detailed configuration instructions, see:</p>
+                        <ul>
+                            <li><a href="../../user-guide/manage-dataspaces/#alternative-triplestores">Step-by-step guide: Using Alternative Triplestores</a></li>
+                            <li><a href="../../reference/triplestores/">Reference: Triplestore Compatibility &amp; Requirements</a></li>
+                        </ul>
+                    </div>
+                    <div class="alert alert-info">
+                        <h4>GSP Fallback Mode</h4>
+                        <p>Some triplestores (like QLever and Tentris) don't support dataset-level TriG uploads. For these backends, LinkedDataHub automatically uses
+                        graph-scoped Graph Store Protocol operations when <code>a:quadStore</code> is omitted from the service configuration. This takes longer during
+                        bootstrap but is functionally equivalent.</p>
+                    </div>
                 </div>
                 <div>
                     <h2 id="reset">Reset</h2>

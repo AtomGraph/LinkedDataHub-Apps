@@ -1,0 +1,104 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<> a dh:Item ;
+    dct:title "Triplestores" ;
+    dct:description "Requirements and configuration for using alternative SPARQL triplestores with LinkedDataHub" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Requirements and configuration for using alternative SPARQL triplestores with LinkedDataHub</p>
+    <p>LinkedDataHub is designed to work with any SPARQL 1.1-compatible triplestore that supports the required protocols. While Apache Jena Fuseki is the default backend, you can use alternative triplestores by adding them as services in <code>docker-compose.override.yml</code> (without modifying the default <code>docker-compose.yml</code>). Browse available triplestore products at <a href="https://kgdev.net/products/" target="_blank">kgdev.net/products</a>.</p>
+    <div>
+        <h2 id="requirements">Requirements</h2>
+        <p>For a triplestore to work with LinkedDataHub, it must support the following:</p>
+        <dl>
+            <dt>✅ Required: SPARQL 1.1 Query</dt>
+            <dd>The triplestore must implement <a href="https://www.w3.org/TR/sparql11-query/" target="_blank">SPARQL 1.1 Query</a> specification</dd>
+            <dt>✅ Required: SPARQL 1.1 Update</dt>
+            <dd>The triplestore must implement <a href="https://www.w3.org/TR/sparql11-update/" target="_blank">SPARQL 1.1 Update</a> specification for data modifications</dd>
+            <dt>✅ Required: Graph Store Protocol (GSP)</dt>
+            <dd>The triplestore must support <a href="https://www.w3.org/TR/sparql11-http-rdf-update/" target="_blank">SPARQL 1.1 Graph Store HTTP Protocol</a> for graph-scoped operations</dd>
+            <dd>LinkedDataHub can use GSP as a fallback when dataset-level operations are not available</dd>
+            <dt>⚪ Optional: Dataset-level RDF CRUD</dt>
+            <dd>Support for POST/PUT of complete RDF Datasets (TriG, N-Quads) at the <code>a:quadStore</code> endpoint</dd>
+            <dd>If not available, LinkedDataHub will fall back to graph-scoped GSP operations (slower but functional)</dd>
+            <dt>✅ Authentication</dt>
+            <dd>Either HTTP Basic authentication OR Bearer token authentication (or both)</dd>
+            <dd>See <a href="../configuration/#secrets">configuration reference</a> for authentication setup</dd>
+        </dl>
+    </div>
+    <div>
+        <h2 id="service-configuration">Service Configuration</h2>
+        <p>LinkedDataHub services are configured using three key properties in the service description. See the <a href="../dataspace/#services">services reference</a> for more details.</p>
+        <dl>
+            <dt><code>sd:endpoint</code></dt>
+            <dd>The SPARQL Protocol endpoint URI (for SPARQL Query and Update operations)</dd>
+            <dd>Example: <code>&lt;http://qlever-host:7001/&gt;</code></dd>
+            <dt><code>a:graphStore</code></dt>
+            <dd>The Graph Store Protocol endpoint URI (for graph-scoped GET/PUT/POST/DELETE operations)</dd>
+            <dd>Example: <code>&lt;http://qlever-host:7001/&gt;</code></dd>
+            <dd>Required for all triplestores</dd>
+            <dt><code>a:quadStore</code></dt>
+            <dd>The quad store endpoint URI (for dataset-level TriG/N-Quads POST/PUT operations)</dd>
+            <dd>Optional - if omitted, LinkedDataHub will use graph-scoped GSP fallback</dd>
+            <dd>Example: <code>&lt;http://fuseki-host:3030/ds/&gt;</code> (Fuseki-specific)</dd>
+        </dl>
+        <div class="alert alert-info">
+            <h4>GSP Fallback Mode</h4>
+            <p>When <code>a:quadStore</code> is not provided, LinkedDataHub automatically uses graph-scoped Graph Store Protocol operations instead. This mode:</p>
+            <ul>
+                <li>Works with triplestores that don't support dataset-level TriG/N-Quads uploads</li>
+                <li>Loads data graph-by-graph rather than as a complete dataset</li>
+                <li>Takes longer during bootstrap (more HTTP requests) but is functionally equivalent</li>
+                <li>Is required for QLever, Tentris, and other GSP-only triplestores</li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <h2 id="authentication">Authentication</h2>
+        <p>LinkedDataHub supports two authentication methods for SPARQL services:</p>
+        <div>
+            <h3 id="http-basic">HTTP Basic Authentication</h3>
+            <p>Configure username and password directly in the service description in <samp>config/services.trig</samp>:</p>
+            <pre><code>&lt;urn:linkeddatahub:services/end-user&gt; a sd:Service ;
+    sd:endpoint &lt;http://fuseki:3030/ds/&gt; ;
+    a:graphStore &lt;http://fuseki:3030/ds/&gt; ;
+    a:quadStore &lt;http://fuseki:3030/ds/&gt; ;
+    sd:username "admin" ;
+    sd:password "secret" .</code></pre>
+        </div>
+        <div>
+            <h3 id="bearer-token">Bearer Token Authentication</h3>
+            <p>For triplestores that require Bearer token authentication (like QLever), configure the token in the <samp>secrets/credentials.trig</samp> file using the <code>a:authToken</code> property:</p>
+            <pre><code>@prefix a: &lt;https://w3id.org/atomgraph/core#&gt; .
+
+&lt;urn:linkeddatahub:services/end-user&gt;
+{
+    &lt;urn:linkeddatahub:services/end-user&gt; a:authToken "your-bearer-token-here" .
+}
+
+&lt;urn:linkeddatahub:services/admin&gt;
+{
+    &lt;urn:linkeddatahub:services/admin&gt; a:authToken "your-bearer-token-here" .
+}</code></pre>
+            <p>This file is mounted as a Docker secret and is NOT committed to git (the <samp>/secrets</samp> folder is gitignored).</p>
+            <p>See the <a href="../configuration/#secrets">configuration reference</a> for more information about the <code>credentials</code> secret.</p>
+        </div>
+    </div>
+    <div>
+        <h2 id="examples">Example Configurations</h2>
+        <p>See the <a href="../../user-guide/manage-dataspaces/#alternative-triplestores">user guide on managing dataspaces</a> for complete configuration examples for different triplestores, including:</p>
+        <ul>
+            <li>QLever with Bearer token authentication</li>
+            <li>GSP-only mode configuration</li>
+            <li>Troubleshooting common setup issues</li>
+        </ul>
+    </div>
+</div>"""^^rdf:XMLLiteral .

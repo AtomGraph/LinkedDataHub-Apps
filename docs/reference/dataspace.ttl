@@ -21,7 +21,22 @@
         <p>The end-user app will be available on the given base URI; the admin app will be available
             at that base URI with <code>admin/</code> appended. The <a href="../administration/acl/#agents">agent</a> that installed the admin dataset will be the application <dfn>owner</dfn>.</p>
         <p>The <dfn>secretary</dfn> is a special agent which represents the software application itself. It is distinct from the owner agent and is used to delegate the owner's access.</p>
-        <p class="lead">See also the <a href="../administration/">administration reference</a>.</p>    
+        <div>
+            <h3 id="configuring-dataspaces">Configuring dataspaces</h3>
+            <p>Dataspaces are configured in the <samp>config/dataspaces.trig</samp> file, which contains application metadata for each dataspace:</p>
+            <ul>
+                <li>Base URIs and application origins</li>
+                <li>Application titles and descriptions</li>
+                <li>Associated ontologies</li>
+                <li>Custom stylesheets</li>
+            </ul>
+            <p>The corresponding SPARQL service connection details for each application are defined in <samp>config/services.trig</samp>. See the
+            <a href="../configuration/#config-files">configuration reference</a> for more details about these files.</p>
+            <p>Application relationships (end-user ↔ admin) are automatically inferred based on naming conventions - applications with base URIs containing
+            <code>admin/</code> are recognized as administration applications, and their corresponding end-user applications are automatically determined.
+            You do not need to manually specify these relationships.</p>
+        </div>
+        <p class="lead">See also the <a href="../administration/">administration reference</a>.</p>
     </div>
     <div>
         <h2 id="applications">Applications</h2>
@@ -70,8 +85,10 @@
     <div>
         <h2 id="services">Services</h2>
         <p>A service is a persistent SPARQL 1.1-compatible store from which the application's <a href="../dataset/">RDF dataset</a> is accessible over HTTP. LinkedDataHub supports
-            generic services as well as triplestore-specific services which support easier configuration and optimized access. HTTP Basic is
-            suppported as an authentication scheme. Contact us regarding support for vendor-specific authentication such as API keys.</p>
+            generic services as well as triplestore-specific services which support easier configuration and optimized access.</p>
+        <p>Services support two authentication schemes: HTTP Basic authentication and Bearer token authentication.</p>
+        <p>LinkedDataHub works with various SPARQL backends including Apache Jena Fuseki (default), QLever, Tentris, and others. See the <a href="../triplestores/">triplestores reference</a>
+        for compatibility requirements and configuration examples for different backends. For practical setup instructions, see <a href="../../user-guide/manage-dataspaces/#alternative-triplestores">using alternative triplestores</a>.</p>
         <div class="alert alert-info">
             <p>The end-user application service must be able to federate with the administration application service using the
             SPARQL <code>SERVICE</code> keyword.</p>
@@ -81,14 +98,22 @@
             <p>Generic service has the following properties:</p>
             <dl>
                 <dt>Endpoint</dt>
-                <dd>SPARQL 1.1 Protocol endpoint URI</dd>
+                <dd>SPARQL 1.1 Protocol endpoint URI (required)</dd>
                 <dt>Graph Store</dt>
-                <dd>SPARQL 1.1 Graph Store Protocol endpoint URI</dd>
+                <dd>SPARQL 1.1 Graph Store Protocol endpoint URI (required)</dd>
+                <dt>Quad Store</dt>
+                <dd>Endpoint URI for dataset-level RDF CRUD operations (optional)</dd>
+                <dd>If not provided, LinkedDataHub will use graph-scoped Graph Store Protocol as a fallback</dd>
+                <dd>See <a href="../triplestores/#service-configuration">triplestore configuration</a> for details on when to use quad store vs GSP-only mode</dd>
                 <dt>Username</dt>
                 <dd>HTTP Basic username (optional)</dd>
                 <dt>Password</dt>
                 <dd>HTTP Basic password (optional)</dd>
+                <dt>Auth token</dt>
+                <dd>Bearer authentication token (optional, alternative to HTTP Basic)</dd>
+                <dd>Auth tokens are stored in the <a href="../configuration/#secrets"><samp>credentials</samp> secret file</a> using the <code>a:authToken</code> property</dd>
             </dl>
+            <p>You can use either HTTP Basic authentication (username/password) or Bearer token authentication (auth token), but not both for the same service.</p>
         </div>
         <div>
             <h3 id="custom-services">Custom services</h3>

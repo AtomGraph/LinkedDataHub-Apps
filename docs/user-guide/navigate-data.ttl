@@ -27,6 +27,28 @@
         </p>
     </div>
     <div>
+        <h2 id="class-tree">Class tree</h2>
+        <p>In addition to navigating by document hierarchy, LinkedDataHub provides class-based navigation through the class tree widget.
+        The class tree displays all classes from your application's ontology, organized by their inheritance relationships (<code>rdfs:subClassOf</code>).</p>
+        <h3>Using class-based navigation</h3>
+        <ol>
+            <li>Open the left sidebar (slide mouse to left edge on desktop, or it's always visible on responsive layouts)</li>
+            <li>Switch to the class tree view (if not already showing)</li>
+            <li>Browse the class hierarchy - classes are organized by their subclass relationships</li>
+            <li>Click on any class to view all instances of that class in your dataspace</li>
+            <li>Expand parent classes to see their subclasses</li>
+        </ol>
+        <h3>When to use class navigation</h3>
+        <p>Class-based navigation is most useful when:</p>
+        <ul>
+            <li><strong>Finding all instances of a type:</strong> Quickly locate all resources of a particular class, regardless of where they're stored in the document hierarchy</li>
+            <li><strong>Exploring domain concepts:</strong> Browse your data organized by business concepts (e.g., all Customers, all Orders) rather than by container structure</li>
+            <li><strong>Working with rich ontologies:</strong> Navigate through complex class hierarchies to understand and access your data model</li>
+            <li><strong>Cross-container queries:</strong> View instances that span multiple containers in a single unified view</li>
+        </ul>
+        <p>The class tree respects your access control settings - you'll only see classes you're authorized to view, and only instances you have permission to access.</p>
+    </div>
+    <div>
         <h2 id="backlinks">Backlinks</h2>
         <p>Backlinks are shown in the <a href="../../reference/user-interface/#right-nav">right-side navigation</a> for every resource in <a href="../../reference/user-interface/#layout-modes">property layout mode</a>.
             They display a list of resources which have properties with the current resource as the object.</p>

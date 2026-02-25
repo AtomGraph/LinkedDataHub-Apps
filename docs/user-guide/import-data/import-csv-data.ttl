@@ -99,7 +99,7 @@
     -p "$owner_cert_password" \\
     --title "Places" \\
     --query-file places.rq \\
-    --file places.csv</pre>
+    --csv-file places.csv</pre>
                 </div>
             </div>
         </div>

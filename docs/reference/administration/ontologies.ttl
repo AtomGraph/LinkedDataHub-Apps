@@ -20,6 +20,18 @@
         <p>Ontologies can <a href="https://www.w3.org/TR/owl2-primer/#Ontology_Management" target="_blank">import other ontologies</a>, both user-defined
             and system ones provided by LinkedDataHub. The imports are retrieved during application initialization, and the application's namespace ontology
             becomes a transitive union, i.e. is merged with its imports and imports of the imports etc.</p>
+        <div class="alert alert-warning">
+            <h4>Best practice: Avoid using <code>owl:imports</code> with uploaded files</h4>
+            <p>Do not use <code>owl:imports</code> declarations that point to paths under <samp>uploads/</samp>. This can cause circular dependency deadlocks
+            during system initialization, as the ontology loading process cannot access uploaded files without creating a circular reference.</p>
+            <p>Instead:</p>
+            <ul>
+                <li>Host ontologies as proper documents (not uploaded files)</li>
+                <li>Import them using their document URIs</li>
+                <li>If you need to use an ontology that was uploaded, create it as a proper ontology document first</li>
+            </ul>
+            <p>For more information, see the <a href="../../../user-guide/upload-file/">file upload documentation</a>.</p>
+        </div>
         <p>Main ontology properties:</p>
         <dl>
             <dt>Imports</dt>

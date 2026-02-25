@@ -135,7 +135,7 @@
                             <tr>
                                 <td><samp>ASK</samp></td>
                                 <th>Create</th>
-                                <td><a href="../../command-line-interface/#scripts"><samp>imports/create-query.sh</samp></a></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td><samp>Application</samp></td>
@@ -150,12 +150,12 @@
                             <tr>
                                 <td><samp>CSV import</samp></td>
                                 <th>Create</th>
-                                <td><a href="../../command-line-interface/#scripts"><samp>imports/create-csv-import.sh</samp></a></td>
+                                <td><a href="../../command-line-interface/#scripts"><samp>imports/add-csv-import.sh</samp></a></td>
                             </tr>
                             <tr>
                                 <td><samp>File</samp></td>
                                 <th>Create</th>
-                                <td><a href="../../command-line-interface/#scripts"><samp>imports/create-file.sh</samp></a></td>
+                                <td><a href="../../command-line-interface/#scripts"><samp>add-file.sh</samp></a></td>
                             </tr>
                             <tr>
                                 <td><samp>Graph chart</samp></td>
@@ -165,7 +165,7 @@
                             <tr>
                                 <td><samp>RDF import</samp></td>
                                 <th>Create</th>
-                                <td><a href="../../command-line-interface/#scripts"><samp>imports/create-rdf-import.sh</samp></a></td>
+                                <td><a href="../../command-line-interface/#scripts"><samp>imports/add-rdf-import.sh</samp></a></td>
                             </tr>
                             <tr>
                                 <td><samp>Result set chart</samp></td>
