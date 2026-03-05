@@ -1,0 +1,48 @@
+@prefix dh:   <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix ldh:  <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix sp:   <http://spinrdf.org/sp#> .
+@prefix spin: <http://spinrdf.org/spin#> .
+@prefix ac:   <https://w3id.org/atomgraph/client#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# Main container document
+<> a dh:Container ;
+    dct:title "Parking facilities" ;
+    rdf:_1 <#largest-parkings> ;
+    rdf:_2 <#select-children> .
+
+# Chart block
+<#largest-parkings> a ldh:ResultSetChart ;
+    dct:title "Largest parking facilities" ;
+    spin:query <#parking-by-spaces-query> ;
+    ldh:chartType <https://w3id.org/atomgraph/client#BarChart> ;
+    ldh:categoryVarName "name" ;
+    ldh:seriesVarName "spaces" .
+
+# Chart SELECT query
+<#parking-by-spaces-query> a sp:Select ;
+    dct:title "Largest parking facilities" ;
+    sp:text """PREFIX schema: <https://schema.org/>
+PREFIX dct: <http://purl.org/dc/terms/>
+
+SELECT DISTINCT ?name ?spaces
+WHERE
+{
+    GRAPH ?g
+    { ?parking a schema:ParkingFacility ;
+        dct:title ?name ;
+      schema:maximumAttendeeCapacity ?spaces .
+  	}
+}
+ORDER BY DESC(?spaces)
+LIMIT 100""" .
+
+# Object block
+<#select-children> a ldh:Object ;
+    rdf:value <#select-children-view> .
+
+# View block with MapMode
+<#select-children-view> a ldh:View ;
+    spin:query ldh:SelectChildren ;
+    ac:mode ac:MapMode .

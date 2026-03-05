@@ -23,7 +23,7 @@ printf "\n### Creating authorization to make the app public\n\n"
 
 make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
 
-cd admin/model
+cd .admin/model
 
 printf "\n### Importing namespace ontology\n\n"
 
@@ -33,24 +33,20 @@ cd ..
 
 cd ..
 
-printf "\n### Creating containers\n\n"
+printf "\n### Updating documents and uploading files\n\n"
 
-./create-containers.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+if [[ -f ".root.ttl" ]]; then
+  printf "\n### Updating %s\n" "$base"
+  cat .root.ttl | turtle --base="$base" | put.sh \
+    -f "$cert_pem_file" \
+    -p "$cert_password" \
+    --proxy "$proxy" \
+    -t "application/n-triples" \
+    "$base"
+fi
 
-printf "\n### Updating documents\n\n"
-
-./update-documents.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
-
-printf "\n### Creating charts\n\n"
-
-./create-charts.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
-
-printf "\n### Uploading files\n\n"
-
-find "${pwd}/files/images/categories" -type f -exec ./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
-
-find "${pwd}/files/images/employees" -type f -exec ./upload-file.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
+./update-folder.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "$pwd" "$proxy"
 
 printf "\n### Importing CSV data\n\n"
 
-./import-csv.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+./import-csv.sh "$base" "$cert_pem_file" "$cert_password" "$proxy" "$pwd/imports.csv"

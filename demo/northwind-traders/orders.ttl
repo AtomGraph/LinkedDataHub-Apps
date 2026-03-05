@@ -1,0 +1,78 @@
+  @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+  @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+  @prefix dct:    <http://purl.org/dc/terms/> .
+  @prefix sp:     <http://spinrdf.org/sp#> .
+  @prefix spin:   <http://spinrdf.org/spin#> .
+  @prefix ac:     <https://w3id.org/atomgraph/client#> .
+  @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+  # Main container document
+  <> a dh:Container ;
+      dct:title "Orders" ;
+      rdf:_1 <#sales-by-region-per-year> ;
+      rdf:_2 <#select-orders> .
+
+  # Object block (references the view)
+  <#select-orders> a ldh:Object ;
+      rdf:value <#select-orders-view> .
+
+  # View block (references the query, uses TableMode)
+  <#select-orders-view> a ldh:View ;
+      spin:query <#select-orders-query> ;
+      ac:mode <https://w3id.org/atomgraph/client#TableMode> .
+
+  # SELECT query
+  <#select-orders-query> a sp:Select ;
+      dct:title "Select orders" ;
+      sp:text """PREFIX  schema: <https://schema.org/>
+
+  SELECT DISTINCT  ?order
+  WHERE
+    { GRAPH ?doc
+        { ?order  a                  schema:Order ;
+                  schema:identifier  ?orderID ;
+                  schema:orderDate   ?orderDate ;
+                  schema:customer    ?customer ;
+                  schema:broker      ?employee
+        }
+    }
+  ORDER BY ?orderID""" .
+
+  # Chart block
+  <#sales-by-region-per-year> a ldh:ResultSetChart ;
+      dct:title "Sales by region per year" ;
+      spin:query <#sales-by-regions-by-year-query> ;
+      ldh:chartType <https://w3id.org/atomgraph/client#Table> ;
+      ldh:categoryVarName "year" ;
+      ldh:seriesVarName "regionName" ;
+      ldh:seriesVarName "totalSales" .
+
+  # Chart SELECT query
+  <#sales-by-regions-by-year-query> a sp:Select ;
+      dct:title "Sales by region per year" ;
+      sp:text """PREFIX  schema: <https://schema.org/>
+PREFIX  xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+SELECT DISTINCT  ?year ?regionName (SUM(?sale) AS ?totalSales)
+WHERE
+  { GRAPH ?orderGraph
+      { ?order  schema:orderDate    ?orderDate ;
+                schema:broker       ?employee ;
+                schema:orderedItem  ?orderItem
+        BIND(year(xsd:dateTime(?orderDate)) AS ?year)
+        ?orderItem  schema:orderedItem  ?product ;
+                  schema:orderQuantity  ?quantity ;
+                  schema:price          ?price
+        BIND(( ?quantity * ?price ) AS ?sale)
+      }
+    GRAPH ?employeeGraph
+      { ?employee  schema:areaServed  ?territory }
+    GRAPH ?territoryGraph
+      { ?territory  schema:containedInPlace  ?region }
+    GRAPH ?regionGraph
+      { ?region  schema:name  ?regionName }
+  }
+GROUP BY ?year ?regionName
+ORDER BY DESC(?year) ?regionName
+LIMIT   100""" .

@@ -1,0 +1,39 @@
+@prefix dh:   <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix ldh:  <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix sp:   <http://spinrdf.org/sp#> .
+@prefix spin: <http://spinrdf.org/spin#> .
+@prefix ac:   <https://w3id.org/atomgraph/client#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# Main container document
+<> a dh:Container ;
+    dct:title "Concept schemes" ;
+    rdf:_1 <#select-concept-schemes> .
+
+# Object block (references the view)
+<#select-concept-schemes> a ldh:Object ;
+    rdf:value <#select-concept-schemes-view> .
+
+# View block (references the query)
+<#select-concept-schemes-view> a ldh:View ;
+    spin:query <#select-concept-schemes-query> .
+
+# SELECT query
+<#select-concept-schemes-query> a sp:Select ;
+    dct:title "Select concept schemes" ;
+    sp:text """PREFIX  dct:  <http://purl.org/dc/terms/>
+PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT DISTINCT  ?conceptScheme ?doc
+WHERE
+  { GRAPH ?doc
+      { ?conceptScheme
+                  a  skos:ConceptScheme
+        OPTIONAL
+          { ?conceptScheme
+                      dct:title  ?title
+          }
+      }
+  }
+ORDER BY ?title""" .

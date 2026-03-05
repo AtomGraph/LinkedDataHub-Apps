@@ -1,0 +1,66 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<> a dh:Item ;
+    dct:title "Upload file" ;
+    dct:description "Learn how to upload files to LinkedDataHub" ;
+    rdf:_1 <#content> .
+    
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Learn how to upload files to LinkedDataHub</p>
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active"><a>User interface</a></li>
+            <li><a>Command line interface</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active">
+                <div>
+                    <ol>
+                        <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
+                        <li>Click on <samp>File</samp> in the drop-down list that appears</li>
+                        <li>Fill out the mandatory <dfn>File</dfn> fields in the form:
+                            <dl>
+                                <dt>FileName</dt>
+                                <dd>Select file from your filesystem</dd>
+                                <dt>Title</dt>
+                                <dd>Enter file title</dd>
+                                <dt>Title</dt>
+                                <dd>Enter document title</dd>
+                            </dl>
+                        </li>
+                        <li>Click <span class="btn btn-primary btn-save">Save</span></li>
+                    </ol>
+                    <p>See how below:</p>
+                    <p>
+                        <object data="../../uploads/7db898019986d1aa0bfee7bd1423874d82cb0233" type="video/webm"></object>
+                    </p>
+                </div>
+            </div>
+            <div class="tab-pane">
+                <div>
+                    <p>Replace <samp>owner_cert_password</samp> with its value from the <samp>.env</samp> file and execute the following command:</p>
+                    <pre>add-file.sh \\
+-b "https://localhost:4443/" \\
+-f ./ssl/owner/cert.pem \\
+-p "$owner_cert_password" \\
+--title "$title" \\
+--file "$filename" \\
+--content-type "$content_type"</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-warning">
+        <h4>Note about ontology files</h4>
+        <p>If you upload an ontology file (RDF/OWL), be aware that it will not be automatically loaded via <code>owl:imports</code> declarations.
+        This is a technical limitation to prevent circular dependencies during system initialization.</p>
+        <p>For more information on working with ontologies, see the <a href="../../reference/administration/ontologies/">ontologies reference documentation</a>.</p>
+    </div>
+</div>"""^^rdf:XMLLiteral .

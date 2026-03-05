@@ -1,0 +1,27 @@
+Midjourney Prompts for Employee Photos (Using Image Reference)
+================================================================
+
+HOW TO USE:
+1. Upload the original employee image to Midjourney
+2. Use the prompt below with the image URL
+
+PROMPT FOR ALL EMPLOYEES:
+-------------------------
+
+[IMAGE URL] single professional business headshot portrait, one person, ultra high quality photograph, sharp focus, 8k resolution, photorealistic, modern professional photography, natural outdoor background, no frames, no borders, no split screen, continuous single image --style raw --s 250 --q 2 --iw 0.5
+
+
+SIMPLER VERSION:
+----------------
+
+[IMAGE URL] professional headshot, ultra high quality, sharp focus, photorealistic, 8k, single portrait --style raw --q 2 --iw 0.5
+
+
+NOTES:
+- --style raw keeps it photorealistic and less artistic
+- --s 250 is stylization level (lower = more realistic, you can adjust 0-1000)
+- --q 2 is quality setting (higher quality rendering)
+- --iw 0.5 reduces image weight (lets Midjourney be more creative while preserving likeness)
+- "ultra high quality", "sharp crisp details", "no pixelation" tells it to enhance quality
+- The alternative prompt with --iw 0.5 gives Midjourney more freedom to improve quality
+- You can adjust --iw from 0.5 to 2 (lower = more creative, higher = more exact match)

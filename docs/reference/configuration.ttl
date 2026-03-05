@@ -1,0 +1,188 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+<> a dh:Item ;
+    dct:title "Configuration" ;
+    dct:description "Overview of configuration options" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Overview of configuration options</p>
+    <p>LinkedDataHub is configured using environment variables in the <samp>docker-compose.yml</samp> file (environment-specific configuration should go into <samp>docker-compose.override.yml</samp> instead).</p>
+    <p>Below you'll find a list of environment variables and secrets grouped by service (they are defined in the <samp>environment</samp> sections in <samp>docker-compose.yml</samp>).</p>
+    <div>
+        <h2 id="config-files">Configuration files</h2>
+        <p>LinkedDataHub uses two main RDF configuration files that define dataspaces and services:</p>
+        <dl>
+            <dt><samp>config/dataspaces.trig</samp></dt>
+            <dd>Contains application metadata for each dataspace, including:</dd>
+            <dd>
+                <ul>
+                    <li>Base URIs and application origins</li>
+                    <li>Application titles and descriptions</li>
+                    <li>Associated ontologies</li>
+                    <li>Custom stylesheets</li>
+                </ul>
+            </dd>
+            <dd>This file contains public-facing metadata and can be safely shared.</dd>
+            <dt><samp>config/services.trig</samp></dt>
+            <dd>Contains SPARQL service connection details, including:</dd>
+            <dd>
+                <ul>
+                    <li>SPARQL endpoint URLs</li>
+                    <li>Service credentials (usernames, passwords, auth tokens)</li>
+                    <li>Graph Store Protocol endpoints</li>
+                </ul>
+            </dd>
+            <dd>This file contains sensitive connection information and should not be shared publicly.</dd>
+        </dl>
+        <p>Both files are in TriG format and are mounted into the LinkedDataHub container at startup. The separation allows you to version control
+        dataspace metadata while keeping service credentials secure.</p>
+    </div>
+    <div>
+        <h2 id="linkeddatahub">linkeddatahub</h2>
+        <div>
+            <h3 id="secrets">Secrets</h3>
+            <dl>
+                <dt><samp>owner_cert_password</samp></dt>
+                <dd>Password of the owner's WebID certificate</dd>
+                <dt><samp>secretary_cert_password</samp></dt>
+                <dd>Password of the secretary's WebID certificate</dd>
+                <dt><samp>client_truststore_password</samp></dt>
+                <dd>Password of the client truststore</dd>
+                <dt><samp>google_client_id</samp></dt>
+                <dd><a href="https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid">OAuth client ID</a></dd>
+                <dd><a href="../../get-started/get-an-account/">Login with Google</a> authentication is enabled when this value is provided</dd>
+                <dt><samp>google_client_secret</samp></dt>
+                <dd><a href="https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid">OAuth client secret</a></dd>
+                <dt><samp>credentials</samp></dt>
+                <dd>RDF dataset file (<samp>./secrets/credentials.trig</samp>) containing service authentication credentials (optional)</dd>
+                <dd>Used for Bearer token authentication with SPARQL services that require it (e.g., QLever).</dd>
+                <dd>Example for configuring Bearer tokens for alternative triplestores:</dd>
+                <dd>
+                    <pre>@prefix a: &lt;https://w3id.org/atomgraph/core#&gt; .
+
+&lt;urn:linkeddatahub:services/end-user&gt;
+{
+    &lt;urn:linkeddatahub:services/end-user&gt; a:authToken "your-bearer-token" .
+}
+
+&lt;urn:linkeddatahub:services/admin&gt;
+{
+    &lt;urn:linkeddatahub:services/admin&gt; a:authToken "your-bearer-token" .
+}</pre>
+                </dd>
+                <dd>See <a href="../dataspace/#services">services documentation</a> for more about the <samp>a:authToken</samp> property, and <a href="../triplestores/#authentication">triplestores reference</a> for backend-specific authentication requirements.</dd>
+                <dd>For practical setup examples, see <a href="../../user-guide/manage-dataspaces/#alternative-triplestores">using alternative triplestores</a>.</dd>
+            </dl>
+        </div>
+        <div>
+            <h3 id="webid-auth">WebID authentication</h3>
+            <dl>
+                <dt><samp>ENABLE_WEBID_SIGNUP</samp></dt>
+                <dd><samp>false</samp> to disable. Enabled by default.</dd>
+                <dd><em>Currently this will only hide the signup button in the UI, without disabling the endpoint</em></dd>
+            </dl>
+        </div>
+        <div>
+            <h3 id="email-server">Email server</h3>
+            <dl>
+                <dt><samp>MAIL_SMTP_HOST</samp></dt>
+                <dd>Hostname of the email server</dd>
+                <dt><samp>MAIL_SMTP_PORT</samp></dt>
+                <dd>Port number of the email server</dd>
+                <dt><samp>MAIL_USER</samp></dt>
+                <dd>Username</dd>
+                <dt><samp>MAIL_PASSWORD</samp></dt>
+                <dd>Password (if required)</dd>
+            </dl>
+        </div>
+        <div>
+            <h3 id="linked-data">Linked Data</h3>
+            <dl>
+                <dt><samp>ENABLE_LINKED_DATA_PROXY</samp></dt>
+                <dd><samp>false</samp> to disable the <a href="../http-api/#ld-proxy">Linked Data proxy</a> (enabled by default)</dd>
+            </dl>
+        </div>
+        <div>
+            <h3 id="http">HTTP(S)</h3>
+            <dl>
+                <dt><samp>SELF_SIGNED_CERT</samp></dt>
+                <dd>Set to false <samp>false</samp> if not using the self-signed <em>server</em> certificate (e.g. using LetsEncrypt certificate instead). Not to be confused with the WebID client certificate.
+                    Enabled by default.</dd>
+                <dt><samp>MAX_CONTENT_LENGTH</samp></dt>
+                <dd>Maximum allowed request body size (<samp>nginx</samp> has a separate setting for this.) By default <samp>2097152</samp>.</dd>
+            </dl>
+        </div>
+        <div>
+            <h3 id="debug">Debug</h3>
+            <dl>
+                <dt><samp>JPDA_ADDRESS</samp></dt>
+                <dd>The address through which Java debugger can connect, for example <samp>*:8000</samp>. Note that the port has to be mapped to host in order for the debugger to work, e.g. <samp>8080:8080</samp>.</dd>
+                <dt><samp>CATALINA_OPTS</samp></dt>
+                <dd>Tomcat's Java options</dd>
+            </dl>
+        </div>
+        <div>
+            <h3 id="proxy">Proxy</h3>
+            <dl>
+                <dt><samp>LDHC_FRONTEND_PROXY</samp></dt>
+                <dd>Frontend proxy URL for HTTP requests (optional)</dd>
+                <dd>Configures a proxy server for the HTTP client infrastructure layer when making frontend requests</dd>
+                <dt><samp>LDHC_BACKEND_PROXY</samp></dt>
+                <dd>Backend proxy URL for SPARQL service access (optional)</dd>
+                <dd>Configures a proxy server for accessing SPARQL services and backend endpoints</dd>
+            </dl>
+        </div>
+        <div>
+            <h3 id="varnish">Varnish</h3>
+            <dl>
+                <dt><samp>VARNISH_FRONTEND_BACKEND_PORT</samp></dt>
+                <dd>Port for frontend Varnish backend (default: <samp>7070</samp>)</dd>
+                <dd>Can be customized when running LinkedDataHub behind additional proxies or in non-standard Docker networking configurations</dd>
+                <dt><samp>VARNISH_ADMIN_BACKEND_PORT</samp></dt>
+                <dd>Port for admin Varnish backend (default: <samp>3030</samp>)</dd>
+                <dd>Can be customized when running LinkedDataHub behind additional proxies or in non-standard Docker networking configurations</dd>
+                <dt><samp>VARNISH_END_USER_BACKEND_PORT</samp></dt>
+                <dd>Port for end-user Varnish backend (default: <samp>3030</samp>)</dd>
+                <dd>Can be customized when running LinkedDataHub behind additional proxies or in non-standard Docker networking configurations</dd>
+            </dl>
+        </div>
+    </div>
+    <div>
+        <h2 id="nginx">nginx</h2>
+        <dl>
+            <dt><samp>SERVER_CERT_FILE</samp></dt>
+            <dd>Location of the server's SSL certificate. By default <samp>/etc/nginx/ssl/server.crt</samp>.</dd>
+            <dt><samp>SERVER_KEY_FILE</samp></dt>
+            <dd>Location of the server's SSL certificate's key. By default <samp>/etc/nginx/ssl/server.key</samp>.</dd>
+            <dt><samp>SSL_VERIFY_CLIENT</samp></dt>
+            <dd><samp>off</samp> to disable TLS client certificate authentication on the <samp>$HTTPS_PORT</samp> port, which also disables LinkedDataHub's <a href="../../get-started/get-an-account/">WebID-TLS authentication method</a>.</dd>
+            <dd>This option can be used to avoid the certificate prompt in the browser in end-user facing applications. The client certificate authentication is still available on port 5443.</dd>
+            <dd><samp>optional_no_ca</samp> to enable it.</dd>
+            <dt><samp>MAX_BODY_SIZE</samp></dt>
+            <dd>Maximum allowed request body size (<samp>linkeddatahub</samp> has a separate setting for this.) By default <samp>2097152</samp>.</dd>
+        </dl>
+        <p>By default nginx is configured to guard against DoS by limiting the rate of requests per second, which can be necessary on a public instance. The limiting can be disabled in <samp>platform/nginx.conf.template</samp>
+            by commenting out all lines starting with <samp>limit_req</samp> using <samp>#</samp>.</p>
+        <div>
+            <h3 id="server-certs">Server certificates</h3>
+            <p>The certificates generated by the <samp>server-cert-gen.sh</samp> script are self-signed and therefore are shown as
+            "not secure" in web browsers. On a local machine this shouldn't be a problem; on public/production servers we recomment
+            using <a href="https://letsencrypt.org/" target="_blank">LetsEncrypt</a> certificates. They can be mounted into nginx as follows:</p>
+            <pre><code>  nginx:
+    environment:
+      - SERVER_CERT_FILE=/etc/letsencrypt/live/kgdev.net/fullchain.pem
+      - SERVER_KEY_FILE=/etc/letsencrypt/live/kgdev.net/privkey.pem
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt</code></pre>
+        </div>
+        <p><a href="#http"><samp>SELF_SIGNED_CERT</samp></a> should be set to <samp>false</samp> in this case.</p>
+    </div>
+</div>"""^^rdf:XMLLiteral .

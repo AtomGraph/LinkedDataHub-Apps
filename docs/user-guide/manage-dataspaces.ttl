@@ -1,0 +1,267 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+   
+<> a dh:Item ;
+    dct:title "Manage dataspaces" ;
+    dct:description "Create or change a dataspace, configure SPARQL services and XSLT stylesheets" ;
+    rdf:_1 <#content> .
+    
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Step by step guide to creating a new dataspace backed by SPARQL services</p>
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active"><a>LinkedDataHub</a></li>
+            <li><a>LinkedDataHub Cloud</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active">
+                 <div>
+                    <h2 id="dataspaces">Manage dataspaces</h2>
+                    <p><a href="../../reference/dataspace/" target="_blank">Dataspaces</a> are configured using two RDF configuration files in <a href="https://www.w3.org/TR/trig/" target="_blank">TriG</a> syntax:</p>
+                    <ul>
+                        <li><a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/config/dataspaces.trig" target="_blank"><samp>config/dataspaces.trig</samp></a> - Application metadata (base URIs, titles, ontologies, stylesheets)</li>
+                        <li><a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/config/services.trig" target="_blank"><samp>config/services.trig</samp></a> - SPARQL service connection details (endpoints, credentials)</li>
+                    </ul>
+                    <p>The configuration uses the <a href="https://w3id.org/atomgraph/linkeddatahub/apps" target="_blank">Application domain ontology</a>. A dataspace is comprised of an end-user
+                        application and an administrative application, both backed by their own SPARQL service. Each application can also specify its own <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>.</p>
+                    <p>See the <a href="../../reference/configuration/#config-files" target="_blank">configuration reference</a> for more details about these files.</p>
+                    <div class="alert alert-info">
+                        <p>Application base URIs need to be relative to the <a href="../change-system-base-uri/#base-uri" target="_blank">system base URI</a> configured in the <samp>.env</samp> file. A change of system base URI currently requires a change of application base URIs, otherwise they will not be reachable.</p>
+                    </div>
+                    <div>
+                        <h3 id="change-base-uri">Change base URI(s)</h3>
+                        <p>Lets say we want to use <samp>https://ec2-54-235-229-141.compute-1.amazonaws.com/linkeddatahub/</samp> as the new base URI of our dataspaces. The easiest way is to simple replace occurences of the default <samp>https://localhost:4443/</samp> base URI with the new value. It can be done using the following shell commands:</p>
+                        <pre>sed -i 's/https:\\/\\/localhost:4443\\//https:\\/\\/ec2-54-235-229-141.compute-1.amazonaws.com\\/linkeddatahub\\//g' config/dataspaces.trig
+sed -i 's/https:\\/\\/localhost:4443\\//https:\\/\\/ec2-54-235-229-141.compute-1.amazonaws.com\\/linkeddatahub\\//g' config/services.trig</pre>
+                        <p>Note that <samp>sed</samp> requires to escape forward slashes <samp>/</samp> with backslashes <samp>\\</samp>. Both configuration files need to be updated to ensure consistency between application metadata and service endpoints.</p>
+                    </div>
+                    <div>
+                        <h3 id="create-dataspace">Create a dataspace</h3>
+                        <p>To create a new dataspace:</p>
+                        <ol>
+                            <li>Add instances of <code>lapp:EndUserApplication</code> and <code>lapp:AdminApplication</code> to <samp>config/dataspaces.trig</samp>, following the default dataspace as a template</li>
+                            <li>Add corresponding <code>sd:Service</code> instances to <samp>config/services.trig</samp> with the SPARQL endpoint connection details</li>
+                        </ol>
+                        <p>The relationship between end-user and admin applications is automatically inferred based on naming conventions - you don't need to manually specify
+                        <code>lapp:endUserApplication</code> or <code>lapp:adminApplication</code> properties. Applications with base URIs containing <samp>admin/</samp> are
+                        automatically recognized as administration applications.</p>
+                        <div class="alert alert-info">
+                            <p>Use URIs (for example in the <samp>urn:</samp> scheme) to identify apps and services, not blank nodes. Make sure both files' syntax is valid <a href="https://www.w3.org/TR/turtle/" target="_blank">Turtle</a>, otherwise the setup will not work. You can use <a href="http://ttl.summerofcode.be/" target="_blank">Turtle Validator</a> to check the syntax.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 id="change-stylesheet">Change stylesheet</h3>
+                        <p>Change the value of <code>ac:stylesheet</code> to the URI of your <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>. Add the property if it is absent.</p>
+                        <p>The stylesheet can either be <a href="../upload-file/" target="_blank">uploaded as a file</a> or <a href="https://docs.docker.com/storage/bind-mounts/" target="_blank">mounted</a> in <samp>docker-compose.yml</samp>, in the <samp>volumes</samp> section of the <samp>linkeddatahub</samp> service. Mounting is useful while developing.</p>
+                        <p>You will need to restart LinkedDataHub's Docker service for the new stylesheet to take effect.</p>
+                        <p>It is rarely necessary to change the stylesheet of an admin application.</p>
+                    </div>
+                    <div>
+                        <h3 id="alternative-triplestores">Using Alternative Triplestores</h3>
+                        <p>While LinkedDataHub uses Apache Jena Fuseki by default, you can configure it to use other SPARQL 1.1-compatible triplestores such as <a href="https://github.com/ad-freiburg/qlever" target="_blank">QLever</a>, <a href="https://github.com/dice-group/tentris" target="_blank">Tentris</a>, or others.</p>
+                        <p>See the <a href="../../reference/triplestores/" target="_blank">triplestores reference</a> for compatibility requirements and supported backends.</p>
+                        <div>
+                            <h4 id="qlever-example">QLever Configuration Example</h4>
+                            <p>QLever is a high-performance triplestore optimized for text search. Here's how to configure LinkedDataHub to use QLever:</p>
+                            <ol>
+                                <li>
+                                    <p><strong>Update <samp>config/services.trig</samp></strong> to point to your QLever instance:</p>
+                                    <pre><code>@prefix lapp: &lt;https://w3id.org/atomgraph/linkeddatahub/apps#&gt; .
+@prefix a:    &lt;https://w3id.org/atomgraph/core#&gt; .
+@prefix rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix ldt:  &lt;https://www.w3.org/ns/ldt#&gt; .
+@prefix sd:   &lt;http://www.w3.org/ns/sparql-service-description#&gt; .
+@prefix dct:  &lt;http://purl.org/dc/terms/&gt; .
+
+# Root admin service - QLever
+&lt;urn:linkeddatahub:services/admin&gt;
+{
+    &lt;urn:linkeddatahub:services/admin&gt; a sd:Service ;
+        dct:title "LinkedDataHub admin service (QLever)" ;
+        sd:supportedLanguage sd:SPARQL11Query, sd:SPARQL11Update ;
+        sd:endpoint &lt;http://qlever-host:7001/&gt; ;
+        a:graphStore &lt;http://qlever-host:7001/&gt; .
+        # Note: a:quadStore omitted - QLever uses GSP fallback mode
+}
+
+# Root end-user service - QLever
+&lt;urn:linkeddatahub:services/end-user&gt;
+{
+    &lt;urn:linkeddatahub:services/end-user&gt; a sd:Service ;
+        dct:title "LinkedDataHub service (QLever)" ;
+        sd:supportedLanguage sd:SPARQL11Query, sd:SPARQL11Update ;
+        sd:endpoint &lt;http://qlever-host:7001/&gt; ;
+        a:graphStore &lt;http://qlever-host:7001/&gt; .
+        # Note: a:quadStore omitted - QLever uses GSP fallback mode
+}</code></pre>
+                                    <p><strong>Important:</strong> The <code>a:quadStore</code> property is <em>omitted</em> because QLever does not support dataset-level TriG/N-Quads uploads. LinkedDataHub will automatically fall back to using graph-scoped Graph Store Protocol operations.</p>
+                                </li>
+                                <li>
+                                    <p><strong>Configure Bearer token authentication</strong> (QLever requires this for write operations):</p>
+                                    <p>Create <samp>secrets/credentials.trig</samp> with your QLever access token:</p>
+                                    <pre><code>@prefix a: &lt;https://w3id.org/atomgraph/core#&gt; .
+
+&lt;urn:linkeddatahub:services/end-user&gt;
+{
+    &lt;urn:linkeddatahub:services/end-user&gt; a:authToken "your-qlever-bearer-token" .
+}
+
+&lt;urn:linkeddatahub:services/admin&gt;
+{
+    &lt;urn:linkeddatahub:services/admin&gt; a:authToken "your-qlever-bearer-token" .
+}</code></pre>
+                                </li>
+                                <li>
+                                    <p><strong>Uncomment the credentials secret</strong> in <samp>docker-compose.yml</samp>:</p>
+                                    <pre><code>services:
+  linkeddatahub:
+    secrets:
+      # ... other secrets ...
+      - credentials  # Uncomment this line</code></pre>
+                                </li>
+                                <li>
+                                    <p><strong>Start LinkedDataHub:</strong></p>
+                                    <pre>docker-compose up --build</pre>
+                                    <p>During bootstrap, LinkedDataHub will load the default datasets using graph-scoped GSP operations. This takes longer than quad store mode but is functionally equivalent.</p>
+                                </li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h4 id="gsp-fallback">GSP Fallback Mode</h4>
+                            <p>When <code>a:quadStore</code> is not provided in the service configuration, LinkedDataHub automatically uses graph-scoped Graph Store Protocol (GSP) operations instead of dataset-level uploads. This mode:</p>
+                            <ul>
+                                <li>Works with triplestores that don't support dataset-level TriG/N-Quads POST/PUT operations</li>
+                                <li>Loads data graph-by-graph rather than as a complete dataset</li>
+                                <li>Takes longer during bootstrap (more HTTP requests) but produces the same result</li>
+                                <li>Is required for QLever, Tentris, and other GSP-only backends</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 id="troubleshooting-triplestores">Troubleshooting</h4>
+                            <dl>
+                                <dt>Bootstrap fails with HTTP 400 "application/trig not supported"</dt>
+                                <dd>Your triplestore doesn't support dataset-level uploads. Remove the <code>a:quadStore</code> property from your service configuration to use GSP fallback mode.</dd>
+                                <dt>Bootstrap fails with HTTP 401 or 403</dt>
+                                <dd>Check your authentication configuration. QLever requires Bearer token auth (configured in <samp>secrets/credentials.trig</samp>), while other stores may use HTTP Basic auth (username/password in <samp>config/services.trig</samp>).</dd>
+                                <dt>Queries work but data import fails</dt>
+                                <dd>Ensure your triplestore supports SPARQL 1.1 Update and Graph Store Protocol, not just Query. Check the <a href="../../reference/triplestores/#requirements" target="_blank">triplestore requirements</a>.</dd>
+                                <dt>Connection refused errors</dt>
+                                <dd>Check that the endpoint URLs are reachable from the LinkedDataHub Docker container. If running QLever in Kubernetes, use port-forwarding or set up proper networking.</dd>
+                            </dl>
+                            <p>For more details, see <a href="https://github.com/AtomGraph/LinkedDataHub/issues/272" target="_blank">GitHub issue #272</a> which documents the QLever integration process.</p>
+                        </div>
+                        <p>For a complete comparison of supported triplestores and their capabilities, see the <a href="../../reference/triplestores/" target="_blank">triplestores reference documentation</a>.</p>
+                    </div>
+                </div>
+                <div>
+                    <h2 id="manage-services">Manage services</h2>
+                    <p>LinkedDataHub service as well as the default SPARQL services <samp>fuseki-end-user</samp> and <samp>fuseki-admin</samp> are defined in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/docker-compose.yml" target="_blank"><samp>docker-compose.yml</samp></a> and run as Docker containers.</p>
+                </div>
+            </div>
+            <div class="tab-pane">
+                <div>
+                    <div>
+                        <h3 id="create-context">Create a context</h3>
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a>User interface</a></li>
+                                <li><a>Command line interface</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active">
+                                    <p>Follow these steps:</p>
+                                    <ol>
+                                        <li>Go to the <a href="https://linkeddatahub.com/" target="_blank"><samp>Root</samp> context</a></li>
+                                        <li>Make sure you are <a href="../../get-started/get-an-account/#log-in" target="_blank">authenticated</a></li>
+                                        <li>On the top left-hand side click on the <span class="btn btn-primary create-action">Context</span> button</li>
+                                        <li>In the form that opens, fill out the following fields:
+                                            <dl>
+                                                <dt>Base URI</dt>
+                                                <dd>Here you can change the relative path of your context. It may not have forward slashes (<samp>/</samp>) in it. Attempt to use an already existing path will result in an error. By default, a unique UUID will be assigned.</dd>
+                                                <dt>Title</dt>
+                                                <dd>The human-readable title of your context</dd>
+                                                <dt>Description</dt>
+                                                <dd>Optionally, enter a human-readable description of your context</dd>
+                                                <dt>Public</dt>
+                                                <dd>Choose whether your context should be publicly listed on LinkedDataHub Cloud</dd>
+                                            </dl>
+                                        </li>
+                                    </ol>
+                                    <p>The following video shows the creation of both a context and a dataspace:</p>
+                                    <p>
+                                        <object data="../../uploads/4c86a3410134d090a7bb7e178a6f82874bc66fa1" type="video/webm"></object>
+                                    </p>
+                                </div>
+                                <div class="tab-pane">
+                                    <div>
+                                        <pre>create-context.sh \\
+-b "${base}" \\
+-f "${cert_pem_file}" \\
+-p "${cert_password}" \\
+--title "${title}" \\
+--description "${description}" \\
+--app-base "${base}${slug}/" \\
+--public</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 id="create-cloud-dataspace">Create a dataspace</h3>
+                                <div class="tabbable">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a>User interface</a></li>
+                                        <li><a>Command line interface</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active">
+                                            <p>Follow these steps:</p>
+                                            <ol>
+                                                <li>Go to your existing context or <a href="#create-context">create one</a></li>
+                                                <li>Make sure you are <a href="../../get-started/get-an-account/#log-in" target="_blank">authenticated</a></li>
+                                                <li>On the top left-hand side click on the <span class="btn btn-primary create-action">App</span> button</li>
+                                                <li>In the form that opens, fill out the following fields:
+                                                    <dl>
+                                                        <dt>Base URI</dt>
+                                                        <dd>Here you can change the relative path of your context. It may not have forward slashes (<samp>/</samp>) in it. Attempt to use an already existing path will result in an error.</dd>
+                                                        <dt>Title</dt>
+                                                        <dd>The human-readable title of your context</dd>
+                                                        <dt>Description</dt>
+                                                        <dd>Optionally, enter a human-readable description of your context</dd>
+                                                        <dt>Public</dt>
+                                                        <dd>Choose whether your dataspace should be publicly listed on LinkedDataHub Cloud. This does <em>not</em> mean that the documents in the dataspace will be public — they are subject to <a href="../../reference/administration/acl/" target="_blank">access control</a>.</dd>
+                                                    </dl>
+                                                </li>
+                                            </ol>
+                                            <p>The following video shows the creation of both a context and a dataspace:</p>
+                                            <p>
+                                                <object data="../../uploads/4c86a3410134d090a7bb7e178a6f82874bc66fa1" type="video/webm"></object>
+                                            </p>
+                                        </div>
+                                        <div class="tab-pane">
+                                            <div>
+                                                <pre>create-app.sh \\
+-b "${base}" \\
+-f "${cert_pem_file}" \\
+-p "${cert_password}" \\
+--title "${title}" \\
+--description "${description}" \\
+--app-base "${base}${slug}/" \\
+--public</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>"""^^rdf:XMLLiteral .

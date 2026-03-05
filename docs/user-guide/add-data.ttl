@@ -1,0 +1,52 @@
+@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sioc:   <http://rdfs.org/sioc/ns#> .
+    
+<> a dh:Item ;
+    dct:title "Add data" ;
+    dct:description "Fork RDF data from Linked Data resources and SPARQL results" ;
+    rdf:_1 <#content> .
+    
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Fork RDF data from Linked Data resources and SPARQL results</p>
+    <p>You can fork (copy the contents of) any RDF document to a namedgraph in your dataspace. Two sources of RDF are supported: RDF resources on the web (Linked Data), and RDF file uploads.</p>
+    <div class="alert alert-info">
+        <p>Adding data this way will cause a blocking request, so use it for small amounts of data only (e.g. a few thousands of RDF triples).
+        For larger data, use asynchronous <a href="../import-data/import-rdf-data/" target="_blank">RDF imports</a>.</p>
+    </div>
+    <div>
+        <h2 id="from-linked-data">From Linked Data</h2>
+        <p>
+            <object data="../../uploads/91f6ea24b8ab9bee4a0456cf2b72e0552e9aa42c" type="video/webm"></object>
+        </p>
+        <p>To copy the contents of the current RDF document (local or remote) into a local document, follow these steps:</p>
+        <ol>
+            <li>Click on the <span class="btn btn-save-as">Save</span> button on the right side of the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a>.
+                A form will open with the following fields:
+                <dl>
+                    <dt>Source</dt>
+                    <dd>URI of the source document</dd>
+                    <dt>Graph</dt>
+                    <dd>The target document. You can start typing to find it by its label, or paste its URI here.</dd>
+                </dl>
+            </li>
+            <li>Click <span class="btn btn-primary btn-save">Save</span> to perform the fork operation.</li>
+        </ol>
+    </div>
+    <div>
+        <h2 id="from-file">From file</h2>
+        <p>To upload the contents of an RDF file into a document, simply drag the file from your filesystem into LinkedDataHub when the document's <a href="../../reference/user-interface/#layout-modes">properties mode</a> is active.</p>
+        <p>The following syntaxes are supported:</p>
+        <ul>
+            <li>N-Triples (.nt)</li>
+            <li>Turtle (.ttl)</li>
+            <li>RDF/XML (.rdf and .owl)</li>
+            <li>JSON-LD (.jsonld)</li>
+        </ul>
+    </div>
+</div>"""^^rdf:XMLLiteral .

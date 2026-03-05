@@ -1,0 +1,40 @@
+  @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+  @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+  @prefix dct:    <http://purl.org/dc/terms/> .
+  @prefix sp:     <http://spinrdf.org/sp#> .
+  @prefix spin:   <http://spinrdf.org/spin#> .
+  @prefix ac:     <https://w3id.org/atomgraph/client#> .
+  @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix sioc:   <http://rdfs.org/sioc/ns#> .
+
+  # Main container document
+  <> a dh:Container ;
+      dct:title "Suppliers" ;
+      rdf:_1 <#select-suppliers> .
+
+  # Object block (references the view)
+  <#select-suppliers> a ldh:Object ;
+      rdf:value <#select-suppliers-view> .
+
+  # View block (references the query, uses TableMode)
+  <#select-suppliers-view> a ldh:View ;
+      spin:query <#select-suppliers-query> ;
+      ac:mode <https://w3id.org/atomgraph/client#TableMode> .
+
+  # SELECT query
+  <#select-suppliers-query> a sp:Select ;
+      dct:title "Select suppliers" ;
+      sp:text """PREFIX  schema: <https://schema.org/>
+
+  SELECT DISTINCT  ?supplier
+  WHERE
+    { GRAPH ?doc
+        { ?supplier  a                schema:Corporation ;
+                    schema:legalName  ?companyName
+          GRAPH ?productDoc
+            { ?product  a                schema:Product ;
+                        schema:provider  ?supplier
+            }
+        }
+    }
+  ORDER BY ?companyName""" .
