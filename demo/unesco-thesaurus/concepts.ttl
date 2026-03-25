@@ -9,7 +9,23 @@
 # Main container document
 <> a dh:Container ;
     dct:title "Concepts" ;
-    rdf:_1 <#select-concepts> .
+    rdf:_1 <#concepts-intro> ;
+    rdf:_2 <#select-concepts> .
+
+# Intro XHTML
+<#concepts-intro> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <h3>SKOS Concepts</h3>
+        <p>Concepts are the fundamental building blocks of the UNESCO Thesaurus vocabulary. Each concept represents
+           a distinct unit of thought or terminology, enriched with multilingual labels, definitions, and semantic relationships.</p>
+        <p>SKOS (Simple Knowledge Organization System) relationships connect concepts through:</p>
+        <ul>
+            <li><strong>Broader/Narrower</strong> - Hierarchical relationships forming taxonomic structures</li>
+            <li><strong>Related</strong> - Associative relationships between concepts in the same domain</li>
+            <li><strong>Exact/Close/Related Matches</strong> - Mappings to concepts in external vocabularies</li>
+        </ul>
+        <p>Browse the concepts below and use parallax navigation to explore their rich semantic network.</p>
+    </div>"""^^rdf:XMLLiteral .
 
 # Object block (references the view)
 <#select-concepts> a ldh:Object ;

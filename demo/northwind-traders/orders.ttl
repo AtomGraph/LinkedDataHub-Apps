@@ -10,8 +10,13 @@
   # Main container document
   <> a dh:Container ;
       dct:title "Orders" ;
-      rdf:_1 <#sales-by-region-per-year> ;
-      rdf:_2 <#select-orders> .
+      rdf:_1 <#orders-intro> ;
+      rdf:_2 <#orders-over-time> ;
+      rdf:_3 <#geographic-intro> ;
+      rdf:_4 <#orders-by-country> ;
+      rdf:_5 <#order-trends-summary> ;
+      rdf:_6 <#sales-by-region-per-year> ;
+      rdf:_7 <#select-orders> .
 
   # Object block (references the view)
   <#select-orders> a ldh:Object ;
@@ -39,6 +44,69 @@
     }
   ORDER BY ?orderID""" .
 
+  # Intro XHTML
+  <#orders-intro> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <h3>Order Analytics</h3>
+          <p>Track order volume, geographic distribution, and temporal trends. Understanding order patterns
+             helps optimize inventory, predict demand, and identify growth opportunities across different markets.</p>
+      </div>"""^^rdf:XMLLiteral .
+
+  # Orders over time chart
+  <#orders-over-time> a ldh:ResultSetChart ;
+      dct:title "Orders per month" ;
+      spin:query <#orders-by-month-query> ;
+      ldh:chartType <https://w3id.org/atomgraph/client#LineChart> ;
+      ldh:categoryVarName "month" ;
+      ldh:seriesVarName "orderCount" .
+
+  <#orders-by-month-query> a sp:Select ;
+      dct:title "Orders by month" ;
+      sp:text """PREFIX schema: <https://schema.org/>
+
+SELECT ?month (COUNT(DISTINCT ?order) AS ?orderCount)
+WHERE {
+    GRAPH ?orderGraph {
+        ?order a schema:Order ;
+               schema:orderDate ?orderDate .
+        BIND(SUBSTR(STR(?orderDate), 1, 7) AS ?month)
+    }
+}
+GROUP BY ?month
+ORDER BY ?month""" .
+
+  # Geographic intro
+  <#geographic-intro> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <h4>Geographic Distribution</h4>
+          <p>Orders span multiple countries and regions. Analyzing geographic patterns reveals market penetration
+             and helps identify expansion opportunities or regional challenges.</p>
+      </div>"""^^rdf:XMLLiteral .
+
+  # Orders by country chart
+  <#orders-by-country> a ldh:ResultSetChart ;
+      dct:title "Orders by country" ;
+      spin:query <#orders-by-country-query> ;
+      ldh:chartType <https://w3id.org/atomgraph/client#BarChart> ;
+      ldh:categoryVarName "country" ;
+      ldh:seriesVarName "orderCount" .
+
+  <#orders-by-country-query> a sp:Select ;
+      dct:title "Orders by country" ;
+      sp:text """PREFIX schema: <https://schema.org/>
+
+SELECT ?country (COUNT(DISTINCT ?order) AS ?orderCount)
+WHERE {
+    GRAPH ?orderGraph {
+        ?order schema:orderDelivery ?delivery .
+        ?delivery schema:deliveryAddress ?address .
+        ?address schema:addressCountry ?country .
+    }
+}
+GROUP BY ?country
+ORDER BY DESC(?orderCount)
+LIMIT 10""" .
+
   # Chart block
   <#sales-by-region-per-year> a ldh:ResultSetChart ;
       dct:title "Sales by region per year" ;
@@ -47,6 +115,14 @@
       ldh:categoryVarName "year" ;
       ldh:seriesVarName "regionName" ;
       ldh:seriesVarName "totalSales" .
+
+  # Order trends summary
+  <#order-trends-summary> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <h4>Regional Performance</h4>
+          <p>The table below shows sales performance broken down by region and year, enabling comparison
+             of regional growth patterns and seasonal variations.</p>
+      </div>"""^^rdf:XMLLiteral .
 
   # Chart SELECT query
   <#sales-by-regions-by-year-query> a sp:Select ;

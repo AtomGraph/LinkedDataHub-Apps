@@ -8,7 +8,19 @@
 # Main container document
 <> a dh:Container ;
     dct:title "Bicycle parkings" ;
-    rdf:_1 <#select-children> .
+    rdf:_1 <#cycling-intro> ;
+    rdf:_2 <#select-children> .
+
+# Intro XHTML
+<#cycling-intro> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <h3>Cycling Infrastructure</h3>
+        <p>Copenhagen is renowned as one of the world's most bicycle-friendly cities, with extensive cycling infrastructure
+           serving hundreds of thousands of daily cyclists. The city's bicycle parking facilities are strategically located
+           throughout the urban area to support this sustainable transportation network.</p>
+        <p>Explore the map below to discover bicycle parking locations across Copenhagen, including capacity information
+           and geographic distribution patterns.</p>
+    </div>"""^^rdf:XMLLiteral .
 
 # Object block
 <#select-children> a ldh:Object ;

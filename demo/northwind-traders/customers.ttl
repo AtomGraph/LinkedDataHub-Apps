@@ -9,7 +9,89 @@
   # Main container document
   <> a dh:Container ;
       dct:title "Customers" ;
-      rdf:_1 <#select-customers> .
+      rdf:_1 <#customers-intro> ;
+      rdf:_2 <#top-customers> ;
+      rdf:_3 <#geographic-distribution> ;
+      rdf:_4 <#customers-by-country> ;
+      rdf:_5 <#customer-insights> ;
+      rdf:_6 <#select-customers> .
+
+  # Intro XHTML
+  <#customers-intro> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <h3>Customer Insights</h3>
+          <p>Understand customer value, geographic distribution, and purchasing patterns. Identifying top customers
+             and market concentration helps prioritize account management and target growth strategies.</p>
+      </div>"""^^rdf:XMLLiteral .
+
+  # Top customers chart
+  <#top-customers> a ldh:ResultSetChart ;
+      dct:title "Top 10 customers by revenue" ;
+      spin:query <#top-customers-query> ;
+      ldh:chartType <https://w3id.org/atomgraph/client#BarChart> ;
+      ldh:categoryVarName "companyName" ;
+      ldh:seriesVarName "revenue" .
+
+  <#top-customers-query> a sp:Select ;
+      dct:title "Top customers by revenue" ;
+      sp:text """PREFIX schema: <https://schema.org/>
+
+SELECT ?companyName (SUM(?sale) AS ?revenue)
+WHERE {
+    GRAPH ?orderGraph {
+        ?order schema:customer ?customer ;
+               schema:orderedItem ?orderItem .
+        ?orderItem schema:orderQuantity ?quantity ;
+                   schema:price ?price .
+        BIND(?quantity * ?price AS ?sale)
+    }
+    GRAPH ?customerGraph {
+        ?customer schema:legalName ?companyName .
+    }
+}
+GROUP BY ?customer ?companyName
+ORDER BY DESC(?revenue)
+LIMIT 10""" .
+
+  # Geographic distribution intro
+  <#geographic-distribution> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <h4>Geographic Distribution</h4>
+          <p>Our customer base spans multiple countries, with varying levels of market penetration.
+             Understanding geographic concentration helps guide expansion efforts and resource allocation.</p>
+      </div>"""^^rdf:XMLLiteral .
+
+  # Customers by country chart
+  <#customers-by-country> a ldh:ResultSetChart ;
+      dct:title "Customers by country" ;
+      spin:query <#customers-by-country-query> ;
+      ldh:chartType <https://w3id.org/atomgraph/client#BarChart> ;
+      ldh:categoryVarName "country" ;
+      ldh:seriesVarName "customerCount" .
+
+  <#customers-by-country-query> a sp:Select ;
+      dct:title "Customers by country" ;
+      sp:text """PREFIX schema: <https://schema.org/>
+
+SELECT ?country (COUNT(DISTINCT ?customer) AS ?customerCount)
+WHERE {
+    GRAPH ?customerGraph {
+        ?customer a schema:Corporation ;
+                  schema:employee ?employee .
+        ?employee schema:address ?postalAddress .
+        ?postalAddress schema:addressCountry ?country .
+    }
+}
+GROUP BY ?country
+ORDER BY DESC(?customerCount)""" .
+
+  # Customer insights summary
+  <#customer-insights> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <h4>Customer Portfolio</h4>
+          <p>Browse individual customer records below to view detailed order history, contact information,
+             and relationship details. Each customer profile provides insights into purchasing behavior and account status.</p>
+      </div>"""^^rdf:XMLLiteral .
 
   # Object block (references the view)
   <#select-customers> a ldh:Object ;

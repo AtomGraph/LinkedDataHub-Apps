@@ -19,10 +19,28 @@ else
     proxy="$base"
 fi
 
+ldhignore_file="$folder/.ldhignore"
+
+is_ldhignored() {
+    local name
+    name="$(basename "$1")"
+    [[ -f "$ldhignore_file" ]] || return 1
+    while IFS= read -r pattern || [[ -n "$pattern" ]]; do
+        [[ -z "$pattern" || "$pattern" == \#* ]] && continue
+        pattern="${pattern%/}"
+        [[ "$name" == $pattern ]] && return 0
+    done < "$ldhignore_file"
+    return 1
+}
+
 echo "Processing folder: $folder"  # Debug output
 
 for ttl_file in "$folder"/*.ttl; do
   if [[ -f "$ttl_file" ]]; then
+    if git check-ignore -q "$ttl_file" 2>/dev/null || is_ldhignored "$ttl_file"; then
+      printf "Skipping %s\n" "$ttl_file"
+      continue
+    fi
     echo "Found .ttl file: $ttl_file"  # Debug output
     path="${ttl_file%.*}"   # strip extension
     path="${path#*$pwd/}"   # strip leading $pwd/
@@ -38,7 +56,11 @@ for ttl_file in "$folder"/*.ttl; do
 done
 
 for file in "$folder"/*; do
-  if [[ -f "$file" ]] && [[ "$file" != *.ttl ]] && [[ "$file" != *.sh ]] && [[ "$(basename "$file")" != "Makefile" ]]; then
+  if [[ -f "$file" ]] && [[ "$file" != *.ttl ]] && [[ "$file" != *.sh ]]; then
+    if git check-ignore -q "$file" 2>/dev/null || is_ldhignored "$file"; then
+      printf "Skipping %s\n" "$file"
+      continue
+    fi
     stripped="${folder#$pwd/}"
     if [[ "$stripped" == "$folder" ]]; then
       container_path=""
@@ -57,4 +79,10 @@ for file in "$folder"/*; do
   fi
 done
 
-find "$folder" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -exec ./update-folder.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" {} "$proxy" \;
+while IFS= read -r subdir; do
+  if git check-ignore -q "$subdir" 2>/dev/null || is_ldhignored "$subdir"; then
+    printf "Skipping %s\n" "$subdir"
+    continue
+  fi
+  ./update-folder.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "$subdir" "$proxy"
+done < <(find "$folder" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -not -name 'target')

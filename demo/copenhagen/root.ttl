@@ -6,16 +6,21 @@
 @prefix dh:	<https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:	<http://purl.org/dc/terms/> .
 @prefix sioc:	<http://rdfs.org/sioc/ns#> .
+@prefix sp:     <http://spinrdf.org/sp#> .
+@prefix spin:   <http://spinrdf.org/spin#> .
+@prefix schema: <https://schema.org/> .
 
 <> a def:Root ;
     dct:title "Copenhagen" ;
     dct:description "Geospatial and other open data about cities, imported by transforming CSV files to RDF" ;
     rdf:_1 <#page-header> ;
-    rdf:_2 <#main-library> ;
-    rdf:_3 <#charts> ;
-    rdf:_4 <#largest-parkings> ;
-    rdf:_5 <#check-out> ;
-    rdf:_6 <#select-children> .
+    rdf:_2 <#city-intro> ;
+    rdf:_3 <#facilities-overview> ;
+    rdf:_4 <#main-library> ;
+    rdf:_5 <#charts> ;
+    rdf:_6 <#largest-parkings> ;
+    rdf:_7 <#check-out> ;
+    rdf:_8 <#select-children> .
 
 <#page-header> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
@@ -27,8 +32,45 @@
             rich documents composed of structured content backed by RDF Knowledge Graph data.</p>
         <p>This application was created on <a href="https://atomgraph.github.io/LinkedDataHub/" target="_blank">LinkedDataHub</a> using the low code paradigm: no programming was required, only scripts that
             invoke LinkedDataHub's CLI commands.</p>
-        <p>For example, below we have embedded Copenhagen's Main Library in map mode.</p>
     </div>"""^^rdf:XMLLiteral .
+
+<#city-intro> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <h3>City infrastructure overview</h3>
+        <p>Explore Copenhagen's public facilities, infrastructure, and services through interactive maps and data visualizations.
+           This dataset includes libraries, schools, parking facilities, sports centers, playgrounds, and more.</p>
+    </div>"""^^rdf:XMLLiteral .
+
+<#facilities-overview> a ldh:ResultSetChart ;
+    dct:title "Facilities by type" ;
+    spin:query <#facilities-by-type-query> ;
+    ldh:chartType <https://w3id.org/atomgraph/client#BarChart> ;
+    ldh:categoryVarName "typeLabel" ;
+    ldh:seriesVarName "count" .
+
+<#facilities-by-type-query> a sp:Select ;
+    dct:title "Facilities by type" ;
+    sp:text """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+SELECT ?typeLabel (COUNT(?facility) AS ?count)
+WHERE {
+    ?type a owl:Class ;
+        rdfs:label ?typeLabel ;
+        rdfs:isDefinedBy <https://copenhagen.demo.linkeddatahub.com/ns#>
+
+    SERVICE <https://copenhagen.demo.linkeddatahub.com/sparql>
+    {
+        SELECT DISTINCT ?facility ?type WHERE {
+            GRAPH ?graph {
+                ?facility a ?type .
+            }
+        }
+    }
+}
+GROUP BY ?type ?typeLabel
+ORDER BY DESC(?count)""" .
 
 <#main-library> a ldh:Object ;
     rdf:value <places/stednavn_punkt.fid-361ad8c1_150a94a2aab_-83b/#this> ;

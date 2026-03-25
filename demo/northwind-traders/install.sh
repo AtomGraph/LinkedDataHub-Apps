@@ -23,7 +23,7 @@ printf "\n### Creating authorization to make the app public\n\n"
 
 make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
 
-cd .admin/model
+cd admin/model
 
 printf "\n### Importing namespace ontology\n\n"
 
@@ -35,9 +35,9 @@ cd ..
 
 printf "\n### Updating documents and uploading files\n\n"
 
-if [[ -f ".root.ttl" ]]; then
+if [[ -f "root.ttl" ]]; then
   printf "\n### Updating %s\n" "$base"
-  cat .root.ttl | turtle --base="$base" | put.sh \
+  cat root.ttl | turtle --base="$base" | put.sh \
     -f "$cert_pem_file" \
     -p "$cert_password" \
     --proxy "$proxy" \

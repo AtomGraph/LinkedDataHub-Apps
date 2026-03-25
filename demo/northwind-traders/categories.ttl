@@ -9,7 +9,83 @@
   # Main container document
   <> a dh:Container ;
       dct:title "Categories" ;
-      rdf:_1 <#select-categories> .
+      rdf:_1 <#category-intro> ;
+      rdf:_2 <#category-revenue> ;
+      rdf:_3 <#category-distribution> ;
+      rdf:_4 <#products-per-category> ;
+      rdf:_5 <#select-categories> .
+
+  # Intro XHTML
+  <#category-intro> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <h3>Category Analysis</h3>
+          <p>Product categories represent different market segments with distinct characteristics and performance.
+             Analyzing category-level metrics helps identify portfolio strengths, diversification opportunities, and inventory priorities.</p>
+      </div>"""^^rdf:XMLLiteral .
+
+  # Category revenue chart
+  <#category-revenue> a ldh:ResultSetChart ;
+      dct:title "Revenue by category" ;
+      spin:query <#category-revenue-query> ;
+      ldh:chartType <https://w3id.org/atomgraph/client#BarChart> ;
+      ldh:categoryVarName "categoryName" ;
+      ldh:seriesVarName "revenue" .
+
+  <#category-revenue-query> a sp:Select ;
+      dct:title "Category revenue" ;
+      sp:text """PREFIX schema: <https://schema.org/>
+
+SELECT ?categoryName (SUM(?sale) AS ?revenue)
+WHERE {
+    GRAPH ?orderGraph {
+        ?order schema:orderedItem ?orderItem .
+        ?orderItem schema:orderedItem ?product ;
+                   schema:orderQuantity ?quantity ;
+                   schema:price ?price .
+        BIND(?quantity * ?price AS ?sale)
+    }
+    GRAPH ?productGraph {
+        ?product schema:category ?category .
+    }
+    GRAPH ?categoryGraph {
+        ?category schema:name ?categoryName .
+    }
+}
+GROUP BY ?category ?categoryName
+ORDER BY DESC(?revenue)""" .
+
+  # Category distribution intro
+  <#category-distribution> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <h4>Product Distribution</h4>
+          <p>Understanding how products are distributed across categories reveals portfolio balance and potential gaps.
+             Categories with more products may indicate core competencies or simply broader product lines.</p>
+      </div>"""^^rdf:XMLLiteral .
+
+  # Products per category chart
+  <#products-per-category> a ldh:ResultSetChart ;
+      dct:title "Products per category" ;
+      spin:query <#products-per-category-query> ;
+      ldh:chartType <https://w3id.org/atomgraph/client#BarChart> ;
+      ldh:categoryVarName "categoryName" ;
+      ldh:seriesVarName "productCount" .
+
+  <#products-per-category-query> a sp:Select ;
+      dct:title "Products per category" ;
+      sp:text """PREFIX schema: <https://schema.org/>
+
+SELECT ?categoryName (COUNT(DISTINCT ?product) AS ?productCount)
+WHERE {
+    GRAPH ?productGraph {
+        ?product a schema:Product ;
+                 schema:category ?category .
+    }
+    GRAPH ?categoryGraph {
+        ?category schema:name ?categoryName .
+    }
+}
+GROUP BY ?category ?categoryName
+ORDER BY DESC(?productCount)""" .
 
   # Object block (references the view)
   <#select-categories> a ldh:Object ;
