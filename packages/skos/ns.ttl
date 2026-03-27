@@ -1,11 +1,17 @@
-@prefix :	<#> .
-@prefix ldh:	<https://w3id.org/atomgraph/linkeddatahub#> .
-@prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
-@prefix owl:    <http://www.w3.org/2002/07/owl#> .
-@prefix sp: 	<http://spinrdf.org/sp#> .
-@prefix spin:	<http://spinrdf.org/spin#> .
-@prefix dct:	<http://purl.org/dc/terms/> .
-@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix : <#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dh: <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ldh: <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sp: <http://spinrdf.org/sp#> .
+@prefix spin: <http://spinrdf.org/spin#> .
+
+<> a dh:Item ;
+    dct:title "SKOS package ontology" ;
+    foaf:primaryTopic : .
 
 : a owl:Ontology ;
     owl:imports <http://www.w3.org/2004/02/skos/core> ;
