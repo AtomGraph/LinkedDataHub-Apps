@@ -24,6 +24,7 @@ skos:Concept spin:constructor :ConceptConstructor ;
 
 :ConceptConstructor a ldh:Constructor ;
     rdfs:label "Concept constructor" ;
+    dct:title "Concept constructor" ;
     sp:text """
         PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
         PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
@@ -51,6 +52,7 @@ skos:narrower ldh:view :NarrowerConcepts .
 
 :SelectNarrowerConcepts a sp:Select ;
     rdfs:label "Select narrower concepts" ;
+    dct:title "Select narrower concepts" ;
     sp:text """
 PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
 
@@ -80,6 +82,7 @@ skos:broader ldh:view :BroaderConcepts .
 
 :SelectBroaderConcepts a sp:Select ;
     rdfs:label "Select broader concepts" ;
+    dct:title "Select broader concepts" ;
     sp:text """
 PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
 
@@ -105,6 +108,7 @@ skos:Collection spin:constructor :CollectionConstructor ;
 
 :CollectionConstructor a ldh:Constructor ;
     rdfs:label "Collection constructor" ;
+    dct:title "Collection constructor" ;
     sp:text """
         PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
         PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
@@ -126,6 +130,7 @@ skos:member ldh:view :CollectionMembers .
 
 :SelectCollectionMembers a sp:Select ;
     rdfs:label "Select collection members" ;
+    dct:title "Select collection members" ;
     sp:text """
 PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
 
@@ -150,6 +155,7 @@ skos:ConceptScheme spin:constructor :ConceptSchemeConstructor .
 
 :ConceptSchemeConstructor a ldh:Constructor ;
     rdfs:label "Concept scheme constructor" ;
+    dct:title "Concept scheme constructor" ;
     sp:text """
         PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
         PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
@@ -172,6 +178,7 @@ skos:inScheme ldh:inverseView :ConceptsInScheme .
 
 :SelectConceptsInScheme a sp:Select ;
     rdfs:label "Select concepts in scheme" ;
+    dct:title "Select concepts in scheme" ;
     sp:text """
 PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
 
