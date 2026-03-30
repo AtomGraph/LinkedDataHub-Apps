@@ -24,6 +24,7 @@
 <#parking-by-spaces-query> a sp:Select ;
     dct:title "Largest parking facilities" ;
     sp:text """PREFIX ns: <https://copenhagen.demo.linkeddatahub.com/ns#>
+PREFIX schema: <https://schema.org/>
 PREFIX dct: <http://purl.org/dc/terms/>
 
 SELECT DISTINCT ?name ?spaces
