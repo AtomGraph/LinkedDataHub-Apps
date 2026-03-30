@@ -238,7 +238,7 @@
                 using the <a href="https://www.w3.org/TR/xslt-30/#function-document" target="_blank"><code>document()</code></a> XSLT function. To avoid XSLT errors on any possible error responses, it is advisable
                 to do a conditional check using the <a href="https://www.w3.org/TR/xpath-functions/#func-doc-available" target="_blank"><code>doc-available()</code></a> function before doing the actual <code>document()</code> call.</p>
             <p>For example, instead of hardcoding the title of this document as <samp>Stylesheets</samp>, we can use the following code to load it and output it on the fly:</p>
-            <pre>&lt;xsl:value-of select="key('resources', 'https://linkeddatahub.com/linkeddatahub/docs/reference/stylesheet/', document('https://linkeddatahub.com/linkeddatahub/docs/reference/stylesheet/'))"/&gt;</pre>
+            <pre>&lt;xsl:value-of select="key('resources', 'https://docs.linkeddatahub.com/reference/stylesheet/', document('https://docs.linkeddatahub.com/reference/stylesheet/'))"/&gt;</pre>
             <p>In case this document changes its title, all such references would automatically render the updated title. On the other hand, it incurs the overhead of making an HTTP request.</p>
             <p>LinkedDataHub's default stylesheets are using this feature extensively. In fact, one HTML page is rendered from a dozen of RDF/XML documents.</p>
             <p>Built-in <a href="../administration/ontologies/#ontologies" target="_blank">ontologies</a> as well as some other system and well-known ontologies, have a local copy in

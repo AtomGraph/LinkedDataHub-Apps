@@ -47,7 +47,7 @@
 
 :SportsCenter a rdfs:Class, owl:Class ;
     rdfs:label "Sports center" ;
-    rdfs:subClassOf schema:CivicStructure ;
+    rdfs:subClassOf schema:SportsActivityLocation ;
     rdfs:isDefinedBy <ns#> .
 
 :PublicToilet a rdfs:Class, owl:Class ;

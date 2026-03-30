@@ -23,16 +23,17 @@
 # Chart SELECT query
 <#parking-by-spaces-query> a sp:Select ;
     dct:title "Largest parking facilities" ;
-    sp:text """PREFIX schema: <https://schema.org/>
+    sp:text """PREFIX ns: <https://copenhagen.demo.linkeddatahub.com/ns#>
 PREFIX dct: <http://purl.org/dc/terms/>
 
 SELECT DISTINCT ?name ?spaces
 WHERE
 {
     GRAPH ?g
-    { ?parking a schema:ParkingFacility ;
-        dct:title ?name ;
-      schema:maximumAttendeeCapacity ?spaces .
+    {
+        ?parking a ns:ParkingFacility ;
+            dct:title ?name ;
+            schema:maximumAttendeeCapacity ?spaces .
   	}
 }
 ORDER BY DESC(?spaces)

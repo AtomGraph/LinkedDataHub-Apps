@@ -6,6 +6,7 @@
 @prefix dh:	<https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:	<http://purl.org/dc/terms/> .
 @prefix sioc:	<http://rdfs.org/sioc/ns#> .
+@prefix sd:     <http://www.w3.org/ns/sparql-service-description#> .
 @prefix sp:     <http://spinrdf.org/sp#> .
 @prefix spin:   <http://spinrdf.org/spin#> .
 @prefix schema: <https://schema.org/> .
@@ -48,10 +49,15 @@
     ldh:categoryVarName "typeLabel" ;
     ldh:seriesVarName "count" .
 
+<#ns-service> a sd:Service ;
+    dct:title "Copenhagen namespace" ;
+    sd:endpoint <ns> ;
+    sd:supportedLanguage sd:SPARQL11Query .
+
 <#facilities-by-type-query> a sp:Select ;
     dct:title "Facilities by type" ;
-    sp:text """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    ldh:service <#ns-service> ;
+    sp:text """PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
 SELECT ?typeLabel (COUNT(?facility) AS ?count)
