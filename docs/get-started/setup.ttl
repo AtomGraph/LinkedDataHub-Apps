@@ -79,47 +79,16 @@ OWNER_COUNTRY_NAME=DK</pre>
                                 <li><samp>datasets</samp> where the owner and secretary agent metadata is persisted</li>
                                 <li><samp>ssl/owner</samp> and <samp>ssl/secretary</samp> where the owner and secretary SSL certificates and WebID public keys are persisted</li>
                                 <li><samp>uploads</samp> where LinkedDataHub stores content-hashed file uploads</li>
-                                <li><samp>config</samp> where dataspace and service configurations are stored</li>
+                                <li><samp>config</samp> where <a href="../../reference/dataspace/">dataspace and service configurations</a> are stored</li>
                             </ol>
                         </li>
                     </ol>
-                    <div class="alert alert-info">
-                        <h4>Configuration files</h4>
-                        <p>LinkedDataHub uses two configuration files for dataspaces and services:</p>
-                        <ul>
-                            <li><samp>config/dataspaces.trig</samp> — Application metadata (base URIs, titles, ontologies)</li>
-                            <li><samp>config/system.trig</samp> — Internal service wiring (app-to-service bindings, SPARQL endpoints)</li>
-                        </ul>
-                        <p>See the <a href="../../reference/configuration/#config-files">configuration reference</a> and <a href="../../user-guide/manage-dataspaces/">dataspace management guide</a> for more information.</p>
-                    </div>
                     <p>You are now the owner of this LinkedDataHub instance; <samp>ssl/owner/keystore.p12</samp> is your WebID certificate. Password is the <samp>owner_cert_password</samp> secret value.</p>
                     <p>After a successful startup you should see periodic healthcheck requests being made to the <samp>https://localhost:4443/ns</samp> URL.</p>
                 </div>
                 <div>
-                    <h2 id="alternative-triplestores">Using alternative triplestores</h2>
-                    <p>By default, LinkedDataHub uses Apache Jena Fuseki as the SPARQL backend. However, you can configure it to use other SPARQL 1.1-compatible triplestores such as QLever, Tentris, or others.</p>
-                    <p>Alternative triplestores may offer different performance characteristics, scalability, or specialized features like advanced text search (QLever) that suit your specific use case.</p>
-                    <div>
-                        <h3>Quick example: QLever</h3>
-                        <p>To use QLever instead of Fuseki:</p>
-                        <ol>
-                            <li>Update <samp>config/system.trig</samp> to point to your QLever instance (omit <code>a:quadStore</code> for GSP fallback mode)</li>
-                            <li>Create <samp>secrets/credentials.trig</samp> with your QLever Bearer token</li>
-                            <li>Uncomment the <code>credentials</code> secret in <samp>docker-compose.yml</samp></li>
-                            <li>Run <code>docker-compose up --build</code></li>
-                        </ol>
-                        <p>For detailed configuration instructions, see <a href="../../reference/triplestores/">triplestore compatibility and requirements</a>.</p>
-                    </div>
-                    <div class="alert alert-info">
-                        <h4>GSP fallback mode</h4>
-                        <p>Some triplestores (like QLever and Tentris) don't support dataset-level TriG uploads. For these backends, LinkedDataHub automatically uses
-                        graph-scoped Graph Store Protocol operations when <code>a:quadStore</code> is omitted from the service configuration. This takes longer during
-                        bootstrap but is functionally equivalent.</p>
-                    </div>
-                </div>
-                <div>
                     <h2 id="reset">Reset</h2>
-                    <p>If you need to start fresh and wipe the existing setup (e.g. after configuring a new base URI), you can do that using:</p>
+                    <p>If you need to start fresh and wipe the existing setup, you can do that using:</p>
                     <pre>sudo rm -rf data datasets uploads ssl &amp;&amp; docker-compose down -v</pre>
                     <div class="alert alert-info">
                         <p>This will remove persisted RDF data, SSL keys, and uploaded files as well as the Docker volumes.</p>
