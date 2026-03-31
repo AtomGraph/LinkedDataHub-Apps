@@ -19,20 +19,6 @@ fi
 
 pwd="$(realpath "$PWD")"
 
-printf "\n### Creating authorization to make the app public\n\n"
-
-make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
-
-cd admin/model
-
-printf "\n### Importing namespace ontology\n\n"
-
-./import-ns.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
-
-cd ..
-
-cd ..
-
 printf "\n### Updating documents and uploading files\n\n"
 
 if [[ -f "root.ttl" ]]; then
@@ -46,7 +32,3 @@ if [[ -f "root.ttl" ]]; then
 fi
 
 ./update-folder.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "$pwd" "$proxy"
-
-printf "\n### Importing CSV data\n\n"
-
-./import-csv.sh "$base" "$cert_pem_file" "$cert_password" "$proxy" "$pwd/imports.csv"

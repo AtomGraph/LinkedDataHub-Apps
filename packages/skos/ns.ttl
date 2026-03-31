@@ -1,11 +1,17 @@
-@prefix :	<#> .
-@prefix ldh:	<https://w3id.org/atomgraph/linkeddatahub#> .
-@prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
-@prefix owl:    <http://www.w3.org/2002/07/owl#> .
-@prefix sp: 	<http://spinrdf.org/sp#> .
-@prefix spin:	<http://spinrdf.org/spin#> .
-@prefix dct:	<http://purl.org/dc/terms/> .
-@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix : <#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dh: <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ldh: <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sp: <http://spinrdf.org/sp#> .
+@prefix spin: <http://spinrdf.org/spin#> .
+
+<> a dh:Item ;
+    dct:title "SKOS package ontology" ;
+    foaf:primaryTopic : .
 
 : a owl:Ontology ;
     owl:imports <http://www.w3.org/2004/02/skos/core> ;
@@ -18,6 +24,7 @@ skos:Concept spin:constructor :ConceptConstructor ;
 
 :ConceptConstructor a ldh:Constructor ;
     rdfs:label "Concept constructor" ;
+    dct:title "Concept constructor" ;
     sp:text """
         PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
         PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
@@ -45,6 +52,7 @@ skos:narrower ldh:view :NarrowerConcepts .
 
 :SelectNarrowerConcepts a sp:Select ;
     rdfs:label "Select narrower concepts" ;
+    dct:title "Select narrower concepts" ;
     sp:text """
 PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
 
@@ -74,6 +82,7 @@ skos:broader ldh:view :BroaderConcepts .
 
 :SelectBroaderConcepts a sp:Select ;
     rdfs:label "Select broader concepts" ;
+    dct:title "Select broader concepts" ;
     sp:text """
 PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
 
@@ -99,6 +108,7 @@ skos:Collection spin:constructor :CollectionConstructor ;
 
 :CollectionConstructor a ldh:Constructor ;
     rdfs:label "Collection constructor" ;
+    dct:title "Collection constructor" ;
     sp:text """
         PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
         PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
@@ -120,6 +130,7 @@ skos:member ldh:view :CollectionMembers .
 
 :SelectCollectionMembers a sp:Select ;
     rdfs:label "Select collection members" ;
+    dct:title "Select collection members" ;
     sp:text """
 PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
 
@@ -144,6 +155,7 @@ skos:ConceptScheme spin:constructor :ConceptSchemeConstructor .
 
 :ConceptSchemeConstructor a ldh:Constructor ;
     rdfs:label "Concept scheme constructor" ;
+    dct:title "Concept scheme constructor" ;
     sp:text """
         PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
         PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
@@ -166,6 +178,7 @@ skos:inScheme ldh:inverseView :ConceptsInScheme .
 
 :SelectConceptsInScheme a sp:Select ;
     rdfs:label "Select concepts in scheme" ;
+    dct:title "Select concepts in scheme" ;
     sp:text """
 PREFIX  skos: <http://www.w3.org/2004/02/skos/core#>
 

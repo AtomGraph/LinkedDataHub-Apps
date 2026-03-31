@@ -149,7 +149,7 @@ Options:
                     <td><samp>add-generic-service.sh</samp></td>
                 </tr>
                 <tr>
-                    <td>Apend result set chart (instance of <samp>ldh:ResultSetChart</samp>) to document</td>
+                    <td>Append result set chart (instance of <samp>ldh:ResultSetChart</samp>) to document</td>
                     <td><samp>add-result-set-chart.sh</samp></td>
                 </tr>
                 <tr>

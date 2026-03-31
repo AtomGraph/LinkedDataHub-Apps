@@ -34,9 +34,9 @@
     <h2 id="package-structure">Package structure</h2>
     <p>Each package consists of two files:</p>
     <dl>
-      <dt><code>ns.ttl</code> - Package ontology</dt>
+      <dt><code>ns.ttl</code> — Package ontology</dt>
       <dd>An RDF ontology file that imports the external vocabulary using <code>owl:imports</code> and attaches blocks to properties using <code>ldh:view</code> (forward relationships) or <code>ldh:inverseView</code> (inverse relationships). Blocks are typically <code>ldh:View</code> resources with SPARQL queries that render related data for property values.</dd>
-      <dt><code>layout.xsl</code> - XSLT stylesheet</dt>
+      <dt><code>layout.xsl</code> — XSLT stylesheet</dt>
       <dd>XSLT transformation file with templates that override default rendering using system modes like <code>bs2:*</code> (Bootstrap 2.3.2 components) and <code>xhtml:*</code> (XHTML elements). See <a href="../stylesheets/" target="_blank">Stylesheets reference</a> for details on XSLT customization.</dd>
     </dl>
     <p>Package files are organized in the LinkedDataHub-Apps repository:</p>
@@ -105,8 +105,8 @@ ns:SelectNarrowerConcepts a sp:Select ;
 &lt;/xsl:template&gt;</pre>
     <p>Available system modes include:</p>
     <ul>
-      <li><code>bs2:*</code> - Bootstrap 2.3.2 components (PropertyList, Form, etc.)</li>
-      <li><code>xhtml:*</code> - XHTML elements (Style, Script, etc.)</li>
+      <li><code>bs2:*</code> — Bootstrap 2.3.2 components (PropertyList, Form, etc.)</li>
+      <li><code>xhtml:*</code> — XHTML elements (Style, Script, etc.)</li>
       <li>Additional modes documented in the <a href="../../stylesheets/" target="_blank">Stylesheets reference</a></li>
     </ul>
   </div>

@@ -8,7 +8,19 @@
 # Main container document
 <> a dh:Container ;
     dct:title "Libraries" ;
-    rdf:_1 <#select-children> .
+    rdf:_1 <#libraries-intro> ;
+    rdf:_2 <#select-children> .
+
+# Intro XHTML
+<#libraries-intro> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <h3>Public Libraries</h3>
+        <p>Copenhagen's public library system serves as a cornerstone of community life, providing free access to
+           knowledge, culture, and digital resources. From the iconic central library to neighborhood branches,
+           these facilities support learning, creativity, and social connection across all city districts.</p>
+        <p>Use the interactive map below to locate libraries throughout Copenhagen and discover their unique
+           characteristics and services.</p>
+    </div>"""^^rdf:XMLLiteral .
 
 # Object block
 <#select-children> a ldh:Object ;

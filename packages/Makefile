@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-BASE_URL_DEFAULT=https://localhost:4443/
+BASE_URL_DEFAULT=https://packages.linkeddatahub.com/
 CERT_PATH_DEFAULT=../../../LinkedDataHub/ssl/owner/cert.pem
 PROXY_URL_DEFAULT=https://localhost:5443/
 
@@ -21,6 +21,3 @@ install:
 	else \
 		./install.sh "$${BASE_URL}" "$${CERT_PATH}" "$${PASSWORD}"; \
 	fi
-
-validate:
-	./validate-documents.sh

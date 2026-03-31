@@ -19,7 +19,7 @@
         For smaller data, it is simpler to <a href="../../add-data/" target="_blank">add data </a> synchronously.</p>
     </div>
     <p class="lead"><a href="../../../reference/imports/rdf/" target="_blank">Read more on how RDF imports work.</a></p>
-    <p>There are 3 main components that comprise a CSV import:</p>
+    <p>There are 3 main components that comprise an RDF import:</p>
     <dl>
         <dt>RDF file</dt>
         <dd>The file containing the RDF data (can be in any RDF syntax)</dd>

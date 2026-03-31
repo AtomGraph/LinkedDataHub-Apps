@@ -10,33 +10,22 @@
   # Main container document
   <> a dh:Container ;
       dct:title "Products" ;
-      rdf:_1 <#top-selling-products> ;
-      rdf:_2 <#select-products> .
+      rdf:_1 <#products-intro> ;
+      rdf:_2 <#top-selling-products> ;
+      rdf:_3 <#category-analysis-intro> ;
+      rdf:_4 <#revenue-by-category> ;
+      rdf:_5 <#products-by-supplier> ;
+      rdf:_6 <#supplier-context> ;
+      rdf:_7 <#select-products> .
 
-  # Object block (references the view)
-  <#select-products> a ldh:Object ;
-      rdf:value <#select-products-view> .
-
-  # View block (references the query, uses TableMode)
-  <#select-products-view> a ldh:View ;
-      spin:query <#select-products-query> ;
-      ac:mode <https://w3id.org/atomgraph/client#TableMode> .
-
-  # SELECT query
-  <#select-products-query> a sp:Select ;
-      dct:title "Select products" ;
-      sp:text """PREFIX  schema: <https://schema.org/>
-
-  SELECT DISTINCT  ?product
-  WHERE
-    { GRAPH ?doc
-        { ?product  a                schema:Product ;
-                    schema:name      ?productName ;
-                    schema:provider  ?supplier ;
-                    schema:category  ?category
-        }
-    }
-  ORDER BY ?productName""" .
+  # Intro XHTML
+  <#products-intro> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <h3>Product Analytics</h3>
+          <p>Analyze product performance, category distribution, and supplier relationships.
+             The Northwind catalog includes products across multiple categories from various suppliers,
+             each with unique pricing and inventory characteristics.</p>
+      </div>"""^^rdf:XMLLiteral .
 
   # Chart block
   <#top-selling-products> a ldh:ResultSetChart ;
@@ -66,3 +55,101 @@ WHERE
 GROUP BY ?product ?productName
 ORDER BY DESC(?totalSales)
 LIMIT   5""" .
+
+  # Category analysis intro
+  <#category-analysis-intro> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <h4>Category Performance</h4>
+          <p>Understanding how products and revenue are distributed across categories helps identify
+             market strengths and opportunities. The following charts break down revenue and product count by category.</p>
+      </div>"""^^rdf:XMLLiteral .
+
+  # Revenue by category chart
+  <#revenue-by-category> a ldh:ResultSetChart ;
+      dct:title "Revenue by category" ;
+      spin:query <#category-revenue-query> ;
+      ldh:chartType <https://w3id.org/atomgraph/client#BarChart> ;
+      ldh:categoryVarName "categoryName" ;
+      ldh:seriesVarName "revenue" .
+
+  <#category-revenue-query> a sp:Select ;
+      dct:title "Category revenue" ;
+      sp:text """PREFIX schema: <https://schema.org/>
+
+SELECT ?categoryName (SUM(?sale) AS ?revenue)
+WHERE {
+    GRAPH ?orderGraph {
+        ?order schema:orderedItem ?orderItem .
+        ?orderItem schema:orderedItem ?product ;
+                   schema:orderQuantity ?quantity ;
+                   schema:price ?price .
+        BIND(?quantity * ?price AS ?sale)
+    }
+    GRAPH ?productGraph {
+        ?product schema:category ?category .
+    }
+    GRAPH ?categoryGraph {
+        ?category schema:name ?categoryName .
+    }
+}
+GROUP BY ?category ?categoryName
+ORDER BY DESC(?revenue)""" .
+
+  # Products by supplier chart
+  <#products-by-supplier> a ldh:ResultSetChart ;
+      dct:title "Products by supplier" ;
+      spin:query <#supplier-product-count-query> ;
+      ldh:chartType <https://w3id.org/atomgraph/client#BarChart> ;
+      ldh:categoryVarName "supplierName" ;
+      ldh:seriesVarName "productCount" .
+
+  <#supplier-product-count-query> a sp:Select ;
+      dct:title "Supplier product count" ;
+      sp:text """PREFIX schema: <https://schema.org/>
+
+SELECT ?supplierName (COUNT(DISTINCT ?product) AS ?productCount)
+WHERE {
+    GRAPH ?productGraph {
+        ?product a schema:Product ;
+                 schema:provider ?supplier .
+    }
+    GRAPH ?supplierGraph {
+        ?supplier schema:name ?supplierName .
+    }
+}
+GROUP BY ?supplier ?supplierName
+ORDER BY DESC(?productCount)
+LIMIT 10""" .
+
+  # Supplier context
+  <#supplier-context> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <h4>Supplier Relationships</h4>
+          <p>Northwind Traders works with suppliers worldwide to source products. The distribution of products
+             across suppliers shows which partnerships are most productive and may indicate supply chain dependencies.</p>
+      </div>"""^^rdf:XMLLiteral .
+
+  # Object block (references the view)
+  <#select-products> a ldh:Object ;
+      rdf:value <#select-products-view> .
+
+  # View block (references the query, uses TableMode)
+  <#select-products-view> a ldh:View ;
+      spin:query <#select-products-query> ;
+      ac:mode <https://w3id.org/atomgraph/client#TableMode> .
+
+  # SELECT query
+  <#select-products-query> a sp:Select ;
+      dct:title "Select products" ;
+      sp:text """PREFIX  schema: <https://schema.org/>
+
+  SELECT DISTINCT  ?product
+  WHERE
+    { GRAPH ?doc
+        { ?product  a                schema:Product ;
+                    schema:name      ?productName ;
+                    schema:provider  ?supplier ;
+                    schema:category  ?category
+        }
+    }
+  ORDER BY ?productName""" .
