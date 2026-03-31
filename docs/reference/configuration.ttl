@@ -45,8 +45,8 @@
             <dd>Optional file containing service authentication credentials, including:</dd>
             <dd>
                 <ul>
-                    <li>Bearer tokens (<samp>a:authToken</samp>)</li>
-                    <li>HTTP Basic auth credentials (<samp>a:authUser</samp>, <samp>a:authPwd</samp>)</li>
+                    <li>Bearer tokens (<code>a:authToken</code>)</li>
+                    <li>HTTP Basic auth credentials (<code>a:authUser</code>, <code>a:authPwd</code>)</li>
                 </ul>
             </dd>
             <dd>This file is gitignored and must not be committed to version control. See the <samp>credentials</samp> secret entry below for configuration details.</dd>

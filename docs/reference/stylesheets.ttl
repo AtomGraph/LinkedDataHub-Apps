@@ -23,7 +23,7 @@
             <p><a href="https://www.w3.org/TR/rdf-syntax-grammar/" target="_blank">RDF/XML</a> is an important RDF syntax which functions as a bridge to the XML technology stack. The stylesheets use Jena's <a href="https://jena.apache.org/documentation/io/rdfxml_howto.html#rdfxml-rdfxml-abbrev" target="_blank">"plain" RDF/XML</a> output which groups statements by subject and does not nest resource descriptions. This allows for predictable XPath patterns:</p>
             <ul>
                 <li><code>/rdf:RDF</code> — represents the RDF graph</li>
-                <li><code>/rdf:RDF/rdf:Description</code> or <code>/rdf:RDF/*[*][@rdf:about] | /rdf:RDF/*[*][@rdf:nodeID]</code>— resource description which contains properties</li>
+                <li><code>/rdf:RDF/rdf:Description</code> or <code>/rdf:RDF/*[*][@rdf:about] | /rdf:RDF/*[*][@rdf:nodeID]</code> — resource description which contains properties</li>
                 <li><code>/rdf:RDF/rdf:Description/@rdf:about</code> — subject resource URI</li>
                 <li><code>/rdf:RDF/rdf:Description/@rdf:nodeID</code> — subject blank node ID</li>
                 <li><code>/rdf:RDF/rdf:Description/*</code> predicate (e.g. <code>rdf:type</code>) whose URI is <code>concat(namespace-uri(), local-name())</code></li>
@@ -130,29 +130,173 @@
         </div>
         <div>
             <h3 id="parameters">Parameters</h3>
-            <p>Both global (i.e. stylesheet-level) and template parameters are declared using <code>&lt;xsl:param&gt;</code>. For example:</p>
-            <pre>&lt;xsl:param name="ac:uri" as="xs:anyURI"/&gt;</pre>
-            <p>This parameter can be accessed using <code>$ac:uri</code>. For example:</p>
-            <pre>&lt;xsl:if test="$ac:uri"&gt;
-    &lt;xsl:value-of select="$ac:uri"/&gt;
-&lt;/xsl:if&gt;</pre>
-            <p>LinkedDataHub sets these global parameters by default (the list is not exhaustive):</p>
-            <dl>
-                <dt><code>$ldt:base</code></dt>
-                <dd>Base URI of the current application</dd>
-                <dt><code>$ldt:ontology</code></dt>
-                <dd>The URI of the ontology of the current application</dd>
-                <dt><code>$ac:uri</code></dt>
-                <dd>The absolute URI of the current document (without query string)</dd>
-                <dt><code>$ac:mode</code></dt>
-                <dd>The URI of the current layout mode</dd>
-                <dt><code>$ac:forClass</code></dt>
-                <dd>The URI of the class whose instance is being created.</dd>
-                <dt><code>$lapp:Application</code></dt>
-                <dd>RDF/XML document with the metadata of the current LinkedDataHub application</dd>
-                <dt><code>$foaf:Agent</code></dt>
-                <dd>RDF/XML document with the metadata of the currently authenticated agent (if any)</dd>
-            </dl>
+            <p>Both global (i.e. stylesheet-level) and template parameters are declared using <code>&lt;xsl:param&gt;</code>. LinkedDataHub sets the following global parameters by default (the list is non-exhaustive):</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>$ldt:base</code></td>
+                        <td><code>xs:anyURI</code></td>
+                        <td>Base URI of the current application</td>
+                    </tr>
+                    <tr>
+                        <td><code>$lapp:Application</code></td>
+                        <td><code>document-node()?</code></td>
+                        <td>RDF/XML metadata of the current application</td>
+                    </tr>
+                    <tr>
+                        <td><code>$foaf:Agent</code></td>
+                        <td><code>document-node()?</code></td>
+                        <td>RDF/XML metadata of the authenticated agent (if any)</td>
+                    </tr>
+                    <tr>
+                        <td><code>$ldh:requestUri</code></td>
+                        <td><code>xs:anyURI</code></td>
+                        <td>Full request URI including query string</td>
+                    </tr>
+                    <tr>
+                        <td><code>$ac:endpoint</code></td>
+                        <td><code>xs:anyURI</code></td>
+                        <td>SPARQL query endpoint URI (defaults to <code>resolve-uri('sparql', $ldt:base)</code>)</td>
+                    </tr>
+                    <tr>
+                        <td><code>$sd:endpoint</code></td>
+                        <td><code>xs:anyURI?</code></td>
+                        <td>Service-description endpoint URI, if different from <code>$ac:endpoint</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>$acl:agent</code></td>
+                        <td><code>xs:anyURI?</code></td>
+                        <td>URI of the authenticated agent</td>
+                    </tr>
+                    <tr>
+                        <td><code>$acl:mode</code></td>
+                        <td><code>xs:anyURI*</code></td>
+                        <td>ACL access modes granted for the current request</td>
+                    </tr>
+                    <tr>
+                        <td><code>$ac:mode</code></td>
+                        <td><code>xs:anyURI*</code></td>
+                        <td>Current layout mode (derived: <code>ldh:ContentMode</code> if the document has content blocks, otherwise <code>ac:ReadMode</code>)</td>
+                    </tr>
+                    <tr>
+                        <td><code>$lapp:origin</code></td>
+                        <td><code>xs:anyURI</code></td>
+                        <td>Origin URI of the current application</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <h3 id="functions">Functions</h3>
+            <p>LinkedDataHub and Web-Client provide XSLT functions available to all stylesheets.</p>
+            <h4>URI utility functions</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Returns</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ac:absolute-path($href as xs:anyURI)</code></td>
+                        <td><code>xs:anyURI</code></td>
+                        <td>Strips query string and fragment from a URI, returning the path-only form</td>
+                    </tr>
+                    <tr>
+                        <td><code>ac:build-uri(<br></br>&#160;&#160;$path as xs:anyURI?,<br></br>&#160;&#160;$params as map(xs:string, xs:string*)<br></br>)</code></td>
+                        <td><code>xs:anyURI?</code></td>
+                        <td>Appends a percent-encoded query string built from the parameter map to <code>$path</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>ac:document-uri($uri)</code></td>
+                        <td><code>xs:anyURI</code></td>
+                        <td>Strips the fragment identifier from a URI, making it suitable for use with <code>document()</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>ac:fragment-id($uri as xs:anyURI)</code></td>
+                        <td><code>xs:string?</code></td>
+                        <td>Extracts the fragment identifier (the part after <code>#</code>)</td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:request-uri()</code></td>
+                        <td><code>xs:anyURI</code></td>
+                        <td>Returns the full request URI including query string (server-side only)</td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:base-uri($node as node())</code></td>
+                        <td><code>xs:anyURI</code></td>
+                        <td>Returns the base URI of an XML node; wraps the built-in <code>base-uri()</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:href($uri as xs:anyURI?)</code></td>
+                        <td><code>xs:anyURI</code></td>
+                        <td>Resolves a URI to a local href, proxying external URIs through the LinkedDataHub proxy. Overloads accept <code>$query-params as map(xs:string, xs:string*)</code> and <code>$fragment as xs:string?</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:query-params($mode as xs:anyURI*)</code></td>
+                        <td><code>map(xs:string, xs:string*)</code></td>
+                        <td>Builds a query parameter map for the given layout mode(s). Overload also accepts <code>$forClass as xs:anyURI?</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:parse-query-params($query-string as xs:string)</code></td>
+                        <td><code>map(xs:string, xs:string*)</code></td>
+                        <td>Parses a URL query string into a map of key to value(s)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4>RDF metadata functions</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Returns</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ac:label($resource as element())</code></td>
+                        <td><code>xs:string?</code></td>
+                        <td>Extracts a human-readable label from an RDF resource description, trying multiple vocabulary properties</td>
+                    </tr>
+                    <tr>
+                        <td><code>ac:description($resource as element())</code></td>
+                        <td><code>xs:string?</code></td>
+                        <td>Extracts a human-readable description from an RDF resource description</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4>HTTP and SPARQL functions</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Returns</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ldh:query-result($endpoint as xs:anyURI, $query as xs:string)</code></td>
+                        <td><code>document-node()</code></td>
+                        <td>Executes a SPARQL query against the given endpoint and returns the result document (cached)</td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:send-request(<br></br>&#160;&#160;$href as xs:anyURI,<br></br>&#160;&#160;$method as xs:string,<br></br>&#160;&#160;$media-type as xs:string?,<br></br>&#160;&#160;$body as item()?,<br></br>&#160;&#160;$headers as map(xs:string, xs:string)<br></br>)</code></td>
+                        <td><code>document-node()?</code></td>
+                        <td>Makes an HTTP request and returns the response as a document (server-side extension function)</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div>
             <h3 id="templates">Templates</h3>
@@ -226,12 +370,12 @@
             <pre>&lt;xsl:key name="resources" match="*[*][@rdf:about] | *[*][@rdf:nodeID]" use="@rdf:about | @rdf:nodeID"/&gt;
 
 &lt;xsl:template match="*"&gt;
-    &lt;xsl:for-each select="key('resources', $ac:uri)"&gt;
+    &lt;xsl:for-each select="key('resources', ldh:base-uri(.))"&gt;
         &lt;xsl:value-of select="ac:label(.)"/&gt;
     &lt;/xsl:for-each&gt;
 &lt;/xsl:template&gt;</pre>
         </div>
-        <p>They key definition matches <code>rdf:Description</code> elements and uses their identifiers (URI or blank node ID). The template then looks up the RDF description of the <em>current resource</em>, i.e. the resource with URI that equals <code>$ac:uri</code> which is the absolute URI of the current request, and outputs its label.</p>
+        <p>They key definition matches <code>rdf:Description</code> elements and uses their identifiers (URI or blank node ID). The template then looks up the RDF description of the <em>current resource</em>, i.e. the resource with URI that equals <code>ldh:base-uri(.)</code> which is the absolute URI of the current document, and outputs its label.</p>
         <div>
             <h3 id="loading-data">Loading data</h3>
             <p>The stylesheet is processing one main RDF/XML document at a time, which is supplied by the LinkedDataHub's HTML writer. However it is possible to load additional XML documents over HTTP 
@@ -245,7 +389,7 @@
                 each LinkedDataHub instance. As a result, retrieving their descriptions by dereferencing their URIs using <code>document()</code> does not incur an HTTP request and is much faster. The URI-to-file mapping
                 is defined as Jena's <a href="https://jena.apache.org/documentation/io/rdf-input.html#configuring-a-locationmapper" target="_blank">location mapping</a> and can be found in
                 <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/src/main/resources/location-mapping.n3" target="_blank"><samp>location-mapping.n3</samp></a> and <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/src/main/resources/prefix-mapping.n3" target="_blank"><samp>prefix-mapping.n3</samp></a>.</p>
-            <p>Client-side stylesheets use <a href="https://www.saxonica.com/saxon-js/documentation/index.html#!ixsl-extension/instructions/schedule-action" target="_blank"><code>ixsl:schedule-action</code></a> to load XML documents asynchronously.</p>
+            <p>Client-side stylesheets use <a href="https://www.saxonica.com/saxon-js/documentation/index.html#!ixsl-extension/instructions/schedule-action" target="_blank"><code>&lt;ixsl:schedule-action&gt;</code></a> (deprecated) and <a href="https://www.saxonica.com/saxonjs/documentation3/index.html#!ixsl-extension/instructions/promise" target="_blank"><code>&lt;ixsl:promise&gt;</code></a> to load XML documents asynchronously.</p>
         </div>
     </div>
     <div>

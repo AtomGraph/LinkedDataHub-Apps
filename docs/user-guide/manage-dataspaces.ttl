@@ -25,9 +25,9 @@
                     <h2 id="dataspaces">Manage dataspaces</h2>
                     <p><a href="../../reference/dataspace/" target="_blank">Dataspaces</a> are configured using RDF configuration files in <a href="https://www.w3.org/TR/trig/" target="_blank">TriG</a> syntax:</p>
                     <ul>
-                        <li><a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/config/dataspaces.trig" target="_blank"><samp>config/dataspaces.trig</samp></a> - Application metadata (base URIs, titles, ontologies, stylesheets)</li>
-                        <li><a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/config/system.trig" target="_blank"><samp>config/system.trig</samp></a> - Internal service wiring (app-to-service bindings, SPARQL endpoints)</li>
-                        <li><samp>secrets/credentials.trig</samp> - Service authentication credentials (optional, gitignored). See the <a href="../../reference/triplestores/#authentication" target="_blank">authentication reference</a> for details.</li>
+                        <li><a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/config/dataspaces.trig" target="_blank"><samp>config/dataspaces.trig</samp></a> — Application metadata (base URIs, titles, ontologies, stylesheets)</li>
+                        <li><a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/config/system.trig" target="_blank"><samp>config/system.trig</samp></a> — Internal service wiring (app-to-service bindings, SPARQL endpoints)</li>
+                        <li><samp>secrets/credentials.trig</samp> — Service authentication credentials (optional, gitignored). See the <a href="../../reference/triplestores/#authentication" target="_blank">authentication reference</a> for details.</li>
                     </ul>
                     <p>The configuration uses the <a href="https://w3id.org/atomgraph/linkeddatahub/apps" target="_blank">Application domain ontology</a>. A dataspace is comprised of an end-user
                         application and an administrative application, both backed by their own SPARQL service. Each application can also specify its own <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>.</p>
@@ -42,7 +42,7 @@
                             <li>Add instances of <code>lapp:EndUserApplication</code> and <code>lapp:AdminApplication</code> to <samp>config/dataspaces.trig</samp>, following the default dataspace as a template</li>
                             <li>Add corresponding <code>sd:Service</code> instances to <samp>config/system.trig</samp> with the SPARQL endpoint connection details</li>
                         </ol>
-                        <p>The relationship between end-user and admin applications is automatically inferred based on naming conventions - you don't need to manually specify
+                        <p>The relationship between end-user and admin applications is automatically inferred based on naming conventions — you don't need to manually specify
                         <code>lapp:endUserApplication</code> or <code>lapp:adminApplication</code> properties. Applications with base URIs containing <samp>admin/</samp> are
                         automatically recognized as administration applications.</p>
                         <div class="alert alert-info">

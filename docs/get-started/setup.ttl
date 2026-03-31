@@ -87,8 +87,8 @@ OWNER_COUNTRY_NAME=DK</pre>
                         <h4>Configuration files</h4>
                         <p>LinkedDataHub uses two configuration files for dataspaces and services:</p>
                         <ul>
-                            <li><samp>config/dataspaces.trig</samp> - Application metadata (base URIs, titles, ontologies)</li>
-                            <li><samp>config/system.trig</samp> - Internal service wiring (app-to-service bindings, SPARQL endpoints)</li>
+                            <li><samp>config/dataspaces.trig</samp> — Application metadata (base URIs, titles, ontologies)</li>
+                            <li><samp>config/system.trig</samp> — Internal service wiring (app-to-service bindings, SPARQL endpoints)</li>
                         </ul>
                         <p>See the <a href="../../reference/configuration/#config-files">configuration reference</a> and <a href="../../user-guide/manage-dataspaces/">dataspace management guide</a> for more information.</p>
                     </div>

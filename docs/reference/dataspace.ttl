@@ -33,8 +33,8 @@
                 <dd>Service authentication credentials (optional, gitignored). See the <a href="../triplestores/#authentication">authentication reference</a> for details.</dd>
             </dl>
             <p>See the <a href="../configuration/#config-files">configuration reference</a> for more details about these files.</p>
-            <p>Application relationships (end-user ↔ admin) are automatically inferred based on naming conventions - applications with base URIs containing
-            <code>admin/</code> are recognized as administration applications, and their corresponding end-user applications are automatically determined.
+            <p>Application relationships (end-user ↔ admin) are automatically inferred based on naming conventions — applications with base URIs containing
+            <code>admin.</code> prefix are recognized as administration applications, and their corresponding end-user applications are automatically determined.
             You do not need to manually specify these relationships.</p>
         </div>
         <p class="lead">See also the <a href="../administration/">administration reference</a>.</p>
@@ -88,8 +88,7 @@
         <p>A service is a persistent SPARQL 1.1-compatible store from which the application's <a href="../dataset/">RDF dataset</a> is accessible over HTTP. LinkedDataHub supports
             generic services as well as triplestore-specific services which support easier configuration and optimized access.</p>
         <p>Services support two authentication schemes: HTTP Basic authentication and Bearer token authentication.</p>
-        <p>LinkedDataHub works with various SPARQL backends including Apache Jena Fuseki (default), QLever, Tentris, and others. See the <a href="../triplestores/">triplestores reference</a>
-        for compatibility requirements and configuration examples for different backends.</p>
+        <p>LinkedDataHub works with various SPARQL backends, using Apache Jena Fuseki by default. See the <a href="../triplestores/">triplestores reference</a> for compatibility requirements and configuration examples.</p>
         <div class="alert alert-info">
             <p>The end-user application service must be able to federate with the administration application service using the
             SPARQL <code>SERVICE</code> keyword.</p>
@@ -114,7 +113,6 @@
                 <dd>Auth tokens are stored in the <a href="../configuration/#secrets"><samp>credentials</samp> secret file</a> using the <code>a:authToken</code> property</dd>
             </dl>
             <p>You can use either HTTP Basic authentication (username/password) or Bearer token authentication (auth token), but not both for the same service.</p>
-            <p>See the <a href="../triplestores/#service-configuration">triplestore configuration reference</a> for details and examples.</p>
         </div>
         <div>
             <h3 id="custom-services">Custom services</h3>

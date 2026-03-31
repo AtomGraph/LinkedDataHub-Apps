@@ -72,7 +72,7 @@
             <li>You need to browse data organized by domain concepts rather than container structure</li>
             <li>You're working with data that has rich class hierarchies</li>
         </ul>
-        <p>The class tree respects your <a href="../administration/acl/">access control</a> settings - you'll only see classes and instances you're authorized to access.</p>
+        <p>The class tree respects your <a href="../administration/acl/">access control</a> settings — you'll only see classes and instances you're authorized to access.</p>
         <h3 id="system-containers">System containers</h3>
         <p>The document tree also provides shortcuts to <a href="../data-model/documents/#hierarchy">system containers</a>:</p>
         <dl>
