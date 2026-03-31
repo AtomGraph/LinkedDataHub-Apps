@@ -79,7 +79,7 @@
           <dt>Latest</dt>
           <dd>A container with the latest resources in the application's dataset by creation/modification date</dd>
           <dt>Files</dt>
-          <dd>A container for <a href="../data-model/resources/#files">file uploads</a></dd>
+          <dd>A container for <a href="../../user-guide/upload-file/">file uploads</a></dd>
           <dt>Imports</dt>
           <dd>A container for <a href="../imports/">data imports</a></dd>
           <dt>Queries</dt>

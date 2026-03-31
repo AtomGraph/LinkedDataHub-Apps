@@ -53,7 +53,4 @@
         <p>Backlinks are shown in the <a href="../../reference/user-interface/#right-nav">right-side navigation</a> for every resource in <a href="../../reference/user-interface/#layout-modes">property layout mode</a>.
             They display a list of resources which have properties with the current resource as the object.</p>
     </div>
-    <div>
-
-    </div>
 </div>"""^^rdf:XMLLiteral .

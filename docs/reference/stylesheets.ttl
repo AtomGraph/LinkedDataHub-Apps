@@ -191,7 +191,7 @@
             </ul>
             <p>When adding new user-defined modes, it is recommended to choose a new <a href="#namespaces">namespace</a> for them as well as a user-defined prefix.</p>
             <p>An example of a template that matches <code>rdf:Description</code>:</p>
-            <pre>&lt;xsl:template match="*[*][@rdf:about] | *[*][@rdf:nodeID]" mode="bs2:Block"&gt;
+            <pre>&lt;xsl:template match="*[*][@rdf:about] | *[*][@rdf:nodeID]"&gt;
     &lt;xsl:param name="id" as="xs:string?"/&gt;
     &lt;xsl:param name="class" as="xs:string?"/&gt;
 

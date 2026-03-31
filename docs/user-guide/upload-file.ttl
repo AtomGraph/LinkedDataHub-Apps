@@ -31,8 +31,6 @@
                                 <dd>Select file from your filesystem</dd>
                                 <dt>Title</dt>
                                 <dd>Enter file title</dd>
-                                <dt>Title</dt>
-                                <dd>Enter document title</dd>
                             </dl>
                         </li>
                         <li>Click <span class="btn btn-primary btn-save">Save</span></li>
