@@ -107,7 +107,7 @@ LIMIT 10""" .
 
 <#navigation-prompt> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-        <h3>Explore More</h3>
+        <h3>Explore more</h3>
         <p>Dive deeper into detailed analytics by exploring the containers below. Each section provides comprehensive insights into products, orders, customers, employees, and more.</p>
     </div>"""^^rdf:XMLLiteral .
 

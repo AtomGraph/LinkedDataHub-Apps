@@ -18,7 +18,7 @@
             and system ones provided by LinkedDataHub. The imports are retrieved during application initialization, and the application's namespace ontology
             becomes a transitive union, i.e. is merged with its imports and imports of the imports etc.</p>
         <div class="alert alert-warning">
-            <h4>Best practice: Avoid using <code>owl:imports</code> with uploaded files</h4>
+            <h4>Best practice: avoid using <code>owl:imports</code> with uploaded files</h4>
             <p>Do not use <code>owl:imports</code> declarations that point to paths under <samp>uploads/</samp>. This can cause circular dependency deadlocks
             during system initialization, as the ontology loading process cannot access uploaded files without creating a circular reference.</p>
             <p>Instead:</p>
