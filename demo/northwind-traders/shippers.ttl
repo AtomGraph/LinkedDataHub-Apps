@@ -4,7 +4,6 @@
   @prefix sp:     <http://spinrdf.org/sp#> .
   @prefix spin:   <http://spinrdf.org/spin#> .
   @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-  @prefix sioc:   <http://rdfs.org/sioc/ns#> .
 
   # Main container document
   <> a dh:Container ;

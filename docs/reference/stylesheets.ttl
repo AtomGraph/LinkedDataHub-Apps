@@ -1,10 +1,7 @@
-@prefix def:    <https://w3id.org/atomgraph/linkeddatahub/default#> .
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
-@prefix sioc:   <http://rdfs.org/sioc/ns#> .
   
 <> a dh:Item ;
     dct:title "Stylesheets" ;
@@ -212,7 +209,7 @@
                         <td>Strips query string and fragment from a URI, returning the path-only form</td>
                     </tr>
                     <tr>
-                        <td><code>ac:build-uri(<br></br>&#160;&#160;$path as xs:anyURI?,<br></br>&#160;&#160;$params as map(xs:string, xs:string*)<br></br>)</code></td>
+                        <td><code>ac:build-uri(<br></br>  $path as xs:anyURI?,<br></br>  $params as map(xs:string, xs:string*)<br></br>)</code></td>
                         <td><code>xs:anyURI?</code></td>
                         <td>Appends a percent-encoded query string built from the parameter map to <code>$path</code></td>
                     </tr>
@@ -291,7 +288,7 @@
                         <td>Executes a SPARQL query against the given endpoint and returns the result document (cached)</td>
                     </tr>
                     <tr>
-                        <td><code>ldh:send-request(<br></br>&#160;&#160;$href as xs:anyURI,<br></br>&#160;&#160;$method as xs:string,<br></br>&#160;&#160;$media-type as xs:string?,<br></br>&#160;&#160;$body as item()?,<br></br>&#160;&#160;$headers as map(xs:string, xs:string)<br></br>)</code></td>
+                        <td><code>ldh:send-request(<br></br>  $href as xs:anyURI,<br></br>  $method as xs:string,<br></br>  $media-type as xs:string?,<br></br>  $body as item()?,<br></br>  $headers as map(xs:string, xs:string)<br></br>)</code></td>
                         <td><code>document-node()?</code></td>
                         <td>Makes an HTTP request and returns the response as a document (server-side extension function)</td>
                     </tr>
