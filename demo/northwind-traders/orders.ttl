@@ -46,7 +46,7 @@
   # Intro XHTML
   <#orders-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h3>Order Analytics</h3>
+          <h3>Order analytics</h3>
           <p>Track order volume, geographic distribution, and temporal trends. Understanding order patterns
              helps optimize inventory, predict demand, and identify growth opportunities across different markets.</p>
       </div>"""^^rdf:XMLLiteral .
@@ -77,7 +77,7 @@ ORDER BY ?month""" .
   # Geographic intro
   <#geographic-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h4>Geographic Distribution</h4>
+          <h4>Geographic distribution</h4>
           <p>Orders span multiple countries and regions. Analyzing geographic patterns reveals market penetration
              and helps identify expansion opportunities or regional challenges.</p>
       </div>"""^^rdf:XMLLiteral .
@@ -118,7 +118,7 @@ LIMIT 10""" .
   # Order trends summary
   <#order-trends-summary> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h4>Regional Performance</h4>
+          <h4>Regional performance</h4>
           <p>The table below shows sales performance broken down by region and year, enabling comparison
              of regional growth patterns and seasonal variations.</p>
       </div>"""^^rdf:XMLLiteral .

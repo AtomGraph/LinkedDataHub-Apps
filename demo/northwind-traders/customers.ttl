@@ -19,7 +19,7 @@
   # Intro XHTML
   <#customers-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h3>Customer Insights</h3>
+          <h3>Customer insights</h3>
           <p>Understand customer value, geographic distribution, and purchasing patterns. Identifying top customers
              and market concentration helps prioritize account management and target growth strategies.</p>
       </div>"""^^rdf:XMLLiteral .
@@ -56,7 +56,7 @@ LIMIT 10""" .
   # Geographic distribution intro
   <#geographic-distribution> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h4>Geographic Distribution</h4>
+          <h4>Geographic distribution</h4>
           <p>Our customer base spans multiple countries, with varying levels of market penetration.
              Understanding geographic concentration helps guide expansion efforts and resource allocation.</p>
       </div>"""^^rdf:XMLLiteral .
@@ -88,7 +88,7 @@ ORDER BY DESC(?customerCount)""" .
   # Customer insights summary
   <#customer-insights> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h4>Customer Portfolio</h4>
+          <h4>Customer portfolio</h4>
           <p>Browse individual customer records below to view detailed order history, contact information,
              and relationship details. Each customer profile provides insights into purchasing behavior and account status.</p>
       </div>"""^^rdf:XMLLiteral .

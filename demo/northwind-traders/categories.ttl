@@ -18,7 +18,7 @@
   # Intro XHTML
   <#category-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h3>Category Analysis</h3>
+          <h3>Category analysis</h3>
           <p>Product categories represent different market segments with distinct characteristics and performance.
              Analyzing category-level metrics helps identify portfolio strengths, diversification opportunities, and inventory priorities.</p>
       </div>"""^^rdf:XMLLiteral .
@@ -57,7 +57,7 @@ ORDER BY DESC(?revenue)""" .
   # Category distribution intro
   <#category-distribution> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h4>Product Distribution</h4>
+          <h4>Product distribution</h4>
           <p>Understanding how products are distributed across categories reveals portfolio balance and potential gaps.
              Categories with more products may indicate core competencies or simply broader product lines.</p>
       </div>"""^^rdf:XMLLiteral .
