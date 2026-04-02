@@ -1,27 +1,33 @@
 #!/bin/sh
-# absolute path to output folder
+# absolute path to output and temp RDF folders
 OUTPUT_FOLDER="$PWD"/html
-# find all the turtle files and use Jena riot to convert them to TriX format, merging them into a single trix file
-# (sed is used to trim the <trix> root element from the individual files) 
+RDF_FOLDER="$PWD"/rdf
 
-# The individual Turtle files are in actual fact not distinct graphs with their own base URI; they are all fragments of a single graph,
-# as is evidenced by the way that some of them have a #has_parent relationships referring to that same graph as <>, so for this 
-# conversion, we maintain the correct references by explicitly assigning all the graphs relative URIs based on their filepath.
-# The script uses sed to trim the first and last lines from each TriX file (the start and end tags for the root trix element), 
-# so as to be able to concatenate the trix data into a single file. 
-echo '<trix xmlns="http://www.w3.org/2004/03/trix/trix-1/">' > docs.trix
-# construct base URI from filepath and append the TriX data to the docs.trix file
-find . -name "*.ttl" -exec sh -c 'riot --output=trix --base="file:///$(echo "$1" | sed "s|^\./||; s|\.ttl$|/|")" "$1" | sed "1d;\$d" >> docs.trix' sh {} \;
-echo '</trix>' >> docs.trix
+# Convert each .ttl to RDF/XML into a dedicated rdf/ folder, mirroring the directory structure
+find . -name "*.ttl" -exec sh -c '
+    rel=$(echo "$1" | sed "s|^\./||")
+    base="file:///${rel%.ttl}/"
+    out="'"$RDF_FOLDER"'/${rel%.ttl}.rdf"
+    mkdir -p "$(dirname "$out")"
+    riot --output=RDF/XML --base="$base" "$1" > "$out"
+' sh {} \;
 
-./sha1map-to-xml.sh files > files.xml
-
+# Clear output folder first, so files.xml does not pick up stale html/files/ contents
+rm -rf "$OUTPUT_FOLDER"
 mkdir -p "$OUTPUT_FOLDER"
 
-# recursively copy the files folder to the output folder
-cp -r files "$OUTPUT_FOLDER"
+# Generate files.xml (sha1 hash → relative filename mapping, scans current folder recursively)
+./sha1map-to-xml.sh . > files.xml
 
-# convert the TriX data file to a set of XHTML pages
-docker run --rm -v "$PWD":"/docs" -v "$OUTPUT_FOLDER":"/output" atomgraph/saxon -s:/docs/docs.trix -xsl:/docs/trix-to-html.xsl output-folder="/output"
-# delete the temporary trix file
-#rm docs.trix
+# Convert the RDF/XML files to XHTML pages
+docker run --rm -v "$PWD":"/docs" -v "$RDF_FOLDER":"/rdf" -v "$OUTPUT_FOLDER":"/output" atomgraph/saxon \
+    -it:main \
+    -xsl:/docs/ttl-to-html.xsl \
+    rdf-dir="/rdf" \
+    output-folder="/output"
+
+# Copy media files (excluding html output, generated .rdf/.xml, scripts) to html/files/
+rsync -a --exclude=html --exclude=rdf --exclude=node_modules --exclude='*.rdf' --exclude='*.xml' --exclude='*.ttl' --exclude='*.sh' --exclude=Makefile . "$OUTPUT_FOLDER/files/"
+
+# Remove temporary RDF/XML folder
+rm -rf "$RDF_FOLDER"
