@@ -15,7 +15,7 @@
 # Intro XHTML
 <#concepts-intro> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-        <h3>SKOS Concepts</h3>
+        <h3>SKOS concepts</h3>
         <p>Concepts are the fundamental building blocks of the UNESCO Thesaurus vocabulary. Each concept represents
            a distinct unit of thought or terminology, enriched with multilingual labels, definitions, and semantic relationships.</p>
         <p>SKOS (Simple Knowledge Organization System) relationships connect concepts through:</p>

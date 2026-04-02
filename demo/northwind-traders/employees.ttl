@@ -16,7 +16,7 @@
   # Intro XHTML
   <#employee-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h3>Employee Performance</h3>
+          <h3>Employee performance</h3>
           <p>Track employee sales performance and order processing metrics. Understanding individual
              contributions helps recognize top performers, identify coaching opportunities, and optimize territory assignments.</p>
       </div>"""^^rdf:XMLLiteral .

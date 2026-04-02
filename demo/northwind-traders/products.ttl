@@ -20,7 +20,7 @@
   # Intro XHTML
   <#products-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h3>Product Analytics</h3>
+          <h3>Product analytics</h3>
           <p>Analyze product performance, category distribution, and supplier relationships.
              The Northwind catalog includes products across multiple categories from various suppliers,
              each with unique pricing and inventory characteristics.</p>
@@ -58,7 +58,7 @@ LIMIT   5""" .
   # Category analysis intro
   <#category-analysis-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h4>Category Performance</h4>
+          <h4>Category performance</h4>
           <p>Understanding how products and revenue are distributed across categories helps identify
              market strengths and opportunities. The following charts break down revenue and product count by category.</p>
       </div>"""^^rdf:XMLLiteral .
@@ -123,7 +123,7 @@ LIMIT 10""" .
   # Supplier context
   <#supplier-context> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h4>Supplier Relationships</h4>
+          <h4>Supplier relationships</h4>
           <p>Northwind Traders works with suppliers worldwide to source products. The distribution of products
              across suppliers shows which partnerships are most productive and may indicate supply chain dependencies.</p>
       </div>"""^^rdf:XMLLiteral .
