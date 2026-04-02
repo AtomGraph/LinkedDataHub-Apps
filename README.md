@@ -20,7 +20,9 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
 
 <dl>
     <dt>Source</dt>
-    <dd><a href="linkeddatahub/docs/">linkeddatahub/docs/</a></dd>
+    <dd><a href="docs/">docs/</a></dd>
+    <dt>Live instance</dt>
+    <dd><a href="https://docs.linkeddatahub.com/" target="_blank">https://docs.linkeddatahub.com/</a></dd>
     <dt>Features</dt>
     <dd>XHTML document content is rendered from RDF literals</dd>
     <dt>Lines of code</dt>
@@ -38,7 +40,7 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
     <dt>Source</dt>
     <dd><a href="demo/northwind-traders/" target="_blank">demo/northwind-traders/</a></dd>
     <dt>Live instance</dt>
-    <dd><a href="https://linkeddatahub.com/demo/northwind-traders/" target="_blank">https://linkeddatahub.com/demo/northwind-traders/</a></dd>
+    <dd><a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">https://northwind-traders.demo.linkeddatahub.com/</a></dd>
     <dt>Features</dt>
     <dd>Faceted search</dd>
     <dd>Related results (parallax navigation)</dd>
