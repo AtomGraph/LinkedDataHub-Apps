@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 # absolute path to output and temp RDF folders
 OUTPUT_FOLDER="$PWD"/html
 RDF_FOLDER="$PWD"/rdf
