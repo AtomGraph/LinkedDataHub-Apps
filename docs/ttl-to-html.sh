@@ -13,6 +13,17 @@ find . -name "*.ttl" -exec sh -c '
     riot --output=RDF/XML --base="$base" "$1" > "$out"
 ' sh {} \;
 
+# Generate timestamps.xml (doc path → source .ttl modification time)
+echo '<?xml version="1.0" encoding="UTF-8"?>' > timestamps.xml
+echo '<map xmlns="http://www.w3.org/2005/xpath-functions">' >> timestamps.xml
+find . -name "*.ttl" -exec sh -c '
+    rel=$(echo "$1" | sed "s|^\./||")
+    path="/${rel%.ttl}/"
+    mtime=$(date -u -r "$1" +%Y-%m-%dT%H:%M:%SZ)
+    echo "  <string key=\"$path\">$mtime</string>"
+' sh {} \; >> timestamps.xml
+echo '</map>' >> timestamps.xml
+
 # Clear output folder first, so files.xml does not pick up stale html/files/ contents
 rm -rf "$OUTPUT_FOLDER"
 mkdir -p "$OUTPUT_FOLDER"
