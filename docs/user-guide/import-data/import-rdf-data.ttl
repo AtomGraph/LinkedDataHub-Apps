@@ -136,7 +136,7 @@
                                 </dl>
                             </li>
                             <li>Once all the fields have been filled in click <span class="btn btn-primary btn-save">Save</span>. You can find this saved under
-                                    <dfn>Queries</dfn> container in <a href="../../user-interface/#left-nav">left navigation</a>.</li>
+                                    <dfn>Queries</dfn> container in <a href="../../../reference/user-interface/#left-nav">left navigation</a>.</li>
                             <li>Click on the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown button at the top left-hand corner and select <dfn>RDF Import</dfn>.
                                     This will open a new form.</li>
                             <li>Fill out <dfn>Item</dfn> fields</li>
