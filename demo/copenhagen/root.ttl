@@ -16,7 +16,7 @@
     dct:description "Geospatial and other open data about cities, imported by transforming CSV files to RDF" ;
     rdf:_1 <#page-header> ;
     rdf:_2 <#city-intro> ;
-    rdf:_3 <#facilities-overview> ;
+    rdf:_3 <#facilities-overview-block> ;
     rdf:_4 <#main-library> ;
     rdf:_5 <#charts> ;
     rdf:_6 <#largest-parkings> ;
@@ -41,6 +41,9 @@
         <p>Explore Copenhagen's public facilities, infrastructure, and services through interactive maps and data visualizations.
            This dataset includes libraries, schools, parking facilities, sports centers, playgrounds, and more.</p>
     </div>"""^^rdf:XMLLiteral .
+
+<#facilities-overview-block> a ldh:Object ;
+    rdf:value <#facilities-overview> .
 
 <#facilities-overview> a ldh:ResultSetChart ;
     dct:title "Facilities by type" ;

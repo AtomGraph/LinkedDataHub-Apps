@@ -47,7 +47,7 @@ fi
 
 printf "\n### Installing SKOS package\n\n"
 
-install-package.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy" --package "https://packages.linkeddatahub.com/skos/#this"
+#install-package.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy" --package "https://packages.linkeddatahub.com/skos/#this"
 
 printf "\n### Importing SKOS vocabulary\n\n"
 

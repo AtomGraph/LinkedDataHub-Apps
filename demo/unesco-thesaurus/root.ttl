@@ -15,7 +15,7 @@
     dct:description "SKOS-based editor of thesauri, lexicons, vocabularies, taxonomies, and classification schemes" ;
     rdf:_1 <#page-header> ;
     rdf:_2 <#overview-intro> ;
-    rdf:_3 <#vocabulary-stats> ;
+    rdf:_3 <#vocabulary-stats-block> ;
     rdf:_4 <#explore-prompt> ;
     rdf:_5 <#select-children> .
 
@@ -51,6 +51,9 @@
            culture, and communication. This SKOS-based implementation demonstrates semantic knowledge organization with
            thousands of concepts organized into hierarchical and associative relationships.</p>
     </div>"""^^rdf:XMLLiteral .
+
+<#vocabulary-stats-block> a ldh:Object ;
+    rdf:value <#vocabulary-stats> .
 
 <#vocabulary-stats> a ldh:ResultSetChart ;
     dct:title "Vocabulary statistics" ;

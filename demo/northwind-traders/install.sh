@@ -29,6 +29,8 @@ printf "\n### Importing namespace ontology\n\n"
 
 ./import-ns.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
 
+exit 1
+
 cd ..
 
 cd ..

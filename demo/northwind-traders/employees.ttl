@@ -10,7 +10,7 @@
   <> a dh:Container ;
       dct:title "Employees" ;
       rdf:_1 <#employee-intro> ;
-      rdf:_2 <#sales-by-employee> ;
+      rdf:_2 <#sales-by-employee-block> ;
       rdf:_3 <#select-employees> .
 
   # Intro XHTML
@@ -21,7 +21,10 @@
              contributions helps recognize top performers, identify coaching opportunities, and optimize territory assignments.</p>
       </div>"""^^rdf:XMLLiteral .
 
-  # Sales by employee chart
+  # Sales by employee chart (wrapped in ldh:Object per ContentMode contract)
+  <#sales-by-employee-block> a ldh:Object ;
+      rdf:value <#sales-by-employee> .
+
   <#sales-by-employee> a ldh:ResultSetChart ;
       dct:title "Sales by employee" ;
       spin:query <#sales-by-employee-query> ;

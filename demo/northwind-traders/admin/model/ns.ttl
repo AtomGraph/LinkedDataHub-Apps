@@ -27,6 +27,34 @@ schema:PostalAddress a owl:Class ;
     rdfs:label "Postal address" ;
     rdfs:isDefinedBy : .
 
+schema:ProductGroup a owl:Class ;
+    rdfs:label "Product group" ;
+    rdfs:isDefinedBy : .
+
+schema:Corporation a owl:Class ;
+    rdfs:label "Corporation" ;
+    rdfs:isDefinedBy : .
+
+schema:ContactPoint a owl:Class ;
+    rdfs:label "Contact point" ;
+    rdfs:isDefinedBy : .
+
+schema:ParcelDelivery a owl:Class ;
+    rdfs:label "Parcel delivery" ;
+    rdfs:isDefinedBy : .
+
+schema:OrderItem a owl:Class ;
+    rdfs:label "Order item" ;
+    rdfs:isDefinedBy : .
+
+schema:Product a owl:Class ;
+    rdfs:label "Product" ;
+    rdfs:isDefinedBy : .
+
+schema:Place a owl:Class ;
+    rdfs:label "Place" ;
+    rdfs:isDefinedBy : .
+
 # properties
 
 schema:broker a owl:ObjectProperty ;
@@ -45,6 +73,170 @@ schema:address a owl:ObjectProperty ;
     rdfs:label "Address";
     rdfs:domain schema:Person ;
     rdfs:range schema:PostalAddress ;
+    rdfs:isDefinedBy : .
+
+schema:contactPoint a owl:ObjectProperty ;
+    rdfs:label "Contact point" ;
+    rdfs:domain schema:Corporation ;
+    rdfs:range schema:ContactPoint ;
+    rdfs:isDefinedBy : .
+
+schema:employee a owl:ObjectProperty ;
+    rdfs:label "Employee" ;
+    rdfs:domain schema:Corporation ;
+    rdfs:range schema:Person ;
+    rdfs:isDefinedBy : .
+
+schema:customer a owl:ObjectProperty ;
+    rdfs:label "Customer" ;
+    rdfs:domain schema:Order ;
+    rdfs:range schema:Corporation ;
+    rdfs:isDefinedBy : .
+
+schema:orderDelivery a owl:ObjectProperty ;
+    rdfs:label "Order delivery" ;
+    rdfs:domain schema:Order ;
+    rdfs:range schema:ParcelDelivery ;
+    rdfs:isDefinedBy : .
+
+schema:deliveryAddress a owl:ObjectProperty ;
+    rdfs:label "Delivery address" ;
+    rdfs:domain schema:ParcelDelivery ;
+    rdfs:range schema:PostalAddress ;
+    rdfs:isDefinedBy : .
+
+schema:provider a owl:ObjectProperty ;
+    rdfs:label "Provider" ;
+    rdfs:range schema:Corporation ;
+    rdfs:isDefinedBy : .
+
+schema:category a owl:ObjectProperty ;
+    rdfs:label "Category" ;
+    rdfs:domain schema:Product ;
+    rdfs:range schema:ProductGroup ;
+    rdfs:isDefinedBy : .
+
+schema:containedInPlace a owl:ObjectProperty ;
+    rdfs:label "Contained in place" ;
+    rdfs:domain schema:City ;
+    rdfs:range schema:Place ;
+    rdfs:isDefinedBy : .
+
+schema:sponsor a owl:ObjectProperty ;
+    rdfs:label "Sponsor" ;
+    rdfs:domain schema:Person ;
+    rdfs:range schema:Person ;
+    rdfs:isDefinedBy : .
+
+schema:orderedItem a owl:ObjectProperty ;
+    rdfs:label "Ordered item" ;
+    rdfs:isDefinedBy : .
+
+schema:name a owl:DatatypeProperty ;
+    rdfs:label "Name" ;
+    rdfs:isDefinedBy : .
+
+schema:identifier a owl:DatatypeProperty ;
+    rdfs:label "Identifier" ;
+    rdfs:isDefinedBy : .
+
+schema:description a owl:DatatypeProperty ;
+    rdfs:label "Description" ;
+    rdfs:isDefinedBy : .
+
+schema:legalName a owl:DatatypeProperty ;
+    rdfs:label "Legal name" ;
+    rdfs:domain schema:Corporation ;
+    rdfs:isDefinedBy : .
+
+schema:telephone a owl:DatatypeProperty ;
+    rdfs:label "Telephone" ;
+    rdfs:isDefinedBy : .
+
+schema:faxNumber a owl:DatatypeProperty ;
+    rdfs:label "Fax number" ;
+    rdfs:isDefinedBy : .
+
+schema:jobTitle a owl:DatatypeProperty ;
+    rdfs:label "Job title" ;
+    rdfs:domain schema:Person ;
+    rdfs:isDefinedBy : .
+
+schema:addressCountry a owl:DatatypeProperty ;
+    rdfs:label "Address country" ;
+    rdfs:domain schema:PostalAddress ;
+    rdfs:isDefinedBy : .
+
+schema:addressLocality a owl:DatatypeProperty ;
+    rdfs:label "Address locality" ;
+    rdfs:domain schema:PostalAddress ;
+    rdfs:isDefinedBy : .
+
+schema:postalCode a owl:DatatypeProperty ;
+    rdfs:label "Postal code" ;
+    rdfs:domain schema:PostalAddress ;
+    rdfs:isDefinedBy : .
+
+schema:streetAddress a owl:DatatypeProperty ;
+    rdfs:label "Street address" ;
+    rdfs:domain schema:PostalAddress ;
+    rdfs:isDefinedBy : .
+
+schema:addressRegion a owl:DatatypeProperty ;
+    rdfs:label "Address region" ;
+    rdfs:domain schema:PostalAddress ;
+    rdfs:isDefinedBy : .
+
+schema:givenName a owl:DatatypeProperty ;
+    rdfs:label "Given name" ;
+    rdfs:domain schema:Person ;
+    rdfs:isDefinedBy : .
+
+schema:familyName a owl:DatatypeProperty ;
+    rdfs:label "Family name" ;
+    rdfs:domain schema:Person ;
+    rdfs:isDefinedBy : .
+
+schema:honorificPrefix a owl:DatatypeProperty ;
+    rdfs:label "Honorific prefix" ;
+    rdfs:domain schema:Person ;
+    rdfs:isDefinedBy : .
+
+schema:birthDate a owl:DatatypeProperty ;
+    rdfs:label "Birth date" ;
+    rdfs:domain schema:Person ;
+    rdfs:isDefinedBy : .
+
+schema:orderQuantity a owl:DatatypeProperty ;
+    rdfs:label "Order quantity" ;
+    rdfs:domain schema:OrderItem ;
+    rdfs:isDefinedBy : .
+
+schema:discount a owl:DatatypeProperty ;
+    rdfs:label "Discount" ;
+    rdfs:domain schema:OrderItem ;
+    rdfs:isDefinedBy : .
+
+schema:price a owl:DatatypeProperty ;
+    rdfs:label "Price" ;
+    rdfs:isDefinedBy : .
+
+schema:orderDate a owl:DatatypeProperty ;
+    rdfs:label "Order date" ;
+    rdfs:domain schema:Order ;
+    rdfs:isDefinedBy : .
+
+schema:expectedArrivalUntil a owl:DatatypeProperty ;
+    rdfs:label "Expected arrival until" ;
+    rdfs:domain schema:ParcelDelivery ;
+    rdfs:isDefinedBy : .
+
+schema:url a owl:DatatypeProperty ;
+    rdfs:label "URL" ;
+    rdfs:isDefinedBy : .
+
+schema:location a owl:ObjectProperty ;
+    rdfs:label "Location" ;
     rdfs:isDefinedBy : .
 
 # restrictions

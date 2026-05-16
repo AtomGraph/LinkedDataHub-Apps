@@ -10,10 +10,10 @@
   <> a dh:Container ;
       dct:title "Products" ;
       rdf:_1 <#products-intro> ;
-      rdf:_2 <#top-selling-products> ;
+      rdf:_2 <#top-selling-products-block> ;
       rdf:_3 <#category-analysis-intro> ;
-      rdf:_4 <#revenue-by-category> ;
-      rdf:_5 <#products-by-supplier> ;
+      rdf:_4 <#revenue-by-category-block> ;
+      rdf:_5 <#products-by-supplier-block> ;
       rdf:_6 <#supplier-context> ;
       rdf:_7 <#select-products> .
 
@@ -26,7 +26,10 @@
              each with unique pricing and inventory characteristics.</p>
       </div>"""^^rdf:XMLLiteral .
 
-  # Chart block
+  # Chart block (wrapped in ldh:Object per ContentMode contract)
+  <#top-selling-products-block> a ldh:Object ;
+      rdf:value <#top-selling-products> .
+
   <#top-selling-products> a ldh:ResultSetChart ;
       dct:title "Top selling products" ;
       spin:query <#products-by-sales-query> ;
@@ -63,7 +66,10 @@ LIMIT   5""" .
              market strengths and opportunities. The following charts break down revenue and product count by category.</p>
       </div>"""^^rdf:XMLLiteral .
 
-  # Revenue by category chart
+  # Revenue by category chart (wrapped in ldh:Object per ContentMode contract)
+  <#revenue-by-category-block> a ldh:Object ;
+      rdf:value <#revenue-by-category> .
+
   <#revenue-by-category> a ldh:ResultSetChart ;
       dct:title "Revenue by category" ;
       spin:query <#category-revenue-query> ;
@@ -94,7 +100,10 @@ WHERE {
 GROUP BY ?category ?categoryName
 ORDER BY DESC(?revenue)""" .
 
-  # Products by supplier chart
+  # Products by supplier chart (wrapped in ldh:Object per ContentMode contract)
+  <#products-by-supplier-block> a ldh:Object ;
+      rdf:value <#products-by-supplier> .
+
   <#products-by-supplier> a ldh:ResultSetChart ;
       dct:title "Products by supplier" ;
       spin:query <#supplier-product-count-query> ;

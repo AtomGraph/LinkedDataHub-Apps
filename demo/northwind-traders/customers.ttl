@@ -10,9 +10,9 @@
   <> a dh:Container ;
       dct:title "Customers" ;
       rdf:_1 <#customers-intro> ;
-      rdf:_2 <#top-customers> ;
+      rdf:_2 <#top-customers-block> ;
       rdf:_3 <#geographic-distribution> ;
-      rdf:_4 <#customers-by-country> ;
+      rdf:_4 <#customers-by-country-block> ;
       rdf:_5 <#customer-insights> ;
       rdf:_6 <#select-customers> .
 
@@ -24,7 +24,10 @@
              and market concentration helps prioritize account management and target growth strategies.</p>
       </div>"""^^rdf:XMLLiteral .
 
-  # Top customers chart
+  # Top customers chart (wrapped in ldh:Object per ContentMode contract)
+  <#top-customers-block> a ldh:Object ;
+      rdf:value <#top-customers> .
+
   <#top-customers> a ldh:ResultSetChart ;
       dct:title "Top 10 customers by revenue" ;
       spin:query <#top-customers-query> ;
@@ -61,7 +64,10 @@ LIMIT 10""" .
              Understanding geographic concentration helps guide expansion efforts and resource allocation.</p>
       </div>"""^^rdf:XMLLiteral .
 
-  # Customers by country chart
+  # Customers by country chart (wrapped in ldh:Object per ContentMode contract)
+  <#customers-by-country-block> a ldh:Object ;
+      rdf:value <#customers-by-country> .
+
   <#customers-by-country> a ldh:ResultSetChart ;
       dct:title "Customers by country" ;
       spin:query <#customers-by-country-query> ;

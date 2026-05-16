@@ -10,9 +10,9 @@
   <> a dh:Container ;
       dct:title "Categories" ;
       rdf:_1 <#category-intro> ;
-      rdf:_2 <#category-revenue> ;
+      rdf:_2 <#category-revenue-block> ;
       rdf:_3 <#category-distribution> ;
-      rdf:_4 <#products-per-category> ;
+      rdf:_4 <#products-per-category-block> ;
       rdf:_5 <#select-categories> .
 
   # Intro XHTML
@@ -23,7 +23,10 @@
              Analyzing category-level metrics helps identify portfolio strengths, diversification opportunities, and inventory priorities.</p>
       </div>"""^^rdf:XMLLiteral .
 
-  # Category revenue chart
+  # Category revenue chart (wrapped in ldh:Object per ContentMode contract)
+  <#category-revenue-block> a ldh:Object ;
+      rdf:value <#category-revenue> .
+
   <#category-revenue> a ldh:ResultSetChart ;
       dct:title "Revenue by category" ;
       spin:query <#category-revenue-query> ;
@@ -62,7 +65,10 @@ ORDER BY DESC(?revenue)""" .
              Categories with more products may indicate core competencies or simply broader product lines.</p>
       </div>"""^^rdf:XMLLiteral .
 
-  # Products per category chart
+  # Products per category chart (wrapped in ldh:Object per ContentMode contract)
+  <#products-per-category-block> a ldh:Object ;
+      rdf:value <#products-per-category> .
+
   <#products-per-category> a ldh:ResultSetChart ;
       dct:title "Products per category" ;
       spin:query <#products-per-category-query> ;

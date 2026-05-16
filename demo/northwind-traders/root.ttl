@@ -14,8 +14,8 @@
     dct:description "Knowledge Graph representation of the Northwind Traders sample database" ;
     rdf:_1 <#page-header> ;
     rdf:_2 <#overview-intro> ;
-    rdf:_3 <#sales-trend> ;
-    rdf:_4 <#revenue-by-country> ;
+    rdf:_3 <#sales-trend-block> ;
+    rdf:_4 <#revenue-by-country-block> ;
     rdf:_5 <#top-selling-products> ;
     rdf:_6 <#top-manager-header> ;
     rdf:_7 <#top-manager> ;
@@ -39,6 +39,9 @@
         <h3>Executive dashboard</h3>
         <p>Explore key business metrics including sales trends, geographic distribution, and product performance. All visualizations are generated from live SPARQL queries over the RDF Knowledge Graph.</p>
     </div>"""^^rdf:XMLLiteral .
+
+<#sales-trend-block> a ldh:Object ;
+    rdf:value <#sales-trend> .
 
 <#sales-trend> a ldh:ResultSetChart ;
     dct:title "Monthly sales trend" ;
@@ -65,6 +68,9 @@ WHERE {
 }
 GROUP BY ?month
 ORDER BY ?month""" .
+
+<#revenue-by-country-block> a ldh:Object ;
+    rdf:value <#revenue-by-country> .
 
 <#revenue-by-country> a ldh:ResultSetChart ;
     dct:title "Revenue by country" ;
