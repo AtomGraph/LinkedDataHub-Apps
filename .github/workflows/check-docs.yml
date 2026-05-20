@@ -1,0 +1,21 @@
+name: Check Docs
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check-docs:
+    name: Check documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: RDF syntax check
+        uses: AtomGraph/RDF-syntax-check@v1.0.5
+
+      - name: Check links
+        run: ./check-links.sh

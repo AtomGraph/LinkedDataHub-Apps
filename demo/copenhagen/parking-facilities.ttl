@@ -9,10 +9,13 @@
 # Main container document
 <> a dh:Container ;
     dct:title "Parking facilities" ;
-    rdf:_1 <#largest-parkings> ;
+    rdf:_1 <#largest-parkings-block> ;
     rdf:_2 <#select-children> .
 
-# Chart block
+# Chart block (wrapped in ldh:Object per ContentMode contract)
+<#largest-parkings-block> a ldh:Object ;
+    rdf:value <#largest-parkings> .
+
 <#largest-parkings> a ldh:ResultSetChart ;
     dct:title "Largest parking facilities" ;
     spin:query <#parking-by-spaces-query> ;

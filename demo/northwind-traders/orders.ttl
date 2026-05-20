@@ -10,11 +10,11 @@
   <> a dh:Container ;
       dct:title "Orders" ;
       rdf:_1 <#orders-intro> ;
-      rdf:_2 <#orders-over-time> ;
+      rdf:_2 <#orders-over-time-block> ;
       rdf:_3 <#geographic-intro> ;
-      rdf:_4 <#orders-by-country> ;
+      rdf:_4 <#orders-by-country-block> ;
       rdf:_5 <#order-trends-summary> ;
-      rdf:_6 <#sales-by-region-per-year> ;
+      rdf:_6 <#sales-by-region-per-year-block> ;
       rdf:_7 <#select-orders> .
 
   # Object block (references the view)
@@ -51,7 +51,10 @@
              helps optimize inventory, predict demand, and identify growth opportunities across different markets.</p>
       </div>"""^^rdf:XMLLiteral .
 
-  # Orders over time chart
+  # Orders over time chart (wrapped in ldh:Object per ContentMode contract)
+  <#orders-over-time-block> a ldh:Object ;
+      rdf:value <#orders-over-time> .
+
   <#orders-over-time> a ldh:ResultSetChart ;
       dct:title "Orders per month" ;
       spin:query <#orders-by-month-query> ;
@@ -82,7 +85,10 @@ ORDER BY ?month""" .
              and helps identify expansion opportunities or regional challenges.</p>
       </div>"""^^rdf:XMLLiteral .
 
-  # Orders by country chart
+  # Orders by country chart (wrapped in ldh:Object per ContentMode contract)
+  <#orders-by-country-block> a ldh:Object ;
+      rdf:value <#orders-by-country> .
+
   <#orders-by-country> a ldh:ResultSetChart ;
       dct:title "Orders by country" ;
       spin:query <#orders-by-country-query> ;
@@ -106,7 +112,10 @@ GROUP BY ?country
 ORDER BY DESC(?orderCount)
 LIMIT 10""" .
 
-  # Chart block
+  # Chart block (wrapped in ldh:Object per ContentMode contract)
+  <#sales-by-region-per-year-block> a ldh:Object ;
+      rdf:value <#sales-by-region-per-year> .
+
   <#sales-by-region-per-year> a ldh:ResultSetChart ;
       dct:title "Sales by region per year" ;
       spin:query <#sales-by-regions-by-year-query> ;
