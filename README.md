@@ -106,7 +106,7 @@ Packages provide ontology imports and custom XSLT templates for rendering specif
 ### Structure
 
 Each package consists of:
-- **`ns.ttl`** - Ontology with vocabulary imports (`owl:imports`) and template blocks (`ldh:template`)
+- **`ns.ttl`** - Ontology with vocabulary imports (`owl:imports`) and property views (`ldh:view` / `ldh:inverseView`)
 - **`layout.xsl`** - XSLT stylesheet with custom rendering templates using system modes
 
 ### Installation
@@ -135,7 +135,7 @@ Installation integrates the package by:
 
 - **Declarative only** - RDF + XSLT, no Java code
 - **Installation-time composition** - Pre-composed before loading, no runtime overhead
-- **Template blocks** (`ldh:template`) - SPARQL-based views attached to RDF types
+- **Property views** (`ldh:view` / `ldh:inverseView`) - SPARQL-based views attached to properties
 - **XSLT overrides** - Custom rendering using system modes (`bs2:*`, `xhtml:*`, etc.)
 
 [Read the full packages documentation →](packages/README.md)

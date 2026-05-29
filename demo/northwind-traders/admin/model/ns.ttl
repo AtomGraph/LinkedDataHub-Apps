@@ -130,6 +130,7 @@ schema:sponsor a owl:ObjectProperty ;
 
 schema:orderedItem a owl:ObjectProperty ;
     rdfs:label "Ordered item" ;
+    rdfs:range schema:Product ;
     rdfs:isDefinedBy : .
 
 schema:name a owl:DatatypeProperty ;
@@ -253,11 +254,11 @@ schema:location a owl:ObjectProperty ;
     owl:maxCardinality 1 ;
     rdfs:isDefinedBy : .
 
-# Person
+# broker
 
 # orders handled by this employee
 
-schema:Person ldh:template :OrdersHandledByEmployee .
+schema:broker ldh:inverseView :OrdersHandledByEmployee .
 
 :OrdersHandledByEmployee a ldh:View ;
     dct:title "Orders handled by this employee" ;
@@ -278,11 +279,11 @@ ORDER BY DESC(?order)
 """ ;
     rdfs:isDefinedBy : .
 
-# Corporation
+# customer
 
 # orders from this customer
 
-schema:Corporation ldh:template :OrdersFromCustomer .
+schema:customer ldh:inverseView :OrdersFromCustomer .
 
 :OrdersFromCustomer a ldh:View ;
     dct:title "Orders from this customer" ;
@@ -303,9 +304,11 @@ ORDER BY DESC(?order)
 """ ;
     rdfs:isDefinedBy : .
 
+# provider
+
 # products supplied by this supplier
 
-schema:Corporation ldh:template :ProductsFromSupplier .
+schema:provider ldh:inverseView :ProductsFromSupplier .
 
 :ProductsFromSupplier a ldh:View ;
     dct:title "Products supplied by this supplier" ;
@@ -326,11 +329,11 @@ ORDER BY ?product
 """ ;
     rdfs:isDefinedBy : .
 
-# Place
+# containedInPlace
 
 # cities in this region
 
-schema:Place ldh:template :CitiesInRegion .
+schema:containedInPlace ldh:inverseView :CitiesInRegion .
 
 :CitiesInRegion a ldh:View ;
     dct:title "Cities in this region" ;
@@ -351,11 +354,11 @@ ORDER BY ?city
 """ ;
     rdfs:isDefinedBy : .
 
-# Product
+# orderedItem
 
 # orders containing this product
 
-schema:Product ldh:template :OrdersContainingProduct .
+schema:orderedItem ldh:inverseView :OrdersContainingProduct .
 
 :OrdersContainingProduct a ldh:View ;
     dct:title "Orders containing this product" ;
