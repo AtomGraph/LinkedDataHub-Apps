@@ -113,9 +113,9 @@
                     <td><a href="../administration/ontologies/#constraints">Constraint</a> violation</td>
                 </tr>
                 <tr>
-                    <th rowspan="3"><code id="ld-delete">DELETE</code></th>
-                    <td rowspan="3">Removes the requested document</td>
-                    <td rowspan="3"><code>204 No Content</code></td>
+                    <th rowspan="2"><code id="ld-delete">DELETE</code></th>
+                    <td rowspan="2">Removes the requested document</td>
+                    <td rowspan="2"><code>204 No Content</code></td>
                     <td><code>404 Not Found</code></td>
                     <td>Document with request URI not found</td>
                 </tr>
@@ -124,9 +124,9 @@
                     <td>Deleting root, owner, or secretary documents is not allowed</td>
                 </tr>
                 <tr>
-                    <th rowspan="2"><code id="ld-patch">PATCH</code></th>
-                    <td rowspan="2">Modifies a document using SPARQL Update</td>
-                    <td rowspan="2"><code>204 No Content</code></td>
+                    <th><code id="ld-patch">PATCH</code></th>
+                    <td>Modifies a document using SPARQL Update</td>
+                    <td><code>204 No Content</code></td>
                     <td><code>422 Unprocessable Entity</code></td>
                     <td>SPARQL update string violates syntax constraints</td>
                 </tr>
