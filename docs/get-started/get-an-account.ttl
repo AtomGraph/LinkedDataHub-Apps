@@ -19,6 +19,7 @@
           <ul class="nav nav-tabs">
             <li class="active"><a>Get WebID</a></li>
             <li><a>Login with Google</a></li>
+            <li><a>Login with ORCID</a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active">
@@ -93,7 +94,14 @@
                 <p>Click the <span class="btn btn-primary">Login with Google</span> button in the navbar to authenticate with your Google account.</p>
                 <p>If the email address of your Google account matches the dataspace owner's email address that was specified during <a href="../setup/">setup</a>, you will be authenticated as the owner with <a href="../../reference/administration/acl/">full control</a> access rights.</p>
                 <div class="alert alert-info">
-                    <p>Login with Google is only enabled if LinkedDataHub was <a href="../../reference/configuration/#social-login">configured with social login</a>.</p>
+                    <p>Login with Google is only enabled if LinkedDataHub was <a href="../../reference/configuration/#secrets">configured with social login</a>.</p>
+                </div>
+             </div>
+             <div class="tab-pane">
+                <p>Click the <span class="btn btn-primary">Login with ORCID</span> button in the navbar to authenticate with your <a href="https://orcid.org" target="_blank">ORCID</a> account using OpenID Connect.</p>
+                <p>If the email address of your ORCID account matches the dataspace owner's email address that was specified during <a href="../setup/">setup</a>, you will be authenticated as the owner with <a href="../../reference/administration/acl/">full control</a> access rights.</p>
+                <div class="alert alert-info">
+                    <p>Login with ORCID is only enabled if LinkedDataHub was <a href="../../reference/configuration/#secrets">configured with social login</a>.</p>
                 </div>
              </div>
           </div>

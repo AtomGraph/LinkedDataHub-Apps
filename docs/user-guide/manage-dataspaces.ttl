@@ -33,8 +33,8 @@
                 <li>Add corresponding <code>sd:Service</code> instances to <samp>config/system.trig</samp> with the SPARQL endpoint connection details</li>
             </ol>
             <p>The relationship between end-user and admin applications is automatically inferred based on naming conventions — you don't need to manually specify
-            <code>lapp:endUserApplication</code> or <code>lapp:adminApplication</code> properties. Applications with base URIs containing <samp>admin/</samp> are
-            automatically recognized as administration applications.</p>
+            <code>lapp:endUserApplication</code> or <code>lapp:adminApplication</code> properties. Applications whose origin (<code>lapp:origin</code>) uses the
+            <samp>admin.</samp> subdomain are automatically recognized as administration applications, and paired with the end-user application on the corresponding bare host.</p>
             <div class="alert alert-info">
                 <p>Use URIs (for example in the <samp>urn:</samp> scheme) to identify apps and services, not blank nodes. Make sure both files' syntax is valid <a href="https://www.w3.org/TR/turtle/" target="_blank">Turtle</a>, otherwise the setup will not work. You can use <a href="http://ttl.summerofcode.be/" target="_blank">Turtle Validator</a> to check the syntax.</p>
             </div>
