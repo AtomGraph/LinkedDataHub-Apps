@@ -71,6 +71,11 @@
                 <dd><a href="../../get-started/get-an-account/">Login with Google</a> authentication is enabled when this value is provided</dd>
                 <dt><samp>google_client_secret</samp></dt>
                 <dd><a href="https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid">OAuth client secret</a></dd>
+                <dt><samp>orcid_client_id</samp></dt>
+                <dd><a href="https://info.orcid.org/documentation/integration-guide/registering-a-public-api-client/">ORCID OpenID Connect client ID</a></dd>
+                <dd><a href="../../get-started/get-an-account/">Login with ORCID</a> authentication is enabled when this value is provided</dd>
+                <dt><samp>orcid_client_secret</samp></dt>
+                <dd><a href="https://info.orcid.org/documentation/integration-guide/registering-a-public-api-client/">ORCID OpenID Connect client secret</a></dd>
                 <dt><samp>credentials</samp></dt>
                 <dd>RDF dataset file (<samp>./secrets/credentials.trig</samp>) containing service authentication credentials (optional)</dd>
                 <dd>Supports HTTP Basic authentication (<code>a:authUser</code>, <code>a:authPwd</code>) and Bearer token authentication (<code>a:authToken</code>)</dd>
