@@ -22,7 +22,7 @@
     <p>To render paginated lists of resources, legacy applications would normally have a dedicated API endpoint that
     supports pagination, ordering etc. In LinkedDataHub, views achieve the same functionality by simply building the
     SPARQL query string on the client-side. Therefore views can be seen as client-side "containers".</p>
-    <p>Views can be rendered in multiple layout modes: properties, list, grid, table, map, chart etc. They also show
+    <p>Views can be rendered in multiple layout modes: properties, list, grid, table, map, chart, and graph. They also show
     the total number of results and allow result ordering by property.</p>
     <div>
         <h2 id="layout-modes">Layout modes</h2>
