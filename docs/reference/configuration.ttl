@@ -141,6 +141,20 @@
             </dl>
         </div>
         <div>
+            <h3 id="http-client">HTTP client timeouts</h3>
+            <p>Timeouts and connection lifetimes for LinkedDataHub's pooled HTTP clients, used for the <a href="../http-api/#ld-proxy">Linked Data proxy</a> and for accessing SPARQL services. All values are in milliseconds and are passed as <samp>CATALINA_OPTS</samp> system properties.</p>
+            <dl>
+                <dt><samp>CLIENT_SOCKET_TIMEOUT</samp></dt>
+                <dd>Socket (read) timeout — how long to wait for data on an established connection. By default <samp>120000</samp>.</dd>
+                <dt><samp>CLIENT_CONNECT_TIMEOUT</samp></dt>
+                <dd>Connection timeout — how long to wait to establish a connection. By default <samp>10000</samp>.</dd>
+                <dt><samp>CLIENT_CONNECTION_TIME_TO_LIVE</samp></dt>
+                <dd>Maximum lifetime of a pooled connection before it is closed. By default <samp>300000</samp>.</dd>
+                <dt><samp>CLIENT_VALIDATE_AFTER_INACTIVITY</samp></dt>
+                <dd>Idle time after which a pooled connection is validated before reuse. By default <samp>10000</samp>.</dd>
+            </dl>
+        </div>
+        <div>
             <h3 id="varnish">Varnish</h3>
             <dl>
                 <dt><samp>VARNISH_FRONTEND_BACKEND_PORT</samp></dt>

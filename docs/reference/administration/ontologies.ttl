@@ -58,7 +58,7 @@
                         <td><code>lapp:</code></td>
                     </tr>
                     <tr>
-                        <td><a href="https://w3id.org/atomgraph/linkeddatahub/acl" id="lacl-ont" target="_blank"><code>https://w3id.org/atomgraph/linkeddatahub/acl#</code></a></td>
+                        <td><a href="https://w3id.org/atomgraph/linkeddatahub/admin/acl" id="lacl-ont" target="_blank"><code>https://w3id.org/atomgraph/linkeddatahub/admin/acl#</code></a></td>
                         <td>Access control</td>
                         <td><code>lacl:</code></td>
                     </tr>
