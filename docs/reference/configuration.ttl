@@ -88,6 +88,10 @@
                 <dt><samp>ENABLE_WEBID_SIGNUP</samp></dt>
                 <dd><samp>false</samp> to disable. Enabled by default.</dd>
                 <dd><em>Currently this will only hide the signup button in the UI, without disabling the endpoint</em></dd>
+                <dt><samp>WEBID_CACHE_EXPIRATION</samp></dt>
+                <dd>Expiration time (in seconds) of cached WebID profiles, bounding how long a revoked WebID stays authenticated. By default <samp>86400</samp>.</dd>
+                <dt><samp>JWKS_CACHE_EXPIRATION</samp></dt>
+                <dd>Expiration time (in seconds) of cached JWKS keys used for OpenID Connect token verification. By default <samp>86400</samp>.</dd>
             </dl>
         </div>
         <div>

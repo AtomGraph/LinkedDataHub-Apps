@@ -25,6 +25,15 @@
     <p>Views can be rendered in multiple layout modes: properties, list, grid, table, map, chart, and graph. They also show
     the total number of results and allow result ordering by property.</p>
     <div>
+        <h2 id="projecting-variables">Projecting variables</h2>
+        <p>Because the <code>SELECT</code> is rewritten into a <code>DESCRIBE</code> over its projected variables, a view can only render terms that the triplestore is able to describe:</p>
+        <ul>
+            <li>Project <em>resources</em> (IRIs) that exist in the dataset — their labels, images and links are resolved from each resource's own description. Projecting <em>literals</em> (a <code>?label</code>, a <code>?date</code>, or any computed value) describes nothing, so the view renders empty.</li>
+            <li>Project IRIs that are stored <em>locally</em>. An IRI that only occurs as an object but is not itself described in the dataset — for example an external image URL — contributes no triples.</li>
+            <li>Project a <em>single</em> entity type. Projecting several resource variables of different types blends their descriptions into one result set, which rarely renders coherently; select the one type you want to list and reach the related resources through their properties instead.</li>
+        </ul>
+    </div>
+    <div>
         <h2 id="layout-modes">Layout modes</h2>
         <p>View results can be rendered using the same layout modes as the <a href="../../../user-interface/#layout-modes">document layout modes</a>.</p>
     </div>
