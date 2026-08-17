@@ -1,0 +1,51 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "App as a repository" ;
+    dct:description "Make the app reproducible: a git repository that installs into any instance" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Make the app reproducible: a git repository that installs into any instance</p>
+    <p>Every stage so far produced files — document descriptions, mapping queries, CSV data, media. Kept in a repository with a small install script, they <em>are</em> the application: versionable,
+        diffable, reviewable, and replayable into any LinkedDataHub instance. This is the layout the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/northwind-traders"
+        target="_blank">Northwind Traders repository</a> uses:</p>
+    <pre>northwind-traders/
+├── root.ttl              # one .ttl per document...
+├── categories.ttl
+├── categories/           # ...and a folder for the files it imports
+│   ├── categories.csv
+│   ├── categories.rq
+│   └── *.gif
+├── admin/model/
+│   ├── ns.ttl            # the namespace ontology
+│   ├── patch-ontology.ru # resets it before re-import
+│   └── import-ns.sh
+├── imports.csv           # the CSV import manifest
+├── install.sh            # replays everything against a base URI
+├── update-folder.sh
+├── .ldhignore            # files that are not documents
+└── Makefile</pre>
+    <div>
+        <h2 id="convention">The convention</h2>
+        <p>The document URL is derived from the file path: <samp>categories.ttl</samp> installs to <samp>${base}categories/</samp>, <samp>root.ttl</samp> to <samp>${base}</samp> itself.
+            <samp>update-folder.sh</samp> walks the tree applying that rule — resolving each file's relative URIs against its document URL and <code>PUT</code>ting the result — and skips anything
+            matched by <samp>.ldhignore</samp>.</p>
+    </div>
+    <div>
+        <h2 id="idempotency">Idempotency</h2>
+        <p>Re-running the install converges instead of duplicating: <code>PUT</code> replaces each document's description outright, and the one place that appends rather than replaces — the
+            namespace ontology — is first reset by <samp>patch-ontology.ru</samp>, a SPARQL update that clears the previously imported terms.</p>
+    </div>
+    <div>
+        <h2 id="install">Installing</h2>
+        <pre>make install</pre>
+        <p>prompts for the base URI, certificate and password, then runs <samp>install.sh</samp>: make public, import the ontology, replay the documents, upload the files, run the CSV imports. The
+            entire tutorial, replayed in one command — against localhost today, against production tomorrow.</p>
+    </div>
+    <p class="lead">Next: <a href="../beyond-low-code/">Beyond low-code</a></p>
+</div>"""^^rdf:XMLLiteral .
