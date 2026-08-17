@@ -12,8 +12,7 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Make the app reproducible: a git repository that installs into any instance</p>
     <p>Every stage so far produced files — document descriptions, mapping queries, CSV data, media. Kept in a repository with a small install script, they <em>are</em> the application: versionable,
-        diffable, reviewable, and replayable into any LinkedDataHub instance. This is the layout the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/northwind-traders"
-        target="_blank">Northwind Traders repository</a> uses:</p>
+        diffable, reviewable, and replayable into any LinkedDataHub instance. This is the layout the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/northwind-traders" target="_blank">Northwind Traders repository</a> uses:</p>
     <pre>northwind-traders/
 ├── root.ttl              # one .ttl per document...
 ├── categories.ttl
