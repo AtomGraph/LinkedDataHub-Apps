@@ -11,6 +11,7 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Using LinkedDataHub as a low-code platform for Knowledge Graph applications</p>
+    <p>If you are building your first app, start with the <a href="../../tutorial/">tutorial</a> — this guide covers the layers beyond it.</p>
     <p>Every component in LinkedDataHub is data-driven and was designed with extensibility in mind. You can override behavior (e.g. Java method or XSLT template) without having to modify LinkedDataHub's
         codebase, and more importantly, without having to write the same logic from scratch.</p>
     <p>The following sections are split by component/layer and explain how to extend them when building bespoke apps.</p>

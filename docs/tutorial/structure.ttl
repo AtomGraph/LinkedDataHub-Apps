@@ -25,7 +25,7 @@
 └── territories/</pre>
     <div>
         <h2 id="browser">In the browser</h2>
-        <p>Create each container from the root document using the document creation form — see the <a href="../../user-guide/create-data/" target="_blank">Create data</a> guide.</p>
+        <p>Create each container from the root document using the document creation form — see the <a href="../../user-guide/create-data/create-documents/" target="_blank">Create documents</a> guide.</p>
     </div>
     <div>
         <h2 id="cli">From the command line</h2>

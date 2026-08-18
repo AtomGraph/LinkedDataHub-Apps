@@ -49,7 +49,7 @@ WHERE
     </ul>
     <div>
         <h2 id="browser">In the browser</h2>
-        <p>Create the import from the UI — upload the CSV file, pick the mapping query and the target container — following the <a href="../../user-guide/import-data/" target="_blank">Import data</a>
+        <p>Create the import from the UI — upload the CSV file, pick the mapping query and the target container — following the <a href="../../user-guide/import-data/import-csv-data/" target="_blank">Import CSV data</a>
             guide.</p>
     </div>
     <div>
