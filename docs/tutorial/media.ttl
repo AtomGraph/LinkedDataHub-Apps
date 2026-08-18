@@ -1,0 +1,45 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "Media" ;
+    dct:description "Upload files and link them to resources" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Upload files and link them to resources</p>
+    <p>Northwind comes with images: a photo per employee, an icon per category. Uploaded files are stored <strong>content-addressed</strong> — the file's URL is derived from the SHA-1 hash of its
+        content, under <samp>${base}uploads/</samp>. The same bytes always land at the same URL, which is what makes file references stable enough to bake into import mappings.</p>
+    <div>
+        <h2 id="browser">In the browser</h2>
+        <p>Upload a file with the file upload form as shown in the <a href="../../user-guide/upload-file/" target="_blank">Upload file</a> guide.</p>
+    </div>
+    <div>
+        <h2 id="cli">From the command line</h2>
+        <pre>add-file.sh \\
+    -b "$base" \\
+    -f "$cert_pem_file" \\
+    -p "$cert_password" \\
+    --title "Nancy Davolio" \\
+    --file "$PWD/employees/nancy.jpg" \\
+    --content-type "image/jpeg" \\
+    "$base"</pre>
+    </div>
+    <div>
+        <h2 id="linking">Linking files to resources</h2>
+        <p>A file becomes part of the graph the moment something points at it. The category mapping from the <a href="../data/">Data</a> stage does exactly that — the CSV carries each image's hash,
+            and the mapping mints the upload URL from it:</p>
+        <pre>?category foaf:depiction ?picture .
+...
+BIND(uri(concat(str($base), "uploads/", encode_for_uri(?pictureHash))) AS ?picture)</pre>
+    </div>
+    <div>
+        <h2 id="result">What you now see</h2>
+        <p>Category and employee documents now render with their images — <code>foaf:depiction</code> is picked up by the default layout, no template work required.</p>
+        <!-- screenshot: an employee document with the photo rendered -->
+    </div>
+    <p class="lead">Next: <a href="../insight/">Insight</a></p>
+</div>"""^^rdf:XMLLiteral .
