@@ -25,7 +25,7 @@
             <li>authentication using WebID and OpenID Connect</li>
             <li><a href="../reference/administration/acl/" target="_blank">access control</a> using WAC authorizations</li>
         </ul>
-        <p class="lead">Checkout the user guide on <a href="../user-guide/build-apps/">application building</a>.</p>
+        <p class="lead">Follow the <a href="../tutorial/">tutorial</a> to build your first app, then see the user guide on <a href="../user-guide/build-apps/">application building</a> for the extension layers.</p>
     </div>
     <div>
         <h2 id="kms">Federated knowledge management and collaboration system</h2>

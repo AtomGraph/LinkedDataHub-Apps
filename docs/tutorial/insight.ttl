@@ -1,0 +1,73 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "Insight" ;
+    dct:description "Turn SPARQL queries into charts and views" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Turn SPARQL queries into charts and views</p>
+    <p>With the graph populated, analysis is a query away — and in LinkedDataHub, queries, <a href="../../reference/data-model/resources/charts/" target="_blank">charts</a> and
+        <a href="../../reference/data-model/resources/views/" target="_blank">views</a> are resources like everything else. A chart is three resources chained together: a
+        <code>sp:Select</code> query holding the SPARQL text, a <code>ldh:ResultSetChart</code> describing how to plot its results, and a <code>ldh:Object</code> block placing it on a document.</p>
+    <div>
+        <h2 id="chart">A revenue chart</h2>
+        <p>On the Categories container, revenue per category — the query joins order items to products to categories across their documents:</p>
+        <pre>&lt;#category-revenue-query&gt; a sp:Select ;
+    dct:title "Category revenue" ;
+    sp:text '''PREFIX schema: &lt;https://schema.org/&gt;
+
+SELECT ?categoryName (SUM(?sale) AS ?revenue)
+WHERE {
+    GRAPH ?orderGraph {
+        ?order schema:orderedItem ?orderItem .
+        ?orderItem schema:orderedItem ?product ;
+                   schema:orderQuantity ?quantity ;
+                   schema:price ?price .
+        BIND(?quantity * ?price AS ?sale)
+    }
+    GRAPH ?productGraph {
+        ?product schema:category ?category .
+    }
+    GRAPH ?categoryGraph {
+        ?category schema:name ?categoryName .
+    }
+}
+GROUP BY ?category ?categoryName
+ORDER BY DESC(?revenue)''' .
+
+&lt;#category-revenue&gt; a ldh:ResultSetChart ;
+    dct:title "Revenue by category" ;
+    spin:query &lt;#category-revenue-query&gt; ;
+    ldh:chartType &lt;https://w3id.org/atomgraph/client#BarChart&gt; ;
+    ldh:categoryVarName "categoryName" ;
+    ldh:seriesVarName "revenue" .
+
+&lt;#category-revenue-block&gt; a ldh:Object ;
+    rdf:value &lt;#category-revenue&gt; .</pre>
+        <p>Add <code>&lt;#category-revenue-block&gt;</code> to the container's block sequence (<code>rdf:_2</code> after the intro block) and <code>PUT</code> the document as before.</p>
+    </div>
+    <div>
+        <h2 id="view">A view</h2>
+        <p>Views render query results as document listings instead of plots — the container's own children listing is one. A grid of all categories:</p>
+        <pre>&lt;#select-categories-view&gt; a ldh:View ;
+    spin:query &lt;#select-categories-query&gt; ;
+    ac:mode &lt;https://w3id.org/atomgraph/client#GridMode&gt; .</pre>
+    </div>
+    <div>
+        <h2 id="browser">In the browser</h2>
+        <p>The same resources can be created interactively: save a query from the <a href="../../user-guide/query-data/" target="_blank">query editor</a>, then add a chart block that references
+            it.</p>
+    </div>
+    <div>
+        <h2 id="result">What you now see</h2>
+        <p>The Categories container is a small dashboard: a revenue bar chart, a products-per-category chart, and a grid of the categories themselves — all live views over the graph, recomputed on
+            each request.</p>
+        <!-- screenshot: the Categories container with charts and grid view -->
+    </div>
+    <p class="lead">Next: <a href="../composition/">Composition</a></p>
+</div>"""^^rdf:XMLLiteral .

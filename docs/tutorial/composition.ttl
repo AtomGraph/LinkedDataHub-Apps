@@ -1,0 +1,39 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "Composition" ;
+    dct:description "Assemble the landing page from content blocks" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Assemble the landing page from content blocks</p>
+    <p>Everything the app can show is now in place — text, data, charts, views. The landing page is their composition: an ordered sequence of
+        <a href="../../reference/data-model/blocks/" target="_blank">content blocks</a> on the root document. Two block types exist: <code>ldh:XHTML</code> holds authored markup, and
+        <code>ldh:Object</code> embeds any other resource — a chart, a view, a document. Anything that is not markup gets wrapped in an object block.</p>
+    <p>The demo's finished root document interleaves them into an executive dashboard:</p>
+    <pre>&lt;&gt; a def:Root ;
+    dct:title "Northwind Traders" ;
+    rdf:_1 &lt;#page-header&gt; ;          # XHTML   — title and pitch
+    rdf:_2 &lt;#overview-intro&gt; ;       # XHTML   — dashboard intro
+    rdf:_3 &lt;#sales-trend-block&gt; ;    # Object  — monthly sales line chart
+    rdf:_4 &lt;#revenue-by-country-block&gt; ; # Object — geo chart
+    rdf:_5 &lt;#top-selling-products&gt; ; # Object  — product ranking
+    rdf:_6 &lt;#top-manager-header&gt; ;   # XHTML   — section heading
+    rdf:_7 &lt;#top-manager&gt; ;          # Object  — employee of the quarter
+    rdf:_8 &lt;#navigation-prompt&gt; ;    # XHTML   — where to go next
+    rdf:_9 &lt;#select-children&gt; .      # Object  — children view</pre>
+    <p>The narrative rhythm — prose, then evidence, then prose — is an editorial choice, and it is made entirely in data: reordering the page is renumbering <code>rdf:_N</code>. In the browser the
+        same composition is drag-and-drop in edit mode; from the command line it is the <samp>root.ttl</samp> from the <a href="../hello-dataspace/">first stage</a> grown to its final form, applied
+        with the same <code>PUT</code>.</p>
+    <div>
+        <h2 id="result">What you now see</h2>
+        <p>The homepage is the finished application: branded header, live charts over the imported graph, and navigation into the containers — every pixel of it a rendering of one document's
+            description.</p>
+        <!-- screenshot: the finished Northwind landing page -->
+    </div>
+    <p class="lead">Next: <a href="../publish/">Publish</a></p>
+</div>"""^^rdf:XMLLiteral .
