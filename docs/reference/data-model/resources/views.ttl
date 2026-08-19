@@ -52,4 +52,22 @@
             <img alt="Related results" src="../../../../uploads/ffb24b79848a40266d880638b0699c4c8a4e41ec"></img>
         </p>
     </div>
+    <div>
+        <h2 id="inline-creation">Inline creation</h2>
+        <p>Views attached to properties using <code>ldh:view</code> (forward relationships) or <code>ldh:inverseView</code> (inverse relationships) can offer inline creation of related resources.
+        If the view has a <code>ldh:container</code> value, a <span class="btn btn-primary create-action">Create</span> button is shown next to the view controls.</p>
+        <p>The button opens a modal form for a new instance whose class is inferred from the ontology: the <code>rdfs:range</code> of the property for forward relationships, the <code>rdfs:domain</code>
+        for inverse ones (including the <code>rdfs:subPropertyOf</code> hierarchy). Submitting the form creates a new child document in the <code>ldh:container</code> container, with the instance stored
+        as a fragment resource within it. The relationship with the current resource is established automatically: forward views insert the linking triple into the current document, inverse views store
+        it in the new document itself. The view results are refreshed afterwards.</p>
+        <p>The button is only shown when the agent is authorized to write to the container (and, for forward relationships, to the current document). The <code>ldh:container</code> value can be asserted
+        in the application's own ontology, including on views defined by <a href="../../../administration/packages/">packages</a>.</p>
+        <p>Views with empty results are shown by default; setting <code>ldh:showWhenEmpty</code> to <code>false</code> hides a view while its query returns no results.</p>
+        <pre>skos:narrower ldh:view ns:NarrowerConcepts .
+
+ns:NarrowerConcepts a ldh:View ;
+    dct:title "Narrower concepts" ;
+    spin:query ns:SelectNarrowerConcepts ;
+    ldh:container &lt;concepts/&gt; .</pre>
+    </div>
 </div>"""^^rdf:XMLLiteral .
