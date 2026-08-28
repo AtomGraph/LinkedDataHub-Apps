@@ -1,5 +1,6 @@
 @prefix :	    <#> .
 @prefix ldh:	<https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix ac:	    <https://w3id.org/atomgraph/client#> .
 @prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl:    <http://www.w3.org/2002/07/owl#> .
 @prefix sp:	    <http://spinrdf.org/sp#> .
@@ -263,6 +264,7 @@ schema:broker ldh:inverseView :OrdersHandledByEmployee .
 :OrdersHandledByEmployee a ldh:View ;
     dct:title "Orders handled by this employee" ;
     spin:query :SelectOrdersHandledByEmployee ;
+    ac:mode ac:TableMode ;
     rdfs:isDefinedBy : .
 
 :SelectOrdersHandledByEmployee a sp:Select ;
