@@ -10,12 +10,22 @@
   <> a dh:Container ;
       dct:title "Orders" ;
       rdf:_1 <#orders-intro> ;
-      rdf:_2 <#orders-over-time-block> ;
-      rdf:_3 <#geographic-intro> ;
-      rdf:_4 <#orders-by-country-block> ;
-      rdf:_5 <#order-trends-summary> ;
-      rdf:_6 <#sales-by-region-per-year-block> ;
-      rdf:_7 <#select-orders> .
+      rdf:_2 <#select-orders> ;
+      rdf:_3 <#analytics-intro> ;
+      rdf:_4 <#orders-over-time-block> ;
+      rdf:_5 <#geographic-intro> ;
+      rdf:_6 <#orders-by-country-block> .
+
+  # Intro XHTML
+  <#orders-intro> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <h3>The order book</h3>
+          <p>Every order links a customer, the employee who brokered it, the shipper that delivered it, and the
+             products it contains. The gallery below lists all 830 orders, newest first, with their status and
+             total value — sort any column or use the facets to filter. Open an order to see its full
+             master-detail view: the line items with quantities, unit prices and line totals, the delivery with
+             its address, and the people and companies involved.</p>
+      </div>"""^^rdf:XMLLiteral .
 
   # Object block (references the view)
   <#select-orders> a ldh:Object ;
@@ -38,17 +48,19 @@
                   schema:identifier  ?orderID ;
                   schema:orderDate   ?orderDate ;
                   schema:customer    ?customer ;
-                  schema:broker      ?employee
+                  schema:broker      ?employee ;
+                  schema:orderStatus ?status ;
+                  schema:totalPrice  ?total
         }
     }
-  ORDER BY ?orderID""" .
+  ORDER BY DESC(?orderDate)""" .
 
-  # Intro XHTML
-  <#orders-intro> a ldh:XHTML ;
+  # Analytics intro
+  <#analytics-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
           <h3>Order analytics</h3>
-          <p>Track order volume, geographic distribution, and temporal trends. Understanding order patterns
-             helps optimize inventory, predict demand, and identify growth opportunities across different markets.</p>
+          <p>Beyond the individual orders, the Knowledge Graph answers aggregate questions with live SPARQL
+             queries. How has order volume developed over time?</p>
       </div>"""^^rdf:XMLLiteral .
 
   # Orders over time chart (wrapped in ldh:Object per ContentMode contract)
@@ -81,8 +93,8 @@ ORDER BY ?month""" .
   <#geographic-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
           <h4>Geographic distribution</h4>
-          <p>Orders span multiple countries and regions. Analyzing geographic patterns reveals market penetration
-             and helps identify expansion opportunities or regional challenges.</p>
+          <p>And where do the orders go? Each order's delivery address places it on the map — the chart below
+             counts orders per destination country, revealing where Northwind's markets are strongest.</p>
       </div>"""^^rdf:XMLLiteral .
 
   # Orders by country chart (wrapped in ldh:Object per ContentMode contract)
@@ -111,52 +123,3 @@ WHERE {
 GROUP BY ?country
 ORDER BY DESC(?orderCount)
 LIMIT 10""" .
-
-  # Chart block (wrapped in ldh:Object per ContentMode contract)
-  <#sales-by-region-per-year-block> a ldh:Object ;
-      rdf:value <#sales-by-region-per-year> .
-
-  <#sales-by-region-per-year> a ldh:ResultSetChart ;
-      dct:title "Sales by region per year" ;
-      spin:query <#sales-by-regions-by-year-query> ;
-      ldh:chartType <https://w3id.org/atomgraph/client#Table> ;
-      ldh:categoryVarName "year" ;
-      ldh:seriesVarName "regionName" ;
-      ldh:seriesVarName "totalSales" .
-
-  # Order trends summary
-  <#order-trends-summary> a ldh:XHTML ;
-      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h4>Regional performance</h4>
-          <p>The table below shows sales performance broken down by region and year, enabling comparison
-             of regional growth patterns and seasonal variations.</p>
-      </div>"""^^rdf:XMLLiteral .
-
-  # Chart SELECT query
-  <#sales-by-regions-by-year-query> a sp:Select ;
-      dct:title "Sales by region per year" ;
-      sp:text """PREFIX  schema: <https://schema.org/>
-PREFIX  xsd:  <http://www.w3.org/2001/XMLSchema#>
-
-SELECT DISTINCT  ?year ?regionName (SUM(?sale) AS ?totalSales)
-WHERE
-  { GRAPH ?orderGraph
-      { ?order  schema:orderDate    ?orderDate ;
-                schema:broker       ?employee ;
-                schema:orderedItem  ?orderItem
-        BIND(year(xsd:dateTime(?orderDate)) AS ?year)
-        ?orderItem  schema:orderedItem  ?product ;
-                  schema:orderQuantity  ?quantity ;
-                  schema:price          ?price
-        BIND(( ?quantity * ?price ) AS ?sale)
-      }
-    GRAPH ?employeeGraph
-      { ?employee  schema:areaServed  ?territory }
-    GRAPH ?territoryGraph
-      { ?territory  schema:containedInPlace  ?region }
-    GRAPH ?regionGraph
-      { ?region  schema:name  ?regionName }
-  }
-GROUP BY ?year ?regionName
-ORDER BY DESC(?year) ?regionName
-LIMIT   100""" .

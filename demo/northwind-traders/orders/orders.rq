@@ -17,12 +17,14 @@ CONSTRUCT
             schema:customer ?customer ;
             schema:broker ?employee ;
             schema:orderDate ?orderDate ;
+            schema:orderStatus ?status ;
             schema:orderDelivery ?orderDelivery .
 
         ?orderDelivery a schema:ParcelDelivery ;
             foaf:page ?graph ;
             schema:expectedArrivalUntil ?requiredDate ;
-            # ?shippedDate ;
+            schema:availableFrom ?shippedDate ;
+            schema:price ?freight ;
             schema:deliveryAddress ?deliveryAddress ;
             schema:provider ?shipper .
 
@@ -32,7 +34,6 @@ CONSTRUCT
             schema:addressLocality ?shipCity ;
             schema:postalCode ?shipPostalCode ;
             schema:streetAddress ?shipAddress ;
-            schema:location ?deliveryLocation ;
             schema:addressRegion ?shipRegion .
     }
 }
@@ -70,4 +71,7 @@ WHERE
     BIND(strdt(?orderDateString, xsd:date) AS ?orderDate)
     BIND(strdt(?requiredDateString, xsd:date) AS ?requiredDate)
     BIND(strdt(?freightString, xsd:float) AS ?freight)
+    BIND(IF(BOUND(?shippedDate),
+            IF(?shippedDate > ?requiredDate, schema:OrderProblem, schema:OrderDelivered),
+            schema:OrderProcessing) AS ?status)
 }

@@ -7,13 +7,16 @@ CONSTRUCT
 {
     GRAPH ?graph
     {
+        ?graph foaf:topic ?orderItem .
+
         ?order schema:orderedItem ?orderItem .
 
         ?orderItem a schema:OrderItem ;
             schema:orderedItem ?product ;
             schema:orderQuantity ?quantity ;
             schema:discount ?discount ;
-            schema:price ?price .
+            schema:price ?price ;
+            schema:totalPrice ?lineTotal .
     }
 }
 WHERE
@@ -31,4 +34,5 @@ WHERE
     BIND (STRDT(?unitPrice, xsd:float) AS ?price)
     BIND (STRDT(?quantityString, xsd:integer) AS ?quantity)
     BIND (STRDT(?discountString, xsd:float) AS ?discount)
+    BIND (STRDT(str(round(?quantity * ?price * (1 - ?discount) * 100) / 100), xsd:float) AS ?lineTotal)
 }
