@@ -44,6 +44,32 @@ schema:ParcelDelivery a owl:Class ;
     rdfs:label "Delivery" ;
     rdfs:isDefinedBy : .
 
+schema:DeliveryEvent a owl:Class ;
+    rdfs:label "Shipment" ;
+    rdfs:isDefinedBy : .
+
+schema:Offer a owl:Class ;
+    rdfs:label "Offer" ;
+    rdfs:isDefinedBy : .
+
+schema:PriceSpecification a owl:Class ;
+    rdfs:label "Price specification" ;
+    rdfs:isDefinedBy : .
+
+schema:DeliveryChargeSpecification a owl:Class ;
+    rdfs:label "Delivery charge" ;
+    rdfs:subClassOf schema:PriceSpecification ;
+    rdfs:isDefinedBy : .
+
+schema:UnitPriceSpecification a owl:Class ;
+    rdfs:label "Unit price" ;
+    rdfs:subClassOf schema:PriceSpecification ;
+    rdfs:isDefinedBy : .
+
+schema:DeliveryMethod a owl:Class ;
+    rdfs:label "Delivery method" ;
+    rdfs:isDefinedBy : .
+
 schema:OrderItem a owl:Class ;
     rdfs:label "Order item" ;
     rdfs:isDefinedBy : .
@@ -100,6 +126,53 @@ schema:orderDelivery a owl:ObjectProperty ;
     rdfs:range schema:ParcelDelivery ;
     rdfs:isDefinedBy : .
 
+schema:acceptedOffer a owl:ObjectProperty ;
+    rdfs:label "Accepted offer" ;
+    rdfs:domain schema:Order ;
+    rdfs:range schema:Offer ;
+    rdfs:isDefinedBy : .
+
+schema:offers a owl:ObjectProperty ;
+    rdfs:label "Offer" ;
+    rdfs:domain schema:Product ;
+    rdfs:range schema:Offer ;
+    rdfs:isDefinedBy : .
+
+schema:priceType a owl:ObjectProperty ;
+    rdfs:label "Price type" ;
+    rdfs:domain schema:UnitPriceSpecification ;
+    rdfs:isDefinedBy : .
+
+schema:itemOffered a owl:ObjectProperty ;
+    rdfs:label "Product" ;
+    rdfs:domain schema:Offer ;
+    rdfs:range schema:Product ;
+    rdfs:isDefinedBy : .
+
+schema:priceSpecification a owl:ObjectProperty ;
+    rdfs:label "Price specification" ;
+    rdfs:domain schema:Offer ;
+    rdfs:range schema:PriceSpecification ;
+    rdfs:isDefinedBy : .
+
+schema:appliesToDeliveryMethod a owl:ObjectProperty ;
+    rdfs:label "Delivery method" ;
+    rdfs:domain schema:DeliveryChargeSpecification ;
+    rdfs:range schema:DeliveryMethod ;
+    rdfs:isDefinedBy : .
+
+schema:deliveryStatus a owl:ObjectProperty ;
+    rdfs:label "Shipment" ;
+    rdfs:domain schema:ParcelDelivery ;
+    rdfs:range schema:DeliveryEvent ;
+    rdfs:isDefinedBy : .
+
+schema:partOfOrder a owl:ObjectProperty ;
+    rdfs:label "Order" ;
+    rdfs:domain schema:ParcelDelivery ;
+    rdfs:range schema:Order ;
+    rdfs:isDefinedBy : .
+
 schema:deliveryAddress a owl:ObjectProperty ;
     rdfs:label "Delivery address" ;
     rdfs:domain schema:ParcelDelivery ;
@@ -131,8 +204,6 @@ schema:sponsor a owl:ObjectProperty ;
 
 schema:orderedItem a owl:ObjectProperty ;
     rdfs:label "Ordered item" ;
-    rdfs:domain schema:Order ;
-    rdfs:range schema:Product ;
     rdfs:isDefinedBy : .
 
 schema:orderStatus a owl:ObjectProperty ;
@@ -220,22 +291,19 @@ schema:orderQuantity a owl:DatatypeProperty ;
     rdfs:domain schema:OrderItem ;
     rdfs:isDefinedBy : .
 
-schema:discount a owl:DatatypeProperty ;
-    rdfs:label "Discount" ;
-    rdfs:domain schema:OrderItem ;
-    rdfs:isDefinedBy : .
-
+# left without an rdfs:domain on purpose: schema:price is carried both by the order
+# lines (as schema:Offer) and by the freight charge (as schema:DeliveryChargeSpecification)
 schema:price a owl:DatatypeProperty ;
     rdfs:label "Price" ;
     rdfs:isDefinedBy : .
 
-schema:totalPrice a owl:DatatypeProperty ;
-    rdfs:label "Total price" ;
+schema:priceCurrency a owl:DatatypeProperty ;
+    rdfs:label "Currency" ;
     rdfs:isDefinedBy : .
 
-schema:availableFrom a owl:DatatypeProperty ;
-    rdfs:label "Shipped date" ;
-    rdfs:domain schema:ParcelDelivery ;
+schema:startDate a owl:DatatypeProperty ;
+    rdfs:label "Shipped" ;
+    rdfs:domain schema:DeliveryEvent ;
     rdfs:isDefinedBy : .
 
 schema:orderDate a owl:DatatypeProperty ;
@@ -354,7 +422,7 @@ WHERE
       { ?product a schema:Product ;
                  schema:provider $about ;
                  schema:category ?category ;
-                 schema:price ?price
+                 schema:offers/schema:price ?price
       }
   }
 ORDER BY ?product
@@ -440,8 +508,7 @@ WHERE
       { $about schema:orderedItem ?item .
         ?item schema:orderedItem ?product ;
               schema:orderQuantity ?quantity ;
-              schema:price ?price ;
-              schema:totalPrice ?lineTotal
+              schema:price ?lineTotal
       }
   }
 ORDER BY ?item

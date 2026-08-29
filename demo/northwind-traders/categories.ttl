@@ -57,10 +57,7 @@ WHERE {
     GRAPH ?orderGraph {
         ?order schema:orderedItem ?orderItem .
         ?orderItem schema:orderedItem ?product ;
-                   schema:orderQuantity ?quantity ;
-                   schema:price ?price ;
-                   schema:discount ?discount .
-        BIND(?quantity * ?price * (1 - ?discount) AS ?sale)
+                   schema:price ?sale .
     }
     GRAPH ?productGraph {
         ?product schema:category ?category .

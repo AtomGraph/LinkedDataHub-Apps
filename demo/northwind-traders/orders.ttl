@@ -174,7 +174,7 @@ WHERE {
                schema:orderDate ?orderDate ;
                schema:orderDelivery ?delivery ;
                schema:orderedItem ?orderItem .
-        ?orderItem schema:totalPrice ?lineTotal .
+        ?orderItem schema:price ?lineTotal .
         ?delivery schema:provider ?shipper .
     }
     GRAPH ?shipperGraph {

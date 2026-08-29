@@ -50,10 +50,7 @@ WHERE {
         ?order a schema:Order ;
                schema:orderDate ?orderDate ;
                schema:orderedItem ?orderItem .
-        ?orderItem schema:orderQuantity ?quantity ;
-                   schema:price ?price ;
-                   schema:discount ?discount .
-        BIND(?quantity * ?price * (1 - ?discount) AS ?sale)
+        ?orderItem schema:price ?sale .
         BIND(SUBSTR(STR(?orderDate), 1, 7) AS ?month)
     }
     # The order book stops part-way through its final month, which would render as a
@@ -90,12 +87,9 @@ WHERE {
     GRAPH ?orderGraph {
         ?order schema:orderedItem ?orderItem ;
                schema:orderDelivery ?delivery .
-        ?orderItem schema:orderQuantity ?quantity ;
-                   schema:price ?price ;
-                   schema:discount ?discount .
+        ?orderItem schema:price ?sale .
         ?delivery schema:deliveryAddress ?address .
         ?address schema:addressCountry ?country .
-        BIND(?quantity * ?price * (1 - ?discount) AS ?sale)
     }
 }
 GROUP BY ?country

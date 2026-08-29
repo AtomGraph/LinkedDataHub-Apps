@@ -8,7 +8,8 @@ CONSTRUCT
     GRAPH ?graph
     {
         ?graph dct:title ?productName ;
-            foaf:primaryTopic ?product .
+            foaf:primaryTopic ?product ;
+            foaf:topic ?offer .
 
         ?product a schema:Product ;
             schema:identifier ?productID ;
@@ -17,11 +18,21 @@ CONSTRUCT
             schema:provider ?supplier ;
             schema:category ?category ;
             schema:description ?quantityPerUnit ;
-            schema:price ?unitPrice .
+            schema:offers ?offer .
             # ?unitsInStock ;
             # ?unitsOnOrder ;
             # ?reorderLevel ;
             # ?discontinued - schema:Discontinued
+
+        # schema:Product has no price of its own - schema:price belongs to schema:Offer,
+        # which a product reaches through schema:offers. This is the catalogue price;
+        # what a given order line was actually billed at lives on that line's own offer.
+        ?offer a schema:Offer ;
+            foaf:page ?graph ;
+            dct:title "List price" ;
+            schema:itemOffered ?product ;
+            schema:price ?unitPrice ;
+            schema:priceCurrency "USD" .
     }
 }
 WHERE
@@ -40,6 +51,7 @@ WHERE
     BIND (uri(concat(str($base), "products/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?productID), "/")) AS ?graph)
     BIND(uri(concat(str(?graph), "#this")) AS ?product)
+    BIND(uri(concat(str(?graph), "#offer")) AS ?offer)
     BIND(uri(concat(str($base), "suppliers/", encode_for_uri(?supplierID), "/#this")) AS ?supplier)
     BIND(uri(concat(str($base), "categories/", encode_for_uri(?categoryID), "/#this")) AS ?category)
     BIND (STRDT(?unitPriceString, xsd:float) AS ?unitPrice)
