@@ -10,24 +10,35 @@
   <> a dh:Container ;
       dct:title "Products" ;
       rdf:_1 <#products-intro> ;
-      rdf:_2 <#top-selling-products-block> ;
-      rdf:_3 <#category-analysis-intro> ;
-      rdf:_4 <#revenue-by-category-block> ;
-      rdf:_5 <#products-by-supplier-block> ;
-      rdf:_6 <#supplier-context> ;
-      rdf:_7 <#select-products> .
+      rdf:_2 <#select-products> ;
+      rdf:_3 <#performance-intro> ;
+      rdf:_4 <#top-selling-products-block> ;
+      rdf:_5 <#supplier-context> ;
+      rdf:_6 <#products-by-supplier-block> .
 
   # Intro XHTML
   <#products-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h3>Product analytics</h3>
-          <p>Analyze product performance, category distribution, and supplier relationships.
-             The Northwind catalog includes products across multiple categories from various suppliers,
-             each with unique pricing and inventory characteristics.</p>
+          <div class="ldh-section">
+              <h2>The catalogue</h2>
+              <p>Every product Northwind sells, with its category, supplier and unit price. Open one to see the
+                 orders it appears in and the supplier behind it.</p>
+          </div>
+      </div>"""^^rdf:XMLLiteral .
+
+  # Performance intro
+  <#performance-intro> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <div class="ldh-section">
+              <h2>Product performance</h2>
+              <p>Which lines actually carry the revenue? Category-level breakdowns live under
+                 <a href="../categories/">Categories</a>.</p>
+          </div>
       </div>"""^^rdf:XMLLiteral .
 
   # Chart block (wrapped in ldh:Object per ContentMode contract)
   <#top-selling-products-block> a ldh:Object ;
+      dct:title "Top selling products" ;
       rdf:value <#top-selling-products> .
 
   <#top-selling-products> a ldh:ResultSetChart ;
@@ -48,8 +59,9 @@ WHERE
       { ?order    schema:orderedItem    ?orderItem .
         ?orderItem  schema:orderedItem  ?product ;
                   schema:orderQuantity  ?quantity ;
-                  schema:price          ?price
-      BIND (?quantity * ?price AS ?sale)
+                  schema:price          ?price ;
+                  schema:discount       ?discount
+      BIND (?quantity * ?price * (1 - ?discount) AS ?sale)
       }
     GRAPH ?productGraph
       { ?product  schema:name  ?productName }
@@ -58,50 +70,9 @@ GROUP BY ?product ?productName
 ORDER BY DESC(?totalSales)
 LIMIT   5""" .
 
-  # Category analysis intro
-  <#category-analysis-intro> a ldh:XHTML ;
-      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h4>Category performance</h4>
-          <p>Understanding how products and revenue are distributed across categories helps identify
-             market strengths and opportunities. The following charts break down revenue and product count by category.</p>
-      </div>"""^^rdf:XMLLiteral .
-
-  # Revenue by category chart (wrapped in ldh:Object per ContentMode contract)
-  <#revenue-by-category-block> a ldh:Object ;
-      rdf:value <#revenue-by-category> .
-
-  <#revenue-by-category> a ldh:ResultSetChart ;
-      dct:title "Revenue by category" ;
-      spin:query <#category-revenue-query> ;
-      ldh:chartType <https://w3id.org/atomgraph/client#BarChart> ;
-      ldh:categoryVarName "categoryName" ;
-      ldh:seriesVarName "revenue" .
-
-  <#category-revenue-query> a sp:Select ;
-      dct:title "Category revenue" ;
-      sp:text """PREFIX schema: <https://schema.org/>
-
-SELECT ?categoryName (SUM(?sale) AS ?revenue)
-WHERE {
-    GRAPH ?orderGraph {
-        ?order schema:orderedItem ?orderItem .
-        ?orderItem schema:orderedItem ?product ;
-                   schema:orderQuantity ?quantity ;
-                   schema:price ?price .
-        BIND(?quantity * ?price AS ?sale)
-    }
-    GRAPH ?productGraph {
-        ?product schema:category ?category .
-    }
-    GRAPH ?categoryGraph {
-        ?category schema:name ?categoryName .
-    }
-}
-GROUP BY ?category ?categoryName
-ORDER BY DESC(?revenue)""" .
-
   # Products by supplier chart (wrapped in ldh:Object per ContentMode contract)
   <#products-by-supplier-block> a ldh:Object ;
+      dct:title "Products by supplier" ;
       rdf:value <#products-by-supplier> .
 
   <#products-by-supplier> a ldh:ResultSetChart ;
@@ -132,13 +103,16 @@ LIMIT 10""" .
   # Supplier context
   <#supplier-context> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h4>Supplier relationships</h4>
-          <p>Northwind Traders works with suppliers worldwide to source products. The distribution of products
-             across suppliers shows which partnerships are most productive and may indicate supply chain dependencies.</p>
+          <div class="ldh-section">
+              <h2>Supplier relationships</h2>
+              <p>Northwind sources from suppliers worldwide. How the catalogue spreads across them shows which
+                 partnerships carry the range — and where the supply chain concentrates.</p>
+          </div>
       </div>"""^^rdf:XMLLiteral .
 
   # Object block (references the view)
   <#select-products> a ldh:Object ;
+      dct:title "All products" ;
       rdf:value <#select-products-view> .
 
   # View block (references the query, uses TableMode)

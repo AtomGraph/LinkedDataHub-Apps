@@ -14,21 +14,26 @@
       rdf:_3 <#analytics-intro> ;
       rdf:_4 <#orders-over-time-block> ;
       rdf:_5 <#geographic-intro> ;
-      rdf:_6 <#orders-by-country-block> .
+      rdf:_6 <#orders-by-country-block> ;
+      rdf:_7 <#carrier-intro> ;
+      rdf:_8 <#revenue-by-carrier-block> .
 
   # Intro XHTML
   <#orders-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h3>The order book</h3>
-          <p>Every order links a customer, the employee who brokered it, the shipper that delivered it, and the
-             products it contains. The gallery below lists all 830 orders, newest first, with their status and
-             total value — sort any column or use the facets to filter. Open an order to see its full
-             master-detail view: the line items with quantities, unit prices and line totals, the delivery with
-             its address, and the people and companies involved.</p>
+          <div class="ldh-section">
+              <h2>The order book</h2>
+              <p>Every order links a customer, the sales rep who booked it, the shipper that delivered it and the
+                 products it contains. Orders are listed newest first with their status — sort any column or
+                 filter with the facets. Open one for its full master–detail view: line items with quantities,
+                 unit prices and line totals, the delivery and its address, and the people and companies
+                 involved.</p>
+          </div>
       </div>"""^^rdf:XMLLiteral .
 
   # Object block (references the view)
   <#select-orders> a ldh:Object ;
+      dct:title "All orders" ;
       rdf:value <#select-orders-view> .
 
   # View block (references the query, uses TableMode)
@@ -49,8 +54,7 @@
                   schema:orderDate   ?orderDate ;
                   schema:customer    ?customer ;
                   schema:broker      ?employee ;
-                  schema:orderStatus ?status ;
-                  schema:totalPrice  ?total
+                  schema:orderStatus ?status
         }
     }
   ORDER BY DESC(?orderDate)""" .
@@ -58,13 +62,15 @@
   # Analytics intro
   <#analytics-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h3>Order analytics</h3>
-          <p>Beyond the individual orders, the Knowledge Graph answers aggregate questions with live SPARQL
-             queries. How has order volume developed over time?</p>
+          <div class="ldh-section">
+              <h2>Order analytics</h2>
+              <p>Beyond the individual records, how has order volume developed over time?</p>
+          </div>
       </div>"""^^rdf:XMLLiteral .
 
   # Orders over time chart (wrapped in ldh:Object per ContentMode contract)
   <#orders-over-time-block> a ldh:Object ;
+      dct:title "Orders per month" ;
       rdf:value <#orders-over-time> .
 
   <#orders-over-time> a ldh:ResultSetChart ;
@@ -92,13 +98,16 @@ ORDER BY ?month""" .
   # Geographic intro
   <#geographic-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h4>Geographic distribution</h4>
-          <p>And where do the orders go? Each order's delivery address places it on the map — the chart below
-             counts orders per destination country, revealing where Northwind's markets are strongest.</p>
+          <div class="ldh-section">
+              <h2>Geographic distribution</h2>
+              <p>And where do the orders go? Each order's delivery address places it in a destination country,
+                 showing where Northwind's markets are strongest.</p>
+          </div>
       </div>"""^^rdf:XMLLiteral .
 
   # Orders by country chart (wrapped in ldh:Object per ContentMode contract)
   <#orders-by-country-block> a ldh:Object ;
+      dct:title "Orders by country" ;
       rdf:value <#orders-by-country> .
 
   <#orders-by-country> a ldh:ResultSetChart ;
@@ -123,3 +132,63 @@ WHERE {
 GROUP BY ?country
 ORDER BY DESC(?orderCount)
 LIMIT 10""" .
+
+  # Carrier intro
+  <#carrier-intro> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <div class="ldh-section">
+              <h2>Who carries the freight</h2>
+              <p>Three carriers deliver every order. Their monthly revenue shows how the
+                 shipping mix has shifted.</p>
+          </div>
+      </div>"""^^rdf:XMLLiteral .
+
+  # Revenue by carrier - the one multi-series chart in the app. Each ldh:seriesVarName
+  # names its own measure column (wide format); the query pivots with conditional
+  # aggregation. Three carriers is a small fixed set, so naming them here is tolerable -
+  # a fourth would silently not appear.
+  <#revenue-by-carrier-block> a ldh:Object ;
+      dct:title "Revenue by carrier" ;
+      rdf:value <#revenue-by-carrier> .
+
+  <#revenue-by-carrier> a ldh:ResultSetChart ;
+      dct:title "Revenue by carrier" ;
+      spin:query <#revenue-by-carrier-query> ;
+      ldh:chartType <https://w3id.org/atomgraph/client#LineChart> ;
+      ldh:categoryVarName "month" ;
+      ldh:seriesVarName "speedyExpress" ;
+      ldh:seriesVarName "unitedPackage" ;
+      ldh:seriesVarName "federalShipping" .
+
+  <#revenue-by-carrier-query> a sp:Select ;
+      dct:title "Revenue by carrier" ;
+      sp:text """PREFIX schema: <https://schema.org/>
+
+SELECT ?month
+       (ROUND(SUM(IF(?carrier = "Speedy Express", ?lineTotal, 0))) AS ?speedyExpress)
+       (ROUND(SUM(IF(?carrier = "United Package", ?lineTotal, 0))) AS ?unitedPackage)
+       (ROUND(SUM(IF(?carrier = "Federal Shipping", ?lineTotal, 0))) AS ?federalShipping)
+WHERE {
+    GRAPH ?orderGraph {
+        ?order a schema:Order ;
+               schema:orderDate ?orderDate ;
+               schema:orderDelivery ?delivery ;
+               schema:orderedItem ?orderItem .
+        ?orderItem schema:totalPrice ?lineTotal .
+        ?delivery schema:provider ?shipper .
+    }
+    GRAPH ?shipperGraph {
+        ?shipper schema:legalName ?carrier .
+    }
+    BIND(SUBSTR(STR(?orderDate), 1, 7) AS ?month)
+    # Drop the final, incomplete month - derived from the data rather than pinned to a date.
+    {
+        SELECT (SUBSTR(STR(MAX(?anyDate)), 1, 7) AS ?partialMonth)
+        WHERE {
+            GRAPH ?g { ?anyOrder a schema:Order ; schema:orderDate ?anyDate }
+        }
+    }
+    FILTER (?month < ?partialMonth)
+}
+GROUP BY ?month
+ORDER BY ?month""" .
