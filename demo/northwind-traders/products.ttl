@@ -93,7 +93,7 @@ WHERE {
                  schema:provider ?supplier .
     }
     GRAPH ?supplierGraph {
-        ?supplier schema:name ?supplierName .
+        ?supplier schema:legalName ?supplierName .
     }
 }
 GROUP BY ?supplier ?supplierName
