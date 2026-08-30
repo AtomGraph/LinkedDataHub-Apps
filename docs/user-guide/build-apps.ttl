@@ -18,7 +18,7 @@
         <h2 id="docker">Docker</h2>
         <p>You can go a long way just by mounting files (e.g. config files, ontologies, stylesheets) into LinkedDataHub's default Docker setup. But you may also want to build a dedicated Docker image for your app using LinkedDataHub as the base. Usually this is done to <code>COPY</code> files inside the image or <code>RUN</code> additional commands.</p>
         <p>The recommended approach is a multi-stage Docker build: the first stage uses Maven to compile your WAR overlay, and the second stage copies it into the LinkedDataHub base image alongside any static files:</p>
-        <pre>FROM maven:3.8.4-openjdk-17 AS maven
+        <pre>FROM maven:3.9-eclipse-temurin-21 AS maven
 
 WORKDIR /usr/src/myapp
 
@@ -29,7 +29,7 @@ RUN mvn clean install
 
 # =================
 
-FROM atomgraph/linkeddatahub:5.3.2
+FROM atomgraph/linkeddatahub:5.9.1
 
 WORKDIR $CATALINA_HOME
 
@@ -50,13 +50,13 @@ COPY files/style.css  /usr/local/tomcat/webapps/ROOT/static/com/example/myapp/cs
     &lt;dependency&gt;
         &lt;groupId&gt;com.atomgraph&lt;/groupId&gt;
         &lt;artifactId&gt;linkeddatahub&lt;/artifactId&gt;
-        &lt;version&gt;5.5.3&lt;/version&gt;
+        &lt;version&gt;5.9.1&lt;/version&gt;
         &lt;classifier&gt;classes&lt;/classifier&gt;
     &lt;/dependency&gt;
     &lt;dependency&gt;
         &lt;groupId&gt;com.atomgraph&lt;/groupId&gt;
         &lt;artifactId&gt;linkeddatahub&lt;/artifactId&gt;
-        &lt;version&gt;5.5.3&lt;/version&gt;
+        &lt;version&gt;5.9.1&lt;/version&gt;
         &lt;type&gt;war&lt;/type&gt;
     &lt;/dependency&gt;
 &lt;/dependencies&gt;
