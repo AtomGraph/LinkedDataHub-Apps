@@ -13,10 +13,12 @@
       rdf:_2 <#select-orders> ;
       rdf:_3 <#analytics-intro> ;
       rdf:_4 <#orders-over-time-block> ;
-      rdf:_5 <#geographic-intro> ;
-      rdf:_6 <#orders-by-country-block> ;
-      rdf:_7 <#carrier-intro> ;
-      rdf:_8 <#revenue-by-carrier-block> .
+      rdf:_5 <#fulfilment-intro> ;
+      rdf:_6 <#days-to-ship-block> ;
+      rdf:_7 <#on-time-block> ;
+      rdf:_8 <#carrier-intro> ;
+      rdf:_9 <#late-by-carrier-block> ;
+      rdf:_10 <#revenue-by-carrier-block> .
 
   # Intro XHTML
   <#orders-intro> a ldh:XHTML ;
@@ -25,9 +27,9 @@
               <h2>The order book</h2>
               <p>Every order links a customer, the sales rep who booked it, the shipper that delivered it and the
                  products it contains. Orders are listed newest first with their status — sort any column or
-                 filter with the facets. Open one for its full master–detail view: line items with quantities,
-                 unit prices and line totals, the delivery and its address, and the people and companies
-                 involved.</p>
+                 filter with the facets. Open one for its full master–detail view: line items with their
+                 quantities and line totals, the catalogue price each was struck against, the delivery
+                 and its address, and the people and companies involved.</p>
           </div>
       </div>"""^^rdf:XMLLiteral .
 
@@ -95,53 +97,148 @@ WHERE {
 GROUP BY ?month
 ORDER BY ?month""" .
 
-  # Geographic intro
-  <#geographic-intro> a ldh:XHTML ;
+  # Fulfilment intro
+  <#fulfilment-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
           <div class="ldh-section">
-              <h2>Geographic distribution</h2>
-              <p>And where do the orders go? Each order's delivery address places it in a destination country,
-                 showing where Northwind's markets are strongest.</p>
+              <h2>From order to doorstep</h2>
+              <p>Every order records three dates: the day it was placed, the day the customer needed it
+                 by, and — once the parcel actually leaves the warehouse — the day it was dispatched.
+                 Two questions fall out of those. How quickly does Northwind get an order out of the
+                 door, and how often does it beat the date it promised? Orders still waiting to ship
+                 are left out of the second chart, since they have no outcome yet.</p>
           </div>
       </div>"""^^rdf:XMLLiteral .
 
-  # Orders by country chart (wrapped in ldh:Object per ContentMode contract)
-  <#orders-by-country-block> a ldh:Object ;
-      dct:title "Orders by country" ;
-      rdf:value <#orders-by-country> .
+  # Days from order to dispatch
+  <#days-to-ship-block> a ldh:Object ;
+      dct:title "Days to ship" ;
+      rdf:value <#days-to-ship> .
 
-  <#orders-by-country> a ldh:ResultSetChart ;
-      dct:title "Orders by country" ;
-      spin:query <#orders-by-country-query> ;
-      ldh:chartType <https://w3id.org/atomgraph/client#BarChart> ;
-      ldh:categoryVarName "country" ;
-      ldh:seriesVarName "orderCount" .
+  <#days-to-ship> a ldh:ResultSetChart ;
+      dct:title "Days to ship" ;
+      spin:query <#days-to-ship-query> ;
+      ldh:chartType <https://w3id.org/atomgraph/client#LineChart> ;
+      ldh:categoryVarName "month" ;
+      ldh:seriesVarName "daysToShip" .
 
-  <#orders-by-country-query> a sp:Select ;
-      dct:title "Orders by country" ;
+  <#days-to-ship-query> a sp:Select ;
+      dct:title "Days to ship by month" ;
       sp:text """PREFIX schema: <https://schema.org/>
+PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
 
-SELECT ?country (COUNT(DISTINCT ?order) AS ?orderCount)
+SELECT ?month (ROUND(AVG(?days) * 10) / 10 AS ?daysToShip)
 WHERE {
     GRAPH ?orderGraph {
-        ?order schema:orderDelivery ?delivery .
-        ?delivery schema:deliveryAddress ?address .
-        ?address schema:addressCountry ?country .
+        ?order a schema:Order ;
+               schema:orderDate ?orderDate ;
+               schema:orderDelivery ?delivery .
+        # the dispatch is a DeliveryEvent leg of the parcel's journey, so orders that
+        # never shipped simply have no event and drop out of the average
+        ?delivery schema:deliveryStatus ?shipment .
+        ?shipment schema:startDate ?shippedDate .
+        BIND(SUBSTR(STR(?orderDate), 1, 7) AS ?month)
+        BIND((?shippedDate - ?orderDate) / xsd:dayTimeDuration("P1D") AS ?days)
     }
+    # The order book stops part-way through its final month, which would render as a
+    # cliff rather than a trend. Drop that month — derived from the data, not pinned
+    # to a date, so it stays correct if the dataset grows.
+    {
+        SELECT (SUBSTR(STR(MAX(?anyDate)), 1, 7) AS ?partialMonth)
+        WHERE {
+            GRAPH ?g { ?anyOrder a schema:Order ; schema:orderDate ?anyDate }
+        }
+    }
+    FILTER (?month < ?partialMonth)
 }
-GROUP BY ?country
-ORDER BY DESC(?orderCount)
-LIMIT 10""" .
+GROUP BY ?month
+ORDER BY ?month""" .
+
+  # On-time shipping rate
+  <#on-time-block> a ldh:Object ;
+      dct:title "Shipped on time" ;
+      rdf:value <#on-time> .
+
+  <#on-time> a ldh:ResultSetChart ;
+      dct:title "Shipped on time" ;
+      spin:query <#on-time-query> ;
+      ldh:chartType <https://w3id.org/atomgraph/client#LineChart> ;
+      ldh:categoryVarName "month" ;
+      ldh:seriesVarName "onTimePercent" .
+
+  <#on-time-query> a sp:Select ;
+      dct:title "On-time rate by month" ;
+      sp:text """PREFIX schema: <https://schema.org/>
+
+SELECT ?month (ROUND(SUM(IF(?status = schema:OrderDelivered, 1, 0)) * 1000 / COUNT(?order)) / 10 AS ?onTimePercent)
+WHERE {
+    GRAPH ?orderGraph {
+        ?order a schema:Order ;
+               schema:orderDate ?orderDate ;
+               schema:orderStatus ?status .
+        BIND(SUBSTR(STR(?orderDate), 1, 7) AS ?month)
+    }
+    # an order still awaiting dispatch has no outcome yet - counting it as a miss would
+    # drag the rate down for the months at the end of the book
+    FILTER (?status != schema:OrderProcessing)
+    # The order book stops part-way through its final month, which would render as a
+    # cliff rather than a trend. Drop that month — derived from the data, not pinned
+    # to a date, so it stays correct if the dataset grows.
+    {
+        SELECT (SUBSTR(STR(MAX(?anyDate)), 1, 7) AS ?partialMonth)
+        WHERE {
+            GRAPH ?g { ?anyOrder a schema:Order ; schema:orderDate ?anyDate }
+        }
+    }
+    FILTER (?month < ?partialMonth)
+}
+GROUP BY ?month
+ORDER BY ?month""" .
 
   # Carrier intro
   <#carrier-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
           <div class="ldh-section">
               <h2>Who carries the freight</h2>
-              <p>Three carriers deliver every order. Their monthly revenue shows how the
-                 shipping mix has shifted.</p>
+              <p>Three carriers deliver every order, which makes them worth comparing on two
+                 axes. How often does a carrier miss the date the customer was promised, and
+                 how much revenue does each one move month to month? The first is a question
+                 about reliability, the second about how the shipping mix has shifted.</p>
           </div>
       </div>"""^^rdf:XMLLiteral .
+
+  # Late shipments by carrier
+  <#late-by-carrier-block> a ldh:Object ;
+      dct:title "Late shipments by carrier" ;
+      rdf:value <#late-by-carrier> .
+
+  <#late-by-carrier> a ldh:ResultSetChart ;
+      dct:title "Late shipments by carrier" ;
+      spin:query <#late-by-carrier-query> ;
+      ldh:chartType <https://w3id.org/atomgraph/client#BarChart> ;
+      ldh:categoryVarName "carrier" ;
+      ldh:seriesVarName "latePercent" .
+
+  <#late-by-carrier-query> a sp:Select ;
+      dct:title "Late shipments by carrier" ;
+      sp:text """PREFIX schema: <https://schema.org/>
+
+SELECT ?carrier (ROUND(SUM(IF(?status = schema:OrderProblem, 1, 0)) * 1000 / COUNT(?order)) / 10 AS ?latePercent)
+WHERE {
+    GRAPH ?orderGraph {
+        ?order a schema:Order ;
+               schema:orderStatus ?status ;
+               schema:orderDelivery ?delivery .
+        ?delivery schema:provider ?shipper .
+    }
+    GRAPH ?shipperGraph {
+        ?shipper schema:legalName ?carrier .
+    }
+    # not yet dispatched is not the same as delivered late
+    FILTER (?status != schema:OrderProcessing)
+}
+GROUP BY ?carrier
+ORDER BY DESC(?latePercent)""" .
 
   # Revenue by carrier - the one multi-series chart in the app. Each ldh:seriesVarName
   # names its own measure column (wide format); the query pivots with conditional

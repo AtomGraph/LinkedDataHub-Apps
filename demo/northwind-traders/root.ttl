@@ -14,18 +14,21 @@
     dct:description "Knowledge Graph representation of the Northwind Traders sample database" ;
     rdf:_1 <#overview-intro> ;
     rdf:_2 <#sales-trend-block> ;
-    rdf:_3 <#revenue-by-country-block> ;
-    rdf:_4 <#top-selling-products> ;
-    rdf:_5 <#top-manager-header> ;
-    rdf:_6 <#top-manager> ;
-    rdf:_7 <#navigation-prompt> ;
-    rdf:_8 <#select-children> .
+    rdf:_3 <#margin-intro> ;
+    rdf:_4 <#discount-rate-block> ;
+    rdf:_5 <#revenue-by-country-block> ;
+    rdf:_6 <#top-selling-products> ;
+    rdf:_7 <#top-manager-header> ;
+    rdf:_8 <#top-manager> ;
+    rdf:_9 <#navigation-prompt> ;
+    rdf:_10 <#select-children> .
 
 <#overview-intro> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
         <div class="ldh-section">
             <h2>Executive dashboard</h2>
-            <p>Sales performance at a glance — revenue trends, market distribution and product mix.</p>
+            <p>Sales performance at a glance — how revenue is trending, what the discounting costs,
+               where the markets are and which products carry the mix.</p>
         </div>
     </div>"""^^rdf:XMLLiteral .
 
@@ -52,6 +55,64 @@ WHERE {
                schema:orderedItem ?orderItem .
         ?orderItem schema:price ?sale .
         BIND(SUBSTR(STR(?orderDate), 1, 7) AS ?month)
+    }
+    # The order book stops part-way through its final month, which would render as a
+    # cliff rather than a trend. Drop that month — derived from the data, not pinned
+    # to a date, so it stays correct if the dataset grows.
+    {
+        SELECT (SUBSTR(STR(MAX(?anyDate)), 1, 7) AS ?partialMonth)
+        WHERE {
+            GRAPH ?g { ?anyOrder a schema:Order ; schema:orderDate ?anyDate }
+        }
+    }
+    FILTER (?month < ?partialMonth)
+}
+GROUP BY ?month
+ORDER BY ?month""" .
+
+<#margin-intro> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <div class="ldh-section">
+            <h2>What the deals cost</h2>
+            <p>Revenue is what was billed, not what was listed. Every order line keeps the catalogue
+               price it started from alongside the price it actually went out at, so the gap between
+               them is what the sales rep gave away to win the deal. Measured against gross, that gap
+               swings between roughly 4% and 11% month to month — a commercial lever in its own
+               right, and one that never shows up in a revenue chart.</p>
+        </div>
+    </div>"""^^rdf:XMLLiteral .
+
+<#discount-rate-block> a ldh:Object ;
+    dct:title "Discount rate" ;
+    rdf:value <#discount-rate> .
+
+<#discount-rate> a ldh:ResultSetChart ;
+    dct:title "Discount rate" ;
+    spin:query <#discount-by-month-query> ;
+    ldh:chartType <https://w3id.org/atomgraph/client#LineChart> ;
+    ldh:categoryVarName "month" ;
+    ldh:seriesVarName "discountPercent" .
+
+<#discount-by-month-query> a sp:Select ;
+    dct:title "Discount rate by month" ;
+    sp:text """PREFIX schema: <https://schema.org/>
+
+SELECT ?month (ROUND(SUM(?discount) * 1000 / SUM(?gross)) / 10 AS ?discountPercent)
+WHERE {
+    GRAPH ?orderGraph {
+        ?order a schema:Order ;
+               schema:orderDate ?orderDate ;
+               schema:orderedItem ?orderItem .
+        # the line's own price is net of discount; the catalogue price it was struck
+        # against hangs off it as a ListPrice specification
+        ?orderItem schema:orderQuantity ?quantity ;
+                   schema:price ?net ;
+                   schema:priceSpecification ?listPrice .
+        ?listPrice schema:priceType schema:ListPrice ;
+                   schema:price ?unitPrice .
+        BIND(SUBSTR(STR(?orderDate), 1, 7) AS ?month)
+        BIND(?quantity * ?unitPrice AS ?gross)
+        BIND(?gross - ?net AS ?discount)
     }
     # The order book stops part-way through its final month, which would render as a
     # cliff rather than a trend. Drop that month — derived from the data, not pinned
