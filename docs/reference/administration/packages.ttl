@@ -12,10 +12,10 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
   <p class="lead">Packages are reusable bundles of ontologies and stylesheets that provide vocabulary support with custom rendering for specific RDF vocabularies.</p>
   <div class="alert alert-info">
-    <p><strong>Version:</strong> Packages were introduced in LinkedDataHub 5.2.</p>
+    <p><strong>Version:</strong> Packages were introduced in LinkedDataHub 5.2. Since 5.10 an application installs one by declaring a single <code>ldh:import</code> triple in its settings, replacing the <code>packages/install</code> and <code>packages/uninstall</code> endpoints and the file system mutations they performed.</p>
   </div>
   <div class="alert alert-info">
-    <p><strong>Note:</strong> Packages are <strong>declarative only</strong> (RDF + XSLT). They contain no Java code and integrate at installation-time, not runtime.</p>
+    <p><strong>Note:</strong> Packages are <strong>declarative only</strong> (RDF + XSLT). They contain no Java code, and they are composed into the application at request time rather than copied into it.</p>
   </div>
   <div>
     <h2 id="what-are-packages">What are packages?</h2>
@@ -109,65 +109,37 @@ ns:SelectNarrowerConcepts a sp:Select ;
   </div>
   <div>
     <h2 id="installing-packages">Installing packages</h2>
-    <p>Installation requires Control access to the administration application. See the <a href="../../../user-guide/manage-packages/" target="_blank">step-by-step installation guide</a> for detailed instructions.</p>
-    <p>Installation will fail if these files do not exist.</p>
-    <h3 id="installation-process">Installation process</h3>
-    <p>When you install a package, the system performs the following steps:</p>
+    <p>An application imports a package with a single triple in its settings:</p>
+    <pre>&lt;urn:linkeddatahub:apps/end-user&gt; ldh:import &lt;https://packages.linkeddatahub.com/skos/#this&gt; .</pre>
+    <p>That declaration is the installation — nothing is copied into the dataspace or onto the file system. Packages are installed into the <strong>end-user application</strong> of a dataspace, and writing the triple requires write access to its <samp>settings</samp> document. See the <a href="../../../user-guide/manage-packages/" target="_blank">step-by-step installation guide</a> for the user interface and command line instructions.</p>
+    <h3 id="installation-process">What the declaration does</h3>
+    <p>From the next request onwards, the server resolves the declaration:</p>
     <ol>
-      <li><strong>Fetches package metadata</strong> from the package URI</li>
-      <li><strong>Hashes the package ontology URI</strong> using SHA-1 to create a unique document slug</li>
-      <li><strong>Downloads package ontology</strong> (<code>ns.ttl</code>) and PUTs it as a document to <code>${admin_base}ontologies/{hash}/</code> where <code>{hash}</code> is the SHA-1 hash of the ontology URI</li>
-      <li><strong>Adds owl:imports</strong> from the namespace ontology to the package ontology in the namespace graph (<code>${admin_base}ontologies/namespace/</code>)</li>
-      <li><strong>Clears and reloads</strong> the namespace ontology from cache to pick up the new imports</li>
-      <li><strong>Downloads package stylesheet</strong> (<code>layout.xsl</code>) and saves it to <code>/static/{package-path}/layout.xsl</code> where <code>{package-path}</code> is derived from the package URI (e.g., <code>com/linkeddatahub/packages/skos/</code> for <code>https://packages.linkeddatahub.com/skos/</code>)</li>
-      <li><strong>Updates master stylesheet</strong> at <code>/static/xsl/layout.xsl</code> by adding import:
-        <pre>&lt;xsl:import href="../com/atomgraph/linkeddatahub/xsl/bootstrap/2.3.2/layout.xsl"/&gt;  &lt;!-- System --&gt;
-&lt;xsl:import href="../com/linkeddatahub/packages/skos/layout.xsl"/&gt;  &lt;!-- Package (added) --&gt;</pre>
-      </li>
+      <li><strong>Resolves the package description</strong> from the package URI. Bundled descriptions and cached graphs are read from the graph repository, other URIs are dereferenced over HTTP.</li>
+      <li><strong>Adds the package ontology</strong> (<code>ldt:ontology</code>) to the application's ontology imports closure, so the package's classes, constructors, constraints and views become available on the <samp>ns</samp> endpoint and in the UI.</li>
+      <li><strong>Composes the package stylesheet</strong> (<code>ac:stylesheet</code>) into the application stylesheet by appending an <code>xsl:import</code> after the existing imports, so package templates override the system ones.</li>
     </ol>
-    <div class="alert alert-warning">
-      <p><strong>Important:</strong> After installing or uninstalling a package, you must restart the Docker service for XSLT stylesheet changes to take effect:</p>
-      <pre>docker-compose restart linkeddatahub</pre>
-      <p>Do not use <code>--force-recreate</code> as that would overwrite the stylesheet file changes.</p>
-    </div>
+    <p>Packages are applied in the order of their URIs. A package carrying only an ontology or only a stylesheet is applied in that respect alone, and one whose description cannot be resolved is skipped. If the composed stylesheet fails to compile — an unreachable package stylesheet URL, for instance — the application falls back to its own stylesheet.</p>
   </div>
   <div>
     <h2 id="uninstalling-packages">Uninstalling packages</h2>
-    <p>Packages can be safely uninstalled, which removes:</p>
-    <ul>
-      <li>Package ontology imports from the application</li>
-      <li>Package-specific data and resources</li>
-      <li>Associated queries and stylesheets</li>
-    </ul>
+    <p>Removing the <code>ldh:import</code> triple uninstalls the package: from the next request onwards its ontology is out of the imports closure and its stylesheet is no longer composed in.</p>
     <div class="alert alert-info">
-      <p><strong>Note:</strong> Uninstalling a package does not remove user-created data that uses the package's vocabulary.</p>
+      <p><strong>Note:</strong> Uninstalling a package does not remove user-created data that uses the package's vocabulary. That data stays in the dataspace but may not display or function correctly without the package.</p>
     </div>
   </div>
   <div>
     <h2 id="architecture">Architecture</h2>
-    <h3 id="installation-time-composition">Installation-time vs runtime</h3>
-    <p>Packages use <strong>installation-time composition</strong>, NOT runtime composition:</p>
+    <h3 id="runtime-composition">Runtime composition</h3>
+    <p>Packages are composed at <strong>request time</strong> out of the declaration, not integrated into the application ahead of it:</p>
     <ul>
-      <li>✅ Package content is integrated during installation (via JAX-RS endpoints)</li>
-      <li>✅ Ontology and XSLT are pre-composed before being loaded</li>
-      <li>✅ No runtime overhead</li>
-      <li>❌ No dynamic package loading at request time</li>
+      <li>The dataspace settings hold one <code>ldh:import</code> triple per package and nothing else</li>
+      <li>The ontology closure and the stylesheet imports are assembled from the resolved package descriptions</li>
+      <li>Installing and uninstalling take effect on the next request — no restart, no file system mutation</li>
     </ul>
-    <h3 id="http-endpoints">HTTP endpoints</h3>
-    <p>Package installation and uninstallation is performed via <a href="../../http-api/#system-endpoints" target="_blank">system endpoints</a> on the admin application. See <code>packages/install</code> and <code>packages/uninstall</code> in the HTTP API reference.</p>
-    <h3 id="file-system-structure">File system structure</h3>
-    <p>After installing the SKOS package:</p>
-    <pre>webapp/
-├── static/
-│   ├── com/
-│   │   └── linkeddatahub/
-│   │       └── packages/
-│   │           └── skos/
-│   │               └── layout.xsl          # Package stylesheet
-│   └── xsl/
-│       ├── layout.xsl                      # End-user master stylesheet
-│       └── admin/
-│           └── layout.xsl                  # Admin master stylesheet</pre>
+    <div class="alert alert-warning">
+      <p>Packages installed with releases before 5.10 were webapp file mutations and do not carry over. Re-declare them with <code>ldh:import</code>.</p>
+    </div>
   </div>
   <div>
     <h2 id="creating-packages">Creating custom packages</h2>
@@ -202,12 +174,17 @@ schema:knows ldh:view :PersonKnows .
     ac:stylesheet &lt;https://raw.githubusercontent.com/you/repo/master/packages/schema.org/layout.xsl&gt; .</pre>
     <p>Ensure the metadata contains <code>ldt:ontology</code> and <code>ac:stylesheet</code> properties pointing to the package resources.</p>
     <h3 id="test-installation">Test installation</h3>
-    <p>Use the CLI to test your package installation:</p>
-    <pre>install-package.sh \\
-  -b "https://localhost:4443/" \\
-  -f ssl/owner/cert.pem \\
+    <p>Use the <a href="../../command-line-interface/">CLI</a> to test your package installation — declaring the <code>ldh:import</code> triple in the application's <samp>settings</samp> document is the installation:</p>
+    <pre>ldh patch \\
+  -f ssl/owner/keystore.p12 \\
   -p "$cert_password" \\
-  --package "https://packages.linkeddatahub.com/schema.org/#this"</pre>
+  "https://localhost:4443/settings" &lt;&lt;EOF
+INSERT
+{
+    &lt;urn:linkeddatahub:apps/end-user&gt; &lt;https://w3id.org/atomgraph/linkeddatahub#import&gt; &lt;https://packages.linkeddatahub.com/schema.org/#this&gt; .
+}
+WHERE {}
+EOF</pre>
   </div>
   <div>
     <h2 id="available-packages">Available packages</h2>

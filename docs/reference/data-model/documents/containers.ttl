@@ -26,10 +26,10 @@
     a       dh:Container ;
     rdf:_1  &lt;https://localhost:4443/concepts/#select-children&gt; ;
     dct:created "2025-06-02T19:12:26.533Z"^^xsd:dateTime ;
-    dct:creator &lt;https://localhost:4443/admin/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; ;
+    dct:creator &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; ;
     dct:title "Concepts" ;
     sioc:has_parent &lt;https://localhost:4443/concepts/&gt; ;
-    acl:owner &lt;https://localhost:4443/admin/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .
+    acl:owner &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .
 
 &lt;https://localhost:4443/concepts/#select-children&gt;
     a       ldh:Object ;
@@ -68,21 +68,21 @@
                 <thead>
                     <tr>
                         <th>Action</th>
-                        <th>CLI script</th>
+                        <th>CLI command</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <th>Create</th>
-                        <td><a href="../../../command-line-interface/#scripts"><samp>create-container.sh</samp></a></td>
+                        <td><a href="../../../command-line-interface/#commands"><samp>ldh create-container</samp></a></td>
                     </tr>
                     <tr>
                         <th>Update</th>
-                        <td><a href="../../../command-line-interface/#scripts"><samp>put.sh</samp></a></td>
+                        <td><a href="../../../command-line-interface/#commands"><samp>ldh put</samp></a></td>
                     </tr>
                     <tr>
                         <th>Delete</th>
-                        <td><a href="../../../command-line-interface/#scripts"><samp>delete.sh</samp></a></td>
+                        <td><a href="../../../command-line-interface/#commands"><samp>ldh delete</samp></a></td>
                     </tr>
                 </tbody>
             </table>

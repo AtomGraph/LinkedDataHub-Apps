@@ -58,13 +58,13 @@
                 <thead>
                     <tr>
                         <th>Action</th>
-                        <th>CLI script</th>
+                        <th>CLI command</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <th>Create</th>
-                        <td><a href="../../../command-line-interface/#scripts"><samp>content/add-object-block.sh</samp></a></td>
+                        <td><a href="../../../command-line-interface/#commands"><samp>ldh content add-object-block</samp></a></td>
                     </tr>
                     <tr>
                         <th>Update</th>
@@ -72,7 +72,7 @@
                     </tr>
                     <tr>
                         <th>Delete</th>
-                        <td></td>
+                        <td><a href="../../../command-line-interface/#commands"><samp>ldh content remove-block</samp></a></td>
                     </tr>
                 </tbody>
             </table>

@@ -89,14 +89,25 @@
             </div>
             <div class="tab-pane">
                 <div>
-                    <p>Checkout the <a href="../../../reference/command-line-interface/">Command line interface</a> (CLI) scripts into a folder on your machine. Provide a list of arguments to the <samp>import-csv</samp> script and execute it. For example:</p>
-                    <pre>import-csv.sh \\
-    -b "https://localhost:4443/" \\
-    -f ./ssl/owner/cert.pem \\
+                    <p>Build the <a href="../../../reference/command-line-interface/">command line interface</a> (CLI) and put it on your <code>$PATH</code>. The import is described by a document, which the command takes as its last argument, so create that document first. For example:</p>
+                    <pre>base="https://localhost:4443/"
+
+doc=$(ldh create-item \\
+    -b "$base" \\
+    -f ./ssl/owner/keystore.p12 \\
+    -p "$owner_cert_password" \\
+    --title "Places" \\
+    --container "$base")
+
+ldh imports import-csv \\
+    -b "$base" \\
+    -f ./ssl/owner/keystore.p12 \\
     -p "$owner_cert_password" \\
     --title "Places" \\
     --query-file places.rq \\
-    --csv-file places.csv</pre>
+    --csv-file places.csv \\
+    "$doc"</pre>
+                    <p><code>--delimiter</code> defaults to <samp>,</samp> and can be set to another character.</p>
                 </div>
             </div>
         </div>

@@ -108,7 +108,7 @@ COPY files/style.css  /usr/local/tomcat/webapps/ROOT/static/com/example/myapp/cs
     <div>
         <h2 id="rdf">RDF</h2>
         <p>You can modify or extend the <a href="../../reference/dataset/#default-datasets">default RDF datasets</a> used by LinkedDataHub. However, a better practice is to use the 
-        <a href="../../reference/command-line-interface/">CLI scripts</a> to create documents and to <a href="../../reference/imports/">import CSV and RDF data</a>.</p>
+        <a href="../../reference/command-line-interface/">CLI</a> to create documents and to <a href="../../reference/imports/">import CSV and RDF data</a>.</p>
     </div>
     <p class="lead"><a href="https://github.com/AtomGraph/LinkedDataHub-Apps" target="_blank">See the LinkedDataHub app repository for more examples.</a></p>
 </div>"""^^rdf:XMLLiteral .
