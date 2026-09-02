@@ -2,11 +2,15 @@
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
-    
+@prefix sp:     <http://spinrdf.org/sp#> .
+@prefix sd:     <http://www.w3.org/ns/sparql-service-description#> .
+
 <> a dh:Item ;
     dct:title "Query data" ;
     dct:description "Learn how to query application data with SPARQL, store queries and charts" ;
-    rdf:_1 <#content> .
+    rdf:_1 <#content> ;
+    rdf:_2 <#live-example> ;
+    rdf:_3 <#northwind-query-block> .
     
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
@@ -39,9 +43,10 @@ LIMIT   5</pre>
   --data-urlencode 'query=PREFIX schema: &lt;https://schema.org/&gt; SELECT (COUNT(*) AS ?orders) WHERE { GRAPH ?g { ?order a schema:Order } }'</pre>
         <p>For <code>DESCRIBE</code> and <code>CONSTRUCT</code> results, it is possible to switch the
         <a href="../../reference/user-interface/#layout-modes">layout mode</a> using a button above to the results.</p>
-        <p>
-            <img alt="SPARQL endpoint" src="../../uploads/9e1d4e69c4a0ae30f5fa373db839dc46b3569685"></img>
-        </p>
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: the SPARQL editor with query results</p>
+        </div>
         <div>
             <h2 id="save-query">Saving queries</h2>
             <p>If you want to save the query string which is currently in the editor, click the <span class="btn btn-save-query btn-save">Save</span> button underneath the editor form. A document creation form will open where the query
@@ -61,3 +66,33 @@ LIMIT   5</pre>
             <p>You will not be able to save invalid query strings.</p>
         </div>
 </div>"""^^rdf:XMLLiteral .
+
+<#live-example> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <div class="ldh-section">
+        <h2 id="live-example">Live example</h2>
+        <p>The block below is not a code snippet — it is an actual query block embedded in this document, executing against the
+            <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">Northwind Traders dataspace</a>'s SPARQL endpoint. The query, the
+            service it runs against, and the block that places it here are three plain RDF resources in this very document.</p>
+    </div>
+</div>"""^^rdf:XMLLiteral .
+
+<#northwind-query-block> a ldh:Object ;
+    dct:title "Query another dataspace" ;
+    rdf:value <#northwind-query> .
+
+<#northwind-query> a sp:Select ;
+    dct:title "Sample of the Northwind Traders dataset" ;
+    sp:text """SELECT *
+WHERE {
+    GRAPH ?g {
+        ?s ?p ?o
+    }
+}
+LIMIT 10""" ;
+    ldh:service <#northwind-service> .
+
+<#northwind-service> a sd:Service ;
+    dct:title "Northwind Traders SPARQL service" ;
+    sd:endpoint <https://northwind-traders.demo.linkeddatahub.com/sparql> ;
+    sd:supportedLanguage sd:SPARQL11Query .

@@ -198,6 +198,14 @@
 
     <xsl:template match="rdf:Description[rdf:type/@rdf:resource = 'https://w3id.org/atomgraph/linkeddatahub#Object']"/>
 
+    <!-- object blocks other than the children view get a stub: they only execute in a LinkedDataHub rendering -->
+    <xsl:template match="rdf:Description[rdf:type/@rdf:resource = 'https://w3id.org/atomgraph/linkeddatahub#Object'][not(rdf:value/@rdf:resource = 'https://w3id.org/atomgraph/linkeddatahub#ChildrenView')]" priority="1">
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">bolt</span>
+            <p>Interactive block<xsl:if test="dct:title">: <xsl:value-of select="dct:title"/></xsl:if> — executes live in the LinkedDataHub rendering of this page</p>
+        </div>
+    </xsl:template>
+
     <!-- ==================== NAV MODE ==================== -->
 
     <xsl:mode name="nav"/>

@@ -2,11 +2,15 @@
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
+@prefix sp:     <http://spinrdf.org/sp#> .
+@prefix sd:     <http://www.w3.org/ns/sparql-service-description#> .
 
 <> a dh:Item ;
     dct:title "Resources" ;
     dct:description "RDF resources and their management" ;
-    rdf:_1 <#content> .
+    rdf:_1 <#content> ;
+    rdf:_2 <#live-example> ;
+    rdf:_3 <#northwind-query-block> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
@@ -92,9 +96,10 @@
     </div>
     <div>
         <h2 id="queries">Queries</h2>
-        <p>
-            <img alt="Query" src="../../../uploads/cbe31147634bb2be12f1a4f60ff56f690a33542e"></img>
-        </p>
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: a query block with the SPARQL editor</p>
+        </div>
         <p>Queries are SPARQL 1.1 query strings that can be executed interactively. They can be defined with a SPARQL
         service that they execute against, otherwise they execute against the application's own SPARQL service.</p>
         <p>A query is a resource typed by its SPARQL form, carrying the query string as <code>sp:text</code>:</p>
@@ -115,9 +120,10 @@ ORDER BY ?categoryName''' .</pre>
     </div>
     <div>
         <h2 id="charts">Charts</h2>
-        <p>
-            <img alt="Chart" src="../../../uploads/fde3b3b56d1ff518921f0a604cb45bbf0ae87650"></img>
-        </p>
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: a chart block rendering SPARQL results</p>
+        </div>
         <p>Charts can render both types of SPARQL results:</p>
         <ul>
             <li>tabular <code>SELECT</code> results (<code>ldh:ResultSetChart</code>)</li>
@@ -208,9 +214,10 @@ ORDER BY DESC(?revenue)''' .
     </div>
     <div>
         <h2 id="views">Views</h2>
-        <p>
-            <img alt="View" src="../../../uploads/97792fb1084524c89c92b6f99b070ac1b283d4f6"></img>
-        </p>
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: a view block with paginated results</p>
+        </div>
         <p>Views are interactive, paginated, and optionally ordered results of a SPARQL <code>SELECT</code> result set.
         What is rendered in the UI is not directly the tabular result however, but descriptions of the resources selected
         by the result set. That is achieved by on-the-fly SPARQL query rewriting: the <code>SELECT</code> is wrapped into
@@ -274,9 +281,10 @@ WHERE {                               WHERE {
                 combination with faceted search which can be used to filter the initial result set.</p>
             <p>For example, facets can be used to filter a set products that belong to a certain category, and then parallax can be used to jump to a set of companies that provide those products, and then further on to
                 a set representatives of those companies.</p>
-            <p>
-                <img alt="Related results" src="../../../uploads/ffb24b79848a40266d880638b0699c4c8a4e41ec"></img>
-            </p>
+            <div class="screenshot-placeholder">
+                <span class="msi" aria-hidden="true">image</span>
+                <p>Screenshot: parallax navigation jumping from a result set to a related one</p>
+            </div>
         </div>
     </div>
     <div>
@@ -364,3 +372,33 @@ WHERE {                               WHERE {
         </div>
     </div>
 </div>"""^^rdf:XMLLiteral .
+
+<#live-example> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <div class="ldh-section">
+        <h2 id="live-example">Live example</h2>
+        <p>The block below is not a code snippet — it is an actual query block embedded in this document, executing against the
+            <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">Northwind Traders dataspace</a>'s SPARQL endpoint. The query, the
+            service it runs against, and the block that places it here are three plain RDF resources in this very document.</p>
+    </div>
+</div>"""^^rdf:XMLLiteral .
+
+<#northwind-query-block> a ldh:Object ;
+    dct:title "Query another dataspace" ;
+    rdf:value <#northwind-query> .
+
+<#northwind-query> a sp:Select ;
+    dct:title "Sample of the Northwind Traders dataset" ;
+    sp:text """SELECT *
+WHERE {
+    GRAPH ?g {
+        ?s ?p ?o
+    }
+}
+LIMIT 10""" ;
+    ldh:service <#northwind-service> .
+
+<#northwind-service> a sd:Service ;
+    dct:title "Northwind Traders SPARQL service" ;
+    sd:endpoint <https://northwind-traders.demo.linkeddatahub.com/sparql> ;
+    sd:supportedLanguage sd:SPARQL11Query .
