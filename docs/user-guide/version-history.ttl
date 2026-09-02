@@ -16,6 +16,7 @@
     </div>
     <div>
         <h2 id="open-history">Open the history</h2>
+        <!-- screenshot: the History dialog on a Northwind order, versions with agent attribution -->
         <p>Click the document's last-modified timestamp in the <a href="../../reference/user-interface/#action-bar">action bar</a>. The
             <dfn>History</dfn> dialog opens with the document's versions listed newest first, each showing its datetime and the agent who authored it.
             The version you are currently viewing is marked.</p>
@@ -24,6 +25,7 @@
     </div>
     <div>
         <h2 id="compare-versions">Compare versions</h2>
+        <!-- screenshot: a version diff on an order document - added/removed/changed borders and the color legend -->
         <p>In the History dialog, select a <dfn>From</dfn> and a <dfn>To</dfn> version to compare. The diff renders on the document page:</p>
         <ul>
             <li>added, removed and changed parts are marked with distinct borders, explained by a color legend</li>

@@ -40,25 +40,21 @@
             </div>
             <div class="tab-pane">
                 <div>
-                    <p>A file is uploaded to the document that will hold it, so create that document first. Replace <samp>owner_cert_password</samp> with the value of the corresponding secret and execute the following commands:</p>
-                    <pre>base="https://localhost:4443/"
-
-doc=$(ldh create-item \\
-  -b "$base" \\
-  -f ./ssl/owner/keystore.p12 \\
-  -p "$owner_cert_password" \\
-  --title "$title" \\
-  --container "$base")
+                    <p>A file is uploaded to the document that will hold it, so create that document first. Uploading Nancy Davolio's portrait from the Northwind demo:</p>
+                    <pre>doc=$(ldh create-item \\
+  --title "Nancy Davolio" \\
+  --container "${LDH_BASE}employees/")
 
 ldh add-file \\
-  -b "$base" \\
-  -f ./ssl/owner/keystore.p12 \\
-  -p "$owner_cert_password" \\
-  --title "$title" \\
-  --file "$filename" \\
-  --content-type "$content_type" \\
+  --title "nancy.jpg" \\
+  --file employees/nancy.jpg \\
+  --content-type image/jpeg \\
   "$doc"</pre>
-                    <p>The command prints the content-addressed URI of the upload. <code>--content-type</code> is optional — the media type is detected from the file when it is not given.</p>
+                    <p>The command prints the content-addressed URI of the upload as its only output:</p>
+                    <pre>https://localhost:4443/uploads/fb2e87988887cebf252947ba5d98e34d01d44ed4</pre>
+                    <p>That URI is stable across instances — it is derived from the file content alone — which is what lets the
+                        <a href="../../tutorial/media/" target="_blank">Northwind CSVs</a> reference their images by hash before they are even uploaded.
+                        <code>--content-type</code> is optional — the media type is detected from the file when it is not given.</p>
                 </div>
             </div>
         </div>

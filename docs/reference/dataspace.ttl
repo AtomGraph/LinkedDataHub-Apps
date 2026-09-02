@@ -33,6 +33,39 @@
             <p>Application relationships (end-user ↔ admin) are automatically inferred based on naming conventions — applications with base URIs containing
             <code>admin.</code> prefix are recognized as administration applications, and their corresponding end-user applications are automatically determined.
             You do not need to manually specify these relationships.</p>
+            <p>The Northwind Traders dataspace, as declared in <samp>config/dataspaces.trig</samp> — one named graph per application, identified with
+                <code>urn:</code> URIs, the pairing inferred from the <code>admin.</code> origin prefix:</p>
+            <pre>&lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt;
+{
+    &lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt; a lapp:Application ;
+        dct:title "Northwind Traders" ;
+        lapp:origin &lt;https://northwind-traders.demo.localhost:4443&gt; ;
+        ldt:ontology &lt;https://northwind-traders.demo.localhost:4443/ns#&gt; ;
+        ac:stylesheet &lt;https://northwind-traders.demo.localhost:4443/static/xsl/layout.xsl&gt; ;
+        lapp:public true .
+}
+
+&lt;urn:linkeddatahub:apps/northwind-traders/admin&gt;
+{
+    &lt;urn:linkeddatahub:apps/northwind-traders/admin&gt; a lapp:Application ;
+        dct:title "Northwind Traders admin" ;
+        lapp:origin &lt;https://admin.northwind-traders.demo.localhost:4443&gt; ;
+        ldt:ontology &lt;https://w3id.org/atomgraph/linkeddatahub/admin#&gt; ;
+        ac:stylesheet &lt;https://admin.northwind-traders.demo.localhost:4443/static/xsl/admin/layout.xsl&gt; .
+}</pre>
+            <p>and its service bindings in <samp>config/system.trig</samp>:</p>
+            <pre>&lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt;
+{
+    &lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt; a lapp:EndUserApplication ;
+        ldt:service &lt;urn:linkeddatahub:services/end-user&gt; .
+}
+
+&lt;urn:linkeddatahub:apps/northwind-traders/admin&gt;
+{
+    &lt;urn:linkeddatahub:apps/northwind-traders/admin&gt; a lapp:AdminApplication ;
+        ldt:service &lt;urn:linkeddatahub:services/admin&gt; .
+}</pre>
+            <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/config/dataspaces.trig" target="_blank">config/dataspaces.trig</a>, <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/config/system.trig" target="_blank">config/system.trig</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">northwind-traders.demo.linkeddatahub.com</a></p>
         </div>
         <p class="lead">See also the <a href="../administration/">administration reference</a>.</p>
     </div>
@@ -114,6 +147,17 @@
                 <dd>Auth tokens are stored in the <a href="../configuration/#secrets"><samp>credentials</samp> secret file</a> using the <code>a:authToken</code> property</dd>
             </dl>
             <p>You can use either HTTP Basic authentication (username/password) or Bearer token authentication (auth token), but not both for the same service.</p>
+            <p>The default end-user service, which the Northwind Traders dataspace shares:</p>
+            <pre>&lt;urn:linkeddatahub:services/end-user&gt;
+{
+    &lt;urn:linkeddatahub:services/end-user&gt; a sd:Service ;
+        dct:title "LinkedDataHub service" ;
+        sd:supportedLanguage sd:SPARQL11Query, sd:SPARQL11Update ;
+        sd:endpoint &lt;http://fuseki-end-user:3030/ds/&gt; ;
+        a:graphStore &lt;http://fuseki-end-user:3030/ds/&gt; ;
+        a:quadStore &lt;http://fuseki-end-user:3030/ds/&gt; .
+}</pre>
+            <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/config/system.trig" target="_blank">config/system.trig</a></p>
         </div>
         <div>
             <h3 id="custom-services">Custom services</h3>

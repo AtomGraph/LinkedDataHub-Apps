@@ -12,6 +12,12 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Edit XHTML documents in-place and annotate text with RDFa</p>
     <p>XHTML content blocks in LinkedDataHub are living documents: authenticated users with write access can click directly into the content to edit it, apply rich-text formatting, and annotate any span of text with <a href="https://www.w3.org/TR/rdfa-primer/" target="_blank">RDFa</a> — linking words and phrases to terms in the Knowledge Graph without leaving the page.</p>
+    <p>Annotating the word <samp>Chai</samp> in a Northwind welcome text with the product it names produces markup like:</p>
+    <pre>&lt;p&gt;Our bestselling tea is
+    &lt;span about="https://localhost:4443/products/1/#this" property="https://schema.org/name"&gt;Chai&lt;/span&gt;.&lt;/p&gt;</pre>
+    <p>which, read as RDFa, yields the triple</p>
+    <pre>&lt;https://localhost:4443/products/1/#this&gt; &lt;https://schema.org/name&gt; "Chai" .</pre>
+    <p>— the prose itself becomes part of the Knowledge Graph.</p>
     <div>
         <h2 id="entering-edit-mode">Entering edit mode</h2>
         <p>Click anywhere inside an <a href="../../reference/data-model/blocks/#xhtml-blocks">XHTML block</a> to enter edit mode. The block gains a focus outline and the editor toolbar appears above the action bar. Clicking outside the block (including the surrounding column margins) returns the block to read mode.</p>
@@ -19,6 +25,7 @@
     </div>
     <div>
         <h2 id="toolbar">Editor toolbar</h2>
+        <!-- screenshot: the rich-text editor toolbar above an active Northwind XHTML block -->
         <p>The toolbar appears at the top of the page when an XHTML block is active. It provides standard rich-text controls grouped by function:</p>
         <dl>
             <dt>Block type</dt>
@@ -38,6 +45,7 @@
     </div>
     <div>
         <h2 id="rdfa-annotations">RDFa annotations</h2>
+        <!-- screenshot: the annotation dialog over the selected word "Chai", Property typeahead open -->
         <p>RDFa annotations embed machine-readable RDF statements directly in the XHTML markup. A single annotation expresses a statement of the form <em>subject — property — object</em>, where subject and object are IRIs or typed literals drawn from your Knowledge Graph.</p>
         <h3>Adding an annotation</h3>
         <ol>

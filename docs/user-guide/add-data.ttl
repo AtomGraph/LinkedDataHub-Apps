@@ -34,9 +34,20 @@
             </li>
             <li>Click <span class="btn btn-primary btn-save">Save</span> to perform the fork operation.</li>
         </ol>
+        <p>For example, browse the UNESCO Thesaurus concept
+            <a href="https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3683/" target="_blank"><samp>Beverages</samp></a> through the
+            <a href="../browse-data/">Linked Data browser</a> and fork it into your own dataspace — the concept the Northwind Beverages category is
+            <a href="../../reference/imports/rdf/">mapped to</a>.</p>
         <p>The target document does not have to be local: you can also add data to a document in <em>another</em> dataspace by pasting its URI. The
             append is performed with your identity, so the target dataspace's <a href="../../reference/administration/acl/">access control</a> decides
             whether it is allowed — a refusal surfaces as a form error.</p>
+        <div>
+            <h3 id="cli">From the command line</h3>
+            <p>The same fork is a pipe — <samp>ldh get</samp> the source, <samp>ldh post</samp> it into the target document:</p>
+            <pre>ldh get --accept text/turtle \\
+    "https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3683/" \\
+  | ldh post -t text/turtle "${LDH_BASE}categories/1/"</pre>
+        </div>
     </div>
     <div>
         <h2 id="from-file">From file</h2>

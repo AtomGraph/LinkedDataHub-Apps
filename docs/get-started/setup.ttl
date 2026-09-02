@@ -67,17 +67,19 @@ OWNER_COUNTRY_NAME=DK</pre>
                 <pre>make up -- --build</pre>
                 (<samp>make up</samp> forwards its arguments to <samp>docker-compose up</samp>; the <samp>--</samp> is needed before arguments starting with <samp>-</samp>.)
                 LinkedDataHub will start and mount the following sub-folders:
-                <ol>
-                    <li><samp>fuseki</samp> where the backend triplestores will persist RDF data</li>
-                    <li><samp>datasets</samp> where the owner and secretary agent metadata is persisted</li>
-                    <li><samp>ssl/owner</samp> and <samp>ssl/secretary</samp> where the owner and secretary SSL certificates and WebID public keys are persisted</li>
-                    <li><samp>uploads</samp> where LinkedDataHub stores content-hashed file uploads</li>
-                    <li><samp>config</samp> where <a href="../../reference/dataspace/">dataspace and service configurations</a> are stored</li>
-                </ol>
+                <pre>LinkedDataHub/
+├── config/     # dataspace and service configuration (dataspaces.trig, system.trig)
+├── datasets/   # owner and secretary agent metadata
+├── fuseki/     # the backend triplestores' persisted RDF data
+├── ssl/
+│   ├── owner/      # your WebID certificate (keystore.p12)
+│   └── secretary/  # the service agent's certificate
+└── uploads/    # content-hashed file uploads</pre>
             </li>
         </ol>
         <p>You are now the owner of this LinkedDataHub instance; <samp>ssl/owner/keystore.p12</samp> is your WebID certificate. Password is the <samp>owner_cert_password</samp> secret value.</p>
-        <p>After a successful startup you should see periodic healthcheck requests being made to the <samp>https://localhost:4443/ns</samp> URL.</p>
+        <p>After a successful startup you should see periodic healthcheck requests being made to the <samp>https://localhost:4443/ns</samp> URL in the log:</p>
+        <pre>linkeddatahub-1  | ... "GET /ns HTTP/1.1" 200 ...</pre>
     </div>
     <div>
         <h2 id="reset">Reset</h2>

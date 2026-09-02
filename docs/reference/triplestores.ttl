@@ -54,7 +54,7 @@
     </div>
     <div>
         <h2 id="service-configuration">Service configuration</h2>
-        <p>Services are configured in <samp>config/system.trig</samp> using three key properties. See the <a href="../dataspace/#services">dataspace reference</a> for the full list of service properties.</p>
+        <p>Services are configured in <samp>config/system.trig</samp> using three key properties. See the <a href="../dataspace/#services">dataspace reference</a> for the full list of service properties and the default Fuseki service declaration — the configuration you start with. The sections below walk through configuring an alternative backend (QLever) instead.</p>
         <dl>
             <dt><code>sd:endpoint</code></dt>
             <dd>The SPARQL Protocol endpoint URI (for SPARQL Query and Update operations)</dd>
@@ -195,7 +195,7 @@
                 </li>
                 <li>
                     <p><strong>Start LinkedDataHub:</strong></p>
-                    <pre>docker-compose up --build</pre>
+                    <pre>make up -- --build</pre>
                     <p>During bootstrap, LinkedDataHub will load the default datasets using graph-scoped GSP operations. This takes longer than quad store mode but is functionally equivalent.</p>
                 </li>
             </ol>

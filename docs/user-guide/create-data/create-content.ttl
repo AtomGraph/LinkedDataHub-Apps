@@ -11,9 +11,7 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to create data-driven content</p>
-    <p class="text-center">
-        <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/5uzpHxu6YNo" width="560"></iframe>
-    </p>
+    <!-- screenshot: creating an XHTML block and an object block on the Northwind dashboard -->
     <p>Each document (container or item) can have <dfn>content</dfn>, i.e. a list of <dfn>blocks</dfn> which is shown in the <a href="../../../reference/user-interface/#layout-modes">content layout mode</a>. Currently, the following content types are supported:</p>
     <dl>
         <dt>XHTML</dt>
@@ -63,14 +61,12 @@
                 </div>
                 <div class="tab-pane">
                     <div>
-                        <p>To add a new XHTML block with the value <samp>&lt;p&gt;A paragraph&lt;/p&gt;</samp>, replace <samp>owner_cert_password</samp> with the value of the corresponding secret and execute the following command:</p>
+                        <p>To add a new XHTML block to the Northwind dashboard, execute the following command:</p>
                         <pre>ldh content add-xhtml-block \\
-    -f ./ssl/owner/keystore.p12 \\
-    -p "$owner_cert_password" \\
-    --uri "#xhtml-block" \\
-    --value '&lt;div xmlns="http://www.w3.org/1999/xhtml"&gt;&lt;p&gt;A paragraph&lt;/p&gt;&lt;/div&gt;' \\
-    "https://localhost:4443/concepts/example/"</pre>
-                        <p><code>--uri</code> is resolved against the document URI, so <samp>#xhtml-block</samp> identifies the block within it. Leave it out to let the block be a blank node.</p>
+    --uri "#overview-intro" \\
+    --value '&lt;div xmlns="http://www.w3.org/1999/xhtml"&gt;&lt;p&gt;The iconic sample database, reborn as an RDF Knowledge Graph.&lt;/p&gt;&lt;/div&gt;' \\
+    "$LDH_BASE"</pre>
+                        <p><code>--uri</code> is resolved against the document URI, so <samp>#overview-intro</samp> identifies the block within it. Leave it out to let the block be a blank node.</p>
                     </div>
                 </div>
             </div>
@@ -123,13 +119,13 @@
                 </div>
                 <div class="tab-pane">
                     <div>
-                        <p>To add a new object block with the value <samp>http://dbpedia.org/resource/Copenhagen</samp>, replace <samp>$owner_cert_password</samp> with the value of the corresponding secret and execute the following command:</p>
+                        <p>To embed the Vice President of Sales on the dashboard — an object block whose value is a plain data resource — execute the following command:</p>
                         <pre>ldh content add-object-block \\
-    -f ./ssl/owner/keystore.p12 \\
-    -p "$owner_cert_password" \\
-    --uri "#object-block" \\
-    --value "http://dbpedia.org/resource/Copenhagen" \\
-    "https://localhost:4443/concepts/example/"</pre>
+    --uri "#top-manager" \\
+    --value "${LDH_BASE}employees/2/#this" \\
+    "$LDH_BASE"</pre>
+                        <p>A <a href="../../../reference/data-model/resources/#charts">chart</a> or a <a href="../../../reference/data-model/resources/#views">view</a> is embedded the same way — its URI as the
+                            <code>--value</code>, like the demo dashboard's <samp>#sales-trend</samp> chart.</p>
                     </div>
                 </div>
             </div>

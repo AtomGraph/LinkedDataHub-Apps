@@ -25,6 +25,38 @@
             <li>construct <dfn>dh:Container</dfn> instances to create new container documents or <dfn>dh:Item</dfn> instances to create new item documents. <code>dct:title</code> values are mandatory for documents.</li>
             <li>if you're constructing non-information resource (e.g. thing, concept) descriptions, assign them URIs with fragment identified (e.g. <samp>#this</samp>) and pair them with item documents using the <code>foaf:primaryTopic</code> property</li>
         </ul>
+        <p>All of the rules in one skeleton, shaped like the Northwind category mapping:</p>
+        <pre>PREFIX dct:    &lt;http://purl.org/dc/terms/&gt;
+PREFIX foaf:   &lt;http://xmlns.com/foaf/0.1/&gt;
+PREFIX schema: &lt;https://schema.org/&gt;
+
+CONSTRUCT
+{
+    GRAPH ?graph                                   # one GRAPH block per constructed document
+    {
+        ?graph dct:title ?categoryName ;           # dct:title is mandatory for documents
+            foaf:primaryTopic ?category .
+
+        ?category a schema:ProductGroup ;          # the document's topic…
+            schema:name ?categoryName ;
+            schema:description ?description .
+    }
+}
+WHERE
+{
+    ?row &lt;#categoryID&gt; ?categoryID ;               # input values bind as &lt;#column&gt; predicates
+        &lt;#categoryName&gt; ?categoryName .            # (no explicit BASE — it is set to the file's URI)
+
+    OPTIONAL { ?row &lt;#description&gt; ?description }  # OPTIONAL for optional values
+
+    # $base is bound to the application's base URI
+    BIND(uri(concat(str($base), "categories/")) AS ?container)
+    # URI-encode natural IDs when minting document URIs
+    BIND(uri(concat(str(?container), encode_for_uri(?categoryID), "/")) AS ?graph)
+    # …a non-information resource, as a fragment of its document
+    BIND(uri(concat(str(?graph), "#this")) AS ?category)
+}</pre>
+        <p class="exhibit-links">The complete version: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/categories.rq" target="_blank">categories/categories.rq</a> in the Northwind Traders demo</p>
         <p>We are planning to provide a UI-based mapping tool in the future.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .

@@ -20,12 +20,30 @@
             <li>documents form a <a href="../data-model/documents/#hierarchy">parent/child hierarchy</a>. There are 2 types of documents: containers that can have other documents as children, and items that cannot.</li>
         </ol>
         <p>The default dataset is installed into an application service during the <a href="../../get-started/setup/">setup</a>.</p>
+        <p>In TriG, the Northwind Beverages category document — one named graph, named by the document URI, holding the document's whole description:</p>
+        <pre>&lt;https://localhost:4443/categories/1/&gt;
+{
+    &lt;https://localhost:4443/categories/1/&gt; a dh:Item ;
+        dct:title "Beverages" ;
+        sioc:has_container &lt;https://localhost:4443/categories/&gt; ;
+        foaf:primaryTopic &lt;https://localhost:4443/categories/1/#this&gt; .
+
+    &lt;https://localhost:4443/categories/1/#this&gt; a schema:ProductGroup ;
+        schema:name "Beverages" ;
+        schema:identifier "1" .
+}</pre>
+        <p class="exhibit-links">Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/1/" target="_blank">/categories/1/</a></p>
     </div>
     <div>
         <h2 id="hierarchical-uris">Hierarchical URIs</h2>
         <p>By default, the URIs of the document resources represent the same <a href="../data-model/documents/#hierarchy">parent/child hierarchy</a>. Which means the root container's URI equals the <a href="../dataspace/#applications">base URI</a>
             of the application, and descendant document URIs are relative to their parent container URIs.</p>
-        <p>Uploaded files are an exception to this rule. They are content-addressed in the <samp>uploads/{sha1sum}</samp> namespace, where <samp>sha1sum</samp> is the SHA1 hash of the file content.</p>
+        <pre>https://localhost:4443/                  # root container = the base URI
+https://localhost:4443/categories/       # its child container
+https://localhost:4443/categories/1/     # an item in the container
+https://localhost:4443/categories/1/#this  # the category itself — a fragment of its document</pre>
+        <p>Uploaded files are an exception to this rule. They are content-addressed in the <samp>uploads/{sha1sum}</samp> namespace, where <samp>sha1sum</samp> is the SHA1 hash of the file content — the Beverages
+            image, for example, lives at <samp>uploads/5e1be0328ca2c694d1de6f5b1b3d3b1ce90cb41f</samp> wherever it is referenced from.</p>
     </div>
     <div>
         <h2 id="default-datasets">Default datasets</h2>

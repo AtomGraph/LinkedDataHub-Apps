@@ -82,6 +82,32 @@ schema:Place a owl:Class ;
     rdfs:label "Region" ;
     rdfs:isDefinedBy : .
 
+# constructors and constraints
+
+schema:Product spin:constructor :ProductConstructor ;
+    spin:constraint :MissingName .
+
+:ProductConstructor a ldh:Constructor ;
+    rdfs:label "Product constructor" ;
+    dct:title "Product constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this schema:name [ a xsd:string ] ;
+                schema:identifier [ a xsd:string ] ;
+                schema:category [ a schema:ProductGroup ] ;
+                schema:provider [ a schema:Corporation ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+:MissingName a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:name" ;
+    sp:arg1 schema:name ;
+    rdfs:isDefinedBy : .
+
 # properties
 
 schema:broker a owl:ObjectProperty ;

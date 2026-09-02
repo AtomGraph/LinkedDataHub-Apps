@@ -45,23 +45,14 @@
         </div>
         <div class="tab-pane">
           <p>Packages have no command of their own: an application imports a package with a single <code>ldh:import</code> triple, so patching the application's <samp>settings</samp> document is the installation. Execute the following command:</p>
-          <pre>ldh patch \\
-  -f ssl/owner/keystore.p12 \\
-  -p "$owner_cert_password" \\
-  "https://localhost:4443/settings" &lt;&lt;EOF
+          <pre>ldh patch "https://localhost:4443/settings" &lt;&lt;EOF
 INSERT
 {
     &lt;urn:linkeddatahub:apps/end-user&gt; &lt;https://w3id.org/atomgraph/linkeddatahub#import&gt; &lt;https://packages.linkeddatahub.com/skos/#this&gt; .
 }
 WHERE {}
 EOF</pre>
-          <p>Parameters:</p>
-          <dl>
-            <dt><code>-f</code></dt>
-            <dd>PKCS12 keystore with your owner WebID certificate</dd>
-            <dt><code>-p</code></dt>
-            <dd>Owner certificate password</dd>
-          </dl>
+          <p>(The owner certificate and its password come from the <a href="../../reference/command-line-interface/#environment-variables"><samp>LDH_*</samp> environment variables</a>.)</p>
           <p>The subject of the triple is the URI of the application the package is installed into, as declared in <samp>config/system.trig</samp> (<samp>urn:linkeddatahub:apps/end-user</samp> in the default configuration). The object is the package URI.</p>
         </div>
       </div>
@@ -87,10 +78,7 @@ EOF</pre>
         </div>
         <div class="tab-pane">
           <p>Uninstalling is the same update with <code>DELETE</code> in place of <code>INSERT</code>:</p>
-          <pre>ldh patch \\
-  -f ssl/owner/keystore.p12 \\
-  -p "$owner_cert_password" \\
-  "https://localhost:4443/settings" &lt;&lt;EOF
+          <pre>ldh patch "https://localhost:4443/settings" &lt;&lt;EOF
 DELETE
 {
     &lt;urn:linkeddatahub:apps/end-user&gt; &lt;https://w3id.org/atomgraph/linkeddatahub#import&gt; &lt;https://packages.linkeddatahub.com/skos/#this&gt; .
@@ -108,11 +96,18 @@ EOF</pre>
       <li>Reopen the <dfn>Application settings</dfn> modal and check that the package's <dfn>Installed</dfn> checkbox is ticked</li>
       <li>Check that the <code>ldh:import</code> declaration was stored by fetching the <samp>settings</samp> document:
         <pre>ldh get \\
-  -f ssl/owner/keystore.p12 \\
-  -p "$owner_cert_password" \\
   --accept text/turtle \\
   "https://localhost:4443/settings"</pre>
         <p>The output contains an <code>ldh:import</code> triple with the package URI as its object.</p>
+      </li>
+      <li>Check that the package ontology joined the imports closure by querying the <samp>ns</samp> endpoint — for the SKOS package, the
+        <code>skos:Concept</code> constructor becomes visible there (SPARQL queries fall outside the <samp>ldh</samp> command set, so this one uses
+        <samp>curl</samp> with the <a href="../../get-started/get-an-account/">PEM certificate</a>):
+        <pre>curl -k -G \\
+  -E ssl/owner/cert.pem:"$owner_cert_password" \\
+  -H "Accept: application/sparql-results+xml" \\
+  "https://localhost:4443/ns" \\
+  --data-urlencode 'query=ASK { &lt;http://www.w3.org/2004/02/skos/core#Concept&gt; &lt;http://spinrdf.org/spin#constructor&gt; ?constructor }'</pre>
       </li>
       <li>In the end-user application, check that package-specific classes are offered by the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown</li>
       <li>If the package includes a stylesheet, verify that its custom UI elements are rendering</li>

@@ -90,23 +90,16 @@
             <div class="tab-pane">
                 <div>
                     <p>Build the <a href="../../../reference/command-line-interface/">command line interface</a> (CLI) and put it on your <code>$PATH</code>. The import is described by a document, which the command takes as its last argument, so create that document first. For example:</p>
-                    <pre>base="https://localhost:4443/"
-
-doc=$(ldh create-item \\
-    -b "$base" \\
-    -f ./ssl/owner/keystore.p12 \\
-    -p "$owner_cert_password" \\
-    --title "Places" \\
-    --container "$base")
+                    <pre>doc=$(ldh create-item \\
+    --title "Categories import" \\
+    --container "${LDH_BASE}categories/")
 
 ldh imports import-csv \\
-    -b "$base" \\
-    -f ./ssl/owner/keystore.p12 \\
-    -p "$owner_cert_password" \\
-    --title "Places" \\
-    --query-file places.rq \\
-    --csv-file places.csv \\
+    --title "Categories" \\
+    --query-file categories/categories.rq \\
+    --csv-file categories/categories.csv \\
     "$doc"</pre>
+                    <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/categories.rq" target="_blank">categories.rq</a>, <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/categories.csv" target="_blank">categories.csv</a> — the mapping and the data are walked through in the <a href="../../../reference/imports/csv/">CSV imports reference</a> and the <a href="../../../tutorial/data/">tutorial's Data stage</a></p>
                     <p><code>--delimiter</code> defaults to <samp>,</samp> and can be set to another character.</p>
                 </div>
             </div>

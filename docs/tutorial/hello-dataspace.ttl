@@ -34,15 +34,17 @@
 &lt;&gt; a def:Root ;
     dct:title "Northwind Traders" ;
     dct:description "Knowledge Graph representation of the Northwind Traders sample database" ;
-    rdf:_1 &lt;#intro&gt; .
+    rdf:_1 &lt;#overview-intro&gt; .
 
-&lt;#intro&gt; a ldh:XHTML ;
+&lt;#overview-intro&gt; a ldh:XHTML ;
     rdf:value '''&lt;div xmlns="http://www.w3.org/1999/xhtml"&gt;
-        &lt;div class="page-header"&gt;
+        &lt;div class="ldh-section"&gt;
             &lt;h2&gt;Northwind Traders&lt;/h2&gt;
-            &lt;p class="lead"&gt;The iconic sample database converted to an RDF Knowledge Graph&lt;/p&gt;
+            &lt;p&gt;The iconic sample database, reborn as an RDF Knowledge Graph.&lt;/p&gt;
         &lt;/div&gt;
     &lt;/div&gt;'''^^rdf:XMLLiteral .</pre>
+        <p class="exhibit-links">Source (finished form): <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/root.ttl" target="_blank">root.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">the homepage</a></p>
+        <p>This is the seed: by the <a href="../composition/">Composition</a> stage the same document grows into the demo's full executive dashboard, block by block.</p>
         <p>Then replace the root document's description with it using <code>PUT</code>. <samp>ldh put</samp> resolves the relative URIs in the file against the document URL, so the same
             file installs against any base URI:</p>
         <pre>ldh put -t text/turtle "$LDH_BASE" &lt; root.ttl</pre>

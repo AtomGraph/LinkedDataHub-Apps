@@ -120,10 +120,19 @@ ns:SelectNarrowerConcepts a sp:Select ;
       <li><strong>Composes the package stylesheet</strong> (<code>ac:stylesheet</code>) into the application stylesheet by appending an <code>xsl:import</code> after the existing imports, so package templates override the system ones.</li>
     </ol>
     <p>Packages are applied in the order of their URIs. A package carrying only an ontology or only a stylesheet is applied in that respect alone, and one whose description cannot be resolved is skipped. If the composed stylesheet fails to compile — an unreachable package stylesheet URL, for instance — the application falls back to its own stylesheet.</p>
+    <p>On the Northwind Traders dataspace the SKOS package pays off immediately: the product categories that the
+      <a href="../../imports/rdf/">UNESCO mapping import</a> doubled as <code>skos:Concept</code>s pick up the package's concept rendering and views,
+      and their mapping relations link into the UNESCO Thesaurus dataspace.</p>
+    <!-- screenshot: a Northwind category page with the SKOS package installed, concept rendering and UNESCO mappings visible -->
   </div>
   <div>
     <h2 id="uninstalling-packages">Uninstalling packages</h2>
     <p>Removing the <code>ldh:import</code> triple uninstalls the package: from the next request onwards its ontology is out of the imports closure and its stylesheet is no longer composed in.</p>
+    <pre>DELETE
+{
+    &lt;urn:linkeddatahub:apps/end-user&gt; ldh:import &lt;https://packages.linkeddatahub.com/skos/#this&gt; .
+}
+WHERE {}</pre>
     <div class="alert alert-info">
       <p><strong>Note:</strong> Uninstalling a package does not remove user-created data that uses the package's vocabulary. That data stays in the dataspace but may not display or function correctly without the package.</p>
     </div>

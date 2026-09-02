@@ -19,41 +19,22 @@
             <p>In order to manage the <a href="../../reference/administration/acl/" target="_blank">access control</a>, or the <a href="../../reference/administration/ontologies/" target="_blank">model</a> of a dataspace,
             the agent needs to be a member of the <a href="../../reference/administration/acl/#groups" target="_blank">owners group</a>.</p>
         </div>
-        <p>We will use the SKOS ontology and its <samp>skos:Concept</samp> class as an example in this guide.</p>
+        <p>We will use the Northwind Traders model and its <samp>schema:Product</samp> class as the example in this guide — the demo app ships
+            exactly this constructor and constraint in its namespace ontology, so the finished result can be compared against
+            <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/admin/model/ns.ttl" target="_blank"><samp>admin/model/ns.ttl</samp></a>.</p>
     </div>
     <div>
         <h2 id="create-constructor">Create a constructor</h2>
-        <p>We will use the following SPARQL <code>CONSTRUCT</code> query as a <a href="../../reference/administration/ontologies/#constructors" target="_blank">constructor</a> for our <samp>Concept</samp> class and save it in a file under <samp>queries/construct-concept.rq</samp>.</p>
-        <pre>PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
-PREFIX xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt;
+        <p>We will use the following SPARQL <code>CONSTRUCT</code> query as a <a href="../../reference/administration/ontologies/#constructors" target="_blank">constructor</a> for the <samp>Product</samp> class and save it in a file under <samp>queries/construct-product.rq</samp>. The typed blank nodes tell the form which control to render: a string input for the name and identifier, resource typeaheads for the category and supplier.</p>
+        <pre>PREFIX schema: &lt;https://schema.org/&gt;
+PREFIX xsd:    &lt;http://www.w3.org/2001/XMLSchema#&gt;
 
 CONSTRUCT
 {
-  $this skos:inScheme [ a skos:ConceptScheme ] ;
-    skos:topConceptOf [ a skos:ConceptScheme ] ;
-    skos:prefLabel [ a xsd:string ] ;
-    skos:altLabel [ a xsd:string ] ;
-    skos:hiddenLabel [ a xsd:string ] ;
-    skos:notation [ a xsd:string ] ;
-    skos:note [ a xsd:string ] ;
-    skos:changeNote [ a xsd:string ] ;
-    skos:definition [ a xsd:string ] ;
-    skos:editorialNote [ a xsd:string ] ;
-    skos:example [ a xsd:string ] ;
-    skos:historyNote [ a xsd:string ] ;
-    skos:scopeNote [ a xsd:string ] ;
-    skos:semanticRelation [ a skos:Concept ] ;
-    skos:broader [ a skos:Concept ] ;
-    skos:narrower [ a skos:Concept ] ;
-    skos:related [ a skos:Concept ] ;
-    skos:broaderTransitive [ a skos:Concept ] ;
-    skos:narrowerTransitive [ a skos:Concept ] ;
-    skos:mappingRelation [ a skos:Concept ] ;
-    skos:broadMatch [ a skos:Concept ] ;
-    skos:narrowMatch [ a skos:Concept ] ;
-    skos:relatedMatch [ a skos:Concept ] ;
-    skos:exactMatch [ a skos:Concept ] ;
-    skos:closeMatch [ a skos:Concept ] .
+  $this schema:name [ a xsd:string ] ;
+    schema:identifier [ a xsd:string ] ;
+    schema:category [ a schema:ProductGroup ] ;
+    schema:provider [ a schema:Corporation ] .
 }
 WHERE {}</pre>
         <div class="tabbable">
@@ -68,11 +49,11 @@ WHERE {}</pre>
                         <ol>
                             <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
                             <li>Click on <samp>CONSTRUCT</samp> in the drop-down list that appears</li>
-                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns#ConstructConcept</samp></li>
+                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns#ProductConstructor</samp></li>
                             <li>Fill out the mandatory fields in the form:
                                 <dl>
                                     <dt>Label</dt>
-                                    <dd>Enter <samp>Construct concept</samp></dd>
+                                    <dd>Enter <samp>Product constructor</samp></dd>
                                     <dd>Select <samp>Domain</samp> from the list — this is the ontology in which the query is defined</dd>
                                     <dt>Text</dt>
                                     <dd>Enter the SPARQL <code>CONSTRUCT</code> query string</dd>
@@ -92,21 +73,21 @@ ldh admin ontologies add-constructor \\
   -b "$admin_base" \\
   -f ./ssl/owner/keystore.p12 \\
   -p "$owner_cert_password" \\
-  --uri "${base}ns#ConstructConcept" \\
-  --label "Construct concept" \\
-  --query-file "${pwd}/queries/construct-concept.rq" \\
+  --uri "${base}ns#ProductConstructor" \\
+  --label "Product constructor" \\
+  --query-file "${pwd}/queries/construct-product.rq" \\
   "${admin_base}ontologies/namespace/"</pre>
                         <p>The model lives in the administration application, whose origin is the dataspace origin with an <samp>admin.</samp> prefix — so <code>-b</code> and the target document URL both use <samp>$admin_base</samp>, while the ontology terms being defined keep the end-user origin.</p>
                     </div>
                 </div>
             </div>
         </div>
-        <p>Follow the same steps for <samp>Concept scheme</samp>.</p>
+        <p>Follow the same steps for <samp>Category</samp> (<samp>schema:ProductGroup</samp>) if you want its instances to be creatable too.</p>
         <p class="lead"><a href="../../reference/administration/ontologies/#constructors" target="_blank">Read more about constructors.</a></p>
     </div>
     <div>
         <h2 id="create-constraint">Create a constraint</h2>
-        <p>To control data quality, we probably want to make some of the instance properties mandatory. For example, a <samp>skos:Concept</samp> instance should always have a <code>skos:prefLabel</code> value.</p>
+        <p>To control data quality, we probably want to make some of the instance properties mandatory. For example, a <samp>schema:Product</samp> instance should always have a <code>schema:name</code> value.</p>
         <div class="tabbable">
             <ul class="nav nav-tabs">
                 <li class="active"><a>User interface</a></li>
@@ -122,12 +103,12 @@ ldh admin ontologies add-constructor \\
                             <li>Fill out the fields in the form:
                                 <dl>
                                     <dt>Label</dt>
-                                    <dd>Enter <samp>Missing skos:prefLabel</samp></dd>
+                                    <dd>Enter <samp>Missing schema:name</samp></dd>
                                     <dt>IsDefinedBy</dt>
                                     <dd>Type <samp>Domain</samp> into the input (which provides autocomplete)</dd>
                                     <dd>Select <samp>Domain</samp> from the list — this is the ontology in which the query is defined</dd>
                                     <dt>Arg1</dt>
-                                    <dd>Enter <samp>http://www.w3.org/2004/02/skos/core#prefLabel</samp></dd>
+                                    <dd>Enter <samp>https://schema.org/name</samp></dd>
                                 </dl>
                             </li>
                             <li>Click <span class="btn btn-primary btn-save">Save</span></li>
@@ -140,9 +121,9 @@ ldh admin ontologies add-constructor \\
   -b "$admin_base" \\
   -f ./ssl/owner/keystore.p12 \\
   -p "$owner_cert_password" \\
-  --uri "${base}ns#MissingPrefLabel" \\
-  --label "Missing skos:prefLabel" \\
-  --property "http://www.w3.org/2004/02/skos/core#prefLabel" \\
+  --uri "${base}ns#MissingName" \\
+  --label "Missing schema:name" \\
+  --property "https://schema.org/name" \\
   "${admin_base}ontologies/namespace/"</pre>
                     </div>
                 </div>
@@ -160,19 +141,19 @@ ldh admin ontologies add-constructor \\
             <div class="tab-content">
                 <div class="tab-pane active">
                     <div>
-                        <p>In the administration application, follow these steps to create the concept class:</p>
+                        <p>In the administration application, follow these steps to create the product class:</p>
                         <ol>
                             <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
                             <li>Click on <samp>Class</samp> in the drop-down list that appears</li>
-                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns#Concept</samp></li>
+                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://schema.org/Product</samp> — we reuse the schema.org term rather than minting our own</li>
                             <li>Fill out the mandatory fields in the form:
                                 <dl>
                                     <dt>Label</dt>
-                                    <dd>Enter <samp>Concept</samp></dd>
+                                    <dd>Enter <samp>Product</samp></dd>
                                     <dd>Select <samp>Domain</samp> from the list — this is the ontology in which the class is defined</dd>
                                     <dt>Constructor</dt>
-                                    <dd>Type <samp>Construct concept</samp> into the input (which provides autocomplete)</dd>
-                                    <dd>Select <samp>Construct concept</samp> from the list — this is the query we created beforehand</dd>
+                                    <dd>Type <samp>Product constructor</samp> into the input (which provides autocomplete)</dd>
+                                    <dd>Select <samp>Product constructor</samp> from the list — this is the query we created beforehand</dd>
                                 </dl>
                             </li>
                             <li>Click <span class="btn btn-primary btn-save">Save</span></li>
@@ -185,16 +166,35 @@ ldh admin ontologies add-constructor \\
   -b "$admin_base" \\
   -f ./ssl/owner/keystore.p12 \\
   -p "$owner_cert_password" \\
-  --uri "http://www.w3.org/2004/02/skos/core#Concept" \\
-  --label "Concept" \\
-  --constructor "${base}ns#ConstructConcept" \\
-  --constraint "${base}ns#MissingPrefLabel" \\
+  --uri "https://schema.org/Product" \\
+  --label "Product" \\
+  --constructor "${base}ns#ProductConstructor" \\
+  --constraint "${base}ns#MissingName" \\
   "${admin_base}ontologies/namespace/"</pre>
                     </div>
                 </div>
             </div>
         </div>
-        <p>Follow the same steps for <samp>Concept scheme</samp>.</p>
+        <p>Follow the same steps for <samp>Category</samp>.</p>
         <p class="lead"><a href="../../reference/administration/ontologies/#classes" target="_blank">Read more about classes.</a></p>
+    </div>
+    <div>
+        <h2 id="result">What the commands wrote</h2>
+        <p>The three steps added the following description to the namespace ontology document — the same wiring the demo app ships:</p>
+        <pre>schema:Product spin:constructor &lt;https://localhost:4443/ns#ProductConstructor&gt; ;
+    spin:constraint &lt;https://localhost:4443/ns#MissingName&gt; ;
+    rdfs:label "Product" .
+
+&lt;https://localhost:4443/ns#ProductConstructor&gt; a ldh:Constructor ;
+    rdfs:label "Product constructor" ;
+    sp:text "CONSTRUCT { $this schema:name [ a xsd:string ] ; … } WHERE {}" .
+
+&lt;https://localhost:4443/ns#MissingName&gt; a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:name" ;
+    sp:arg1 schema:name .</pre>
+        <p>From now on <samp>Product</samp> appears in the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown of the
+            end-user application, its form offers the name, identifier, category and supplier controls, and a submission without a name is rejected with
+            <samp>422 Unprocessable Entity</samp> carrying the <a href="../../reference/administration/ontologies/#constraints" target="_blank">constraint violation</a>.</p>
+        <!-- screenshot: the generated Product create form, with the Missing schema:name violation shown after an empty submit -->
     </div>
 </div>"""^^rdf:XMLLiteral .

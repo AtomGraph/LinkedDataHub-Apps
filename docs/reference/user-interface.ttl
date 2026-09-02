@@ -62,6 +62,7 @@
         <p>Document tree shows the document hierarchy of the dataspace. By clicking on a container, it expands to show its children.</p>
         <p>In a desktop layout mode, the document tree folds out when the mouse is moved to the left edge of the screen. In a responsive layout, it is always shown.</p>
         <h3 id="class-navigation">Class-based navigation</h3>
+        <!-- screenshot: the left sidebar Classes list on the Northwind dataspace, with instance counts (Order, Product, Person, ...) -->
         <p>In addition to browsing by document hierarchy, you can navigate your data by class. The <dfn>Classes</dfn> list shows the classes (<code>rdf:type</code> values) that actually occur in the dataspace, each labelled with the number of its instances and ordered with the most-used classes first. Clicking a class opens a dialog listing all instances of that class across the dataspace.</p>
         <p>Class-based navigation is particularly useful when:</p>
         <ul>
@@ -80,6 +81,7 @@
     </div>
     <div>
         <h2 id="right-nav">Right sidebar</h2>
+        <!-- screenshot: the right sidebar on a Northwind order page, backlinks and related results visible -->
         <p>A right sidebar appears alongside the main view to show navigation into and out of the current data:</p>
         <dl>
             <dt>Backlinks</dt>
@@ -90,6 +92,7 @@
     </div>
     <div>
         <h2 id="layout-modes">Layout modes</h2>
+        <!-- screenshot: the Northwind orders container in each layout mode: content, properties, map (territories), chart, graph -->
         <p>The active document <dfn>layout mode</dfn> is displayed, and can be changed using, the nav tabs at the top of the page.</p>
         <p>Currently supported document layout modes:</p>
         <dl>
@@ -109,6 +112,7 @@
     </div>
     <div>
         <h2 id="document-tabs">Document tabs</h2>
+        <!-- screenshot: the tab bar with a UNESCO Thesaurus concept open in a second tab next to the Northwind dashboard -->
         <p>LinkedDataHub navigates within a single page. When you follow a link to an external document (for example a resource fetched through the
             <a href="../http-api/#ld-proxy">Linked Data proxy</a>), it opens in its own tab so that several documents can be kept open side by side.
             A sticky tab bar appears at the top of the page once the first external tab is opened.</p>

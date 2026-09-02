@@ -34,14 +34,40 @@
         <ol>
             <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
             <li>Click on <samp>Instance</samp> in the drop-down list that appears. An editing form will open.</li>
-            <li>In the resource of <samp>Type</samp> <samp>Instance</samp>, click on the <samp>Instance</samp> typeahead input, type the class name and select the class from the list</li>
+            <li>In the resource of <samp>Type</samp> <samp>Instance</samp>, click on the <samp>Instance</samp> typeahead input, type the class name — for example <samp>Product</samp> on the Northwind dataspace — and select the class from the list</li>
             <li>Fill out the fields in the form that appears. The mandatory properties are rendered in bold, without providing their values you will not be able to save the instance form.</li>
             <li>Click <span class="btn btn-primary btn-save">Save</span></li>
             <li>In case there were errors such as missing or malformed values, an error message will be shown and the offending property and value will be highlighted. Fix them or you will not be able to save the instance form.</li>
         </ol>
-        <p>You will be redirected to the document of the newly created instance.</p>
+        <p>You will be redirected to the document of the newly created instance. Creating a <samp>Product</samp> this way, its
+            <a href="../../change-model/" target="_blank">constructor</a> renders name and identifier inputs plus category and supplier typeaheads —
+            the form is entirely constructor-driven.</p>
+        <!-- screenshot: the Product create form generated from the constructor, with category and supplier typeaheads -->
         <div class="alert alert-info">
             <p>You can only create instances of classes that have <a href="../../../reference/administration/ontologies/#constructors">constructors</a>.</p>
         </div>
+    </div>
+    <div>
+        <h2 id="cli">From the command line</h2>
+        <p>Instances are plain RDF, so the CLI equivalent is appending a description to a document with <samp>ldh post</samp>. Creating a new product
+            in its own document:</p>
+        <pre>doc=$(ldh create-item \\
+  --container "${LDH_BASE}products/" \\
+  --title "Masala Chai" \\
+  --slug 78)
+
+ldh post -t text/turtle "$doc" &lt;&lt;EOF
+@prefix schema: &lt;https://schema.org/&gt; .
+@prefix foaf:   &lt;http://xmlns.com/foaf/0.1/&gt; .
+
+&lt;$doc&gt; foaf:primaryTopic &lt;${doc}#this&gt; .
+
+&lt;${doc}#this&gt; a schema:Product ;
+    schema:name "Masala Chai" ;
+    schema:identifier "78" ;
+    schema:category &lt;${LDH_BASE}categories/1/&gt; .
+EOF</pre>
+        <p>The posted data is validated against the class <a href="../../../reference/administration/ontologies/#constraints">constraints</a> the same
+            way form submissions are — leaving out <code>schema:name</code> gets the request rejected with <samp>422 Unprocessable Entity</samp>.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .

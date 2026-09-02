@@ -27,5 +27,16 @@ ABS_PATH=/linkeddatahub/</pre>
                     server's TLS certificate, otherwise the admin application will not be reachable.</p>
             </div>
         </div>
-    <p><a href="../manage-dataspaces/">Dataspace URIs</a> need to relative to the system base URI in order to be reachable.</p>
+    <p><a href="../manage-dataspaces/">Dataspace URIs</a> need to be relative to the system base URI in order to be reachable — after the change, the
+        origins in <samp>config/dataspaces.trig</samp> have to follow. For the Northwind Traders dataspace, deploying from local development to the demo
+        host means:</p>
+    <pre># before
+&lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt; a lapp:Application ;
+    lapp:origin &lt;https://northwind-traders.demo.localhost:4443&gt; ;
+    ldt:ontology &lt;https://northwind-traders.demo.localhost:4443/ns#&gt; .
+
+# after
+&lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt; a lapp:Application ;
+    lapp:origin &lt;https://northwind-traders.demo.linkeddatahub.com&gt; ;
+    ldt:ontology &lt;https://northwind-traders.demo.linkeddatahub.com/ns#&gt; .</pre>
 </div>"""^^rdf:XMLLiteral .

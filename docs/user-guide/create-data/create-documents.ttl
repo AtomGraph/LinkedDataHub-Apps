@@ -28,11 +28,11 @@
                         <li>Fill out the mandatory <dfn>Container</dfn> fields in the form:
                             <dl>
                                 <dt>Title</dt>
-                                <dd>Enter <samp>Concepts</samp></dd>
+                                <dd>Enter <samp>Categories</samp></dd>
                             </dl>
                         </li>
                         <li>To customize the container URL, click on the dropdown in the top-right corner of the form</li>
-                        <li>Replace the generated unique relative URI with <samp>concepts</samp></li>
+                        <li>Replace the generated unique relative URI with <samp>categories</samp></li>
                         <li>Click <span class="btn btn-primary btn-save">Save</span></li>
                     </ol>
                     <p>See how below:</p>
@@ -43,18 +43,24 @@
             </div>
             <div class="tab-pane">
                 <div>
-                    <p>Replace <samp>owner_cert_password</samp> with the value of the corresponding secret and execute the following command:</p>
+                    <p>With the <a href="../../../reference/command-line-interface/#environment-variables"><samp>LDH_*</samp> environment variables</a> supplying the certificate and base URI, execute the following command:</p>
                     <pre>ldh create-container \\
-  -b "https://localhost:4443/" \\
-  -f ./ssl/owner/keystore.p12 \\
-  -p "$owner_cert_password" \\
-  --title "Concepts" \\
-  --slug "concepts" \\
-  --parent "https://localhost:4443/"</pre>
+  --title "Categories" \\
+  --slug "categories" \\
+  --parent "$LDH_BASE"</pre>
                 </div>
             </div>
         </div>
     </div>
-    <p>A container titled <samp>Concepts</samp> should appear with the URI <a href="https://localhost:4443/concepts/" target="_blank">https://localhost:4443/concepts/</a>.</p>
+    <p>A container titled <samp>Categories</samp> should appear with the URI <a href="https://localhost:4443/categories/" target="_blank">https://localhost:4443/categories/</a>.</p>
+    <div>
+        <h2 id="create-item">Create an item</h2>
+        <p>Items are created the same way — select <dfn>Item</dfn> from the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown instead, or from the command line:</p>
+        <pre>ldh create-item \\
+  --container "https://localhost:4443/categories/" \\
+  --title "Beverages" \\
+  --slug "1"</pre>
+        <p>The command prints the created document's URL — <samp>https://localhost:4443/categories/1/</samp>.</p>
+    </div>
     <p class="lead"><a href="../../../reference/data-model/documents/" target="_blank">Read more about document management.</a></p>
 </div>"""^^rdf:XMLLiteral .

@@ -39,6 +39,17 @@ ldh --help</pre>
   -p "$owner_cert_password" \\
   --accept text/turtle \\
   "https://localhost:4443/"</pre>
+        <p>which, on the Northwind Traders dataspace, prints the root document's description:</p>
+        <pre>@prefix def:  &lt;https://w3id.org/atomgraph/linkeddatahub/default#&gt; .
+@prefix dct:  &lt;http://purl.org/dc/terms/&gt; .
+@prefix rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+
+&lt;https://localhost:4443/&gt; a def:Root ;
+    dct:title "Northwind Traders" ;
+    dct:description "Knowledge Graph representation of the Northwind Traders sample database" ;
+    rdf:_1 &lt;https://localhost:4443/#overview-intro&gt; ;
+    # …
+    .</pre>
         <p>Server certificates are not validated, so self-signed development instances work out of the box.</p>
     </div>
     <div>
@@ -91,7 +102,7 @@ ldh --help</pre>
 export LDH_CERT_PASSWORD="$owner_cert_password"
 export LDH_BASE=https://localhost:4443/
 
-ldh create-container --parent "$LDH_BASE" --title "Concepts" --slug concepts</pre>
+ldh create-container --parent "$LDH_BASE" --title "Categories" --slug categories</pre>
     </div>
     <div>
         <h2 id="output">Output</h2>
@@ -126,15 +137,11 @@ Adds a SELECT query to a document.
       --uri=URI             URI of the query (optional, blank node if not set)
       --verbose             Print stack traces of errors</pre>
         <p>The optional parameters are marked with <samp>(optional)</samp>. In this case the default parameter is the URI of the document the query is appended to.</p>
-        <p>This is how an <samp>add-select</samp> invocation would look like:</p>
+        <p>This is how an <samp>add-select</samp> invocation would look like (with the <a href="#environment-variables">environment variables</a> supplying the connection parameters):</p>
         <pre>ldh add-select \\
-  -b "$base" \\
-  -f ./ssl/owner/keystore.p12 \\
-  -p "$owner_cert_password" \\
-  --proxy "$proxy" \\
-  --title "Select concepts" \\
-  --query-file "$pwd/queries/select-concepts.rq" \\
-  "${base}queries/"</pre>
+  --title "Products by sales" \\
+  --query-file products-by-sales.rq \\
+  "${LDH_BASE}products/"</pre>
     </div>
     <div>
         <h2 id="commands">Commands</h2>
@@ -321,25 +328,19 @@ Adds a SELECT query to a document.
                 </tr>
             </tbody>
         </table>
-        <p>Usage example — a file is uploaded to the document that will hold it, so the document is created first:</p>
-        <pre>base="https://localhost:4443/"
-
-doc=$(ldh create-item \\
-  -b "$base" \\
-  -f ./ssl/owner/keystore.p12 \\
-  -p "$owner_cert_password" \\
-  --title "Friends" \\
-  --container "$base")
+        <p>Usage example — the Northwind categories CSV is uploaded to the document that will hold it, so the document is created first:</p>
+        <pre>doc=$(ldh create-item \\
+  --container "${LDH_BASE}categories/" \\
+  --title "Categories data" \\
+  --slug categories-data)
 
 ldh add-file \\
-  -b "$base" \\
-  -f ./ssl/owner/keystore.p12 \\
-  -p "$owner_cert_password" \\
-  --title "Friends" \\
-  --file friends.csv \\
+  --title "categories.csv" \\
+  --file categories/categories.csv \\
   --content-type text/csv \\
   "$doc"</pre>
-        <p><samp>add-file</samp> prints the content-addressed URI of the upload (<samp>{base}uploads/{sha1}</samp>) rather than the document URI.</p>
+        <p><samp>add-file</samp> prints the content-addressed URI of the upload (<samp>{base}uploads/{sha1}</samp>) rather than the document URI — the
+            <a href="../../tutorial/data/">Data</a> stage of the tutorial feeds exactly that URI into a CSV import.</p>
         <p>See also the <a href="../../user-guide/import-data/">data import user guides</a>.</p>
         <h3 id="memento">Versioned documents</h3>
         <p><samp>ldh get</samp> reaches a <a href="../versioning/">versioned</a> document's Memento roles through mutually exclusive options:

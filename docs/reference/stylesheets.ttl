@@ -18,16 +18,57 @@
         <div>
             <h3 id="rdf-xml-plain">Plain RDF/XML</h3>
             <p><a href="https://www.w3.org/TR/rdf-syntax-grammar/" target="_blank">RDF/XML</a> is an important RDF syntax which functions as a bridge to the XML technology stack. The stylesheets use Jena's <a href="https://jena.apache.org/documentation/io/rdfxml_howto.html#rdfxml-rdfxml-abbrev" target="_blank">"plain" RDF/XML</a> output which groups statements by subject and does not nest resource descriptions. This allows for predictable XPath patterns:</p>
-            <ul>
-                <li><code>/rdf:RDF</code> — represents the RDF graph</li>
-                <li><code>/rdf:RDF/rdf:Description</code> or <code>/rdf:RDF/*[*][@rdf:about] | /rdf:RDF/*[*][@rdf:nodeID]</code> — resource description which contains properties</li>
-                <li><code>/rdf:RDF/rdf:Description/@rdf:about</code> — subject resource URI</li>
-                <li><code>/rdf:RDF/rdf:Description/@rdf:nodeID</code> — subject blank node ID</li>
-                <li><code>/rdf:RDF/rdf:Description/*</code> predicate (e.g. <code>rdf:type</code>) whose URI is <code>concat(namespace-uri(), local-name())</code></li>
-                <li><code>/rdf:RDF/rdf:Description/*/@rdf:resource</code> — object resource</li>
-                <li><code>/rdf:RDF/rdf:Description/*/@rdf:nodeID</code> — object blank node ID</li>
-                <li><code>/rdf:RDF/rdf:Description/*/text()</code> — literal value</li>
-            </ul>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>XPath</th>
+                        <th>Represents</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>/rdf:RDF</code></td>
+                        <td>The RDF graph</td>
+                    </tr>
+                    <tr>
+                        <td><code>/rdf:RDF/rdf:Description</code> or <code>/rdf:RDF/*[*][@rdf:about] | /rdf:RDF/*[*][@rdf:nodeID]</code></td>
+                        <td>Resource description which contains properties</td>
+                    </tr>
+                    <tr>
+                        <td><code>/rdf:RDF/rdf:Description/@rdf:about</code></td>
+                        <td>Subject resource URI</td>
+                    </tr>
+                    <tr>
+                        <td><code>/rdf:RDF/rdf:Description/@rdf:nodeID</code></td>
+                        <td>Subject blank node ID</td>
+                    </tr>
+                    <tr>
+                        <td><code>/rdf:RDF/rdf:Description/*</code></td>
+                        <td>Predicate (e.g. <code>rdf:type</code>) whose URI is <code>concat(namespace-uri(), local-name())</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>/rdf:RDF/rdf:Description/*/@rdf:resource</code></td>
+                        <td>Object resource</td>
+                    </tr>
+                    <tr>
+                        <td><code>/rdf:RDF/rdf:Description/*/@rdf:nodeID</code></td>
+                        <td>Object blank node ID</td>
+                    </tr>
+                    <tr>
+                        <td><code>/rdf:RDF/rdf:Description/*/text()</code></td>
+                        <td>Literal value</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The Northwind Chai product in that shape — the input every template matches against:</p>
+            <pre>&lt;rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:schema="https://schema.org/"&gt;
+    &lt;rdf:Description rdf:about="https://localhost:4443/products/1/#this"&gt;
+        &lt;rdf:type rdf:resource="https://schema.org/Product"/&gt;
+        &lt;schema:name&gt;Chai&lt;/schema:name&gt;
+        &lt;schema:category rdf:resource="https://localhost:4443/categories/1/#this"/&gt;
+        &lt;schema:provider rdf:resource="https://localhost:4443/suppliers/1/#this"/&gt;
+    &lt;/rdf:Description&gt;
+&lt;/rdf:RDF&gt;</pre>
         </div>
         <div>
             <h3 id="stylesheets">Stylesheets</h3>
@@ -128,7 +169,7 @@
         </div>
         <div>
             <h3 id="parameters">Parameters</h3>
-            <p>Both global (i.e. stylesheet-level) and template parameters are declared using <code>&lt;xsl:param&gt;</code>. LinkedDataHub sets the following global parameters by default (the list is non-exhaustive):</p>
+            <p>Both global (i.e. stylesheet-level) and template parameters are declared using <code>&lt;xsl:param&gt;</code>. LinkedDataHub sets the following global parameters:</p>
             <table class="table">
                 <thead>
                     <tr>
@@ -139,9 +180,24 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><code>$lapp:Application</code></td>
-                        <td><code>document-node()?</code></td>
-                        <td>RDF/XML metadata of the current application</td>
+                        <td><code>$ldt:base</code></td>
+                        <td><code>xs:anyURI?</code></td>
+                        <td>Base URI of the current application (prefer the <code>ldt:base()</code> function)</td>
+                    </tr>
+                    <tr>
+                        <td><code>$ldt:ontology</code></td>
+                        <td><code>xs:anyURI?</code></td>
+                        <td>URI of the application's namespace ontology</td>
+                    </tr>
+                    <tr>
+                        <td><code>$lapp:Context</code></td>
+                        <td><code>document-node()</code></td>
+                        <td>RDF/XML description of the configured dataspaces; the current application is looked up in it by origin</td>
+                    </tr>
+                    <tr>
+                        <td><code>$lapp:origin</code></td>
+                        <td><code>xs:anyURI</code></td>
+                        <td>Origin of the application shell that serves the static assets (the pane-scoped counterpart is the <code>lapp:origin()</code> function)</td>
                     </tr>
                     <tr>
                         <td><code>$foaf:Agent</code></td>
@@ -149,37 +205,70 @@
                         <td>RDF/XML metadata of the authenticated agent (if any)</td>
                     </tr>
                     <tr>
-                        <td><code>$ldh:requestUri</code></td>
-                        <td><code>xs:anyURI</code></td>
-                        <td>Full request URI including query string</td>
-                    </tr>
-                    <tr>
-                        <td><code>$ac:endpoint</code></td>
-                        <td><code>xs:anyURI</code></td>
-                        <td>SPARQL query endpoint URI (defaults to <code>resolve-uri('sparql', ldt:base())</code>)</td>
-                    </tr>
-                    <tr>
-                        <td><code>$sd:endpoint</code></td>
-                        <td><code>xs:anyURI?</code></td>
-                        <td>Service-description endpoint URI, if different from <code>$ac:endpoint</code></td>
-                    </tr>
-                    <tr>
                         <td><code>$acl:agent</code></td>
                         <td><code>xs:anyURI?</code></td>
                         <td>URI of the authenticated agent</td>
                     </tr>
                     <tr>
-                        <td><code>$acl:mode</code></td>
-                        <td><code>xs:anyURI*</code></td>
-                        <td>ACL access modes granted for the current request</td>
+                        <td><code>$ldh:requestUri</code></td>
+                        <td><code>xs:anyURI</code></td>
+                        <td>Full request URI including query string</td>
                     </tr>
                     <tr>
-                        <td><code>$ac:mode</code></td>
-                        <td><code>xs:anyURI*</code></td>
-                        <td>Current layout mode (derived: <code>ldh:ContentMode</code> if the document has content blocks, otherwise <code>ac:ReadMode</code>)</td>
+                        <td><code>$ldh:httpHeaders</code></td>
+                        <td><code>map(xs:string, xs:string*)</code></td>
+                        <td>HTTP response headers by name — <code>Content-Language</code>, <code>Link</code>, <code>Memento-Datetime</code> etc. are read from it</td>
+                    </tr>
+                    <tr>
+                        <td><code>$ldh:ajaxRendering</code></td>
+                        <td><code>xs:boolean</code></td>
+                        <td>Whether client-side (Saxon-JS) rendering is enabled</td>
+                    </tr>
+                    <tr>
+                        <td><code>$ldh:renderSystemResources</code></td>
+                        <td><code>xs:boolean</code></td>
+                        <td>Whether system resources are included in the rendering</td>
+                    </tr>
+                    <tr>
+                        <td><code>$ac:contextUri</code></td>
+                        <td><code>xs:anyURI</code></td>
+                        <td>Root deployment URI, against which system endpoints such as <code>oauth2/*</code> are resolved</td>
+                    </tr>
+                    <tr>
+                        <td><code>$ac:uri</code></td>
+                        <td><code>xs:anyURI?</code></td>
+                        <td>URI of the external resource when the request goes through the <a href="../http-api/#ld-proxy">Linked Data proxy</a>; absent for local documents</td>
+                    </tr>
+                    <tr>
+                        <td><code>$ac:method</code></td>
+                        <td><code>xs:string</code></td>
+                        <td>HTTP method of the current request</td>
+                    </tr>
+                    <tr>
+                        <td><code>$ac:httpHeaders</code></td>
+                        <td><code>xs:string</code></td>
+                        <td>Raw HTTP request headers</td>
+                    </tr>
+                    <tr>
+                        <td><code>$ac:query</code></td>
+                        <td><code>xs:string?</code></td>
+                        <td>SPARQL query string from the request's <code>query</code> parameter (on the <samp>sparql</samp> endpoint)</td>
+                    </tr>
+                    <tr>
+                        <td><code>$ac:forClass</code></td>
+                        <td><code>xs:anyURI?</code></td>
+                        <td>Class URI a constructor form is being requested for</td>
+                    </tr>
+                    <tr>
+                        <td><code>$ac:googleMapsKey</code></td>
+                        <td><code>xs:string</code></td>
+                        <td>Google Maps API key (legacy, used by Web-Client map rendering)</td>
                     </tr>
                 </tbody>
             </table>
+            <p>Former parameters <code>$ac:mode</code>, <code>$acl:mode</code>, <code>$sd:endpoint</code>, <code>$ac:langs</code> and <code>$lapp:Application</code> have been
+                replaced by the functions <code>ac:mode()</code>, <code>acl:mode()</code>, <code>sd:endpoint()</code>, <code>ac:langs()</code> and <code>lapp:application()</code> —
+                their values can change per pane or per response, which a global parameter cannot express.</p>
         </div>
         <div>
             <h3 id="functions">Functions</h3>
@@ -254,6 +343,11 @@
                         <td><code>map(xs:string, xs:string*)</code></td>
                         <td>Parses a URL query string into a map of key to value(s)</td>
                     </tr>
+                    <tr>
+                        <td><code>ldh:url-decode($encoded-string as xs:string)</code></td>
+                        <td><code>xs:string</code></td>
+                        <td>Percent-decodes a URL-encoded string</td>
+                    </tr>
                 </tbody>
             </table>
             <h4>RDF metadata functions</h4>
@@ -275,6 +369,41 @@
                         <td><code>ac:description($resource as element())</code></td>
                         <td><code>xs:string?</code></td>
                         <td>Extracts a human-readable description from an RDF resource description</td>
+                    </tr>
+                    <tr>
+                        <td><code>ac:image($resource as element())</code></td>
+                        <td><code>attribute()*</code></td>
+                        <td>Extracts image references (e.g. <code>foaf:depiction</code>, <code>foaf:img</code>) from a resource description</td>
+                    </tr>
+                    <tr>
+                        <td><code>ac:mode($doc as document-node())</code></td>
+                        <td><code>xs:anyURI</code></td>
+                        <td>The active <a href="../user-interface/#layout-modes">layout mode</a> of the given document. Replaces the former <code>$ac:mode</code> parameter</td>
+                    </tr>
+                    <tr>
+                        <td><code>ac:langs()</code></td>
+                        <td><code>xs:string*</code></td>
+                        <td>The reader's accepted languages as deduplicated primary subtags with an <samp>en</samp> floor — negotiated server-side, read from <code>navigator.languages</code> in the browser</td>
+                    </tr>
+                    <tr>
+                        <td><code>ac:lang-rank($value as element())</code></td>
+                        <td><code>xs:integer</code></td>
+                        <td>Ranks a property value's language against <code>ac:langs()</code>, so values sort by the reader's preference</td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:date-time($value as xs:string?)</code></td>
+                        <td><code>xs:dateTime?</code></td>
+                        <td>Parses a lexical value into a <code>xs:dateTime</code> where possible</td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:datatype-family($datatype as xs:anyURI?)</code></td>
+                        <td><code>xs:string</code></td>
+                        <td>Groups an XSD datatype into a family (numeric, dateTime, string…) — drives table column sorting</td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:sort-key($key as xs:string?, $datatype as xs:anyURI?)</code></td>
+                        <td><code>xs:anyAtomicType?</code></td>
+                        <td>Converts a lexical value into a typed sort key for its datatype family</td>
                     </tr>
                 </tbody>
             </table>
@@ -298,8 +427,85 @@
                         <td><code>document-node()?</code></td>
                         <td>Makes an HTTP request and returns the response as a document (server-side extension function)</td>
                     </tr>
+                    <tr>
+                        <td><code>ldh:build-query($mode as xs:anyURI*)</code></td>
+                        <td><code>map(xs:string, xs:string*)</code></td>
+                        <td>Builds the query parameter map that selects the given layout mode(s)</td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:parse-html($string as xs:string, $mime-type as xs:string)</code></td>
+                        <td><code>document-node()</code></td>
+                        <td>Parses a markup string into a document</td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:reserialize($doc as document-node())</code></td>
+                        <td><code>document-node()</code></td>
+                        <td>Round-trips a document through serialization, normalizing it</td>
+                    </tr>
+                    <tr>
+                        <td><code>ac:uuid()</code></td>
+                        <td><code>xs:string</code></td>
+                        <td>Generates a random UUID</td>
+                    </tr>
                 </tbody>
             </table>
+            <h4>Application and access functions</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Returns</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>sd:endpoint()</code></td>
+                        <td><code>xs:anyURI</code></td>
+                        <td>SPARQL endpoint of the current data pane — the local endpoint, or the remote application's when browsing another dataspace through the <a href="../http-api/#ld-proxy">proxy</a>. Replaces the former <code>$sd:endpoint</code> parameter</td>
+                    </tr>
+                    <tr>
+                        <td><code>lapp:application()</code></td>
+                        <td><code>xs:anyURI?</code></td>
+                        <td>URI of the application resource describing the current dataspace. Replaces the former <code>$lapp:Application</code> parameter (its description is looked up in <code>$lapp:Context</code>)</td>
+                    </tr>
+                    <tr>
+                        <td><code>acl:mode()</code></td>
+                        <td><code>xs:anyURI*</code></td>
+                        <td>Access modes granted on the current document, read from the response's <code>Link</code> headers. Replaces the former <code>$acl:mode</code> parameter</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4>Versioning functions</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Returns</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ldh:memento-datetime()</code></td>
+                        <td><code>xs:string?</code></td>
+                        <td>The <code>Memento-Datetime</code> of the currently viewed <a href="../versioning/#snapshots">historical version</a>, absent on the live document</td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:timemap()</code></td>
+                        <td><code>xs:anyURI?</code></td>
+                        <td>The document's <a href="../versioning/#timemap">TimeMap</a> URI from the <code>Link</code> response header; absent when the document is not versioned</td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:snapshot-params($query-params as map(xs:string, xs:string*))</code></td>
+                        <td><code>map(xs:string, xs:string*)</code></td>
+                        <td>Filters a query parameter map down to the snapshot parameters (<code>version</code>, <code>timemap</code>), so they survive URL rebuilds</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The many remaining <code>ldh:</code> functions in the client-side modules — the <code>render-*</code>, <code>load-*</code>, <code>set-*</code>,
+                <code>*-response</code> and <code>*-thunk</code> families — are internal promise-chain machinery, not a stable API, and are deliberately not
+                documented here.</p>
         </div>
         <div>
             <h3 id="templates">Templates</h3>
@@ -355,6 +561,19 @@
         &lt;xsl:apply-templates select="." mode="bs2:PropertyList"/&gt;
     &lt;/div&gt;
 &lt;/xsl:template&gt;</pre>
+            <p>Applied to the <a href="#rdf-xml-plain">Chai description above</a>, it produces markup of this shape (abridged):</p>
+            <pre>&lt;div about="https://localhost:4443/products/1/#this" typeof="https://schema.org/Product"&gt;
+    &lt;h2&gt;Chai&lt;/h2&gt;
+    &lt;dl&gt;
+        &lt;dt&gt;Name&lt;/dt&gt;
+        &lt;dd&gt;Chai&lt;/dd&gt;
+        &lt;dt&gt;Category&lt;/dt&gt;
+        &lt;dd&gt;&lt;a href="https://localhost:4443/categories/1/#this"&gt;Beverages&lt;/a&gt;&lt;/dd&gt;
+        &lt;dt&gt;Provider&lt;/dt&gt;
+        &lt;dd&gt;&lt;a href="https://localhost:4443/suppliers/1/#this"&gt;Exotic Liquids&lt;/a&gt;&lt;/dd&gt;
+    &lt;/dl&gt;
+&lt;/div&gt;</pre>
+            <p class="exhibit-links">Live: <a href="https://northwind-traders.demo.linkeddatahub.com/products/1/" target="_blank">/products/1/</a> — the same description, rendered by the full stylesheet</p>
             <p><code>ldh:ContentList</code> mode renders the content specified by the <code>rdf:_1</code> value of the current document.</p>
             <p>There are a few special template modes such as <code>ac:label</code> and <code>ac:description</code> and related functions <code>ac:label()</code> and <code>ac:description()</code> which are
                 used not to render layout but to extract metadata from resource descriptions. They can be used to retrieve a resource label and description no matter which RDF
@@ -391,7 +610,7 @@
             <p>Built-in <a href="../administration/ontologies/#ontologies" target="_blank">ontologies</a> as well as some other system and well-known ontologies, have a local copy in
                 each LinkedDataHub instance. As a result, retrieving their descriptions by dereferencing their URIs using <code>document()</code> does not incur an HTTP request and is much faster. The URI-to-file mapping
                 is defined as Jena's <a href="https://jena.apache.org/documentation/io/rdf-input.html#configuring-a-locationmapper" target="_blank">location mapping</a> and can be found in
-                <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/src/main/resources/location-mapping.n3" target="_blank"><samp>location-mapping.n3</samp></a> and <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/src/main/resources/prefix-mapping.n3" target="_blank"><samp>prefix-mapping.n3</samp></a>.</p>
+                <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/src/main/resources/location-mapping.ttl" target="_blank"><samp>location-mapping.ttl</samp></a> and <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/src/main/resources/prefix-mapping.ttl" target="_blank"><samp>prefix-mapping.ttl</samp></a>.</p>
             <p>Client-side stylesheets use <a href="https://www.saxonica.com/saxonjs/documentation3/index.html#!ixsl-extension/instructions/schedule-action" target="_blank"><code>&lt;ixsl:schedule-action&gt;</code></a> (deprecated) and <a href="https://www.saxonica.com/saxonjs/documentation3/index.html#!ixsl-extension/instructions/promise" target="_blank"><code>&lt;ixsl:promise&gt;</code></a> to load XML documents asynchronously. The metadata required to render forms — constructors, SHACL shapes, and property and object descriptions — is loaded client-side through chains of <code>&lt;ixsl:promise&gt;</code>, so the browser fetches it on demand rather than the server fetching everything up front.</p>
         </div>
     </div>

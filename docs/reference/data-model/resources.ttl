@@ -97,6 +97,20 @@
         </p>
         <p>Queries are SPARQL 1.1 query strings that can be executed interactively. They can be defined with a SPARQL
         service that they execute against, otherwise they execute against the application's own SPARQL service.</p>
+        <p>A query is a resource typed by its SPARQL form, carrying the query string as <code>sp:text</code>:</p>
+        <pre>&lt;#select-categories-query&gt; a sp:Select ;
+    dct:title "Select categories" ;
+    sp:text '''PREFIX  schema: &lt;https://schema.org/&gt;
+
+SELECT DISTINCT  ?category
+WHERE
+  { GRAPH ?doc
+      { ?category  a           schema:ProductGroup ;
+                  schema:name  ?categoryName
+      }
+  }
+ORDER BY ?categoryName''' .</pre>
+        <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories.ttl" target="_blank">categories.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/" target="_blank">/categories/</a></p>
         <p>It is only possible to save valid SPARQL 1.1 query strings. SPARQL updates are currently not supported.</p>
     </div>
     <div>
@@ -154,6 +168,43 @@
         </div>
         <p>The default chart type is the table. Other chart types might not apply to all result data; for example a
         scatter chart will need numeric or datetime values for both category and series.</p>
+        <p>A complete chart is a chain of three resources — the query, the chart description, and an
+            <a href="../blocks/#object-blocks">object block</a> that places it on a document:</p>
+        <pre>&lt;#category-revenue-query&gt; a sp:Select ;
+    dct:title "Category revenue" ;
+    sp:text '''PREFIX schema: &lt;https://schema.org/&gt;
+
+SELECT ?categoryName (SUM(?sale) AS ?revenue)
+WHERE {
+    GRAPH ?orderGraph {
+        ?order schema:orderedItem ?orderItem .
+        ?orderItem schema:orderedItem ?product ;
+                   schema:price ?sale .
+    }
+    GRAPH ?productGraph {
+        ?product schema:category ?category .
+    }
+    GRAPH ?categoryGraph {
+        ?category schema:name ?categoryName .
+    }
+}
+GROUP BY ?category ?categoryName
+ORDER BY DESC(?revenue)''' .
+
+&lt;#category-revenue&gt; a ldh:ResultSetChart ;
+    dct:title "Revenue by category" ;
+    spin:query &lt;#category-revenue-query&gt; ;
+    ldh:chartType &lt;https://w3id.org/atomgraph/client#BarChart&gt; ;
+    ldh:categoryVarName "categoryName" ;
+    ldh:seriesVarName "revenue" .
+
+&lt;#category-revenue-block&gt; a ldh:Object ;
+    dct:title "Revenue by category" ;
+    rdf:value &lt;#category-revenue&gt; .</pre>
+        <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories.ttl" target="_blank">categories.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/" target="_blank">/categories/</a></p>
+        <p>Multiple <code>ldh:seriesVarName</code> values plot one series per named result variable — see the
+            <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/orders.ttl" target="_blank">demo's revenue-by-carrier chart</a>,
+            which pivots three carriers into three series with conditional aggregation.</p>
     </div>
     <div>
         <h2 id="views">Views</h2>
@@ -168,6 +219,11 @@
         <p>To render paginated lists of resources, legacy applications would normally have a dedicated API endpoint that
         supports pagination, ordering etc. In LinkedDataHub, views achieve the same functionality by simply building the
         SPARQL query string on the client-side. Therefore views can be seen as client-side "containers".</p>
+        <p>A view references its <a href="#queries">query</a> and optionally fixes a layout mode:</p>
+        <pre>&lt;#select-categories-view&gt; a ldh:View ;
+    spin:query &lt;#select-categories-query&gt; ;
+    ac:mode &lt;https://w3id.org/atomgraph/client#GridMode&gt; .</pre>
+        <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories.ttl" target="_blank">categories.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/" target="_blank">/categories/</a></p>
         <p>Views can be rendered in multiple layout modes: properties, list, grid, table, map, chart, and graph. They also show
         the total number of results and allow result ordering by property. In the table mode, columns can be sorted by clicking
         their headers; the sort order follows each column's datatype.</p>
@@ -179,6 +235,17 @@
                 <li>Project IRIs that are stored <em>locally</em>. An IRI that only occurs as an object but is not itself described in the dataset — for example an external image URL — contributes no triples.</li>
                 <li>Project a <em>single</em> entity type. Projecting several resource variables of different types blends their descriptions into one result set, which rarely renders coherently; select the one type you want to list and reach the related resources through their properties instead.</li>
             </ul>
+            <p>Side by side — the left query drives the categories grid above; the right one <em>looks</em> equivalent but projects the name literal
+                instead of the category resource, describes nothing, and renders an empty view:</p>
+            <pre># renders category documents          # renders nothing
+SELECT DISTINCT ?category             SELECT DISTINCT ?categoryName
+WHERE {                               WHERE {
+    GRAPH ?doc {                          GRAPH ?doc {
+        ?category                             ?category
+            a schema:ProductGroup ;               a schema:ProductGroup ;
+            schema:name ?categoryName             schema:name ?categoryName
+    }                                     }
+}                                     }</pre>
         </div>
         <div>
             <h3 id="view-layout-modes">Layout modes</h3>
@@ -187,7 +254,14 @@
         <div>
             <h3 id="inline-creation">Inline creation</h3>
             <p>A view that carries <code>ldh:container</code> metadata renders a <span class="btn btn-primary create-action">Create</span> button that creates a new instance in that container, so a view can double as an entry point for the data it lists.</p>
-            <p>A view with <code>ldh:showWhenEmpty</code> set to <code>false</code> is hidden while its query returns no results.</p>
+            <p>A view with <code>ldh:showWhenEmpty</code> set to <code>false</code> is hidden while its query returns no results — the
+                <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/admin/model/ns.ttl" target="_blank">demo's property-attached views</a>
+                use it so "Orders from this customer" only appears on customers that have orders.</p>
+            <pre>&lt;#select-products-view&gt; a ldh:View ;
+    spin:query &lt;#select-products-query&gt; ;
+    ac:mode &lt;https://w3id.org/atomgraph/client#TableMode&gt; ;
+    ldh:container &lt;https://localhost:4443/products/&gt; ;   # renders a Create button targeting the container
+    ldh:showWhenEmpty false .</pre>
         </div>
         <div>
             <h3 id="faceted-search">Faceted search</h3>

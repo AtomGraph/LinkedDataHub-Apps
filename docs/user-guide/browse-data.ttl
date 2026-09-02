@@ -17,7 +17,11 @@
     <div>
         <h2 id="linked-data-browser">Linked Data browser</h2>
         <p>LinkedDataHub has a built-in Linked Data browser which is accessed through <a href="../../reference/user-interface/#nav-bar">the navigation bar</a>. Enter a <code>http://</code> or <code>https://</code> URL and
-            press <samp>Enter</samp> or click the search button.</p>
+            press <samp>Enter</samp> or click the search button. Try, for example:</p>
+        <ul>
+            <li><samp>https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3683/</samp> — a concept in another LinkedDataHub dataspace (the one the Northwind Beverages category <a href="../../reference/imports/rdf/">maps to</a>)</li>
+            <li><samp>https://dbpedia.org/resource/Copenhagen</samp> — an arbitrary Linked Data resource on the open web</li>
+        </ul>
         <p>The browser supports all standard RDF formats as well as JSON-LD embedded in HTML page's <code>&lt;script&gt;</code> elements, which is often used to publish <a href="https://schema.org/" target="_blank">schema.org</a> metadata.</p>
         <p>When the data loads successfully, you can navigate it the same way as your local documents, switch between different layout modes etc. You can also <a href="../add-data/">add the data</a> into your dataspace.</p>
         <p>If an RDF document cannot be read from the supplied URL, an error message will be shown.</p>
@@ -58,7 +62,20 @@
         <h2 id="text-search">Text search</h2>
         <p>You can lookup resources by typing a phrase (it does not have to be complete, start with a few letters) into the <a href="../../reference/user-interface/#document-tree">search box</a> at the top of the left sidebar.</p>
         <p>A dropdown list will appear if there are any matches. Use up/down keys or mouse click to select one of the results, and you will be redirected to its document.</p>
-        <p>The matching is done by looking for substrings using SPARQL <code>regex()</code> in common literal properties such as <code>dct:title</code>, <code>rdfs:label</code>, <code>foaf:name</code> etc. You can find the exact query in <samp>Queries / Select labelled</samp>.</p>
+        <p>The matching is done by looking for substrings using SPARQL <code>regex()</code> in common literal properties such as <code>dct:title</code>, <code>rdfs:label</code>, <code>foaf:name</code> etc. — equivalent to a query of this shape:</p>
+        <pre>PREFIX dct:  &lt;http://purl.org/dc/terms/&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
+
+SELECT DISTINCT ?resource
+WHERE {
+    GRAPH ?g {
+        ?resource ?labelProperty ?label .
+        VALUES ?labelProperty { dct:title rdfs:label foaf:name skos:prefLabel }
+        FILTER regex(str(?label), "cha", "i")   # on Northwind, matches "Chai", "Chang", "Chartreuse verte"…
+    }
+}</pre>
         <p>The same widget is used for autocomplete inputs in the <a href="../../reference/user-interface/#action-bar">create/edit forms</a>.</p>
         <p>
             <img alt="Search" src="../../uploads/8c4383351477a5405a9883d23d9255670b9396f7"></img>

@@ -49,7 +49,18 @@
             <dd>This file is gitignored and must not be committed to version control. See the <samp>credentials</samp> secret entry below for configuration details.</dd>
         </dl>
         <p>All files are in TriG format and are mounted into the LinkedDataHub container at startup. The separation allows you to version control
-        dataspace metadata and service wiring while keeping credentials out of version control entirely.</p>
+        dataspace metadata and service wiring while keeping credentials out of version control entirely. The
+        <a href="../dataspace/#configuring-dataspaces">dataspace reference</a> shows the Northwind Traders dataspace as a worked example across both
+        <samp>config/</samp> files.</p>
+    </div>
+    <div>
+        <h2 id="compose-override">Compose overrides</h2>
+        <p>Environment-specific configuration goes into <samp>docker-compose.override.yml</samp>, which Docker Compose merges over
+            <samp>docker-compose.yml</samp> automatically. Mounting a stylesheet under development, for example:</p>
+        <pre>services:
+  linkeddatahub:
+    volumes:
+      - ./files/northwind.xsl:/usr/local/tomcat/webapps/ROOT/static/com/atomgraph/linkeddatahub/northwind/xsl/layout.xsl:ro</pre>
     </div>
     <div>
         <h2 id="service-configuration">Service configuration</h2>

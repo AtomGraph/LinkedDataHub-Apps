@@ -16,7 +16,28 @@
     <div>
         <h2 id="cli">From the command line</h2>
         <pre>ldh admin acl make-public</pre>
-        <p>The command creates the public-read authorization in the admin application. Authorizations are data, so you can inspect the document it created — and delete it to unpublish.</p>
+        <p>The command extends the admin application's <samp>acl/authorizations/public/</samp> document. Authorizations are data, so you can inspect
+            what it wrote — and delete it to unpublish:</p>
+        <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
+@prefix def:  &lt;https://w3id.org/atomgraph/linkeddatahub/default#&gt; .
+@prefix dh:   &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+@prefix nfo:  &lt;http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#&gt; .
+@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+
+&lt;#this&gt; a acl:Authorization ;
+    rdfs:label "Public access" ;
+    acl:mode acl:Read ;
+    acl:agentClass foaf:Agent, acl:AuthenticatedAgent ;      # any agent, signed in or not
+    acl:accessToClass def:Root, dh:Container, dh:Item, nfo:FileDataObject ;
+    acl:accessTo &lt;https://localhost:4443/sparql&gt; .
+
+&lt;#sparql-post&gt; a acl:Authorization ;                          # allows queries over POST
+    acl:mode acl:Append ;
+    acl:agentClass foaf:Agent, acl:AuthenticatedAgent ;
+    acl:accessTo &lt;https://localhost:4443/sparql&gt; .</pre>
+        <p>The first authorization grants <code>acl:Read</code> on every document class — the root, containers, items and file uploads — and on the
+            SPARQL endpoint; the second additionally allows <code>POST</code>ed queries. See the <a href="../../reference/administration/acl/" target="_blank">ACL reference</a> for
+            the authorization model.</p>
     </div>
     <div>
         <h2 id="browser">In the browser</h2>

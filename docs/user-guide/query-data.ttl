@@ -15,6 +15,28 @@
             endpoint at the application's <samp>sparql</samp> URL (e.g. <samp>https://localhost:4443/sparql</samp>). Opening it in the browser renders an
             interactive SPARQL editor.</p>
         <p>All forms of SPARQL queries are allowed; SPARQL updates are <em>not</em> allowed. A result limit might apply.</p>
+        <p>Try it on the <a href="https://northwind-traders.demo.linkeddatahub.com/sparql" target="_blank">Northwind Traders endpoint</a> — the demo's
+            top-selling-products query, ready to paste:</p>
+        <pre>PREFIX  schema: &lt;https://schema.org/&gt;
+
+SELECT DISTINCT  ?productName (SUM(?sale) AS ?totalSales)
+WHERE
+  { GRAPH ?orderGraph
+      { ?order    schema:orderedItem    ?orderItem .
+        ?orderItem  schema:orderedItem  ?product ;
+                  schema:price          ?sale
+      }
+    GRAPH ?productGraph
+      { ?product  schema:name  ?productName }
+  }
+GROUP BY ?product ?productName
+ORDER BY DESC(?totalSales)
+LIMIT   5</pre>
+        <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/products.ttl" target="_blank">products.ttl</a> — the same query drives the <a href="https://northwind-traders.demo.linkeddatahub.com/products/" target="_blank">Top selling products chart</a></p>
+        <p>The endpoint is a standard SPARQL 1.1 Protocol service, so it can be queried programmatically as well:</p>
+        <pre>curl -k -G "https://localhost:4443/sparql" \\
+  -H "Accept: application/sparql-results+json" \\
+  --data-urlencode 'query=PREFIX schema: &lt;https://schema.org/&gt; SELECT (COUNT(*) AS ?orders) WHERE { GRAPH ?g { ?order a schema:Order } }'</pre>
         <p>For <code>DESCRIBE</code> and <code>CONSTRUCT</code> results, it is possible to switch the
         <a href="../../reference/user-interface/#layout-modes">layout mode</a> using a button above to the results.</p>
         <p>

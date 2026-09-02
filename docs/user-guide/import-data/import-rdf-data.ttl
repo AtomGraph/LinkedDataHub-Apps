@@ -80,24 +80,17 @@
                 <div class="tab-pane">
                     <div>
                         <p>Build the <a href="../../../reference/command-line-interface/">command line interface</a> (CLI) and put it on your <code>$PATH</code>. The import is described by a document, which the command takes as its last argument, so create that document first. For example:</p>
-                        <pre>base="https://localhost:4443/"
-
-doc=$(ldh create-item \\
-    -b "$base" \\
-    -f ./ssl/owner/keystore.p12 \\
-    -p "$owner_cert_password" \\
-    --title "Concepts" \\
-    --container "$base")
+                        <pre>doc=$(ldh create-item \\
+    --title "UNESCO category mappings" \\
+    --container "${LDH_BASE}categories/")
 
 ldh imports import-rdf \\
-    -b "$base" \\
-    -f ./ssl/owner/keystore.p12 \\
-    -p "$owner_cert_password" \\
-    --title "Concepts" \\
-    --rdf-file concepts.ttl \\
+    --title "UNESCO category mappings" \\
+    --rdf-file categories/unesco-mappings.ttl \\
     --content-type "text/turtle" \\
-    --graph "${base}skos/" \\
+    --graph "${LDH_BASE}categories/mappings/" \\
     "$doc"</pre>
+                        <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/unesco-mappings.ttl" target="_blank">categories/unesco-mappings.ttl</a> — the mapping file that connects Northwind categories to UNESCO Thesaurus concepts, shown in full in the <a href="../../../reference/imports/rdf/">RDF imports reference</a></p>
                     </div>
                 </div>
             </div>
@@ -170,24 +163,18 @@ ldh imports import-rdf \\
                 <div class="tab-pane">
                     <div>
                         <p>Build the <a href="../../../reference/command-line-interface/">command line interface</a> (CLI) and put it on your <code>$PATH</code>. The import is described by a document, which the command takes as its last argument, so create that document first. For example:</p>
-                        <pre>base="https://localhost:4443/"
-
-doc=$(ldh create-item \\
-    -b "$base" \\
-    -f ./ssl/owner/keystore.p12 \\
-    -p "$owner_cert_password" \\
-    --title "Concepts" \\
-    --container "$base")
+                        <pre>doc=$(ldh create-item \\
+    --title "UNESCO category mappings" \\
+    --container "${LDH_BASE}categories/")
 
 ldh imports import-rdf \\
-    -b "$base" \\
-    -f ./ssl/owner/keystore.p12 \\
-    -p "$owner_cert_password" \\
-    --title "Concepts" \\
-    --rdf-file concepts.ttl \\
+    --title "UNESCO category mappings" \\
+    --rdf-file categories/unesco-mappings.ttl \\
     --content-type "text/turtle" \\
-    --query-file concepts.rq \\
+    --query-file unesco-mappings.rq \\
     "$doc"</pre>
+                        <p>The transformation query routes each mapping into its category's own document — it is shown in full in the
+                            <a href="../../../reference/imports/rdf/#transformation-example">RDF imports reference</a>.</p>
                     </div>
                 </div>
             </div>

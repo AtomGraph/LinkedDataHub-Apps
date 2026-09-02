@@ -14,9 +14,15 @@
     <div>
         <p>Content list is a <a href="../../user-interface/#layout-modes" target="_blank">layout mode</a> that allows composition of rich, structured web documents from multiple types of content blocks.</p>
         <p>The blocks are attached to the document resource using <a href="https://www.w3.org/TR/rdf-schema/#ch_seq" target="_blank">RDF sequence properties</a> <code>rdf:_1</code>, <code>rdf:_2</code> etc.
-        The index number in the property URI indicates the position of the content block on the document's content list.</p>
+        The index number in the property URI indicates the position of the content block on the document's content list. The Northwind dashboard's root document, for example, starts with:</p>
+        <pre>&lt;https://localhost:4443/&gt;
+    rdf:_1 &lt;https://localhost:4443/#overview-intro&gt; ;      # an XHTML block
+    rdf:_2 &lt;https://localhost:4443/#sales-trend-block&gt; .   # an object block wrapping a chart</pre>
+        <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/root.ttl" target="_blank">root.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">the dashboard</a></p>
         <p>The blocks have 2 types: XHTML (<code>ldh:XHTML</code>) and object (<code>ldh:Object</code>). These are the only types allowed as content block values — anything that is not XHTML markup, such as a query, a chart or an external resource, has to be wrapped into an <code>ldh:Object</code>. A built-in constraint rejects other values.</p>
         <p>The blocks can be re-arranged by dragging one of them by its drag handle and dropping it in a different position. Every block also offers a button that copies the block's URI to the clipboard.</p>
+        <!-- screenshot: the Northwind dashboard's content list in edit mode, drag handles and block controls visible -->
+
     </div>
     <div>
         <h2 id="xhtml-blocks">XHTML blocks</h2>
@@ -26,9 +32,9 @@
             <pre>@prefix ldh: &lt;https://w3id.org/atomgraph/linkeddatahub#&gt; .
 @prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
 
-&lt;https://localhost:4443/concepts/example/#xhtml-block&gt;
+&lt;https://localhost:4443/#overview-intro&gt;
     a       ldh:XHTML ;
-    rdf:value "&lt;div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"&gt;\\n&lt;p&gt;A paragraph&lt;/p&gt;\\n&lt;/div&gt;"^^rdf:XMLLiteral .</pre>
+    rdf:value "&lt;div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"&gt;\\n&lt;p&gt;The iconic sample database, reborn as an RDF Knowledge Graph.&lt;/p&gt;\\n&lt;/div&gt;"^^rdf:XMLLiteral .</pre>
         </div>
     </div>
     <div>
@@ -40,12 +46,17 @@
             <h3 id="object-rdf-serialization">RDF serialization</h3>
             <pre>@prefix ldh: &lt;https://w3id.org/atomgraph/linkeddatahub#&gt; .
 @prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
-@prefix ac: &lt;https://w3id.org/atomgraph/client#&gt; .
+@prefix dct: &lt;http://purl.org/dc/terms/&gt; .
 
-&lt;https://localhost:4443/concepts/example/#object-block&gt;
+&lt;https://localhost:4443/#top-manager&gt;
     a       ldh:Object ;
-    rdf:value &lt;http://dbpedia.org/resource/Copenhagen&gt; ;
-    ac:mode  ac:MapMode .</pre>
+    dct:title "Vice President, Sales" ;
+    rdf:value &lt;https://localhost:4443/employees/2/#this&gt; .</pre>
+            <p>This block from the Northwind dashboard embeds a plain data resource — the Vice President of Sales, rendered with his description and photo.
+                The object can equally be a <a href="../resources/#queries">query</a>, a <a href="../resources/#charts">chart</a>, a
+                <a href="../resources/#views">view</a>, or an external Linked Data URI, and an optional <code>ac:mode</code> on the block picks the
+                <a href="../../user-interface/#layout-modes">layout mode</a> it renders in.</p>
+            <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/root.ttl" target="_blank">root.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">the dashboard</a></p>
         </div>
     </div>
     <div>

@@ -1,0 +1,41 @@
+# Mappings between Northwind product categories and UNESCO Thesaurus concepts.
+# Each category doubles as a skos:Concept, which makes the SKOS mapping relations
+# applicable and lets the SKOS package render the categories as concepts.
+# Import this file with an RDF import (see the documentation) - it is not
+# installed by update-folder.sh (.ldhignore).
+
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+# 1 Beverages -> Beverages
+<https://northwind-traders.demo.linkeddatahub.com/categories/1/#this> a skos:Concept ;
+    skos:closeMatch <https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3683/#this> .
+
+# 2 Condiments -> Food (no finer concept in the thesaurus)
+<https://northwind-traders.demo.linkeddatahub.com/categories/2/#this> a skos:Concept ;
+    skos:broadMatch <https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept1812/#this> .
+
+# 3 Confections -> Sugar
+<https://northwind-traders.demo.linkeddatahub.com/categories/3/#this> a skos:Concept ;
+    skos:relatedMatch <https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3495/#this> .
+
+# 4 Dairy Products -> Dairy products
+<https://northwind-traders.demo.linkeddatahub.com/categories/4/#this> a skos:Concept ;
+    skos:closeMatch <https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept2435/#this> .
+
+# 5 Grains/Cereals -> Cereals
+<https://northwind-traders.demo.linkeddatahub.com/categories/5/#this> a skos:Concept ;
+    skos:closeMatch <https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept4918/#this> .
+
+# 6 Meat/Poultry -> Meat, Poultry
+<https://northwind-traders.demo.linkeddatahub.com/categories/6/#this> a skos:Concept ;
+    skos:closeMatch <https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept2438/#this>,
+        <https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3457/#this> .
+
+# 7 Produce -> Fruit, Vegetables
+<https://northwind-traders.demo.linkeddatahub.com/categories/7/#this> a skos:Concept ;
+    skos:closeMatch <https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept11238/#this>,
+        <https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept11975/#this> .
+
+# 8 Seafood -> Fishery products
+<https://northwind-traders.demo.linkeddatahub.com/categories/8/#this> a skos:Concept ;
+    skos:closeMatch <https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept2436/#this> .

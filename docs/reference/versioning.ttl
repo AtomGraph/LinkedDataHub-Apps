@@ -48,7 +48,13 @@
             <li>Restart LinkedDataHub</li>
         </ol>
         <p>From then on, every successful document write in the dataspace is committed to the repository. Writes from different documents
-            share one commit chain per branch, and a conflicting commit is retried rather than dropped, so concurrent writers do not lose versions.</p>
+            share one commit chain per branch, and a conflicting commit is retried rather than dropped, so concurrent writers do not lose versions.
+            Each document is stored as a sorted N-Triples file under the configured path prefix — Northwind order 10248 as
+            <samp>graphs/orders/10248/.nt</samp>:</p>
+        <pre>&lt;https://localhost:4443/orders/10248/&gt; &lt;http://purl.org/dc/terms/title&gt; "10248" .
+&lt;https://localhost:4443/orders/10248/#this&gt; &lt;https://schema.org/identifier&gt; "10248" .
+&lt;https://localhost:4443/orders/10248/#this&gt; &lt;https://schema.org/orderDate&gt; "1996-07-04"^^&lt;http://www.w3.org/2001/XMLSchema#date&gt; .
+…</pre>
     </div>
     <div>
         <h2 id="snapshots">Historical versions</h2>
@@ -57,6 +63,16 @@
             <code>Cache-Control</code> — a historical version never changes.</p>
         <p>Snapshots are read-only: only <code>acl:Read</code> is advertised in the <code>Link</code> headers and write methods answer
             <code>405 Method Not Allowed</code>. In the user interface a snapshot page shows a notice banner with a link back to the current version.</p>
+        <pre>GET /orders/10248/?version=8c9f2b1 HTTP/1.1
+Host: localhost:4443
+Accept: text/turtle
+
+HTTP/1.1 200 OK
+Content-Type: text/turtle
+Memento-Datetime: Tue, 01 Sep 2026 14:03:59 GMT
+ETag: "8c9f2b1"
+Cache-Control: public, max-age=31536000, immutable
+Link: &lt;https://localhost:4443/orders/10248/&gt;; rel="original"</pre>
     </div>
     <div>
         <h2 id="timemap">TimeMap</h2>
@@ -64,6 +80,27 @@
             with <a href="https://www.w3.org/TR/prov-o/" target="_blank">PROV-O</a>: a <code>prov:Collection</code> of <code>prov:Entity</code> mementos, each
             <code>prov:specializationOf</code> the document, <code>prov:generatedAtTime</code> its commit datetime, and <code>prov:wasRevisionOf</code> its
             predecessor. Requesting <code>application/link-format</code> serves the serialization RFC 7089 requires.</p>
+        <p>Order 10248's history with two versions, as PROV-O:</p>
+        <pre>@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+
+&lt;https://localhost:4443/orders/10248/?timemap&gt; a prov:Collection ;
+    prov:hadMember &lt;https://localhost:4443/orders/10248/?version=4d1e7aa&gt;,
+        &lt;https://localhost:4443/orders/10248/?version=8c9f2b1&gt; .
+
+&lt;https://localhost:4443/orders/10248/?version=4d1e7aa&gt; a prov:Entity ;
+    prov:specializationOf &lt;https://localhost:4443/orders/10248/&gt; ;
+    prov:generatedAtTime "2026-08-30T10:12:04Z"^^xsd:dateTime .
+
+&lt;https://localhost:4443/orders/10248/?version=8c9f2b1&gt; a prov:Entity ;
+    prov:specializationOf &lt;https://localhost:4443/orders/10248/&gt; ;
+    prov:generatedAtTime "2026-09-01T14:03:59Z"^^xsd:dateTime ;
+    prov:wasRevisionOf &lt;https://localhost:4443/orders/10248/?version=4d1e7aa&gt; .</pre>
+        <p>and the same TimeMap as <code>application/link-format</code>:</p>
+        <pre>&lt;https://localhost:4443/orders/10248/&gt;;rel="original",
+&lt;https://localhost:4443/orders/10248/?timemap&gt;;rel="self";type="application/link-format",
+&lt;https://localhost:4443/orders/10248/?version=4d1e7aa&gt;;rel="memento";datetime="Sun, 30 Aug 2026 10:12:04 GMT",
+&lt;https://localhost:4443/orders/10248/?version=8c9f2b1&gt;;rel="memento";datetime="Tue, 01 Sep 2026 14:03:59 GMT"</pre>
         <p>A TimeMap of a document with no versions answers <code>404 Not Found</code>, and ordinary documents answer <code>406 Not Acceptable</code>
             for <code>application/link-format</code>.</p>
         <p>The Memento hypermedia uses the IANA-registered relation types: the document advertises its <code>timemap</code> and <code>timegate</code> in
@@ -76,6 +113,14 @@
             <code>Accept-Datetime</code> request header is answered with <code>302 Found</code> and its URI in <code>Location</code>, with ties resolved
             towards the more recent version. Without <code>Accept-Datetime</code>, the most recent version is selected. The response carries
             <code>Vary: accept-datetime</code>.</p>
+        <pre>GET /orders/10248/?timegate HTTP/1.1
+Host: localhost:4443
+Accept-Datetime: Mon, 31 Aug 2026 00:00:00 GMT
+
+HTTP/1.1 302 Found
+Location: https://localhost:4443/orders/10248/?version=4d1e7aa
+Vary: accept-datetime
+Link: &lt;https://localhost:4443/orders/10248/&gt;; rel="original"</pre>
     </div>
     <div>
         <h2 id="restore-diff">Restore and diff</h2>

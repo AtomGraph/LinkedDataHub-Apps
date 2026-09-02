@@ -17,15 +17,21 @@
     <p>The demo's finished root document interleaves them into an executive dashboard:</p>
     <pre>&lt;&gt; a def:Root ;
     dct:title "Northwind Traders" ;
-    rdf:_1 &lt;#page-header&gt; ;          # XHTML   — title and pitch
-    rdf:_2 &lt;#overview-intro&gt; ;       # XHTML   — dashboard intro
-    rdf:_3 &lt;#sales-trend-block&gt; ;    # Object  — monthly sales line chart
-    rdf:_4 &lt;#revenue-by-country-block&gt; ; # Object — geo chart
-    rdf:_5 &lt;#top-selling-products&gt; ; # Object  — product ranking
-    rdf:_6 &lt;#top-manager-header&gt; ;   # XHTML   — section heading
-    rdf:_7 &lt;#top-manager&gt; ;          # Object  — employee of the quarter
-    rdf:_8 &lt;#navigation-prompt&gt; ;    # XHTML   — where to go next
-    rdf:_9 &lt;#select-children&gt; .      # Object  — children view</pre>
+    rdf:_1 &lt;#overview-intro&gt; ;       # XHTML   — "Executive dashboard" intro
+    rdf:_2 &lt;#sales-trend-block&gt; ;    # Object  — monthly sales line chart
+    rdf:_3 &lt;#margin-intro&gt; ;         # XHTML   — "What the deals cost"
+    rdf:_4 &lt;#discount-rate-block&gt; ;  # Object  — discount rate line chart
+    rdf:_5 &lt;#revenue-by-country-block&gt; ; # Object — revenue by country bar chart
+    rdf:_6 &lt;products/#top-selling-products&gt; ; # Object — chart reused from Products
+    rdf:_7 &lt;#top-manager-header&gt; ;   # XHTML   — "Sales leadership"
+    rdf:_8 &lt;#top-manager&gt; ;          # Object  — embeds &lt;employees/2/#this&gt;
+    rdf:_9 &lt;#navigation-prompt&gt; ;    # XHTML   — where to go next
+    rdf:_10 &lt;#select-children&gt; .     # Object  — children view</pre>
+    <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/root.ttl" target="_blank">root.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">the dashboard</a></p>
+    <p>Two of the blocks show how far transclusion reaches. <code>rdf:_6</code> embeds a chart that is <em>defined on the Products container</em> — the same
+        resource renders on both pages, so an insight is authored once and placed wherever it is needed. <code>rdf:_8</code> embeds a plain data resource:
+        <code>&lt;employees/2/#this&gt;</code>, the Vice President of Sales, rendered with his description and photo — no special "profile widget" exists, the
+        default rendering of the resource is the widget.</p>
     <p>The narrative rhythm — prose, then evidence, then prose — is an editorial choice, and it is made entirely in data: reordering the page is renumbering <code>rdf:_N</code>. In the browser the
         same composition is drag-and-drop in edit mode; from the command line it is the <samp>root.ttl</samp> from the <a href="../hello-dataspace/">first stage</a> grown to its final form, applied
         with the same <code>PUT</code>.</p>

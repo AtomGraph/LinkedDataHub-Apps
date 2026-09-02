@@ -24,7 +24,7 @@
 : a owl:Ontology .
 
 schema:ProductGroup a owl:Class ;
-    rdfs:label "Product group" ;
+    rdfs:label "Category" ;
     rdfs:isDefinedBy : .
 
 schema:Product a owl:Class ;
@@ -34,6 +34,11 @@ schema:Product a owl:Class ;
 schema:Order a owl:Class ;
     rdfs:label "Order" ;
     rdfs:isDefinedBy : .</pre>
+    <p class="exhibit-links">Source (full model): <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/admin/model/ns.ttl" target="_blank">admin/model/ns.ttl</a></p>
+    <p>The finished model goes further than labels: it declares the domain's properties with their domains and ranges, a couple of <code>owl:Restriction</code>s,
+        a <a href="../../user-guide/change-model/" target="_blank">constructor</a> that drives the Product create form, and views attached directly to properties with
+        <code>ldh:inverseView</code> — which is why every customer page automatically shows "Orders from this customer" and every supplier page "Products supplied by
+        this supplier", with no per-page configuration.</p>
     <div>
         <h2 id="browser">In the browser</h2>
         <p>Open the admin application and edit the namespace ontology document directly, or follow the <a href="../../user-guide/change-model/" target="_blank">Change model</a> guide, which also

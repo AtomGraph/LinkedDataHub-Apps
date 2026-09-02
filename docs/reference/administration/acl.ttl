@@ -112,7 +112,24 @@
                 </tr>
             </tbody>
         </table>
-        <p>Public access authorization allows access for non-authenticated agents.</p>
+        <p>An authorization is a plain RDF resource. Granting the <samp>writers</samp> group full access to the Northwind orders container:</p>
+        <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
+@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+
+&lt;#this&gt; a acl:Authorization ;
+    rdfs:label "Order management" ;
+    acl:agentGroup &lt;https://admin.localhost:4443/acl/groups/writers/#this&gt; ;
+    acl:mode acl:Read, acl:Append, acl:Write ;
+    acl:accessTo &lt;https://localhost:4443/orders/&gt; .</pre>
+        <p>The same authorization from the command line:</p>
+        <pre>ldh admin acl create-authorization \\
+  --label "Order management" \\
+  --agent-group "https://admin.localhost:4443/acl/groups/writers/#this" \\
+  --to "https://localhost:4443/orders/" \\
+  --read --append --write</pre>
+        <p>Public access authorization allows access for non-authenticated agents — the <a href="../../../tutorial/publish/">Publish</a> stage of the
+            tutorial shows the one <samp>ldh admin acl make-public</samp> creates, granting <code>acl:Read</code> to the <code>foaf:Agent</code> class
+            on every document class.</p>
         <div class="alert alert-info">
             <p>The owner's and secretary's authorizations are stored under stable URIs (<samp>acl/authorizations/owner-webid/</samp> and <samp>acl/authorizations/secretary-webid/</samp>), so reloading the admin dataset does not create duplicates.</p>
         </div>
@@ -123,7 +140,14 @@
             The owners can then accept the request by creating an <a href="#authorizations">authorization</a> with the provided information
             (possibly extending the requested access to a <a href="#groups">group</a> of agents or a <a href="../ontologies/#classes">class of resources</a>),
             or simply ignore it.</p>
+        <p>A request is data too — asking for write access to a Northwind order:</p>
+        <pre>@prefix lacl: &lt;https://w3id.org/atomgraph/linkeddatahub/admin/acl#&gt; .
+@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
 
+&lt;#this&gt; a lacl:AuthorizationRequest ;
+    lacl:requestAgent &lt;https://localhost:4443/agents/jane/#this&gt; ;
+    lacl:requestMode acl:Write ;
+    lacl:requestAccessTo &lt;https://localhost:4443/orders/10248/&gt; .</pre>
         </div>
     </div>
     <div>
