@@ -25,7 +25,10 @@
     </div>
     <div>
         <h2 id="toolbar">Editor toolbar</h2>
-        <!-- screenshot: the rich-text editor toolbar above an active Northwind XHTML block -->
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: the rich-text editor toolbar above an active Northwind XHTML block</p>
+        </div>
         <p>The toolbar appears at the top of the page when an XHTML block is active. It provides standard rich-text controls grouped by function:</p>
         <dl>
             <dt>Block type</dt>
@@ -45,7 +48,10 @@
     </div>
     <div>
         <h2 id="rdfa-annotations">RDFa annotations</h2>
-        <!-- screenshot: the annotation dialog over the selected word "Chai", Property typeahead open -->
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: the annotation dialog over the selected word "Chai", Property typeahead open</p>
+        </div>
         <p>RDFa annotations embed machine-readable RDF statements directly in the XHTML markup. A single annotation expresses a statement of the form <em>subject — property — object</em>, where subject and object are IRIs or typed literals drawn from your Knowledge Graph.</p>
         <h3>Adding an annotation</h3>
         <ol>

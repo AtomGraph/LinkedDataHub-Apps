@@ -11,9 +11,10 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to create container and item documents</p>
-    <p class="text-center">
-        <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/paetjTkFBxE" width="560"></iframe>
-    </p>
+    <div class="screenshot-placeholder">
+        <span class="msi" aria-hidden="true">play_circle</span>
+        <p>Screen recording: creating a container document</p>
+    </div>
     <p>To create a container document (which can have <a href="../../../reference/data-model/documents/#hierarchy" target="_blank">children documents</a>) with a custom URL, follow these steps:</p>
     <div class="tabbable">
         <ul class="nav nav-tabs">
@@ -36,9 +37,10 @@
                         <li>Click <span class="btn btn-primary btn-save">Save</span></li>
                     </ol>
                     <p>See how below:</p>
-                    <p>
-                        <object data="../../../uploads/490945931415b9ab201ed85f296a84c8a11134d1" type="video/webm"></object>
-                    </p>
+                    <div class="screenshot-placeholder">
+                        <span class="msi" aria-hidden="true">play_circle</span>
+                        <p>Screen recording: the container creation form</p>
+                    </div>
                 </div>
             </div>
             <div class="tab-pane">

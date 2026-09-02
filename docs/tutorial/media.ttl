@@ -40,7 +40,10 @@ BIND(uri(concat(str($base), "uploads/", encode_for_uri(?pictureHash))) AS ?pictu
     <div>
         <h2 id="result">What you now see</h2>
         <p>Category and employee documents now render with their images — <code>foaf:depiction</code> and <code>foaf:img</code> are picked up by the default layout, no template work required.</p>
-        <!-- screenshot: an employee document with the photo rendered -->
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: an employee document with the photo rendered</p>
+        </div>
     </div>
     <p class="lead">Next: <a href="../insight/">Insight</a></p>
 </div>"""^^rdf:XMLLiteral .

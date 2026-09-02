@@ -21,7 +21,10 @@
         <p>Open the base URL (e.g. <samp>https://localhost:4443/</samp>) and authenticate with the owner's WebID certificate. Switch the root document into edit mode, change the title to
             <samp>Northwind Traders</samp>, fill in the description, and add an XHTML content block with a short welcome text. The <a href="../../user-guide/edit-content/" target="_blank">Edit
             content</a> guide walks through the block editor in detail.</p>
-        <!-- screenshot: root document in edit mode with the title and first XHTML block -->
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: root document in edit mode with the title and first XHTML block</p>
+        </div>
     </div>
     <div>
         <h2 id="cli">From the command line</h2>
@@ -53,7 +56,10 @@
         <h2 id="result">What you now see</h2>
         <p>Reload the base URL: the homepage now carries your title and welcome text. You have not touched a template, a controller or a database schema — you replaced the description of one
             document, and the UI is a rendering of that description.</p>
-        <!-- screenshot: the branded homepage after the update -->
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: the branded homepage after the update</p>
+        </div>
     </div>
     <div>
         <h2 id="how-this-works">How this works</h2>

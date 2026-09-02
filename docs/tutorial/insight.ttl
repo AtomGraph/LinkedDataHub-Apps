@@ -85,7 +85,10 @@ ORDER BY ?categoryName''' .
         <h2 id="result">What you now see</h2>
         <p>The Categories container is a small dashboard: a revenue bar chart, a products-per-category chart, and a grid of the categories themselves — all live views over the graph, recomputed on
             each request.</p>
-        <!-- screenshot: the Categories container with charts and grid view -->
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: the Categories container with charts and grid view</p>
+        </div>
     </div>
     <p class="lead">Next: <a href="../composition/">Composition</a></p>
 </div>"""^^rdf:XMLLiteral .

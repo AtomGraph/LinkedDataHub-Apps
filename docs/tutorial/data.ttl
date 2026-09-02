@@ -14,7 +14,7 @@
     <p>Northwind's data ships as plain CSV files. The first rows of <samp>categories.csv</samp>:</p>
     <pre>categoryID,categoryName,description,pictureHash
 1,Beverages,Soft drinks coffees teas beers and ales,5e1be0328ca2c694d1de6f5b1b3d3b1ce90cb41f
-2,Condiments,Sweet and savory sauces relishes spreads and seasonings,1770dfbd0952a75c8c86a0cbfec7d34a3aeee0da</pre>
+2,Condiments,Sweet and savory sauces relishes spreads and seasonings,6e5d9df213a6c46b4f75e9ba2e321436f80d8bed</pre>
     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/categories.csv" target="_blank">categories/categories.csv</a></p>
     <p>LinkedDataHub <a href="../../reference/imports/csv/" target="_blank">imports CSV</a> by running a SPARQL <code>CONSTRUCT</code> mapping over each
         row: the row's cells are bound as properties of a row resource, and the query builds the RDF you want from them. The mapping for categories, <samp>categories.rq</samp>:</p>
@@ -95,7 +95,10 @@ ldh imports add-csv-import \\
         <p>The Categories container lists eight category documents. Open one: the category renders with its name, description and identifier, typed as a product group — with the labels coming from
             the <a href="../model/">Model</a> stage. Repeat the pattern for the remaining entities and the Knowledge Graph fills in, orders linking to products, products to suppliers and
             categories.</p>
-        <!-- screenshot: the Categories container listing after the import -->
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: the Categories container listing after the import</p>
+        </div>
     </div>
     <p class="lead">Next: <a href="../media/">Media</a></p>
 </div>"""^^rdf:XMLLiteral .

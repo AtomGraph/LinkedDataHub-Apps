@@ -11,9 +11,10 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Browse, navigate and search local and remote data</p>
-    <p class="text-center">
-        <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/5uzpHxu6YNo" width="560"></iframe>
-    </p>
+    <div class="screenshot-placeholder">
+        <span class="msi" aria-hidden="true">play_circle</span>
+        <p>Screen recording: browsing and navigating data</p>
+    </div>
     <div>
         <h2 id="linked-data-browser">Linked Data browser</h2>
         <p>LinkedDataHub has a built-in Linked Data browser which is accessed through <a href="../../reference/user-interface/#nav-bar">the navigation bar</a>. Enter a <code>http://</code> or <code>https://</code> URL and
@@ -31,9 +32,10 @@
         <p>Document tree is a widget that enables quick overview of the application's <a href="../../reference/data-model/documents/#hierarchy">document hierarchy</a>. Each document is shown as a node in the tree; container documents
             can be expanded to reveal the children documents.</p>
         <p>The widget can be accessed by sliding the mouse to the left edge of the screen (on responsive layouts, it is always visible).</p>
-        <p>
-            <img alt="Document tree" src="../../uploads/092ae7413af1e6560ca90ae5eed89aea1b4ecd51"></img>
-        </p>
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: the document tree with a container expanded</p>
+        </div>
     </div>
     <div>
         <h2 id="class-tree">Class-based navigation</h2>
@@ -77,9 +79,10 @@ WHERE {
     }
 }</pre>
         <p>The same widget is used for autocomplete inputs in the <a href="../../reference/user-interface/#action-bar">create/edit forms</a>.</p>
-        <p>
-            <img alt="Search" src="../../uploads/8c4383351477a5405a9883d23d9255670b9396f7"></img>
-        </p>
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: the search dropdown with matching Northwind resources</p>
+        </div>
     </div>
     <div>
         <h2 id="structured-search">Structured search</h2>

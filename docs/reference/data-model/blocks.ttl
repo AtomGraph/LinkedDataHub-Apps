@@ -21,7 +21,10 @@
         <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/root.ttl" target="_blank">root.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">the dashboard</a></p>
         <p>The blocks have 2 types: XHTML (<code>ldh:XHTML</code>) and object (<code>ldh:Object</code>). These are the only types allowed as content block values — anything that is not XHTML markup, such as a query, a chart or an external resource, has to be wrapped into an <code>ldh:Object</code>. A built-in constraint rejects other values.</p>
         <p>The blocks can be re-arranged by dragging one of them by its drag handle and dropping it in a different position. Every block also offers a button that copies the block's URI to the clipboard.</p>
-        <!-- screenshot: the Northwind dashboard's content list in edit mode, drag handles and block controls visible -->
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: the Northwind dashboard's content list in edit mode, drag handles and block controls visible</p>
+        </div>
 
     </div>
     <div>

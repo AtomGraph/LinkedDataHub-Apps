@@ -33,9 +33,10 @@
                         <li>Click <span class="btn btn-primary btn-save">Save</span></li>
                     </ol>
                     <p>See how below:</p>
-                    <p>
-                        <object data="../../uploads/7db898019986d1aa0bfee7bd1423874d82cb0233" type="video/webm"></object>
-                    </p>
+                    <div class="screenshot-placeholder">
+                        <span class="msi" aria-hidden="true">play_circle</span>
+                        <p>Screen recording: uploading a file</p>
+                    </div>
                 </div>
             </div>
             <div class="tab-pane">

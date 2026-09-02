@@ -44,7 +44,10 @@
         <h2 id="result">What you now see</h2>
         <p>The root document now lists the containers as its children, and each container URL resolves to an (empty) listing page. The URL space of your app <em>is</em> its information
             architecture.</p>
-        <!-- screenshot: root document children listing with the nine containers -->
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: root document children listing with the nine containers</p>
+        </div>
     </div>
     <p class="lead">Next: <a href="../model/">Model</a></p>
 </div>"""^^rdf:XMLLiteral .

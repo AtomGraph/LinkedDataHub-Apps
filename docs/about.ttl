@@ -33,9 +33,10 @@
     </div>
     <div>
         <h2 id="kms">Federated knowledge management and collaboration system</h2>
-        <p class="text-center">
-            <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/LaOouEYhp_c" width="560"></iframe>
-        </p>
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">play_circle</span>
+            <p>Screen recording: LinkedDataHub overview</p>
+        </div>
         <p>As an RDF-native CMS, LinkedDataHub provides a number of features for end-users:</p>
         <ul>
             <li><a href="../user-guide/create-data/create-content/" target="_blank">creating structured content</a> from Linked Data and SPARQL resources</li>

@@ -48,7 +48,10 @@
         <h2 id="result">What you now see</h2>
         <p>Open the base URL in a private browser window, with no certificate: the Northwind Traders app renders, charts and all. It is now a public Linked Data dataset <em>and</em> a public web
             application — the same URLs serve both, negotiated by content type.</p>
-        <!-- screenshot: the app in a private window, unauthenticated -->
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: the app in a private window, unauthenticated</p>
+        </div>
     </div>
     <p class="lead">Next: <a href="../app-as-repository/">App as a repository</a></p>
 </div>"""^^rdf:XMLLiteral .

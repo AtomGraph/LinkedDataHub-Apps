@@ -39,7 +39,10 @@
         <h2 id="result">What you now see</h2>
         <p>The homepage is the finished application: branded header, live charts over the imported graph, and navigation into the containers — every pixel of it a rendering of one document's
             description.</p>
-        <!-- screenshot: the finished Northwind landing page -->
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: the finished Northwind landing page</p>
+        </div>
     </div>
     <p class="lead">Next: <a href="../publish/">Publish</a></p>
 </div>"""^^rdf:XMLLiteral .

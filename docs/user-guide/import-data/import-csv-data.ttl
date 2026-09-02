@@ -29,9 +29,10 @@
         <div class="tab-content">
             <div class="tab-pane active">
                 <div>
-                    <p class="text-center">
-                        <iframe allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.youtube.com/embed/vkuO6RiTW9s?list=PLnDXST4pVcQQr-j3YXrVvGRP46E2Nnn5l" width="560"></iframe>
-                    </p>
+                    <div class="screenshot-placeholder">
+                        <span class="msi" aria-hidden="true">play_circle</span>
+                        <p>Screen recording: importing CSV data and mapping it to RDF</p>
+                    </div>
                     <p>LinkedDataHub allows all the import components be created from a single dialogue, but we will go through the process in separate
                         steps:</p>
                     <ol>

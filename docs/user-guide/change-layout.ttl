@@ -55,7 +55,10 @@ exclude-result-prefixes="#all"&gt;
         <p>The examples below run on a Northwind <a href="https://northwind-traders.demo.linkeddatahub.com/orders/10248/" target="_blank">order document</a>:
             its graph holds the order (the document's topic) and the order's line items, each carrying its own <code>schema:price</code> line total.</p>
         <p>At this point, the default layout renders the order and each line item as a plain resource description.</p>
-        <!-- screenshot: a Northwind order document in the default layout, order and line items as generic resource descriptions -->
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: a Northwind order document in the default layout, order and line items as generic resource descriptions</p>
+        </div>
     </div>
     <div>
         <h2 id="augment-output">Augment output</h2>
@@ -75,7 +78,10 @@ exclude-result-prefixes="#all"&gt;
             <li>are the primary topic of the requested document (i.e. its order) <em>and</em> are typed <code>schema:Order</code> <em>and</em> have line item(s) present in the RDF graph</li>
         </ul>
         <p>With the overriding template, the order page shows the computed total after the order's default description.</p>
-        <!-- screenshot: the augmented order page with the Order total heading and sum under the order description -->
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: the augmented order page with the Order total heading and sum under the order description</p>
+        </div>
     </div>
     <div>
         <h2 id="override-output">Override output</h2>
@@ -98,6 +104,9 @@ exclude-result-prefixes="#all"&gt;
             <li>are <code>schema:orderedItem</code> properties of a resource that is the primary topic of the current document</li>
         </ul>
         <p>With the suppressing templates, the order page shows the order, its total, and nothing else twice.</p>
-        <!-- screenshot: the order page after suppression - order description and total only, line items hidden -->
+        <div class="screenshot-placeholder">
+            <span class="msi" aria-hidden="true">image</span>
+            <p>Screenshot: the order page after suppression - order description and total only, line items hidden</p>
+        </div>
     </div>
 </div>"""^^rdf:XMLLiteral .
