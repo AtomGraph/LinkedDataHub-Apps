@@ -21,7 +21,7 @@ schema:Order a owl:Class ;
     rdfs:isDefinedBy : .
 
 schema:City a owl:Class ;
-    rdfs:label "City" ;
+    rdfs:label "Territory" ;
     rdfs:isDefinedBy : .
 
 schema:PostalAddress a owl:Class ;
@@ -29,11 +29,11 @@ schema:PostalAddress a owl:Class ;
     rdfs:isDefinedBy : .
 
 schema:ProductGroup a owl:Class ;
-    rdfs:label "Product group" ;
+    rdfs:label "Category" ;
     rdfs:isDefinedBy : .
 
 schema:Corporation a owl:Class ;
-    rdfs:label "Corporation" ;
+    rdfs:label "Company" ;
     rdfs:isDefinedBy : .
 
 schema:ContactPoint a owl:Class ;
@@ -41,7 +41,33 @@ schema:ContactPoint a owl:Class ;
     rdfs:isDefinedBy : .
 
 schema:ParcelDelivery a owl:Class ;
-    rdfs:label "Parcel delivery" ;
+    rdfs:label "Delivery" ;
+    rdfs:isDefinedBy : .
+
+schema:DeliveryEvent a owl:Class ;
+    rdfs:label "Shipment" ;
+    rdfs:isDefinedBy : .
+
+schema:Offer a owl:Class ;
+    rdfs:label "Offer" ;
+    rdfs:isDefinedBy : .
+
+schema:PriceSpecification a owl:Class ;
+    rdfs:label "Price specification" ;
+    rdfs:isDefinedBy : .
+
+schema:DeliveryChargeSpecification a owl:Class ;
+    rdfs:label "Delivery charge" ;
+    rdfs:subClassOf schema:PriceSpecification ;
+    rdfs:isDefinedBy : .
+
+schema:UnitPriceSpecification a owl:Class ;
+    rdfs:label "Unit price" ;
+    rdfs:subClassOf schema:PriceSpecification ;
+    rdfs:isDefinedBy : .
+
+schema:DeliveryMethod a owl:Class ;
+    rdfs:label "Delivery method" ;
     rdfs:isDefinedBy : .
 
 schema:OrderItem a owl:Class ;
@@ -53,19 +79,19 @@ schema:Product a owl:Class ;
     rdfs:isDefinedBy : .
 
 schema:Place a owl:Class ;
-    rdfs:label "Place" ;
+    rdfs:label "Region" ;
     rdfs:isDefinedBy : .
 
 # properties
 
 schema:broker a owl:ObjectProperty ;
-    rdfs:label "Broker";
+    rdfs:label "Sales rep";
     rdfs:domain schema:Order ;
     rdfs:range schema:Person ;
     rdfs:isDefinedBy : .
 
 schema:areaServed a owl:ObjectProperty ;
-    rdfs:label "Area served";
+    rdfs:label "Territory";
     rdfs:domain schema:Person ;
     rdfs:range schema:City ;
     rdfs:isDefinedBy : .
@@ -95,9 +121,56 @@ schema:customer a owl:ObjectProperty ;
     rdfs:isDefinedBy : .
 
 schema:orderDelivery a owl:ObjectProperty ;
-    rdfs:label "Order delivery" ;
+    rdfs:label "Delivery" ;
     rdfs:domain schema:Order ;
     rdfs:range schema:ParcelDelivery ;
+    rdfs:isDefinedBy : .
+
+schema:acceptedOffer a owl:ObjectProperty ;
+    rdfs:label "Accepted offer" ;
+    rdfs:domain schema:Order ;
+    rdfs:range schema:Offer ;
+    rdfs:isDefinedBy : .
+
+schema:offers a owl:ObjectProperty ;
+    rdfs:label "Offer" ;
+    rdfs:domain schema:Product ;
+    rdfs:range schema:Offer ;
+    rdfs:isDefinedBy : .
+
+schema:priceType a owl:ObjectProperty ;
+    rdfs:label "Price type" ;
+    rdfs:domain schema:UnitPriceSpecification ;
+    rdfs:isDefinedBy : .
+
+schema:itemOffered a owl:ObjectProperty ;
+    rdfs:label "Product" ;
+    rdfs:domain schema:Offer ;
+    rdfs:range schema:Product ;
+    rdfs:isDefinedBy : .
+
+schema:priceSpecification a owl:ObjectProperty ;
+    rdfs:label "Price specification" ;
+    rdfs:domain schema:Offer ;
+    rdfs:range schema:PriceSpecification ;
+    rdfs:isDefinedBy : .
+
+schema:appliesToDeliveryMethod a owl:ObjectProperty ;
+    rdfs:label "Delivery method" ;
+    rdfs:domain schema:DeliveryChargeSpecification ;
+    rdfs:range schema:DeliveryMethod ;
+    rdfs:isDefinedBy : .
+
+schema:deliveryStatus a owl:ObjectProperty ;
+    rdfs:label "Shipment" ;
+    rdfs:domain schema:ParcelDelivery ;
+    rdfs:range schema:DeliveryEvent ;
+    rdfs:isDefinedBy : .
+
+schema:partOfOrder a owl:ObjectProperty ;
+    rdfs:label "Order" ;
+    rdfs:domain schema:ParcelDelivery ;
+    rdfs:range schema:Order ;
     rdfs:isDefinedBy : .
 
 schema:deliveryAddress a owl:ObjectProperty ;
@@ -118,20 +191,24 @@ schema:category a owl:ObjectProperty ;
     rdfs:isDefinedBy : .
 
 schema:containedInPlace a owl:ObjectProperty ;
-    rdfs:label "Contained in place" ;
+    rdfs:label "Region" ;
     rdfs:domain schema:City ;
     rdfs:range schema:Place ;
     rdfs:isDefinedBy : .
 
 schema:sponsor a owl:ObjectProperty ;
-    rdfs:label "Sponsor" ;
+    rdfs:label "Reports to" ;
     rdfs:domain schema:Person ;
     rdfs:range schema:Person ;
     rdfs:isDefinedBy : .
 
 schema:orderedItem a owl:ObjectProperty ;
     rdfs:label "Ordered item" ;
-    rdfs:range schema:Product ;
+    rdfs:isDefinedBy : .
+
+schema:orderStatus a owl:ObjectProperty ;
+    rdfs:label "Order status" ;
+    rdfs:domain schema:Order ;
     rdfs:isDefinedBy : .
 
 schema:name a owl:DatatypeProperty ;
@@ -147,7 +224,7 @@ schema:description a owl:DatatypeProperty ;
     rdfs:isDefinedBy : .
 
 schema:legalName a owl:DatatypeProperty ;
-    rdfs:label "Legal name" ;
+    rdfs:label "Company name" ;
     rdfs:domain schema:Corporation ;
     rdfs:isDefinedBy : .
 
@@ -210,17 +287,23 @@ schema:birthDate a owl:DatatypeProperty ;
     rdfs:isDefinedBy : .
 
 schema:orderQuantity a owl:DatatypeProperty ;
-    rdfs:label "Order quantity" ;
+    rdfs:label "Quantity" ;
     rdfs:domain schema:OrderItem ;
     rdfs:isDefinedBy : .
 
-schema:discount a owl:DatatypeProperty ;
-    rdfs:label "Discount" ;
-    rdfs:domain schema:OrderItem ;
-    rdfs:isDefinedBy : .
-
+# left without an rdfs:domain on purpose: schema:price is carried both by the order
+# lines (as schema:Offer) and by the freight charge (as schema:DeliveryChargeSpecification)
 schema:price a owl:DatatypeProperty ;
     rdfs:label "Price" ;
+    rdfs:isDefinedBy : .
+
+schema:priceCurrency a owl:DatatypeProperty ;
+    rdfs:label "Currency" ;
+    rdfs:isDefinedBy : .
+
+schema:startDate a owl:DatatypeProperty ;
+    rdfs:label "Shipped" ;
+    rdfs:domain schema:DeliveryEvent ;
     rdfs:isDefinedBy : .
 
 schema:orderDate a owl:DatatypeProperty ;
@@ -229,7 +312,7 @@ schema:orderDate a owl:DatatypeProperty ;
     rdfs:isDefinedBy : .
 
 schema:expectedArrivalUntil a owl:DatatypeProperty ;
-    rdfs:label "Expected arrival until" ;
+    rdfs:label "Required by" ;
     rdfs:domain schema:ParcelDelivery ;
     rdfs:isDefinedBy : .
 
@@ -265,6 +348,7 @@ schema:broker ldh:inverseView :OrdersHandledByEmployee .
     dct:title "Orders handled by this employee" ;
     spin:query :SelectOrdersHandledByEmployee ;
     ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 :SelectOrdersHandledByEmployee a sp:Select ;
@@ -275,9 +359,12 @@ PREFIX schema: <https://schema.org/>
 SELECT DISTINCT ?order
 WHERE
   { GRAPH ?graph
-      { ?order schema:broker $about }
+      { ?order schema:broker $about ;
+               schema:orderDate ?orderDate ;
+               schema:orderStatus ?status
+      }
   }
-ORDER BY DESC(?order)
+ORDER BY DESC(?orderDate)
 """ ;
     rdfs:isDefinedBy : .
 
@@ -290,6 +377,8 @@ schema:customer ldh:inverseView :OrdersFromCustomer .
 :OrdersFromCustomer a ldh:View ;
     dct:title "Orders from this customer" ;
     spin:query :SelectOrdersFromCustomer ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 :SelectOrdersFromCustomer a sp:Select ;
@@ -300,9 +389,12 @@ PREFIX schema: <https://schema.org/>
 SELECT DISTINCT ?order
 WHERE
   { GRAPH ?graph
-      { ?order schema:customer $about }
+      { ?order schema:customer $about ;
+               schema:orderDate ?orderDate ;
+               schema:orderStatus ?status
+      }
   }
-ORDER BY DESC(?order)
+ORDER BY DESC(?orderDate)
 """ ;
     rdfs:isDefinedBy : .
 
@@ -315,6 +407,8 @@ schema:provider ldh:inverseView :ProductsFromSupplier .
 :ProductsFromSupplier a ldh:View ;
     dct:title "Products supplied by this supplier" ;
     spin:query :SelectProductsFromSupplier ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 :SelectProductsFromSupplier a sp:Select ;
@@ -325,9 +419,42 @@ PREFIX schema: <https://schema.org/>
 SELECT DISTINCT ?product
 WHERE
   { GRAPH ?graph
-      { ?product schema:provider $about }
+      { ?product a schema:Product ;
+                 schema:provider $about ;
+                 schema:category ?category ;
+                 schema:offers/schema:price ?price
+      }
   }
 ORDER BY ?product
+""" ;
+    rdfs:isDefinedBy : .
+
+# orders shipped by this shipper
+
+schema:provider ldh:inverseView :OrdersShippedByShipper .
+
+:OrdersShippedByShipper a ldh:View ;
+    dct:title "Orders shipped by this shipper" ;
+    spin:query :SelectOrdersShippedByShipper ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
+    rdfs:isDefinedBy : .
+
+:SelectOrdersShippedByShipper a sp:Select ;
+    rdfs:label "Select orders shipped by shipper" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?order
+WHERE
+  { GRAPH ?graph
+      { ?order schema:orderDelivery ?delivery ;
+               schema:orderDate ?orderDate ;
+               schema:orderStatus ?status .
+        ?delivery schema:provider $about
+      }
+  }
+ORDER BY DESC(?orderDate)
 """ ;
     rdfs:isDefinedBy : .
 
@@ -340,6 +467,8 @@ schema:containedInPlace ldh:inverseView :CitiesInRegion .
 :CitiesInRegion a ldh:View ;
     dct:title "Cities in this region" ;
     spin:query :SelectCitiesInRegion ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 :SelectCitiesInRegion a sp:Select ;
@@ -358,6 +487,34 @@ ORDER BY ?city
 
 # orderedItem
 
+# line items of this order (forward view — the master-detail "detail gallery")
+
+schema:orderedItem ldh:view :OrderLineItems .
+
+:OrderLineItems a ldh:View ;
+    dct:title "Line items" ;
+    spin:query :SelectOrderLineItems ;
+    ac:mode ac:TableMode ;
+    rdfs:isDefinedBy : .
+
+:SelectOrderLineItems a sp:Select ;
+    rdfs:label "Select line items of order" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?item
+WHERE
+  { GRAPH ?graph
+      { $about schema:orderedItem ?item .
+        ?item schema:orderedItem ?product ;
+              schema:orderQuantity ?quantity ;
+              schema:price ?lineTotal
+      }
+  }
+ORDER BY ?item
+""" ;
+    rdfs:isDefinedBy : .
+
 # orders containing this product
 
 schema:orderedItem ldh:inverseView :OrdersContainingProduct .
@@ -365,6 +522,8 @@ schema:orderedItem ldh:inverseView :OrdersContainingProduct .
 :OrdersContainingProduct a ldh:View ;
     dct:title "Orders containing this product" ;
     spin:query :SelectOrdersContainingProduct ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 :SelectOrdersContainingProduct a sp:Select ;
@@ -375,10 +534,12 @@ PREFIX schema: <https://schema.org/>
 SELECT DISTINCT ?order
 WHERE
   { GRAPH ?graph
-      { ?order schema:orderedItem ?orderItem .
+      { ?order schema:orderedItem ?orderItem ;
+               schema:orderDate ?orderDate ;
+               schema:orderStatus ?status .
         ?orderItem schema:orderedItem $about
       }
   }
-ORDER BY DESC(?order)
+ORDER BY DESC(?orderDate)
 """ ;
     rdfs:isDefinedBy : .

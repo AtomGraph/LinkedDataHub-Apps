@@ -10,21 +10,35 @@
   <> a dh:Container ;
       dct:title "Categories" ;
       rdf:_1 <#category-intro> ;
-      rdf:_2 <#category-revenue-block> ;
-      rdf:_3 <#category-distribution> ;
-      rdf:_4 <#products-per-category-block> ;
-      rdf:_5 <#select-categories> .
+      rdf:_2 <#select-categories> ;
+      rdf:_3 <#revenue-intro> ;
+      rdf:_4 <#category-revenue-block> ;
+      rdf:_5 <#category-distribution> ;
+      rdf:_6 <#products-per-category-block> .
 
   # Intro XHTML
   <#category-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h3>Category analysis</h3>
-          <p>Product categories represent different market segments with distinct characteristics and performance.
-             Analyzing category-level metrics helps identify portfolio strengths, diversification opportunities, and inventory priorities.</p>
+          <div class="ldh-section">
+              <h2>Product categories</h2>
+              <p>The segments the catalogue is organised into — beverages, condiments, produce and the rest.
+                 Open one to see the products it holds.</p>
+          </div>
+      </div>"""^^rdf:XMLLiteral .
+
+  # Revenue intro
+  <#revenue-intro> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <div class="ldh-section">
+              <h2>Where the money is</h2>
+              <p>Each category is a market segment with its own performance. Revenue first, then the spread of
+                 products behind it.</p>
+          </div>
       </div>"""^^rdf:XMLLiteral .
 
   # Category revenue chart (wrapped in ldh:Object per ContentMode contract)
   <#category-revenue-block> a ldh:Object ;
+      dct:title "Revenue by category" ;
       rdf:value <#category-revenue> .
 
   <#category-revenue> a ldh:ResultSetChart ;
@@ -43,9 +57,7 @@ WHERE {
     GRAPH ?orderGraph {
         ?order schema:orderedItem ?orderItem .
         ?orderItem schema:orderedItem ?product ;
-                   schema:orderQuantity ?quantity ;
-                   schema:price ?price .
-        BIND(?quantity * ?price AS ?sale)
+                   schema:price ?sale .
     }
     GRAPH ?productGraph {
         ?product schema:category ?category .
@@ -60,13 +72,16 @@ ORDER BY DESC(?revenue)""" .
   # Category distribution intro
   <#category-distribution> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h4>Product distribution</h4>
-          <p>Understanding how products are distributed across categories reveals portfolio balance and potential gaps.
-             Categories with more products may indicate core competencies or simply broader product lines.</p>
+          <div class="ldh-section">
+              <h2>Portfolio balance</h2>
+              <p>Revenue and range don't always line up. A category can earn well on few lines, or spread wide
+                 and earn little — the gap between the two charts is where the portfolio questions are.</p>
+          </div>
       </div>"""^^rdf:XMLLiteral .
 
   # Products per category chart (wrapped in ldh:Object per ContentMode contract)
   <#products-per-category-block> a ldh:Object ;
+      dct:title "Products per category" ;
       rdf:value <#products-per-category> .
 
   <#products-per-category> a ldh:ResultSetChart ;
@@ -95,6 +110,7 @@ ORDER BY DESC(?productCount)""" .
 
   # Object block (references the view)
   <#select-categories> a ldh:Object ;
+      dct:title "All categories" ;
       rdf:value <#select-categories-view> .
 
   # View block (references the query, uses GridMode)

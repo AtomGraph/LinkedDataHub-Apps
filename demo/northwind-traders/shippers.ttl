@@ -8,10 +8,21 @@
   # Main container document
   <> a dh:Container ;
       dct:title "Shippers" ;
-      rdf:_1 <#select-shippers> .
+      rdf:_1 <#shippers-intro> ;
+      rdf:_2 <#select-shippers> .
+
+  # Intro XHTML
+  <#shippers-intro> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <div class="ldh-section">
+              <h2>Getting it there</h2>
+              <p>The carriers that deliver Northwind's orders. Open one to see every delivery it handled.</p>
+          </div>
+      </div>"""^^rdf:XMLLiteral .
 
   # Object block (references the view)
   <#select-shippers> a ldh:Object ;
+      dct:title "All shippers" ;
       rdf:value <#select-shippers-view> .
 
   # View block (references the query, no mode specified - uses default)

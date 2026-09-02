@@ -15,7 +15,16 @@ print(result[len('http://x/'):])
 
 while IFS= read -r -d '' ttl_file; do
     rel="${ttl_file#"$REPO_DIR"/}"
-    url_path="${rel%.ttl}/"
+
+    # A .ttl is served at <its path minus .ttl>/ — except root.ttl, which install.sh PUTs
+    # at the application base itself rather than at <dir>/root/. Resolving a root.ttl's
+    # relative links against <dir>/root/ would send them one level too deep.
+    if [[ "$(basename "$rel")" == "root.ttl" ]]; then
+        url_path="$(dirname "$rel")/"
+        [[ "$url_path" == "./" ]] && url_path=""
+    else
+        url_path="${rel%.ttl}/"
+    fi
 
     while IFS= read -r url; do
         [[ "$url" =~ ^https?:// ]]  && continue

@@ -52,12 +52,16 @@ WHERE
         <#contactTitle> ?contactTitle ;
         <#address> ?address ;
         <#city> ?city ;
-        <#postalCode> ?postalCode ;
         <#country> ?country ;
         <#phone> ?phone .
 
     OPTIONAL {
         ?customer_row <#region> ?region
+    }
+    # Ireland had no postcodes until Eircode in 2015, so HUNGO in Cork has none;
+    # requiring one here dropped the customer and left its 19 orders pointing at nothing
+    OPTIONAL {
+        ?customer_row <#postalCode> ?postalCode
     }
     OPTIONAL {
         ?customer_row <#fax> ?fax

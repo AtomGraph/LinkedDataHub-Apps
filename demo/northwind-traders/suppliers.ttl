@@ -9,10 +9,22 @@
   # Main container document
   <> a dh:Container ;
       dct:title "Suppliers" ;
-      rdf:_1 <#select-suppliers> .
+      rdf:_1 <#suppliers-intro> ;
+      rdf:_2 <#select-suppliers> .
+
+  # Intro XHTML
+  <#suppliers-intro> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <div class="ldh-section">
+              <h2>Where the goods come from</h2>
+              <p>The companies Northwind buys from. Open a supplier to see everything it supplies to the
+                 <a href="../products/">catalogue</a>.</p>
+          </div>
+      </div>"""^^rdf:XMLLiteral .
 
   # Object block (references the view)
   <#select-suppliers> a ldh:Object ;
+      dct:title "All suppliers" ;
       rdf:value <#select-suppliers-view> .
 
   # View block (references the query, uses TableMode)
