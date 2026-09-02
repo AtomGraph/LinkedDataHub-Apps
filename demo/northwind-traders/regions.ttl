@@ -8,10 +8,22 @@
   # Main container document
   <> a dh:Container ;
       dct:title "Regions" ;
-      rdf:_1 <#select-regions> .
+      rdf:_1 <#regions-intro> ;
+      rdf:_2 <#select-regions> .
+
+  # Intro XHTML
+  <#regions-intro> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <div class="ldh-section">
+              <h2>Sales regions</h2>
+              <p>The top level of the sales geography. Each region contains the
+                 <a href="../territories/">territories</a> that reps are assigned to.</p>
+          </div>
+      </div>"""^^rdf:XMLLiteral .
 
   # Object block (references the view)
   <#select-regions> a ldh:Object ;
+      dct:title "All regions" ;
       rdf:value <#select-regions-view> .
 
   # View block (references the query, no mode specified - uses default)

@@ -125,7 +125,7 @@
                             <tr>
                                 <th>Type</th>
                                 <th>Action</th>
-                                <th>CLI script</th>
+                                <th>CLI command</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -142,17 +142,17 @@
                             <tr>
                                 <td><samp>CONSTRUCT</samp></td>
                                 <th>Create</th>
-                                <td><a href="../../command-line-interface/#scripts"><samp>admin/ontologies/add-construct.sh</samp></a></td>
+                                <td><a href="../../command-line-interface/#commands"><samp>ldh add-construct</samp></a></td>
                             </tr>
                             <tr>
                                 <td><samp>CSV import</samp></td>
                                 <th>Create</th>
-                                <td><a href="../../command-line-interface/#scripts"><samp>imports/add-csv-import.sh</samp></a></td>
+                                <td><a href="../../command-line-interface/#commands"><samp>ldh imports add-csv-import</samp></a></td>
                             </tr>
                             <tr>
                                 <td><samp>File</samp></td>
                                 <th>Create</th>
-                                <td><a href="../../command-line-interface/#scripts"><samp>add-file.sh</samp></a></td>
+                                <td><a href="../../command-line-interface/#commands"><samp>ldh add-file</samp></a></td>
                             </tr>
                             <tr>
                                 <td><samp>Graph chart</samp></td>
@@ -162,27 +162,27 @@
                             <tr>
                                 <td><samp>RDF import</samp></td>
                                 <th>Create</th>
-                                <td><a href="../../command-line-interface/#scripts"><samp>imports/add-rdf-import.sh</samp></a></td>
+                                <td><a href="../../command-line-interface/#commands"><samp>ldh imports add-rdf-import</samp></a></td>
                             </tr>
                             <tr>
                                 <td><samp>Result set chart</samp></td>
                                 <th>Create</th>
-                                <td><a href="../../command-line-interface/#scripts"><samp>add-result-set-chart.sh</samp></a></td>
+                                <td><a href="../../command-line-interface/#commands"><samp>ldh add-result-set-chart</samp></a></td>
                             </tr>
                             <tr>
                                 <td><samp>Select</samp></td>
                                 <th>Create</th>
-                                <td><a href="../../command-line-interface/#scripts"><samp>add-select.sh</samp></a></td>
+                                <td><a href="../../command-line-interface/#commands"><samp>ldh add-select</samp></a></td>
                             </tr>
                             <tr>
                                 <td><samp>Service</samp></td>
                                 <th>Create</th>
-                                <td><a href="../../command-line-interface/#scripts"><samp>add-generic-service.sh</samp></a></td>
+                                <td><a href="../../command-line-interface/#commands"><samp>ldh add-generic-service</samp></a></td>
                             </tr>
                             <tr>
                                 <td><samp>View</samp></td>
                                 <th>Create</th>
-                                <td><a href="../../command-line-interface/#scripts"><samp>add-view.sh</samp></a></td>
+                                <td><a href="../../command-line-interface/#commands"><samp>ldh add-view</samp></a></td>
                             </tr>
                         </tbody>
                     </table>

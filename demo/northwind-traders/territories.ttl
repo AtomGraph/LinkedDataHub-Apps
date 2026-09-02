@@ -9,10 +9,22 @@
   # Main container document
   <> a dh:Container ;
       dct:title "Territories" ;
-      rdf:_1 <#select-territories> .
+      rdf:_1 <#territories-intro> ;
+      rdf:_2 <#select-territories> .
+
+  # Intro XHTML
+  <#territories-intro> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <div class="ldh-section">
+              <h2>Sales territories</h2>
+              <p>The territories reps cover, plotted on the map and grouped into
+                 <a href="../regions/">regions</a>.</p>
+          </div>
+      </div>"""^^rdf:XMLLiteral .
 
   # Object block (references the view)
   <#select-territories> a ldh:Object ;
+      dct:title "All territories" ;
       rdf:value <#select-territories-view> .
 
   # View block (references the query, uses MapMode)

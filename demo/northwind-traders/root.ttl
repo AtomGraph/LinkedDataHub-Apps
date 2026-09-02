@@ -12,35 +12,28 @@
 <> a def:Root ;
     dct:title "Northwind Traders" ;
     dct:description "Knowledge Graph representation of the Northwind Traders sample database" ;
-    rdf:_1 <#page-header> ;
-    rdf:_2 <#overview-intro> ;
-    rdf:_3 <#sales-trend-block> ;
-    rdf:_4 <#revenue-by-country-block> ;
-    rdf:_5 <#top-selling-products> ;
-    rdf:_6 <#top-manager-header> ;
-    rdf:_7 <#top-manager> ;
-    rdf:_8 <#navigation-prompt> ;
-    rdf:_9 <#select-children> .
-
-<#page-header> a ldh:XHTML ;
-    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-        <div class="page-header">
-            <h2>Northwind Traders</h2>
-            <p class="lead">The iconic sample database converted to an RDF Knowledge Graph</p>
-        </div>
-        <p>Features include CSV data <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/imports/csv/" target="_blank">imports</a>, SPARQL-based <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/data-model/resources/charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation) as well as
-            rich documents composed of structured content backed by RDF Knowledge Graph data.</p>
-        <p>This application was created on <a href="https://atomgraph.github.io/LinkedDataHub/" target="_blank">LinkedDataHub</a> using the low code paradigm: no programming was required, only scripts that
-            invoke LinkedDataHub's CLI commands.</p>
-    </div>"""^^rdf:XMLLiteral .
+    rdf:_1 <#overview-intro> ;
+    rdf:_2 <#sales-trend-block> ;
+    rdf:_3 <#margin-intro> ;
+    rdf:_4 <#discount-rate-block> ;
+    rdf:_5 <#revenue-by-country-block> ;
+    rdf:_6 <#top-selling-products> ;
+    rdf:_7 <#top-manager-header> ;
+    rdf:_8 <#top-manager> ;
+    rdf:_9 <#navigation-prompt> ;
+    rdf:_10 <#select-children> .
 
 <#overview-intro> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-        <h3>Executive dashboard</h3>
-        <p>Explore key business metrics including sales trends, geographic distribution, and product performance. All visualizations are generated from live SPARQL queries over the RDF Knowledge Graph.</p>
+        <div class="ldh-section">
+            <h2>Executive dashboard</h2>
+            <p>Sales performance at a glance — how revenue is trending, what the discounting costs,
+               where the markets are and which products carry the mix.</p>
+        </div>
     </div>"""^^rdf:XMLLiteral .
 
 <#sales-trend-block> a ldh:Object ;
+    dct:title "Monthly sales trend" ;
     rdf:value <#sales-trend> .
 
 <#sales-trend> a ldh:ResultSetChart ;
@@ -60,16 +53,83 @@ WHERE {
         ?order a schema:Order ;
                schema:orderDate ?orderDate ;
                schema:orderedItem ?orderItem .
-        ?orderItem schema:orderQuantity ?quantity ;
-                   schema:price ?price .
-        BIND(?quantity * ?price AS ?sale)
+        ?orderItem schema:price ?sale .
         BIND(SUBSTR(STR(?orderDate), 1, 7) AS ?month)
     }
+    # The order book stops part-way through its final month, which would render as a
+    # cliff rather than a trend. Drop that month — derived from the data, not pinned
+    # to a date, so it stays correct if the dataset grows.
+    {
+        SELECT (SUBSTR(STR(MAX(?anyDate)), 1, 7) AS ?partialMonth)
+        WHERE {
+            GRAPH ?g { ?anyOrder a schema:Order ; schema:orderDate ?anyDate }
+        }
+    }
+    FILTER (?month < ?partialMonth)
+}
+GROUP BY ?month
+ORDER BY ?month""" .
+
+<#margin-intro> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <div class="ldh-section">
+            <h2>What the deals cost</h2>
+            <p>Revenue is what was billed, not what was listed. Every order line keeps the catalogue
+               price it started from alongside the price it actually went out at, so the gap between
+               them is what the sales rep gave away to win the deal. Measured against gross, that gap
+               swings between roughly 4% and 11% month to month — a commercial lever in its own
+               right, and one that never shows up in a revenue chart.</p>
+        </div>
+    </div>"""^^rdf:XMLLiteral .
+
+<#discount-rate-block> a ldh:Object ;
+    dct:title "Discount rate" ;
+    rdf:value <#discount-rate> .
+
+<#discount-rate> a ldh:ResultSetChart ;
+    dct:title "Discount rate" ;
+    spin:query <#discount-by-month-query> ;
+    ldh:chartType <https://w3id.org/atomgraph/client#LineChart> ;
+    ldh:categoryVarName "month" ;
+    ldh:seriesVarName "discountPercent" .
+
+<#discount-by-month-query> a sp:Select ;
+    dct:title "Discount rate by month" ;
+    sp:text """PREFIX schema: <https://schema.org/>
+
+SELECT ?month (ROUND(SUM(?discount) * 1000 / SUM(?gross)) / 10 AS ?discountPercent)
+WHERE {
+    GRAPH ?orderGraph {
+        ?order a schema:Order ;
+               schema:orderDate ?orderDate ;
+               schema:orderedItem ?orderItem .
+        # the line's own price is net of discount; the catalogue price it was struck
+        # against hangs off it as a ListPrice specification
+        ?orderItem schema:orderQuantity ?quantity ;
+                   schema:price ?net ;
+                   schema:priceSpecification ?listPrice .
+        ?listPrice schema:priceType schema:ListPrice ;
+                   schema:price ?unitPrice .
+        BIND(SUBSTR(STR(?orderDate), 1, 7) AS ?month)
+        BIND(?quantity * ?unitPrice AS ?gross)
+        BIND(?gross - ?net AS ?discount)
+    }
+    # The order book stops part-way through its final month, which would render as a
+    # cliff rather than a trend. Drop that month — derived from the data, not pinned
+    # to a date, so it stays correct if the dataset grows.
+    {
+        SELECT (SUBSTR(STR(MAX(?anyDate)), 1, 7) AS ?partialMonth)
+        WHERE {
+            GRAPH ?g { ?anyOrder a schema:Order ; schema:orderDate ?anyDate }
+        }
+    }
+    FILTER (?month < ?partialMonth)
 }
 GROUP BY ?month
 ORDER BY ?month""" .
 
 <#revenue-by-country-block> a ldh:Object ;
+    dct:title "Revenue by country" ;
     rdf:value <#revenue-by-country> .
 
 <#revenue-by-country> a ldh:ResultSetChart ;
@@ -88,11 +148,9 @@ WHERE {
     GRAPH ?orderGraph {
         ?order schema:orderedItem ?orderItem ;
                schema:orderDelivery ?delivery .
-        ?orderItem schema:orderQuantity ?quantity ;
-                   schema:price ?price .
+        ?orderItem schema:price ?sale .
         ?delivery schema:deliveryAddress ?address .
         ?address schema:addressCountry ?country .
-        BIND(?quantity * ?price AS ?sale)
     }
 }
 GROUP BY ?country
@@ -100,22 +158,29 @@ ORDER BY DESC(?revenue)
 LIMIT 10""" .
 
 <#top-selling-products> a ldh:Object ;
+    dct:title "Top selling products" ;
     rdf:value <products/#top-selling-products> .
 
 <#top-manager-header> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-        <h2>Top manager</h2>
-        <p>Meet the top manager of Northwind Traders.</p>
+        <div class="ldh-section">
+            <h2>Sales leadership</h2>
+            <p>The Vice President of Sales, with the territories, reports and order history attached to the role.</p>
+        </div>
     </div>"""^^rdf:XMLLiteral .
 
 <#top-manager> a ldh:Object ;
+    dct:title "Vice President, Sales" ;
     rdf:value <employees/2/#this> .
 
 <#navigation-prompt> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-        <h3>Explore more</h3>
-        <p>Dive deeper into detailed analytics by exploring the containers below. Each section provides comprehensive insights into products, orders, customers, employees, and more.</p>
+        <div class="ldh-section">
+            <h2>Browse the business</h2>
+            <p>Open <a href="orders/">Orders</a> for the order book and its master–detail line items, or go straight to products, customers, employees and the reference data behind them.</p>
+        </div>
     </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Object ;
+    dct:title "Sections" ;
     rdf:value ldh:ChildrenView .

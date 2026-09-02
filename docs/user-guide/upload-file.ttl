@@ -40,14 +40,25 @@
             </div>
             <div class="tab-pane">
                 <div>
-                    <p>Replace <samp>owner_cert_password</samp> with its value from the <samp>.env</samp> file and execute the following command:</p>
-                    <pre>add-file.sh \\
--b "https://localhost:4443/" \\
--f ./ssl/owner/cert.pem \\
--p "$owner_cert_password" \\
---title "$title" \\
---file "$filename" \\
---content-type "$content_type"</pre>
+                    <p>A file is uploaded to the document that will hold it, so create that document first. Replace <samp>owner_cert_password</samp> with the value of the corresponding secret and execute the following commands:</p>
+                    <pre>base="https://localhost:4443/"
+
+doc=$(ldh create-item \\
+  -b "$base" \\
+  -f ./ssl/owner/keystore.p12 \\
+  -p "$owner_cert_password" \\
+  --title "$title" \\
+  --container "$base")
+
+ldh add-file \\
+  -b "$base" \\
+  -f ./ssl/owner/keystore.p12 \\
+  -p "$owner_cert_password" \\
+  --title "$title" \\
+  --file "$filename" \\
+  --content-type "$content_type" \\
+  "$doc"</pre>
+                    <p>The command prints the content-addressed URI of the upload. <code>--content-type</code> is optional — the media type is detected from the file when it is not given.</p>
                 </div>
             </div>
         </div>

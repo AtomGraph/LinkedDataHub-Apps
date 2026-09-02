@@ -12,20 +12,18 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
   <p class="lead">Step by step guide to installing and uninstalling packages in your LinkedDataHub dataspace.</p>
   <div class="alert alert-info">
-    <p><strong>Version:</strong> Packages were introduced in LinkedDataHub 5.2.</p>
+    <p><strong>Version:</strong> Packages were introduced in LinkedDataHub 5.2. Since 5.10 they are installed <em>declaratively</em>: an application imports a package with a single <code>ldh:import</code> triple in its settings. The dedicated install/uninstall endpoints and the package <span class="btn">Actions</span> menu they were driven from are gone.</p>
   </div>
   <div class="alert alert-info">
-    <p>Package management requires <a href="../../reference/administration/acl/#access-modes" target="_blank">Control access</a> to the administration application. Only users with administrative privileges can install or uninstall packages.</p>
+    <p>Package management requires write access to the application's <samp>settings</samp> document, which in practice means the owner of the dataspace.</p>
   </div>
   <p class="lead"><a href="../../reference/administration/packages/" target="_blank">Read more about how packages work.</a></p>
-  <div class="alert alert-warning">
-    <p><strong>Important:</strong> After installing or uninstalling a package, you must restart the Docker service for XSLT stylesheet changes to take effect:</p>
-    <pre>docker-compose restart linkeddatahub</pre>
-    <p>Do not use <code>--force-recreate</code> as that would overwrite the stylesheet file changes.</p>
+  <div class="alert alert-info">
+    <p>Installing or uninstalling a package takes effect on the <strong>next request</strong> — the package ontology joins the application's imports closure and its stylesheet is composed into the application stylesheet. No restart is needed.</p>
   </div>
   <div>
     <h2 id="install-package">Install a package</h2>
-    <p>Installing a package adds new functionality to your dataspace by importing ontologies, data, and resources.</p>
+    <p>Installing a package adds new functionality to your dataspace by importing its ontology and stylesheet.</p>
     <div class="tabbable">
       <ul class="nav nav-tabs">
         <li class="active"><a>User interface</a></li>
@@ -35,38 +33,43 @@
         <div class="tab-pane active">
           <p>Follow these steps to install a package through the web interface:</p>
           <ol>
-            <li>Open the package URI in browser mode by entering its URI in the address bar</li>
-            <li>Click the <span class="btn">Actions</span> dropdown button next to the package</li>
-            <li>Select <span class="btn btn-primary">Install</span> from the dropdown menu</li>
-            <li>Wait for the installation to complete</li>
-            <li>Refresh your browser to ensure the new package functionality is loaded</li>
+            <li>Open the end-user application of your dataspace and make sure you are logged in</li>
+            <li>Click the settings dropdown button in the right section of the navigation bar</li>
+            <li>Select <dfn>Application</dfn> from the dropdown menu to open the <dfn>Application settings</dfn> modal</li>
+            <li>Scroll down to the <dfn>Packages</dfn> section, which lists the available packages with their descriptions</li>
+            <li>Tick the <dfn>Installed</dfn> checkbox of the package you want to install</li>
+            <li>Click <span class="btn btn-primary btn-save">Save</span></li>
+            <li>The page reloads with the package applied</li>
           </ol>
+          <p>The checkboxes are inputs of the settings form, so several packages can be installed and uninstalled in a single <span class="btn btn-primary btn-save">Save</span>.</p>
         </div>
         <div class="tab-pane">
-          <p>Execute the following command:</p>
-          <pre>install-package.sh \\
-  -b "https://localhost:4443/" \\
-  -f ssl/owner/cert.pem \\
+          <p>Packages have no command of their own: an application imports a package with a single <code>ldh:import</code> triple, so patching the application's <samp>settings</samp> document is the installation. Execute the following command:</p>
+          <pre>ldh patch \\
+  -f ssl/owner/keystore.p12 \\
   -p "$owner_cert_password" \\
-  --package "https://packages.linkeddatahub.com/skos/#this"</pre>
+  "https://localhost:4443/settings" &lt;&lt;EOF
+INSERT
+{
+    &lt;urn:linkeddatahub:apps/end-user&gt; &lt;https://w3id.org/atomgraph/linkeddatahub#import&gt; &lt;https://packages.linkeddatahub.com/skos/#this&gt; .
+}
+WHERE {}
+EOF</pre>
           <p>Parameters:</p>
           <dl>
-            <dt><code>-b</code></dt>
-            <dd>Base URL of your LinkedDataHub instance</dd>
             <dt><code>-f</code></dt>
-            <dd>Path to your owner certificate file</dd>
+            <dd>PKCS12 keystore with your owner WebID certificate</dd>
             <dt><code>-p</code></dt>
             <dd>Owner certificate password</dd>
-            <dt><code>--package</code></dt>
-            <dd>Package URI to install (e.g., <samp>https://packages.linkeddatahub.com/skos/#this</samp>)</dd>
           </dl>
+          <p>The subject of the triple is the URI of the application the package is installed into, as declared in <samp>config/system.trig</samp> (<samp>urn:linkeddatahub:apps/end-user</samp> in the default configuration). The object is the package URI.</p>
         </div>
       </div>
     </div>
   </div>
   <div>
     <h2 id="uninstall-package">Uninstall a package</h2>
-    <p>Uninstalling a package removes its ontologies and resources from your dataspace. User-created data that uses the package vocabulary will remain but may not function correctly.</p>
+    <p>Uninstalling a package removes its ontology and stylesheet from your dataspace. Data you created using the package vocabulary remains but may not display or function correctly without the package.</p>
     <div class="tabbable">
       <ul class="nav nav-tabs">
         <li class="active"><a>User interface</a></li>
@@ -76,37 +79,42 @@
         <div class="tab-pane active">
           <p>Follow these steps to uninstall a package through the web interface:</p>
           <ol>
-            <li>Navigate to the administration application of your dataspace</li>
-            <li>Open the <dfn>Packages</dfn> container to view installed packages</li>
-            <li>Find the package you want to uninstall in the list</li>
-            <li>Click the <span class="btn">Actions</span> dropdown button next to the package</li>
-            <li>Select <span class="btn btn-danger">Uninstall</span> from the dropdown menu</li>
-            <li>Confirm the uninstallation when prompted</li>
-            <li>Wait for the uninstallation to complete</li>
+            <li>Open the <dfn>Application settings</dfn> modal as described above</li>
+            <li>Find the package in the <dfn>Packages</dfn> section</li>
+            <li>Untick its <dfn>Installed</dfn> checkbox</li>
+            <li>Click <span class="btn btn-primary btn-save">Save</span></li>
           </ol>
-          <p class="alert alert-warning">Uninstalling a package will remove its ontologies and associated resources. Any data you created using the package's vocabulary will remain in your dataspace but may not display or function correctly without the package.</p>
         </div>
         <div class="tab-pane">
-          <p>Execute the following command:</p>
-          <pre>uninstall-package.sh \\
-  -b "https://localhost:4443/" \\
-  -f ssl/owner/cert.pem \\
+          <p>Uninstalling is the same update with <code>DELETE</code> in place of <code>INSERT</code>:</p>
+          <pre>ldh patch \\
+  -f ssl/owner/keystore.p12 \\
   -p "$owner_cert_password" \\
-  --package "https://packages.linkeddatahub.com/skos/#this"</pre>
-          <p>Parameters are the same as for installation.</p>
+  "https://localhost:4443/settings" &lt;&lt;EOF
+DELETE
+{
+    &lt;urn:linkeddatahub:apps/end-user&gt; &lt;https://w3id.org/atomgraph/linkeddatahub#import&gt; &lt;https://packages.linkeddatahub.com/skos/#this&gt; .
+}
+WHERE {}
+EOF</pre>
         </div>
       </div>
     </div>
   </div>
   <div>
     <h2 id="verify-installation">Verify package installation</h2>
-    <p>After installing a package, verify that it was installed correctly:</p>
+    <p>After installing a package, verify that it was applied:</p>
     <ol>
-      <li>Navigate to the administration application</li>
-      <li>Click on <dfn>Ontologies</dfn> in the left navigation menu</li>
-      <li>Verify that the package ontology appears in the list of imported ontologies</li>
-      <li>In the end-user application, check that package-specific classes and properties are available when creating new resources</li>
-      <li>If the package includes stylesheets, verify that custom UI elements are rendering correctly</li>
+      <li>Reopen the <dfn>Application settings</dfn> modal and check that the package's <dfn>Installed</dfn> checkbox is ticked</li>
+      <li>Check that the package ontology joined the application's imports closure by querying the <samp>ns</samp> endpoint. For the SKOS package, its constructor for <code>skos:Concept</code> becomes visible there:
+        <pre>curl -k -G \\
+  -E ./ssl/owner/cert.pem:"$owner_cert_password" \\
+  -H "Accept: application/sparql-results+xml" \\
+  "https://localhost:4443/ns" \\
+  --data-urlencode 'query=SELECT ?text WHERE { &lt;http://www.w3.org/2004/02/skos/core#Concept&gt; &lt;http://spinrdf.org/spin#constructor&gt; ?constructor . ?constructor &lt;http://spinrdf.org/sp#text&gt; ?text . }'</pre>
+      </li>
+      <li>In the end-user application, check that package-specific classes are offered by the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown</li>
+      <li>If the package includes a stylesheet, verify that its custom UI elements are rendering</li>
     </ol>
   </div>
   <div>
@@ -122,19 +130,18 @@
   <div>
     <h2 id="troubleshooting">Troubleshooting</h2>
     <h3 id="installation-fails">Installation fails</h3>
-    <p>If package installation fails:</p>
+    <p>If the <span class="btn btn-primary btn-save">Save</span> or the <samp>ldh patch</samp> is rejected:</p>
     <ul>
-      <li>Verify you have Control access to the administration application</li>
-      <li>Check that all package dependencies are met</li>
-      <li>Review the error message for specific issues</li>
-      <li>Ensure the package files are valid and well-formed</li>
+      <li>Verify you are logged in with an agent that has write access to the application's <samp>settings</samp></li>
+      <li>Verify the package URI is correct and dereferenceable, and that its metadata declares <code>ldt:ontology</code> and <code>ac:stylesheet</code></li>
+      <li>Review the error message — a rejected settings update reports the constraint violation that caused it</li>
     </ul>
     <h3 id="package-not-visible">Package functionality not visible</h3>
     <p>If installed package features are not visible:</p>
     <ul>
-      <li>Refresh your browser to reload the application</li>
+      <li>Reload the page — the stylesheet is composed on the next request, but the browser may still hold the previous one</li>
       <li>Clear the browser cache if stylesheets are not updating</li>
-      <li>Verify the package ontology is imported in the Ontologies section</li>
+      <li>Verify the package ontology is in the imports closure by querying the <samp>ns</samp> endpoint as shown above</li>
       <li>Check that you have appropriate permissions to view package resources</li>
     </ul>
   </div>

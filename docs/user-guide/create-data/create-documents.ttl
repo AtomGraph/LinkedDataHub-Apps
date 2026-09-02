@@ -44,9 +44,9 @@
             <div class="tab-pane">
                 <div>
                     <p>Replace <samp>owner_cert_password</samp> with the value of the corresponding secret and execute the following command:</p>
-                    <pre>create-container.sh \\
+                    <pre>ldh create-container \\
   -b "https://localhost:4443/" \\
-  -f ./ssl/owner/cert.pem \\
+  -f ./ssl/owner/keystore.p12 \\
   -p "$owner_cert_password" \\
   --title "Concepts" \\
   --slug "concepts" \\

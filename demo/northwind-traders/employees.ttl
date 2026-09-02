@@ -10,19 +10,33 @@
   <> a dh:Container ;
       dct:title "Employees" ;
       rdf:_1 <#employee-intro> ;
-      rdf:_2 <#sales-by-employee-block> ;
-      rdf:_3 <#select-employees> .
+      rdf:_2 <#select-employees> ;
+      rdf:_3 <#performance-intro> ;
+      rdf:_4 <#sales-by-employee-block> .
 
   # Intro XHTML
   <#employee-intro> a ldh:XHTML ;
       rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-          <h3>Employee performance</h3>
-          <p>Track employee sales performance and order processing metrics. Understanding individual
-             contributions helps recognize top performers, identify coaching opportunities, and optimize territory assignments.</p>
+          <div class="ldh-section">
+              <h2>The team</h2>
+              <p>Everyone on the Northwind payroll, who they report to and the territories they cover. Open a
+                 record to see the orders they booked.</p>
+          </div>
+      </div>"""^^rdf:XMLLiteral .
+
+  # Performance intro
+  <#performance-intro> a ldh:XHTML ;
+      rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+          <div class="ldh-section">
+              <h2>Sales performance</h2>
+              <p>Revenue booked per sales rep — the basis for recognising top performers and rebalancing
+                 territory assignments.</p>
+          </div>
       </div>"""^^rdf:XMLLiteral .
 
   # Sales by employee chart (wrapped in ldh:Object per ContentMode contract)
   <#sales-by-employee-block> a ldh:Object ;
+      dct:title "Sales by employee" ;
       rdf:value <#sales-by-employee> .
 
   <#sales-by-employee> a ldh:ResultSetChart ;
@@ -41,9 +55,7 @@ WHERE {
     GRAPH ?orderGraph {
         ?order schema:broker ?employee ;
                schema:orderedItem ?orderItem .
-        ?orderItem schema:orderQuantity ?quantity ;
-                   schema:price ?price .
-        BIND(?quantity * ?price AS ?sale)
+        ?orderItem schema:price ?sale .
     }
     GRAPH ?employeeGraph {
         ?employee schema:givenName ?givenName ;
@@ -56,6 +68,7 @@ ORDER BY DESC(?totalSales)""" .
 
   # Object block (references the view)
   <#select-employees> a ldh:Object ;
+      dct:title "All employees" ;
       rdf:value <#select-employees-view> .
 
   # View block (references the query, uses GridMode)

@@ -49,8 +49,8 @@
                         </div>
                       </div>
                     </div>
-                    <p>You'll need a PEM version of the certificate for use with the <a href="../../reference/command-line-interface/">command line interface</a> scripts. During setup, it is stored under
-                        <samp>ssl/owner/cert.pem</samp>. If you got the certificate by email, you need to <a href="https://stackoverflow.com/a/15144560/1003113" target="_blank">convert the PKCS12 file to PEM using OpenSSL</a>.</p>
+                    <p>The <a href="../../reference/command-line-interface/">command line interface</a> reads the PKCS12 (<samp>.p12</samp>) file directly, so no conversion is needed. During setup it is stored under <samp>ssl/owner/keystore.p12</samp>.
+                        <samp>curl</samp> wants a PEM version instead — it is stored under <samp>ssl/owner/cert.pem</samp>, and a certificate received by email can be <a href="https://stackoverflow.com/a/15144560/1003113" target="_blank">converted from PKCS12 to PEM using OpenSSL</a>.</p>
                     <div class="alert alert-info">
                         <p>Unlike most LinkedDataHub resources, your WebID profile will have <em>public access</em> as required by the protocol. Your email address will be hidden however.</p>
                     </div>
