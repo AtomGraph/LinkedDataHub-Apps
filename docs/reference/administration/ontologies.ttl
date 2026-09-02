@@ -15,8 +15,11 @@
         <p>Ontologies are sets of domain concepts. The domain can span both documents (information resources) and abstract/physical things
             (non-information resources).</p>
         <p>Ontologies can <a href="https://www.w3.org/TR/owl2-primer/#Ontology_Management" target="_blank">import other ontologies</a>, both user-defined
-            and system ones provided by LinkedDataHub. The imports are retrieved during application initialization, and the application's namespace ontology
-            becomes a transitive union, i.e. is merged with its imports and imports of the imports etc.</p>
+            and system ones provided by LinkedDataHub. The application's namespace ontology is resolved as a native <code>owl:imports</code> union graph —
+            the transitive closure of its imports — which is cached per ontology URI. No inference is materialized: the terms are served exactly as declared.</p>
+        <p><a href="../packages/">Package</a> ontologies join the application's imports closure automatically. They are derived from the application's
+            <code>ldh:import</code> declarations at ontology load time and declared as <code>owl:imports</code> of the namespace ontology, so they resolve
+            like any other import.</p>
         <div class="alert alert-warning">
             <h4>Best practice: avoid using <code>owl:imports</code> with uploaded files</h4>
             <p>Do not use <code>owl:imports</code> declarations that point to paths under <samp>uploads/</samp>. This can cause circular dependency deadlocks
@@ -110,6 +113,8 @@ WHERE {}</code></pre>
                 gets skolemized to a URI when submitted to the server.</p>
             <p>Note that classes inherit constructors from superclasses in runtime. Subclasses do not have to redefine constructor properties already found
                 in superclass constructors, only additional properties.</p>
+            <p>Constructor instances are instantiated client-side: the constructors of the resource's types (including the superclass closure) are expanded
+                onto a single instance. For that to work, a constructor has to have an empty <code>WHERE</code> clause, as in the example above.</p>
         </div>
         <div>
             <h3 id="constraints">Constraints</h3>
@@ -123,6 +128,62 @@ WHERE {}</code></pre>
     </div>
     <div>
         <h2 id="properties">Properties</h2>
-        <p>LinkedDataHub allows definition of new properties.</p>
+        <p>LinkedDataHub allows definition of new properties. Like classes, properties are declared in the application's namespace ontology.
+            The expected values of a property on a class are described either with a SPIN <a href="#constraints">property constraint</a> (a mandatory-property check)
+            or with an OWL restriction (<code>owl:allValuesFrom</code> on the class), both of which the create/edit forms enforce.</p>
+    </div>
+    <div>
+        <h2 id="importing-vocabularies">Importing external vocabularies</h2>
+        <p>The <samp>Import ontology</samp> action loads an external vocabulary and derives instance <a href="#constructors">constructors</a> for its classes.
+            Only the derived <dfn>annotation ontology</dfn> is persisted — the generated constructors plus an <code>owl:imports</code> of the canonical vocabulary
+            URI — and it is wired into the application's namespace ontology. The vocabulary itself resolves through its canonical URI as part of the imports closure.</p>
+    </div>
+    <div>
+        <h2 id="management">Management</h2>
+        <div>
+            <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>CLI command</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Create ontology</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin ontologies create-ontology</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Import external vocabulary</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin ontologies import-ontology</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Add ontology import</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin add-ontology-import</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Clear ontology from cache</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin clear-ontology</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Create class</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin ontologies add-class</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Add constructor</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin ontologies add-constructor</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Add property constraint</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin ontologies add-property-constraint</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Add restriction</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin ontologies add-restriction</samp></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>"""^^rdf:XMLLiteral .

@@ -17,7 +17,7 @@
         <p>Fortunately, LinkedDataHub makes it easy to notify the owner by issuing an <a href="../../reference/administration/acl/#auth-requests">access request</a>. Navigate to the document you want to gain access to, click on the
             <span class="btn btn-primary">Request access</span> button and submit the form that appears, as shown below. You can choose the desired <a href="../../reference/administration/acl/#access-modes">access modes</a>.</p>
         <p>
-            <object data="../../../uploads/5b699202e4ffcbb3b56b37b24b9537e83339c4c7" style="height: 550px;" type="video/webm"></object>
+            <object data="../../uploads/5b699202e4ffcbb3b56b37b24b9537e83339c4c7" style="height: 550px;" type="video/webm"></object>
         </p>
     </div>
     <p class="lead">Are you in? Then continue the <a href="..">get started guide</a> or take a look at the <a href="../../reference/user-interface/">UI overview</a>.</p>

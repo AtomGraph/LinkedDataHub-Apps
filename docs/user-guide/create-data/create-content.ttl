@@ -46,19 +46,14 @@
                         <ol>
                             <li>Make sure you're in the content layout mode</li>
                             <li>At the bottom of the page, click the <span class="btn btn-primary create-action add-constructor">XHTML</span> button</li>
-                            <li>Add content in the WYSIWYG editor</li>
+                            <li>Add content in the rich-text editor</li>
                             <li>Click the <span class="btn btn-primary btn-save">Save</span> button to save the block</li>
                         </ol>
                         <p>After this, a new XHTML block should be appended to the page, replacing the form.</p>
                     </div>
                     <div>
                         <h3 id="edit-xhtml-block">Edit block</h3>
-                        <p>To edit an XHTML block, follow these steps:</p>
-                        <ol>
-                            <li>Move the mouse to the very top-right of the block element where an editing button <span class="btn btn-edit"></span> should appear</li>
-                            <li>Make changes in the WYSIWYG editor that appears</li>
-                            <li>Click <span class="btn btn-primary btn-save">Save</span> to save the block</li>
-                        </ol>
+                        <p>To edit an XHTML block, click anywhere inside it and make changes in place. The changes are <a href="../../edit-content/">saved automatically</a> when the focus leaves the block — there is no separate save button.</p>
                         <p>To remove an XHTML block, follow these steps:</p>
                         <ol>
                             <li>Move the mouse to the very top-right of the block element where an editing button should appear</li>
@@ -140,10 +135,5 @@
             </div>
         </div>
     </div>
-    <!--
-    <div>
-        <h2 id="content-templates">Content templates</h2>
-    </div>
-    -->
     <p class="lead"><a href="../../../reference/data-model/blocks/" target="_blank">Read more about content blocks.</a></p>
 </div>"""^^rdf:XMLLiteral .

@@ -1,0 +1,87 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "Data" ;
+    dct:description "Import CSV data using SPARQL mappings" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Import CSV data using SPARQL mappings</p>
+    <p>Northwind's data ships as plain CSV files. LinkedDataHub <a href="../../reference/imports/csv/" target="_blank">imports CSV</a> by running a SPARQL <code>CONSTRUCT</code> mapping over each
+        row: the row's cells are bound as properties of a row resource, and the query builds the RDF you want from them. The mapping for categories, <samp>categories.rq</samp>:</p>
+    <pre>PREFIX foaf:       &lt;http://xmlns.com/foaf/0.1/&gt;
+PREFIX dct:        &lt;http://purl.org/dc/terms/&gt;
+PREFIX schema:     &lt;https://schema.org/&gt;
+
+CONSTRUCT
+{
+    GRAPH ?graph
+    {
+        ?graph dct:title ?categoryName ;
+            foaf:primaryTopic ?category .
+
+        ?category a schema:ProductGroup ;
+            dct:title ?categoryName ;
+            schema:name ?categoryName ;
+            schema:identifier ?categoryID ;
+            schema:description ?description .
+    }
+}
+WHERE
+{
+    ?category_row &lt;#categoryID&gt; ?categoryID ;
+        &lt;#description&gt; ?description ;
+        &lt;#categoryName&gt; ?categoryName .
+
+    BIND(uri(concat(str($base), "categories/")) AS ?container)
+    BIND(uri(concat(str(?container), encode_for_uri(?categoryID), "/")) AS ?graph)
+    BIND(uri(concat(str(?graph), "#this")) AS ?category)
+}</pre>
+    <p>The three <code>BIND</code>s carry the whole document model of the import:</p>
+    <ul>
+        <li><code>?container</code> — the target container from the <a href="../structure/">Structure</a> stage, resolved against <code>$base</code></li>
+        <li><code>?graph</code> — one document (named graph) per row, minted inside the container from the row's identifier</li>
+        <li><code>?category</code> — the document's topic: the document is <em>about</em> the category, so the category is a <samp>#this</samp> fragment of it</li>
+    </ul>
+    <div>
+        <h2 id="browser">In the browser</h2>
+        <p>Create the import from the UI — upload the CSV file, pick the mapping query and the target container — following the <a href="../../user-guide/import-data/import-csv-data/" target="_blank">Import CSV data</a>
+            guide.</p>
+    </div>
+    <div>
+        <h2 id="cli">From the command line</h2>
+        <p>Each import pairs a mapping query with a CSV file and a target container. The demo lists them in a manifest, <samp>imports.csv</samp>:</p>
+        <pre>query_filename,csv_filename,target,title
+categories/categories.rq,categories/categories.csv,categories/,Categories
+products/products.rq,products/products.csv,products/,Products
+orders/orders.rq,orders/orders.csv,orders/,Orders
+...</pre>
+        <p>and replays it with a small loop over the <a href="../../reference/command-line-interface/" target="_blank">CLI</a>: each line saves its mapping query with
+            <samp>ldh add-construct</samp> and pairs it with the CSV file and target container in an import created with <samp>ldh imports add-csv-import</samp>. For a single import
+            (the CSV file is uploaded first with <samp>ldh add-file</samp>, which prints the upload URI the import refers to — the <a href="../media/">Media</a> stage covers uploads):</p>
+        <pre>ldh add-construct \\
+  --uri "#categories-query" \\
+  --title "Categories" \\
+  --query-file categories/categories.rq \\
+  "${LDH_BASE}categories/"
+
+ldh imports add-csv-import \\
+  --title "Categories" \\
+  --query "${LDH_BASE}categories/#categories-query" \\
+  --file "$csv_upload_uri" \\
+  "${LDH_BASE}categories/"</pre>
+        <p>Imports run asynchronously — each one is itself a document that records its status.</p>
+    </div>
+    <div>
+        <h2 id="result">What you now see</h2>
+        <p>The Categories container lists eight category documents. Open one: the category renders with its name, description and identifier, typed as a product group — with the labels coming from
+            the <a href="../model/">Model</a> stage. Repeat the pattern for the remaining entities and the Knowledge Graph fills in, orders linking to products, products to suppliers and
+            categories.</p>
+        <!-- screenshot: the Categories container listing after the import -->
+    </div>
+    <p class="lead">Next: <a href="../media/">Media</a></p>
+</div>"""^^rdf:XMLLiteral .

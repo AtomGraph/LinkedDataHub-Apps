@@ -1,0 +1,45 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "View version history" ;
+    dct:description "View, compare and restore document versions" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">View, compare and restore document versions</p>
+    <div class="alert alert-info">
+        <p>Version history is available in dataspaces with <a href="../../reference/versioning/">versioning</a> enabled.</p>
+    </div>
+    <div>
+        <h2 id="open-history">Open the history</h2>
+        <p>Click the document's last-modified timestamp in the <a href="../../reference/user-interface/#action-bar">action bar</a>. The
+            <dfn>History</dfn> dialog opens with the document's versions listed newest first, each showing its datetime and the agent who authored it.
+            The version you are currently viewing is marked.</p>
+        <p>Click a version to view the document as it was at that point. A notice banner reminds you that you are viewing a historical version and
+            links back to the current one. Historical versions are read-only.</p>
+    </div>
+    <div>
+        <h2 id="compare-versions">Compare versions</h2>
+        <p>In the History dialog, select a <dfn>From</dfn> and a <dfn>To</dfn> version to compare. The diff renders on the document page:</p>
+        <ul>
+            <li>added, removed and changed parts are marked with distinct borders, explained by a color legend</li>
+            <li>changed property values are marked individually</li>
+            <li>a changed XHTML block stacks its old content above the new</li>
+        </ul>
+        <p>The diff is display state read from the URL — going back and forward re-renders it, and reloading the page falls back to the plain
+            historical version.</p>
+    </div>
+    <div>
+        <h2 id="restore-version">Restore a version</h2>
+        <p>In the History dialog, click <span class="btn btn-primary">Restore</span> on the version you want to bring back and confirm. The version's
+            content is written to the live document, so the restore rolls forward as a new version — nothing is rewritten and the versions rolled past
+            stay in the history.</p>
+        <p>Restoring requires write access to the document; the button is not offered on the version you are currently viewing.</p>
+    </div>
+    <p class="lead">Read more about <a href="../../reference/versioning/">versioning and the Memento protocol</a> or access the history from the
+        <a href="../../reference/command-line-interface/">command line interface</a>.</p>
+</div>"""^^rdf:XMLLiteral .

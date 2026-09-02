@@ -13,14 +13,14 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to read and write RDF data from/to LinkedDataHub applications over HTTP</p>
     <p>LinkedDataHub implements a uniform, generic RESTful Linked Data API as defined by the
-        <a href="https://www.w3.org/TR/sparql11-http-rdf-update/" target="_blank">SPARQL 1.1 Graph Store Protocol</a>. It adds a few <a href="#graph-names">conventions</a> and <a href="#constraints">constraints</a>
+        <a href="https://www.w3.org/TR/sparql11-http-rdf-update/" target="_blank">SPARQL 1.1 Graph Store Protocol</a>. It adds a few conventions (such as <a href="#document-metadata">automatic document metadata</a>) and <a href="#constraints">constraints</a>
         on top of it however.</p>
     <div>
         <h2 id="auth">Authentication</h2>
         <p>LinkedDataHub UI supports 2 authentication methods:</p>
         <ul>
             <li><a href="https://dvcs.w3.org/hg/WebID/raw-file/tip/spec/tls-respec.html" target="_blank">WebID-TLS</a> using TLS client certificates</li>
-            <li><a href="https://developers.google.com/identity/protocols/oauth2/openid-connect" target="_blank">OpenID Connect using Google</a></li>
+            <li>OpenID Connect using <a href="https://developers.google.com/identity/protocols/oauth2/openid-connect" target="_blank">Google</a> or <a href="https://info.orcid.org/documentation/integration-guide/" target="_blank">ORCID</a></li>
         </ul>
         <p>See how those authentication methods can be <a href="../configuration/">configured</a> or how to <a href="../../get-started/get-an-account/">get an account</a> on LinkedDataHub.</p>
         <div class="alert alert-info">
@@ -191,6 +191,20 @@ Content-Type: text/turtle</code></pre>
         </div>
     </div>
     <div>
+        <h2 id="versioned-documents">Versioned documents</h2>
+        <p>In dataspaces with <a href="../versioning/">versioning</a> enabled, document URLs answer additional query parameters that expose the version
+            history through the standard <a href="https://datatracker.ietf.org/doc/html/rfc7089" target="_blank">Memento (RFC 7089)</a> protocol:</p>
+        <dl>
+            <dt><code>?version=&lt;commit-sha&gt;</code></dt>
+            <dd>A historical version of the document, served with <code>Memento-Datetime</code> and immutable caching. Snapshots are read-only: write methods answer <code>405 Method Not Allowed</code></dd>
+            <dt><code>?timemap</code></dt>
+            <dd>The document's version history — a TimeMap described with PROV-O in RDF formats, or in <code>application/link-format</code> as RFC 7089 requires</dd>
+            <dt><code>?timegate</code></dt>
+            <dd>Datetime negotiation: a request with an <code>Accept-Datetime</code> header answers <code>302 Found</code> with the closest version in <code>Location</code></dd>
+        </dl>
+        <p>See the <a href="../versioning/">versioning reference</a> for details.</p>
+    </div>
+    <div>
         <h2 id="sparql">Executing SPARQL</h2>
         <p>Every LinkedDataHub application provides a SPARQL endpoint on <code>sparql</code> path (relative to the application's base URI). It supports the
             <a href="https://www.w3.org/TR/sparql11-protocol/" target="_blank">SPARQL 1.1 Protocol</a> and serves as a proxy for the backend endpoint of the
@@ -240,6 +254,24 @@ Content-Type: text/turtle</code></pre>
             (<code>&lt;script type="application/ld+json"&gt;</code>) and parses it as RDF using JSON-LD 1.1, so pages annotated with <a href="https://schema.org/" target="_blank">schema.org</a> markup
             can be browsed as Linked Data. The schema.org JSON-LD context is bundled with LinkedDataHub and served locally, so no external network request is made to resolve it.</p>
         <p>The proxy only accepts external (non-relative to the current application's base URI) URLs; local URLs have to be dereferenced directly.</p>
+        <p>The proxy forwards the origin's <code>ETag</code> and <code>Last-Modified</code> validators and passes conditional request headers
+            (<code>If-Match</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, <code>If-Unmodified-Since</code>) through, so preconditioned
+            writes against proxied documents are evaluated at the origin. Error statuses from the origin reach the client unchanged.</p>
+    </div>
+    <div>
+        <h2 id="federation">Federation</h2>
+        <p>The Linked Data proxy makes dataspaces interoperable across origins: one dataspace's client can browse, query, and write to another
+            origin's dataspace, whether on the same LinkedDataHub instance or a different one.</p>
+        <ul>
+            <li>The remote application's SPARQL endpoint is discovered from the <code>Link</code> headers the proxy forwards, so views and charts over
+                remote documents query the <em>remote</em> endpoint</li>
+            <li>Writes are graph-scoped SPARQL updates (<code>PATCH</code>) or appends (<code>POST</code>) sent through the proxy under the origin's
+                <code>If-Match</code> precondition</li>
+            <li>Requests carry the delegated identity of the requesting agent, so the remote dataspace's <a href="../administration/acl/">access control</a>
+                arbitrates every operation</li>
+        </ul>
+        <p>In the user interface this means you can <a href="../../user-guide/browse-data/">browse</a> a remote dataspace and
+            <a href="../../user-guide/add-data/">add data</a> to its documents the same way as to local ones, provided the remote access control allows it.</p>
     </div>
     <div>
         <h2 id="con-neg">Content negotiation</h2>
@@ -272,9 +304,10 @@ Content-Type: text/turtle</code></pre>
         <h2 id="caching">Caching</h2>
         <p><code>GET</code> and <code>HEAD</code> RDF responses from the backend triplestores (<em>not LinkedDataHub responses</em>) are cached automatically by LinkedDataHub using <a href="https://varnish-cache.org" target="_blank">Varnish</a>
             as HTTP proxy cache. You can check the age of the response by inspecting the <code>Age</code> response header (the value is in seconds).</p>
-        <p>LinkedDataHub sends <code>ETag</code> response headers that are derived as hashes of the requested document's RDF content. Every serialization format (HTML, RDF/XML, Turtle etc.) gets a distinct <code>ETag</code> value.</p>
+        <p>LinkedDataHub sends <code>ETag</code> response headers that are derived as hashes of the requested document's RDF content. Every serialization format (HTML, RDF/XML, Turtle etc.) gets a distinct <code>ETag</code> value, and language-negotiated HTML representations factor the accepted languages into the tag.</p>
+        <p>HTML responses carry a <code>Content-Language</code> negotiated against the languages the UI ships, and advertise <code>Vary: Accept-Language</code> so shared caches keep the renderings apart.</p>
         <p>Caching of LinkedDataHub responses can be enabled on the nginx HTTP proxy server by uncommenting the <code>add_header Cache-Control</code> directives in the <samp>platform/nginx.conf.template</samp> file.
-            Caching of <samp>/uploads/</samp> and <samp>/static/</samp> namespaces is enabled by default (since version 4.0.4).</p>
+            Caching of <samp>/uploads/</samp> and <samp>/static/</samp> namespaces is enabled by default.</p>
     </div>
 </div>"""^^rdf:XMLLiteral ;
         rdfs:seeAlso <https://www.w3.org/TR/sparql11-http-rdf-update/> .

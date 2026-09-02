@@ -1,0 +1,39 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Container ;
+    dct:title "Tutorial" ;
+    dct:description "Build your first Knowledge Graph application, from an empty dataspace to a published app" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Build your first Knowledge Graph application, from an empty dataspace to a published app</p>
+    <p>This tutorial rebuilds the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/northwind-traders" target="_blank">Northwind Traders demo application</a>: the iconic sample
+        database, reborn as an RDF Knowledge Graph. Every stage ends with a result you can see in the browser. Most steps are shown two ways: point-and-click in the user interface, and as
+        <a href="../reference/command-line-interface/" target="_blank">CLI commands</a> that you can script, version and replay.</p>
+    <p>Before you start you need a running LinkedDataHub instance and the owner's WebID certificate. The <a href="../get-started/" target="_blank">Get started</a> section covers both. The command line
+        examples use the <a href="../reference/command-line-interface/" target="_blank"><samp>ldh</samp> CLI</a> — download it from a
+        <a href="https://github.com/AtomGraph/LinkedDataHub/releases" target="_blank">LinkedDataHub release</a> (<samp>ldh-&lt;version&gt;.tar.gz</samp>, needs Java 21)
+        or build it from source with <samp>make cli</samp> — and rely on its environment variable defaults, set once per shell session:</p>
+    <pre>export LDH_BASE="https://localhost:4443/"
+export LDH_CERT_FILE="ssl/owner/keystore.p12"
+export LDH_CERT_PASSWORD="..."   # the owner_cert_password secret</pre>
+    <div>
+        <h2 id="stages">Stages</h2>
+        <ol>
+            <li><a href="hello-dataspace/">Hello dataspace</a> — give your app an identity and a landing page</li>
+            <li><a href="structure/">Structure</a> — lay out the document hierarchy</li>
+            <li><a href="model/">Model</a> — define the vocabulary that describes your domain</li>
+            <li><a href="data/">Data</a> — import CSV data using SPARQL mappings</li>
+            <li><a href="media/">Media</a> — upload files and link them to resources</li>
+            <li><a href="insight/">Insight</a> — turn SPARQL queries into charts and views</li>
+            <li><a href="composition/">Composition</a> — assemble the landing page from content blocks</li>
+            <li><a href="publish/">Publish</a> — grant public access and ship it</li>
+            <li><a href="app-as-repository/">App as a repository</a> — make the app reproducible</li>
+            <li><a href="beyond-low-code/">Beyond low-code</a> — where to go when data alone is not enough</li>
+        </ol>
+    </div>
+</div>"""^^rdf:XMLLiteral .

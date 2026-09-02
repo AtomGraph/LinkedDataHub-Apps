@@ -1,0 +1,50 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "Structure" ;
+    dct:description "Lay out the document hierarchy that will hold your data" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Lay out the document hierarchy that will hold your data</p>
+    <p>Documents come in two kinds: <a href="../../reference/data-model/documents/#containers" target="_blank">containers</a>, which hold child documents, and
+        <a href="../../reference/data-model/documents/#items" target="_blank">items</a>. Northwind's domain gives us the container layout directly — one container per entity type:</p>
+    <pre>https://localhost:4443/
+├── categories/
+├── customers/
+├── employees/
+├── orders/
+├── products/
+├── regions/
+├── shippers/
+├── suppliers/
+└── territories/</pre>
+    <div>
+        <h2 id="browser">In the browser</h2>
+        <p>Create each container from the root document using the document creation form — see the <a href="../../user-guide/create-data/create-documents/" target="_blank">Create documents</a> guide.</p>
+    </div>
+    <div>
+        <h2 id="cli">From the command line</h2>
+        <p>A container is just a document whose description says it is one. <samp>categories.ttl</samp>:</p>
+        <pre>@prefix dh:     &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+@prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
+
+&lt;&gt; a dh:Container ;
+    dct:title "Categories" .</pre>
+        <p><code>PUT</code> it to the container URL, the same way the root document was updated:</p>
+        <pre>ldh put -t text/turtle "${LDH_BASE}categories/" &lt; categories.ttl</pre>
+        <p>Repeat for the remaining eight containers — or skip ahead to <a href="../app-as-repository/">App as a repository</a> to see how the demo derives the document URL from the filename and
+            replays a whole folder in one command.</p>
+    </div>
+    <div>
+        <h2 id="result">What you now see</h2>
+        <p>The root document now lists the containers as its children, and each container URL resolves to an (empty) listing page. The URL space of your app <em>is</em> its information
+            architecture.</p>
+        <!-- screenshot: root document children listing with the nine containers -->
+    </div>
+    <p class="lead">Next: <a href="../model/">Model</a></p>
+</div>"""^^rdf:XMLLiteral .

@@ -16,7 +16,10 @@
     </p>
     <div>
         <h3 id="start-linkeddatahub">Start LinkedDataHub</h3>
-        <p>This section assumes you will be running on your local machine, i.e. <samp>localhost</samp>. If you intend to run it on a different host, <a href="../../user-guide/change-system-base-uri/#base-uri">change the system base URI</a>.</p>
+        <p>This section assumes you will be running on your local machine, i.e. <samp>localhost</samp>. If you intend to run it on a different host, <a href="../../user-guide/change-system-base-uri/#system-base-uri">change the system base URI</a>.</p>
+        <div class="alert alert-info">
+            <p>The administration application of each <a href="../../reference/dataspace/">dataspace</a> is served on the <code>admin.</code> subdomain — for the default setup that is <samp>https://admin.localhost:4443/</samp>. Browsers resolve <samp>*.localhost</samp> automatically and the generated server certificate covers the subdomain, so the local setup works out of the box. On any other host, make sure <samp>admin.&lt;host&gt;</samp> resolves in DNS and is covered by the server's TLS certificate (e.g. a wildcard certificate).</p>
+        </div>
         <p>Prerequisites:</p>
         <ul>
             <li>bash shell. It should be included by default on Linux. On Windows you can install the <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" target="_blank">Windows Subsystem for Linux</a>.</li>
@@ -61,10 +64,11 @@ OWNER_COUNTRY_NAME=DK</pre>
             </li>
             <li>(Optional) If you need to configure Bearer token authentication for SPARQL services, create <samp>secrets/credentials.trig</samp> with your service credentials. See the <a href="../../reference/configuration/#secrets">configuration reference</a> for details.</li>
             <li>Run this from command line:
-                <pre>docker-compose up --build</pre>
+                <pre>make up -- --build</pre>
+                (<samp>make up</samp> forwards its arguments to <samp>docker-compose up</samp>; the <samp>--</samp> is needed before arguments starting with <samp>-</samp>.)
                 LinkedDataHub will start and mount the following sub-folders:
                 <ol>
-                    <li><samp>data</samp> where the backend triplestores will persist RDF data</li>
+                    <li><samp>fuseki</samp> where the backend triplestores will persist RDF data</li>
                     <li><samp>datasets</samp> where the owner and secretary agent metadata is persisted</li>
                     <li><samp>ssl/owner</samp> and <samp>ssl/secretary</samp> where the owner and secretary SSL certificates and WebID public keys are persisted</li>
                     <li><samp>uploads</samp> where LinkedDataHub stores content-hashed file uploads</li>
@@ -78,7 +82,8 @@ OWNER_COUNTRY_NAME=DK</pre>
     <div>
         <h2 id="reset">Reset</h2>
         <p>If you need to start fresh and wipe the existing setup, you can do that using:</p>
-        <pre>sudo rm -rf data datasets uploads ssl &amp;&amp; docker-compose down -v</pre>
+        <pre>make drop</pre>
+        <p>It stops the services, removes the Docker volumes, and wipes the local <samp>datasets</samp>, <samp>fuseki</samp>, <samp>ssl</samp> and <samp>uploads</samp> folders.</p>
         <div class="alert alert-info">
             <p>This will remove persisted RDF data, SSL keys, and uploaded files as well as the Docker volumes.</p>
         </div>

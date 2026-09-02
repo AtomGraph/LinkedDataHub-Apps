@@ -85,19 +85,19 @@
                         <td><code>ixsl:</code></td>
                         <td><code>http://saxonica.com/ns/interactiveXSLT</code></td>
                         <td></td>
-                        <td>Namespace for the <a href="https://www.saxonica.com/saxon-js/documentation/index.html#!ixsl-extension" target="_blank">Interactive XSL extensions</a></td>
+                        <td>Namespace for the <a href="https://www.saxonica.com/saxonjs/documentation3/index.html#!ixsl-extension" target="_blank">Interactive XSL extensions</a></td>
                     </tr>
                     <tr>
                         <td><code>bs2:</code></td>
                         <td><code>http://graphity.org/xsl/bootstrap/2.3.2</code></td>
                         <td></td>
-                        <td>XSLT-only namespace that is used for <a href="https://getbootstrap.com/2.3.2/" target="_blank">Bootstrap 2.3.2</a>-based layout templates</td>
+                        <td>XSLT-only namespace that is used for layout templates. Historically <a href="https://getbootstrap.com/2.3.2/" target="_blank">Bootstrap 2.3.2</a>-based; the namespace is retained for compatibility although the UI has moved to the design system</td>
                     </tr>
                     <tr>
                         <td><code>xhtml:</code></td>
-                        <td><code>http://www.w3.org/2011/http#</code></td>
+                        <td><code>http://www.w3.org/1999/xhtml</code></td>
                         <td></td>
-                        <td>XSLT-only namespace that is used for generic (X)HTML templates</td>
+                        <td>XHTML namespace, also used for generic (X)HTML templates</td>
                     </tr>
                     <tr>
                         <td><code>ldt:</code></td>
@@ -114,7 +114,7 @@
                     <tr>
                         <td><code>lapp:</code></td>
                         <td><code>https://w3id.org/atomgraph/linkeddatahub/apps#</code></td>
-                        <td><a href="../administration/ontologies/#apl-ont" target="_blank">LinkedDataHub application ontology</a></td>
+                        <td><a href="../administration/ontologies/#lapp-ont" target="_blank">LinkedDataHub application ontology</a></td>
                         <td>LinkedDataHub application concepts</td>
                     </tr>
                     <tr>
@@ -385,7 +385,7 @@
                 using the <a href="https://www.w3.org/TR/xslt-30/#function-document" target="_blank"><code>document()</code></a> XSLT function. To avoid XSLT errors on any possible error responses, it is advisable
                 to do a conditional check using the <a href="https://www.w3.org/TR/xpath-functions/#func-doc-available" target="_blank"><code>doc-available()</code></a> function before doing the actual <code>document()</code> call.</p>
             <p>For example, instead of hardcoding the title of this document as <samp>Stylesheets</samp>, we can use the following code to load it and output it on the fly:</p>
-            <pre>&lt;xsl:value-of select="key('resources', 'https://docs.linkeddatahub.com/reference/stylesheet/', document('https://docs.linkeddatahub.com/reference/stylesheet/'))"/&gt;</pre>
+            <pre>&lt;xsl:value-of select="key('resources', 'https://docs.linkeddatahub.com/reference/stylesheets/', document('https://docs.linkeddatahub.com/reference/stylesheets/'))"/&gt;</pre>
             <p>In case this document changes its title, all such references would automatically render the updated title. On the other hand, it incurs the overhead of making an HTTP request.</p>
             <p>LinkedDataHub's default stylesheets are using this feature extensively. In fact, one HTML page is rendered from a dozen of RDF/XML documents.</p>
             <p>Built-in <a href="../administration/ontologies/#ontologies" target="_blank">ontologies</a> as well as some other system and well-known ontologies, have a local copy in

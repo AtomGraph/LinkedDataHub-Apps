@@ -23,7 +23,7 @@
             application and an administrative application, both backed by their own SPARQL service. Each application can also specify its own <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>.</p>
         <p>See the <a href="../../reference/configuration/#config-files" target="_blank">configuration reference</a> for more details about these files.</p>
         <div class="alert alert-info">
-            <p>Application base URIs need to be relative to the <a href="../change-system-base-uri/#base-uri" target="_blank">system base URI</a> configured in the <samp>.env</samp> file. A change of system base URI currently requires a change of application base URIs, otherwise they will not be reachable.</p>
+            <p>Application base URIs need to be relative to the <a href="../change-system-base-uri/#system-base-uri" target="_blank">system base URI</a> configured in the <samp>.env</samp> file. A change of system base URI currently requires a change of application base URIs, otherwise they will not be reachable.</p>
         </div>
         <div>
             <h3 id="create-dataspace">Create a dataspace</h3>
@@ -41,7 +41,7 @@
         </div>
         <div>
             <h3 id="change-stylesheet">Change stylesheet</h3>
-            <p>Change the value of <code>ac:stylesheet</code> to the URI of your <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>. Add the property if it is absent.</p>
+            <p>Change the value of <code>ac:stylesheet</code> to the URI of your <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>. Add the property if it is absent. The value has to be an absolute URL on the application's own origin.</p>
             <p>The stylesheet can either be <a href="../upload-file/" target="_blank">uploaded as a file</a> or <a href="https://docs.docker.com/storage/bind-mounts/" target="_blank">mounted</a> in <samp>docker-compose.yml</samp>, in the <samp>volumes</samp> section of the <samp>linkeddatahub</samp> service. Mounting is useful while developing.</p>
             <p>You will need to restart LinkedDataHub's Docker service for the new stylesheet to take effect.</p>
             <p>It is rarely necessary to change the stylesheet of an admin application.</p>

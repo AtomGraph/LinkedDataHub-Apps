@@ -1,0 +1,69 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "Model" ;
+    dct:description "Define the vocabulary that describes your domain" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Define the vocabulary that describes your domain</p>
+    <p>Each dataspace has a <strong>namespace ontology</strong> where you define the classes and properties of your domain. It lives in the <em>admin</em> application, which shares your base URI with
+        an <samp>admin.</samp> subdomain prefix: for the end-user app at <samp>https://localhost:4443/</samp>, the ontology document is
+        <samp>https://admin.localhost:4443/ontologies/namespace/</samp>.</p>
+    <p>Northwind reuses <a href="https://schema.org" target="_blank">Schema.org</a> terms rather than inventing its own, so "modeling" here means declaring which classes the app works with and how
+        they should be labeled:</p>
+    <pre>@prefix :	    &lt;#&gt; .
+@prefix rdfs:	&lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+@prefix owl:    &lt;http://www.w3.org/2002/07/owl#&gt; .
+@prefix schema: &lt;https://schema.org/&gt; .
+
+: a owl:Ontology .
+
+schema:ProductGroup a owl:Class ;
+    rdfs:label "Product group" ;
+    rdfs:isDefinedBy : .
+
+schema:Product a owl:Class ;
+    rdfs:label "Product" ;
+    rdfs:isDefinedBy : .
+
+schema:Order a owl:Class ;
+    rdfs:label "Order" ;
+    rdfs:isDefinedBy : .</pre>
+    <div>
+        <h2 id="browser">In the browser</h2>
+        <p>Open the admin application and edit the namespace ontology document directly, or follow the <a href="../../user-guide/change-model/" target="_blank">Change model</a> guide, which also
+            shows how to add SPIN constructors to classes — the templates that drive "create instance" forms in the UI.</p>
+    </div>
+    <div>
+        <h2 id="cli">From the command line</h2>
+        <p>Append the class definitions from <samp>ns.ttl</samp> to the namespace ontology document with <code>POST</code>. The prepended <code>@base</code> makes the <code>:</code> prefix resolve to
+            <samp>${LDH_BASE}ns#</samp> — the terms belong to the end-user namespace even though the ontology document lives in the admin app:</p>
+        <pre>admin_base="https://admin.localhost:4443/"
+
+{ echo "@base &lt;${LDH_BASE}ns&gt; ."; cat ns.ttl; } | ldh post \\
+    -t text/turtle \\
+    "${admin_base}ontologies/namespace/"</pre>
+        <p>Ontologies are cached in memory, so tell the application to reload it:</p>
+        <pre>ldh admin clear-ontology \\
+    -b "$admin_base" \\
+    --ontology "${LDH_BASE}ns#"</pre>
+    </div>
+    <div>
+        <h2 id="result">What you now see</h2>
+        <p>The ontology document in the admin app renders your classes with their labels. The visible payoff on the end-user side comes in the next stage: resources imported as
+            <code>schema:Product</code> or <code>schema:Order</code> arrive typed and labeled, and the model is what the UI uses to render and create them.</p>
+    </div>
+    <div>
+        <h2 id="how-this-works">How this works</h2>
+        <ul>
+            <li><a href="../../reference/administration/ontologies/" target="_blank">Ontologies</a> — namespace ontologies, imports and caching</li>
+            <li><a href="../../user-guide/change-model/" target="_blank">Change model</a> — classes, constructors and constraints from the UI</li>
+        </ul>
+    </div>
+    <p class="lead">Next: <a href="../data/">Data</a></p>
+</div>"""^^rdf:XMLLiteral .

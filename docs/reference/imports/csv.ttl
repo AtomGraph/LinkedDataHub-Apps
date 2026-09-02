@@ -72,18 +72,7 @@ _:e8f2e8e9-3d02-4bf5-b4f1-4794ba5b52c9
         <h3 id="vocabulary-conversion">Vocabulary conversion</h3>
         <p>This step provides a semantic "lift" for the generic RDF output of the previous step by mapping it
             to classes and properties from specific vocabularies. It also connects instances in the imported data to the documents in LinkedDataHub's <a href="../../dataset/" target="_blank">dataset</a>.</p>
-        <p>These are the rules that hold for mapping queries:</p>
-        <ul>
-            <li><code>BASE</code> value is automatically set to the imported file's URI. Do not add an explicit <code>BASE</code> to the query.</li>
-            <li><code>$base</code> binding is set to the value of the application's baseURI</li>
-            <li>use<code>OPTIONAL</code> for optional cell values</li>
-            <li>use <code>BIND()</code> to introduce new values and/or cast literals to the appropriate result datatype or URI</li>
-            <li>when building document URIs, use natural IDs from the input data (or UUIDs if there are no IDs) and remember to URI-encode them using <code>encode_for_uri</code></li>
-            <li>use a <code>GRAPH</code> block in the constructor template to construct triples for a specific document</li>
-            <li>construct <dfn>dh:Container</dfn> instances to create new container documents or <dfn>dh:Item</dfn> instances to create new item documents. <code>dct:title</code> values are mandatory for documents.</li>
-            <li>if you're constructing non-information resource (e.g. thing, concept) descriptions, assign them URIs with fragment identified (e.g. <samp>#this</samp>) and pair them with item documents using the <code>foaf:primaryTopic</code> property</li>
-        </ul>
-        <p>We are planning to provide a UI-based mapping tool in the future.</p>
+        <p>The mapping is a user-defined SPARQL <code>CONSTRUCT</code> that follows the shared <a href="../#mapping-queries">mapping query rules</a>.</p>
         <div>
             <h4 id="vocabulary-conversion-example">Example</h4>
             <p>In this example we produce a SKOS concept paired with its item (document) for each country:</p>

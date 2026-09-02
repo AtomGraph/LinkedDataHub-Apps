@@ -102,7 +102,7 @@ ns:SelectNarrowerConcepts a sp:Select ;
 &lt;/xsl:template&gt;</pre>
     <p>Available system modes include:</p>
     <ul>
-      <li><code>bs2:*</code> — Bootstrap 2.3.2 components (PropertyList, Form, etc.)</li>
+      <li><code>bs2:*</code> — layout components (PropertyList, Form, etc.; the namespace is historically Bootstrap 2.3.2-based)</li>
       <li><code>xhtml:*</code> — XHTML elements (Style, Script, etc.)</li>
       <li>Additional modes documented in the <a href="../../stylesheets/" target="_blank">Stylesheets reference</a></li>
     </ul>
@@ -116,7 +116,7 @@ ns:SelectNarrowerConcepts a sp:Select ;
     <p>From the next request onwards, the server resolves the declaration:</p>
     <ol>
       <li><strong>Resolves the package description</strong> from the package URI. Bundled descriptions and cached graphs are read from the graph repository, other URIs are dereferenced over HTTP.</li>
-      <li><strong>Adds the package ontology</strong> (<code>ldt:ontology</code>) to the application's ontology imports closure, so the package's classes, constructors, constraints and views become available on the <samp>ns</samp> endpoint and in the UI.</li>
+      <li><strong>Adds the package ontology</strong> (<code>ldt:ontology</code>) to the application's ontology imports closure — it is declared as an <code>owl:imports</code> of the namespace ontology — so the package's classes, constructors, constraints and views become available on the <samp>ns</samp> endpoint and in the UI.</li>
       <li><strong>Composes the package stylesheet</strong> (<code>ac:stylesheet</code>) into the application stylesheet by appending an <code>xsl:import</code> after the existing imports, so package templates override the system ones.</li>
     </ol>
     <p>Packages are applied in the order of their URIs. A package carrying only an ontology or only a stylesheet is applied in that respect alone, and one whose description cannot be resolved is skipped. If the composed stylesheet fails to compile — an unreachable package stylesheet URL, for instance — the application falls back to its own stylesheet.</p>

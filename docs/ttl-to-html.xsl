@@ -222,7 +222,8 @@
             <a href="{local:relativize($resource-path, $base-path)}">
                 <xsl:value-of select="$resource/dct:title"/>
             </a>
-            <xsl:if test="$children">
+            <!-- expand only the active trail: children render when the current page is this node or its descendant -->
+            <xsl:if test="$children and starts-with($current-uri, $resource-uri)">
                 <ul class="nav nav-list">
                     <xsl:apply-templates select="$children" mode="nav">
                         <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>

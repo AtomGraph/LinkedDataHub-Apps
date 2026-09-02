@@ -2,12 +2,11 @@
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
-  
-<> a dh:Container ;
+
+<> a dh:Item ;
     dct:title "Documents" ;
     dct:description "Document hierarchy and the basic data management actions" ;
-    rdf:_1 <#content> ;
-    rdf:_2 <#select-children> .
+    rdf:_1 <#content> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
@@ -19,14 +18,131 @@
             which are collections of <dfn>items</dfn> (files) as well as sub-containers (sub-folders). Both containers
             (instances of <code>dh:Container</code>) and items (instances of <code>dh:Item</code>) are <dfn>documents</dfn> (instances of <code>foaf:Document</code>). Items cannot contain other documents.</p>
         <p>The first level of resources in a container is referred to as its <dfn>children</dfn> (of which that container
-            is the <dfn>parent</dfn>, while all levels down the hierarchy are collectively referred to as
+            is the <dfn>parent</dfn>), while all levels down the hierarchy are collectively referred to as
             <dfn>descendants</dfn>.</p>
         <p>When a user logs in, the application loads its root container (unless a specific URI was requested). From there,
             users can navigate down the resource hierarchy, starting with children of the <dfn>root container</dfn>. At
-            any moment there is only one <dfn>current document</dfn> per page, on which management actions can
+            any moment there is only one <dfn>current document</dfn> per page, on which <a href="#manage">management actions</a> can
             be performed: it can be viewed, edited etc.</p>
     </div>
-</div>"""^^rdf:XMLLiteral .
+    <div>
+        <h2 id="containers">Containers</h2>
+        <p>Containers are analogous to folders in a filesystem.</p>
+        <div>
+            <h3 id="container-rdf-serialization">RDF serialization</h3>
+            <p>Document properties such as <code>sioc:has_parent</code>, <code>dct:created</code>, <code>dct:modified</code>, <code>acl:owner</code> are <a href="../../http-api/#document-metadata">automatically managed</a> by LinkedDataHub.</p>
+            <pre>@prefix dh: &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+@prefix ldh: &lt;https://w3id.org/atomgraph/linkeddatahub#&gt; .
+@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix dct: &lt;http://purl.org/dc/terms/&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+@prefix sioc: &lt;http://rdfs.org/sioc/ns#&gt; .
+@prefix acl: &lt;http://www.w3.org/ns/auth/acl#&gt; .
 
-<#select-children> a ldh:Object ;
-    rdf:value ldh:ChildrenView .
+&lt;https://localhost:4443/concepts/&gt;
+    a       dh:Container ;
+    rdf:_1  &lt;https://localhost:4443/concepts/#select-children&gt; ;
+    dct:created "2025-06-02T19:12:26.533Z"^^xsd:dateTime ;
+    dct:creator &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; ;
+    dct:title "Concepts" ;
+    sioc:has_parent &lt;https://localhost:4443/concepts/&gt; ;
+    acl:owner &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .
+
+&lt;https://localhost:4443/concepts/#select-children&gt;
+    a       ldh:Object ;
+    rdf:value ldh:ChildrenView .</pre>
+        </div>
+    </div>
+    <div>
+        <h2 id="items">Items</h2>
+        <p>Items are analogous to files in a filesystem.</p>
+        <div>
+            <h3 id="item-rdf-serialization">RDF serialization</h3>
+            <p>Document properties such as <code>sioc:has_container</code>, <code>dct:created</code>, <code>dct:modified</code>, <code>acl:owner</code> are <a href="../../http-api/#document-metadata">automatically managed</a> by LinkedDataHub.</p>
+            <pre>@prefix dh: &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+@prefix ldh: &lt;https://w3id.org/atomgraph/linkeddatahub#&gt; .
+@prefix ac: &lt;https://w3id.org/atomgraph/client#&gt; .
+@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix dct: &lt;http://purl.org/dc/terms/&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+@prefix sioc: &lt;http://rdfs.org/sioc/ns#&gt; .
+@prefix acl: &lt;http://www.w3.org/ns/auth/acl#&gt; .
+
+&lt;https://localhost:4443/concepts/example/&gt;
+    a       dh:Item ;
+    rdf:_1  &lt;https://localhost:4443/concepts/example/#xhtml-block&gt; ;
+    rdf:_2  &lt;https://localhost:4443/concepts/example/#object-block&gt; ;
+    dct:created "2025-06-02T19:49:48.126Z"^^xsd:dateTime ;
+    dct:creator &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; ;
+    dct:title "Example" ;
+    sioc:has_container &lt;https://localhost:4443/concepts/&gt; ;
+    acl:owner &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .
+
+&lt;https://localhost:4443/concepts/example/#xhtml-block&gt;
+    a       ldh:XHTML ;
+    rdf:value "&lt;div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"&gt;\\n&lt;p&gt;A paragraph&lt;/p&gt;\\n&lt;/div&gt;"^^rdf:XMLLiteral .
+
+&lt;https://localhost:4443/concepts/example/#object-block&gt;
+    a       ldh:Object ;
+    rdf:value &lt;http://dbpedia.org/resource/Copenhagen&gt; ;
+    ac:mode  ac:MapMode .</pre>
+        </div>
+    </div>
+    <div>
+        <h2 id="manage">Management</h2>
+        <div>
+            <h3 id="management-ui"><a href="../../user-interface/">User interface</a></h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Create</th>
+                        <td>Create a new child document by clicking the <span class="btn btn-primary create-action">Create</span> button. Fill out the form. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                    </tr>
+                    <tr>
+                        <th>Update</th>
+                        <td>Open the current document editing form by clicking the <span class="btn btn-edit">Edit</span> button in the <a href="../../user-interface/#action-bar">action bar</a>. Make changes. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                    </tr>
+                    <tr>
+                        <th>Delete</th>
+                        <td>Delete the current document by clicking the <span class="btn btn-delete">Delete</span> button in the <a href="../../user-interface/#action-bar">action bar</a>.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>CLI command</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Create container</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh create-container</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Create item</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh create-item</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Update</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh put</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Delete</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh delete</samp></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>"""^^rdf:XMLLiteral .

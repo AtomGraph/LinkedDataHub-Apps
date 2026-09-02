@@ -14,6 +14,7 @@
     <p class="lead">All the basics of LinkedDataHub. From installation to customizing the model and user interface.</p>
     <p>This guide will show how a LinkedDataHub application can be used to manage domain-specific RDF classes and instances. As an example, we will use <a href="https://www.w3.org/TR/skos-primer/" target="_blank">SKOS</a> concepts and concept schemes.</p>
     <p>Note that most management actions can also be performed using the <a href="../reference/command-line-interface/" target="_blank">CLI (Command Line Interface)</a>. Where applicable, the UI and CLI instructions are shown side by side. The <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/unesco-thesaurus" target="_blank">UNESCO Thesaurus demo app</a> demonstrates how SKOS vocabularies can be managed in LinkedDataHub.</p>
+    <p class="lead">New to LinkedDataHub? The <a href="../tutorial/" target="_blank">tutorial</a> builds a complete application, from an empty dataspace to a published app.</p>
     <div>
         <h2 id="setup">Setup</h2>
         <p>Setup is only required if you plan to run your own instance of LinkedDataHub. It consists of few steps, which involve creating a configuration file and running a
@@ -24,7 +25,7 @@
     <div>
         <h2 id="get-an-account">Get an account</h2>
         <p>With LinkedDataHub, you obtain a WebID and use its client certificate for authentication. You can obtain the WebID either by setting up your own instance or signing up on
-            an existing instance. Alternatively, you can authenticate using your social login.</p>
+            an existing instance. Alternatively, you can authenticate using your Google or ORCID login.</p>
         <p class="lead"><a href="get-an-account/" target="_blank">Read instructions on getting an account.</a></p>
     </div>
     <div>
@@ -61,6 +62,10 @@
         <h2 id="change-layout">Change the layout</h2>
         <p>User interface changes are done by adding and overriding templates in <a href="../reference/stylesheets/" target="_blank">XSLT stylesheets</a>.</p>
         <p class="lead"><a href="../user-guide/change-layout/" target="_blank">Follow a tutorial to change the layout: create an XSLT stylesheet and override a template.</a></p>
+    </div>
+    <div>
+        <h2 id="where-to-next">Where to next</h2>
+        <p>The <a href="../user-guide/" target="_blank">user guide</a> covers the everyday tasks in more depth: <a href="../user-guide/edit-content/" target="_blank">editing content</a> in place, <a href="../user-guide/manage-dataspaces/" target="_blank">managing dataspaces</a>, <a href="../user-guide/manage-packages/" target="_blank">installing packages</a>, and <a href="../user-guide/version-history/" target="_blank">working with version history</a>. The <a href="../reference/" target="_blank">reference</a> describes every feature in full.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .
 

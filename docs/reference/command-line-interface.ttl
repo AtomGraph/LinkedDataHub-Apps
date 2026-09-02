@@ -15,7 +15,7 @@
         It can be used for testing, automation, scheduled execution and such. It is usually much quicker to perform actions using the CLI rather than the
         <a href="../user-interface/">user interface</a>, as well as easier to reproduce.</p>
     <p>Some commands correspond to a single request to LinkedDataHub, others combine several into tasks with multiple interdependent requests, such as the CSV import.</p>
-    <p>You will need a <samp>.p12</samp> keystore of your <a href="../../get-started/#get-webid">WebID certificate</a> as well as its password, among other arguments.</p>
+    <p>You will need a <samp>.p12</samp> keystore of your <a href="../../get-started/#get-an-account">WebID certificate</a> as well as its password, among other arguments.</p>
     <div>
         <h2 id="install">Install</h2>
         <p>The CLI lives in the <samp>cli</samp> folder of the LinkedDataHub repository. Building it requires Java 21 and Maven. The build produces a self-contained <samp>target/ldh.jar</samp> which the <samp>cli/bin/ldh</samp> launcher runs:</p>
@@ -341,19 +341,25 @@ ldh add-file \\
   "$doc"</pre>
         <p><samp>add-file</samp> prints the content-addressed URI of the upload (<samp>{base}uploads/{sha1}</samp>) rather than the document URI.</p>
         <p>See also the <a href="../../user-guide/import-data/">data import user guides</a>.</p>
-        <h3 id="packages">Packages</h3>
-        <p><a href="../administration/packages/">Packages</a> have no command of their own: an application imports a package with a single <code>ldh:import</code> triple, so patching the application's <samp>settings</samp> document is the whole interface.</p>
-        <pre>ldh patch \\
+        <h3 id="memento">Versioned documents</h3>
+        <p><samp>ldh get</samp> reaches a <a href="../versioning/">versioned</a> document's Memento roles through mutually exclusive options:
+            <samp>--timemap</samp> (the version history), <samp>--version &lt;sha&gt;</samp> (the historical version at the given commit), and
+            <samp>--timegate</samp> with an optional <samp>--datetime</samp> (RFC 1123 or ISO 8601). <samp>--timegate</samp> prints the negotiated
+            version's URI as the only line on stdout, so it pipes into another <samp>ldh get</samp>:</p>
+        <pre>version=$(ldh get \\
   -f ./ssl/owner/keystore.p12 \\
   -p "$owner_cert_password" \\
-  "${base}settings" &lt;&lt;EOF
-INSERT
-{
-    &lt;urn:linkeddatahub:apps/end-user&gt; &lt;https://w3id.org/atomgraph/linkeddatahub#import&gt; &lt;https://packages.linkeddatahub.com/skos/#this&gt; .
-}
-WHERE {}
-EOF</pre>
-        <p>The subject is the URI of the application the package is installed into, as declared in <samp>config/system.trig</samp>. Uninstalling is the same update with <code>DELETE</code> in place of <code>INSERT</code>.</p>
+  --timegate \\
+  --datetime "2026-08-30T12:00:00Z" \\
+  "$doc")
+
+ldh get \\
+  -f ./ssl/owner/keystore.p12 \\
+  -p "$owner_cert_password" \\
+  --accept text/turtle \\
+  "$version"</pre>
+        <h3 id="packages">Packages</h3>
+        <p><a href="../administration/packages/">Packages</a> have no command of their own: an application imports a package with a single <code>ldh:import</code> triple, so <samp>ldh patch</samp> on the application's <samp>settings</samp> document is the whole interface. See the <a href="../../user-guide/manage-packages/">package management guide</a> for the full install and uninstall commands.</p>
     </div>
     <div class="alert alert-warning">
         <h4>Deprecated shell scripts</h4>

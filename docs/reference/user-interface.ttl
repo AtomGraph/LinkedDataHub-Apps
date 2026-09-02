@@ -28,7 +28,7 @@
             <img alt="Navigation bar" src="../../uploads/ec8cb7afb9cf360c34e859f97646642eb0331518"></img>
         </p>
         <p>The application title or logo in the top-left always links to the root container of the current application.</p>
-        <p>The <dfn>address bar</dfn> in the middle accepts the URI of a resource to navigate to. Entering an external <code>http://</code> or <code>https://</code> URL loads it through the <a href="../http-api/#linked-data-proxy">Linked Data proxy</a> so that it can be browsed within LinkedDataHub.</p>
+        <p>The <dfn>address bar</dfn> in the middle accepts the URI of a resource to navigate to. Entering an external <code>http://</code> or <code>https://</code> URL loads it through the <a href="../http-api/#ld-proxy">Linked Data proxy</a> so that it can be browsed within LinkedDataHub.</p>
         <p>On the right, dropdown menus provide access to the list of applications and to your user account.</p>
         <div class="alert alert-info">
             <p><em>Due to current web browser limitations, it is not possible to logout using client certificate authentication.
@@ -46,8 +46,9 @@
         <p>The path leading from the current document up the parent/child hierarchy to the root container is shown in
         the <dfn>breadcrumb bar</dfn>, where the current document is always the last breadcrumb. The user can always
         open any of the ascendant containers by clicking breadcrumbs left from the current one. The icon shows the
-        type of the current document (<a href="../data-model/documents/containers/">container</a> or <a href="../data-model/documents/items/">item</a>). A label is displayed when the URL currently being browsed is external.</p>
+        type of the current document (<a href="../data-model/documents/#containers">container</a> or <a href="../data-model/documents/#items">item</a>). A label is displayed when the URL currently being browsed is external.</p>
         <p>Further to the right, the action bar displays buttons for performing actions on the current document.</p>
+        <p>In dataspaces with <a href="../versioning/">versioning</a> enabled, the action bar also shows the document's last-modified timestamp. Clicking it opens the <a href="../../user-guide/version-history/">version history</a> dialog, which lists the document's versions with the agents that authored them.</p>
         <p>Last but not least, the settings button provides a link to the <a href="../administration/">administration</a>
         application.</p>
         <div class="alert alert-info">
@@ -84,7 +85,7 @@
             <dt>Backlinks</dt>
             <dd>In <a href="#layout-modes">properties mode</a>, lists resources that link <em>to</em> a resource in the current document — that is, resources that have a property whose value is the current resource. This complements the outgoing properties shown in the main view.</dd>
             <dt>Related results</dt>
-            <dd>For <a href="../data-model/resources/views/#parallax">view</a> result sets, <dfn>parallax</dfn> navigation lets you jump from the current results to a related set by following a selected property (for example, from a set of products to the companies that supply them). It works together with the view's faceted search.</dd>
+            <dd>For <a href="../data-model/resources/#parallax">view</a> result sets, <dfn>parallax</dfn> navigation lets you jump from the current results to a related set by following a selected property (for example, from a set of products to the companies that supply them). It works together with the view's faceted search.</dd>
         </dl>
     </div>
     <div>
@@ -109,7 +110,7 @@
     <div>
         <h2 id="document-tabs">Document tabs</h2>
         <p>LinkedDataHub navigates within a single page. When you follow a link to an external document (for example a resource fetched through the
-            <a href="../http-api/#linked-data-proxy">Linked Data proxy</a>), it opens in its own tab so that several documents can be kept open side by side.
+            <a href="../http-api/#ld-proxy">Linked Data proxy</a>), it opens in its own tab so that several documents can be kept open side by side.
             A sticky tab bar appears at the top of the page once the first external tab is opened.</p>
         <p>Each tab keeps its own content pane, and modal dialogs (such as creation and edit forms) are scoped to the active tab pane. Switching between tabs is cached, so
             returning to a previously opened tab does not re-fetch it. Closing a tab removes its pane and falls back to the base document's tab.</p>
@@ -123,5 +124,10 @@
             <dt>Properties</dt>
             <dd>Creates new resource of the selected type</dd>
         </dl>
+    </div>
+    <div>
+        <h2 id="languages">Languages</h2>
+        <p>The language of the user interface is negotiated from the browser's language preferences (the <code>Accept-Language</code> header) against the languages the UI translation bundle ships. There is no in-app language switcher — the browser setting is the single source of the language preference. If none of the preferred languages are available, the UI falls back to English.</p>
+        <p>Data is language-aware as well: property values are ordered by the reader's language preference rather than filtered by it, so values in other languages remain visible, each displaying its own language tag.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .

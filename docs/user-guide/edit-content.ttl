@@ -14,7 +14,7 @@
     <p>XHTML content blocks in LinkedDataHub are living documents: authenticated users with write access can click directly into the content to edit it, apply rich-text formatting, and annotate any span of text with <a href="https://www.w3.org/TR/rdfa-primer/" target="_blank">RDFa</a> — linking words and phrases to terms in the Knowledge Graph without leaving the page.</p>
     <div>
         <h2 id="entering-edit-mode">Entering edit mode</h2>
-        <p>Click anywhere inside an <a href="../../reference/data-model/blocks/xhtml/">XHTML block</a> to enter edit mode. The block gains a focus outline and the editor toolbar appears above the action bar. Clicking outside the block (including the surrounding column margins) returns the block to read mode.</p>
+        <p>Click anywhere inside an <a href="../../reference/data-model/blocks/#xhtml-blocks">XHTML block</a> to enter edit mode. The block gains a focus outline and the editor toolbar appears above the action bar. Clicking outside the block (including the surrounding column margins) returns the block to read mode.</p>
         <p>Edit mode is only available to authenticated users who have write access to the document. The block remains read-only for all other visitors.</p>
     </div>
     <div>

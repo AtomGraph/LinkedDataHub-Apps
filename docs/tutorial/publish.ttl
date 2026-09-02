@@ -1,0 +1,33 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "Publish" ;
+    dct:description "Grant public access and ship it" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Grant public access and ship it</p>
+    <p>So far only the owner's WebID certificate can see the app. Access is governed by <a href="../../reference/administration/acl/" target="_blank">ACL authorizations</a> — documents in the admin
+        app, like everything else. Publishing means creating one authorization: read access on the whole dataspace for all agents.</p>
+    <div>
+        <h2 id="cli">From the command line</h2>
+        <pre>ldh admin acl make-public</pre>
+        <p>The command creates the public-read authorization in the admin application. Authorizations are data, so you can inspect the document it created — and delete it to unpublish.</p>
+    </div>
+    <div>
+        <h2 id="browser">In the browser</h2>
+        <p>The same authorization can be created with the access control forms in the admin application — see the <a href="../../reference/administration/acl/" target="_blank">ACL reference</a> for
+            the authorization model: who (agents, agent classes), what (documents, document classes), and which <code>acl:mode</code>.</p>
+    </div>
+    <div>
+        <h2 id="result">What you now see</h2>
+        <p>Open the base URL in a private browser window, with no certificate: the Northwind Traders app renders, charts and all. It is now a public Linked Data dataset <em>and</em> a public web
+            application — the same URLs serve both, negotiated by content type.</p>
+        <!-- screenshot: the app in a private window, unauthenticated -->
+    </div>
+    <p class="lead">Next: <a href="../app-as-repository/">App as a repository</a></p>
+</div>"""^^rdf:XMLLiteral .

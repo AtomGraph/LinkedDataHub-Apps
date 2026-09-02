@@ -13,6 +13,7 @@
     <p class="lead">Using LinkedDataHub as a low-code platform for Knowledge Graph applications</p>
     <p>Every component in LinkedDataHub is data-driven and was designed with extensibility in mind. You can override behavior (e.g. Java method or XSLT template) without having to modify LinkedDataHub's
         codebase, and more importantly, without having to write the same logic from scratch.</p>
+    <p>If you are building your first app, start with the <a href="../../tutorial/">tutorial</a> — this guide covers the layers beyond it.</p>
     <p>The following sections are split by component/layer and explain how to extend them when building bespoke apps.</p>
     <div>
         <h2 id="docker">Docker</h2>
@@ -29,7 +30,7 @@ RUN mvn clean install
 
 # =================
 
-FROM atomgraph/linkeddatahub:5.9.1
+FROM atomgraph/linkeddatahub:5.10.0
 
 WORKDIR $CATALINA_HOME
 
@@ -50,13 +51,13 @@ COPY files/style.css  /usr/local/tomcat/webapps/ROOT/static/com/example/myapp/cs
     &lt;dependency&gt;
         &lt;groupId&gt;com.atomgraph&lt;/groupId&gt;
         &lt;artifactId&gt;linkeddatahub&lt;/artifactId&gt;
-        &lt;version&gt;5.9.1&lt;/version&gt;
+        &lt;version&gt;5.10.0&lt;/version&gt;
         &lt;classifier&gt;classes&lt;/classifier&gt;
     &lt;/dependency&gt;
     &lt;dependency&gt;
         &lt;groupId&gt;com.atomgraph&lt;/groupId&gt;
         &lt;artifactId&gt;linkeddatahub&lt;/artifactId&gt;
-        &lt;version&gt;5.9.1&lt;/version&gt;
+        &lt;version&gt;5.10.0&lt;/version&gt;
         &lt;type&gt;war&lt;/type&gt;
     &lt;/dependency&gt;
 &lt;/dependencies&gt;

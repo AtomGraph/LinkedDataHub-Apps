@@ -12,6 +12,21 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Types of data imports supported by LinkedDataHub</p>
+    <div>
+        <h2 id="mapping-queries">Mapping queries</h2>
+        <p>Both import types use a user-defined SPARQL <code>CONSTRUCT</code> query to map the incoming data to the final RDF representation and to connect it to the documents in LinkedDataHub's <a href="../dataset/" target="_blank">dataset</a>. These are the rules that hold for mapping queries:</p>
+        <ul>
+            <li><code>BASE</code> value is automatically set to the imported file's URI. Do not add an explicit <code>BASE</code> to the query.</li>
+            <li><code>$base</code> binding is set to the value of the application's baseURI</li>
+            <li>use <code>OPTIONAL</code> for optional values (such as optional cell values in CSV)</li>
+            <li>use <code>BIND()</code> to introduce new values and/or cast literals to the appropriate result datatype or URI</li>
+            <li>when building document URIs, use natural IDs from the input data (or UUIDs if there are no IDs) and remember to URI-encode them using <code>encode_for_uri</code></li>
+            <li>use a <code>GRAPH</code> block in the constructor template to construct triples for a specific document</li>
+            <li>construct <dfn>dh:Container</dfn> instances to create new container documents or <dfn>dh:Item</dfn> instances to create new item documents. <code>dct:title</code> values are mandatory for documents.</li>
+            <li>if you're constructing non-information resource (e.g. thing, concept) descriptions, assign them URIs with fragment identified (e.g. <samp>#this</samp>) and pair them with item documents using the <code>foaf:primaryTopic</code> property</li>
+        </ul>
+        <p>We are planning to provide a UI-based mapping tool in the future.</p>
+    </div>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Object ;

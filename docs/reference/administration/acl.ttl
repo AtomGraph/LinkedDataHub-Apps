@@ -50,21 +50,7 @@
         <h2 id="agents">Agents</h2>
         <p>An agent is a person or a software agent that can be authorized to have certain <a href="#access-modes">modes
             of access</a> to certain applications.</p>
-        <!--
-        <p>Each agent is associated with a <a href="#user-accounts">user account</a>. The exception is the class
-            <code>foaf:Agent</code> as the class of all agents. This indicates that the given access is public. In this
-            case authentication is skipped.</p>
-        -->
     </div>
-    <!--
-    <div>
-        <h2 id="user-accounts">User accounts</h2>
-        <p>User account is a subclass of the <a href="http://rdfs.org/sioc/spec/#term_UserAccount"><code>sioc:UserAccount</code></a>
-            class. An account is the actual instance that performs actions on the application
-            (<a href="../../data-model/documents/#manage">manages documents</a>, <a href="../../../user-guide/import-data/import-csv-data/">imports data</a> etc.). An
-            account always belongs to an <a href="#agents">agent</a>.</p>
-    </div>
-    -->
     <div>
         <h2 id="groups">Groups</h2>
         <p>A group is a named group of <a href="#agents">agents</a> to which an <a href="#authorizations">authorization</a> can
@@ -127,6 +113,9 @@
             </tbody>
         </table>
         <p>Public access authorization allows access for non-authenticated agents.</p>
+        <div class="alert alert-info">
+            <p>The owner's and secretary's authorizations are stored under stable URIs (<samp>acl/authorizations/owner-webid/</samp> and <samp>acl/authorizations/secretary-webid/</samp>), so reloading the admin dataset does not create duplicates.</p>
+        </div>
         <div>
             <h3 id="auth-requests">Requests</h3>
             <p>If access is denied due to missing authorization, the agent can ask for it by issuing a request to the application's
@@ -135,6 +124,38 @@
             (possibly extending the requested access to a <a href="#groups">group</a> of agents or a <a href="../ontologies/#classes">class of resources</a>),
             or simply ignore it.</p>
 
+        </div>
+    </div>
+    <div>
+        <h2 id="management">Management</h2>
+        <div>
+            <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>CLI command</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Create group</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin acl create-group</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Create authorization</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin acl create-authorization</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Add agent to group</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin acl add-agent-to-group</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Make a document public</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin acl make-public</samp></a></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>"""^^rdf:XMLLiteral .
