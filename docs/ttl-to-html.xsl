@@ -58,33 +58,31 @@
         <xsl:variable name="root-base-path" as="xs:string" select="'/'"/>
         <xsl:variable name="top-level-docs" select="$all-docs/rdf:RDF[resolve-uri('../', local:resource-uri(.)) = 'file:/']"/>
         <xsl:result-document href="{$output-folder}/index.html" method="xhtml" html-version="5">
-            <html>
+            <html lang="en" data-retro="m3" data-theme="light">
                 <xsl:call-template name="html-head">
                     <xsl:with-param name="title" select="'Documentation'"/>
                 </xsl:call-template>
-                <body>
+                <body class="app">
                     <xsl:call-template name="navbar">
                         <xsl:with-param name="brand-href" select="''"/>
                     </xsl:call-template>
-                    <div class="container-fluid">
-                        <div class="row-fluid">
-                            <nav class="span2">
-                                <ul class="nav nav-list">
-                                    <!-- current-uri = 'file:/' — none of the nav items match, so no active class -->
-                                    <xsl:apply-templates select="$top-level-docs" mode="nav">
-                                        <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
-                                        <xsl:with-param name="current-uri" select="'file:/'" tunnel="yes"/>
-                                        <xsl:with-param name="base-path" select="$root-base-path" tunnel="yes"/>
-                                    </xsl:apply-templates>
-                                </ul>
-                            </nav>
-                            <main class="span7">
-                                <xsl:apply-templates select="$top-level-docs" mode="child-item">
+                    <div class="docs-layout">
+                        <nav class="docs-nav">
+                            <ul class="nav nav-list">
+                                <!-- current-uri = 'file:/' — none of the nav items match, so no active class -->
+                                <xsl:apply-templates select="$top-level-docs" mode="nav">
                                     <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
+                                    <xsl:with-param name="current-uri" select="'file:/'" tunnel="yes"/>
                                     <xsl:with-param name="base-path" select="$root-base-path" tunnel="yes"/>
                                 </xsl:apply-templates>
-                            </main>
-                        </div>
+                            </ul>
+                        </nav>
+                        <main class="docs-main">
+                            <xsl:apply-templates select="$top-level-docs" mode="child-item">
+                                <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
+                                <xsl:with-param name="base-path" select="$root-base-path" tunnel="yes"/>
+                            </xsl:apply-templates>
+                        </main>
                     </div>
                     <xsl:call-template name="footer"/>
                 </body>
@@ -116,35 +114,33 @@
         <xsl:variable name="base-path" select="replace($resource-uri, '^file:', '')"/>
 
         <xsl:result-document href="{$output-folder}{$base-path}index.html" method="xhtml" html-version="5">
-            <html>
+            <html lang="en" data-retro="m3" data-theme="light">
                 <xsl:call-template name="html-head">
                     <xsl:with-param name="title" select="$resource/dct:title"/>
                     <xsl:with-param name="description" select="$resource/dct:description"/>
                     <xsl:with-param name="doc-path" select="$base-path"/>
                 </xsl:call-template>
-                <body>
+                <body class="app">
                     <xsl:call-template name="navbar">
                         <xsl:with-param name="brand-href" select="local:relativize('/', $base-path)"/>
                     </xsl:call-template>
-                    <div class="container-fluid">
-                        <div class="row-fluid">
-                            <nav class="span2">
-                                <ul class="nav nav-list">
-                                    <xsl:apply-templates
-                                        select="$all-docs/rdf:RDF[resolve-uri('../', local:resource-uri(.)) = 'file:/']"
-                                        mode="nav">
-                                        <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
-                                        <xsl:with-param name="current-uri" select="$resource-uri" tunnel="yes"/>
-                                        <xsl:with-param name="base-path" select="$base-path" tunnel="yes"/>
-                                    </xsl:apply-templates>
-                                </ul>
-                            </nav>
-                            <main class="span7">
-                                <xsl:apply-templates select="$resource">
+                    <div class="docs-layout">
+                        <nav class="docs-nav">
+                            <ul class="nav nav-list">
+                                <xsl:apply-templates
+                                    select="$all-docs/rdf:RDF[resolve-uri('../', local:resource-uri(.)) = 'file:/']"
+                                    mode="nav">
+                                    <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
+                                    <xsl:with-param name="current-uri" select="$resource-uri" tunnel="yes"/>
                                     <xsl:with-param name="base-path" select="$base-path" tunnel="yes"/>
                                 </xsl:apply-templates>
-                            </main>
-                        </div>
+                            </ul>
+                        </nav>
+                        <main class="docs-main">
+                            <xsl:apply-templates select="$resource">
+                                <xsl:with-param name="base-path" select="$base-path" tunnel="yes"/>
+                            </xsl:apply-templates>
+                        </main>
                     </div>
                     <xsl:call-template name="footer"/>
                 </body>
@@ -243,7 +239,7 @@
         <xsl:variable name="resource" select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]"/>
         <xsl:variable name="resource-path" select="replace(local:resource-uri(.), '^file:', '')"/>
 
-        <div class="well">
+        <div class="docs-card">
             <h2>
                 <a href="{local:relativize($resource-path, $base-path)}">
                     <xsl:if test="$resource/dct:description">
@@ -287,6 +283,7 @@
         <xsl:param name="title" as="xs:string"/>
         <xsl:param name="description" as="xs:string?"/>
         <xsl:param name="doc-path" as="xs:string?"/>
+        <xsl:variable name="css-base" select="local:relativize('/static/css/', ($doc-path, '/')[1])"/>
         <head>
             <title>LinkedDataHub v5 — <xsl:value-of select="$title"/></title>
             <xsl:if test="$description">
@@ -296,27 +293,29 @@
             <xsl:if test="$modified">
                 <meta name="last-modified" content="{$modified}"/>
             </xsl:if>
-            <link href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/files/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-            <link href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/files/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"/>
-            <link href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/files/css/linkeddatahub-bootstrap.css" rel="stylesheet" type="text/css"/>
-            <style type="text/css">
-                body { padding-top: 60px; }
-                object { width: 100%; min-height: 640px; }
-            </style>
-            <script type="text/javascript" src="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/files/js/jquery.min.js"/>
-            <script type="text/javascript" src="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/files/js/bootstrap.min.js"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
+            <!-- LinkedDataHub design system: fonts, tokens, components, m3 skin, legacy-primitive bridge — then the docs skin -->
+            <link href="{$css-base}fonts.css" rel="stylesheet" type="text/css"/>
+            <link href="{$css-base}colors_and_type.css" rel="stylesheet" type="text/css"/>
+            <link href="{$css-base}app.css" rel="stylesheet" type="text/css"/>
+            <link href="{$css-base}retro.css" rel="stylesheet" type="text/css"/>
+            <link href="{$css-base}ldh-bridge.css" rel="stylesheet" type="text/css"/>
+            <link href="{$css-base}docs.css" rel="stylesheet" type="text/css"/>
             <script type="text/javascript">
                 <xsl:text><![CDATA[
-                    $(document).ready(function() {
-                        $("ul.nav-tabs a").on("click", function() {
-                            $(this).closest("ul").children().toggleClass("active", false);
-                            $(this).closest("li").toggleClass("active", true);
-                            $(this).closest("ul").next().children().toggleClass("active", false);
-                            $(this).closest("ul").next().children().eq($(this).closest("li").index()).toggleClass("active", true);
-                        });
+                    document.addEventListener("click", function(event) {
+                        var link = event.target.closest("ul.nav-tabs a");
+                        if (!link) return;
+                        var li = link.closest("li"), ul = li.parentElement, content = ul.nextElementSibling;
+                        var index = Array.prototype.indexOf.call(ul.children, li);
+                        Array.prototype.forEach.call(ul.children, function(tab) { tab.classList.remove("active"); });
+                        li.classList.add("active");
+                        Array.prototype.forEach.call(content.children, function(pane, i) { pane.classList.toggle("active", i === index); });
                     });
                 ]]></xsl:text>
             </script>
+            <script async="async" defer="defer" src="https://buttons.github.io/buttons.js"/>
+            <script async="async" defer="defer" src="https://platform.twitter.com/widgets.js"/>
             <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-38402002-6"/>
             <script>
                 <xsl:text><![CDATA[
@@ -331,66 +330,66 @@
 
     <xsl:template name="navbar">
         <xsl:param name="brand-href" as="xs:string"/>
-        <div class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container-fluid">
-                    <a class="brand" href="{$brand-href}">LinkedDataHub</a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li class="active">
-                                <div class="btn-group">
-                                    <a class="btn" href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/">Documentation v5</a>
-                                    <button class="btn dropdown-toggle" data-toggle="dropdown">
-                                        <span class="caret"/>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/v3/">Documentation v3</a></li>
-                                        <li><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/v2/">Documentation v2</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li><a href="https://github.com/AtomGraph/LinkedDataHub" target="_blank">Code</a></li>
-                        </ul>
+        <div class="navbar ldh-header">
+            <a class="brand ldh-wordmark" href="{$brand-href}">
+                <span class="mark"></span>
+                <span>LinkedDataHub</span>
+            </a>
+            <div/> <!-- keep the header grid columns aligned -->
+            <div class="ldh-header-actions">
+                <details class="docs-versions">
+                    <summary>Documentation v5</summary>
+                    <div>
+                        <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/v3/">Documentation v3</a>
+                        <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/v2/">Documentation v2</a>
                     </div>
-                </div>
+                </details>
+                <a href="https://github.com/AtomGraph/LinkedDataHub-Apps" target="_blank">Sample applications</a>
+                <a class="github-button" href="https://github.com/AtomGraph/LinkedDataHub/subscription" data-icon="octicon-eye" data-size="large" aria-label="Watch AtomGraph/LinkedDataHub on GitHub">Watch</a>
+                <a class="github-button" href="https://github.com/AtomGraph/LinkedDataHub" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star AtomGraph/LinkedDataHub on GitHub">Star</a>
+                <a href="https://twitter.com/atomgraphhq" class="twitter-follow-button" data-show-count="false">Follow @atomgraphhq</a>
+                <a href="https://youtube.com/@atomgraph" target="_blank">
+                    <span class="msi outline" aria-hidden="true">smart_display</span>
+                    <xsl:text> @atomgraph</xsl:text>
+                </a>
             </div>
         </div>
     </xsl:template>
 
     <xsl:template name="footer">
-        <div class="footer container-fluid">
-            <div class="row-fluid">
-                <div class="offset2 span8">
-                    <div class="span3">
-                        <h2 class="nav-header">About</h2>
-                        <ul class="nav nav-list">
-                            <li><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/about/" target="_blank">LinkedDataHub</a></li>
-                            <li><a href="https://atomgraph.com" target="_blank">AtomGraph</a></li>
-                        </ul>
-                    </div>
-                    <div class="span3">
-                        <h2 class="nav-header">Resources</h2>
-                        <ul class="nav nav-list">
-                            <li><a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/" target="_blank">Documentation</a></li>
-                            <li><a href="https://www.youtube.com/channel/UCtrdvnVjM99u9hrjESwfCeg" target="_blank">Screencasts</a></li>
-                        </ul>
-                    </div>
-                    <div class="span3">
-                        <h2 class="nav-header">Support</h2>
-                        <ul class="nav nav-list">
-                            <li><a href="https://groups.io/g/linkeddatahub" target="_blank">Mailing list</a></li>
-                            <li><a href="https://github.com/AtomGraph/LinkedDataHub/issues" target="_blank">Report issues</a></li>
-                            <li><a href="mailto:support@linkeddatahub.com">Contact support</a></li>
-                        </ul>
-                    </div>
-                    <div class="span3">
-                        <h2 class="nav-header">Follow us</h2>
-                        <ul class="nav nav-list">
-                            <li><a href="https://twitter.com/atomgraphhq" target="_blank">@atomgraphhq</a></li>
-                            <li><a href="https://github.com/AtomGraph" target="_blank">github.com/AtomGraph</a></li>
-                        </ul>
-                    </div>
+        <div class="footer ldh-footer">
+            <div class="cols">
+                <div class="col brand-col">
+                    <a class="ldh-wordmark" href="https://linkeddatahub.com" target="_blank">
+                        <span class="mark"></span>
+                        <span>LinkedDataHub</span>
+                    </a>
+                    <p>The low-code Knowledge Graph application platform. Built on RDF, SPARQL and Linked Data principles.</p>
                 </div>
+                <div class="col">
+                    <p class="ftitle">About</p>
+                    <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/about/" target="_blank">LinkedDataHub</a>
+                    <a href="https://atomgraph.com" target="_blank">AtomGraph</a>
+                </div>
+                <div class="col">
+                    <p class="ftitle">Resources</p>
+                    <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/" target="_blank">Documentation</a>
+                    <a href="https://www.youtube.com/channel/UCtrdvnVjM99u9hrjESwfCeg" target="_blank">Screencasts</a>
+                </div>
+                <div class="col">
+                    <p class="ftitle">Support</p>
+                    <a href="https://groups.io/g/linkeddatahub" target="_blank">Mailing list</a>
+                    <a href="https://github.com/AtomGraph/LinkedDataHub/issues" target="_blank">Report issues</a>
+                    <a href="mailto:support@linkeddatahub.com">Contact support</a>
+                </div>
+                <div class="col">
+                    <p class="ftitle">Follow us</p>
+                    <a href="https://twitter.com/atomgraphhq" target="_blank">@atomgraphhq</a>
+                    <a href="https://github.com/AtomGraph" target="_blank">github.com/AtomGraph</a>
+                </div>
+            </div>
+            <div class="legal">
+                <span>© <xsl:value-of select="format-date(current-date(), '[Y]')"/> AtomGraph · LinkedDataHub</span>
             </div>
         </div>
     </xsl:template>
