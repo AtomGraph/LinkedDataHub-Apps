@@ -24,14 +24,17 @@
 ├── shippers/
 ├── suppliers/
 └── territories/</pre>
-    <div>
-        <h2 id="browser">In the browser</h2>
+    <div class="ldhc-tabs or-horizontal">
+        <div class="ldhc-tablist sz-md va-line" role="tablist">
+            <button aria-controls="in-the-browser-pane" aria-selected="true" class="ldhc-tab is-on" id="in-the-browser-tab" role="tab" type="button"><span class="ldhc-tab-lbl">In the browser</span></button>
+            <button aria-controls="from-the-command-line-pane" aria-selected="false" class="ldhc-tab" id="from-the-command-line-tab" role="tab" type="button"><span class="ldhc-tab-lbl">From the command line</span></button>
+        </div>
+        <div aria-labelledby="in-the-browser-tab" class="ldhc-tabpanel" id="in-the-browser-pane" role="tabpanel">
         <p>On the root document, click the <span class="btn btn-primary create-action">Create</span> dropdown and select <samp>Container</samp>. Enter <samp>Categories</samp> as the title, replace
             the generated relative URI with <samp>categories</samp> using the dropdown in the top-right corner of the form, and save. The
             <a href="../../user-guide/create-data/create-documents/" target="_blank">Create documents</a> guide walks through the form in detail.</p>
-    </div>
-    <div>
-        <h2 id="cli">From the command line</h2>
+        </div>
+        <div aria-labelledby="from-the-command-line-tab" class="ldhc-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
         <p>A container is just a document whose description says it is one. <samp>categories.ttl</samp>:</p>
         <pre>@prefix dh:     &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
 @prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
@@ -41,6 +44,7 @@
         <p><code>PUT</code> it to the container URL, the same way the root document was updated:</p>
         <pre>ldh put -t text/turtle "${LDH_BASE}categories/" &lt; categories.ttl</pre>
         <p>Repeat for the remaining eight containers — or skip to <a href="../app-as-repository/">App as a repository</a>, where one command replays a whole folder.</p>
+        </div>
     </div>
     <div>
         <h2 id="result">What you now see</h2>

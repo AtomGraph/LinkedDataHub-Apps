@@ -16,8 +16,13 @@
         <p>Adding data this way will cause a blocking request, so use it for small amounts of data only (e.g. a few thousand RDF triples).
         For larger data, use asynchronous <a href="../import-data/import-rdf-data/" target="_blank">RDF imports</a>.</p>
     </div>
-    <div>
-        <h2 id="from-linked-data">From Linked Data</h2>
+    <div class="ldhc-tabs or-horizontal">
+        <div class="ldhc-tablist sz-md va-line" role="tablist">
+            <button aria-controls="from-linked-data-pane" aria-selected="true" class="ldhc-tab is-on" id="from-linked-data-tab" role="tab" type="button"><span class="ldhc-tab-lbl">From Linked Data</span></button>
+            <button aria-controls="from-the-command-line-pane" aria-selected="false" class="ldhc-tab" id="from-the-command-line-tab" role="tab" type="button"><span class="ldhc-tab-lbl">From the command line</span></button>
+            <button aria-controls="from-a-file-pane" aria-selected="false" class="ldhc-tab" id="from-a-file-tab" role="tab" type="button"><span class="ldhc-tab-lbl">From a file</span></button>
+        </div>
+        <div aria-labelledby="from-linked-data-tab" class="ldhc-tabpanel" id="from-linked-data-pane" role="tabpanel">
         <div class="screenshot-placeholder">
             <span class="msi" aria-hidden="true">play_circle</span>
             <p>Screen recording: forking a remote RDF document into the dataspace</p>
@@ -41,16 +46,14 @@
         <p>The target document does not have to be local: you can also add data to a document in <em>another</em> dataspace by pasting its URI. The
             append is performed with your identity, so the target dataspace's <a href="../../reference/administration/acl/">access control</a> decides
             whether it is allowed — a refusal surfaces as a form error.</p>
-    </div>
-    <div>
-        <h2 id="cli">From the command line</h2>
+        </div>
+        <div aria-labelledby="from-the-command-line-tab" class="ldhc-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
         <p>The same fork is a pipe — <samp>ldh get</samp> the source, <samp>ldh post</samp> it into the target document:</p>
         <pre>ldh get --accept text/turtle \\
     "https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3683/" \\
   | ldh post -t text/turtle "${LDH_BASE}categories/1/"</pre>
-    </div>
-    <div>
-        <h2 id="from-file">From file</h2>
+        </div>
+        <div aria-labelledby="from-a-file-tab" class="ldhc-tabpanel" hidden="hidden" id="from-a-file-pane" role="tabpanel">
         <p>To upload the contents of an RDF file into a document, drag the file from your filesystem into LinkedDataHub when the document's <a href="../../reference/user-interface/#layout-modes">properties mode</a> is active.</p>
         <p>The following syntaxes are supported:</p>
         <table class="table table-striped">
@@ -84,6 +87,7 @@
                 </tr>
             </tbody>
         </table>
+        </div>
     </div>
     <p class="lead"><a href="../browse-data/">Browse data</a> to find resources worth forking, or <a href="../import-data/import-rdf-data/">import RDF data</a> for larger datasets.</p>
 </div>"""^^rdf:XMLLiteral .

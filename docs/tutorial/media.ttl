@@ -24,13 +24,16 @@ BIND(uri(concat(str($base), "uploads/", encode_for_uri(?pictureHash))) AS ?pictu
         <p>The employee mapping does the same with a <samp>photoHash</samp> column, linking the portrait with <code>foaf:img</code>, the predicate for an image <em>of</em> a person, while
             <code>foaf:depiction</code> is the looser <em>depicts</em> relation used for the category art.</p>
     </div>
-    <div>
-        <h2 id="browser">In the browser</h2>
+    <div class="ldhc-tabs or-horizontal">
+        <div class="ldhc-tablist sz-md va-line" role="tablist">
+            <button aria-controls="in-the-browser-pane" aria-selected="true" class="ldhc-tab is-on" id="in-the-browser-tab" role="tab" type="button"><span class="ldhc-tab-lbl">In the browser</span></button>
+            <button aria-controls="from-the-command-line-pane" aria-selected="false" class="ldhc-tab" id="from-the-command-line-tab" role="tab" type="button"><span class="ldhc-tab-lbl">From the command line</span></button>
+        </div>
+        <div aria-labelledby="in-the-browser-tab" class="ldhc-tabpanel" id="in-the-browser-pane" role="tabpanel">
         <p>Click the <span class="btn btn-primary create-action">Create</span> dropdown at the bottom of the page and select <samp>File</samp>. Choose the file, give it a title, and save. The
             <a href="../../user-guide/upload-file/" target="_blank">Upload file</a> guide walks through the form in detail.</p>
-    </div>
-    <div>
-        <h2 id="cli">From the command line</h2>
+        </div>
+        <div aria-labelledby="from-the-command-line-tab" class="ldhc-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
         <pre>ldh add-file \\
     --title "Nancy Davolio" \\
     --file employees/nancy.jpg \\
@@ -38,6 +41,7 @@ BIND(uri(concat(str($base), "uploads/", encode_for_uri(?pictureHash))) AS ?pictu
     "$LDH_BASE"</pre>
         <p><samp>ldh add-file</samp> prints the content-addressed URL of the upload (<samp>{base}uploads/{sha1}</samp>) as its only output, so it can be captured into a variable and referenced from imports or content.
             <code>--content-type</code> is optional — the media type is detected from the file when it is omitted.</p>
+        </div>
     </div>
     <div>
         <h2 id="result">What you now see</h2>

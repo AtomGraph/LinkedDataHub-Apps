@@ -14,6 +14,12 @@
     <div class="alert alert-info">
         <p>Version history is available in dataspaces with <a href="../../reference/versioning/">versioning</a> enabled — see the <a href="../../reference/versioning/#setup">setup instructions</a>.</p>
     </div>
+    <div class="ldhc-tabs or-horizontal">
+        <div class="ldhc-tablist sz-md va-line" role="tablist">
+            <button aria-controls="user-interface-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
+            <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+        </div>
+        <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
     <div>
         <h2 id="open-history">Open the history</h2>
         <div class="screenshot-placeholder">
@@ -47,12 +53,13 @@
             content is written to the live document as a new version. Nothing is rewritten: the versions in between stay in the history.</p>
         <p>Restoring requires write access to the document; the button is not offered on the version you are currently viewing.</p>
     </div>
-    <div>
-        <h2 id="cli">From the command line</h2>
+        </div>
+        <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
         <p>The <a href="../../reference/command-line-interface/">CLI</a> addresses the same Memento roles as mutually exclusive options of <samp>ldh get</samp>:
             <code>--timemap</code> retrieves the version history, <code>--version &lt;sha&gt;</code> retrieves a historical version, and <code>--timegate</code>
             (with an optional <code>--datetime</code>) prints the URI of the version that was current at the given time. For example, with the document's URL in <samp>$doc</samp>:</p>
         <pre>ldh get --accept text/turtle --timemap "$doc"</pre>
+        </div>
     </div>
     <p class="lead"><a href="../../reference/versioning/">Read more about versioning and the Memento protocol.</a></p>
 </div>"""^^rdf:XMLLiteral .

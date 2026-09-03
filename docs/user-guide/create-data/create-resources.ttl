@@ -22,6 +22,12 @@
     <div class="alert alert-info">
         <p>You can only create instances of classes that have <a href="../../../reference/administration/ontologies/#constructors">constructors</a>.</p>
     </div>
+    <div class="ldhc-tabs or-horizontal">
+        <div class="ldhc-tablist sz-md va-line" role="tablist">
+            <button aria-controls="user-interface-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
+            <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+        </div>
+        <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
     <div>
         <h2 id="built-in-classes">Built-in classes</h2>
         <p>To create instances of built-in classes, follow these steps:</p>
@@ -49,8 +55,8 @@
             <p>Screenshot: the Product create form generated from the constructor, with category and supplier typeaheads</p>
         </div>
     </div>
-    <div>
-        <h2 id="cli">From the command line</h2>
+        </div>
+        <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
         <p>Instances are plain RDF, so the CLI equivalent is appending a description to a document with <samp>ldh post</samp>. Creating a new product in its own document:</p>
         <pre>doc=$(ldh create-item \\
   --container "${LDH_BASE}products/" \\
@@ -69,6 +75,7 @@ ldh post -t text/turtle "$doc" &lt;&lt;EOF
     schema:category &lt;${LDH_BASE}categories/1/&gt; .
 EOF</pre>
         <p>The posted data is validated against the class <a href="../../../reference/administration/ontologies/#constraints">constraints</a> the same way form submissions are — leaving out <code>schema:name</code> gets the request rejected with <samp>422 Unprocessable Entity</samp>.</p>
+        </div>
     </div>
     <p class="lead"><a href="../../../reference/administration/ontologies/#constructors" target="_blank">Read more about constructors.</a></p>
 </div>"""^^rdf:XMLLiteral .

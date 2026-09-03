@@ -117,7 +117,13 @@
             </tbody>
         </table>
         <p>An authorization is a plain RDF resource. Granting the <samp>writers</samp> group full access to the Northwind orders container:</p>
-        <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
+        <div class="ldhc-tabs or-horizontal">
+            <div class="ldhc-tablist sz-md va-line" role="tablist">
+                <button aria-controls="rdf-pane" aria-selected="true" class="ldhc-tab is-on" id="rdf-tab" role="tab" type="button"><span class="ldhc-tab-lbl">RDF</span></button>
+                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+            </div>
+            <div aria-labelledby="rdf-tab" class="ldhc-tabpanel" id="rdf-pane" role="tabpanel">
+                <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
 
 &lt;#this&gt; a acl:Authorization ;
@@ -125,12 +131,15 @@
     acl:agentGroup &lt;https://admin.localhost:4443/acl/groups/writers/#this&gt; ;
     acl:mode acl:Read, acl:Append, acl:Write ;
     acl:accessTo &lt;https://localhost:4443/orders/&gt; .</pre>
-        <p>The same authorization from the command line:</p>
-        <pre>ldh admin acl create-authorization \\
+            </div>
+            <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
+                <pre>ldh admin acl create-authorization \\
   --label "Order management" \\
   --agent-group "https://admin.localhost:4443/acl/groups/writers/#this" \\
   --to "https://localhost:4443/orders/" \\
   --read --append --write</pre>
+            </div>
+        </div>
         <p>An authorization can also target a whole class of documents with <code>acl:accessToClass</code>. Granting the <samp>readers</samp> group read access to every container:</p>
         <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .

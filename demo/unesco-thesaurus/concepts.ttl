@@ -18,12 +18,26 @@
         <h3>SKOS concepts</h3>
         <p>Concepts are the fundamental building blocks of the UNESCO Thesaurus vocabulary. Each concept represents
            a distinct unit of thought or terminology, enriched with multilingual labels, definitions, and semantic relationships.</p>
-        <p>SKOS (Simple Knowledge Organization System) relationships connect concepts through:</p>
-        <ul>
-            <li><strong>Broader/Narrower</strong> - Hierarchical relationships forming taxonomic structures</li>
-            <li><strong>Related</strong> - Associative relationships between concepts in the same domain</li>
-            <li><strong>Exact/Close/Related Matches</strong> - Mappings to concepts in external vocabularies</li>
-        </ul>
+        <p>SKOS (Simple Knowledge Organization System) relationships connect concepts three ways:</p>
+        <div class="ldhc-tabs or-horizontal">
+            <div class="ldhc-tablist sz-md va-line" role="tablist">
+                <button aria-controls="hierarchical-pane" aria-selected="true" class="ldhc-tab is-on" id="hierarchical-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Hierarchical</span></button>
+                <button aria-controls="associative-pane" aria-selected="false" class="ldhc-tab" id="associative-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Associative</span></button>
+                <button aria-controls="matches-pane" aria-selected="false" class="ldhc-tab" id="matches-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Matches</span></button>
+            </div>
+            <div aria-labelledby="hierarchical-tab" class="ldhc-tabpanel" id="hierarchical-pane" role="tabpanel">
+                <p><strong>Broader/Narrower</strong> relationships form the taxonomic backbone: every concept links up to more general concepts and down to more specific ones, and parallax
+                   navigation follows those links in either direction.</p>
+            </div>
+            <div aria-labelledby="associative-tab" class="ldhc-tabpanel" hidden="hidden" id="associative-pane" role="tabpanel">
+                <p><strong>Related</strong> relationships associate concepts across the hierarchy — concepts in the same domain that are neither broader nor narrower than each other.</p>
+            </div>
+            <div aria-labelledby="matches-tab" class="ldhc-tabpanel" hidden="hidden" id="matches-pane" role="tabpanel">
+                <p><strong>Exact, close, broad and related matches</strong> map concepts to external vocabularies. The Northwind Traders demo maps its product categories here: its
+                   <em>Beverages</em> category is a <code>skos:closeMatch</code> of this thesaurus's <a href="concept3683/">Beverages</a> concept, <em>Condiments</em> a
+                   <code>skos:broadMatch</code> of <a href="concept1812/">Food</a>, and <em>Confections</em> a <code>skos:relatedMatch</code> of <a href="concept3495/">Sugar</a>.</p>
+            </div>
+        </div>
         <p>Browse the concepts below and use parallax navigation to explore their rich semantic network.</p>
     </div>"""^^rdf:XMLLiteral .
 

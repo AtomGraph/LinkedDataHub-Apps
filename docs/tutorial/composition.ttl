@@ -33,17 +33,21 @@
         <code>&lt;employees/2/#this&gt;</code>, the Vice President of Sales, rendered with his description and photo — no special profile widget exists; the
         default rendering of the resource <em>is</em> the widget.</p>
     <p>The narrative rhythm — prose, then evidence, then prose — is an editorial choice, and it is made entirely in data: reordering the page means renumbering <code>rdf:_N</code>.</p>
-    <div>
-        <h2 id="browser">In the browser</h2>
+    <div class="ldhc-tabs or-horizontal">
+        <div class="ldhc-tablist sz-md va-line" role="tablist">
+            <button aria-controls="in-the-browser-pane" aria-selected="true" class="ldhc-tab is-on" id="in-the-browser-tab" role="tab" type="button"><span class="ldhc-tab-lbl">In the browser</span></button>
+            <button aria-controls="from-the-command-line-pane" aria-selected="false" class="ldhc-tab" id="from-the-command-line-tab" role="tab" type="button"><span class="ldhc-tab-lbl">From the command line</span></button>
+        </div>
+        <div aria-labelledby="in-the-browser-tab" class="ldhc-tabpanel" id="in-the-browser-pane" role="tabpanel">
         <p>With the <a href="../../reference/user-interface/#layout-modes" target="_blank">Content layout mode</a> active, append blocks with the
             <span class="btn btn-primary create-action">XHTML</span> and <span class="btn btn-primary create-action">Object</span> buttons at the bottom of the page. Reorder by dragging a block by
             its drag handle and dropping it in a different position.</p>
-    </div>
-    <div>
-        <h2 id="cli">From the command line</h2>
+        </div>
+        <div aria-labelledby="from-the-command-line-tab" class="ldhc-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
         <p>The composition is the <samp>root.ttl</samp> of the <a href="../hello-dataspace/">first stage</a>, grown to its final form and applied with the same <code>PUT</code>:</p>
         <pre>ldh put -t text/turtle "$LDH_BASE" &lt; root.ttl</pre>
         <p>To reorder, renumber the <code>rdf:_N</code> properties in the file and <code>PUT</code> it again — <code>PUT</code> replaces the document's description outright.</p>
+        </div>
     </div>
     <div>
         <h2 id="result">What you now see</h2>

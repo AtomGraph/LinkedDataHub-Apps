@@ -25,12 +25,34 @@
 
 <#page-header> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-        <div class="page-header">
+        <div class="ldh-section">
             <h2>Copenhagen</h2>
-            <p class="lead">Geospatial and other open data about the city of Copenhagen</p>
+            <p>Geospatial and other open data about the city of Copenhagen</p>
         </div>
-        <p>Features include CSV data <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/imports/csv/" target="_blank">imports</a>, SPARQL-based <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/data-model/resources/charts/" target="_blank">charts</a>, faceted search and related results (parallax navigation) as well as
-            rich documents composed of structured content backed by RDF Knowledge Graph data.</p>
+        <div class="ldhc-tabs or-horizontal">
+            <div class="ldhc-tablist sz-md va-line" role="tablist">
+                <button aria-controls="imports-pane" aria-selected="true" class="ldhc-tab is-on" id="imports-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Imports</span></button>
+                <button aria-controls="charts-pane" aria-selected="false" class="ldhc-tab" id="charts-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Charts</span></button>
+                <button aria-controls="faceted-search-pane" aria-selected="false" class="ldhc-tab" id="faceted-search-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Faceted search</span></button>
+                <button aria-controls="parallax-pane" aria-selected="false" class="ldhc-tab" id="parallax-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Parallax</span></button>
+                <button aria-controls="rich-content-pane" aria-selected="false" class="ldhc-tab" id="rich-content-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Rich content</span></button>
+            </div>
+            <div aria-labelledby="imports-tab" class="ldhc-tabpanel" id="imports-pane" role="tabpanel">
+                <p>Every dataset here arrived as an open CSV file from the city's data portal, lifted to RDF by LinkedDataHub's CSV <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/imports/csv/" target="_blank">imports</a> — one mapping query per facility type.</p>
+            </div>
+            <div aria-labelledby="charts-tab" class="ldhc-tabpanel" hidden="hidden" id="charts-pane" role="tabpanel">
+                <p>SPARQL queries drive live <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/data-model/resources/charts/" target="_blank">charts</a> — the facilities-by-type breakdown below and the largest <a href="parking-facilities/">parking facilities</a> ranking are both recomputed from the graph on each request.</p>
+            </div>
+            <div aria-labelledby="faceted-search-tab" class="ldhc-tabpanel" hidden="hidden" id="faceted-search-pane" role="tabpanel">
+                <p>Container listings offer faceted search over the facilities they hold — filter <a href="schools/">schools</a>, <a href="playgrounds/">playgrounds</a> or <a href="libraries/">libraries</a> by their properties without writing a query.</p>
+            </div>
+            <div aria-labelledby="parallax-tab" class="ldhc-tabpanel" hidden="hidden" id="parallax-pane" role="tabpanel">
+                <p>Following a facility's links walks the Knowledge Graph — related results surface as you navigate, a style known as parallax navigation.</p>
+            </div>
+            <div aria-labelledby="rich-content-tab" class="ldhc-tabpanel" hidden="hidden" id="rich-content-pane" role="tabpanel">
+                <p>Documents like this one compose prose, charts and maps as structured content blocks backed by the graph — the map of <a href="bicycle-parkings/">bicycle parkings</a> is a block like any other.</p>
+            </div>
+        </div>
         <p>This application was created on <a href="https://atomgraph.github.io/LinkedDataHub/" target="_blank">LinkedDataHub</a> using the low code paradigm: no programming was required, only scripts that
             invoke LinkedDataHub's CLI commands.</p>
     </div>"""^^rdf:XMLLiteral .

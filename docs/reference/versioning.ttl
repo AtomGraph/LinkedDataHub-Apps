@@ -135,12 +135,15 @@ Link: &lt;https://localhost:4443/orders/10248/&gt;; rel="original"</pre>
     </div>
     <div>
         <h2 id="management">Management</h2>
-        <div>
-            <h3 id="management-ui"><a href="../user-interface/">User interface</a></h3>
+        <div class="ldhc-tabs or-horizontal">
+            <div class="ldhc-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+            </div>
+            <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
             <p>The <a href="../../user-guide/version-history/">version history dialog</a> lists a document's versions and drives the restore and diff actions.</p>
-        </div>
-        <div>
-            <h3 id="management-cli"><a href="../command-line-interface/">Command line interface</a></h3>
+            </div>
+            <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
             <p><samp>ldh get</samp> exposes a versioned document's TimeMap, TimeGate and historical versions through three mutually exclusive options:</p>
             <table class="table table-striped">
                 <thead>
@@ -164,6 +167,7 @@ Link: &lt;https://localhost:4443/orders/10248/&gt;; rel="original"</pre>
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </div>"""^^rdf:XMLLiteral .

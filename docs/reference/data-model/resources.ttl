@@ -331,8 +331,12 @@ LIMIT 10""" ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <div>
         <h2 id="management">Management</h2>
-        <div>
-            <h3 id="management-ui"><a href="../../user-interface/">User interface</a></h3>
+        <div class="ldhc-tabs or-horizontal">
+            <div class="ldhc-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+            </div>
+            <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
             <p>Resources can only be managed when the <a href="../../user-interface/#layout-modes" target="_blank">Properties layout mode</a> is active.</p>
             <table class="table table-striped">
                 <thead>
@@ -356,9 +360,8 @@ LIMIT 10""" ;
                     </tr>
                 </tbody>
             </table>
-        </div>
-        <div>
-            <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
+            </div>
+            <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
             <p>The following resource types can be created using the <a href="../../command-line-interface/" target="_blank">command line interface</a>. Any resource can be updated or deleted with <a href="../../command-line-interface/#commands"><samp>ldh patch</samp></a>, which applies a SPARQL update to the resource's document.</p>
             <table class="table table-striped">
                 <thead>
@@ -402,6 +405,7 @@ LIMIT 10""" ;
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
     <p class="lead">To query data and create resources step-by-step, follow the <a href="../../../user-guide/query-data/">Query data</a> and <a href="../../../user-guide/create-data/create-resources/">Create resources</a> guides</p>

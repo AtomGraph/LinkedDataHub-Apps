@@ -61,8 +61,12 @@
     </div>
     <div>
         <h2 id="management">Management</h2>
-        <div>
-            <h3 id="management-ui"><a href="../../user-interface/">User interface</a></h3>
+        <div class="ldhc-tabs or-horizontal">
+            <div class="ldhc-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+            </div>
+            <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
             <p>Content blocks can only be managed when the <a href="../../user-interface/#layout-modes" target="_blank">Content layout mode</a> is active. The edit and delete buttons only appear for agents with write access.</p>
             <table class="table table-striped">
                 <thead>
@@ -102,9 +106,8 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-        <div>
-            <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
+            </div>
+            <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -128,6 +131,7 @@
                 </tbody>
             </table>
             <p>Updating and reordering blocks has no dedicated command; use <samp>ldh patch</samp> with a SPARQL update on the document.</p>
+            </div>
         </div>
     </div>
     <p class="lead">To compose content blocks step-by-step, follow the <a href="../../../user-guide/create-data/create-content/">Create content</a> guide</p>
