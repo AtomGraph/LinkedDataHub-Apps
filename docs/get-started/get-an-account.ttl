@@ -34,7 +34,7 @@
                     <h3 id="sign-up">Sign up to an existing instance</h3>
                     <p>Click the <span class="btn btn-primary">Sign up</span> button and fill out the form with your details to get a WebID, as shown below.</p>
                     <div class="screenshot-placeholder">
-                        <span class="msi" aria-hidden="true">image</span>
+                        <span aria-hidden="true" class="msi">image</span>
                         <p>Screenshot: the WebID signup form</p>
                     </div>
                     <p>You will get an email with a <samp>.p12</samp> file attached, which is your WebID certificate. The certificate's password is the one you entered in the signup form.</p>

@@ -19,13 +19,13 @@
             actions such as creating or editing documents are only available to users with the corresponding write access.</p>
     </div>
     <div class="screenshot-placeholder">
-        <span class="msi" aria-hidden="true">image</span>
+        <span aria-hidden="true" class="msi">image</span>
         <p>Screenshot: the application layout: navigation bar, action bar, sidebars and content</p>
     </div>
     <div>
         <h2 id="nav-bar">Navigation bar</h2>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the navigation bar with the address bar and menus</p>
         </div>
         <p>The application title or logo in the top-left always links to the root container of the current application.</p>
@@ -40,7 +40,7 @@
     <div>
         <h2 id="action-bar">Action bar</h2>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the action bar with the Create button, breadcrumbs and document actions</p>
         </div>
         <p>The <span class="btn btn-primary create-action">Create <span class="caret"></span></span> button opens a dialog through which
@@ -66,7 +66,7 @@
         <p>The document tree shows the document hierarchy of the dataspace. Clicking a container expands it to show its children.</p>
         <h3 id="class-navigation">Class-based navigation</h3>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the left sidebar Classes list on the Northwind dataspace, with instance counts (Order, Product, Person, ...)</p>
         </div>
         <p>In addition to browsing by document hierarchy, you can navigate your data by class. The <dfn>Classes</dfn> list shows the classes (<code>rdf:type</code> values) that actually occur in the dataspace, each labeled with the number of its instances and ordered with the most-used classes first. Clicking a class opens a dialog listing all instances of that class across the dataspace.</p>
@@ -88,7 +88,7 @@
     <div>
         <h2 id="right-sidebar">Right sidebar</h2>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the right sidebar on a Northwind order page, backlinks and related results visible</p>
         </div>
         <p>A right sidebar appears alongside the main view to show navigation into and out of the current data:</p>
@@ -102,7 +102,7 @@
     <div>
         <h2 id="layout-modes">Layout modes</h2>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the Northwind orders container in each layout mode: content, properties, map (territories), chart, graph</p>
         </div>
         <p>The active document <dfn>layout mode</dfn> is displayed in, and can be changed using, the mode selector at the top of the page.</p>
@@ -137,7 +137,7 @@
     <div>
         <h2 id="document-tabs">Document tabs</h2>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the tab bar with a UNESCO Thesaurus concept open in a second tab next to the Northwind dashboard</p>
         </div>
         <p>LinkedDataHub navigates within a single page. When you follow a link to an external document (for example a resource fetched through the

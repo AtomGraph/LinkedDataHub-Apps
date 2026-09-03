@@ -104,7 +104,7 @@
     <div>
         <h2 id="queries">Queries</h2>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: a query block with the SPARQL editor</p>
         </div>
         <p>Queries are SPARQL 1.1 query strings that can be executed interactively. A query may name the SPARQL
@@ -128,7 +128,7 @@ ORDER BY ?categoryName''' .</pre>
     <div>
         <h2 id="charts">Charts</h2>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: a chart block rendering SPARQL results</p>
         </div>
         <p>Charts can render both types of SPARQL results:</p>
@@ -222,7 +222,7 @@ ORDER BY DESC(?revenue)''' .
     <div>
         <h2 id="views">Views</h2>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: a view block with paginated results</p>
         </div>
         <p>A view renders the results of a SPARQL <code>SELECT</code> query as an interactive, paginated and optionally ordered list.
@@ -293,7 +293,7 @@ WHERE {
         <div>
             <h3 id="parallax">Parallax navigation</h3>
             <div class="screenshot-placeholder">
-                <span class="msi" aria-hidden="true">image</span>
+                <span aria-hidden="true" class="msi">image</span>
                 <p>Screenshot: parallax navigation jumping from a result set to a related one</p>
             </div>
             <p>Parallax is an unusual navigation approach that suits graph data particularly well. It is enabled for container content and shown as <samp>Related results</samp> on the right side of the view. Parallax allows jumping from a result set to a related result set using the selected RDF property. It works in

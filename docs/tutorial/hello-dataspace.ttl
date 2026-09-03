@@ -28,7 +28,7 @@
             <span class="btn btn-primary create-action">XHTML</span> button at the bottom of the page. The <a href="../../user-guide/edit-content/" target="_blank">Edit
             content</a> guide walks through the block editor in detail.</p>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: root document in edit mode with the title and first XHTML block</p>
         </div>
         </div>
@@ -63,7 +63,7 @@
         <p>Reload the base URL: the homepage now carries your title and welcome text. You have not touched a template, a controller or a database schema — you replaced the description of one
             document, and the UI is a rendering of that description.</p>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the branded homepage after the update</p>
         </div>
     </div>

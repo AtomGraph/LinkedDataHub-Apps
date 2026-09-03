@@ -12,7 +12,7 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to create data-driven content</p>
     <div class="screenshot-placeholder">
-        <span class="msi" aria-hidden="true">image</span>
+        <span aria-hidden="true" class="msi">image</span>
         <p>Screenshot: creating an XHTML block and an object block on the Northwind dashboard</p>
     </div>
     <p>Each document (container or item) can have <dfn>content</dfn>, i.e. a list of <dfn>blocks</dfn> which is shown in the <a href="../../../reference/user-interface/#layout-modes">content layout mode</a>. A block is one of two types:</p>

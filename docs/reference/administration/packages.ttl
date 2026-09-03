@@ -122,7 +122,7 @@ ns:SelectNarrowerConcepts a sp:Select ;
             <a href="../../imports/rdf/">UNESCO mapping import</a> doubled as <code>skos:Concept</code>s pick up the package's concept rendering and views,
             and their mapping relations link into the UNESCO Thesaurus dataspace.</p>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: a Northwind category page with the SKOS package installed, concept rendering and UNESCO mappings visible</p>
         </div>
     </div>

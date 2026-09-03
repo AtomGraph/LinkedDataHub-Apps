@@ -33,7 +33,7 @@
     <div>
         <h2 id="kms">Knowledge management and collaboration</h2>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">play_circle</span>
+            <span aria-hidden="true" class="msi">play_circle</span>
             <p>Screen recording: LinkedDataHub overview</p>
         </div>
         <p>As an RDF-native CMS, LinkedDataHub provides these end-user features:</p>

@@ -24,7 +24,7 @@
         </div>
         <div aria-labelledby="from-linked-data-tab" class="ldhc-tabpanel" id="from-linked-data-pane" role="tabpanel">
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">play_circle</span>
+            <span aria-hidden="true" class="msi">play_circle</span>
             <p>Screen recording: forking a remote RDF document into the dataspace</p>
         </div>
         <p>To copy the contents of the current RDF document (local or remote) into a local document, follow these steps:</p>

@@ -46,7 +46,7 @@ LIMIT 5</pre>
     <p>For <code>DESCRIBE</code> and <code>CONSTRUCT</code> results, you can switch the
         <a href="../../reference/user-interface/#layout-modes">layout mode</a> using a button above the results.</p>
     <div class="screenshot-placeholder">
-        <span class="msi" aria-hidden="true">image</span>
+        <span aria-hidden="true" class="msi">image</span>
         <p>Screenshot: the SPARQL editor with query results</p>
     </div>
 </div>"""^^rdf:XMLLiteral .

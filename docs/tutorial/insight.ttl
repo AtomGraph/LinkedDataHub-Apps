@@ -108,7 +108,7 @@ ORDER BY ?categoryName''' .
         <p>The Categories container is a small dashboard: a revenue bar chart and a grid of the categories themselves — all live views over the graph, recomputed on
             each request.</p>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the Categories container with charts and grid view</p>
         </div>
     </div>

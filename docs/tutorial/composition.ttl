@@ -54,7 +54,7 @@
         <p>The homepage is the finished application: branded header, live charts over the imported graph, and navigation into the containers — all of it driven by one document's
             description.</p>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the finished Northwind landing page</p>
         </div>
     </div>

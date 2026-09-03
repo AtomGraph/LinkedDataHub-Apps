@@ -20,7 +20,7 @@
             its graph holds the order (the document's topic) and the order's line items, each carrying its own <code>schema:price</code> line total.</p>
         <p>Out of the box, the default layout renders the order and each line item as a plain resource description.</p>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: a Northwind order document in the default layout, order and line items as generic resource descriptions</p>
         </div>
     </div>
@@ -76,7 +76,7 @@ exclude-result-prefixes="#all"&gt;
         <p>The pattern matches resource descriptions that are the primary topic of the requested document (i.e. its order), are typed <code>schema:Order</code>, and have line items present in the RDF graph.</p>
         <p>With the overriding template, the order page shows the computed total after the order's default description.</p>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the augmented order page with the Order total heading and sum under the order description</p>
         </div>
     </div>
@@ -96,7 +96,7 @@ exclude-result-prefixes="#all"&gt;
         <p>The pattern matches <code>schema:orderedItem</code> properties of a resource that is the primary topic of the current document.</p>
         <p>With the suppressing templates, the order page shows the order and its total, with the line items no longer repeated below.</p>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the order page after suppression — order description and total only, line items hidden</p>
         </div>
     </div>

@@ -12,7 +12,7 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Browse, navigate and search local and remote data</p>
     <div class="screenshot-placeholder">
-        <span class="msi" aria-hidden="true">play_circle</span>
+        <span aria-hidden="true" class="msi">play_circle</span>
         <p>Screen recording: browsing and navigating data</p>
     </div>
     <div>
@@ -31,7 +31,7 @@
         <h2 id="document-tree">Document tree</h2>
         <p>The document tree in the left sidebar gives a quick overview of the application's <a href="../../reference/data-model/documents/#hierarchy">document hierarchy</a>; the <a href="../../reference/user-interface/#document-hierarchy">user interface reference</a> describes the widget.</p>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the document tree with a container expanded</p>
         </div>
     </div>
@@ -76,7 +76,7 @@ WHERE {
 }</pre>
         <p>The same widget is used for autocomplete inputs in create and edit forms.</p>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the search dropdown with matching Northwind resources</p>
         </div>
     </div>

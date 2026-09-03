@@ -23,7 +23,7 @@
     <div>
         <h2 id="open-history">Open the history</h2>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the History dialog on a Northwind order, versions with agent attribution</p>
         </div>
         <p>Click the document's last-modified timestamp in the <a href="../../reference/user-interface/#action-bar">action bar</a>. The
@@ -35,7 +35,7 @@
     <div>
         <h2 id="compare-versions">Compare versions</h2>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: a version diff on an order document — added/removed/changed borders and the color legend</p>
         </div>
         <p>In the History dialog, select a <dfn>From</dfn> and a <dfn>To</dfn> version to compare. The diff renders on the document page:</p>

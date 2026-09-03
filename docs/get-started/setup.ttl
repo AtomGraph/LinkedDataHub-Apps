@@ -12,7 +12,7 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Set up LinkedDataHub on your local machine with Docker</p>
     <div class="screenshot-placeholder">
-        <span class="msi" aria-hidden="true">play_circle</span>
+        <span aria-hidden="true" class="msi">play_circle</span>
         <p>Screen recording: setting up LinkedDataHub with Docker</p>
     </div>
     <div>

@@ -17,7 +17,7 @@
         <p>To notify the owner, issue an <a href="../../reference/administration/acl/#auth-requests">access request</a>. Navigate to the document you want to gain access to, click the
             <span class="btn btn-primary">Request access</span> button and submit the form that appears, as shown below. You can choose the desired <a href="../../reference/administration/acl/#access-modes">access modes</a>.</p>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">play_circle</span>
+            <span aria-hidden="true" class="msi">play_circle</span>
             <p>Screen recording: submitting an access request</p>
         </div>
         <p>The submitted request is itself an RDF resource in the admin application; the owner accepts it by creating the matching

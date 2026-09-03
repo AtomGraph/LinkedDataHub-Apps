@@ -12,7 +12,7 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to create instances of built-in and user-defined classes</p>
     <div class="screenshot-placeholder">
-        <span class="msi" aria-hidden="true">play_circle</span>
+        <span aria-hidden="true" class="msi">play_circle</span>
         <p>Screen recording: creating resource instances</p>
     </div>
     <p><a href="../../../reference/data-model/resources/#built-in-classes">Built-in classes</a> (such as <samp>Container</samp>, <samp>Item</samp>, <samp>SELECT</samp> etc.) ship with <a href="../../../reference/administration/ontologies/#ontologies">system ontologies</a> in LinkedDataHub while <dfn>user-defined classes</dfn> come from ontologies imported by the user (see the user guide on <a href="../../change-model/">changing the model</a> on how to do that).</p>
@@ -51,7 +51,7 @@
         </ol>
         <p>When you create a <samp>Product</samp> this way, its <a href="../../change-model/" target="_blank">constructor</a> renders name and identifier inputs plus category and supplier typeaheads — the form is entirely constructor-driven.</p>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the Product create form generated from the constructor, with category and supplier typeaheads</p>
         </div>
     </div>

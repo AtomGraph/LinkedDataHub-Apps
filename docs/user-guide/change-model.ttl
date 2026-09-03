@@ -184,7 +184,7 @@ ldh admin ontologies add-constructor \\
             end-user application, and its form offers name, identifier, category and supplier controls. A submission without a name is rejected with
             <samp>422 Unprocessable Entity</samp>, carrying the <a href="../../reference/administration/ontologies/#constraints" target="_blank">constraint violation</a>.</p>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the generated Product create form, with the Missing schema:name violation shown after an empty submit</p>
         </div>
     </div>

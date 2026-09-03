@@ -124,7 +124,7 @@ ldh imports add-csv-import \\
             the <a href="../model/">Model</a> stage. Repeat the pattern for the remaining entities and the Knowledge Graph fills in: orders link to products, products to suppliers and
             categories.</p>
         <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
+            <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the Categories container listing after the import</p>
         </div>
     </div>
