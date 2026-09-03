@@ -14,8 +14,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Jena 6 requires Java 21; the runner defaults to 17
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
       - name: RDF syntax check
         uses: AtomGraph/RDF-syntax-check@v1.0.5
+        with:
+          jena-version: 6.1.0
+
+      - name: Install Linux packages
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+
+      # riot checks rdf:XMLLiteral well-formedness; canonical form is only
+      # enforced up to Jena 4.7.0, so it is checked separately
+      - name: XMLLiteral canonical form check
+        run: ./check-xmlliterals.sh
 
       - name: Check links
         run: ./check-links.sh
