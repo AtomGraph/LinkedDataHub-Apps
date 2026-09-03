@@ -34,8 +34,8 @@
             </div>
             <div aria-labelledby="matches-tab" class="ldhc-tabpanel" hidden="hidden" id="matches-pane" role="tabpanel">
                 <p><strong>Exact, close, broad and related matches</strong> map concepts to external vocabularies. The Northwind Traders demo maps its product categories here: its
-                   <em>Beverages</em> category is a <code>skos:closeMatch</code> of this thesaurus's <a href="concept3683/">Beverages</a> concept, <em>Condiments</em> a
-                   <code>skos:broadMatch</code> of <a href="concept1812/">Food</a>, and <em>Confections</em> a <code>skos:relatedMatch</code> of <a href="concept3495/">Sugar</a>.</p>
+                   <em>Beverages</em> category is a <code>skos:closeMatch</code> of this thesaurus's <a href="https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3683/" target="_blank">Beverages</a> concept, <em>Condiments</em> a
+                   <code>skos:broadMatch</code> of <a href="https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept1812/" target="_blank">Food</a>, and <em>Confections</em> a <code>skos:relatedMatch</code> of <a href="https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3495/" target="_blank">Sugar</a>.</p>
             </div>
         </div>
         <p>Browse the concepts below and use parallax navigation to explore their rich semantic network.</p>
