@@ -25,18 +25,67 @@ export LDH_CERT_PASSWORD="..."   # the owner_cert_password secret</pre>
     <div>
         <h2 id="stages">Stages</h2>
         <p>Ten stages, each building on the last.</p>
-        <ol>
-            <li><a href="hello-dataspace/">Hello dataspace</a> — give your app an identity and a landing page</li>
-            <li><a href="structure/">Structure</a> — lay out the document hierarchy</li>
-            <li><a href="model/">Model</a> — define the vocabulary that describes your domain</li>
-            <li><a href="data/">Data</a> — import CSV data using SPARQL mappings</li>
-            <li><a href="media/">Media</a> — upload files and link them to resources</li>
-            <li><a href="insight/">Insight</a> — turn SPARQL queries into charts and views</li>
-            <li><a href="composition/">Composition</a> — assemble the landing page from content blocks</li>
-            <li><a href="publish/">Publish</a> — grant public access and ship it</li>
-            <li><a href="app-as-repository/">App as a repository</a> — make the app reproducible</li>
-            <li><a href="beyond-low-code/">Beyond low-code</a> — where to go when data alone is not enough</li>
-        </ol>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Stage</th>
+                    <th>What you do</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>1</th>
+                    <td><a href="hello-dataspace/">Hello dataspace</a></td>
+                    <td>Give your app an identity and a landing page</td>
+                </tr>
+                <tr>
+                    <th>2</th>
+                    <td><a href="structure/">Structure</a></td>
+                    <td>Lay out the document hierarchy</td>
+                </tr>
+                <tr>
+                    <th>3</th>
+                    <td><a href="model/">Model</a></td>
+                    <td>Define the vocabulary that describes your domain</td>
+                </tr>
+                <tr>
+                    <th>4</th>
+                    <td><a href="data/">Data</a></td>
+                    <td>Import CSV data using SPARQL mappings</td>
+                </tr>
+                <tr>
+                    <th>5</th>
+                    <td><a href="media/">Media</a></td>
+                    <td>Upload files and link them to resources</td>
+                </tr>
+                <tr>
+                    <th>6</th>
+                    <td><a href="insight/">Insight</a></td>
+                    <td>Turn SPARQL queries into charts and views</td>
+                </tr>
+                <tr>
+                    <th>7</th>
+                    <td><a href="composition/">Composition</a></td>
+                    <td>Assemble the landing page from content blocks</td>
+                </tr>
+                <tr>
+                    <th>8</th>
+                    <td><a href="publish/">Publish</a></td>
+                    <td>Grant public access and ship it</td>
+                </tr>
+                <tr>
+                    <th>9</th>
+                    <td><a href="app-as-repository/">App as a repository</a></td>
+                    <td>Make the app reproducible</td>
+                </tr>
+                <tr>
+                    <th>10</th>
+                    <td><a href="beyond-low-code/">Beyond low-code</a></td>
+                    <td>Where to go when data alone is not enough</td>
+                </tr>
+            </tbody>
+        </table>
         <p>In a hurry? <a href="app-as-repository/">Stage 9</a> shows how to replay the finished app with a single <samp>make install</samp>.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .

@@ -85,11 +85,28 @@ OWNER_COUNTRY_NAME=DK</pre>
     </div>
     <div>
         <h2 id="common-commands">Common commands</h2>
-        <ul>
-            <li><samp>make up</samp> — start the services; extra arguments are forwarded to <samp>docker-compose up</samp>, e.g. <samp>make up -- --build</samp> to rebuild the images first</li>
-            <li><samp>make down</samp> — stop the services; <samp>make down -- -v</samp> also removes the Docker volumes</li>
-            <li><samp>make drop</samp> — wipe the setup completely, as described under <a href="#reset">Reset</a></li>
-        </ul>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Command</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th><samp>make up</samp></th>
+                    <td>Start the services; extra arguments are forwarded to <samp>docker-compose up</samp>, e.g. <samp>make up -- --build</samp> to rebuild the images first</td>
+                </tr>
+                <tr>
+                    <th><samp>make down</samp></th>
+                    <td>Stop the services; <samp>make down -- -v</samp> also removes the Docker volumes</td>
+                </tr>
+                <tr>
+                    <th><samp>make drop</samp></th>
+                    <td>Wipe the setup completely, as described under <a href="#reset">Reset</a></td>
+                </tr>
+            </tbody>
+        </table>
         <p><samp>make cli</samp> builds the <a href="../../reference/command-line-interface/">command line interface</a> and prints the line that puts it on your <code>$PATH</code>.</p>
     </div>
     <div>

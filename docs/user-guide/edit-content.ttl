@@ -58,20 +58,56 @@
             <li>Enter edit mode by clicking inside the XHTML block.</li>
             <li>Select the text you want to annotate.</li>
             <li>Right-click the selection to open the annotation dialog.</li>
-            <li>In the annotation dialog:
-                <ul>
-                    <li><samp>Property</samp> — start typing to search ontology terms; select one from the typeahead dropdown.</li>
-                    <li><samp>Value</samp> — pre-filled with the selected text; change it to emit a different machine-readable value (e.g. a canonical form).</li>
-                    <li>Expand <samp>Type, subject &amp; object</samp> for advanced fields:
-                        <ul>
-                            <li><samp>Type (typeof)</samp> — assign an <code>rdf:type</code> to the annotated span.</li>
-                            <li><samp>Subject (about)</samp> — override the in-scope subject IRI.</li>
-                            <li><samp>Object (resource)</samp> — make the object a resource IRI instead of a literal.</li>
-                            <li><samp>Datatype</samp> — type the literal (e.g. <code>xsd:date</code>).</li>
-                            <li><samp>Language</samp> — tag the literal with a BCP 47 language code.</li>
-                        </ul>
-                    </li>
-                </ul>
+            <li>In the annotation dialog, fill out the fields:
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th><samp>Property</samp></th>
+                            <td>Start typing to search ontology terms; select one from the typeahead dropdown</td>
+                        </tr>
+                        <tr>
+                            <th><samp>Value</samp></th>
+                            <td>Pre-filled with the selected text; change it to emit a different machine-readable value (e.g. a canonical form)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Expand <samp>Type, subject &amp; object</samp> for the advanced fields:</p>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th><samp>Type (typeof)</samp></th>
+                            <td>Assign an <code>rdf:type</code> to the annotated span</td>
+                        </tr>
+                        <tr>
+                            <th><samp>Subject (about)</samp></th>
+                            <td>Override the in-scope subject IRI</td>
+                        </tr>
+                        <tr>
+                            <th><samp>Object (resource)</samp></th>
+                            <td>Make the object a resource IRI instead of a literal</td>
+                        </tr>
+                        <tr>
+                            <th><samp>Datatype</samp></th>
+                            <td>Type the literal (e.g. <code>xsd:date</code>)</td>
+                        </tr>
+                        <tr>
+                            <th><samp>Language</samp></th>
+                            <td>Tag the literal with a BCP 47 language code</td>
+                        </tr>
+                    </tbody>
+                </table>
             </li>
             <li>Click <span class="btn">Annotate</span>. The selected text is wrapped in a <code>span</code> carrying the appropriate RDFa attributes.</li>
         </ol>

@@ -53,13 +53,32 @@ WHERE
 }</pre>
     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/categories.rq" target="_blank">categories/categories.rq</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/1/" target="_blank">/categories/1/</a></p>
     <p>The four <code>BIND</code>s carry the whole document model of the import:</p>
-    <ul>
-        <li><code>?container</code> — the target container from the <a href="../structure/">Structure</a> stage, resolved against <code>$base</code>, which LinkedDataHub binds to the application's
-            base URI when the mapping runs</li>
-        <li><code>?graph</code> — one document (named graph) per row, minted inside the container from the row's identifier</li>
-        <li><code>?category</code> — the document's topic: the document is <em>about</em> the category, so the category is a <samp>#this</samp> fragment of it</li>
-        <li><code>?picture</code> — the category's image, addressed by the content hash the CSV carries (the <a href="../media/">Media</a> stage explains why that works)</li>
-    </ul>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Variable</th>
+                <th>Binds to</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th><code>?container</code></th>
+                <td>The target container from the <a href="../structure/">Structure</a> stage, resolved against <code>$base</code>, which LinkedDataHub binds to the application's base URI when the mapping runs</td>
+            </tr>
+            <tr>
+                <th><code>?graph</code></th>
+                <td>One document (named graph) per row, minted inside the container from the row's identifier</td>
+            </tr>
+            <tr>
+                <th><code>?category</code></th>
+                <td>The document's topic: the document is <em>about</em> the category, so the category is a <samp>#this</samp> fragment of it</td>
+            </tr>
+            <tr>
+                <th><code>?picture</code></th>
+                <td>The category's image, addressed by the content hash the CSV carries (the <a href="../media/">Media</a> stage explains why that works)</td>
+            </tr>
+        </tbody>
+    </table>
     <div class="ldhc-tabs or-horizontal">
         <div class="ldhc-tablist sz-md va-line" role="tablist">
             <button aria-controls="in-the-browser-pane" aria-selected="true" class="ldhc-tab is-on" id="in-the-browser-tab" role="tab" type="button"><span class="ldhc-tab-lbl">In the browser</span></button>
