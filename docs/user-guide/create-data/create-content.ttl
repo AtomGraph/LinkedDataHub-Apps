@@ -7,7 +7,7 @@
     dct:title "Create content" ;
     dct:description "Learn how to create data-driven content" ;
     rdf:_1 <#content> .
-    
+
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to create data-driven content</p>
@@ -15,7 +15,7 @@
         <span class="msi" aria-hidden="true">image</span>
         <p>Screenshot: creating an XHTML block and an object block on the Northwind dashboard</p>
     </div>
-    <p>Each document (container or item) can have <dfn>content</dfn>, i.e. a list of <dfn>blocks</dfn> which is shown in the <a href="../../../reference/user-interface/#layout-modes">content layout mode</a>. Currently, the following content types are supported:</p>
+    <p>Each document (container or item) can have <dfn>content</dfn>, i.e. a list of <dfn>blocks</dfn> which is shown in the <a href="../../../reference/user-interface/#layout-modes">content layout mode</a>. A block is one of two types:</p>
     <dl>
         <dt>XHTML</dt>
         <dd>A fragment of XHTML that is embedded onto the page</dd>
@@ -25,27 +25,26 @@
                 <dt>Linked Data resource</dt>
                 <dd>Any URI that resolves to RDF data</dd>
                 <dt>View</dt>
-                <dd>A paginated result of a SPARQL <code>SELECT</code> query (client-side "container")</dd>
+                <dd>A paginated result of a SPARQL <code>SELECT</code> query (a client-side counterpart of a container)</dd>
                 <dt>Chart</dt>
                 <dd>A result of a SPARQL query rendered as a chart</dd>
             </dl>
         </dd>
     </dl>
-    <p>Content other than HTML content is called <dfn>object</dfn>. The HTML content is part of the document while resource content is simply embedded (transcluded) into the HTML page.</p>
+    <p>XHTML content is stored in the document itself; object content is transcluded into the page at render time.</p>
     <div>
         <h2 id="xhtml-blocks">XHTML blocks</h2>
-        <div class="tabbable">
-            <ul class="nav nav-tabs">
-                <li class="active"><a>User interface</a></li>
-                <li><a>Command line interface</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active">
+        <div class="ldhc-tabs or-horizontal">
+            <div class="ldhc-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+            </div>
+            <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
                     <div>
                         <h3 id="add-xhtml-block">Add block</h3>
                         <p>To create a new XHTML block, follow these steps:</p>
                         <ol>
-                            <li>Make sure you're in the content layout mode</li>
+                            <li>Make sure you are in the content layout mode</li>
                             <li>At the bottom of the page, click the <span class="btn btn-primary create-action add-constructor">XHTML</span> button</li>
                             <li>Add content in the rich-text editor</li>
                             <li>Click the <span class="btn btn-primary btn-save">Save</span> button to save the block</li>
@@ -55,40 +54,41 @@
                     <div>
                         <h3 id="edit-xhtml-block">Edit block</h3>
                         <p>To edit an XHTML block, click anywhere inside it and make changes in place. The changes are <a href="../../edit-content/">saved automatically</a> when the focus leaves the block — there is no separate save button.</p>
+                    </div>
+                    <div>
+                        <h3 id="remove-xhtml-block">Remove block</h3>
                         <p>To remove an XHTML block, follow these steps:</p>
                         <ol>
-                            <li>Move the mouse to the very top-right of the block element where an editing button should appear</li>
-                            <li>Click the <span class="btn btn-remove-resource"></span> button (in the top-right of the block) to remove the block</li>
+                            <li>Hover over the block — controls appear in its top-right corner</li>
+                            <li>Click <span class="btn btn-remove-resource"></span> to remove the block</li>
                         </ol>
                     </div>
                 </div>
-                <div class="tab-pane">
+            <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
                     <div>
                         <p>To add a new XHTML block to the Northwind dashboard, execute the following command:</p>
                         <pre>ldh content add-xhtml-block \\
     --uri "#overview-intro" \\
     --value '&lt;div xmlns="http://www.w3.org/1999/xhtml"&gt;&lt;p&gt;The iconic sample database, reborn as an RDF Knowledge Graph.&lt;/p&gt;&lt;/div&gt;' \\
     "$LDH_BASE"</pre>
-                        <p><code>--uri</code> is resolved against the document URI, so <samp>#overview-intro</samp> identifies the block within it. Leave it out to let the block be a blank node.</p>
+                        <p><code>--uri</code> is resolved against the document URI, so <samp>#overview-intro</samp> names the block within it. Omit it and the block becomes a blank node.</p>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
     <div>
         <h2 id="object-blocks">Object blocks</h2>
-        <div class="tabbable">
-            <ul class="nav nav-tabs">
-                <li class="active"><a>User interface</a></li>
-                <li><a>Command line interface</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active">
+        <div class="ldhc-tabs or-horizontal">
+            <div class="ldhc-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-2-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-2-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-2-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-2-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+            </div>
+            <div aria-labelledby="user-interface-2-tab" class="ldhc-tabpanel" id="user-interface-2-pane" role="tabpanel">
                     <div>
                         <h3 id="add-object-block">Add block</h3>
                         <p>To create a new object block, follow these steps:</p>
                         <ol>
-                            <li>Make sure you're in the content layout mode</li>
+                            <li>Make sure you are in the content layout mode</li>
                             <li>At the bottom of the page, click the <span class="btn btn-primary create-action add-constructor">Object</span> button</li>
                             <li>Fill out values in the form that appears
                                 <dl>
@@ -113,14 +113,17 @@
                             </li>
                             <li>Click <span class="btn btn-primary btn-save">Save</span> at the bottom of the form to save the block</li>
                         </ol>
+                    </div>
+                    <div>
+                        <h3 id="remove-object-block">Remove block</h3>
                         <p>To remove an object block, follow these steps:</p>
                         <ol>
-                            <li>Move the mouse to the very top-right of the block element where an editing button should appear</li>
-                            <li>Click the <span class="btn btn-remove-resource"></span> button (in the top-right of the block) to remove the block</li>
+                            <li>Hover over the block — controls appear in its top-right corner</li>
+                            <li>Click <span class="btn btn-remove-resource"></span> to remove the block</li>
                         </ol>
                     </div>
                 </div>
-                <div class="tab-pane">
+            <div aria-labelledby="command-line-interface-2-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-2-pane" role="tabpanel">
                     <div>
                         <p>To embed the Vice President of Sales on the dashboard — an object block whose value is a plain data resource — execute the following command:</p>
                         <pre>ldh content add-object-block \\
@@ -131,7 +134,6 @@
                             <code>--value</code>, like the demo dashboard's <samp>#sales-trend</samp> chart.</p>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
     <p class="lead"><a href="../../../reference/data-model/blocks/" target="_blank">Read more about content blocks.</a></p>

@@ -1,0 +1,19 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Container ;
+    dct:title "Extending" ;
+    dct:description "Extending LinkedDataHub with your own code: XSLT stylesheets, Java endpoints, Docker images" ;
+    rdf:_1 <#content> ;
+    rdf:_2 <#select-children> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="lead">Extending LinkedDataHub with your own code: XSLT stylesheets, Java endpoints, Docker images</p>
+    <p>Everything in the <a href="../tutorial/">tutorial</a> and the <a href="../user-guide/">user guide</a> happens through the UI, the CLI and RDF files. The pages in this section pick up where low-code ends: they show how to override the rendering with your own <a href="change-layout/">XSLT stylesheet</a> and how to <a href="build-apps/">package an app</a> with custom Java endpoints and a dedicated Docker image.</p>
+</div>"""^^rdf:XMLLiteral .
+
+<#select-children> a ldh:Object ;
+    rdf:value ldh:ChildrenView .

@@ -49,6 +49,24 @@
         <xsl:sequence select="'file:' || replace($rel, '\.rdf$', '/')"/>
     </xsl:function>
 
+    <!--
+        Explicit reading order for sections whose narrative order differs from the alphabetical
+        one (the tutorial stages, the get-started steps, the top-level sections). Unlisted
+        documents sort after listed ones, alphabetically by title.
+    -->
+    <xsl:variable name="nav-order" as="map(xs:string, xs:integer)" select="map{
+        'file:/about/': 1, 'file:/get-started/': 2, 'file:/tutorial/': 3, 'file:/user-guide/': 4, 'file:/reference/': 5, 'file:/extending/': 6,
+        'file:/get-started/setup/': 1, 'file:/get-started/get-an-account/': 2, 'file:/get-started/request-access/': 3,
+        'file:/tutorial/hello-dataspace/': 1, 'file:/tutorial/structure/': 2, 'file:/tutorial/model/': 3, 'file:/tutorial/data/': 4, 'file:/tutorial/media/': 5, 'file:/tutorial/insight/': 6, 'file:/tutorial/composition/': 7, 'file:/tutorial/publish/': 8, 'file:/tutorial/app-as-repository/': 9, 'file:/tutorial/beyond-low-code/': 10,
+        'file:/user-guide/create-data/create-documents/': 1, 'file:/user-guide/create-data/create-content/': 2, 'file:/user-guide/create-data/create-resources/': 3,
+        'file:/reference/data-model/documents/': 1, 'file:/reference/data-model/blocks/': 2, 'file:/reference/data-model/resources/': 3
+    }"/>
+
+    <xsl:function name="local:nav-order" as="xs:integer">
+        <xsl:param name="node" as="node()"/>
+        <xsl:sequence select="($nav-order(local:resource-uri($node)), 999)[1]"/>
+    </xsl:function>
+
     <!-- ==================== INITIAL TEMPLATE ==================== -->
 
     <xsl:template name="main">
@@ -71,6 +89,7 @@
                             <ul class="nav nav-list">
                                 <!-- current-uri = 'file:/' — none of the nav items match, so no active class -->
                                 <xsl:apply-templates select="$top-level-docs" mode="nav">
+                                    <xsl:sort select="local:nav-order(.)" data-type="number"/>
                                     <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
                                     <xsl:with-param name="current-uri" select="'file:/'" tunnel="yes"/>
                                     <xsl:with-param name="base-path" select="$root-base-path" tunnel="yes"/>
@@ -79,6 +98,7 @@
                         </nav>
                         <main class="docs-main">
                             <xsl:apply-templates select="$top-level-docs" mode="child-item">
+                                <xsl:sort select="local:nav-order(.)" data-type="number"/>
                                 <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
                                 <xsl:with-param name="base-path" select="$root-base-path" tunnel="yes"/>
                             </xsl:apply-templates>
@@ -130,6 +150,7 @@
                                 <xsl:apply-templates
                                     select="$all-docs/rdf:RDF[resolve-uri('../', local:resource-uri(.)) = 'file:/']"
                                     mode="nav">
+                                    <xsl:sort select="local:nav-order(.)" data-type="number"/>
                                     <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
                                     <xsl:with-param name="current-uri" select="$resource-uri" tunnel="yes"/>
                                     <xsl:with-param name="base-path" select="$base-path" tunnel="yes"/>
@@ -164,6 +185,7 @@
             <xsl:apply-templates
                 select="$all-docs/rdf:RDF[resolve-uri('../', local:resource-uri(.)) = $resource-uri]"
                 mode="child-item">
+                <xsl:sort select="local:nav-order(.)" data-type="number"/>
                 <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
             </xsl:apply-templates>
         </nav>
@@ -230,6 +252,7 @@
             <xsl:if test="$children and starts-with($current-uri, $resource-uri)">
                 <ul class="nav nav-list">
                     <xsl:apply-templates select="$children" mode="nav">
+                        <xsl:sort select="local:nav-order(.)" data-type="number"/>
                         <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
                     </xsl:apply-templates>
                 </ul>
@@ -312,13 +335,15 @@
             <script type="text/javascript">
                 <xsl:text><![CDATA[
                     document.addEventListener("click", function(event) {
-                        var link = event.target.closest("ul.nav-tabs a");
-                        if (!link) return;
-                        var li = link.closest("li"), ul = li.parentElement, content = ul.nextElementSibling;
-                        var index = Array.prototype.indexOf.call(ul.children, li);
-                        Array.prototype.forEach.call(ul.children, function(tab) { tab.classList.remove("active"); });
-                        li.classList.add("active");
-                        Array.prototype.forEach.call(content.children, function(pane, i) { pane.classList.toggle("active", i === index); });
+                        var tab = event.target.closest(".ldhc-tab[role='tab']");
+                        if (!tab) return;
+                        var tablist = tab.closest("[role='tablist']");
+                        var tabs = tablist.closest(".ldhc-tabs");
+                        if (!tabs || !tabs.querySelector(".ldhc-tabpanel")) return;
+                        tablist.querySelectorAll(".ldhc-tab").forEach(function(t) { t.classList.remove("is-on"); t.setAttribute("aria-selected", "false"); });
+                        tab.classList.add("is-on");
+                        tab.setAttribute("aria-selected", "true");
+                        tabs.querySelectorAll(":scope > .ldhc-tabpanel").forEach(function(pane) { pane.hidden = pane.id !== tab.getAttribute("aria-controls"); });
                     });
                 ]]></xsl:text>
             </script>

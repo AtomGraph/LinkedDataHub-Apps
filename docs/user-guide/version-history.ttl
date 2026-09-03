@@ -4,7 +4,7 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
-    dct:title "View version history" ;
+    dct:title "Version history" ;
     dct:description "View, compare and restore document versions" ;
     rdf:_1 <#content> .
 
@@ -12,7 +12,7 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">View, compare and restore document versions</p>
     <div class="alert alert-info">
-        <p>Version history is available in dataspaces with <a href="../../reference/versioning/">versioning</a> enabled.</p>
+        <p>Version history is available in dataspaces with <a href="../../reference/versioning/">versioning</a> enabled — see the <a href="../../reference/versioning/#setup">setup instructions</a>.</p>
     </div>
     <div>
         <h2 id="open-history">Open the history</h2>
@@ -30,7 +30,7 @@
         <h2 id="compare-versions">Compare versions</h2>
         <div class="screenshot-placeholder">
             <span class="msi" aria-hidden="true">image</span>
-            <p>Screenshot: a version diff on an order document - added/removed/changed borders and the color legend</p>
+            <p>Screenshot: a version diff on an order document — added/removed/changed borders and the color legend</p>
         </div>
         <p>In the History dialog, select a <dfn>From</dfn> and a <dfn>To</dfn> version to compare. The diff renders on the document page:</p>
         <ul>
@@ -38,16 +38,21 @@
             <li>changed property values are marked individually</li>
             <li>a changed XHTML block stacks its old content above the new</li>
         </ul>
-        <p>The diff is display state read from the URL — going back and forward re-renders it, and reloading the page falls back to the plain
-            historical version.</p>
+        <p>The diff is encoded in the URL, so browser back and forward re-render it. Reloading the page shows the plain historical version
+            instead.</p>
     </div>
     <div>
         <h2 id="restore-version">Restore a version</h2>
         <p>In the History dialog, click <span class="btn btn-primary">Restore</span> on the version you want to bring back and confirm. The version's
-            content is written to the live document, so the restore rolls forward as a new version — nothing is rewritten and the versions rolled past
-            stay in the history.</p>
+            content is written to the live document as a new version. Nothing is rewritten: the versions in between stay in the history.</p>
         <p>Restoring requires write access to the document; the button is not offered on the version you are currently viewing.</p>
     </div>
-    <p class="lead">Read more about <a href="../../reference/versioning/">versioning and the Memento protocol</a> or access the history from the
-        <a href="../../reference/command-line-interface/">command line interface</a>.</p>
+    <div>
+        <h2 id="cli">From the command line</h2>
+        <p>The <a href="../../reference/command-line-interface/">CLI</a> addresses the same Memento roles as mutually exclusive options of <samp>ldh get</samp>:
+            <code>--timemap</code> retrieves the version history, <code>--version &lt;sha&gt;</code> retrieves a historical version, and <code>--timegate</code>
+            (with an optional <code>--datetime</code>) prints the URI of the version that was current at the given time. For example, with the document's URL in <samp>$doc</samp>:</p>
+        <pre>ldh get --accept text/turtle --timemap "$doc"</pre>
+    </div>
+    <p class="lead"><a href="../../reference/versioning/">Read more about versioning and the Memento protocol.</a></p>
 </div>"""^^rdf:XMLLiteral .

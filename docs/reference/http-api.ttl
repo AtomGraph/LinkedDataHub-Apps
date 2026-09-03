@@ -6,18 +6,31 @@
 
 <> a dh:Item ;
     dct:title "HTTP API" ;
-    dct:description "Learn how to access and manage RDF data over generic HTTP API" ;
+    dct:description "Read and write RDF data from and to LinkedDataHub applications over HTTP" ;
     rdf:_1 <#content> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Learn how to read and write RDF data from/to LinkedDataHub applications over HTTP</p>
+    <p class="lead">Read and write RDF data from and to LinkedDataHub applications over HTTP</p>
     <p>LinkedDataHub implements a uniform, generic RESTful Linked Data API as defined by the
-        <a href="https://www.w3.org/TR/sparql11-http-rdf-update/" target="_blank">SPARQL 1.1 Graph Store Protocol</a>. It adds a few conventions (such as <a href="#document-metadata">automatic document metadata</a>) and <a href="#constraints">constraints</a>
-        on top of it however.</p>
+        <a href="https://www.w3.org/TR/sparql11-http-rdf-update/" target="_blank">SPARQL 1.1 Graph Store HTTP Protocol</a>. It adds a few conventions of its own, however — such as <a href="#document-metadata">automatic document metadata</a> — as well as some <a href="#constraints">constraints</a>.</p>
+    <p>On this page:</p>
+    <ul>
+        <li><a href="#auth">Authentication</a></li>
+        <li><a href="#acl">Access control</a></li>
+        <li><a href="#con-neg">Content negotiation</a></li>
+        <li><a href="#errors">Error responses</a></li>
+        <li><a href="#documents">Managing documents</a></li>
+        <li><a href="#versioned-documents">Versioned documents</a></li>
+        <li><a href="#sparql">Executing SPARQL</a></li>
+        <li><a href="#ld-proxy">Linked Data proxy</a></li>
+        <li><a href="#federation">Federation</a></li>
+        <li><a href="#system-endpoints">System endpoints</a></li>
+        <li><a href="#caching">Caching</a></li>
+    </ul>
     <div>
         <h2 id="auth">Authentication</h2>
-        <p>LinkedDataHub UI supports 2 authentication methods:</p>
+        <p>The LinkedDataHub UI supports two authentication methods:</p>
         <ul>
             <li><a href="https://dvcs.w3.org/hg/WebID/raw-file/tip/spec/tls-respec.html" target="_blank">WebID-TLS</a> using TLS client certificates</li>
             <li>OpenID Connect using <a href="https://developers.google.com/identity/protocols/oauth2/openid-connect" target="_blank">Google</a> or <a href="https://info.orcid.org/documentation/integration-guide/" target="_blank">ORCID</a></li>
@@ -30,12 +43,50 @@
     <div>
         <h2 id="acl">Access control</h2>
         <p>All HTTP access to <a href="#documents">documents</a> is subject to <a href="../administration/acl/">access
-            control</a>. Requesting a document with insufficient access rights will result in <code>403 Forbidden</code> response. That  means either:</p>
+            control</a>. Requesting a document with insufficient access rights will result in a <code>403 Forbidden</code> response. That means either:</p>
         <ul>
             <li>the user is not authenticated and public access to the document is not allowed</li>
-            <li>the user is authenticated but the associated agent does not have an authorization to <a href="../data-model/documents/#manage">perform the action</a> on the
+            <li>the user is authenticated but the associated agent does not have an authorization to <a href="../data-model/documents/#management">perform the action</a> on the
                 requested document</li>
         </ul>
+    </div>
+    <div>
+        <h2 id="con-neg">Content negotiation</h2>
+        <p>LinkedDataHub implements <a href="https://tools.ietf.org/html/rfc7231#section-3.4.1" target="_blank">proactive content negotiation</a> based on the request <code>Accept</code>
+            header value. The following RDF media types are supported (for requests as well as responses, unless indicated otherwise):</p>
+        <ul>
+            <li><a href="https://www.w3.org/TR/turtle/" target="_blank">Turtle</a> <code>text/turtle</code></li>
+            <li><a href="https://www.w3.org/TR/n-triples/" target="_blank">N-Triples</a> <code>application/n-triples</code></li>
+            <li><a href="https://www.w3.org/TR/rdf-syntax-grammar/" target="_blank">RDF/XML</a> <code>application/rdf+xml</code></li>
+            <li><a href="https://www.w3.org/TR/json-ld/" target="_blank">JSON-LD</a> <code>application/ld+json</code></li>
+            <li><a href="https://atomgraph.github.io/RDF-POST/" target="_blank">RDF/POST</a> <code>application/x-www-form-urlencoded</code> (for requests only)</li>
+        </ul>
+        <p>The same document, negotiated as N-Triples:</p>
+        <pre>GET /products/1/ HTTP/1.1
+Host: localhost:4443
+Accept: application/n-triples
+
+HTTP/1.1 200 OK
+Content-Type: application/n-triples
+ETag: "1e635b4-ntriples"
+
+&lt;https://localhost:4443/products/1/#this&gt; &lt;https://schema.org/name&gt; "Chai" .
+…</pre>
+    </div>
+    <div>
+        <h2 id="errors">Error responses</h2>
+        <p>LinkedDataHub provides machine-readable error responses in the requested RDF format. An example of <code>403 Forbidden</code>:</p>
+        <pre>@prefix xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+@prefix http: &lt;http://www.w3.org/2011/http#&gt; .
+@prefix sc:   &lt;http://www.w3.org/2011/http-statusCodes#&gt; .
+@prefix dct:  &lt;http://purl.org/dc/terms/&gt; .
+
+[ a http:Response ;
+    dct:title "Access not authorized" ;
+    http:reasonPhrase "Forbidden" ;
+    http:sc sc:Forbidden ;
+    http:statusCodeValue "403"^^xsd:long
+] .</pre>
     </div>
     <div>
         <h2 id="documents">Managing documents</h2>
@@ -45,7 +96,7 @@
         </div>
         <p>The API also supports the <code>PATCH</code> HTTP method which is <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#http-patch">optional in GSP</a>. It accepts graph-scoped SPARQL updates that will modify the requested document. Only the <code>INSERT/WHERE</code> and <code>DELETE WHERE</code> forms are supported; <code>GRAPH</code> patterns are not allowed.</p>
         <p>Trailing slashes in document URIs are enforced using <code>308 Permanent Redirect</code> responses.</p>
-        <table class="table">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Method</th>
@@ -69,10 +120,10 @@
                 </tr>
                 <tr>
                     <th rowspan="5"><code id="ld-post">POST</code></th>
-                    <td rowspan="5">Appends data to a named graph</td>
+                    <td rowspan="5">Appends data to a document</td>
                     <td rowspan="5"><code>204 No Content</code></td>
                     <td><code>400 Bad Request</code></td>
-                    <td><a href="#con-neg">RDF syntax error</a></td>
+                    <td>RDF syntax error</td>
                 </tr>
                 <tr>
                     <td><code>404 Not Found</code></td>
@@ -95,7 +146,7 @@
                     <td rowspan="5">Upserts a document</td>
                     <td rowspan="5"><code>200 OK</code> <code>201 Created</code> <code>308 Permanent Redirect</code></td>
                     <td rowspan="2"><code>400 Bad Request</code></td>
-                    <td><a href="#con-neg">RDF syntax error</a></td>
+                    <td>RDF syntax error</td>
                 </tr>
                 <tr>
                     <td>Malformed document URI</td>
@@ -132,13 +183,14 @@
                 </tr>
             </tbody>
         </table>
+        <p>Any method may additionally answer <code>403 Forbidden</code> — see <a href="#acl">Access control</a>.</p>
         <div>
             <h3 id="document-metadata">Document metadata</h3>
             <p>Unlike earlier versions, LinkedDataHub 5.x manages the <a href="../data-model/documents/#hierarchy">document hierarchy</a> automatically.</p>
             <p>By default, LinkedDataHub treats an RDF document as an item by giving it the <code>dh:Item</code> type and attaching it to the parent container using <code>sioc:has_container</code>. If the client wants to create a container instead, it has to explicitly add the <code>dh:Container</code> type on the document resource; the new container will be attached to its parent using <code>sioc:has_parent</code>. In either case, the URI of the new document will be relative to its parent's.</p>
             <p>LinkedDataHub will also manage additional document metadata, such as its owner and creation/modification timestamps.</p>
             <p>For example, this HTTP request creating the Northwind regions container (Turtle syntax):</p>
-            <pre><code>PUT /regions/ HTTP/1.1
+            <pre>PUT /regions/ HTTP/1.1
 Host: localhost:4443
 Content-Type: text/turtle
 
@@ -146,9 +198,9 @@ Content-Type: text/turtle
 @prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
 
 &lt;&gt; a dh:Container ;
-    dct:title "Regions" .</code></pre>
+    dct:title "Regions" .</pre>
             <p>will produce the following document triples:</p>
-            <pre><code>@prefix dh:     &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+            <pre>@prefix dh:     &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
 @prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
 @prefix xsd:    &lt;http://www.w3.org/2001/XMLSchema#&gt; .
 @prefix sioc:   &lt;http://rdfs.org/sioc/ns#&gt; .
@@ -160,13 +212,13 @@ Content-Type: text/turtle
     dct:creator &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; ;
     dct:title "Regions" ;
     sioc:has_parent &lt;https://localhost:4443/&gt; ;
-    acl:owner &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .</code></pre>
-        <p>The HTTP request to produce a new item can be empty:</p>
-            <pre><code>PUT /regions/1/ HTTP/1.1
+    acl:owner &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .</pre>
+            <p>The HTTP request to produce a new item can be empty:</p>
+            <pre>PUT /regions/1/ HTTP/1.1
 Host: localhost:4443
-Content-Type: text/turtle</code></pre>
+Content-Type: text/turtle</pre>
             <p>It will create an item document with the following triples:</p>
-            <pre><code>@prefix dh:     &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+            <pre>@prefix dh:     &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
 @prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
 @prefix xsd:    &lt;http://www.w3.org/2001/XMLSchema#&gt; .
 @prefix sioc:   &lt;http://rdfs.org/sioc/ns#&gt; .
@@ -177,12 +229,12 @@ Content-Type: text/turtle</code></pre>
     dct:created "2025-03-31T20:45:42.802Z"^^xsd:dateTime ;
     dct:creator &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; ;
     sioc:has_container &lt;https://localhost:4443/regions/&gt; ;
-    acl:owner &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .</code></pre>
+    acl:owner &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .</pre>
         </div>
         <div>
             <h3 id="patch-example">Graph-scoped updates</h3>
             <p>A <code>PATCH</code> applies a SPARQL update scoped to the requested document's graph. Appending a description to the Chai product:</p>
-            <pre><code>PATCH /products/1/ HTTP/1.1
+            <pre>PATCH /products/1/ HTTP/1.1
 Host: localhost:4443
 Content-Type: application/sparql-update
 
@@ -192,10 +244,10 @@ INSERT
 {
     &lt;https://localhost:4443/products/1/#this&gt; schema:description "A delicate black tea blend" .
 }
-WHERE {}</code></pre>
+WHERE {}</pre>
             <p>The update executes against that one graph, so <code>GRAPH</code> patterns are not allowed — this request is rejected with
                 <samp>422 Unprocessable Entity</samp>:</p>
-            <pre><code>PATCH /products/1/ HTTP/1.1
+            <pre>PATCH /products/1/ HTTP/1.1
 Host: localhost:4443
 Content-Type: application/sparql-update
 
@@ -208,14 +260,14 @@ INSERT
         &lt;https://localhost:4443/products/1/#this&gt; schema:description "A delicate black tea blend" .
     }
 }
-WHERE {}</code></pre>
+WHERE {}</pre>
         </div>
         <div>
             <h3 id="constraints">Built-in constraints</h3>
             <p>LinkedDataHub has a few built-in constraints that are not found in the standard Graph Store Protocol:</p>
             <ul>
-                <li>It's not possible to delete the root document (returns <code>405 Method Not Allowed</code>)</li>
-                <li>It's not possible to modify or delete the documents of the owner agent and the secretary agent (returns <code>405 Method Not Allowed</code>)</li>
+                <li>It is not possible to delete the root document (returns <code>405 Method Not Allowed</code>)</li>
+                <li>It is not possible to modify or delete the documents of the owner agent and the secretary agent (returns <code>405 Method Not Allowed</code>)</li>
                 <li>A document can only be created with a URL relative to an existing container (i.e. resolving <samp>..</samp> against the new document's URL must identify an existing container)</li>
             </ul>
             <p>The built-in constraints are similar to, but separate from the <a href="../administration/ontologies/#constraints">ontology constraints</a>.</p>
@@ -223,11 +275,11 @@ WHERE {}</code></pre>
     </div>
     <div>
         <h2 id="versioned-documents">Versioned documents</h2>
-        <p>In dataspaces with <a href="../versioning/">versioning</a> enabled, document URLs answer additional query parameters that expose the version
+        <p>In dataspaces with <a href="../versioning/">versioning</a> enabled, document URLs accept additional query parameters that expose the version
             history through the standard <a href="https://datatracker.ietf.org/doc/html/rfc7089" target="_blank">Memento (RFC 7089)</a> protocol:</p>
         <dl>
             <dt><code>?version=&lt;commit-sha&gt;</code></dt>
-            <dd>A historical version of the document, served with <code>Memento-Datetime</code> and immutable caching. Snapshots are read-only: write methods answer <code>405 Method Not Allowed</code></dd>
+            <dd>A historical version of the document, served with a <code>Memento-Datetime</code> header and an immutable <code>Cache-Control</code>. Snapshots are read-only: write methods answer <code>405 Method Not Allowed</code></dd>
             <dt><code>?timemap</code></dt>
             <dd>The document's version history — a TimeMap described with PROV-O in RDF formats, or in <code>application/link-format</code> as RFC 7089 requires</dd>
             <dt><code>?timegate</code></dt>
@@ -250,44 +302,14 @@ WHERE {}</code></pre>
   --data-urlencode 'default-graph-uri=https://localhost:4443/products/1/'</pre>
     </div>
     <div>
-        <h2 id="system-endpoints">System endpoints</h2>
-        <p></p>
-        <h3>Admin and end-user apps</h3>
-        <dl>
-            <dt><samp>ns</samp></dt>
-            <dd>In-memory namespace ontology as well as its SPARQL endpoint</dd>
-            <dt><samp>settings</samp></dt>
-            <dd>The application's own description in the dataspace configuration. <code>PATCH</code> with a SPARQL update edits it — this is how <a href="../administration/packages/">packages</a> are installed and uninstalled. Editing is restricted to end-user applications: a <code>PATCH</code> on an admin application's settings answers <samp>422 Unprocessable Entity</samp></dd>
-        </dl>
-        <h3>Admin app only</h3>
-        <dl>
-            <dt><samp>admin/access</samp></dt>
-            <dd>Access metadata (for the authenticated agent)</dd>
-            <dt><samp>admin/access/request</samp></dt>
-            <dd>Access request (for the authenticated agent)</dd>
-            <dt><samp>admin/sign%20up</samp></dt>
-            <dd>WebID-TLS agent signup</dd>
-            <dt><samp>oauth2/login/google</samp></dt>
-            <dd>OpenID Connect with Google login</dd>
-            <dt><samp>oauth2/login/orcid</samp></dt>
-            <dd>OpenID Connect with ORCID login</dd>
-            <dt><samp>oauth2/authorize/google</samp></dt>
-            <dd>OpenID Connect with Google callback</dd>
-            <dt><samp>oauth2/authorize/orcid</samp></dt>
-            <dd>OpenID Connect with ORCID callback</dd>
-            <dt><samp>admin/clear</samp></dt>
-            <dd>Clears the specified ontology from memory cache and reloads it from the admin SPARQL endpoint</dd>
-        </dl>
-    </div>
-    <div>
         <h2 id="ld-proxy">Linked Data proxy</h2>
         <p>LinkedDataHub works as a <dfn>Linked Data proxy</dfn> (from the end-user perspective, as a <dfn>Linked Data browser</dfn>) when a URL is provided using the <code>uri</code> query parameter.
             All HTTP methods are supported.</p>
         <p>If the URL dereferences successfully as RDF, LinkedDataHub forwards its response body (re-serializing it to enable content negotiation).
             During a write request, the request body is forwarded to the provided URL.</p>
         <p>If the URL returns an HTML document, LinkedDataHub extracts every embedded <a href="https://json-ld.org/" target="_blank">JSON-LD</a> script
-            (<code>&lt;script type="application/ld+json"&gt;</code>) and parses it as RDF using JSON-LD 1.1, so pages annotated with <a href="https://schema.org/" target="_blank">schema.org</a> markup
-            can be browsed as Linked Data. The schema.org JSON-LD context is bundled with LinkedDataHub and served locally, so no external network request is made to resolve it. A supplier's homepage carrying</p>
+            (<code>&lt;script type="application/ld+json"&gt;</code>) and parses it as RDF using JSON-LD 1.1. Pages annotated with <a href="https://schema.org/" target="_blank">schema.org</a> markup
+            can therefore be browsed as Linked Data. The schema.org JSON-LD context is bundled with LinkedDataHub and served locally, so no external network request is made to resolve it. A supplier's homepage carrying this markup:</p>
         <pre>&lt;script type="application/ld+json"&gt;
 {
     "@context": "https://schema.org/",
@@ -297,14 +319,14 @@ WHERE {}</code></pre>
     "telephone": "(171) 555-2222"
 }
 &lt;/script&gt;</pre>
-        <p>browses as the triples</p>
+        <p>browses as these triples:</p>
         <pre>&lt;https://supplier.example/#this&gt; a schema:Corporation ;
     schema:legalName "Exotic Liquids" ;
     schema:telephone "(171) 555-2222" .</pre>
         <p>The proxy only accepts external (non-relative to the current application's base URI) URLs; local URLs have to be dereferenced directly.</p>
         <p>The proxy forwards the origin's <code>ETag</code> and <code>Last-Modified</code> validators and passes conditional request headers
-            (<code>If-Match</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, <code>If-Unmodified-Since</code>) through, so preconditioned
-            writes against proxied documents are evaluated at the origin. Error statuses from the origin reach the client unchanged.</p>
+            (<code>If-Match</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, <code>If-Unmodified-Since</code>) through. Preconditioned
+            writes against proxied documents are therefore evaluated at the origin. Error statuses from the origin reach the client unchanged.</p>
     </div>
     <div>
         <h2 id="federation">Federation</h2>
@@ -331,53 +353,49 @@ Link: &lt;https://unesco-thesaurus.demo.linkeddatahub.com/sparql&gt;; rel="http:
             <a href="../../user-guide/add-data/">add data</a> to its documents the same way as to local ones, provided the remote access control allows it.</p>
     </div>
     <div>
-        <h2 id="con-neg">Content negotiation</h2>
-        <p>LinkedDataHub implements <a href="https://tools.ietf.org/html/rfc7231#section-3.4.1" target="_blank">proactive conneg</a> based on the request <code>Accept</code>
-            header value.  The following RDF media types are supported (for requests as well as responses, unless indicated otherwise):</p>
-        <ul>
-            <li><a href="https://www.w3.org/TR/turtle/" target="_blank">Turtle</a> <code>text/turtle</code></li>
-            <li><a href="https://www.w3.org/TR/n-triples/" target="_blank">N-Triples</a> <code>application/n-triples</code></li>
-            <li><a href="https://www.w3.org/TR/rdf-syntax-grammar/" target="_blank">RDF/XML</a> <code>application/rdf+xml</code></li>
-            <li><a href="https://www.w3.org/TR/json-ld/" target="_blank">JSON-LD</a> <code>application/ld+json</code></li>
-            <li><a href="https://atomgraph.github.io/RDF-POST/" target="_blank">RDF/POST</a> <code>application/x-www-form-urlencoded</code> (for requests only)</li>
-        </ul>
-        <p>The same document, negotiated as N-Triples:</p>
-        <pre>GET /products/1/ HTTP/1.1
-Host: localhost:4443
-Accept: application/n-triples
-
-HTTP/1.1 200 OK
-Content-Type: application/n-triples
-ETag: "1e635b4-ntriples"
-
-&lt;https://localhost:4443/products/1/#this&gt; &lt;https://schema.org/name&gt; "Chai" .
-…</pre>
-    </div>
-    <div>
-        <h2 id="errors">Error responses</h2>
-        <p>LinkedDataHub provides machine-readable error responses in the requested RDF format. An example of <code>403 Forbidden</code>:</p>
-        <pre><code>@prefix xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt; .
-@prefix http: &lt;http://www.w3.org/2011/http#&gt; .
-@prefix sc:   &lt;http://www.w3.org/2011/http-statusCodes#&gt; .
-@prefix dct:  &lt;http://purl.org/dc/terms/&gt; .
-
-[ a http:Response ;
-    dct:title "Access not authorized" ;
-    http:reasonPhrase "Forbidden" ;
-    http:sc sc:Forbidden ;
-    http:statusCodeValue "403"^^xsd:long
-] .</code></pre>
+        <h2 id="system-endpoints">System endpoints</h2>
+        <p>Endpoints that LinkedDataHub serves in addition to the document hierarchy. Paths are relative to the application's base URI.</p>
+        <div>
+            <h3 id="app-endpoints">Admin and end-user apps</h3>
+            <dl>
+                <dt><samp>ns</samp></dt>
+                <dd>In-memory namespace ontology as well as its SPARQL endpoint</dd>
+                <dt><samp>settings</samp></dt>
+                <dd>The application's own description in the dataspace configuration. <code>PATCH</code> with a SPARQL update edits it — this is how <a href="../administration/packages/">packages</a> are installed and uninstalled. Editing is restricted to end-user applications: a <code>PATCH</code> on an admin application's settings answers <samp>422 Unprocessable Entity</samp></dd>
+            </dl>
+        </div>
+        <div>
+            <h3 id="admin-endpoints">Admin app only</h3>
+            <dl>
+                <dt><samp>admin/access</samp></dt>
+                <dd>Access metadata (for the authenticated agent)</dd>
+                <dt><samp>admin/access/request</samp></dt>
+                <dd>Access request (for the authenticated agent)</dd>
+                <dt><samp>admin/sign%20up</samp></dt>
+                <dd>WebID-TLS agent signup</dd>
+                <dt><samp>oauth2/login/google</samp></dt>
+                <dd>OpenID Connect with Google login</dd>
+                <dt><samp>oauth2/login/orcid</samp></dt>
+                <dd>OpenID Connect with ORCID login</dd>
+                <dt><samp>oauth2/authorize/google</samp></dt>
+                <dd>OpenID Connect with Google callback</dd>
+                <dt><samp>oauth2/authorize/orcid</samp></dt>
+                <dd>OpenID Connect with ORCID callback</dd>
+                <dt><samp>admin/clear</samp></dt>
+                <dd>Clears the specified ontology from memory cache and reloads it from the admin SPARQL endpoint</dd>
+            </dl>
+        </div>
     </div>
     <div>
         <h2 id="caching">Caching</h2>
         <p><code>GET</code> and <code>HEAD</code> RDF responses from the backend triplestores (<em>not LinkedDataHub responses</em>) are cached automatically by LinkedDataHub using <a href="https://varnish-cache.org" target="_blank">Varnish</a>
-            as HTTP proxy cache. You can check the age of the response by inspecting the <code>Age</code> response header (the value is in seconds).</p>
-        <p>LinkedDataHub sends <code>ETag</code> response headers that are derived as hashes of the requested document's RDF content. Every serialization format (HTML, RDF/XML, Turtle etc.) gets a distinct <code>ETag</code> value, and language-negotiated HTML representations factor the accepted languages into the tag.</p>
-        <p>HTML responses carry a <code>Content-Language</code> negotiated against the languages the UI ships, and advertise <code>Vary: Accept-Language</code> so shared caches keep the renderings apart.</p>
+            as an HTTP proxy cache. You can check the age of the response by inspecting the <code>Age</code> response header (the value is in seconds).</p>
+        <p>LinkedDataHub sends <code>ETag</code> response headers that are derived as hashes of the requested document's RDF content. Every representation (HTML, RDF/XML, Turtle, etc.) gets a distinct <code>ETag</code> value, and language-negotiated HTML representations factor the accepted languages into the tag.</p>
+        <p>HTML responses carry a <code>Content-Language</code> negotiated against the languages the UI ships with, and advertise <code>Vary: Accept-Language</code> so shared caches keep the renderings apart.</p>
         <p>Caching of LinkedDataHub responses can be enabled on the nginx HTTP proxy server by uncommenting the <code>add_header Cache-Control</code> directives in the <samp>platform/nginx.conf.template</samp> file.
             Caching of <samp>/uploads/</samp> and <samp>/static/</samp> namespaces is enabled by default.</p>
     </div>
 </div>"""^^rdf:XMLLiteral ;
         rdfs:seeAlso <https://www.w3.org/TR/sparql11-http-rdf-update/> .
 
-    <https://www.w3.org/TR/sparql11-http-rdf-update/> dct:title "SPARQL 1.1 Graph Store HTTP Protocol".
+    <https://www.w3.org/TR/sparql11-http-rdf-update/> dct:title "SPARQL 1.1 Graph Store HTTP Protocol" .

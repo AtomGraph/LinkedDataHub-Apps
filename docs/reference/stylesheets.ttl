@@ -2,23 +2,44 @@
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
-  
+
 <> a dh:Item ;
     dct:title "Stylesheets" ;
-    dct:description "Built-in XSLT and CSS stylesheets" ;
+    dct:description "Built-in XSLT, CSS and JavaScript assets, and how to override them" ;
     rdf:_1 <#content> .
-    
+
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Built-in XSLT and CSS stylesheets</p>
+    <p class="lead">Built-in XSLT, CSS and JavaScript assets, and how to override them</p>
+    <ul>
+        <li><a href="#xslt">XSLT</a>
+            <ul>
+                <li><a href="#rdf-xml-plain">Plain RDF/XML</a></li>
+                <li><a href="#stylesheet-structure">Stylesheet structure</a></li>
+                <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#templates">Templates</a></li>
+                <li><a href="#overriding-templates">Overriding templates</a></li>
+                <li><a href="#keys">Keys</a></li>
+                <li><a href="#loading-data">Loading data</a></li>
+                <li><a href="#parameters">Parameters</a></li>
+                <li><a href="#functions">Functions</a></li>
+            </ul>
+        </li>
+        <li><a href="#other-assets">Other assets</a>
+            <ul>
+                <li><a href="#css">CSS</a></li>
+                <li><a href="#javascript">JavaScript</a></li>
+            </ul>
+        </li>
+    </ul>
     <div>
         <h2 id="xslt">XSLT</h2>
         <p>XSLT is a functional, Turing-complete XML transformation language.</p>
-        <p>LinkedDataHub's <a href="https://www.w3.org/TR/xslt-30/" target="_blank">XSLT 3.0</a> stylesheets work by transforming <a href="https://www.w3.org/TR/rdf-syntax-grammar/" target="_blank">RDF/XML</a> response body from the underlying <a href="../http-api/" target="_blank">HTTP API</a>. Additional metadata from RDF vocabularies is used to improve user experience.</p>
+        <p>LinkedDataHub's <a href="https://www.w3.org/TR/xslt-30/" target="_blank">XSLT 3.0</a> stylesheets work by transforming the <a href="https://www.w3.org/TR/rdf-syntax-grammar/" target="_blank">RDF/XML</a> response body from the underlying <a href="../http-api/" target="_blank">HTTP API</a>. Additional metadata from RDF vocabularies is used to improve the user experience.</p>
         <div>
             <h3 id="rdf-xml-plain">Plain RDF/XML</h3>
             <p><a href="https://www.w3.org/TR/rdf-syntax-grammar/" target="_blank">RDF/XML</a> is an important RDF syntax which functions as a bridge to the XML technology stack. The stylesheets use Jena's <a href="https://jena.apache.org/documentation/io/rdfxml_howto.html#rdfxml-rdfxml-abbrev" target="_blank">"plain" RDF/XML</a> output which groups statements by subject and does not nest resource descriptions. This allows for predictable XPath patterns:</p>
-            <table class="table">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>XPath</th>
@@ -60,7 +81,7 @@
                     </tr>
                 </tbody>
             </table>
-            <p>The Northwind Chai product in that shape — the input every template matches against:</p>
+            <p>The Northwind Chai product in that shape — the input that the templates match:</p>
             <pre>&lt;rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:schema="https://schema.org/"&gt;
     &lt;rdf:Description rdf:about="https://localhost:4443/products/1/#this"&gt;
         &lt;rdf:type rdf:resource="https://schema.org/Product"/&gt;
@@ -71,13 +92,13 @@
 &lt;/rdf:RDF&gt;</pre>
         </div>
         <div>
-            <h3 id="stylesheets">Stylesheets</h3>
+            <h3 id="stylesheet-structure">Stylesheet structure</h3>
             <p>XSLT stylesheet components used by LinkedDataHub:</p>
             <dl>
                 <dt>Includes</dt>
-                <dd><code>&lt;xsl:include&gt;</code> is used to include one stylesheet into another. The import mechanism is specified in <a href="https://www.w3.org/TR/xslt-30/#include" target="_blank">3.10.2 Stylesheet Inclusion</a> the XSLT 3.0 specification. The templates from the included stylesheets have the same priority as those of the importing stylesheet.</dd>
+                <dd><code>&lt;xsl:include&gt;</code> is used to include one stylesheet into another. The inclusion mechanism is specified in <a href="https://www.w3.org/TR/xslt-30/#include" target="_blank">3.10.2 Stylesheet Inclusion</a> of the XSLT 3.0 specification. The templates from the included stylesheets have the same priority as those of the including stylesheet.</dd>
                 <dt>Imports</dt>
-                <dd><code>&lt;xsl:import&gt;</code> is used to import one stylesheet into another. The import mechanism is specified in <a href="https://www.w3.org/TR/xslt-30/#import" target="_blank">3.10.3 Stylesheet Import</a> the XSLT 3.0 specification. The templates from the imported stylesheets have lower priority than those of the importing stylesheet.</dd>
+                <dd><code>&lt;xsl:import&gt;</code> is used to import one stylesheet into another. The import mechanism is specified in <a href="https://www.w3.org/TR/xslt-30/#import" target="_blank">3.10.3 Stylesheet Import</a> of the XSLT 3.0 specification. The templates from the imported stylesheets have lower priority than those of the importing stylesheet.</dd>
                 <dt>Parameters</dt>
                 <dd>XSD-typed <a href="#parameters">global parameters</a> passed to the stylesheet</dd>
                 <dt>Keys</dt>
@@ -85,16 +106,15 @@
                 <dt>Templates</dt>
                 <dd><a href="#templates">Template rules</a> for XML node processing</dd>
             </dl>
-            <p>One XSLT stylesheet can be specified per application. In order to reuse LinkedDataHub's built-in templates, it should import the <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/src/main/webapp/static/com/atomgraph/linkeddatahub/xsl/bootstrap/2.3.2/layout.xsl" target="_blank">system stylesheet <samp>layout.xsl</samp></a> and only override the necessary templates. That is however not a requirement, the stylesheet could also use its own independent transformation logic.</p>
+            <p>One XSLT stylesheet can be specified per application. In order to reuse LinkedDataHub's built-in templates, it should import the <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/src/main/webapp/static/com/atomgraph/linkeddatahub/xsl/bootstrap/2.3.2/layout.xsl" target="_blank">system stylesheet <samp>layout.xsl</samp></a> and only override the necessary templates. That is not a requirement, however; a stylesheet can also use its own independent transformation logic.</p>
             <p>If there is no stylesheet specified for the application, the system stylesheet is used. It defines the overall layout and imports resource-level and container-specific stylesheets, as well as per-vocabulary stylesheets.</p>
             <p>Note that LinkedDataHub itself imports stylesheets from <a href="https://github.com/AtomGraph/Web-Client" target="_blank">Web-Client</a>, which uses the same template modes but produces a much simpler layout.</p>
             <p>The same XSLT 3.0 stylesheets run in two environments. On the server they are executed by Saxon-HE to produce the initial HTML response. In the browser they are executed by <a href="https://www.saxonica.com/saxon-js/index.xml" target="_blank">Saxon-JS 3</a>, which provides IXSL (<a href="https://www.saxonica.com/saxonjs/documentation3/index.html#!ixsl-extension" target="_blank">Interactive XSLT extensions</a>) for reading and manipulating the browser DOM.</p>
-            <p>There is a dedicated <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/src/main/webapp/static/com/atomgraph/linkeddatahub/xsl/client.xsl" target="_blank">client-side stylesheet <samp>client.xsl</samp></a> that drives the browser. After the server-rendered page loads, its <code>main</code> template renders the layout client-side — the left sidebar, navigation, document and tab panes, content blocks, forms and modal dialogs are injected into the DOM using IXSL (e.g. <code>ixsl:append-content</code>). It also handles all subsequent navigation, so following links and switching documents re-renders in place without a full page reload. It imports and reuses the same document-, resource- and property-level templates as the server-side system stylesheet, but avoids loading per-vocabulary stylesheets in order to improve page load time. Templates of the client-side stylesheet can also be overridden.</p>
+            <p>There is a dedicated <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/src/main/webapp/static/com/atomgraph/linkeddatahub/xsl/client.xsl" target="_blank">client-side stylesheet <samp>client.xsl</samp></a> that drives the browser. After the server-rendered page loads, its <code>main</code> template renders the layout client-side — the left sidebar, navigation, document and tab panes, content blocks, forms and modal dialogs are injected into the DOM using IXSL (e.g. <code>ixsl:append-content</code>). It also handles all subsequent navigation, so following links and switching documents re-renders in place without a full page reload. It imports and reuses the same document-, resource- and property-level templates as the server-side system stylesheet, but avoids loading per-vocabulary stylesheets in order to improve page load time. Templates of the client-side stylesheet can also be overridden.</p>
         </div>
         <div>
             <h3 id="namespaces">Namespaces</h3>
-            <table class="table">
-                <caption>Main namespaces used in XSLT stylesheets</caption>
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Prefix</th>
@@ -113,31 +133,31 @@
                     <tr>
                         <td><code>srx:</code></td>
                         <td><code>http://www.w3.org/2005/sparql-results#</code></td>
-                        <td></td>
+                        <td><a href="https://www.w3.org/TR/rdf-sparql-XMLres/" target="_blank">SPARQL Query Results XML Format</a></td>
                         <td>Namespace for the <a href="https://www.w3.org/TR/rdf-sparql-XMLres/" target="_blank">SPARQL Query Results XML</a> elements, mostly used for matching input data</td>
                     </tr>
                     <tr>
                         <td><code>xsl:</code></td>
                         <td><code>http://www.w3.org/1999/XSL/Transform</code></td>
-                        <td></td>
+                        <td><a href="https://www.w3.org/TR/xslt-30/" target="_blank">XSL Transformations (XSLT) 3.0</a></td>
                         <td>Namespace for the XSLT stylesheet elements</td>
                     </tr>
                     <tr>
                         <td><code>ixsl:</code></td>
                         <td><code>http://saxonica.com/ns/interactiveXSLT</code></td>
-                        <td></td>
+                        <td><a href="https://www.saxonica.com/saxonjs/documentation3/index.html#!ixsl-extension" target="_blank">Saxon Interactive XSLT extensions</a></td>
                         <td>Namespace for the <a href="https://www.saxonica.com/saxonjs/documentation3/index.html#!ixsl-extension" target="_blank">Interactive XSL extensions</a></td>
                     </tr>
                     <tr>
                         <td><code>bs2:</code></td>
                         <td><code>http://graphity.org/xsl/bootstrap/2.3.2</code></td>
-                        <td></td>
+                        <td>(none — XSLT-internal)</td>
                         <td>XSLT-only namespace that is used for layout templates. Historically <a href="https://getbootstrap.com/2.3.2/" target="_blank">Bootstrap 2.3.2</a>-based; the namespace is retained for compatibility although the UI has moved to the design system</td>
                     </tr>
                     <tr>
                         <td><code>xhtml:</code></td>
                         <td><code>http://www.w3.org/1999/xhtml</code></td>
-                        <td></td>
+                        <td><a href="https://www.w3.org/TR/xhtml1/" target="_blank">XHTML 1.0</a></td>
                         <td>XHTML namespace, also used for generic (X)HTML templates</td>
                     </tr>
                     <tr>
@@ -161,16 +181,122 @@
                     <tr>
                         <td><code>lacl:</code></td>
                         <td><code>https://w3id.org/atomgraph/linkeddatahub/admin/acl#</code></td>
-                        <td>LinkedDataHub ACL ontology</td>
+                        <td><a href="../administration/ontologies/#lacl-ont" target="_blank">LinkedDataHub ACL ontology</a></td>
                         <td>ACL concepts</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div>
+            <h3 id="templates">Templates</h3>
+            <p>XSLT template components:</p>
+            <dl>
+                <dt>Match</dt>
+                <dd>XPath-based match pattern which either does or does not match an XML node</dd>
+                <dt>Mode</dt>
+                <dd>Groups templates and distinguishes them from other groups that share the same match patterns (e.g. different layout modes)</dd>
+                <dt>Parameters</dt>
+                <dd>XSD-typed parameters passed to the template invocation</dd>
+                <dt>Body</dt>
+                <dd>Contains the XML output nodes as well as XSLT processing instructions</dd>
+            </dl>
+            <p>XSLT processing starts at the root of the RDF/XML document and produces HTML elements by applying templates to all of the RDF/XML nodes while moving down the XML tree.
+                In other words, it starts at the graph level, moves down to resource description elements, then to property elements, and ends with identifier attributes and literal text nodes.</p>
+            <p>Templates are applied (invoked) using <code>&lt;xsl:apply-templates&gt;</code>. Mode can be specified, e.g. <code>&lt;xsl:apply-templates mode="bs2:Header"&gt;</code>. To stay in the current mode without explicitly specifying it, use <code>&lt;xsl:apply-templates mode="#current"&gt;</code>. <code>&lt;xsl:with-param&gt;</code> is used to supply parameters.</p>
+            <p>LinkedDataHub provides the following default template modes, which are used to render the <a href="../user-interface/#layout-modes" target="_blank">layout modes</a>:</p>
+            <ul>
+                <li>Graph-level modes that apply to <code>rdf:RDF</code>
+                    <ul>
+                        <li><dfn>default mode</dfn> renders full resource descriptions</li>
+                        <li><code>bs2:BlockList</code> renders a list of resources</li>
+                        <li><code>xhtml:Table</code> renders a table with resources as rows and properties as columns</li>
+                        <li><code>bs2:Grid</code> renders a gallery of thumbnails</li>
+                        <li><code>bs2:Form</code> renders an <a href="https://atomgraph.github.io/RDF-POST/" target="_blank">RDF/POST</a> form for creating new resources (when the <code>$ac:forClass</code> parameter is set) or editing an existing one</li>
+                    </ul>
+                </li>
+                <li>Resource-level template modes that apply to <code>rdf:Description</code>
+                    <ul>
+                        <li>default mode renders one full resource description (by default header and property list)</li>
+                        <li><code>bs2:Header</code> renders resource header (by default with type information)</li>
+                        <li><code>bs2:PropertyList</code> renders definition list with property names and values (by default grouped by resource types)</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>When adding new user-defined modes, it is recommended to choose a new <a href="#namespaces">namespace</a> for them as well as a user-defined prefix.</p>
+            <p>An example of a template that matches <code>rdf:Description</code>:</p>
+            <pre>&lt;xsl:template match="*[*][@rdf:about] | *[*][@rdf:nodeID]"&gt;
+    &lt;xsl:param name="id" as="xs:string?"/&gt;
+    &lt;xsl:param name="class" as="xs:string?"/&gt;
+
+    &lt;div&gt;
+        &lt;xsl:if test="$id"&gt;
+            &lt;xsl:attribute name="id" select="$id"/&gt;
+        &lt;/xsl:if&gt;
+        &lt;xsl:if test="$class"&gt;
+            &lt;xsl:attribute name="class" select="$class"/&gt;
+        &lt;/xsl:if&gt;
+
+        &lt;xsl:apply-templates select="." mode="bs2:Header"/&gt;
+
+        &lt;xsl:apply-templates select="." mode="bs2:PropertyList"/&gt;
+    &lt;/div&gt;
+&lt;/xsl:template&gt;</pre>
+            <p>Applied to the <a href="#rdf-xml-plain">Chai description above</a>, it produces markup of this shape (abridged):</p>
+            <pre>&lt;div about="https://localhost:4443/products/1/#this" typeof="https://schema.org/Product"&gt;
+    &lt;h2&gt;Chai&lt;/h2&gt;
+    &lt;dl&gt;
+        &lt;dt&gt;Name&lt;/dt&gt;
+        &lt;dd&gt;Chai&lt;/dd&gt;
+        &lt;dt&gt;Category&lt;/dt&gt;
+        &lt;dd&gt;&lt;a href="https://localhost:4443/categories/1/#this"&gt;Beverages&lt;/a&gt;&lt;/dd&gt;
+        &lt;dt&gt;Provider&lt;/dt&gt;
+        &lt;dd&gt;&lt;a href="https://localhost:4443/suppliers/1/#this"&gt;Exotic Liquids&lt;/a&gt;&lt;/dd&gt;
+    &lt;/dl&gt;
+&lt;/div&gt;</pre>
+            <p class="exhibit-links">Live: <a href="https://northwind-traders.demo.linkeddatahub.com/products/1/" target="_blank">/products/1/</a> — the same description, rendered by the full stylesheet</p>
+            <p><code>ldh:ContentList</code> mode renders the content specified by the <code>rdf:_1</code>, <code>rdf:_2</code>, … values of the current document.</p>
+            <p>There are a few special template modes such as <code>ac:label</code> and <code>ac:description</code>, together with the related <code>ac:label()</code> and <code>ac:description()</code> functions, which are
+                used not to render layout but to extract metadata from resource descriptions. They can be used to retrieve a resource label and description no matter which RDF
+                vocabularies are used in the data. They do so by invoking templates of the respective mode from vocabulary-specific stylesheets.</p>
+        </div>
+        <div>
+            <h3 id="overriding-templates">Overriding templates</h3>
+            <p>Templates are overridden by redefining them in the importing stylesheet and providing the same or more specific match pattern and the same mode. The XSLT specification defines exactly how template priorities are determined in <a href="https://www.w3.org/TR/xslt-30/#conflict" target="_blank">6.4 Conflict Resolution for Template Rules</a>.</p>
+            <p>The overriding template can then get the output of the overridden template by invoking either <code>&lt;xsl:apply-imports&gt;</code> or <code>&lt;xsl:next-match&gt;</code>. Read more in <a href="https://www.w3.org/TR/xslt-30/#apply-imports" target="_blank">6.7 Overriding Template Rules</a>.</p>
+            <p>Always override the most specific template, i.e. if you want to change how a property is rendered, do not override the template for the resource description — override only the one for the property.</p>
+        </div>
+        <div>
+            <h3 id="keys">Keys</h3>
+            <p>Keys are a lookup mechanism. They are defined on the stylesheet level using <a href="https://www.w3.org/TR/xslt-30/#dt-key" target="_blank"><code>&lt;xsl:key&gt;</code></a> and invoked using the
+                <a href="https://www.w3.org/TR/xslt-30/#function-key" target="_blank"><code>key()</code></a> function. For example:</p>
+            <pre>&lt;xsl:key name="resources" match="*[*][@rdf:about] | *[*][@rdf:nodeID]" use="@rdf:about | @rdf:nodeID"/&gt;
+
+&lt;xsl:template match="*"&gt;
+    &lt;xsl:for-each select="key('resources', ldh:base-uri(.))"&gt;
+        &lt;xsl:value-of select="ac:label(.)"/&gt;
+    &lt;/xsl:for-each&gt;
+&lt;/xsl:template&gt;</pre>
+            <p>The key definition matches <code>rdf:Description</code> elements and uses their identifiers (URI or blank node ID). The template then looks up the RDF description of the <em>current resource</em>, i.e. the resource with URI that equals <code>ldh:base-uri(.)</code> which is the absolute URI of the current document, and outputs its label.</p>
+        </div>
+        <div>
+            <h3 id="loading-data">Loading data</h3>
+            <p>The stylesheet processes one main RDF/XML document at a time, supplied by LinkedDataHub's HTML writer. However, it is possible to load additional XML documents over HTTP
+                using the <a href="https://www.w3.org/TR/xslt-30/#function-document" target="_blank"><code>document()</code></a> XSLT function. To avoid XSLT errors on any possible error responses, it is advisable
+                to do a conditional check using the <a href="https://www.w3.org/TR/xpath-functions/#func-doc-available" target="_blank"><code>doc-available()</code></a> function before doing the actual <code>document()</code> call.</p>
+            <p>For example, instead of hardcoding the title of this document as <samp>Stylesheets</samp>, you can use the following code to load it and output it on the fly:</p>
+            <pre>&lt;xsl:value-of select="key('resources', 'https://docs.linkeddatahub.com/reference/stylesheets/', document('https://docs.linkeddatahub.com/reference/stylesheets/'))"/&gt;</pre>
+            <p>In case this document changes its title, all such references would automatically render the updated title. On the other hand, it incurs the overhead of making an HTTP request.</p>
+            <p>LinkedDataHub's default stylesheets use this feature extensively. In fact, one HTML page is rendered from a dozen RDF/XML documents.</p>
+            <p>Built-in <a href="../administration/ontologies/#ontologies" target="_blank">ontologies</a>, as well as some other system and well-known ontologies, have a local copy in
+                each LinkedDataHub instance. As a result, retrieving their descriptions by dereferencing their URIs using <code>document()</code> does not incur an HTTP request and is much faster. The URI-to-file mapping
+                is defined as Jena's <a href="https://jena.apache.org/documentation/io/rdf-input.html#configuring-a-locationmapper" target="_blank">location mapping</a> and can be found in
+                <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/src/main/resources/location-mapping.ttl" target="_blank"><samp>location-mapping.ttl</samp></a> and <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/src/main/resources/prefix-mapping.ttl" target="_blank"><samp>prefix-mapping.ttl</samp></a>.</p>
+            <p>Client-side stylesheets use <a href="https://www.saxonica.com/saxonjs/documentation3/index.html#!ixsl-extension/instructions/schedule-action" target="_blank"><code>&lt;ixsl:schedule-action&gt;</code></a> (deprecated) and <a href="https://www.saxonica.com/saxonjs/documentation3/index.html#!ixsl-extension/instructions/promise" target="_blank"><code>&lt;ixsl:promise&gt;</code></a> to load XML documents asynchronously. The metadata required to render forms — constructors, SHACL shapes, and property and object descriptions — is loaded client-side through chains of <code>&lt;ixsl:promise&gt;</code>, so the browser fetches it on demand rather than the server fetching everything up front.</p>
+        </div>
+        <div>
             <h3 id="parameters">Parameters</h3>
             <p>Both global (i.e. stylesheet-level) and template parameters are declared using <code>&lt;xsl:param&gt;</code>. LinkedDataHub sets the following global parameters:</p>
-            <table class="table">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Parameter</th>
@@ -237,7 +363,7 @@
                     <tr>
                         <td><code>$ac:uri</code></td>
                         <td><code>xs:anyURI?</code></td>
-                        <td>URI of the external resource when the request goes through the <a href="../http-api/#ld-proxy">Linked Data proxy</a>; absent for local documents</td>
+                        <td>URI of the external resource when the request goes through the <a href="../http-api/#ld-proxy">Linked Data proxy</a>; absent for local documents (prefer the <code>ac:uri()</code> function)</td>
                     </tr>
                     <tr>
                         <td><code>$ac:method</code></td>
@@ -247,7 +373,7 @@
                     <tr>
                         <td><code>$ac:httpHeaders</code></td>
                         <td><code>xs:string</code></td>
-                        <td>Raw HTTP request headers</td>
+                        <td>Raw HTTP request headers (note: <code>$ac:httpHeaders</code> carries the <em>request</em> headers as a raw string, while <code>$ldh:httpHeaders</code> carries the <em>response</em> headers as a map)</td>
                     </tr>
                     <tr>
                         <td><code>$ac:query</code></td>
@@ -273,8 +399,8 @@
         <div>
             <h3 id="functions">Functions</h3>
             <p>LinkedDataHub and Web-Client provide XSLT functions available to all stylesheets.</p>
-            <h4>URI utility functions</h4>
-            <table class="table">
+            <h4 id="uri-utility-functions">URI utility functions</h4>
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Function</th>
@@ -289,12 +415,12 @@
                         <td>Strips query string and fragment from a URI, returning the path-only form</td>
                     </tr>
                     <tr>
-                        <td><code>ac:build-uri(<br></br>  $path as xs:anyURI?,<br></br>  $params as map(xs:string, xs:string*)<br></br>)</code></td>
+                        <td><code>ac:build-uri(<br/>  $path as xs:anyURI?,<br/>  $params as map(xs:string, xs:string*)<br/>)</code></td>
                         <td><code>xs:anyURI?</code></td>
                         <td>Appends a percent-encoded query string built from the parameter map to <code>$path</code></td>
                     </tr>
                     <tr>
-                        <td><code>ac:document-uri($uri)</code></td>
+                        <td><code>ac:document-uri($uri as item())</code></td>
                         <td><code>xs:anyURI</code></td>
                         <td>Strips the fragment identifier from a URI, making it suitable for use with <code>document()</code></td>
                     </tr>
@@ -302,6 +428,11 @@
                         <td><code>ac:fragment-id($uri as xs:anyURI)</code></td>
                         <td><code>xs:string?</code></td>
                         <td>Extracts the fragment identifier (the part after <code>#</code>)</td>
+                    </tr>
+                    <tr>
+                        <td><code>ac:uri()</code></td>
+                        <td><code>xs:anyURI?</code></td>
+                        <td>URI of the external resource being viewed through the <a href="../http-api/#ld-proxy">Linked Data proxy</a>; absent for local documents. Works in both environments, unlike the server-side <code>$ac:uri</code> parameter it wraps</td>
                     </tr>
                     <tr>
                         <td><code>lapp:origin()</code></td>
@@ -334,9 +465,14 @@
                         <td>Inverse of <code>ldh:href()</code> — parses a local href back into its target URI, query parameters and fragment. Shared by the client-side navigation handlers</td>
                     </tr>
                     <tr>
-                        <td><code>ldh:query-params($mode as xs:anyURI*)</code></td>
+                        <td><code>ldh:query-params()</code></td>
                         <td><code>map(xs:string, xs:string*)</code></td>
-                        <td>Builds a query parameter map for the given layout mode(s). Overload also accepts <code>$forClass as xs:anyURI?</code></td>
+                        <td>Parses the current request URI's query string into a map of parameter names to values</td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:build-query($mode as xs:anyURI*)</code></td>
+                        <td><code>map(xs:string, xs:string*)</code></td>
+                        <td>Builds the <code>mode</code> query parameter map that selects the given <a href="../user-interface/#layout-modes">layout mode(s)</a></td>
                     </tr>
                     <tr>
                         <td><code>ldh:parse-query-params($query-string as xs:string)</code></td>
@@ -350,8 +486,8 @@
                     </tr>
                 </tbody>
             </table>
-            <h4>RDF metadata functions</h4>
-            <table class="table">
+            <h4 id="rdf-metadata-functions">RDF metadata functions</h4>
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Function</th>
@@ -376,6 +512,16 @@
                         <td>Extracts image references (e.g. <code>foaf:depiction</code>, <code>foaf:img</code>) from a resource description</td>
                     </tr>
                     <tr>
+                        <td><code>ac:property-label($property as element())</code></td>
+                        <td><code>xs:string?</code></td>
+                        <td>Label of a predicate element, capitalized — resolved by the <code>ac:property-label</code> mode templates. An overload accepts <code>$property-metadata as document-node()</code>, the property descriptions loaded for the current document</td>
+                    </tr>
+                    <tr>
+                        <td><code>ac:object-label($object as node())</code></td>
+                        <td><code>xs:string?</code></td>
+                        <td>Label of a property's object: a resource-valued object is looked up in the current graph, the loaded metadata or its dereferenced document, falling back to the URI's fragment or last path segment; a literal yields its lexical value. An overload accepts <code>$object-metadata as document-node()</code></td>
+                    </tr>
+                    <tr>
                         <td><code>ac:mode($doc as document-node())</code></td>
                         <td><code>xs:anyURI</code></td>
                         <td>The active <a href="../user-interface/#layout-modes">layout mode</a> of the given document. Replaces the former <code>$ac:mode</code> parameter</td>
@@ -383,7 +529,7 @@
                     <tr>
                         <td><code>ac:langs()</code></td>
                         <td><code>xs:string*</code></td>
-                        <td>The reader's accepted languages as deduplicated primary subtags with an <samp>en</samp> floor — negotiated server-side, read from <code>navigator.languages</code> in the browser</td>
+                        <td>The reader's accepted languages, deduplicated to primary subtags and always ending with <samp>en</samp> as a fallback — negotiated server-side, read from <code>navigator.languages</code> in the browser</td>
                     </tr>
                     <tr>
                         <td><code>ac:lang-rank($value as element())</code></td>
@@ -398,17 +544,27 @@
                     <tr>
                         <td><code>ldh:datatype-family($datatype as xs:anyURI?)</code></td>
                         <td><code>xs:string</code></td>
-                        <td>Groups an XSD datatype into a family (numeric, dateTime, string…) — drives table column sorting</td>
+                        <td>Groups an XSD datatype into a family (numeric, dateTime, string etc.) — drives table column sorting</td>
                     </tr>
                     <tr>
                         <td><code>ldh:sort-key($key as xs:string?, $datatype as xs:anyURI?)</code></td>
                         <td><code>xs:anyAtomicType?</code></td>
                         <td>Converts a lexical value into a typed sort key for its datatype family</td>
                     </tr>
+                    <tr>
+                        <td><code>ldh:sort-key-lexical($resource as element(), $predicates as xs:anyURI*)</code></td>
+                        <td><code>xs:string?</code></td>
+                        <td>The lexical sort key of a resource: coalesces across <code>$predicates</code> in order, preferring values whose language matches the reader's first accepted language. Feeds <code>ldh:sort-key()</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:sort-datatype($resources as element()*, $predicates as xs:anyURI*)</code></td>
+                        <td><code>xs:anyURI?</code></td>
+                        <td>The datatype shared by a sort column's literals; absent when the column mixes datatypes or carries plain literals or resources. Keys the typed re-sort that keeps a view block's client-side order agreeing with its SPARQL <code>ORDER BY</code></td>
+                    </tr>
                 </tbody>
             </table>
-            <h4>HTTP and SPARQL functions</h4>
-            <table class="table">
+            <h4 id="http-and-sparql-functions">HTTP and SPARQL functions</h4>
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Function</th>
@@ -423,14 +579,14 @@
                         <td>Executes a SPARQL query against the given endpoint and returns the result document (cached)</td>
                     </tr>
                     <tr>
-                        <td><code>ldh:send-request(<br></br>  $href as xs:anyURI,<br></br>  $method as xs:string,<br></br>  $media-type as xs:string?,<br></br>  $body as item()?,<br></br>  $headers as map(xs:string, xs:string)<br></br>)</code></td>
+                        <td><code>ldh:send-request(<br/>  $href as xs:anyURI,<br/>  $method as xs:string,<br/>  $media-type as xs:string?,<br/>  $body as item()?,<br/>  $headers as map(xs:string, xs:string)<br/>)</code></td>
                         <td><code>document-node()?</code></td>
                         <td>Makes an HTTP request and returns the response as a document (server-side extension function)</td>
                     </tr>
                     <tr>
-                        <td><code>ldh:build-query($mode as xs:anyURI*)</code></td>
-                        <td><code>map(xs:string, xs:string*)</code></td>
-                        <td>Builds the query parameter map that selects the given layout mode(s)</td>
+                        <td><code>ldh:link-targets($link-header as xs:string?, $marker as xs:string)</code></td>
+                        <td><code>xs:anyURI*</code></td>
+                        <td>Extracts the target URIs of the <code>Link</code> response header entries whose parameters contain <code>$marker</code> (e.g. a <code>rel</code> value) — the parser behind <code>acl:mode()</code>, <code>sd:endpoint()</code> and <code>ldh:timemap()</code> (client-side)</td>
                     </tr>
                     <tr>
                         <td><code>ldh:parse-html($string as xs:string, $mime-type as xs:string)</code></td>
@@ -442,15 +598,10 @@
                         <td><code>document-node()</code></td>
                         <td>Round-trips a document through serialization, normalizing it</td>
                     </tr>
-                    <tr>
-                        <td><code>ac:uuid()</code></td>
-                        <td><code>xs:string</code></td>
-                        <td>Generates a random UUID</td>
-                    </tr>
                 </tbody>
             </table>
-            <h4>Application and access functions</h4>
-            <table class="table">
+            <h4 id="application-and-access-functions">Application and access functions</h4>
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Function</th>
@@ -476,8 +627,8 @@
                     </tr>
                 </tbody>
             </table>
-            <h4>Versioning functions</h4>
-            <table class="table">
+            <h4 id="versioning-functions">Versioning functions</h4>
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Function</th>
@@ -503,125 +654,55 @@
                     </tr>
                 </tbody>
             </table>
-            <p>The many remaining <code>ldh:</code> functions in the client-side modules — the <code>render-*</code>, <code>load-*</code>, <code>set-*</code>,
-                <code>*-response</code> and <code>*-thunk</code> families — are internal promise-chain machinery, not a stable API, and are deliberately not
-                documented here.</p>
-        </div>
-        <div>
-            <h3 id="templates">Templates</h3>
-            <p>XSLT template components:</p>
-            <dl>
-                <dt>Match</dt>
-                <dd>XPath-based match pattern which either does or does not match an XML node</dd>
-                <dt>Mode</dt>
-                <dd>Allows to group templates and distinguish them from other groups which have the same match patterns (e.g. different layout modes)</dd>
-                <dt>Parameters</dt>
-                <dd>XSD-typed parameters passed to the template invocation</dd>
-                <dt>Body</dt>
-                <dd>Contains the XML output nodes as well as XSLT processing instructions</dd>
-            </dl>
-            <p>XSLT processing starts at the root of the RDF/XML document and produces HTML elements by applying templates on all of the RDF/XML nodes while moving down the XML tree.
-                In other words, it starts at the graph level, moves down to resource description elements, then to property elements, and ends with identifier attributes and literal text nodes.</p>
-            <p>Templates are applied (invoked) using <code>&lt;xsl:apply-templates&gt;</code>. Mode can be specified, e.g. <code>&lt;xsl:apply-templates mode="bs2:Header"&gt;</code>. To stay in the current mode without explicitly specifying it, use <code>&lt;xsl:apply-templates mode="#current"&gt;</code>. <code>&lt;xsl:with-param&gt;</code> is used to supply parameters.</p>
-            <p>LinkedDataHub provides the following default template modes, which are used to render the <a href="../user-interface/#layout-modes" target="_blank">layout modes</a>:</p>
-            <ul>
-                <li>Graph-level modes that apply to <code>rdf:RDF</code>
-                    <ul>
-                        <li><dfn>default mode</dfn> which renders full resource descriptions</li>
-                        <li><code>bs2:BlockList</code> renders a list of resources</li>
-                        <li><code>xhtml:Table</code> renders a table with resources as rows and properties as columns</li>
-                        <li><code>bs2:Grid</code> renders a gallery of thumbnails</li>
-                        <li><code>bs2:Form</code> which renders an <a href="https://atomgraph.github.io/RDF-POST/" target="_blank">RDF/POST</a> form for for creation of new resources (when <code>$ac:forClass</code> parameter is set) or editing of existing resource</li>
-                    </ul>
-                </li>
-                <li>Resource-level templates modes that apply to <code>rdf:Description</code>
-                    <ul>
-                        <li><dfn>default mode</dfn> renders full resource description (by default header and property list)</li>
-                        <li><code>bs2:Header</code> renders resource header (by default with type information)</li>
-                        <li><code>bs2:PropertyList</code> renders definition list with property names and values (by default grouped by resource types)</li>
-                    </ul>
-                </li>
-            </ul>
-            <p>When adding new user-defined modes, it is recommended to choose a new <a href="#namespaces">namespace</a> for them as well as a user-defined prefix.</p>
-            <p>An example of a template that matches <code>rdf:Description</code>:</p>
-            <pre>&lt;xsl:template match="*[*][@rdf:about] | *[*][@rdf:nodeID]"&gt;
-    &lt;xsl:param name="id" as="xs:string?"/&gt;
-    &lt;xsl:param name="class" as="xs:string?"/&gt;
-
-    &lt;div&gt;
-        &lt;xsl:if test="$id"&gt;
-            &lt;xsl:attribute name="id" select="$id"/&gt;
-        &lt;/xsl:if&gt;
-        &lt;xsl:if test="$class"&gt;
-            &lt;xsl:attribute name="class" select="$class"/&gt;
-        &lt;/xsl:if&gt;
-
-        &lt;xsl:apply-templates select="." mode="bs2:Header"/&gt;
-
-        &lt;xsl:apply-templates select="." mode="bs2:PropertyList"/&gt;
-    &lt;/div&gt;
-&lt;/xsl:template&gt;</pre>
-            <p>Applied to the <a href="#rdf-xml-plain">Chai description above</a>, it produces markup of this shape (abridged):</p>
-            <pre>&lt;div about="https://localhost:4443/products/1/#this" typeof="https://schema.org/Product"&gt;
-    &lt;h2&gt;Chai&lt;/h2&gt;
-    &lt;dl&gt;
-        &lt;dt&gt;Name&lt;/dt&gt;
-        &lt;dd&gt;Chai&lt;/dd&gt;
-        &lt;dt&gt;Category&lt;/dt&gt;
-        &lt;dd&gt;&lt;a href="https://localhost:4443/categories/1/#this"&gt;Beverages&lt;/a&gt;&lt;/dd&gt;
-        &lt;dt&gt;Provider&lt;/dt&gt;
-        &lt;dd&gt;&lt;a href="https://localhost:4443/suppliers/1/#this"&gt;Exotic Liquids&lt;/a&gt;&lt;/dd&gt;
-    &lt;/dl&gt;
-&lt;/div&gt;</pre>
-            <p class="exhibit-links">Live: <a href="https://northwind-traders.demo.linkeddatahub.com/products/1/" target="_blank">/products/1/</a> — the same description, rendered by the full stylesheet</p>
-            <p><code>ldh:ContentList</code> mode renders the content specified by the <code>rdf:_1</code> value of the current document.</p>
-            <p>There are a few special template modes such as <code>ac:label</code> and <code>ac:description</code> and related functions <code>ac:label()</code> and <code>ac:description()</code> which are
-                used not to render layout but to extract metadata from resource descriptions. They can be used to retrieve a resource label and description no matter which RDF
-                vocabularies are used in the data. They do so by invoking templates of respective mode from vocabulary-specific stylesheets.</p>
-        </div>
-        <div>
-            <h3 id="overriding-templates">Overriding templates</h3>
-            <p>Templates are overridden by redefining them in the importing stylesheet and providing the same or more specific match pattern and the same mode. The XSLT specification specifies exactly how template priorities are determined in <a href="https://www.w3.org/TR/xslt-30/#conflict" target="_blank">6.4 Conflict Resolution for Template Rules</a>.</p>
-            <p>The overriding template can then get the output of the overridden template by invoking either <code>&lt;xsl:apply-imports&gt;</code> or <code>&lt;xsl:next-match&gt;</code>. Read more about <a href="https://www.w3.org/TR/xslt-30/#apply-imports" target="_blank">6.7 Overriding Template Rules</a>.</p>
-            <p>Always override the most specific template, i.e. if you want to change how a property is rendered, do not override the template for resource description, only the one for the property.</p>
-        </div>
-        <div>
-            <h3 id="keys">Keys</h3>
-            <p>Keys are a lookup mechanism. They are defined on the stylesheet level using <a href="https://www.w3.org/TR/xslt-30/#dt-key" target="_blank"><code>&lt;xsl:key&gt;</code></a> and invoked using the 
-                <a href="https://www.w3.org/TR/xslt-30/#function-key" target="_blank"><code>key()</code></a> function. For example:</p>
-            <pre>&lt;xsl:key name="resources" match="*[*][@rdf:about] | *[*][@rdf:nodeID]" use="@rdf:about | @rdf:nodeID"/&gt;
-
-&lt;xsl:template match="*"&gt;
-    &lt;xsl:for-each select="key('resources', ldh:base-uri(.))"&gt;
-        &lt;xsl:value-of select="ac:label(.)"/&gt;
-    &lt;/xsl:for-each&gt;
-&lt;/xsl:template&gt;</pre>
-        </div>
-        <p>They key definition matches <code>rdf:Description</code> elements and uses their identifiers (URI or blank node ID). The template then looks up the RDF description of the <em>current resource</em>, i.e. the resource with URI that equals <code>ldh:base-uri(.)</code> which is the absolute URI of the current document, and outputs its label.</p>
-        <div>
-            <h3 id="loading-data">Loading data</h3>
-            <p>The stylesheet is processing one main RDF/XML document at a time, which is supplied by the LinkedDataHub's HTML writer. However it is possible to load additional XML documents over HTTP 
-                using the <a href="https://www.w3.org/TR/xslt-30/#function-document" target="_blank"><code>document()</code></a> XSLT function. To avoid XSLT errors on any possible error responses, it is advisable
-                to do a conditional check using the <a href="https://www.w3.org/TR/xpath-functions/#func-doc-available" target="_blank"><code>doc-available()</code></a> function before doing the actual <code>document()</code> call.</p>
-            <p>For example, instead of hardcoding the title of this document as <samp>Stylesheets</samp>, we can use the following code to load it and output it on the fly:</p>
-            <pre>&lt;xsl:value-of select="key('resources', 'https://docs.linkeddatahub.com/reference/stylesheets/', document('https://docs.linkeddatahub.com/reference/stylesheets/'))"/&gt;</pre>
-            <p>In case this document changes its title, all such references would automatically render the updated title. On the other hand, it incurs the overhead of making an HTTP request.</p>
-            <p>LinkedDataHub's default stylesheets are using this feature extensively. In fact, one HTML page is rendered from a dozen of RDF/XML documents.</p>
-            <p>Built-in <a href="../administration/ontologies/#ontologies" target="_blank">ontologies</a> as well as some other system and well-known ontologies, have a local copy in
-                each LinkedDataHub instance. As a result, retrieving their descriptions by dereferencing their URIs using <code>document()</code> does not incur an HTTP request and is much faster. The URI-to-file mapping
-                is defined as Jena's <a href="https://jena.apache.org/documentation/io/rdf-input.html#configuring-a-locationmapper" target="_blank">location mapping</a> and can be found in
-                <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/src/main/resources/location-mapping.ttl" target="_blank"><samp>location-mapping.ttl</samp></a> and <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/src/main/resources/prefix-mapping.ttl" target="_blank"><samp>prefix-mapping.ttl</samp></a>.</p>
-            <p>Client-side stylesheets use <a href="https://www.saxonica.com/saxonjs/documentation3/index.html#!ixsl-extension/instructions/schedule-action" target="_blank"><code>&lt;ixsl:schedule-action&gt;</code></a> (deprecated) and <a href="https://www.saxonica.com/saxonjs/documentation3/index.html#!ixsl-extension/instructions/promise" target="_blank"><code>&lt;ixsl:promise&gt;</code></a> to load XML documents asynchronously. The metadata required to render forms — constructors, SHACL shapes, and property and object descriptions — is loaded client-side through chains of <code>&lt;ixsl:promise&gt;</code>, so the browser fetches it on demand rather than the server fetching everything up front.</p>
+            <h4 id="utility-functions">Utility functions</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Returns</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ac:uuid()</code></td>
+                        <td><code>xs:string</code></td>
+                        <td>Generates a random UUID</td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:hash-code($string as xs:string)</code></td>
+                        <td><code>xs:integer</code></td>
+                        <td>Deterministic 32-bit djb2 hash of a string's codepoints — the counterpart to <code>ac:uuid()</code> for identifiers that must survive a reload because they are re-derived rather than stored (client-side)</td>
+                    </tr>
+                    <tr>
+                        <td><code>ac:value-intersect($arg1 as xs:anyAtomicType*, $arg2 as xs:anyAtomicType*)</code></td>
+                        <td><code>xs:anyAtomicType*</code></td>
+                        <td>Distinct values present in both sequences</td>
+                    </tr>
+                    <tr>
+                        <td><code>ac:value-except($arg1 as xs:anyAtomicType*, $arg2 as xs:anyAtomicType*)</code></td>
+                        <td><code>xs:anyAtomicType*</code></td>
+                        <td>Distinct values of <code>$arg1</code> that are not present in <code>$arg2</code></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The many remaining <code>ac:</code> and <code>ldh:</code> functions are internal machinery, not a stable API, and are deliberately not documented
+                here: the client-side <code>render-*</code>, <code>load-*</code>, <code>set-*</code>, <code>*-response</code> and <code>*-thunk</code> families
+                together with the promise, progress, cursor and DOM helpers they call; the constructor, form and SPARQL-manipulation helpers behind the editing
+                UI; and Web-Client functions that LinkedDataHub has superseded, such as <code>ac:construct()</code> and the SVG rendering helpers.</p>
         </div>
     </div>
     <div>
-        <h2 id="css">CSS</h2>
-        <p><a href="https://getbootstrap.com/2.3.2/" target="_blank">Bootstrap 2.3.2</a> theme is used with some customizations.</p>
-        <p>The CSS stylesheets is specified in the <code>xhtml:Style</code> XSLT template mode.</p>
+        <h2 id="other-assets">Other assets</h2>
+        <div>
+            <h3 id="css">CSS</h3>
+            <p>The stylesheet links are emitted by the <code>xhtml:Style</code> XSLT template mode. It links the design-system stylesheets (<samp>fonts.css</samp>, <samp>colors_and_type.css</samp>, <samp>app.css</samp>, <samp>retro.css</samp>) together with <samp>ldh.css</samp> and <samp>ldh-bridge.css</samp>, plus feature-specific stylesheets such as <samp>rdfa-editor.css</samp> (rich-text editing) and <samp>yasqe.css</samp> (SPARQL editor). Bootstrap itself is no longer used — the <code>bs2:</code> XSLT <a href="#namespaces">namespace</a> is a historical name. Application stylesheets that import <samp>layout.xsl</samp> can override the <code>xhtml:Style</code> template mode to add or replace stylesheets.</p>
+        </div>
+        <div>
+            <h3 id="javascript">JavaScript</h3>
+            <p>The script links are emitted by the <code>xhtml:Script</code> XSLT template mode. It loads <samp>functions.js</samp>, the Saxon-JS 3 runtime together with the compiled client stylesheet (when client-side rendering is enabled), and feature-specific libraries: the YASQE SPARQL editor, the SPARQL builder, OpenLayers for maps, Google Charts for charts, and three.js with 3d-force-graph for the 3D graph mode.</p>
+            <p>LinkedDataHub only uses JavaScript for the functionality that cannot be achieved using client-side XSLT.</p>
+        </div>
     </div>
-    <div>
-        <h2 id="javascript">JavaScript</h2>
-        <p>The JavaScript files are specified in the <code>xhtml:Script</code> XSLT template mode.</p>
-        <p>LinkedDataHub only uses JavaScript for the functionality that cannot be achieved using client-side XSLT.</p>
-    </div>
+    <p class="lead">To customize the built-in stylesheets, follow the <a href="../../extending/change-layout/">Change layout</a> and <a href="../../extending/build-apps/">Build apps</a> guides</p>
 </div>"""^^rdf:XMLLiteral .

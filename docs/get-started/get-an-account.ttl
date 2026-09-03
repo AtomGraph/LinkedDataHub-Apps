@@ -5,63 +5,51 @@
 
 <> a dh:Item ;
     dct:title "Get an account" ;
-    dct:description "How to get login to LinkedDataHub" ;
+    dct:description "How to get an account and log in to LinkedDataHub" ;
     rdf:_1 <#content> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">This guide describes how to login to LinkedDataHub.</p>
+    <p class="lead">How to get an account and log in to LinkedDataHub</p>
     <div>
         <div class="alert alert-info">
             <p>In order to authenticate as the <em>owner</em> of a LinkedDataHub instance, you need to use the WebID authentication method.</p>
         </div>
-        <div class="tabbable">
-          <ul class="nav nav-tabs">
-            <li class="active"><a>Get WebID</a></li>
-            <li><a>Login with Google</a></li>
-            <li><a>Login with ORCID</a></li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active">
+        <div class="ldhc-tabs or-horizontal">
+            <div class="ldhc-tablist sz-md va-line" role="tablist">
+                <button aria-controls="get-a-webid-pane" aria-selected="true" class="ldhc-tab is-on" id="get-a-webid-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Get a WebID</span></button>
+                <button aria-controls="log-in-with-google-pane" aria-selected="false" class="ldhc-tab" id="log-in-with-google-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Log in with Google</span></button>
+                <button aria-controls="log-in-with-orcid-pane" aria-selected="false" class="ldhc-tab" id="log-in-with-orcid-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Log in with ORCID</span></button>
+            </div>
+            <div aria-labelledby="get-a-webid-tab" class="ldhc-tabpanel" id="get-a-webid-pane" role="tabpanel">
                 <div>
                     <h2 id="get-cert">Get certificate</h2>
                     <p>LinkedDataHub uses WebID as the <a href="https://en.wikipedia.org/wiki/Single_sign-on" target="_blank">Single sign-on</a> (SSO)
-                        protocol for distributed applications, which is based on authentication using TLS client certficates. Using WebID, you will be able to authenticate with every LinkedDataHub application.
+                        protocol for distributed applications, which is based on authentication using TLS client certificates. Using WebID, you will be able to authenticate with every LinkedDataHub application.
                         <a href="http://webid.info" target="_blank">Read more about WebID</a>.</p>
-                    <p>There are two ways to get a LinkedDataHub WebID: setup and signup.</p>
-                    <div class="tabbable">
-                      <ul class="nav nav-tabs">
-                        <li class="active"><a>Setup</a></li>
-                        <li><a>Signup</a></li>
-                      </ul>
-                      <div class="tab-content">
-                        <div class="tab-pane active">
-                            <p>Complete the <a href="../setup/">setup</a> and run own an instance of LinkedDataHub.</p>
-                            <p>The <samp>ssl/owner/keystore.p12</samp> file is your WebID certificate. The password is the <samp>owner_cert_password</samp> Docker secret value.</p>
-                        </div>
-                        <div class="tab-pane">
-                            <p>Sign up to an existing instance of LinkedDataHub. Click the <span class="btn btn-primary">Sign up</span> button and fill out the form with your
-                                details to get a WebID, as shown below.</p>
-                            <div class="screenshot-placeholder">
-                                <span class="msi" aria-hidden="true">image</span>
-                                <p>Screenshot: the WebID signup form</p>
-                            </div>
-                            <p>You will get an email with a <samp>.p12</samp> file attached, which is your WebID certificate. The certificate's password is the one you entered in the signup form.</p>
-                        </div>
-                      </div>
+                    <p>There are two ways to get a LinkedDataHub WebID: run your own instance or sign up to an existing one.</p>
+                    <h3 id="own-instance">Run your own instance</h3>
+                    <p>Complete the <a href="../setup/">setup</a> to run your own instance of LinkedDataHub.</p>
+                    <p>The <samp>ssl/owner/keystore.p12</samp> file is your WebID certificate. The password is the <samp>owner_cert_password</samp> Docker secret value.</p>
+                    <h3 id="sign-up">Sign up to an existing instance</h3>
+                    <p>Click the <span class="btn btn-primary">Sign up</span> button and fill out the form with your details to get a WebID, as shown below.</p>
+                    <div class="screenshot-placeholder">
+                        <span class="msi" aria-hidden="true">image</span>
+                        <p>Screenshot: the WebID signup form</p>
                     </div>
-                    <p>The <a href="../../reference/command-line-interface/">command line interface</a> reads the PKCS12 (<samp>.p12</samp>) file directly, so no conversion is needed. During setup it is stored under <samp>ssl/owner/keystore.p12</samp>.
-                        <samp>curl</samp> wants a PEM version instead — it is stored under <samp>ssl/owner/cert.pem</samp>, and a certificate received by email can be converted from PKCS12 to PEM using OpenSSL:</p>
+                    <p>You will get an email with a <samp>.p12</samp> file attached, which is your WebID certificate. The certificate's password is the one you entered in the signup form.</p>
+                    <p>The <a href="../../reference/command-line-interface/">command line interface</a> reads the PKCS12 (<samp>.p12</samp>) file directly — no conversion needed. Setup writes it to <samp>ssl/owner/keystore.p12</samp>.</p>
+                    <p><samp>curl</samp> needs a PEM version instead. Setup writes that too, to <samp>ssl/owner/cert.pem</samp>. A certificate received by email can be converted from PKCS12 to PEM with OpenSSL:</p>
                     <pre>openssl pkcs12 -in cert.p12 -out cert.pem -nodes</pre>
                     <div class="alert alert-info">
-                        <p>Unlike most LinkedDataHub resources, your WebID profile will have <em>public access</em> as required by the protocol. Your email address will be hidden however.</p>
+                        <p>Unlike most LinkedDataHub resources, your WebID profile will have <em>public access</em> as required by the protocol. Your email address, however, stays hidden.</p>
                     </div>
                 </div>
                 <div>
                     <h2 id="install-cert">Install certificate</h2>
-                    <p>The final step is to install the client certificate into your web browser. It is done by importing the <samp>.p12</samp>
-                        file using the browser's certificate manager and providing the password that you supplied during signup. The
-                        manager dialog can be opened following the steps below, depending on which browser you use:</p>
+                    <p>The final step is to install the client certificate into your web browser. Import the <samp>.p12</samp> file with
+                        your browser's certificate manager, using the certificate's password (from signup, or the <samp>owner_cert_password</samp>
+                        secret if you ran setup). Open the manager dialog following the steps below, depending on which browser you use:</p>
                     <dl>
                         <dt>Google Chrome</dt>
                         <dd><samp>Settings &gt; Advanced &gt; Manage Certificates &gt; Import...</samp></dd>
@@ -72,42 +60,40 @@
                             <a href="https://support.apple.com/guide/keychain-access/what-is-keychain-access-kyca1083/mac" target="_blank">Keychain Access</a>
                             tool. Drag the <samp>.p12</samp> file to the <samp>login</samp> section.</dd>
                         <dt>Microsoft Edge</dt>
-                        <dd>Does not support certificate management, you need to install the file into Windows.
+                        <dd>Edge has no certificate manager of its own — install the file into the Windows certificate store.
                             <a href="https://social.technet.microsoft.com/Forums/en-US/18301fff-0467-4e41-8dee-4e44823ed5bf/microsoft-edge-browser-and-ssl-certificates?forum=win10itprogeneral" target="_blank">Read more here</a>.</dd>
                     </dl>
                     <p>You need to install the certificate on all devices/browsers that you are using to access LinkedDataHub.</p>
                 </div>
                 <div>
                     <h2 id="log-in">Log in</h2>
-                    <p>Open the URL of the LinkedDataHub instance in the web browser (that you installed the WebID certificate into). Using a local setup, it runs on <a href="https://localhost:4443/" target="_blank">https://localhost:4443/</a> by default. </p>
+                    <p>Open the LinkedDataHub instance in the browser you installed the certificate into. Using a local setup, it runs on <a href="https://localhost:4443/" target="_blank">https://localhost:4443/</a> by default.</p>
                     <p>With the certificate installed, there is no login procedure — you are automatically <em>authenticated</em> on all
                         LinkedDataHub applications. This is known as Single sign-on (SSO).</p>
-                    <p>Applications can provide public access to some or all documents, meaning you can freely browse their public resources
-                        and perform actions that are allowed for public access. In order to access protected (non-public) resources, as well
-                        as to access administration application, users have to be authenticated as well <em>authorized</em> (authorizations
-                        can be <a href="../../reference/administration/acl/#auth-requests">requested</a>).</p>
+                    <p>Applications may make some or all of their documents public; you can browse those without authenticating. To reach
+                        protected (non-public) resources, or the administration application, you have to be authenticated <em>and
+                        authorized</em> (authorizations can be <a href="../../reference/administration/acl/#auth-requests">requested</a>).</p>
                     <div class="alert alert-info">
                         <p>Authenticated agents <em>are not guaranteed to have access</em> to all resources. Different access levels for
                             different agents can be specified by the application administrators.</p>
                     </div>
                 </div>
              </div>
-             <div class="tab-pane">
+            <div aria-labelledby="log-in-with-google-tab" class="ldhc-tabpanel" hidden="hidden" id="log-in-with-google-pane" role="tabpanel">
                 <p>Click the <span class="btn btn-primary">Login with Google</span> button in the navbar to authenticate with your Google account.</p>
                 <p>If the email address of your Google account matches the dataspace owner's email address that was specified during <a href="../setup/">setup</a>, you will be authenticated as the owner with <a href="../../reference/administration/acl/">full control</a> access rights.</p>
                 <div class="alert alert-info">
                     <p>Login with Google is only enabled if LinkedDataHub was <a href="../../reference/configuration/#secrets">configured with social login</a>.</p>
                 </div>
              </div>
-             <div class="tab-pane">
+            <div aria-labelledby="log-in-with-orcid-tab" class="ldhc-tabpanel" hidden="hidden" id="log-in-with-orcid-pane" role="tabpanel">
                 <p>Click the <span class="btn btn-primary">Login with ORCID</span> button in the navbar to authenticate with your <a href="https://orcid.org" target="_blank">ORCID</a> account using OpenID Connect.</p>
                 <p>If the email address of your ORCID account matches the dataspace owner's email address that was specified during <a href="../setup/">setup</a>, you will be authenticated as the owner with <a href="../../reference/administration/acl/">full control</a> access rights.</p>
                 <div class="alert alert-info">
                     <p>Login with ORCID is only enabled if LinkedDataHub was <a href="../../reference/configuration/#secrets">configured with social login</a>.</p>
                 </div>
              </div>
-          </div>
         </div>
     </div>
-    <p class="lead">Are you in? Then continue the <a href="..">get started guide</a> or take a look at the <a href="../../reference/user-interface/">UI overview</a>.</p>
+    <p class="lead">Signed in? Next, <a href="../request-access/">request access</a> to the documents you need.</p>
 </div>"""^^rdf:XMLLiteral .

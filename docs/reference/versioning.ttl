@@ -11,9 +11,9 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Git-backed document versioning with Memento access to the history</p>
-    <p>A dataspace can be configured to mirror every document write into a GitHub repository. Each document is stored as a sorted
-        N-Triples file and every write becomes a commit authored with the writing agent's WebID, so the repository holds a complete,
-        attributable history of the dataspace's documents.</p>
+    <p>A dataspace can be configured to mirror every document write into a GitHub repository. The synchronization goes through the
+        GitHub REST API (<samp>api.github.com</samp>), so it is specific to GitHub rather than generic Git. Every write becomes a commit
+        authored with the writing agent's WebID, so the repository holds a complete, attributable history of the dataspace's documents.</p>
     <p>The history is accessible over HTTP through the standard <a href="https://datatracker.ietf.org/doc/html/rfc7089" target="_blank">Memento (RFC 7089)</a>
         protocol — historical versions, a TimeMap, and datetime negotiation through a TimeGate — as well as through the
         <a href="../../user-guide/version-history/">version history dialog</a> in the user interface and the
@@ -38,9 +38,13 @@
         github:branch "main" ;
         github:pathPrefix "graphs" .
 }</pre>
+                The <code>github:</code> terms come from the <code>https://w3id.org/atomgraph/linkeddatahub/services/github#</code> namespace;
+                <code>github:branch</code> defaults to <samp>main</samp> and <code>github:pathPrefix</code> to <samp>graphs</samp>.
             </li>
             <li>Add the access token to <samp>secrets/credentials.trig</samp> (and make sure the <samp>credentials</samp> secret is enabled in <samp>docker-compose.yml</samp>):
-                <pre>&lt;urn:linkeddatahub:versioning/end-user&gt;
+                <pre>@prefix a: &lt;https://w3id.org/atomgraph/core#&gt; .
+
+&lt;urn:linkeddatahub:versioning/end-user&gt;
 {
     &lt;urn:linkeddatahub:versioning/end-user&gt; a:authToken "github_pat_..." .
 }</pre>
@@ -48,21 +52,22 @@
             <li>Restart LinkedDataHub</li>
         </ol>
         <p>From then on, every successful document write in the dataspace is committed to the repository. Writes from different documents
-            share one commit chain per branch, and a conflicting commit is retried rather than dropped, so concurrent writers do not lose versions.
+            share one commit chain per branch. A conflicting commit is retried rather than dropped, so concurrent writers do not lose versions.
             Each document is stored as a sorted N-Triples file under the configured path prefix — Northwind order 10248 as
-            <samp>graphs/orders/10248/.nt</samp>:</p>
+            <samp>graphs/orders/10248.nt</samp>:</p>
         <pre>&lt;https://localhost:4443/orders/10248/&gt; &lt;http://purl.org/dc/terms/title&gt; "10248" .
 &lt;https://localhost:4443/orders/10248/#this&gt; &lt;https://schema.org/identifier&gt; "10248" .
 &lt;https://localhost:4443/orders/10248/#this&gt; &lt;https://schema.org/orderDate&gt; "1996-07-04"^^&lt;http://www.w3.org/2001/XMLSchema#date&gt; .
 …</pre>
+        <p>To disable versioning, remove the <code>lapp:versioningRepository</code> triple and restart — the repository configuration is read at startup.</p>
     </div>
     <div>
         <h2 id="snapshots">Historical versions</h2>
         <p><code>GET</code> with the <code>?version=&lt;commit-sha&gt;</code> query parameter serves the document as it was at that commit. The
             response carries a <code>Memento-Datetime</code> header with the commit datetime, the commit SHA as the <code>ETag</code>, and immutable
             <code>Cache-Control</code> — a historical version never changes.</p>
-        <p>Snapshots are read-only: only <code>acl:Read</code> is advertised in the <code>Link</code> headers and write methods answer
-            <code>405 Method Not Allowed</code>. In the user interface a snapshot page shows a notice banner with a link back to the current version.</p>
+        <p>Historical versions are read-only: only <code>acl:Read</code> is advertised in the <code>Link</code> headers and write methods answer
+            <code>405 Method Not Allowed</code>. In the user interface a historical version page shows a notice banner with a link back to the current version.</p>
         <pre>GET /orders/10248/?version=8c9f2b1 HTTP/1.1
 Host: localhost:4443
 Accept: text/turtle
@@ -101,9 +106,9 @@ Link: &lt;https://localhost:4443/orders/10248/&gt;; rel="original"</pre>
 &lt;https://localhost:4443/orders/10248/?timemap&gt;;rel="self";type="application/link-format",
 &lt;https://localhost:4443/orders/10248/?version=4d1e7aa&gt;;rel="memento";datetime="Sun, 30 Aug 2026 10:12:04 GMT",
 &lt;https://localhost:4443/orders/10248/?version=8c9f2b1&gt;;rel="memento";datetime="Tue, 01 Sep 2026 14:03:59 GMT"</pre>
-        <p>A TimeMap of a document with no versions answers <code>404 Not Found</code>, and ordinary documents answer <code>406 Not Acceptable</code>
-            for <code>application/link-format</code>.</p>
-        <p>The Memento hypermedia uses the IANA-registered relation types: the document advertises its <code>timemap</code> and <code>timegate</code> in
+        <p>A TimeMap of a document with no versions answers <code>404 Not Found</code>. A non-versioned document answers <code>406 Not Acceptable</code>
+            when <code>application/link-format</code> is requested.</p>
+        <p>The Memento hypermedia uses IANA-registered relation types: the document advertises its <code>timemap</code> and <code>timegate</code> in
             <code>Link</code> headers, a historical version links back to the document with <code>rel=original</code>, and the TimeMap identifies itself with
             <code>rel=self</code>.</p>
     </div>
@@ -124,15 +129,19 @@ Link: &lt;https://localhost:4443/orders/10248/&gt;; rel="original"</pre>
     </div>
     <div>
         <h2 id="restore-diff">Restore and diff</h2>
-        <p>From the <a href="../../user-guide/version-history/">version history dialog</a>, a document can be restored to an earlier version — the
-            restore rolls forward as a new commit, so the versions rolled past stay in the TimeMap — and any two versions can be compared as a diff
-            rendered on the document page.</p>
+        <p>From the <a href="../../user-guide/version-history/">version history dialog</a>, a document can be restored to an earlier version — restoring
+            creates a new commit rather than rewriting history, so the intervening versions remain in the TimeMap — and any two versions can be compared
+            as a diff rendered on the document page.</p>
     </div>
     <div>
         <h2 id="management">Management</h2>
         <div>
+            <h3 id="management-ui"><a href="../user-interface/">User interface</a></h3>
+            <p>The <a href="../../user-guide/version-history/">version history dialog</a> lists a document's versions and drives the restore and diff actions.</p>
+        </div>
+        <div>
             <h3 id="management-cli"><a href="../command-line-interface/">Command line interface</a></h3>
-            <p><samp>ldh get</samp> reaches a versioned document's Memento roles through mutually exclusive options:</p>
+            <p><samp>ldh get</samp> exposes a versioned document's TimeMap, TimeGate and historical versions through three mutually exclusive options:</p>
             <table class="table table-striped">
                 <thead>
                     <tr>

@@ -7,62 +7,75 @@
     dct:title "Create documents" ;
     dct:description "Learn how to create container and item documents" ;
     rdf:_1 <#content> .
-    
+
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to create container and item documents</p>
-    <div class="screenshot-placeholder">
-        <span class="msi" aria-hidden="true">play_circle</span>
-        <p>Screen recording: creating a container document</p>
-    </div>
-    <p>To create a container document (which can have <a href="../../../reference/data-model/documents/#hierarchy" target="_blank">children documents</a>) with a custom URL, follow these steps:</p>
-    <div class="tabbable">
-        <ul class="nav nav-tabs">
-            <li class="active"><a>User interface</a></li>
-            <li><a>Command line interface</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active">
-                <div>
-                    <ol>
-                        <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner and select <dfn>Container</dfn>. This will open a new form.</li>
-                        <li>Fill out the mandatory <dfn>Container</dfn> fields in the form:
-                            <dl>
-                                <dt>Title</dt>
-                                <dd>Enter <samp>Categories</samp></dd>
-                            </dl>
-                        </li>
-                        <li>To customize the container URL, click on the dropdown in the top-right corner of the form</li>
-                        <li>Replace the generated unique relative URI with <samp>categories</samp></li>
-                        <li>Click <span class="btn btn-primary btn-save">Save</span></li>
-                    </ol>
-                    <p>See how below:</p>
-                    <div class="screenshot-placeholder">
-                        <span class="msi" aria-hidden="true">play_circle</span>
-                        <p>Screen recording: the container creation form</p>
+    <div>
+        <h2 id="create-container">Create a container</h2>
+        <p>To create a container document (which can have <a href="../../../reference/data-model/documents/#hierarchy" target="_blank">child documents</a>) with a custom URL, follow these steps:</p>
+        <div class="ldhc-tabs or-horizontal">
+            <div class="ldhc-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+            </div>
+            <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
+                    <div>
+                        <ol>
+                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner and select <dfn>Container</dfn>. This will open a new form.</li>
+                            <li>Fill out the mandatory <dfn>Container</dfn> fields in the form:
+                                <dl>
+                                    <dt>Title</dt>
+                                    <dd>Enter <samp>Categories</samp></dd>
+                                </dl>
+                            </li>
+                            <li>To customize the container URL, click on the dropdown in the top-right corner of the form</li>
+                            <li>Replace the generated unique relative URI with <samp>categories</samp></li>
+                            <li>Click <span class="btn btn-primary btn-save">Save</span></li>
+                        </ol>
+                        <div class="screenshot-placeholder">
+                            <span class="msi" aria-hidden="true">play_circle</span>
+                            <p>Screen recording: the container creation form</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="tab-pane">
-                <div>
-                    <p>With the <a href="../../../reference/command-line-interface/#environment-variables"><samp>LDH_*</samp> environment variables</a> supplying the certificate and base URI, execute the following command:</p>
-                    <pre>ldh create-container \\
+            <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
+                    <div>
+                        <p>With the <a href="../../../reference/command-line-interface/#environment-variables"><samp>LDH_*</samp> environment variables</a> supplying the certificate and base URI, execute the following command:</p>
+                        <pre>ldh create-container \\
   --title "Categories" \\
   --slug "categories" \\
   --parent "$LDH_BASE"</pre>
+                    </div>
                 </div>
-            </div>
         </div>
+        <p>A container titled <samp>Categories</samp> should appear with the URI <samp>${LDH_BASE}categories/</samp>.</p>
+        <p>Any text works as the URI path segment — characters outside RFC 3986's unreserved set (letters, digits, <samp>-</samp>, <samp>.</samp>, <samp>_</samp>, <samp>~</samp>) are percent-encoded.</p>
     </div>
-    <p>A container titled <samp>Categories</samp> should appear with the URI <a href="https://localhost:4443/categories/" target="_blank">https://localhost:4443/categories/</a>.</p>
     <div>
         <h2 id="create-item">Create an item</h2>
-        <p>Items are created the same way — select <dfn>Item</dfn> from the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown instead, or from the command line:</p>
-        <pre>ldh create-item \\
-  --container "https://localhost:4443/categories/" \\
+        <p>Items are created the same way:</p>
+        <div class="ldhc-tabs or-horizontal">
+            <div class="ldhc-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-2-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-2-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-2-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-2-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+            </div>
+            <div aria-labelledby="user-interface-2-tab" class="ldhc-tabpanel" id="user-interface-2-pane" role="tabpanel">
+                    <div>
+                        <p>Select <dfn>Item</dfn> from the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown instead and follow the same steps as above.</p>
+                    </div>
+                </div>
+            <div aria-labelledby="command-line-interface-2-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-2-pane" role="tabpanel">
+                    <div>
+                        <p>Execute the following command:</p>
+                        <pre>ldh create-item \\
+  --container "${LDH_BASE}categories/" \\
   --title "Beverages" \\
   --slug "1"</pre>
-        <p>The command prints the created document's URL — <samp>https://localhost:4443/categories/1/</samp>.</p>
+                        <p>The command prints the created document's URL — <samp>${LDH_BASE}categories/1/</samp>.</p>
+                    </div>
+                </div>
+        </div>
     </div>
-    <p class="lead"><a href="../../../reference/data-model/documents/" target="_blank">Read more about document management.</a></p>
+    <p class="lead"><a href="../../../reference/data-model/documents/" target="_blank">Read more about documents and the document hierarchy.</a></p>
 </div>"""^^rdf:XMLLiteral .

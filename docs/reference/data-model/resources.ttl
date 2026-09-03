@@ -10,7 +10,8 @@
     dct:description "RDF resources and their management" ;
     rdf:_1 <#content> ;
     rdf:_2 <#live-example> ;
-    rdf:_3 <#northwind-query-block> .
+    rdf:_3 <#northwind-query-block> ;
+    rdf:_4 <#management> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
@@ -25,6 +26,7 @@
         <div>
             <h2 id="built-in-classes">Built-in classes</h2>
             <p>LinkedDataHub's built-in <a href="../../administration/ontologies/#classes">classes</a> have pre-defined <a href="../../administration/ontologies/#constructors">constructors</a>, <a href="../../administration/ontologies/#constraints">constraints</a> and often a customized UI rendering (implemented by <a href="../../stylesheets/#overriding-templates">overriding generic XSLT templates</a> with type-specific templates) as well, for example a query editor or a chart.</p>
+            <p>The table lists the built-in classes creatable from the <span class="btn btn-primary create-action">Create</span> dropdown; the two content block classes, <code>ldh:XHTML</code> and <code>ldh:Object</code>, are documented on the <a href="../blocks/">Content blocks</a> page.</p>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -41,7 +43,7 @@
                     </tr>
                     <tr>
                         <td><samp>Application</samp></td>
-                        <td><code>ldh:Application</code></td>
+                        <td><code>lapp:Application</code></td>
                         <td><a href="../../dataspace/#applications">Remote LinkedDataHub application</a></td>
                     </tr>
                     <tr>
@@ -52,12 +54,17 @@
                     <tr>
                         <td><samp>CSV import</samp></td>
                         <td><code>ldh:CSVImport</code></td>
-                        <td>Async <a href="../../imports/csv/">CSV data import</a></td>
+                        <td>Asynchronous <a href="../../imports/csv/">CSV data import</a></td>
+                    </tr>
+                    <tr>
+                        <td><samp>DESCRIBE</samp></td>
+                        <td><code>sp:Describe</code></td>
+                        <td><a href="#queries">SPARQL <code>DESCRIBE</code> query</a></td>
                     </tr>
                     <tr>
                         <td><samp>File</samp></td>
                         <td><code>nfo:FileDataObject</code></td>
-                        <td>File to upload</td>
+                        <td>An uploaded file, stored <a href="../../dataset/#hierarchical-uris">content-addressed</a> under <samp>uploads/</samp></td>
                     </tr>
                     <tr>
                         <td><samp>Graph chart</samp></td>
@@ -67,7 +74,7 @@
                     <tr>
                         <td><samp>RDF import</samp></td>
                         <td><code>ldh:RDFImport</code></td>
-                        <td>Async <a href="../../imports/rdf/">RDF data import</a></td>
+                        <td>Asynchronous <a href="../../imports/rdf/">RDF data import</a></td>
                     </tr>
                     <tr>
                         <td><samp>Result set chart</samp></td>
@@ -100,8 +107,8 @@
             <span class="msi" aria-hidden="true">image</span>
             <p>Screenshot: a query block with the SPARQL editor</p>
         </div>
-        <p>Queries are SPARQL 1.1 query strings that can be executed interactively. They can be defined with a SPARQL
-        service that they execute against, otherwise they execute against the application's own SPARQL service.</p>
+        <p>Queries are SPARQL 1.1 query strings that can be executed interactively. A query may name the SPARQL
+        service it executes against; otherwise it runs against the application's own service.</p>
         <p>A query is a resource typed by its SPARQL form, carrying the query string as <code>sp:text</code>:</p>
         <pre>&lt;#select-categories-query&gt; a sp:Select ;
     dct:title "Select categories" ;
@@ -129,9 +136,9 @@ ORDER BY ?categoryName''' .</pre>
             <li>tabular <code>SELECT</code> results (<code>ldh:ResultSetChart</code>)</li>
             <li>graph results of <code>DESCRIBE</code> and <code>CONSTRUCT</code> (<code>ldh:GraphChart</code>)</li>
         </ul>
-        <p>In that sense they are similar to the chart layout mode in
-        <a href="#views">views</a>, but charts also store the chart type as well as the category and series information: variable names in the
-        case of tabular results, and property URIs in the case of graph results.</p>
+        <p>A chart resource is easily confused with the chart layout mode in <a href="#views">views</a>. The layout mode renders
+        view results as a chart on the fly, while a chart resource additionally stores the chart type as well as the category and
+        series information: variable names in the case of tabular results, and property URIs in the case of graph results.</p>
         <div>
             <h3 id="chart-vocabulary">RDF vocabulary</h3>
             <p>A chart references its query with <code>spin:query</code> and describes its rendering with the following properties:</p>
@@ -172,8 +179,8 @@ ORDER BY ?categoryName''' .</pre>
                 </tbody>
             </table>
         </div>
-        <p>The default chart type is the table. Other chart types might not apply to all result data; for example a
-        scatter chart will need numeric or datetime values for both category and series.</p>
+        <p>The default chart type is the table. Other chart types might not apply to all result data; for example, a
+        scatter chart needs numeric or datetime values for both category and series.</p>
         <p>A complete chart is a chain of three resources — the query, the chart description, and an
             <a href="../blocks/#object-blocks">object block</a> that places it on a document:</p>
         <pre>&lt;#category-revenue-query&gt; a sp:Select ;
@@ -218,14 +225,15 @@ ORDER BY DESC(?revenue)''' .
             <span class="msi" aria-hidden="true">image</span>
             <p>Screenshot: a view block with paginated results</p>
         </div>
-        <p>Views are interactive, paginated, and optionally ordered results of a SPARQL <code>SELECT</code> result set.
-        What is rendered in the UI is not directly the tabular result however, but descriptions of the resources selected
-        by the result set. That is achieved by on-the-fly SPARQL query rewriting: the <code>SELECT</code> is wrapped into
+        <p>A view renders the results of a SPARQL <code>SELECT</code> query as an interactive, paginated and optionally ordered list.
+        The UI renders the descriptions of the resources selected by the result set, rather than the tabular result itself.
+        That is achieved by on-the-fly SPARQL query rewriting: the <code>SELECT</code> is wrapped into
         a <code>DESCRIBE</code> query; <code>DESCRIBE</code> reuses the same variables from the <code>SELECT</code> projection.
         <em>This will not work for all <code>SELECT</code> queries.</em></p>
-        <p>To render paginated lists of resources, legacy applications would normally have a dedicated API endpoint that
+        <p>To render paginated lists of resources, traditional applications would normally have a dedicated API endpoint that
         supports pagination, ordering etc. In LinkedDataHub, views achieve the same functionality by simply building the
-        SPARQL query string on the client-side. Therefore views can be seen as client-side "containers".</p>
+        SPARQL query string on the client-side. A view is therefore a client-side counterpart of a container: it produces a
+        listing without a server-side endpoint.</p>
         <p>A view references its <a href="#queries">query</a> and optionally fixes a layout mode:</p>
         <pre>&lt;#select-categories-view&gt; a ldh:View ;
     spin:query &lt;#select-categories-query&gt; ;
@@ -242,8 +250,8 @@ ORDER BY DESC(?revenue)''' .
                 <li>Project IRIs that are stored <em>locally</em>. An IRI that only occurs as an object but is not itself described in the dataset — for example an external image URL — contributes no triples.</li>
                 <li>Project a <em>single</em> entity type. Projecting several resource variables of different types blends their descriptions into one result set, which rarely renders coherently; select the one type you want to list and reach the related resources through their properties instead.</li>
             </ul>
-            <p>Side by side — the left query drives the categories grid above; the right one <em>looks</em> equivalent but projects the name literal
-                instead of the category resource, describes nothing, and renders an empty view:</p>
+            <p>Side by side: the left query drives the categories grid above. The right one <em>looks</em> equivalent, but it projects the name literal
+                instead of the category resource — so it describes nothing and renders an empty view:</p>
             <pre># renders category documents          # renders nothing
 SELECT DISTINCT ?category             SELECT DISTINCT ?categoryName
 WHERE {                               WHERE {
@@ -256,7 +264,7 @@ WHERE {                               WHERE {
         </div>
         <div>
             <h3 id="view-layout-modes">Layout modes</h3>
-            <p>View results can be rendered using the same layout modes as the <a href="../../user-interface/#layout-modes">document layout modes</a>.</p>
+            <p>View results are rendered in the view's own set of layout modes — properties, list, grid, table, map, chart, and graph — a larger set than the <a href="../../user-interface/#layout-modes">document layout modes</a>.</p>
         </div>
         <div>
             <h3 id="inline-creation">Inline creation</h3>
@@ -272,110 +280,26 @@ WHERE {                               WHERE {
         </div>
         <div>
             <h3 id="faceted-search">Faceted search</h3>
-            <p>On the left side, views provide faceted search which acts as a filter that narrows down the view results.</p>
+            <p>Views provide faceted search on the left, filtering the result set.</p>
             <p>By default the facets are generic and inferred from the triple patterns of the SPARQL <code>SELECT</code> query used by the view. They can be <a href="../../stylesheets/#overriding-templates">customized using XSLT</a>.</p>
         </div>
         <div>
             <h3 id="parallax">Parallax navigation</h3>
-            <p>Parallax navigation is a rather unique navigation approach that lends itself perfectly to graph data. It is enabled for container content and shown as <samp>Related results</samp> on the right side of the view. Parallax allows "jumping" from a result set to a related result set using the selected RDF property. It works in
-                combination with faceted search which can be used to filter the initial result set.</p>
-            <p>For example, facets can be used to filter a set products that belong to a certain category, and then parallax can be used to jump to a set of companies that provide those products, and then further on to
-                a set representatives of those companies.</p>
             <div class="screenshot-placeholder">
                 <span class="msi" aria-hidden="true">image</span>
                 <p>Screenshot: parallax navigation jumping from a result set to a related one</p>
             </div>
-        </div>
-    </div>
-    <div>
-        <h2 id="management">Management</h2>
-        <div>
-            <h3 id="management-ui"><a href="../../user-interface/">User interface</a></h3>
-            <p>Resources can only be managed when the <a href="../../user-interface/#layout-modes" target="_blank"><samp>Properties</samp> layout mode</a> is active.</p>
-            <table class="table table-striped" id="actions">
-                <thead>
-                    <tr>
-                        <th>Action</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>Create</th>
-                        <td>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page. Fill out the fields in the form that appears. Click <span class="btn btn-primary btn-save">Save</span>.</td>
-                    </tr>
-                    <tr>
-                        <th>Update</th>
-                        <td>Click the <span class="btn btn-edit"></span> button in the top-right corner of the resource header (in the middle column of the content). Make changes in the form that appears. Click <span class="btn btn-primary btn-save">Save</span>.</td>
-                    </tr>
-                    <tr>
-                        <th>Delete</th>
-                        <td>Click the <span class="btn btn-edit"></span> button in the top-right corner of the resource header. Click the <span class="btn btn-remove-resource"></span> button to delete the block.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div>
-            <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
-            <p>The following resource types can be created using the <a href="../../command-line-interface/" target="_blank">command line interface</a>. Any resource can be updated or deleted with <a href="../../command-line-interface/#commands"><samp>ldh patch</samp></a>, which applies a SPARQL update to the resource's document.</p>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Type</th>
-                        <th>Action</th>
-                        <th>CLI command</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><samp>CONSTRUCT</samp></td>
-                        <th>Create</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-construct</samp></a></td>
-                    </tr>
-                    <tr>
-                        <td><samp>CSV import</samp></td>
-                        <th>Create</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh imports add-csv-import</samp></a></td>
-                    </tr>
-                    <tr>
-                        <td><samp>File</samp></td>
-                        <th>Create</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-file</samp></a></td>
-                    </tr>
-                    <tr>
-                        <td><samp>RDF import</samp></td>
-                        <th>Create</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh imports add-rdf-import</samp></a></td>
-                    </tr>
-                    <tr>
-                        <td><samp>Result set chart</samp></td>
-                        <th>Create</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-result-set-chart</samp></a></td>
-                    </tr>
-                    <tr>
-                        <td><samp>Select</samp></td>
-                        <th>Create</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-select</samp></a></td>
-                    </tr>
-                    <tr>
-                        <td><samp>Service</samp></td>
-                        <th>Create</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-generic-service</samp></a></td>
-                    </tr>
-                    <tr>
-                        <td><samp>View</samp></td>
-                        <th>Create</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-view</samp></a></td>
-                    </tr>
-                </tbody>
-            </table>
+            <p>Parallax is an unusual navigation approach that suits graph data particularly well. It is enabled for container content and shown as <samp>Related results</samp> on the right side of the view. Parallax allows jumping from a result set to a related result set using the selected RDF property. It works in
+                combination with faceted search which can be used to filter the initial result set.</p>
+            <p>For example, facets can be used to filter a set of products that belong to a certain category, and then parallax can be used to jump to a set of companies that provide those products, and then further on to
+                a set of representatives of those companies.</p>
         </div>
     </div>
 </div>"""^^rdf:XMLLiteral .
 
 <#live-example> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <div class="ldh-section">
+    <div>
         <h2 id="live-example">Live example</h2>
         <p>The block below is not a code snippet — it is an actual query block embedded in this document, executing against the
             <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">Northwind Traders dataspace</a>'s SPARQL endpoint. The query, the
@@ -402,3 +326,83 @@ LIMIT 10""" ;
     dct:title "Northwind Traders SPARQL service" ;
     sd:endpoint <https://northwind-traders.demo.linkeddatahub.com/sparql> ;
     sd:supportedLanguage sd:SPARQL11Query .
+
+<#management> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <div>
+        <h2 id="management">Management</h2>
+        <div>
+            <h3 id="management-ui"><a href="../../user-interface/">User interface</a></h3>
+            <p>Resources can only be managed when the <a href="../../user-interface/#layout-modes" target="_blank">Properties layout mode</a> is active.</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Create</th>
+                        <td>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown at the bottom of the page. Fill out the fields in the form that appears. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                    </tr>
+                    <tr>
+                        <th>Update</th>
+                        <td>Click the <span class="btn btn-edit"></span> button in the top-right corner of the resource header (in the middle column of the content). Make changes in the form that appears. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                    </tr>
+                    <tr>
+                        <th>Delete</th>
+                        <td>Click the <span class="btn btn-edit"></span> button in the top-right corner of the resource header. Click the <span class="btn btn-remove-resource"></span> button to delete the resource.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
+            <p>The following resource types can be created using the <a href="../../command-line-interface/" target="_blank">command line interface</a>. Any resource can be updated or deleted with <a href="../../command-line-interface/#commands"><samp>ldh patch</samp></a>, which applies a SPARQL update to the resource's document.</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>CLI command</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><samp>CONSTRUCT</samp></th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-construct</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th><samp>CSV import</samp></th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh imports add-csv-import</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th><samp>File</samp></th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-file</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th><samp>RDF import</samp></th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh imports add-rdf-import</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th><samp>Result set chart</samp></th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-result-set-chart</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th><samp>Select</samp></th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-select</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th><samp>Service</samp></th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-generic-service</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th><samp>View</samp></th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-view</samp></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <p class="lead">To query data and create resources step-by-step, follow the <a href="../../../user-guide/query-data/">Query data</a> and <a href="../../../user-guide/create-data/create-resources/">Create resources</a> guides</p>
+</div>"""^^rdf:XMLLiteral .

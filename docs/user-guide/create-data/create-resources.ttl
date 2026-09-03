@@ -5,9 +5,9 @@
 
 <> a dh:Item ;
     dct:title "Create instances" ;
-    dct:description "Learn how to create of built-in and user-defined classes" ;
+    dct:description "Learn how to create instances of built-in and user-defined classes" ;
     rdf:_1 <#content> .
-    
+
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to create instances of built-in and user-defined classes</p>
@@ -16,45 +16,42 @@
         <p>Screen recording: creating resource instances</p>
     </div>
     <p><a href="../../../reference/data-model/resources/#built-in-classes">Built-in classes</a> (such as <samp>Container</samp>, <samp>Item</samp>, <samp>SELECT</samp> etc.) ship with <a href="../../../reference/administration/ontologies/#ontologies">system ontologies</a> in LinkedDataHub while <dfn>user-defined classes</dfn> come from ontologies imported by the user (see the user guide on <a href="../../change-model/">changing the model</a> on how to do that).</p>
-    <p>Note that in order to create class instances, you have to be in <a href="../../../reference/user-interface/#layout-modes">properties mode</a>.</p>
+    <div class="alert alert-info">
+        <p>To create class instances, you have to be in <a href="../../../reference/user-interface/#layout-modes">properties mode</a>.</p>
+    </div>
+    <div class="alert alert-info">
+        <p>You can only create instances of classes that have <a href="../../../reference/administration/ontologies/#constructors">constructors</a>.</p>
+    </div>
     <div>
-        <h2>Built-in classes</h2>
+        <h2 id="built-in-classes">Built-in classes</h2>
         <p>To create instances of built-in classes, follow these steps:</p>
         <ol>
-            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
-            <li>In the drop-down list that appears click on the menu item of the class you want to create an instance for. An editing form will open.</li>
-            <li>Fill out the fields in the form that appears. The mandatory properties are rendered in bold, without providing their values you will not be able to save the instance form.</li>
+            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown at the bottom of the page</li>
+            <li>In the dropdown list that appears, click on the menu item of the class you want to create an instance for. An editing form will open.</li>
+            <li>Fill out the fields in the form that appears. Mandatory properties are rendered in bold; the form cannot be saved without them.</li>
             <li>Click <span class="btn btn-primary btn-save">Save</span></li>
-            <li>In case there were errors such as missing or malformed values, an error message will be shown and the offending property and value will be highlighted. Fix them or you will not be able to save the instance form.</li>
+            <li>If a value is missing or malformed, an error message appears and the offending property is highlighted. Fix it and save again.</li>
         </ol>
         <p>You will be redirected to the document of the newly created instance.</p>
     </div>
     <div>
-        <h2>User-defined classes</h2>
+        <h2 id="user-defined-classes">User-defined classes</h2>
         <p>To create instances of user-defined classes, follow these steps:</p>
         <ol>
-            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
-            <li>Click on <samp>Instance</samp> in the drop-down list that appears. An editing form will open.</li>
-            <li>In the resource of <samp>Type</samp> <samp>Instance</samp>, click on the <samp>Instance</samp> typeahead input, type the class name — for example <samp>Product</samp> on the Northwind dataspace — and select the class from the list</li>
-            <li>Fill out the fields in the form that appears. The mandatory properties are rendered in bold, without providing their values you will not be able to save the instance form.</li>
-            <li>Click <span class="btn btn-primary btn-save">Save</span></li>
-            <li>In case there were errors such as missing or malformed values, an error message will be shown and the offending property and value will be highlighted. Fix them or you will not be able to save the instance form.</li>
+            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown at the bottom of the page</li>
+            <li>Click on <samp>Instance</samp> in the dropdown list that appears. An editing form will open.</li>
+            <li>In the form's <samp>Type</samp> field, click the typeahead input, type the class name — for example <samp>Product</samp> on the Northwind dataspace — and select the class from the list</li>
+            <li>Continue as with the <a href="#built-in-classes">built-in classes</a>: fill out the fields and click <span class="btn btn-primary btn-save">Save</span></li>
         </ol>
-        <p>You will be redirected to the document of the newly created instance. Creating a <samp>Product</samp> this way, its
-            <a href="../../change-model/" target="_blank">constructor</a> renders name and identifier inputs plus category and supplier typeaheads —
-            the form is entirely constructor-driven.</p>
+        <p>When you create a <samp>Product</samp> this way, its <a href="../../change-model/" target="_blank">constructor</a> renders name and identifier inputs plus category and supplier typeaheads — the form is entirely constructor-driven.</p>
         <div class="screenshot-placeholder">
             <span class="msi" aria-hidden="true">image</span>
             <p>Screenshot: the Product create form generated from the constructor, with category and supplier typeaheads</p>
         </div>
-        <div class="alert alert-info">
-            <p>You can only create instances of classes that have <a href="../../../reference/administration/ontologies/#constructors">constructors</a>.</p>
-        </div>
     </div>
     <div>
         <h2 id="cli">From the command line</h2>
-        <p>Instances are plain RDF, so the CLI equivalent is appending a description to a document with <samp>ldh post</samp>. Creating a new product
-            in its own document:</p>
+        <p>Instances are plain RDF, so the CLI equivalent is appending a description to a document with <samp>ldh post</samp>. Creating a new product in its own document:</p>
         <pre>doc=$(ldh create-item \\
   --container "${LDH_BASE}products/" \\
   --title "Masala Chai" \\
@@ -71,7 +68,7 @@ ldh post -t text/turtle "$doc" &lt;&lt;EOF
     schema:identifier "78" ;
     schema:category &lt;${LDH_BASE}categories/1/&gt; .
 EOF</pre>
-        <p>The posted data is validated against the class <a href="../../../reference/administration/ontologies/#constraints">constraints</a> the same
-            way form submissions are — leaving out <code>schema:name</code> gets the request rejected with <samp>422 Unprocessable Entity</samp>.</p>
+        <p>The posted data is validated against the class <a href="../../../reference/administration/ontologies/#constraints">constraints</a> the same way form submissions are — leaving out <code>schema:name</code> gets the request rejected with <samp>422 Unprocessable Entity</samp>.</p>
     </div>
+    <p class="lead"><a href="../../../reference/administration/ontologies/#constructors" target="_blank">Read more about constructors.</a></p>
 </div>"""^^rdf:XMLLiteral .

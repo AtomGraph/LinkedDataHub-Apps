@@ -2,18 +2,18 @@
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
-    
+
 <> a dh:Item ;
     dct:title "Add data" ;
-    dct:description "Fork RDF data from Linked Data resources and SPARQL results" ;
+    dct:description "Copy RDF data from Linked Data resources and file uploads into your dataspace" ;
     rdf:_1 <#content> .
-    
+
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Fork RDF data from Linked Data resources and SPARQL results</p>
-    <p>You can fork (copy the contents of) any RDF document to a namedgraph in your dataspace. Two sources of RDF are supported: RDF resources on the web (Linked Data), and RDF file uploads.</p>
+    <p class="lead">Copy RDF data from Linked Data resources and file uploads into your dataspace</p>
+    <p>Forking copies the contents of any RDF document into a named graph in your dataspace. Two sources of RDF are supported: RDF resources on the web (Linked Data) and RDF file uploads.</p>
     <div class="alert alert-info">
-        <p>Adding data this way will cause a blocking request, so use it for small amounts of data only (e.g. a few thousands of RDF triples).
+        <p>Adding data this way will cause a blocking request, so use it for small amounts of data only (e.g. a few thousand RDF triples).
         For larger data, use asynchronous <a href="../import-data/import-rdf-data/" target="_blank">RDF imports</a>.</p>
     </div>
     <div>
@@ -30,35 +30,60 @@
                     <dt>Source</dt>
                     <dd>URI of the source document</dd>
                     <dt>Graph</dt>
-                    <dd>The target document. You can start typing to find it by its label, or paste its URI here.</dd>
+                    <dd>The target document. The source data is appended to the target document's existing content, replacing nothing. You can start typing to find the document by its label, or paste its URI here.</dd>
                 </dl>
             </li>
             <li>Click <span class="btn btn-primary btn-save">Save</span> to perform the fork operation.</li>
         </ol>
-        <p>For example, browse the UNESCO Thesaurus concept
-            <a href="https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3683/" target="_blank"><samp>Beverages</samp></a> through the
-            <a href="../browse-data/">Linked Data browser</a> and fork it into your own dataspace — the concept the Northwind Beverages category is
-            <a href="../../reference/imports/rdf/">mapped to</a>.</p>
+        <p>For example, the Northwind Beverages category <a href="../../reference/imports/rdf/">maps to</a> the UNESCO Thesaurus concept
+            <a href="https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3683/" target="_blank"><samp>Beverages</samp></a>. Open it in the
+            <a href="../browse-data/">Linked Data browser</a> and fork it into your own dataspace.</p>
         <p>The target document does not have to be local: you can also add data to a document in <em>another</em> dataspace by pasting its URI. The
             append is performed with your identity, so the target dataspace's <a href="../../reference/administration/acl/">access control</a> decides
             whether it is allowed — a refusal surfaces as a form error.</p>
-        <div>
-            <h3 id="cli">From the command line</h3>
-            <p>The same fork is a pipe — <samp>ldh get</samp> the source, <samp>ldh post</samp> it into the target document:</p>
-            <pre>ldh get --accept text/turtle \\
+    </div>
+    <div>
+        <h2 id="cli">From the command line</h2>
+        <p>The same fork is a pipe — <samp>ldh get</samp> the source, <samp>ldh post</samp> it into the target document:</p>
+        <pre>ldh get --accept text/turtle \\
     "https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3683/" \\
   | ldh post -t text/turtle "${LDH_BASE}categories/1/"</pre>
-        </div>
     </div>
     <div>
         <h2 id="from-file">From file</h2>
-        <p>To upload the contents of an RDF file into a document, simply drag the file from your filesystem into LinkedDataHub when the document's <a href="../../reference/user-interface/#layout-modes">properties mode</a> is active.</p>
+        <p>To upload the contents of an RDF file into a document, drag the file from your filesystem into LinkedDataHub when the document's <a href="../../reference/user-interface/#layout-modes">properties mode</a> is active.</p>
         <p>The following syntaxes are supported:</p>
-        <ul>
-            <li>N-Triples (.nt)</li>
-            <li>Turtle (.ttl)</li>
-            <li>RDF/XML (.rdf and .owl)</li>
-            <li>JSON-LD (.jsonld)</li>
-        </ul>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Syntax</th>
+                    <th>File extensions</th>
+                    <th>Media type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>N-Triples</td>
+                    <td><samp>.nt</samp></td>
+                    <td><samp>application/n-triples</samp></td>
+                </tr>
+                <tr>
+                    <td>Turtle</td>
+                    <td><samp>.ttl</samp></td>
+                    <td><samp>text/turtle</samp></td>
+                </tr>
+                <tr>
+                    <td>RDF/XML</td>
+                    <td><samp>.rdf</samp>, <samp>.owl</samp></td>
+                    <td><samp>application/rdf+xml</samp></td>
+                </tr>
+                <tr>
+                    <td>JSON-LD</td>
+                    <td><samp>.jsonld</samp></td>
+                    <td><samp>application/ld+json</samp></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+    <p class="lead"><a href="../browse-data/">Browse data</a> to find resources worth forking, or <a href="../import-data/import-rdf-data/">import RDF data</a> for larger datasets.</p>
 </div>"""^^rdf:XMLLiteral .

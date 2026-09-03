@@ -11,16 +11,18 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Where to go when data alone is not enough</p>
-    <p>Everything in this tutorial was done with data: documents, queries and authorizations, applied over HTTP. That is the ceiling of the low-code approach — and there is a door in it. Each layer
+    <p>Everything in this tutorial was done with data: documents, queries and authorizations, applied over HTTP. That is the ceiling of the low-code approach — and it opens. Each layer
         of LinkedDataHub can be extended without forking it:</p>
     <ul>
         <li><strong>Layout</strong> — write an XSLT stylesheet that imports the system one and overrides only the templates you need. Start with the
-            <a href="../../user-guide/change-layout/" target="_blank">Change layout</a> guide and the <a href="../../reference/stylesheets/" target="_blank">stylesheets reference</a>.</li>
-        <li><strong>Docker and Java</strong> — mount files into the stock image, build your own image on top of it, or add JAX-RS endpoints via a WAR overlay. The
-            <a href="../../user-guide/build-apps/" target="_blank">Build apps</a> guide covers each layer with working build files.</li>
+            <a href="../../extending/change-layout/" target="_blank">Change layout</a> guide and the <a href="../../reference/stylesheets/" target="_blank">stylesheets reference</a>.</li>
+        <li><strong>Docker</strong> — mount files into the stock image, or build your own image on top of it. The
+            <a href="../../extending/build-apps/#docker" target="_blank">Build apps</a> guide covers both with working build files.</li>
+        <li><strong>Java</strong> — add JAX-RS endpoints via a <a href="../../extending/build-apps/#java" target="_blank">WAR overlay</a> of the LinkedDataHub webapp.</li>
         <li><strong>More examples</strong> — the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps" target="_blank">LinkedDataHub-Apps repository</a> holds the complete Northwind Traders
             source alongside further demo apps and installable packages.</li>
     </ul>
     <p>If you get stuck or build something worth showing, open a thread on <a href="https://github.com/AtomGraph/LinkedDataHub/discussions" target="_blank">GitHub Discussions</a>.</p>
-    <p class="lead">Back to the <a href="../">Tutorial</a> overview</p>
+    <p class="lead">You have built and published a Knowledge Graph application. From here: the <a href="../../user-guide/">user guide</a> for everyday tasks, the
+        <a href="../../reference/">reference</a> for the full feature set, and the <a href="../../extending/">Extending section</a> when you outgrow low-code.</p>
 </div>"""^^rdf:XMLLiteral .

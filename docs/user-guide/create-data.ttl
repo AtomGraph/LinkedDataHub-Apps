@@ -5,15 +5,16 @@
 
 <> a dh:Container ;
     dct:title "Create data" ;
-    dct:description "How to create documents, content, and instances" ;
+    dct:description "How to create documents, content and instances" ;
     rdf:_1 <#content> ;
     rdf:_2 <#select-children> .
-    
+
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">How to create documents, content, and instances</p>
-    <p>Documents are RDF documents stored in the <a href="../../reference/dataset/">application's dataset</a>. They contain descriptions of resources, e.g. instances created by the user, imported from files, or loaded from Linked Data.</p>
-    <p>Each document can have content, which is a chain (RDF list) of URI resources and XHTML literals.</p>
+    <p class="lead">How to create documents, content and instances</p>
+    <p>A document is a named graph in the <a href="../../reference/dataset/">application's dataset</a>, addressed by its own URL. Documents contain descriptions of resources, e.g. instances created by the user, imported from files, or loaded from Linked Data.</p>
+    <p>Each document can have content: an ordered sequence of blocks — XHTML literals and references to other resources — numbered <code>rdf:_1</code>, <code>rdf:_2</code>, and so on.</p>
+    <p>Start with <a href="create-documents/">Create documents</a>, then <a href="create-content/">Create content</a>, then <a href="create-resources/">Create instances</a>.</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Object ;

@@ -5,13 +5,14 @@
 
 <> a dh:Container ;
     dct:title "User guide" ;
-    dct:description "Step-by-step tutorials for everyday tasks with LinkedDataHub" ;
+    dct:description "Step-by-step guides for everyday tasks in LinkedDataHub" ;
     rdf:_1 <#content> ;
     rdf:_2 <#select-children> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Step-by-step tutorials for everyday tasks with LinkedDataHub</p>
+    <p class="lead">Step-by-step guides for everyday tasks in LinkedDataHub</p>
+    <p>The <a href="../tutorial/">Tutorial</a> builds one application end to end; these pages are standalone recipes that you can read in any order. They fall into three groups: working with data — <a href="browse-data/">browse</a>, <a href="query-data/">query</a>, <a href="add-data/">add</a>, <a href="import-data/">import</a> and <a href="create-data/">create</a> it; authoring — <a href="edit-content/">edit content</a> and <a href="upload-file/">upload files</a>; and administering — <a href="change-model/">change model</a>, <a href="manage-dataspaces/">manage dataspaces</a>, <a href="manage-packages/">manage packages</a> and <a href="version-history/">version history</a>. Developer extension topics live in the <a href="../extending/">Extending</a> section.</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Object ;

@@ -5,34 +5,31 @@
 
 <> a dh:Item ;
     dct:title "Setup" ;
-    dct:description "Setup LinkedDataHub on your local machine or access it in the cloud" ;
+    dct:description "Set up LinkedDataHub on your local machine with Docker" ;
     rdf:_1 <#content> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Setup LinkedDataHub on your local machine.</p>
+    <p class="lead">Set up LinkedDataHub on your local machine with Docker</p>
     <div class="screenshot-placeholder">
         <span class="msi" aria-hidden="true">play_circle</span>
         <p>Screen recording: setting up LinkedDataHub with Docker</p>
     </div>
     <div>
-        <h3 id="start-linkeddatahub">Start LinkedDataHub</h3>
-        <p>This section assumes you will be running on your local machine, i.e. <samp>localhost</samp>. If you intend to run it on a different host, <a href="../../user-guide/change-system-base-uri/#system-base-uri">change the system base URI</a>.</p>
-        <div class="alert alert-info">
-            <p>The administration application of each <a href="../../reference/dataspace/">dataspace</a> is served on the <code>admin.</code> subdomain — for the default setup that is <samp>https://admin.localhost:4443/</samp>. Browsers resolve <samp>*.localhost</samp> automatically and the generated server certificate covers the subdomain, so the local setup works out of the box. On any other host, make sure <samp>admin.&lt;host&gt;</samp> resolves in DNS and is covered by the server's TLS certificate (e.g. a wildcard certificate).</p>
-        </div>
+        <h2 id="start-linkeddatahub">Start LinkedDataHub</h2>
+        <p>This section assumes you will be running on your local machine, i.e. <samp>localhost</samp>. If you intend to run it on a different host, <a href="../../reference/configuration/#system-base-uri">change the system base URI</a>.</p>
         <p>Prerequisites:</p>
         <ul>
-            <li>bash shell. It should be included by default on Linux. On Windows you can install the <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" target="_blank">Windows Subsystem for Linux</a>.</li>
-            <li><a href="https://www.openssl.org/" target="_blank">openssl</a> available on <code>$PATH</code>.</li>
-            <li><a href="https://docs.docker.com/install/" target="_blank">Docker</a> installed</li>
-            <li><a href="https://docs.docker.com/compose/install/" target="_blank">Docker Compose</a> installed</li>
+            <li>A bash shell — included on Linux and macOS; on Windows, install the <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" target="_blank">Windows Subsystem for Linux</a></li>
+            <li><a href="https://www.openssl.org/" target="_blank">openssl</a> on your <code>$PATH</code></li>
+            <li><a href="https://docs.docker.com/install/" target="_blank">Docker</a></li>
+            <li><a href="https://docs.docker.com/compose/install/" target="_blank">Docker Compose</a></li>
         </ul>
         <p>Steps:</p>
         <ol>
             <li><a href="https://guides.github.com/activities/forking/" target="_blank">Fork</a> the <a href="https://github.com/AtomGraph/LinkedDataHub" target="_blank">LinkedDataHub</a> repository
                 and clone the fork into a folder</li>
-            <li>In the folder, create an <samp>.env</samp> file and fill out the missing values (you can use <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/.env_sample" target="_blank"><samp>.env_sample</samp></a> as a template). For example:
+            <li>In the folder, copy <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/.env_sample" target="_blank"><samp>.env_sample</samp></a> to <samp>.env</samp> and fill in the values. For example:
                 <pre>COMPOSE_CONVERT_WINDOWS_PATHS=1
 COMPOSE_PROJECT_NAME=linkeddatahub
 
@@ -50,10 +47,11 @@ OWNER_ORGANIZATION=My org
 OWNER_LOCALITY=Copenhagen
 OWNER_STATE_OR_PROVINCE=Denmark
 OWNER_COUNTRY_NAME=DK</pre>
+                If port 81 or 4443 is already in use on your machine, choose different <code>HTTP_PORT</code>/<code>HTTPS_PORT</code> values.
             </li>
-            <li>Setup the server's SSL certificates by running this from command line:
+            <li>Set up the server's TLS certificates by running this from the command line:
                 <pre>./bin/server-cert-gen.sh .env nginx ssl</pre>
-                The script will create an <samp>ssl/server</samp> sub-folder where the SSL certificate will be stored.
+                The script will create an <samp>ssl/server</samp> sub-folder where the TLS certificate will be stored.
             </li>
             <li>Create the following secrets with certificate/truststore passwords:
                 <ul>
@@ -64,7 +62,7 @@ OWNER_COUNTRY_NAME=DK</pre>
                 The one you will need to remember in order to authenticate with LinkedDataHub <a href="../get-an-account/#install-cert">using WebID client certificate</a> is <samp>owner_cert_password</samp>.
             </li>
             <li>(Optional) If you need to configure Bearer token authentication for SPARQL services, create <samp>secrets/credentials.trig</samp> with your service credentials. See the <a href="../../reference/configuration/#secrets">configuration reference</a> for details.</li>
-            <li>Run this from command line:
+            <li>Run this from the command line:
                 <pre>make up -- --build</pre>
                 (<samp>make up</samp> forwards its arguments to <samp>docker-compose up</samp>; the <samp>--</samp> is needed before arguments starting with <samp>-</samp>.)
                 LinkedDataHub will start and mount the following sub-folders:
@@ -78,9 +76,21 @@ OWNER_COUNTRY_NAME=DK</pre>
 └── uploads/    # content-hashed file uploads</pre>
             </li>
         </ol>
-        <p>You are now the owner of this LinkedDataHub instance; <samp>ssl/owner/keystore.p12</samp> is your WebID certificate. Password is the <samp>owner_cert_password</samp> secret value.</p>
-        <p>After a successful startup you should see periodic healthcheck requests being made to the <samp>https://localhost:4443/ns</samp> URL in the log:</p>
+        <div class="alert alert-info">
+            <p>The administration application of each <a href="../../reference/dataspace/">dataspace</a> is served on the <code>admin.</code> subdomain — for the default setup that is <samp>https://admin.localhost:4443/</samp>. Browsers resolve <samp>*.localhost</samp> automatically and the generated server certificate covers the subdomain, so the local setup works out of the box. On any other host, make sure <samp>admin.&lt;host&gt;</samp> resolves in DNS and is covered by the server's TLS certificate (e.g. a wildcard certificate).</p>
+        </div>
+        <p>You are now the owner of this LinkedDataHub instance; <samp>ssl/owner/keystore.p12</samp> is your WebID certificate. The password is the value you put in <samp>secrets/owner_cert_password.txt</samp>.</p>
+        <p>Startup takes up to half a minute while the datasets are loaded into the triplestores. After a successful startup you should see periodic healthcheck requests being made to the <samp>https://localhost:4443/ns</samp> URL in the log:</p>
         <pre>linkeddatahub-1  | ... "GET /ns HTTP/1.1" 200 ...</pre>
+    </div>
+    <div>
+        <h2 id="common-commands">Common commands</h2>
+        <ul>
+            <li><samp>make up</samp> — start the services; extra arguments are forwarded to <samp>docker-compose up</samp>, e.g. <samp>make up -- --build</samp> to rebuild the images first</li>
+            <li><samp>make down</samp> — stop the services; <samp>make down -- -v</samp> also removes the Docker volumes</li>
+            <li><samp>make drop</samp> — wipe the setup completely, as described under <a href="#reset">Reset</a></li>
+        </ul>
+        <p><samp>make cli</samp> builds the <a href="../../reference/command-line-interface/">command line interface</a> and prints the line that puts it on your <code>$PATH</code>.</p>
     </div>
     <div>
         <h2 id="reset">Reset</h2>
@@ -88,7 +98,7 @@ OWNER_COUNTRY_NAME=DK</pre>
         <pre>make drop</pre>
         <p>It stops the services, removes the Docker volumes, and wipes the local <samp>datasets</samp>, <samp>fuseki</samp>, <samp>ssl</samp> and <samp>uploads</samp> folders.</p>
         <div class="alert alert-info">
-            <p>This will remove persisted RDF data, SSL keys, and uploaded files as well as the Docker volumes.</p>
+            <p><strong>This is destructive and cannot be undone.</strong></p>
         </div>
     </div>
     <p class="lead">Is LinkedDataHub running? Proceed to <a href="../get-an-account/">get an account</a>.</p>

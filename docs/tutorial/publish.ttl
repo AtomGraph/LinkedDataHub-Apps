@@ -14,11 +14,17 @@
     <p>So far only the owner's WebID certificate can see the app. Access is governed by <a href="../../reference/administration/acl/" target="_blank">ACL authorizations</a> — documents in the admin
         app, like everything else. Publishing means creating one authorization: read access on the whole dataspace for all agents.</p>
     <div>
+        <h2 id="browser">In the browser</h2>
+        <p>Create the authorization with the access control forms in the admin application — see the <a href="../../reference/administration/acl/" target="_blank">ACL reference</a> for
+            the authorization model: who (agents, agent classes), what (documents, document classes), and which <code>acl:mode</code>.</p>
+    </div>
+    <div>
         <h2 id="cli">From the command line</h2>
         <pre>ldh admin acl make-public</pre>
-        <p>The command extends the admin application's <samp>acl/authorizations/public/</samp> document. Authorizations are data, so you can inspect
-            what it wrote — and delete it to unpublish:</p>
+        <p>The command extends the admin application's <samp>acl/authorizations/public/</samp> document: the built-in <samp>Public access</samp> authorization gains its access grants, and a second
+            authorization is added. Authorizations are data, so you can inspect what the command wrote — and delete it to unpublish:</p>
         <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
+@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
 @prefix def:  &lt;https://w3id.org/atomgraph/linkeddatahub/default#&gt; .
 @prefix dh:   &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
 @prefix nfo:  &lt;http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#&gt; .
@@ -27,22 +33,17 @@
 &lt;#this&gt; a acl:Authorization ;
     rdfs:label "Public access" ;
     acl:mode acl:Read ;
-    acl:agentClass foaf:Agent, acl:AuthenticatedAgent ;      # any agent, signed in or not
+    acl:agentClass foaf:Agent,               # matches unauthenticated requests
+        acl:AuthenticatedAgent ;             # matches authenticated ones
     acl:accessToClass def:Root, dh:Container, dh:Item, nfo:FileDataObject ;
     acl:accessTo &lt;https://localhost:4443/sparql&gt; .
 
-&lt;#sparql-post&gt; a acl:Authorization ;                          # allows queries over POST
+&lt;#sparql-post&gt; a acl:Authorization ;         # allows queries over POST
     acl:mode acl:Append ;
     acl:agentClass foaf:Agent, acl:AuthenticatedAgent ;
     acl:accessTo &lt;https://localhost:4443/sparql&gt; .</pre>
         <p>The first authorization grants <code>acl:Read</code> on every document class — the root, containers, items and file uploads — and on the
-            SPARQL endpoint; the second additionally allows <code>POST</code>ed queries. See the <a href="../../reference/administration/acl/" target="_blank">ACL reference</a> for
-            the authorization model.</p>
-    </div>
-    <div>
-        <h2 id="browser">In the browser</h2>
-        <p>The same authorization can be created with the access control forms in the admin application — see the <a href="../../reference/administration/acl/" target="_blank">ACL reference</a> for
-            the authorization model: who (agents, agent classes), what (documents, document classes), and which <code>acl:mode</code>.</p>
+            SPARQL endpoint; the second additionally allows <code>POST</code>ed queries.</p>
     </div>
     <div>
         <h2 id="result">What you now see</h2>
@@ -52,6 +53,12 @@
             <span class="msi" aria-hidden="true">image</span>
             <p>Screenshot: the app in a private window, unauthenticated</p>
         </div>
+    </div>
+    <div>
+        <h2 id="how-this-works">How this works</h2>
+        <ul>
+            <li><a href="../../reference/administration/acl/" target="_blank">Access control</a> — agents, groups, authorizations and access modes</li>
+        </ul>
     </div>
     <p class="lead">Next: <a href="../app-as-repository/">App as a repository</a></p>
 </div>"""^^rdf:XMLLiteral .

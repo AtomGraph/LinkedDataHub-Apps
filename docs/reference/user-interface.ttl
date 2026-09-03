@@ -2,26 +2,25 @@
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
-  
+
 <> a dh:Item ;
     dct:title "User interface" ;
-    dct:description "A walk through the main features of application user interface" ;
+    dct:description "The main features of the LinkedDataHub user interface" ;
     rdf:_1 <#content> .
-    
+
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">This guide walks through the main features of LinkedDataHub user interface.
-        See the <a href="../data-model/">Data model</a> guide for definitions of LinkedDataHub components such documents, content blocks, and resources.</p>
-    <p>User interface is only one of the interfaces LinkedDataHub provides. The other one is the <a href="../command-line-interface/">
-        Command line interface</a>, which supports most of the UI actions.</p>
-    <p>The UI layout <a href="../../user-guide/change-layout/" target="_blank">can be customized</a> and extended using <a href="../../reference/stylesheets/" target="_blank">stylesheets</a>.</p>
+    <p class="lead">The main features of the LinkedDataHub user interface</p>
+    <p>See the <a href="../data-model/">Data model</a> reference for definitions of LinkedDataHub components such as documents, content blocks, and resources.</p>
+    <p>The user interface is only one of the interfaces LinkedDataHub provides; the other is the <a href="../command-line-interface/">command line interface</a>. The <samp>ldh</samp> CLI drives the same HTTP API as the UI and covers most UI actions.</p>
+    <p>The UI layout <a href="../../extending/change-layout/" target="_blank">can be customized</a> and extended using <a href="../stylesheets/" target="_blank">stylesheets</a>.</p>
     <div class="alert alert-info">
-        <p><em>Note that user interface features are subject to <a href="../administration/acl/">access control</a>. For example,
-            actions such as creating or editing documents are only available to users with the corresponding write access.</em></p>
+        <p>Note that user interface features are subject to <a href="../administration/acl/">access control</a>. For example,
+            actions such as creating or editing documents are only available to users with the corresponding write access.</p>
     </div>
     <div class="screenshot-placeholder">
         <span class="msi" aria-hidden="true">image</span>
-        <p>Screenshot: the application layout - navigation bar, action bar, sidebars and content</p>
+        <p>Screenshot: the application layout: navigation bar, action bar, sidebars and content</p>
     </div>
     <div>
         <h2 id="nav-bar">Navigation bar</h2>
@@ -33,9 +32,9 @@
         <p>The <dfn>address bar</dfn> in the middle accepts the URI of a resource to navigate to. Entering an external <code>http://</code> or <code>https://</code> URL loads it through the <a href="../http-api/#ld-proxy">Linked Data proxy</a> so that it can be browsed within LinkedDataHub.</p>
         <p>On the right, dropdown menus provide access to the list of applications and to your user account.</p>
         <div class="alert alert-info">
-            <p><em>Due to current web browser limitations, it is not possible to logout using client certificate authentication.
-              As a workaround, you can close the browser, and click <span class="btn">Cancel</span> when asked to select a
-              certificate the next time.</em></p>
+            <p>Due to current web browser limitations, it is not possible to log out when using client certificate authentication.
+              As a workaround, you can close the browser and click <span class="btn">Cancel</span> when asked to select a
+              certificate the next time.</p>
         </div>
     </div>
     <div>
@@ -45,31 +44,32 @@
             <p>Screenshot: the action bar with the Create button, breadcrumbs and document actions</p>
         </div>
         <p>The <span class="btn btn-primary create-action">Create <span class="caret"></span></span> button opens a dialog through which
-        <a href="../data-model/documents/">documents</a> can be created.</p>
+        child <a href="../data-model/documents/">documents</a> can be created. To add resources or content blocks inside the current document, use the
+        <a href="#creation-bar">creation bar</a> instead.</p>
         <p>The path leading from the current document up the parent/child hierarchy to the root container is shown in
         the <dfn>breadcrumb bar</dfn>, where the current document is always the last breadcrumb. The user can always
-        open any of the ascendant containers by clicking breadcrumbs left from the current one. The icon shows the
+        open any ancestor container by clicking a breadcrumb to the left of the current one. The icon shows the
         type of the current document (<a href="../data-model/documents/#containers">container</a> or <a href="../data-model/documents/#items">item</a>). A label is displayed when the URL currently being browsed is external.</p>
         <p>Further to the right, the action bar displays buttons for performing actions on the current document.</p>
         <p>In dataspaces with <a href="../versioning/">versioning</a> enabled, the action bar also shows the document's last-modified timestamp. Clicking it opens the <a href="../../user-guide/version-history/">version history</a> dialog, which lists the document's versions with the agents that authored them.</p>
-        <p>Last but not least, the settings button provides a link to the <a href="../administration/">administration</a>
+        <p>The settings button provides a link to the <a href="../administration/">administration</a>
         application.</p>
         <div class="alert alert-info">
-            <p><em>Only administration users have access to the administration application.</em></p>
+            <p>Only administration users have access to the administration application.</p>
         </div>
     </div>
     <div>
-        <h2 id="document-tree">Left sidebar</h2>
+        <h2 id="left-sidebar">Left sidebar</h2>
         <p>The left sidebar is the main way to navigate your data. At the top, the <dfn>search box</dfn> finds resources within the current application that have the specified keyword in their titles, descriptions etc.; results are shown in a dropdown list. Below the search box, the sidebar offers complementary ways to browse the dataspace — by document hierarchy, by class, and through a few other data-driven views.</p>
+        <p>On wide screens, the sidebar folds out when the mouse is moved to the left edge of the screen and hides again when the mouse leaves it. On narrow screens, it is always shown.</p>
         <h3 id="document-hierarchy">Document hierarchy navigation</h3>
-        <p>Document tree shows the document hierarchy of the dataspace. By clicking on a container, it expands to show its children.</p>
-        <p>In a desktop layout mode, the document tree folds out when the mouse is moved to the left edge of the screen. In a responsive layout, it is always shown.</p>
+        <p>The document tree shows the document hierarchy of the dataspace. Clicking a container expands it to show its children.</p>
         <h3 id="class-navigation">Class-based navigation</h3>
         <div class="screenshot-placeholder">
             <span class="msi" aria-hidden="true">image</span>
             <p>Screenshot: the left sidebar Classes list on the Northwind dataspace, with instance counts (Order, Product, Person, ...)</p>
         </div>
-        <p>In addition to browsing by document hierarchy, you can navigate your data by class. The <dfn>Classes</dfn> list shows the classes (<code>rdf:type</code> values) that actually occur in the dataspace, each labelled with the number of its instances and ordered with the most-used classes first. Clicking a class opens a dialog listing all instances of that class across the dataspace.</p>
+        <p>In addition to browsing by document hierarchy, you can navigate your data by class. The <dfn>Classes</dfn> list shows the classes (<code>rdf:type</code> values) that actually occur in the dataspace, each labeled with the number of its instances and ordered with the most-used classes first. Clicking a class opens a dialog listing all instances of that class across the dataspace.</p>
         <p>Class-based navigation is particularly useful when:</p>
         <ul>
             <li>You want to see all instances of a particular type across your entire dataspace</li>
@@ -77,16 +77,16 @@
         </ul>
         <p>Because the list is derived from the data itself, it reflects whatever types are present — you do not need to define an ontology or class hierarchy. It also respects your <a href="../administration/acl/">access control</a> settings: you only see classes and instances you are authorized to access.</p>
         <h3 id="other-views">Other views</h3>
-        <p>Below the classes, the sidebar provides a couple of additional data-driven views of the dataspace:</p>
+        <p>Below the classes, the sidebar provides two additional data-driven views of the dataspace:</p>
         <dl>
-          <dt>Geo</dt>
-          <dd>Opens a dialog listing all resources in the dataspace that have geographic coordinates.</dd>
-          <dt>Latest</dt>
-          <dd>Opens a dialog listing the most recently created resources in the dataspace, newest first.</dd>
+            <dt>Geo</dt>
+            <dd>Opens a dialog listing all resources in the dataspace that have geographic coordinates.</dd>
+            <dt>Latest</dt>
+            <dd>Opens a dialog listing the most recently created resources in the dataspace, newest first.</dd>
         </dl>
     </div>
     <div>
-        <h2 id="right-nav">Right sidebar</h2>
+        <h2 id="right-sidebar">Right sidebar</h2>
         <div class="screenshot-placeholder">
             <span class="msi" aria-hidden="true">image</span>
             <p>Screenshot: the right sidebar on a Northwind order page, backlinks and related results visible</p>
@@ -94,9 +94,9 @@
         <p>A right sidebar appears alongside the main view to show navigation into and out of the current data:</p>
         <dl>
             <dt>Backlinks</dt>
-            <dd>In <a href="#layout-modes">properties mode</a>, lists resources that link <em>to</em> a resource in the current document — that is, resources that have a property whose value is the current resource. This complements the outgoing properties shown in the main view.</dd>
+            <dd>In <a href="#layout-modes">properties mode</a>, lists resources that link <em>to</em> a resource in the current document — that is, resources that have a property whose value is that resource. This complements the outgoing properties shown in the main view.</dd>
             <dt>Related results</dt>
-            <dd>For <a href="../data-model/resources/#parallax">view</a> result sets, <dfn>parallax</dfn> navigation lets you jump from the current results to a related set by following a selected property (for example, from a set of products to the companies that supply them). It works together with the view's faceted search.</dd>
+            <dd>For <a href="../data-model/resources/#views">view</a> result sets, <a href="../data-model/resources/#parallax">parallax</a> navigation lets you jump from the current results to a related set by following a selected property (for example, from a set of products to the companies that supply them). It works together with the view's faceted search.</dd>
         </dl>
     </div>
     <div>
@@ -105,7 +105,7 @@
             <span class="msi" aria-hidden="true">image</span>
             <p>Screenshot: the Northwind orders container in each layout mode: content, properties, map (territories), chart, graph</p>
         </div>
-        <p>The active document <dfn>layout mode</dfn> is displayed, and can be changed using, the nav tabs at the top of the page.</p>
+        <p>The active document <dfn>layout mode</dfn> is displayed in, and can be changed using, the mode selector at the top of the page.</p>
         <p>Currently supported document layout modes:</p>
         <dl>
             <dt>Content</dt>
@@ -113,13 +113,25 @@
             <dt>Properties</dt>
             <dd>The most detailed view showing every property/value of every <a href="../data-model/resources/">resource</a> in the current document.</dd>
             <dt>Map</dt>
-            <dd>Shows an interacitve map with all <a href="../data-model/resources/">resources</a> in the current document that have geo coordinates</dd>
+            <dd>Shows an interactive map with all <a href="../data-model/resources/">resources</a> in the current document that have geographic coordinates.</dd>
             <dt>Chart</dt>
-            <dd>Renders the metadata of the <a href="../data-model/resources/">resources</a> in the current document as a chart with (multiple chart types are supported, such as table, scatter chart, timeline etc.)</dd>
+            <dd>Renders the <a href="../data-model/resources/">resources</a> in the current document as a chart. Several chart types are supported, including table, scatter chart and timeline.</dd>
             <dt>Graph</dt>
             <dd>Renders <a href="../data-model/resources/">resources</a> in the current document graphically as nodes in an interactive 3D network using a
             force-directed layout. Clicking a node shows its details, double-clicking loads the resource, and right-clicking a URI node loads its backlinks (resources pointing at it).
             The canvas can be toggled to fullscreen (press <kbd>Esc</kbd> to exit), and the graph state is preserved across search and filter re-renders.</dd>
+        </dl>
+        <p><a href="../data-model/resources/#views">Views</a> have their own, larger set of <a href="../data-model/resources/#view-layout-modes">layout modes</a>.</p>
+    </div>
+    <div>
+        <h2 id="creation-bar">Creation bar</h2>
+        <p>The creation bar creates resources and content blocks inside the current document, while the <a href="#action-bar">action bar</a>'s
+        <span class="btn">Create</span> button creates child documents. The creation bar serves different functions depending on the current mode:</p>
+        <dl>
+            <dt>Content</dt>
+            <dd>Appends new content blocks to the page</dd>
+            <dt>Properties</dt>
+            <dd>Creates a new resource of the selected type</dd>
         </dl>
     </div>
     <div>
@@ -135,18 +147,8 @@
             returning to a previously opened tab does not re-fetch it. Closing a tab removes its pane and falls back to the base document's tab.</p>
     </div>
     <div>
-        <h2 id="creation-bar">Creation bar</h2>
-        <p>The creation bar serves different functions depending on the current mode:</p>
-        <dl>
-            <dt>Content</dt>
-            <dd>Appends new content blocks to the page</dd>
-            <dt>Properties</dt>
-            <dd>Creates new resource of the selected type</dd>
-        </dl>
-    </div>
-    <div>
         <h2 id="languages">Languages</h2>
-        <p>The language of the user interface is negotiated from the browser's language preferences (the <code>Accept-Language</code> header) against the languages the UI translation bundle ships. There is no in-app language switcher — the browser setting is the single source of the language preference. If none of the preferred languages are available, the UI falls back to English.</p>
+        <p>The language of the user interface is negotiated from the browser's language preferences (the <code>Accept-Language</code> header) against the languages the UI translation bundle ships with. There is no in-app language switcher — the browser setting is the single source of the language preference. If none of the preferred languages are available, the UI falls back to English.</p>
         <p>Data is language-aware as well: property values are ordered by the reader's language preference rather than filtered by it, so values in other languages remain visible, each displaying its own language tag.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .

@@ -5,15 +5,15 @@
 
 <> a dh:Item ;
     dct:title "Documents" ;
-    dct:description "Document hierarchy and the basic data management actions" ;
+    dct:description "Document structure and the basic data management actions" ;
     rdf:_1 <#content> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Document structure and the basic data management actions.</p>
+    <p class="lead">Document structure and the basic data management actions</p>
     <div>
         <h2 id="hierarchy">Document hierarchy</h2>
-        <p>The basic structure of resources in a LinkedDataHub <a href="../../dataspace/#applications">application</a> is analogous to the file system, but built using RDF
+        <p>The basic structure of resources in a LinkedDataHub <a href="../../dataspace/#applications">application</a> is analogous to a file system, but built using RDF
             resources and relationships between them instead. There is a hierarchy of <dfn>containers</dfn> (folders),
             which are collections of <dfn>items</dfn> (files) as well as sub-containers (sub-folders). Both containers
             (instances of <code>dh:Container</code>) and items (instances of <code>dh:Item</code>) are <dfn>documents</dfn> (instances of <code>foaf:Document</code>). Items cannot contain other documents.</p>
@@ -30,12 +30,11 @@
 └── orders/                      # container</pre>
         <p>When a user logs in, the application loads its root container (unless a specific URI was requested). From there,
             users can navigate down the resource hierarchy, starting with children of the <dfn>root container</dfn>. At
-            any moment there is only one <dfn>current document</dfn> per page, on which <a href="#manage">management actions</a> can
+            any moment there is only one <dfn>current document</dfn> per page, on which <a href="#management">management actions</a> can
             be performed: it can be viewed, edited etc.</p>
     </div>
     <div>
         <h2 id="containers">Containers</h2>
-        <p>Containers are analogous to folders in a filesystem.</p>
         <div>
             <h3 id="container-rdf-serialization">RDF serialization</h3>
             <p>Document properties such as <code>sioc:has_parent</code>, <code>dct:created</code>, <code>dct:modified</code>, <code>acl:owner</code> are <a href="../../http-api/#document-metadata">automatically managed</a> by LinkedDataHub.</p>
@@ -59,12 +58,12 @@
 &lt;https://localhost:4443/categories/#select-children&gt;
     a       ldh:Object ;
     rdf:value ldh:ChildrenView .</pre>
+            <p>The <code>&lt;#select-children&gt;</code> resource is an <code>ldh:Object</code> <a href="../blocks/">content block</a> whose <code>rdf:value</code> <code>ldh:ChildrenView</code> renders the container's children listing.</p>
             <p class="exhibit-links">Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/" target="_blank">/categories/</a> (the demo's version composes <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories.ttl" target="_blank">further blocks</a> on top of this shape)</p>
         </div>
     </div>
     <div>
         <h2 id="items">Items</h2>
-        <p>Items are analogous to files in a filesystem.</p>
         <div>
             <h3 id="item-rdf-serialization">RDF serialization</h3>
             <p>Document properties such as <code>sioc:has_container</code>, <code>dct:created</code>, <code>dct:modified</code>, <code>acl:owner</code> are <a href="../../http-api/#document-metadata">automatically managed</a> by LinkedDataHub.</p>
@@ -97,7 +96,7 @@
         </div>
     </div>
     <div>
-        <h2 id="manage">Management</h2>
+        <h2 id="management">Management</h2>
         <div>
             <h3 id="management-ui"><a href="../../user-interface/">User interface</a></h3>
             <table class="table table-striped">
@@ -114,11 +113,11 @@
                     </tr>
                     <tr>
                         <th>Update</th>
-                        <td>Open the current document editing form by clicking the <span class="btn btn-edit">Edit</span> button in the <a href="../../user-interface/#action-bar">action bar</a>. Make changes. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                        <td>Open the current document editing form by clicking the <span class="btn btn-edit"></span> button in the <a href="../../user-interface/#action-bar">action bar</a>. Make changes. Click <span class="btn btn-primary btn-save">Save</span>.</td>
                     </tr>
                     <tr>
                         <th>Delete</th>
-                        <td>Delete the current document by clicking the <span class="btn btn-delete">Delete</span> button in the <a href="../../user-interface/#action-bar">action bar</a>.</td>
+                        <td>Delete the current document by clicking the <span class="btn btn-delete"></span> button in the <a href="../../user-interface/#action-bar">action bar</a>.</td>
                     </tr>
                 </tbody>
             </table>
@@ -156,7 +155,8 @@
   --parent "$LDH_BASE" \\
   --title "Categories" \\
   --slug categories</pre>
-            <p>The command prints the created document's URL — <samp>https://localhost:4443/categories/</samp> — as its only output.</p>
+            <p>The command prints the created document's URL — <samp>https://localhost:4443/categories/</samp>.</p>
         </div>
     </div>
+    <p class="lead">To create documents step-by-step, follow the <a href="../../../user-guide/create-data/create-documents/">Create documents</a> guide</p>
 </div>"""^^rdf:XMLLiteral .

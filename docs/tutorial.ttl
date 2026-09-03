@@ -12,17 +12,19 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Build your first Knowledge Graph application, from an empty dataspace to a published app</p>
     <p>This tutorial rebuilds the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/northwind-traders" target="_blank">Northwind Traders demo application</a>: the iconic sample
-        database, reborn as an RDF Knowledge Graph. Every stage ends with a result you can see in the browser. Most steps are shown two ways: point-and-click in the user interface, and as
-        <a href="../reference/command-line-interface/" target="_blank">CLI commands</a> that you can script, version and replay.</p>
-    <p>Before you start you need a running LinkedDataHub instance and the owner's WebID certificate. The <a href="../get-started/" target="_blank">Get started</a> section covers both. The command line
-        examples use the <a href="../reference/command-line-interface/" target="_blank"><samp>ldh</samp> CLI</a> — download it from a
-        <a href="https://github.com/AtomGraph/LinkedDataHub/releases" target="_blank">LinkedDataHub release</a> (<samp>ldh-&lt;version&gt;.tar.gz</samp>, needs Java 21)
-        or build it from source with <samp>make cli</samp> — and rely on its environment variable defaults, set once per shell session:</p>
+        database, reborn as an RDF Knowledge Graph. Every stage ends with a result you can see in the browser. Most steps are shown in two ways: point-and-click in the user interface, and as
+        <a href="../reference/command-line-interface/" target="_blank">CLI commands</a> you can script, version and replay. If you are new to the platform,
+        <a href="../about/" target="_blank">About LinkedDataHub</a> introduces the ideas this tutorial exercises.</p>
+    <p>Before you start, you need a running LinkedDataHub instance and the owner's WebID certificate. The <a href="../get-started/" target="_blank">Get started</a> section covers both.</p>
+    <p>The command line examples use the <a href="../reference/command-line-interface/" target="_blank"><samp>ldh</samp> CLI</a>. Download it from a
+        <a href="https://github.com/AtomGraph/LinkedDataHub/releases" target="_blank">LinkedDataHub release</a> (<samp>ldh-&lt;version&gt;.tar.gz</samp>, needs Java 21),
+        or build it from source with <samp>make cli</samp>. The examples rely on its environment variable defaults, set once per shell session:</p>
     <pre>export LDH_BASE="https://localhost:4443/"
 export LDH_CERT_FILE="ssl/owner/keystore.p12"
 export LDH_CERT_PASSWORD="..."   # the owner_cert_password secret</pre>
     <div>
         <h2 id="stages">Stages</h2>
+        <p>Ten stages, each building on the last.</p>
         <ol>
             <li><a href="hello-dataspace/">Hello dataspace</a> — give your app an identity and a landing page</li>
             <li><a href="structure/">Structure</a> — lay out the document hierarchy</li>
@@ -35,5 +37,6 @@ export LDH_CERT_PASSWORD="..."   # the owner_cert_password secret</pre>
             <li><a href="app-as-repository/">App as a repository</a> — make the app reproducible</li>
             <li><a href="beyond-low-code/">Beyond low-code</a> — where to go when data alone is not enough</li>
         </ol>
+        <p>In a hurry? <a href="app-as-repository/">Stage 9</a> shows how to replay the finished app with a single <samp>make install</samp>.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .

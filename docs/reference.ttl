@@ -5,13 +5,18 @@
 
 <> a dh:Container ;
     dct:title "Reference" ;
-    dct:description "A list of LinkedDataHub's features and their functions, split into general and administration parts" ;
+    dct:description "Feature-by-feature reference for the LinkedDataHub platform, its data model, HTTP API and administration" ;
     rdf:_1 <#content> ;
     rdf:_2 <#select-children> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">A list of LinkedDataHub's features and their functions, split into general and administration parts</p>
+    <p class="lead">Feature-by-feature reference for the LinkedDataHub platform, its data model, HTTP API and administration</p>
+    <p>The concept pages describe the <a href="dataspace/">dataspace</a>, its <a href="dataset/">dataset</a> and the <a href="data-model/">data model</a>.
+        The interface pages cover the <a href="user-interface/">user interface</a>, the <a href="http-api/">HTTP API</a> and the <a href="command-line-interface/">command line interface</a>.
+        Customization is covered by the <a href="stylesheets/">stylesheets</a> and <a href="imports/">imports</a> pages,
+        and operations by the <a href="configuration/">configuration</a>, <a href="triplestores/">triplestores</a>, <a href="versioning/">versioning</a> and <a href="administration/">administration</a> pages.
+        Start with the dataspace and data model pages.</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Object ;

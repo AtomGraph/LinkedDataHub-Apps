@@ -7,69 +7,53 @@
 
 <> a dh:Item ;
     dct:title "Query data" ;
-    dct:description "Learn how to query application data with SPARQL, store queries and charts" ;
+    dct:description "Learn how to query application data with SPARQL, and save queries and charts" ;
     rdf:_1 <#content> ;
     rdf:_2 <#live-example> ;
-    rdf:_3 <#northwind-query-block> .
-    
+    rdf:_3 <#northwind-query-block> ;
+    rdf:_4 <#content-saving> .
+
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-        <p class="lead">This guide describes how the application dataset can be queried using SPARQL.</p>
-        <p>The <a href="../../reference/dataspace/#end-user-apps">end-user application</a> dataset can be queried using the SPARQL 1.1
-            endpoint at the application's <samp>sparql</samp> URL (e.g. <samp>https://localhost:4443/sparql</samp>). Opening it in the browser renders an
-            interactive SPARQL editor.</p>
-        <p>All forms of SPARQL queries are allowed; SPARQL updates are <em>not</em> allowed. A result limit might apply.</p>
-        <p>Try it on the <a href="https://northwind-traders.demo.linkeddatahub.com/sparql" target="_blank">Northwind Traders endpoint</a> — the demo's
-            top-selling-products query, ready to paste:</p>
-        <pre>PREFIX  schema: &lt;https://schema.org/&gt;
+    <p class="lead">Learn how to query application data with SPARQL, and save queries and charts</p>
+    <p>The <a href="../../reference/dataspace/#end-user-apps">end-user application</a> dataset can be queried using the SPARQL 1.1
+        endpoint at the application's <samp>sparql</samp> URL (e.g. <samp>https://localhost:4443/sparql</samp>). Opening it in the browser renders an
+        interactive SPARQL editor.</p>
+    <p>All forms of SPARQL queries are allowed; SPARQL updates are <em>not</em> allowed.</p>
+    <p>Try it on the <a href="https://northwind-traders.demo.linkeddatahub.com/sparql" target="_blank">Northwind Traders endpoint</a> — the demo's
+        top-selling-products query, ready to paste:</p>
+    <pre>PREFIX schema: &lt;https://schema.org/&gt;
 
-SELECT DISTINCT  ?productName (SUM(?sale) AS ?totalSales)
-WHERE
-  { GRAPH ?orderGraph
-      { ?order    schema:orderedItem    ?orderItem .
-        ?orderItem  schema:orderedItem  ?product ;
-                  schema:price          ?sale
-      }
-    GRAPH ?productGraph
-      { ?product  schema:name  ?productName }
-  }
+SELECT DISTINCT ?productName (SUM(?sale) AS ?totalSales)
+WHERE {
+    GRAPH ?orderGraph {
+        ?order schema:orderedItem ?orderItem .
+        ?orderItem schema:orderedItem ?product ;
+                   schema:price ?sale .
+    }
+    GRAPH ?productGraph {
+        ?product schema:name ?productName .
+    }
+}
 GROUP BY ?product ?productName
 ORDER BY DESC(?totalSales)
-LIMIT   5</pre>
-        <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/products.ttl" target="_blank">products.ttl</a> — the same query drives the <a href="https://northwind-traders.demo.linkeddatahub.com/products/" target="_blank">Top selling products chart</a></p>
-        <p>The endpoint is a standard SPARQL 1.1 Protocol service, so it can be queried programmatically as well:</p>
-        <pre>curl -k -G "https://localhost:4443/sparql" \\
+LIMIT 5</pre>
+    <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/products.ttl" target="_blank">products.ttl</a> — the same query drives the <a href="https://northwind-traders.demo.linkeddatahub.com/products/" target="_blank">Top selling products chart</a></p>
+    <p>The endpoint is a standard SPARQL 1.1 Protocol service, so it can be queried programmatically as well:</p>
+    <pre>curl -k -G "https://localhost:4443/sparql" \\
   -H "Accept: application/sparql-results+json" \\
   --data-urlencode 'query=PREFIX schema: &lt;https://schema.org/&gt; SELECT (COUNT(*) AS ?orders) WHERE { GRAPH ?g { ?order a schema:Order } }'</pre>
-        <p>For <code>DESCRIBE</code> and <code>CONSTRUCT</code> results, it is possible to switch the
-        <a href="../../reference/user-interface/#layout-modes">layout mode</a> using a button above to the results.</p>
-        <div class="screenshot-placeholder">
-            <span class="msi" aria-hidden="true">image</span>
-            <p>Screenshot: the SPARQL editor with query results</p>
-        </div>
-        <div>
-            <h2 id="save-query">Saving queries</h2>
-            <p>If you want to save the query string which is currently in the editor, click the <span class="btn btn-save-query btn-save">Save</span> button underneath the editor form. A document creation form will open where the query
-                string will be filled in, you only need to enter the titles of the query and its document. You can then access the query by navigating to the query container via the dropdown in the
-                <a href="../../reference/user-interface/#action-bar" target="_blank">breadcrumb bar</a>.</p>
-            <p>You will not be able to save invalid query strings.</p>
-        </div>
-        <div>
-            <h2 id="save-chart">Saving charts</h2>
-            <p>The SPARQL editor includes an interactive chart pane which can be used to visualize the query results. You can change the chart type, select its category and one or more series.</p>
-            <p>The chart pane supports both graph query (<code>CONSTRUCT</code>, <code>DESCRIBE</code>) and result set query (<code>SELECT</code>, <code>ASK</code>) results. For graph results, the category and series are
-                rendered from resource properties; for result sets, they are rendered from variable names.</p>
-            <p>If you want to save the chart with properties which are currently selected, click the <span class="btn btn-primary btn-save-chart btn-save">Save</span> button underneath the chart pane. That will open two document creation forms: one for
-                the query, and the second one for the chart (as the chart depends on the query). The query string and chart properties will be filled in, you only need to
-                enter the titles of the query and the chart and their document. You can then access the chart by navigating to the chart container via the dropdown in the
-                <a href="../../reference/user-interface/#action-bar" target="_blank">breadcrumb bar</a>.</p>
-            <p>You will not be able to save invalid query strings.</p>
-        </div>
+    <p>For <code>DESCRIBE</code> and <code>CONSTRUCT</code> results, you can switch the
+        <a href="../../reference/user-interface/#layout-modes">layout mode</a> using a button above the results.</p>
+    <div class="screenshot-placeholder">
+        <span class="msi" aria-hidden="true">image</span>
+        <p>Screenshot: the SPARQL editor with query results</p>
+    </div>
 </div>"""^^rdf:XMLLiteral .
 
 <#live-example> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <div class="ldh-section">
+    <div>
         <h2 id="live-example">Live example</h2>
         <p>The block below is not a code snippet — it is an actual query block embedded in this document, executing against the
             <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">Northwind Traders dataspace</a>'s SPARQL endpoint. The query, the
@@ -96,3 +80,25 @@ LIMIT 10""" ;
     dct:title "Northwind Traders SPARQL service" ;
     sd:endpoint <https://northwind-traders.demo.linkeddatahub.com/sparql> ;
     sd:supportedLanguage sd:SPARQL11Query .
+
+<#content-saving> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <div>
+        <h2 id="save-query">Saving queries</h2>
+        <p>To save the query string currently in the editor, click the <span class="btn btn-save-query btn-save">Save</span> button underneath the editor form. A document creation form opens with the query
+            string pre-filled; you only need to supply titles for the query and its document. You can then access the query by navigating to the query container via the dropdown in the
+            <a href="../../reference/user-interface/#action-bar" target="_blank">breadcrumb bar</a>.</p>
+        <p>The editor will not save a query that is not valid SPARQL 1.1.</p>
+    </div>
+    <div>
+        <h2 id="save-chart">Saving charts</h2>
+        <p>The SPARQL editor includes an interactive chart pane which can be used to visualize the query results. You can change the chart type, select its category and one or more series.</p>
+        <p>The chart pane handles both graph results (<code>CONSTRUCT</code>, <code>DESCRIBE</code>) and result sets (<code>SELECT</code>). For graph results, the category and series are
+            rendered from resource properties; for result sets, they are rendered from variable names.</p>
+        <p>To save the chart with the properties currently selected, click the <span class="btn btn-primary btn-save-chart btn-save">Save</span> button underneath the chart pane. Two document creation forms open: one for
+            the query, one for the chart that depends on it. The query string and chart properties are pre-filled; you only need to
+            supply titles for the query, the chart and their document. You can then access the chart by navigating to the chart container via the dropdown in the
+            <a href="../../reference/user-interface/#action-bar" target="_blank">breadcrumb bar</a>.</p>
+    </div>
+    <p class="lead">See charts in action in the <a href="../../tutorial/insight/">Insight</a> tutorial stage, or read more about <a href="../../reference/data-model/resources/#charts">charts</a>.</p>
+</div>"""^^rdf:XMLLiteral .

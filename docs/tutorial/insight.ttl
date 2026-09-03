@@ -12,14 +12,27 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Turn SPARQL queries into charts and views</p>
     <p>With the graph populated, analysis is a query away — and in LinkedDataHub, queries, <a href="../../reference/data-model/resources/#charts" target="_blank">charts</a> and
-        <a href="../../reference/data-model/resources/#views" target="_blank">views</a> are resources like everything else. A chart is three resources chained together: a
-        <code>sp:Select</code> query holding the SPARQL text, a <code>ldh:ResultSetChart</code> describing how to plot its results, and a <code>ldh:Object</code> block placing it on a document.</p>
+        <a href="../../reference/data-model/resources/#views" target="_blank">views</a> are resources like everything else. A chart is three resources chained together: an
+        <code>sp:Select</code> query holding the SPARQL text, an <code>ldh:ResultSetChart</code> describing how to plot its results, and an <code>ldh:Object</code> block placing it on a document.</p>
+    <div>
+        <h2 id="browser">In the browser</h2>
+        <p>Run a query in the <a href="../../user-guide/query-data/" target="_blank">SPARQL editor</a>; the chart pane below the results lets you pick the chart type, the category and one or
+            more series. Click <span class="btn btn-primary btn-save-chart btn-save">Save</span> underneath the chart pane: two creation forms store the query and the chart as documents. Place
+            the chart anywhere by adding an <samp>Object</samp> block whose value is the saved chart's URI.</p>
+    </div>
     <div>
         <h2 id="chart">A revenue chart</h2>
-        <p>On the Categories container, revenue per category — the query joins order items to products to categories across their documents. Note that
-            <code>?orderItem schema:price</code> is already the discounted line total (the <a href="../data/">order details mapping</a> computed it per line),
+        <p>The Categories container carries a revenue-per-category chart. Its query joins order items to products to categories across their documents. Note that
+            <code>?orderItem schema:price</code> is already the discounted line total (the demo's
+            <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/orders/order_details.rq" target="_blank">order details mapping</a> computed it per line),
             so the query sums it directly:</p>
-        <pre>&lt;#category-revenue-query&gt; a sp:Select ;
+        <pre>@prefix ldh:    &lt;https://w3id.org/atomgraph/linkeddatahub#&gt; .
+@prefix rdf:    &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix sp:     &lt;http://spinrdf.org/sp#&gt; .
+@prefix spin:   &lt;http://spinrdf.org/spin#&gt; .
+@prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
+
+&lt;#category-revenue-query&gt; a sp:Select ;
     dct:title "Category revenue" ;
     sp:text '''PREFIX schema: &lt;https://schema.org/&gt;
 
@@ -58,37 +71,46 @@ ORDER BY DESC(?revenue)''' .
     <div>
         <h2 id="view">A view</h2>
         <p>Views render query results as document listings instead of plots — the container's own children listing is one. A grid of all categories:</p>
-        <pre>&lt;#select-categories-query&gt; a sp:Select ;
-    dct:title "Select categories" ;
-    sp:text '''PREFIX  schema: &lt;https://schema.org/&gt;
+        <pre>@prefix ldh:    &lt;https://w3id.org/atomgraph/linkeddatahub#&gt; .
+@prefix sp:     &lt;http://spinrdf.org/sp#&gt; .
+@prefix spin:   &lt;http://spinrdf.org/spin#&gt; .
+@prefix ac:     &lt;https://w3id.org/atomgraph/client#&gt; .
+@prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
 
-SELECT DISTINCT  ?category
-WHERE
-  { GRAPH ?doc
-      { ?category  a           schema:ProductGroup ;
-                  schema:name  ?categoryName
-      }
-  }
+&lt;#select-categories-query&gt; a sp:Select ;
+    dct:title "Select categories" ;
+    sp:text '''PREFIX schema: &lt;https://schema.org/&gt;
+
+SELECT DISTINCT ?category
+WHERE {
+    GRAPH ?doc {
+        ?category a schema:ProductGroup ;
+            schema:name ?categoryName .
+    }
+}
 ORDER BY ?categoryName''' .
 
 &lt;#select-categories-view&gt; a ldh:View ;
     spin:query &lt;#select-categories-query&gt; ;
     ac:mode &lt;https://w3id.org/atomgraph/client#GridMode&gt; .</pre>
         <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories.ttl" target="_blank">categories.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/" target="_blank">/categories/</a></p>
-    </div>
-    <div>
-        <h2 id="browser">In the browser</h2>
-        <p>The same resources can be created interactively: save a query from the <a href="../../user-guide/query-data/" target="_blank">query editor</a>, then add a chart block that references
-            it.</p>
+        <p>The view and its query go into the same document, so the same <code>PUT</code> installs them; <samp>ldh add-view</samp> is the append alternative.</p>
     </div>
     <div>
         <h2 id="result">What you now see</h2>
-        <p>The Categories container is a small dashboard: a revenue bar chart, a products-per-category chart, and a grid of the categories themselves — all live views over the graph, recomputed on
+        <p>The Categories container is a small dashboard: a revenue bar chart and a grid of the categories themselves — all live views over the graph, recomputed on
             each request.</p>
         <div class="screenshot-placeholder">
             <span class="msi" aria-hidden="true">image</span>
             <p>Screenshot: the Categories container with charts and grid view</p>
         </div>
+    </div>
+    <div>
+        <h2 id="how-this-works">How this works</h2>
+        <ul>
+            <li><a href="../../reference/data-model/resources/#charts" target="_blank">Charts</a> — the query–chart–block chain and the chart vocabulary</li>
+            <li><a href="../../reference/data-model/resources/#views" target="_blank">Views</a> — layout modes, projected variables and faceted search</li>
+        </ul>
     </div>
     <p class="lead">Next: <a href="../composition/">Composition</a></p>
 </div>"""^^rdf:XMLLiteral .

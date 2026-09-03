@@ -5,13 +5,14 @@
 
 <> a dh:Container ;
     dct:title "Data model" ;
-    dct:description "Document and content structure as well as actions that can be performed on them" ;
+    dct:description "Document and content structure, and the actions that can be performed on documents, blocks and resources" ;
     rdf:_1 <#content> ;
     rdf:_2 <#select-children> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Document and content structure as well as actions that can be performed on them.</p>
+    <p class="lead">Document and content structure, and the actions that can be performed on documents, blocks and resources</p>
+    <p>Start with the <a href="documents/">Documents</a> page, then read <a href="blocks/">Content blocks</a> and <a href="resources/">Resources</a>.</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Object ;

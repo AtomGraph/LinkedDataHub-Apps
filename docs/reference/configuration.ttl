@@ -5,14 +5,44 @@
 
 <> a dh:Item ;
     dct:title "Configuration" ;
-    dct:description "Overview of configuration options" ;
+    dct:description "Environment variables, secrets and RDF configuration files" ;
     rdf:_1 <#content> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Overview of configuration options</p>
-    <p>LinkedDataHub is configured using environment variables in the <samp>docker-compose.yml</samp> file (environment-specific configuration should go into <samp>docker-compose.override.yml</samp> instead).</p>
-    <p>Below you'll find a list of environment variables and secrets grouped by service (they are defined in the <samp>environment</samp> sections in <samp>docker-compose.yml</samp>).</p>
+    <p class="lead">Environment variables, secrets and RDF configuration files</p>
+    <p>This page covers the RDF configuration files, Compose overrides, and the environment variables and secrets of each service
+        (defined in the <samp>environment</samp> sections of <samp>docker-compose.yml</samp>).</p>
+    <div>
+        <h2 id="system-base-uri">System base URI</h2>
+        <p>The system base URI is the URI at which the LinkedDataHub service is accessible.</p>
+        <p>A common case is changing the system base URI from the default <samp>https://localhost:4443/</samp> to your own.
+            Take <samp>https://ec2-54-235-229-141.compute-1.amazonaws.com/linkeddatahub/</samp> as an example. Split the URI into components and set them in the <samp>.env</samp> file:</p>
+        <pre>PROTOCOL=https
+HTTP_PORT=80
+HTTPS_PORT=443
+HOST=ec2-54-235-229-141.compute-1.amazonaws.com
+ABS_PATH=/linkeddatahub/</pre>
+        <div class="alert alert-info">
+            <p>The <a href="../dataspace/#admin-apps">administration application</a> of each dataspace is served on the <code>admin.</code> subdomain
+                of its end-user host (e.g. <samp>admin.ec2-54-235-229-141.compute-1.amazonaws.com</samp>). The subdomain must resolve in DNS and be covered by the
+                server's TLS certificate, otherwise the admin application will not be reachable.</p>
+        </div>
+        <p><a href="../../user-guide/manage-dataspaces/">Dataspace URIs</a> need to be relative to the system base URI in order to be reachable — after the change, the
+            origins in <samp>config/dataspaces.trig</samp> have to follow. For the Northwind Traders dataspace, deploying from local development to the demo
+            host means:</p>
+        <pre># before
+&lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt; a lapp:Application ;
+    lapp:origin &lt;https://northwind-traders.demo.localhost:4443&gt; ;
+    ldt:ontology &lt;https://northwind-traders.demo.localhost:4443/ns#&gt; .
+
+# after
+&lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt; a lapp:Application ;
+    lapp:origin &lt;https://northwind-traders.demo.linkeddatahub.com&gt; ;
+    ldt:ontology &lt;https://northwind-traders.demo.linkeddatahub.com/ns#&gt; .</pre>
+        <p>Restart the services (<samp>make down</samp>, then <samp>make up</samp>) for the changes to take effect. Note that changing the base URI does not
+            rewrite URIs already stored in the dataset — documents minted under the old base URI keep it.</p>
+    </div>
     <div>
         <h2 id="config-files">Configuration files</h2>
         <p>LinkedDataHub uses two main RDF configuration files that define dataspaces and services:</p>
@@ -63,11 +93,28 @@
       - ./files/northwind.xsl:/usr/local/tomcat/webapps/ROOT/static/com/atomgraph/linkeddatahub/northwind/xsl/layout.xsl:ro</pre>
     </div>
     <div>
+        <h2 id="compose-variables">Compose-level variables</h2>
+        <p>The variables in the <samp>.env</samp> file are interpolated by Docker Compose into <samp>docker-compose.yml</samp>. They define the
+            <a href="#system-base-uri">system base URI</a> and the host port mappings:</p>
+        <dl>
+            <dt><samp>PROTOCOL</samp></dt>
+            <dd>URI scheme of the system base URI (<samp>http</samp> or <samp>https</samp>)</dd>
+            <dt><samp>HOST</samp></dt>
+            <dd>Hostname of the system base URI</dd>
+            <dt><samp>ABS_PATH</samp></dt>
+            <dd>Path of the system base URI (<samp>/</samp> unless the instance is served under a sub-path)</dd>
+            <dt><samp>HTTP_PORT</samp></dt>
+            <dd>Host port mapped to the container's port <samp>8080</samp>, which redirects HTTP to HTTPS</dd>
+            <dt><samp>HTTPS_PORT</samp></dt>
+            <dd>Host HTTPS port, mapped to the container's port <samp>8443</samp></dd>
+        </dl>
+    </div>
+    <div>
         <h2 id="service-configuration">Service configuration</h2>
         <p>SPARQL service endpoints are configured in <samp>config/system.trig</samp>. See <a href="../triplestores/#service-configuration">service configuration</a> in the triplestores reference for the RDF properties and examples, and the <a href="../dataspace/#services">dataspace reference</a> for the conceptual overview.</p>
     </div>
     <div>
-        <h2 id="linkeddatahub">linkeddatahub</h2>
+        <h2 id="linkeddatahub"><samp>linkeddatahub</samp> service</h2>
         <div>
             <h3 id="secrets">Secrets</h3>
             <dl>
@@ -98,11 +145,15 @@
             <dl>
                 <dt><samp>ENABLE_WEBID_SIGNUP</samp></dt>
                 <dd><samp>false</samp> to disable. Enabled by default.</dd>
-                <dd><em>Currently this will only hide the signup button in the UI, without disabling the endpoint</em></dd>
+                <dd>
+                    <div class="alert alert-warning">
+                        <p>Currently this will only hide the signup button in the UI, without disabling the endpoint.</p>
+                    </div>
+                </dd>
                 <dt><samp>WEBID_CACHE_EXPIRATION</samp></dt>
-                <dd>Expiration time (in seconds) of cached WebID profiles, bounding how long a revoked WebID stays authenticated. By default <samp>86400</samp>.</dd>
+                <dd>Expiration time (in seconds) of cached WebID profiles, bounding how long a revoked WebID stays authenticated. Defaults to <samp>86400</samp>.</dd>
                 <dt><samp>JWKS_CACHE_EXPIRATION</samp></dt>
-                <dd>Expiration time (in seconds) of cached JWKS keys used for OpenID Connect token verification. By default <samp>86400</samp>.</dd>
+                <dd>Expiration time (in seconds) of cached JWKS keys used for OpenID Connect token verification. Defaults to <samp>86400</samp>.</dd>
             </dl>
         </div>
         <div>
@@ -129,17 +180,17 @@
             <h3 id="http">HTTP(S)</h3>
             <dl>
                 <dt><samp>SELF_SIGNED_CERT</samp></dt>
-                <dd>Set to false <samp>false</samp> if not using the self-signed <em>server</em> certificate (e.g. using LetsEncrypt certificate instead). Not to be confused with the WebID client certificate.
-                    Enabled by default.</dd>
+                <dd>Set to <samp>false</samp> if you are not using the self-signed <em>server</em> certificate (e.g. using a LetsEncrypt certificate instead). Not to be confused with the WebID client certificate.
+                    Defaults to <samp>true</samp>.</dd>
                 <dt><samp>MAX_CONTENT_LENGTH</samp></dt>
-                <dd>Maximum allowed request body size (<samp>nginx</samp> has a separate setting for this.) By default <samp>2097152</samp>.</dd>
+                <dd>Maximum allowed request body size (<samp>nginx</samp> has a separate setting for this). Defaults to <samp>2097152</samp>.</dd>
             </dl>
         </div>
         <div>
             <h3 id="debug">Debug</h3>
             <dl>
                 <dt><samp>JPDA_ADDRESS</samp></dt>
-                <dd>The address through which Java debugger can connect, for example <samp>*:8000</samp>. Note that the port has to be mapped to host in order for the debugger to work, e.g. <samp>8080:8080</samp>.</dd>
+                <dd>The address through which the Java debugger can connect, for example <samp>*:8000</samp>. Note that the port has to be mapped to the host in order for the debugger to work, e.g. <samp>8000:8000</samp>.</dd>
                 <dt><samp>CATALINA_OPTS</samp></dt>
                 <dd>Tomcat's Java options</dd>
             </dl>
@@ -160,58 +211,64 @@
             <p>Timeouts and connection lifetimes for LinkedDataHub's pooled HTTP clients, used for the <a href="../http-api/#ld-proxy">Linked Data proxy</a> and for accessing SPARQL services. All values are in milliseconds and are passed as <samp>CATALINA_OPTS</samp> system properties.</p>
             <dl>
                 <dt><samp>CLIENT_SOCKET_TIMEOUT</samp></dt>
-                <dd>Socket (read) timeout — how long to wait for data on an established connection. By default <samp>120000</samp>.</dd>
+                <dd>Socket (read) timeout — how long to wait for data on an established connection. Defaults to <samp>120000</samp>.</dd>
                 <dt><samp>CLIENT_CONNECT_TIMEOUT</samp></dt>
-                <dd>Connection timeout — how long to wait to establish a connection. By default <samp>10000</samp>.</dd>
+                <dd>Connection timeout — how long to wait to establish a connection. Defaults to <samp>10000</samp>.</dd>
                 <dt><samp>CLIENT_CONNECTION_TIME_TO_LIVE</samp></dt>
-                <dd>Maximum lifetime of a pooled connection before it is closed. By default <samp>300000</samp>.</dd>
+                <dd>Maximum lifetime of a pooled connection before it is closed. Defaults to <samp>300000</samp>.</dd>
                 <dt><samp>CLIENT_VALIDATE_AFTER_INACTIVITY</samp></dt>
-                <dd>Idle time after which a pooled connection is validated before reuse. By default <samp>10000</samp>.</dd>
-            </dl>
-        </div>
-        <div>
-            <h3 id="varnish">Varnish</h3>
-            <dl>
-                <dt><samp>VARNISH_FRONTEND_BACKEND_PORT</samp></dt>
-                <dd>Port for frontend Varnish backend (default: <samp>7070</samp>)</dd>
-                <dd>Can be customized when running LinkedDataHub behind additional proxies or in non-standard Docker networking configurations</dd>
-                <dt><samp>VARNISH_ADMIN_BACKEND_PORT</samp></dt>
-                <dd>Port for admin Varnish backend (default: <samp>3030</samp>)</dd>
-                <dd>Can be customized when running LinkedDataHub behind additional proxies or in non-standard Docker networking configurations</dd>
-                <dt><samp>VARNISH_END_USER_BACKEND_PORT</samp></dt>
-                <dd>Port for end-user Varnish backend (default: <samp>3030</samp>)</dd>
-                <dd>Can be customized when running LinkedDataHub behind additional proxies or in non-standard Docker networking configurations</dd>
+                <dd>Idle time after which a pooled connection is validated before reuse. Defaults to <samp>10000</samp>.</dd>
             </dl>
         </div>
     </div>
     <div>
-        <h2 id="nginx">nginx</h2>
+        <h2 id="varnish">Varnish services</h2>
+        <p>The backend ports of the <samp>varnish-frontend</samp>, <samp>varnish-admin</samp> and <samp>varnish-end-user</samp> caching services can be
+            customized when running LinkedDataHub behind additional proxies or in non-standard Docker networking configurations:</p>
+        <dl>
+            <dt><samp>VARNISH_FRONTEND_BACKEND_PORT</samp></dt>
+            <dd>Port for frontend Varnish backend. Defaults to <samp>7070</samp>.</dd>
+            <dt><samp>VARNISH_ADMIN_BACKEND_PORT</samp></dt>
+            <dd>Port for admin Varnish backend. Defaults to <samp>3030</samp>.</dd>
+            <dt><samp>VARNISH_END_USER_BACKEND_PORT</samp></dt>
+            <dd>Port for end-user Varnish backend. Defaults to <samp>3030</samp>.</dd>
+        </dl>
+    </div>
+    <div>
+        <h2 id="fuseki"><samp>fuseki-admin</samp> and <samp>fuseki-end-user</samp> services</h2>
+        <dl>
+            <dt><samp>JAVA_OPTIONS</samp></dt>
+            <dd>Java options of the Fuseki process, used to size its heap. Defaults to <samp>-Xmx768m -Xms768m</samp> for <samp>fuseki-admin</samp> and <samp>-Xmx1536m -Xms1536m</samp> for <samp>fuseki-end-user</samp>.</dd>
+        </dl>
+    </div>
+    <div>
+        <h2 id="nginx"><samp>nginx</samp> service</h2>
         <dl>
             <dt><samp>SERVER_CERT_FILE</samp></dt>
-            <dd>Location of the server's SSL certificate. By default <samp>/etc/nginx/ssl/server.crt</samp>.</dd>
+            <dd>Location of the server's SSL certificate. Defaults to <samp>/etc/nginx/ssl/server.crt</samp>.</dd>
             <dt><samp>SERVER_KEY_FILE</samp></dt>
-            <dd>Location of the server's SSL certificate's key. By default <samp>/etc/nginx/ssl/server.key</samp>.</dd>
+            <dd>Location of the server's SSL certificate's key. Defaults to <samp>/etc/nginx/ssl/server.key</samp>.</dd>
             <dt><samp>SSL_VERIFY_CLIENT</samp></dt>
-            <dd><samp>off</samp> to disable TLS client certificate authentication on the <samp>$HTTPS_PORT</samp> port, which also disables LinkedDataHub's <a href="../../get-started/get-an-account/">WebID-TLS authentication method</a>.</dd>
-            <dd>This option can be used to avoid the certificate prompt in the browser in end-user facing applications. The client certificate authentication is still available on port 5443.</dd>
-            <dd><samp>optional_no_ca</samp> to enable it.</dd>
+            <dd><samp>optional_no_ca</samp> to enable TLS client certificate authentication on the <a href="#compose-variables"><samp>$HTTPS_PORT</samp></a> port; <samp>off</samp> to disable it, which also disables LinkedDataHub's <a href="../../get-started/get-an-account/">WebID-TLS authentication method</a>.</dd>
+            <dd>Disabling can be used to avoid the certificate prompt in the browser in end-user facing applications. The client certificate authentication is still available on port 5443.</dd>
             <dt><samp>MAX_BODY_SIZE</samp></dt>
-            <dd>Maximum allowed request body size (<samp>linkeddatahub</samp> has a separate setting for this.) By default <samp>2097152</samp>.</dd>
+            <dd>Maximum allowed request body size (<samp>linkeddatahub</samp> has a separate setting for this). Defaults to <samp>2097152</samp>.</dd>
         </dl>
         <p>By default nginx is configured to guard against DoS by limiting the rate of requests per second, which can be necessary on a public instance. The limiting can be disabled in <samp>platform/nginx.conf.template</samp>
             by commenting out all lines starting with <samp>limit_req</samp> using <samp>#</samp>.</p>
         <div>
             <h3 id="server-certs">Server certificates</h3>
             <p>The certificates generated by the <samp>server-cert-gen.sh</samp> script are self-signed and therefore are shown as
-            "not secure" in web browsers. On a local machine this shouldn't be a problem; on public/production servers we recommend
-            using <a href="https://letsencrypt.org/" target="_blank">LetsEncrypt</a> certificates. They can be mounted into nginx as follows:</p>
-            <pre><code>  nginx:
+                <samp>not secure</samp> in web browsers. On a local machine this should not be a problem; on public/production servers use
+                <a href="https://letsencrypt.org/" target="_blank">LetsEncrypt</a> certificates instead. They can be mounted into nginx as follows:</p>
+            <pre>services:
+  nginx:
     environment:
       - SERVER_CERT_FILE=/etc/letsencrypt/live/kgdev.net/fullchain.pem
       - SERVER_KEY_FILE=/etc/letsencrypt/live/kgdev.net/privkey.pem
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt</code></pre>
+      - /etc/letsencrypt:/etc/letsencrypt</pre>
+            <p><a href="#http"><samp>SELF_SIGNED_CERT</samp></a> should be set to <samp>false</samp> in this case.</p>
         </div>
-        <p><a href="#http"><samp>SELF_SIGNED_CERT</samp></a> should be set to <samp>false</samp> in this case.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .

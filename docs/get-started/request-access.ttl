@@ -10,18 +10,18 @@
     
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">This guide describes how to get access to an application.</p>
+    <p class="lead">How to get access to an application</p>
     <div>
         <p>After you have logged in to LinkedDataHub, by default you do not have access rights to view or edit the documents in the dataspace. The owner of the dataspace has to create
             an explicit authorization to allow access for you.</p>
-        <p>Fortunately, LinkedDataHub makes it easy to notify the owner by issuing an <a href="../../reference/administration/acl/#auth-requests">access request</a>. Navigate to the document you want to gain access to, click on the
+        <p>To notify the owner, issue an <a href="../../reference/administration/acl/#auth-requests">access request</a>. Navigate to the document you want to gain access to, click the
             <span class="btn btn-primary">Request access</span> button and submit the form that appears, as shown below. You can choose the desired <a href="../../reference/administration/acl/#access-modes">access modes</a>.</p>
         <div class="screenshot-placeholder">
             <span class="msi" aria-hidden="true">play_circle</span>
             <p>Screen recording: submitting an access request</p>
         </div>
-        <p>The submitted request is itself an RDF resource in the admin application — the <a href="../../reference/administration/acl/#auth-requests">ACL reference</a> shows its shape — which
-            the owner can accept by creating the matching <a href="../../reference/administration/acl/#authorizations">authorization</a>.</p>
+        <p>The submitted request is itself an RDF resource in the admin application; the owner accepts it by creating the matching
+            <a href="../../reference/administration/acl/#authorizations">authorization</a>. The <a href="../../reference/administration/acl/#auth-requests">ACL reference</a> shows its shape.</p>
     </div>
-    <p class="lead">Are you in? Then continue the <a href="..">get started guide</a> or take a look at the <a href="../../reference/user-interface/">UI overview</a>.</p>
+    <p class="lead">Once the owner accepts your request, continue with the <a href="../../tutorial/">tutorial</a> or the <a href="../../user-guide/">user guide</a>.</p>
 </div>"""^^rdf:XMLLiteral .

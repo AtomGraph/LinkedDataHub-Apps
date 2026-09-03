@@ -5,25 +5,22 @@
 
 <> a dh:Item ;
     dct:title "Manage dataspaces" ;
-    dct:description "Create or change a dataspace, configure SPARQL services and XSLT stylesheets" ;
+    dct:description "Create or change a dataspace, and configure its SPARQL services and XSLT stylesheets" ;
     rdf:_1 <#content> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Step by step guide to creating a new dataspace backed by SPARQL services</p>
+    <p class="lead">Create or change a dataspace, and configure its SPARQL services and XSLT stylesheets</p>
     <div>
-        <h2 id="dataspaces">Manage dataspaces</h2>
-        <p><a href="../../reference/dataspace/" target="_blank">Dataspaces</a> are configured using RDF configuration files in <a href="https://www.w3.org/TR/trig/" target="_blank">TriG</a> syntax:</p>
-        <ul>
-            <li><a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/config/dataspaces.trig" target="_blank"><samp>config/dataspaces.trig</samp></a> — Application metadata (base URIs, titles, ontologies, stylesheets)</li>
-            <li><a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/config/system.trig" target="_blank"><samp>config/system.trig</samp></a> — Internal service wiring (app-to-service bindings, SPARQL endpoints)</li>
-            <li><samp>secrets/credentials.trig</samp> — Service authentication credentials (optional, gitignored). See the <a href="../../reference/triplestores/#authentication" target="_blank">authentication reference</a> for details.</li>
-        </ul>
-        <p>The configuration uses the <a href="https://w3id.org/atomgraph/linkeddatahub/apps" target="_blank">Application domain ontology</a>. A dataspace is comprised of an end-user
+        <h2 id="configuration-files">Configuration files</h2>
+        <p><a href="../../reference/dataspace/" target="_blank">Dataspaces</a> are configured using RDF configuration files in <a href="https://www.w3.org/TR/trig/" target="_blank">TriG</a> syntax:
+            <samp>config/dataspaces.trig</samp> holds the application metadata, <samp>config/system.trig</samp> the internal service wiring, and <samp>secrets/credentials.trig</samp> the optional
+            service credentials. See the <a href="../../reference/configuration/#config-files" target="_blank">configuration reference</a> for details about these files.</p>
+        <p>The configuration uses the <a href="https://w3id.org/atomgraph/linkeddatahub/apps" target="_blank">Application domain ontology</a>. A dataspace consists of an end-user
             application and an administrative application, both backed by their own SPARQL service. Each application can also specify its own <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>.</p>
-        <p>See the <a href="../../reference/configuration/#config-files" target="_blank">configuration reference</a> for more details about these files.</p>
+        <p>Dataspace configuration is file-based — there is no <samp>ldh</samp> command for it. The <samp>config/*.trig</samp> files are read at startup, so changes to them require a restart of the LinkedDataHub service.</p>
         <div class="alert alert-info">
-            <p>Application base URIs need to be relative to the <a href="../change-system-base-uri/#system-base-uri" target="_blank">system base URI</a> configured in the <samp>.env</samp> file. A change of system base URI currently requires a change of application base URIs, otherwise they will not be reachable.</p>
+            <p>Application base URIs must be relative to the <a href="../../reference/configuration/#system-base-uri" target="_blank">system base URI</a> configured in <samp>.env</samp>. If you change the system base URI, you must update the application base URIs too, or they will not be reachable.</p>
         </div>
         <div>
             <h3 id="create-dataspace">Create a dataspace</h3>
@@ -32,25 +29,25 @@
                 <li>Add instances of <code>lapp:EndUserApplication</code> and <code>lapp:AdminApplication</code> to <samp>config/dataspaces.trig</samp>, following the default dataspace as a template</li>
                 <li>Add corresponding <code>sd:Service</code> instances to <samp>config/system.trig</samp> with the SPARQL endpoint connection details</li>
             </ol>
-            <p>The relationship between end-user and admin applications is automatically inferred based on naming conventions — you don't need to manually specify
-            <code>lapp:endUserApplication</code> or <code>lapp:adminApplication</code> properties. Applications whose origin (<code>lapp:origin</code>) uses the
+            <p>The relationship between end-user and admin applications is automatically inferred based on naming conventions — you do not need to specify
+            <code>lapp:endUserApplication</code> or <code>lapp:adminApplication</code> properties manually. Applications whose origin (<code>lapp:origin</code>) uses the
             <samp>admin.</samp> subdomain are automatically recognized as administration applications, and paired with the end-user application on the corresponding bare host.</p>
             <div class="alert alert-info">
-                <p>Use URIs (for example in the <samp>urn:</samp> scheme) to identify apps and services, not blank nodes. Make sure both files' syntax is valid <a href="https://www.w3.org/TR/turtle/" target="_blank">Turtle</a>, otherwise the setup will not work. You can use <a href="http://ttl.summerofcode.be/" target="_blank">Turtle Validator</a> to check the syntax.</p>
+                <p>Use URIs (for example in the <samp>urn:</samp> scheme) to identify apps and services, not blank nodes. Make sure both files are valid <a href="https://www.w3.org/TR/trig/" target="_blank">TriG</a>, or the setup will not work. You can check the syntax with Apache Jena's <samp>riot --validate</samp>.</p>
             </div>
         </div>
         <div>
             <h3 id="change-stylesheet">Change stylesheet</h3>
             <p>Change the value of <code>ac:stylesheet</code> to the URI of your <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>. Add the property if it is absent. The value has to be an absolute URL on the application's own origin.</p>
             <p>The stylesheet can either be <a href="../upload-file/" target="_blank">uploaded as a file</a> or <a href="https://docs.docker.com/storage/bind-mounts/" target="_blank">mounted</a> in <samp>docker-compose.yml</samp>, in the <samp>volumes</samp> section of the <samp>linkeddatahub</samp> service. Mounting is useful while developing.</p>
-            <p>You will need to restart LinkedDataHub's Docker service for the new stylesheet to take effect.</p>
-            <p>It is rarely necessary to change the stylesheet of an admin application.</p>
+            <p>It is rarely necessary to change the stylesheet of an admin application, but the procedure is identical.</p>
         </div>
     </div>
     <div>
         <h2 id="manage-services">Manage services</h2>
-        <p>LinkedDataHub service as well as the default SPARQL services <samp>fuseki-end-user</samp> and <samp>fuseki-admin</samp> are defined in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/docker-compose.yml" target="_blank"><samp>docker-compose.yml</samp></a> and run as Docker containers.</p>
+        <p>The LinkedDataHub service, along with the default SPARQL services <samp>fuseki-end-user</samp> and <samp>fuseki-admin</samp>, is defined in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/docker-compose.yml" target="_blank"><samp>docker-compose.yml</samp></a>; each runs as a Docker container.</p>
         <p>While LinkedDataHub uses Apache Jena Fuseki by default, you can configure it to use other SPARQL 1.1-compatible triplestores such as <a href="https://github.com/ad-freiburg/qlever" target="_blank">QLever</a>, <a href="https://github.com/dice-group/tentris" target="_blank">Tentris</a>, or others.</p>
         <p>See the <a href="../../reference/triplestores/" target="_blank">triplestores reference</a> for step-by-step configuration examples, including QLever setup and troubleshooting.</p>
     </div>
+    <p class="lead">Read more about <a href="../../reference/dataspace/" target="_blank">dataspaces</a> and the <a href="../../reference/configuration/" target="_blank">configuration</a>.</p>
 </div>"""^^rdf:XMLLiteral .

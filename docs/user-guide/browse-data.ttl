@@ -18,52 +18,48 @@
     <div>
         <h2 id="linked-data-browser">Linked Data browser</h2>
         <p>LinkedDataHub has a built-in Linked Data browser which is accessed through <a href="../../reference/user-interface/#nav-bar">the navigation bar</a>. Enter a <code>http://</code> or <code>https://</code> URL and
-            press <samp>Enter</samp> or click the search button. Try, for example:</p>
+            press <kbd>Enter</kbd> or click the search button. Try, for example:</p>
         <ul>
             <li><samp>https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3683/</samp> — a concept in another LinkedDataHub dataspace (the one the Northwind Beverages category <a href="../../reference/imports/rdf/">maps to</a>)</li>
             <li><samp>https://dbpedia.org/resource/Copenhagen</samp> — an arbitrary Linked Data resource on the open web</li>
         </ul>
-        <p>The browser supports all standard RDF formats as well as JSON-LD embedded in HTML page's <code>&lt;script&gt;</code> elements, which is often used to publish <a href="https://schema.org/" target="_blank">schema.org</a> metadata.</p>
+        <p>The browser supports all standard RDF formats as well as JSON-LD embedded in an HTML page's <code>&lt;script&gt;</code> elements, which is often used to publish <a href="https://schema.org/" target="_blank">schema.org</a> metadata.</p>
         <p>When the data loads successfully, you can navigate it the same way as your local documents, switch between different layout modes etc. You can also <a href="../add-data/">add the data</a> into your dataspace.</p>
         <p>If an RDF document cannot be read from the supplied URL, an error message will be shown.</p>
     </div>
     <div>
         <h2 id="document-tree">Document tree</h2>
-        <p>Document tree is a widget that enables quick overview of the application's <a href="../../reference/data-model/documents/#hierarchy">document hierarchy</a>. Each document is shown as a node in the tree; container documents
-            can be expanded to reveal the children documents.</p>
-        <p>The widget can be accessed by sliding the mouse to the left edge of the screen (on responsive layouts, it is always visible).</p>
+        <p>The document tree in the left sidebar gives a quick overview of the application's <a href="../../reference/data-model/documents/#hierarchy">document hierarchy</a>; the <a href="../../reference/user-interface/#document-hierarchy">user interface reference</a> describes the widget.</p>
         <div class="screenshot-placeholder">
             <span class="msi" aria-hidden="true">image</span>
             <p>Screenshot: the document tree with a container expanded</p>
         </div>
     </div>
     <div>
-        <h2 id="class-tree">Class-based navigation</h2>
-        <p>In addition to navigating by document hierarchy, LinkedDataHub lets you navigate by class. The <dfn>Classes</dfn> list in the left sidebar shows the classes (<code>rdf:type</code> values) that occur in your data, each labelled with the number of its instances and ordered with the most-used classes first.</p>
+        <h2 id="class-navigation">Class-based navigation</h2>
+        <p>In addition to navigating by document hierarchy, you can navigate by class: the <samp>Classes</samp> list in the left sidebar shows the classes (<code>rdf:type</code> values) that occur in your data; the <a href="../../reference/user-interface/#class-navigation">user interface reference</a> describes the widget.</p>
         <h3 id="using-class-navigation">Using class-based navigation</h3>
         <ol>
-            <li>Open the left sidebar (slide the mouse to the left edge on desktop, or it is always visible on responsive layouts)</li>
-            <li>Find the <dfn>Classes</dfn> list</li>
+            <li>Open the left sidebar — slide the mouse to the left edge of the screen; on responsive layouts it is always visible</li>
+            <li>Find the <samp>Classes</samp> list</li>
             <li>Click on any class to open a dialog listing all instances of that class in your dataspace</li>
         </ol>
-        <h3 id="when-to-use-class-navigation">When to use class navigation</h3>
+        <h3 id="when-to-use-class-navigation">When to use class-based navigation</h3>
         <p>Class-based navigation is most useful when:</p>
-        <ul>
-            <li><strong>Finding all instances of a type:</strong> Quickly locate all resources of a particular class, regardless of where they're stored in the document hierarchy</li>
-            <li><strong>Exploring domain concepts:</strong> Browse your data organized by business concepts (e.g., all Customers, all Orders) rather than by container structure</li>
-            <li><strong>Cross-container queries:</strong> View instances that span multiple containers in a single unified view</li>
-        </ul>
-        <p>The classes list is derived from the data itself, so it reflects whatever types are present — no ontology needs to be defined. It respects your access control settings — you'll only see classes and instances you're authorized to access.</p>
-    </div>
-    <div>
-        <h2 id="backlinks">Backlinks</h2>
-        <p>Backlinks are shown in the <a href="../../reference/user-interface/#right-nav">right-side navigation</a> for every resource in <a href="../../reference/user-interface/#layout-modes">property layout mode</a>.
-            They display a list of resources which have properties with the current resource as the object.</p>
+        <dl>
+            <dt>Finding all instances of a type</dt>
+            <dd>Quickly locate all resources of a particular class, regardless of where they are stored in the document hierarchy</dd>
+            <dt>Exploring domain concepts</dt>
+            <dd>Browse your data organized by business concepts (e.g. all Customers, all Orders) rather than by container structure</dd>
+            <dt>Cross-container queries</dt>
+            <dd>View instances that span multiple containers in a single unified view</dd>
+        </dl>
+        <p>The list is derived from the data itself and respects your access control settings.</p>
     </div>
     <div>
         <h2 id="text-search">Text search</h2>
-        <p>You can lookup resources by typing a phrase (it does not have to be complete, start with a few letters) into the <a href="../../reference/user-interface/#document-tree">search box</a> at the top of the left sidebar.</p>
-        <p>A dropdown list will appear if there are any matches. Use up/down keys or mouse click to select one of the results, and you will be redirected to its document.</p>
+        <p>You can look up resources by typing a phrase (a few letters are enough) into the <a href="../../reference/user-interface/#left-sidebar">search box</a> at the top of the left sidebar.</p>
+        <p>A dropdown list will appear if there are any matches. Use <kbd>↑</kbd>/<kbd>↓</kbd> or click to select a result, and you will be redirected to its document.</p>
         <p>The matching is done by looking for substrings using SPARQL <code>regex()</code> in common literal properties such as <code>dct:title</code>, <code>rdfs:label</code>, <code>foaf:name</code> etc. — equivalent to a query of this shape:</p>
         <pre>PREFIX dct:  &lt;http://purl.org/dc/terms/&gt;
 PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
@@ -78,7 +74,7 @@ WHERE {
         FILTER regex(str(?label), "cha", "i")   # on Northwind, matches "Chai", "Chang", "Chartreuse verte"…
     }
 }</pre>
-        <p>The same widget is used for autocomplete inputs in the <a href="../../reference/user-interface/#action-bar">create/edit forms</a>.</p>
+        <p>The same widget is used for autocomplete inputs in create and edit forms.</p>
         <div class="screenshot-placeholder">
             <span class="msi" aria-hidden="true">image</span>
             <p>Screenshot: the search dropdown with matching Northwind resources</p>
@@ -88,4 +84,10 @@ WHERE {
         <h2 id="structured-search">Structured search</h2>
         <p>You can use SPARQL to <a href="../query-data/">query data</a> from the application's SPARQL service.</p>
     </div>
+    <div>
+        <h2 id="backlinks">Backlinks</h2>
+        <p>Backlinks are shown in the <a href="../../reference/user-interface/#right-sidebar">right-side navigation</a> for every resource in <a href="../../reference/user-interface/#layout-modes">property layout mode</a>.
+            They display a list of resources which have properties with the current resource as the object.</p>
+    </div>
+    <p class="lead">Continue to the <a href="../query-data/">Query data</a> guide, or read more about the <a href="../../reference/user-interface/">user interface</a>.</p>
 </div>"""^^rdf:XMLLiteral .

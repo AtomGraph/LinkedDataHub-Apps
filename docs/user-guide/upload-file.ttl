@@ -7,63 +7,64 @@
     dct:title "Upload file" ;
     dct:description "Learn how to upload files to LinkedDataHub" ;
     rdf:_1 <#content> .
-    
+
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Learn how to upload files to LinkedDataHub</p>
-    <div class="tabbable">
-        <ul class="nav nav-tabs">
-            <li class="active"><a>User interface</a></li>
-            <li><a>Command line interface</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active">
-                <div>
-                    <ol>
-                        <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
-                        <li>Click on <samp>File</samp> in the drop-down list that appears</li>
-                        <li>Fill out the mandatory <dfn>File</dfn> fields in the form:
-                            <dl>
-                                <dt>FileName</dt>
-                                <dd>Select file from your filesystem</dd>
-                                <dt>Title</dt>
-                                <dd>Enter file title</dd>
-                            </dl>
-                        </li>
-                        <li>Click <span class="btn btn-primary btn-save">Save</span></li>
-                    </ol>
-                    <p>See how below:</p>
-                    <div class="screenshot-placeholder">
-                        <span class="msi" aria-hidden="true">play_circle</span>
-                        <p>Screen recording: uploading a file</p>
+    <div>
+        <h2 id="upload">Upload a file</h2>
+        <div class="ldhc-tabs or-horizontal">
+            <div class="ldhc-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+            </div>
+            <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
+                    <div>
+                        <ol>
+                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown at the bottom of the page</li>
+                            <li>Click on <samp>File</samp> in the dropdown list that appears</li>
+                            <li>Fill out the mandatory <dfn>File</dfn> fields in the form:
+                                <dl>
+                                    <dt>Filename</dt>
+                                    <dd>Select file from your filesystem</dd>
+                                    <dt>Title</dt>
+                                    <dd>Enter file title</dd>
+                                </dl>
+                            </li>
+                            <li>Click <span class="btn btn-primary btn-save">Save</span></li>
+                        </ol>
+                        <div class="screenshot-placeholder">
+                            <span class="msi" aria-hidden="true">play_circle</span>
+                            <p>Screen recording: uploading a file</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="tab-pane">
-                <div>
-                    <p>A file is uploaded to the document that will hold it, so create that document first. Uploading Nancy Davolio's portrait from the Northwind demo:</p>
-                    <pre>doc=$(ldh create-item \\
+            <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
+                    <div>
+                        <p>A file is uploaded to the document that will hold it, so create that document first. Uploading Nancy Davolio's portrait from the Northwind demo:</p>
+                        <pre>doc=$(ldh create-item \\
   --title "Nancy Davolio" \\
   --container "${LDH_BASE}employees/")
 
 ldh add-file \\
-  --title "nancy.jpg" \\
+  --title "Nancy Davolio" \\
   --file employees/nancy.jpg \\
-  --content-type image/jpeg \\
+  --content-type "image/jpeg" \\
   "$doc"</pre>
-                    <p>The command prints the content-addressed URI of the upload as its only output:</p>
-                    <pre>https://localhost:4443/uploads/fb2e87988887cebf252947ba5d98e34d01d44ed4</pre>
-                    <p>That URI is stable across instances — it is derived from the file content alone — which is what lets the
-                        <a href="../../tutorial/media/" target="_blank">Northwind CSVs</a> reference their images by hash before they are even uploaded.
-                        <code>--content-type</code> is optional — the media type is detected from the file when it is not given.</p>
+                        <p>The command prints the content-addressed URI of the upload as its only output:</p>
+                        <pre>https://localhost:4443/uploads/fb2e87988887cebf252947ba5d98e34d01d44ed4</pre>
+                        <p>That URI is stable across instances — it is derived from the file content alone — which is what lets the
+                            <a href="../../tutorial/media/" target="_blank">Northwind CSVs</a> reference their images by hash before they are even uploaded.
+                            <code>--content-type</code> is optional — the media type is detected from the file when it is not given.</p>
+                    </div>
                 </div>
-            </div>
         </div>
     </div>
     <div class="alert alert-warning">
-        <h4>Note about ontology files</h4>
+        <p><strong>Note about ontology files</strong></p>
         <p>If you upload an ontology file (RDF/OWL), be aware that it will not be automatically loaded via <code>owl:imports</code> declarations.
-        This is a technical limitation to prevent circular dependencies during system initialization.</p>
+        This is deliberate: resolving imports at upload time would risk circular dependencies during system initialization.</p>
         <p>For more information on working with ontologies, see the <a href="../../reference/administration/ontologies/">ontologies reference documentation</a>.</p>
     </div>
+    <p class="lead"><a href="../../reference/dataset/#hierarchical-uris" target="_blank">Read more about the content-addressed uploads namespace.</a></p>
 </div>"""^^rdf:XMLLiteral .

@@ -14,10 +14,10 @@
     <p>Each dataspace has a <strong>namespace ontology</strong> where you define the classes and properties of your domain. It lives in the <em>admin</em> application, which shares your base URI with
         an <samp>admin.</samp> subdomain prefix: for the end-user app at <samp>https://localhost:4443/</samp>, the ontology document is
         <samp>https://admin.localhost:4443/ontologies/namespace/</samp>.</p>
-    <p>Northwind reuses <a href="https://schema.org" target="_blank">Schema.org</a> terms rather than inventing its own, so "modeling" here means declaring which classes the app works with and how
-        they should be labeled:</p>
-    <pre>@prefix :	    &lt;#&gt; .
-@prefix rdfs:	&lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+    <p>Northwind reuses <a href="https://schema.org" target="_blank">Schema.org</a> terms rather than inventing its own, so modeling here means little more than declaring which classes the app
+        uses and how they are labeled:</p>
+    <pre>@prefix :       &lt;#&gt; .
+@prefix rdfs:   &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
 @prefix owl:    &lt;http://www.w3.org/2002/07/owl#&gt; .
 @prefix schema: &lt;https://schema.org/&gt; .
 
@@ -35,32 +35,32 @@ schema:Order a owl:Class ;
     rdfs:label "Order" ;
     rdfs:isDefinedBy : .</pre>
     <p class="exhibit-links">Source (full model): <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/admin/model/ns.ttl" target="_blank">admin/model/ns.ttl</a></p>
-    <p>The finished model goes further than labels: it declares the domain's properties with their domains and ranges, a couple of <code>owl:Restriction</code>s,
-        a <a href="../../user-guide/change-model/" target="_blank">constructor</a> that drives the Product create form, and views attached directly to properties with
-        <code>ldh:inverseView</code> — which is why every customer page automatically shows "Orders from this customer" and every supplier page "Products supplied by
-        this supplier", with no per-page configuration.</p>
+    <p>The finished model goes further than labels. It declares the domain's properties with their domains and ranges, a couple of <code>owl:Restriction</code>s,
+        and a <a href="../../user-guide/change-model/" target="_blank">constructor</a> that drives the Product create form.</p>
+    <p>It also attaches views directly to properties with <code>ldh:inverseView</code>. That is why every customer page shows its orders and every supplier page its
+        products, with no per-page configuration.</p>
     <div>
         <h2 id="browser">In the browser</h2>
         <p>Open the admin application and edit the namespace ontology document directly, or follow the <a href="../../user-guide/change-model/" target="_blank">Change model</a> guide, which also
-            shows how to add SPIN constructors to classes — the templates that drive "create instance" forms in the UI.</p>
+            shows how to add SPIN constructors to classes — the templates that drive the create-instance forms in the UI.</p>
     </div>
     <div>
         <h2 id="cli">From the command line</h2>
         <p>Append the class definitions from <samp>ns.ttl</samp> to the namespace ontology document with <code>POST</code>. The prepended <code>@base</code> makes the <code>:</code> prefix resolve to
             <samp>${LDH_BASE}ns#</samp> — the terms belong to the end-user namespace even though the ontology document lives in the admin app:</p>
-        <pre>admin_base="https://admin.localhost:4443/"
+        <pre>admin_base="https://admin.localhost:4443/"   # $LDH_BASE with the admin. subdomain prefix
 
 { echo "@base &lt;${LDH_BASE}ns&gt; ."; cat ns.ttl; } | ldh post \\
     -t text/turtle \\
     "${admin_base}ontologies/namespace/"</pre>
-        <p>Ontologies are cached in memory, so tell the application to reload it:</p>
+        <p>The ontology is cached in memory, so tell the application to reload it:</p>
         <pre>ldh admin clear-ontology \\
     -b "$admin_base" \\
     --ontology "${LDH_BASE}ns#"</pre>
     </div>
     <div>
         <h2 id="result">What you now see</h2>
-        <p>The ontology document in the admin app renders your classes with their labels. The visible payoff on the end-user side comes in the next stage: resources imported as
+        <p>The ontology document in the admin app now renders your classes with their labels. The visible payoff on the end-user side comes in the next stage: resources imported as
             <code>schema:Product</code> or <code>schema:Order</code> arrive typed and labeled, and the model is what the UI uses to render and create them.</p>
     </div>
     <div>

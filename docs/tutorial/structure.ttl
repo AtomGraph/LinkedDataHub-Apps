@@ -12,7 +12,8 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Lay out the document hierarchy that will hold your data</p>
     <p>Documents come in two kinds: <a href="../../reference/data-model/documents/#containers" target="_blank">containers</a>, which hold child documents, and
-        <a href="../../reference/data-model/documents/#items" target="_blank">items</a>. Northwind's domain gives us the container layout directly — one container per entity type:</p>
+        <a href="../../reference/data-model/documents/#items" target="_blank">items</a>. Northwind's domain gives you the container layout directly — one container per entity type
+        (order line items live inside their order documents):</p>
     <pre>https://localhost:4443/
 ├── categories/
 ├── customers/
@@ -25,7 +26,9 @@
 └── territories/</pre>
     <div>
         <h2 id="browser">In the browser</h2>
-        <p>Create each container from the root document using the document creation form — see the <a href="../../user-guide/create-data/create-documents/" target="_blank">Create documents</a> guide.</p>
+        <p>On the root document, click the <span class="btn btn-primary create-action">Create</span> dropdown and select <samp>Container</samp>. Enter <samp>Categories</samp> as the title, replace
+            the generated relative URI with <samp>categories</samp> using the dropdown in the top-right corner of the form, and save. The
+            <a href="../../user-guide/create-data/create-documents/" target="_blank">Create documents</a> guide walks through the form in detail.</p>
     </div>
     <div>
         <h2 id="cli">From the command line</h2>
@@ -37,8 +40,7 @@
     dct:title "Categories" .</pre>
         <p><code>PUT</code> it to the container URL, the same way the root document was updated:</p>
         <pre>ldh put -t text/turtle "${LDH_BASE}categories/" &lt; categories.ttl</pre>
-        <p>Repeat for the remaining eight containers — or skip ahead to <a href="../app-as-repository/">App as a repository</a> to see how the demo derives the document URL from the filename and
-            replays a whole folder in one command.</p>
+        <p>Repeat for the remaining eight containers — or skip to <a href="../app-as-repository/">App as a repository</a>, where one command replays a whole folder.</p>
     </div>
     <div>
         <h2 id="result">What you now see</h2>
@@ -48,6 +50,12 @@
             <span class="msi" aria-hidden="true">image</span>
             <p>Screenshot: root document children listing with the nine containers</p>
         </div>
+    </div>
+    <div>
+        <h2 id="how-this-works">How this works</h2>
+        <ul>
+            <li><a href="../../reference/data-model/documents/#hierarchy" target="_blank">Document hierarchy</a> — how containers and items nest into the URL space</li>
+        </ul>
     </div>
     <p class="lead">Next: <a href="../model/">Model</a></p>
 </div>"""^^rdf:XMLLiteral .

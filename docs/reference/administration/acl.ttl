@@ -2,53 +2,54 @@
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
-    
+
 <> a dh:Item ;
     dct:title "Access control" ;
     dct:description "Agents, groups, and authorizations" ;
     rdf:_1 <#content> .
-    
+
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">LinkedDataHub access control is based on the W3C <a href="https://www.w3.org/wiki/WebAccessControl" target="_blank">ACL ontology</a>.</p>
+    <p class="lead">Agents, groups, and authorizations</p>
+    <p>LinkedDataHub access control is based on the W3C <a href="https://www.w3.org/wiki/WebAccessControl" target="_blank">ACL ontology</a>.</p>
     <div>
         <h2 id="access-modes">Access modes</h2>
-        <p>There are 4 access modes (classes of operation) that map to <a href="../../http-api/">HTTP methods</a>:</p>
+        <p>There are four access modes (classes of operation) that map to <a href="../../http-api/">HTTP methods</a>:</p>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Mode</th>
-                    <th>Those allowed may</th>
+                    <th>Permits</th>
                     <th>HTTP method</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <th>Read</th>
-                    <td>read the contents (including querying it, etc)</td>
+                    <td>Read the contents, including querying them.</td>
                     <td><code>GET</code></td>
                 </tr>
                 <tr>
                     <th>Write</th>
-                    <td>overwrite the contents (including deleting it, or modifying part of it)</td>
-                    <td><code>PUT</code>, <code>DELETE</code></td>
+                    <td>Overwrite the contents, including deleting or modifying them.</td>
+                    <td><code>PUT</code>, <code>PATCH</code>, <code>DELETE</code></td>
                 </tr>
                 <tr>
                     <th>Append</th>
-                    <td>add information to [the end of] it but not remove information</td>
+                    <td>Add information without removing or replacing any.</td>
                     <td><code>POST</code></td>
                 </tr>
                 <tr>
                     <th>Control</th>
-                    <td>set the Access Control List for this themselves</td>
-                    <td></td>
+                    <td>Change the authorizations that apply to the resource.</td>
+                    <td>— (no corresponding HTTP method)</td>
                 </tr>
             </tbody>
         </table>
     </div>
     <div>
         <h2 id="agents">Agents</h2>
-        <p>An agent is a person or a software agent that can be authorized to have certain <a href="#access-modes">modes
+        <p>An agent is a person or a piece of software, identified by a WebID, that can be authorized to have certain <a href="#access-modes">modes
             of access</a> to certain applications.</p>
     </div>
     <div>
@@ -58,13 +59,15 @@
             class.</p>
         <p>There are several default groups:</p>
         <ul>
-            <li>owners</li>
-            <li>readers</li>
-            <li>writers</li>
+            <li>Owners</li>
+            <li>Writers</li>
+            <li>Readers</li>
         </ul>
         <div class="alert alert-info">
-            <p>Only agents that belong to the owners group will have access to the administration application.<br></br>
-            Note that an agent being a member of one of the above groups does not automatically provide it with an
+            <p>By default, only members of the owners group have access to the administration application: its built-in
+                <samp>Full control</samp> authorization grants the <a href="#access-modes">Control</a> mode (along with read and write)
+                to that group. See <a href="#authorizations">Authorizations</a>.</p>
+            <p>Note that an agent being a member of one of the above groups does not automatically provide it with an
                 authorization. A valid authorization for the whole group has to be present.</p>
         </div>
     </div>
@@ -74,9 +77,10 @@
             of agents to access a specific end-user application document or a <a href="../ontologies/#classes">class</a>
             of its documents.</p>
         <p>An <a href="#agents">agent</a> has to be authorized using the <a href="#access-modes">Control</a> mode to be
-            able to login to the <a href="../../dataspace/#admin-apps">administration application</a>.</p>
-        <p>Here are the default authorizations for groups and their respective access modes:</p>
-        <table class="table">
+            able to log in to the <a href="../../dataspace/#admin-apps">administration application</a>. By default such an
+            authorization is granted to the <a href="#groups">owners group</a>.</p>
+        <p>The default authorizations for groups and their respective access modes:</p>
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Group</th>
@@ -99,7 +103,7 @@
                     <th rowspan="2">Writers</th>
                     <td rowspan="2"><a href="#access-modes">Read</a></td>
                     <td><a href="#access-modes">Write</a></td>
-                    <td rowspan="2"></td>
+                    <td rowspan="2">—</td>
                 </tr>
                 <tr>
                     <td><a href="#access-modes">Append</a></td>
@@ -107,8 +111,8 @@
                 <tr>
                     <th>Readers</th>
                     <td><a href="#access-modes">Read</a></td>
-                    <td></td>
-                    <td></td>
+                    <td>—</td>
+                    <td>—</td>
                 </tr>
             </tbody>
         </table>
@@ -127,21 +131,31 @@
   --agent-group "https://admin.localhost:4443/acl/groups/writers/#this" \\
   --to "https://localhost:4443/orders/" \\
   --read --append --write</pre>
-        <p>Public access authorization allows access for non-authenticated agents — the <a href="../../../tutorial/publish/">Publish</a> stage of the
+        <p>An authorization can also target a whole class of documents with <code>acl:accessToClass</code>. Granting the <samp>readers</samp> group read access to every container:</p>
+        <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
+@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+@prefix dh:   &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+
+&lt;#this&gt; a acl:Authorization ;
+    rdfs:label "Container read access" ;
+    acl:agentGroup &lt;https://admin.localhost:4443/acl/groups/readers/#this&gt; ;
+    acl:mode acl:Read ;
+    acl:accessToClass dh:Container .</pre>
+        <p>A public-access authorization allows access for non-authenticated agents — the <a href="../../../tutorial/publish/">Publish</a> stage of the
             tutorial shows the one <samp>ldh admin acl make-public</samp> creates, granting <code>acl:Read</code> to the <code>foaf:Agent</code> class
             on every document class.</p>
         <div class="alert alert-info">
-            <p>The owner's and secretary's authorizations are stored under stable URIs (<samp>acl/authorizations/owner-webid/</samp> and <samp>acl/authorizations/secretary-webid/</samp>), so reloading the admin dataset does not create duplicates.</p>
+            <p>The owner's and <a href="../../dataspace/#dataspaces">secretary's</a> authorizations are stored under stable URIs (<samp>acl/authorizations/owner-webid/</samp> and <samp>acl/authorizations/secretary-webid/</samp>), so reloading the admin dataset does not create duplicates.</p>
         </div>
         <div>
-            <h3 id="auth-requests">Requests</h3>
+            <h3 id="auth-requests">Access requests</h3>
             <p>If access is denied due to missing authorization, the agent can ask for it by issuing a request to the application's
-            <a href="../../dataspace/#admin-apps">owners</a>. It indicates the request URI and access mode in question.
-            The owners can then accept the request by creating an <a href="#authorizations">authorization</a> with the provided information
-            (possibly extending the requested access to a <a href="#groups">group</a> of agents or a <a href="../ontologies/#classes">class of resources</a>),
-            or simply ignore it.</p>
-        <p>A request is data too — asking for write access to a Northwind order:</p>
-        <pre>@prefix lacl: &lt;https://w3id.org/atomgraph/linkeddatahub/admin/acl#&gt; .
+                <a href="#groups">owners</a>. The request indicates the request URI and access mode in question.
+                The owners can then accept the request by creating an <a href="#authorizations">authorization</a> with the provided information
+                (possibly extending the requested access to a <a href="#groups">group</a> of agents or a <a href="../ontologies/#classes">class of resources</a>),
+                or simply ignore it.</p>
+            <p>A request is data too — asking for write access to a Northwind order:</p>
+            <pre>@prefix lacl: &lt;https://w3id.org/atomgraph/linkeddatahub/admin/acl#&gt; .
 @prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
 
 &lt;#this&gt; a lacl:AuthorizationRequest ;
@@ -182,4 +196,5 @@
             </table>
         </div>
     </div>
+    <p class="lead">To request access to someone else's dataspace, see the <a href="../../../get-started/request-access/">Request access</a> guide. To open your data to the public, follow the <a href="../../../tutorial/publish/">Publish</a> stage of the tutorial.</p>
 </div>"""^^rdf:XMLLiteral .

@@ -31,11 +31,13 @@
 ├── .ldhignore            # files that are not documents
 └── Makefile</pre>
     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/northwind-traders" target="_blank">demo/northwind-traders</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">northwind-traders.demo.linkeddatahub.com</a></p>
+    <p>To follow along, clone the apps repository — <samp>git clone https://github.com/AtomGraph/LinkedDataHub-Apps</samp>, the demo lives in <samp>demo/northwind-traders</samp> — or assemble the
+        files from the previous stages into a folder of the same shape.</p>
     <div>
         <h2 id="convention">The convention</h2>
         <p>The document URL is derived from the file path: <samp>categories.ttl</samp> installs to <samp>${base}categories/</samp>.
-            <samp>update-folder.sh</samp> walks the tree applying that rule — resolving each file's relative URIs against its document URL and <code>PUT</code>ting the result — and skips anything
-            matched by <samp>.ldhignore</samp>:</p>
+            <samp>update-folder.sh</samp> walks the tree applying that rule: it resolves each file's relative URIs against its document URL and <code>PUT</code>s the result. Anything
+            matched by <samp>.ldhignore</samp> is skipped:</p>
         <pre>admin/
 Makefile
 imports.csv
@@ -43,11 +45,13 @@ root.ttl
 screenshot.gif
 unesco-mappings.ttl</pre>
         <p><samp>root.ttl</samp> is on that list because the walker cannot derive the root URL from it — <samp>install.sh</samp> <code>PUT</code>s it to <samp>${base}</samp> itself, as a separate
-            first step. The UNESCO mapping file sits out too: it is <a href="../../user-guide/import-data/import-rdf-data/" target="_blank">import material</a>, not a document.</p>
+            first step. The patterns match file names at any depth, so entries need not appear in the tree above: <samp>unesco-mappings.ttl</samp> excludes
+            <samp>categories/unesco-mappings.ttl</samp>, which is <a href="../../user-guide/import-data/import-rdf-data/" target="_blank">import material</a> rather than a document, and
+            <samp>screenshot.gif</samp> excludes the repository's own screenshot, which is not app media.</p>
     </div>
     <div>
         <h2 id="idempotency">Idempotency</h2>
-        <p>Re-running the install converges instead of duplicating: <code>PUT</code> replaces each document's description outright, and the one place that appends rather than replaces — the
+        <p>The install is idempotent: re-running it produces the same result instead of duplicating data. <code>PUT</code> replaces each document's description outright, and the one place that appends rather than replaces — the
             namespace ontology — is first reset by <samp>patch-ontology.ru</samp>, a SPARQL update that clears everything except the ontology document's own description:</p>
         <pre>PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
 
@@ -73,8 +77,21 @@ WHERE {
     <div>
         <h2 id="install">Installing</h2>
         <pre>make install</pre>
-        <p>prompts for the base URI, certificate and password, then runs <samp>install.sh</samp>: make public, import the ontology, replay the documents, upload the files, run the CSV imports. The
-            entire tutorial, replayed in one command — against localhost today, against production tomorrow.</p>
+        <p><samp>make install</samp> prompts for the base URI, certificate path, certificate password and an optional proxy URL, then runs <samp>install.sh</samp>: make public, import the ontology,
+            replay the documents, upload the files, run the CSV imports. The entire tutorial, replayed in one command — against localhost today, against production tomorrow.</p>
+    </div>
+    <div>
+        <h2 id="result">What you now see</h2>
+        <p>The install prints a banner per step — <samp>### Creating authorization to make the app public</samp>, <samp>### Importing namespace ontology</samp>,
+            <samp>### Updating documents and uploading files</samp> (with one <samp>### Updating …</samp> line per document), <samp>### Importing CSV data</samp>. When it finishes, open the base
+            URI: the finished app renders, with no certificate required — the first step made it public.</p>
+    </div>
+    <div>
+        <h2 id="how-this-works">How this works</h2>
+        <ul>
+            <li><a href="../../reference/command-line-interface/" target="_blank">Command line interface</a> — one command per HTTP API operation, scriptable and replayable</li>
+            <li><a href="../../reference/http-api/" target="_blank">HTTP API</a> — the <code>PUT</code> semantics that make the replay idempotent</li>
+        </ul>
     </div>
     <p class="lead">Next: <a href="../beyond-low-code/">Beyond low-code</a></p>
 </div>"""^^rdf:XMLLiteral .

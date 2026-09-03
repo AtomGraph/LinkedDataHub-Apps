@@ -4,28 +4,27 @@
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
-    dct:title "Change the model" ;
-    dct:description "Change the model: create constructors, classes, and constraints" ;
+    dct:title "Change model" ;
+    dct:description "Define classes, attach SPIN constructors that drive create forms, and add constraints that validate instances" ;
     rdf:_1 <#content> .
-    
+
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Change the model: create constructors, classes, and constraints</p>
+    <p class="lead">Define classes, attach SPIN constructors that drive create forms, and add constraints that validate instances</p>
     <div>
-        <h2 id="change-model">Change the model</h2>
-        <p>In order to be able to manage instances, we need to create <a href="../../reference/administration/ontologies/#classes" target="_blank">classes</a> that represent them in the <a href="../../reference/administration/ontologies/" target="_blank">model</a> of our dataspace. Not only will they serve as RDF types of the instances, but will have <a href="../../reference/administration/ontologies/#constructors" target="_blank">constructors</a> attached that define the default properties and their (data)types for that class.</p>
-        <p>Model is managed in the <a href="../../reference/dataspace/#admin-apps" target="_blank">administration application</a> of a dataspace. Head there by clicking the <span class="btn dropdown-toggle btn-settings"></span> in the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a> and then choosing <samp>Administration</samp>.</p>
+        <p>To manage instances, you first need <a href="../../reference/administration/ontologies/#classes" target="_blank">classes</a> that represent them in your dataspace's <a href="../../reference/administration/ontologies/" target="_blank">model</a>. Not only will they serve as RDF types of the instances, but they will also have <a href="../../reference/administration/ontologies/#constructors" target="_blank">constructors</a> attached that define the default properties and their (data)types for that class.</p>
+        <p>The model is managed in the <a href="../../reference/dataspace/#admin-apps" target="_blank">administration application</a> of a dataspace. Head there by clicking the <span class="btn dropdown-toggle btn-settings"></span> in the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a> and then choosing <samp>Administration</samp>.</p>
         <div class="alert alert-info">
             <p>In order to manage the <a href="../../reference/administration/acl/" target="_blank">access control</a>, or the <a href="../../reference/administration/ontologies/" target="_blank">model</a> of a dataspace,
             the agent needs to be a member of the <a href="../../reference/administration/acl/#groups" target="_blank">owners group</a>.</p>
         </div>
-        <p>We will use the Northwind Traders model and its <samp>schema:Product</samp> class as the example in this guide — the demo app ships
+        <p>This guide uses the Northwind Traders model and its <samp>schema:Product</samp> class as the example — the demo app ships
             exactly this constructor and constraint in its namespace ontology, so the finished result can be compared against
             <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/admin/model/ns.ttl" target="_blank"><samp>admin/model/ns.ttl</samp></a>.</p>
     </div>
     <div>
         <h2 id="create-constructor">Create a constructor</h2>
-        <p>We will use the following SPARQL <code>CONSTRUCT</code> query as a <a href="../../reference/administration/ontologies/#constructors" target="_blank">constructor</a> for the <samp>Product</samp> class and save it in a file under <samp>queries/construct-product.rq</samp>. The typed blank nodes tell the form which control to render: a string input for the name and identifier, resource typeaheads for the category and supplier.</p>
+        <p>Use the following SPARQL <code>CONSTRUCT</code> query as a <a href="../../reference/administration/ontologies/#constructors" target="_blank">constructor</a> for the <samp>Product</samp> class. The typed blank nodes tell the form which control to render: a string input for the name and identifier, resource typeaheads for the category and supplier.</p>
         <pre>PREFIX schema: &lt;https://schema.org/&gt;
 PREFIX xsd:    &lt;http://www.w3.org/2001/XMLSchema#&gt;
 
@@ -37,24 +36,24 @@ CONSTRUCT
     schema:provider [ a schema:Corporation ] .
 }
 WHERE {}</pre>
-        <div class="tabbable">
-            <ul class="nav nav-tabs">
-                <li class="active"><a>User interface</a></li>
-                <li><a>Command line interface</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active">
+        <div class="ldhc-tabs or-horizontal">
+            <div class="ldhc-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+            </div>
+            <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
                     <div>
                         <p>In the administration application, follow these steps:</p>
                         <ol>
-                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
-                            <li>Click on <samp>CONSTRUCT</samp> in the drop-down list that appears</li>
+                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown at the bottom of the page</li>
+                            <li>Click on <samp>CONSTRUCT</samp> in the dropdown list that appears</li>
                             <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns#ProductConstructor</samp></li>
                             <li>Fill out the mandatory fields in the form:
                                 <dl>
                                     <dt>Label</dt>
                                     <dd>Enter <samp>Product constructor</samp></dd>
-                                    <dd>Select <samp>Domain</samp> from the list — this is the ontology in which the query is defined</dd>
+                                    <dt>IsDefinedBy</dt>
+                                    <dd>Select <samp>Namespace</samp> from the list — the application’s namespace ontology, in which the query is defined</dd>
                                     <dt>Text</dt>
                                     <dd>Enter the SPARQL <code>CONSTRUCT</code> query string</dd>
                                 </dl>
@@ -63,50 +62,46 @@ WHERE {}</pre>
                         </ol>
                     </div>
                 </div>
-                <div class="tab-pane">
+            <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
                     <div>
-                            <pre>pwd=$(realpath -s $PWD)
-base="https://localhost:4443/"
+                        <p>Save the query in a file, e.g. <samp>queries/construct-product.rq</samp>. With the <a href="../../reference/command-line-interface/">CLI</a> installed and the <samp>LDH_*</samp> variables set:</p>
+                        <pre>base="https://localhost:4443/"
 admin_base="https://admin.localhost:4443/"
 
 ldh admin ontologies add-constructor \\
   -b "$admin_base" \\
-  -f ./ssl/owner/keystore.p12 \\
-  -p "$owner_cert_password" \\
   --uri "${base}ns#ProductConstructor" \\
   --label "Product constructor" \\
-  --query-file "${pwd}/queries/construct-product.rq" \\
+  --query-file queries/construct-product.rq \\
   "${admin_base}ontologies/namespace/"</pre>
-                        <p>The model lives in the administration application, whose origin is the dataspace origin with an <samp>admin.</samp> prefix — so <code>-b</code> and the target document URL both use <samp>$admin_base</samp>, while the ontology terms being defined keep the end-user origin.</p>
+                        <p>The model lives in the administration application, whose origin is the dataspace origin with an <samp>admin.</samp> prefix — so <code>-b</code> (overriding the <samp>LDH_BASE</samp> default) and the target document URL both use <samp>$admin_base</samp>, because admin commands target the admin app's base URI, while the ontology terms being defined keep the end-user origin.</p>
                     </div>
                 </div>
-            </div>
         </div>
         <p>Follow the same steps for <samp>Category</samp> (<samp>schema:ProductGroup</samp>) if you want its instances to be creatable too.</p>
         <p class="lead"><a href="../../reference/administration/ontologies/#constructors" target="_blank">Read more about constructors.</a></p>
     </div>
     <div>
         <h2 id="create-constraint">Create a constraint</h2>
-        <p>To control data quality, we probably want to make some of the instance properties mandatory. For example, a <samp>schema:Product</samp> instance should always have a <code>schema:name</code> value.</p>
-        <div class="tabbable">
-            <ul class="nav nav-tabs">
-                <li class="active"><a>User interface</a></li>
-                <li><a>Command line interface</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active">
+        <p>To control data quality, you may want to make some of the instance properties mandatory. For example, a <samp>schema:Product</samp> instance should always have a <code>schema:name</code> value.</p>
+        <div class="ldhc-tabs or-horizontal">
+            <div class="ldhc-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-2-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-2-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-2-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-2-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+            </div>
+            <div aria-labelledby="user-interface-2-tab" class="ldhc-tabpanel" id="user-interface-2-pane" role="tabpanel">
                     <div>
                         <p>In the administration application, follow these steps:</p>
                         <ol>
-                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
-                            <li>Click on <samp>Missing property value</samp> in the drop-down list that appears</li>
+                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown at the bottom of the page</li>
+                            <li>Click on <samp>Missing property value</samp> in the dropdown list that appears</li>
                             <li>Fill out the fields in the form:
                                 <dl>
                                     <dt>Label</dt>
                                     <dd>Enter <samp>Missing schema:name</samp></dd>
                                     <dt>IsDefinedBy</dt>
-                                    <dd>Type <samp>Domain</samp> into the input (which provides autocomplete)</dd>
-                                    <dd>Select <samp>Domain</samp> from the list — this is the ontology in which the query is defined</dd>
+                                    <dd>Type <samp>Namespace</samp> into the input (which provides autocomplete)</dd>
+                                    <dd>Select <samp>Namespace</samp> from the list — the application’s namespace ontology, in which the query is defined</dd>
                                     <dt>Arg1</dt>
                                     <dd>Enter <samp>https://schema.org/name</samp></dd>
                                 </dl>
@@ -115,57 +110,52 @@ ldh admin ontologies add-constructor \\
                         </ol>
                     </div>
                 </div>
-                <div class="tab-pane">
+            <div aria-labelledby="command-line-interface-2-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-2-pane" role="tabpanel">
                     <div>
                         <pre>ldh admin ontologies add-property-constraint \\
   -b "$admin_base" \\
-  -f ./ssl/owner/keystore.p12 \\
-  -p "$owner_cert_password" \\
   --uri "${base}ns#MissingName" \\
   --label "Missing schema:name" \\
   --property "https://schema.org/name" \\
   "${admin_base}ontologies/namespace/"</pre>
                     </div>
                 </div>
-            </div>
         </div>
         <p class="lead"><a href="../../reference/administration/ontologies/#constraints" target="_blank">Read more about constraints.</a></p>
     </div>
     <div>
         <h2 id="create-classes">Create classes</h2>
-        <div class="tabbable">
-            <ul class="nav nav-tabs">
-                <li class="active"><a>User interface</a></li>
-                <li><a>Command line interface</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active">
+        <div class="ldhc-tabs or-horizontal">
+            <div class="ldhc-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-3-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-3-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-3-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-3-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+            </div>
+            <div aria-labelledby="user-interface-3-tab" class="ldhc-tabpanel" id="user-interface-3-pane" role="tabpanel">
                     <div>
                         <p>In the administration application, follow these steps to create the product class:</p>
                         <ol>
-                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
-                            <li>Click on <samp>Class</samp> in the drop-down list that appears</li>
-                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://schema.org/Product</samp> — we reuse the schema.org term rather than minting our own</li>
+                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown at the bottom of the page</li>
+                            <li>Click on <samp>Class</samp> in the dropdown list that appears</li>
+                            <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://schema.org/Product</samp> — reusing the schema.org term rather than minting your own</li>
                             <li>Fill out the mandatory fields in the form:
                                 <dl>
                                     <dt>Label</dt>
                                     <dd>Enter <samp>Product</samp></dd>
-                                    <dd>Select <samp>Domain</samp> from the list — this is the ontology in which the class is defined</dd>
+                                    <dt>IsDefinedBy</dt>
+                                    <dd>Select <samp>Namespace</samp> from the list — the application’s namespace ontology, in which the class is defined</dd>
                                     <dt>Constructor</dt>
                                     <dd>Type <samp>Product constructor</samp> into the input (which provides autocomplete)</dd>
-                                    <dd>Select <samp>Product constructor</samp> from the list — this is the query we created beforehand</dd>
+                                    <dd>Select <samp>Product constructor</samp> from the list — this is the query you created beforehand</dd>
                                 </dl>
                             </li>
                             <li>Click <span class="btn btn-primary btn-save">Save</span></li>
                         </ol>
                     </div>
                 </div>
-                <div class="tab-pane">
+            <div aria-labelledby="command-line-interface-3-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-3-pane" role="tabpanel">
                     <div>
                         <pre>ldh admin ontologies add-class \\
   -b "$admin_base" \\
-  -f ./ssl/owner/keystore.p12 \\
-  -p "$owner_cert_password" \\
   --uri "https://schema.org/Product" \\
   --label "Product" \\
   --constructor "${base}ns#ProductConstructor" \\
@@ -173,13 +163,11 @@ ldh admin ontologies add-constructor \\
   "${admin_base}ontologies/namespace/"</pre>
                     </div>
                 </div>
-            </div>
         </div>
-        <p>Follow the same steps for <samp>Category</samp>.</p>
         <p class="lead"><a href="../../reference/administration/ontologies/#classes" target="_blank">Read more about classes.</a></p>
     </div>
     <div>
-        <h2 id="result">What the commands wrote</h2>
+        <h2 id="result">What ended up in the model</h2>
         <p>The three steps added the following description to the namespace ontology document — the same wiring the demo app ships:</p>
         <pre>schema:Product spin:constructor &lt;https://localhost:4443/ns#ProductConstructor&gt; ;
     spin:constraint &lt;https://localhost:4443/ns#MissingName&gt; ;
@@ -192,9 +180,9 @@ ldh admin ontologies add-constructor \\
 &lt;https://localhost:4443/ns#MissingName&gt; a ldh:MissingPropertyValue ;
     rdfs:label "Missing schema:name" ;
     sp:arg1 schema:name .</pre>
-        <p>From now on <samp>Product</samp> appears in the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown of the
-            end-user application, its form offers the name, identifier, category and supplier controls, and a submission without a name is rejected with
-            <samp>422 Unprocessable Entity</samp> carrying the <a href="../../reference/administration/ontologies/#constraints" target="_blank">constraint violation</a>.</p>
+        <p>From now on, <samp>Product</samp> appears in the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown of the
+            end-user application, and its form offers name, identifier, category and supplier controls. A submission without a name is rejected with
+            <samp>422 Unprocessable Entity</samp>, carrying the <a href="../../reference/administration/ontologies/#constraints" target="_blank">constraint violation</a>.</p>
         <div class="screenshot-placeholder">
             <span class="msi" aria-hidden="true">image</span>
             <p>Screenshot: the generated Product create form, with the Missing schema:name violation shown after an empty submit</p>

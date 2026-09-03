@@ -12,8 +12,9 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Access control and domain model management</p>
-    <p>Administration is provided in a separate LinkedDataHub application, which is paired with each <a href="../dataspace/#end-user-apps">end-user
-        application</a>.</p>
+    <p>Each <a href="../dataspace/#end-user-apps">end-user application</a> is paired with a separate administration application.</p>
+    <p>The administration application manages the assets that govern its end-user application: <a href="ontologies/">ontologies</a>,
+        <a href="acl/">access control</a>, and <a href="packages/">packages</a>. Only dataspace owners have access to it.</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Object ;

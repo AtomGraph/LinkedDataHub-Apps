@@ -17,7 +17,8 @@
 2,Condiments,Sweet and savory sauces relishes spreads and seasonings,6e5d9df213a6c46b4f75e9ba2e321436f80d8bed</pre>
     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/categories.csv" target="_blank">categories/categories.csv</a></p>
     <p>LinkedDataHub <a href="../../reference/imports/csv/" target="_blank">imports CSV</a> by running a SPARQL <code>CONSTRUCT</code> mapping over each
-        row: the row's cells are bound as properties of a row resource, and the query builds the RDF you want from them. The mapping for categories, <samp>categories.rq</samp>:</p>
+        row: the row's cells are bound as properties of a row resource, and the query builds the RDF you want from them. Each column becomes a predicate named after its header, resolved against the
+        imported file's URI — the <samp>categoryID</samp> column binds as <code>&lt;#categoryID&gt;</code>. The mapping for categories, <samp>categories.rq</samp>:</p>
     <pre>PREFIX foaf:       &lt;http://xmlns.com/foaf/0.1/&gt;
 PREFIX dct:        &lt;http://purl.org/dc/terms/&gt;
 PREFIX schema:     &lt;https://schema.org/&gt;
@@ -53,14 +54,16 @@ WHERE
     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/categories.rq" target="_blank">categories/categories.rq</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/1/" target="_blank">/categories/1/</a></p>
     <p>The four <code>BIND</code>s carry the whole document model of the import:</p>
     <ul>
-        <li><code>?container</code> — the target container from the <a href="../structure/">Structure</a> stage, resolved against <code>$base</code></li>
+        <li><code>?container</code> — the target container from the <a href="../structure/">Structure</a> stage, resolved against <code>$base</code>, which LinkedDataHub binds to the application's
+            base URI when the mapping runs</li>
         <li><code>?graph</code> — one document (named graph) per row, minted inside the container from the row's identifier</li>
         <li><code>?category</code> — the document's topic: the document is <em>about</em> the category, so the category is a <samp>#this</samp> fragment of it</li>
         <li><code>?picture</code> — the category's image, addressed by the content hash the CSV carries (the <a href="../media/">Media</a> stage explains why that works)</li>
     </ul>
     <div>
         <h2 id="browser">In the browser</h2>
-        <p>Create the import from the UI — upload the CSV file, pick the mapping query and the target container — following the <a href="../../user-guide/import-data/import-csv-data/" target="_blank">Import CSV data</a>
+        <p>Upload the CSV file, save the mapping query as a <samp>CONSTRUCT</samp> document, then create a <samp>CSV Import</samp> that pairs the two with the target container — three passes through
+            the <span class="btn btn-primary create-action">Create</span> dropdown, walked through step by step in the <a href="../../user-guide/import-data/import-csv-data/" target="_blank">Import CSV data</a>
             guide.</p>
     </div>
     <div>
@@ -73,9 +76,10 @@ employees/employees.rq,employees/employees.csv,employees/,Employees
 orders/orders.rq,orders/orders.csv,orders/,Orders
 ...</pre>
         <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/imports.csv" target="_blank">imports.csv</a></p>
-        <p>and replays it with a small loop over the <a href="../../reference/command-line-interface/" target="_blank">CLI</a>: each line saves its mapping query with
-            <samp>ldh add-construct</samp> and pairs it with the CSV file and target container in an import created with <samp>ldh imports add-csv-import</samp>. For a single import
-            (the CSV file is uploaded first with <samp>ldh add-file</samp>, which prints the upload URI the import refers to — the <a href="../media/">Media</a> stage covers uploads):</p>
+        <p>A small loop over the <a href="../../reference/command-line-interface/" target="_blank">CLI</a> replays the manifest: each line saves its mapping query with
+            <samp>ldh add-construct</samp>, then pairs it with the CSV file and target container in an import created with <samp>ldh imports add-csv-import</samp>.</p>
+        <p>Upload the CSV first with <samp>ldh add-file</samp>, which prints the upload URI the import refers to (the <a href="../media/">Media</a> stage covers uploads). A single import
+            then looks like this:</p>
         <pre>ldh add-construct \\
   --uri "#categories-query" \\
   --title "Categories" \\
@@ -88,17 +92,25 @@ ldh imports add-csv-import \\
   --file "$csv_upload_uri" \\
   "${LDH_BASE}categories/"</pre>
         <p>(The readable <samp>#categories-query</samp> fragment is this tutorial's choice; the demo's <samp>import-csv.sh</samp> mints a UUID fragment per query instead.)</p>
-        <p>Imports run asynchronously — each one is itself a document that records its status.</p>
+        <p>Imports run asynchronously. Each import is itself a document that records its status — reload it to see progress, the amount of imported data on success, or the constraint
+            violations on failure.</p>
     </div>
     <div>
         <h2 id="result">What you now see</h2>
         <p>The Categories container lists eight category documents. Open one: the category renders with its name, description and identifier, typed as a product group — with the labels coming from
-            the <a href="../model/">Model</a> stage. Repeat the pattern for the remaining entities and the Knowledge Graph fills in, orders linking to products, products to suppliers and
+            the <a href="../model/">Model</a> stage. Repeat the pattern for the remaining entities and the Knowledge Graph fills in: orders link to products, products to suppliers and
             categories.</p>
         <div class="screenshot-placeholder">
             <span class="msi" aria-hidden="true">image</span>
             <p>Screenshot: the Categories container listing after the import</p>
         </div>
+    </div>
+    <div>
+        <h2 id="how-this-works">How this works</h2>
+        <ul>
+            <li><a href="../../reference/imports/csv/" target="_blank">CSV imports</a> — the import pipeline: file, mapping query, import resource, validation</li>
+            <li><a href="../../reference/imports/#mapping-queries" target="_blank">Mapping queries</a> — the rules mapping queries follow, with an annotated skeleton</li>
+        </ul>
     </div>
     <p class="lead">Next: <a href="../media/">Media</a></p>
 </div>"""^^rdf:XMLLiteral .

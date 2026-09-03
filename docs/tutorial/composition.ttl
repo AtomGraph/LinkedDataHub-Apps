@@ -13,36 +13,52 @@
     <p class="lead">Assemble the landing page from content blocks</p>
     <p>Everything the app can show is now in place — text, data, charts, views. The landing page is their composition: an ordered sequence of
         <a href="../../reference/data-model/blocks/" target="_blank">content blocks</a> on the root document. Two block types exist: <code>ldh:XHTML</code> holds authored markup, and
-        <code>ldh:Object</code> embeds any other resource — a chart, a view, a document. Anything that is not markup gets wrapped in an object block.</p>
+        <code>ldh:Object</code> embeds any other resource — a chart, a view, a document.</p>
     <p>The demo's finished root document interleaves them into an executive dashboard:</p>
     <pre>&lt;&gt; a def:Root ;
     dct:title "Northwind Traders" ;
-    rdf:_1 &lt;#overview-intro&gt; ;       # XHTML   — "Executive dashboard" intro
-    rdf:_2 &lt;#sales-trend-block&gt; ;    # Object  — monthly sales line chart
-    rdf:_3 &lt;#margin-intro&gt; ;         # XHTML   — "What the deals cost"
-    rdf:_4 &lt;#discount-rate-block&gt; ;  # Object  — discount rate line chart
-    rdf:_5 &lt;#revenue-by-country-block&gt; ; # Object — revenue by country bar chart
-    rdf:_6 &lt;products/#top-selling-products&gt; ; # Object — chart reused from Products
-    rdf:_7 &lt;#top-manager-header&gt; ;   # XHTML   — "Sales leadership"
-    rdf:_8 &lt;#top-manager&gt; ;          # Object  — embeds &lt;employees/2/#this&gt;
-    rdf:_9 &lt;#navigation-prompt&gt; ;    # XHTML   — where to go next
-    rdf:_10 &lt;#select-children&gt; .     # Object  — children view</pre>
+    rdf:_1 &lt;#overview-intro&gt; ;                 # XHTML   — "Executive dashboard" intro
+    rdf:_2 &lt;#sales-trend-block&gt; ;              # Object  — monthly sales line chart
+    rdf:_3 &lt;#margin-intro&gt; ;                   # XHTML   — "What the deals cost"
+    rdf:_4 &lt;#discount-rate-block&gt; ;            # Object  — discount rate line chart
+    rdf:_5 &lt;#revenue-by-country-block&gt; ;       # Object  — revenue by country bar chart
+    rdf:_6 &lt;products/#top-selling-products&gt; ;  # Object  — chart reused from Products
+    rdf:_7 &lt;#top-manager-header&gt; ;             # XHTML   — "Sales leadership"
+    rdf:_8 &lt;#top-manager&gt; ;                    # Object  — embeds &lt;employees/2/#this&gt;
+    rdf:_9 &lt;#navigation-prompt&gt; ;              # XHTML   — where to go next
+    rdf:_10 &lt;#select-children&gt; .               # Object  — children view</pre>
     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/root.ttl" target="_blank">root.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">the dashboard</a></p>
     <p>Two of the blocks show how far transclusion reaches. <code>rdf:_6</code> embeds a chart that is <em>defined on the Products container</em> — the same
         resource renders on both pages, so an insight is authored once and placed wherever it is needed. <code>rdf:_8</code> embeds a plain data resource:
-        <code>&lt;employees/2/#this&gt;</code>, the Vice President of Sales, rendered with his description and photo — no special "profile widget" exists, the
-        default rendering of the resource is the widget.</p>
-    <p>The narrative rhythm — prose, then evidence, then prose — is an editorial choice, and it is made entirely in data: reordering the page is renumbering <code>rdf:_N</code>. In the browser the
-        same composition is drag-and-drop in edit mode; from the command line it is the <samp>root.ttl</samp> from the <a href="../hello-dataspace/">first stage</a> grown to its final form, applied
-        with the same <code>PUT</code>.</p>
+        <code>&lt;employees/2/#this&gt;</code>, the Vice President of Sales, rendered with his description and photo — no special profile widget exists; the
+        default rendering of the resource <em>is</em> the widget.</p>
+    <p>The narrative rhythm — prose, then evidence, then prose — is an editorial choice, and it is made entirely in data: reordering the page means renumbering <code>rdf:_N</code>.</p>
+    <div>
+        <h2 id="browser">In the browser</h2>
+        <p>With the <a href="../../reference/user-interface/#layout-modes" target="_blank">Content layout mode</a> active, append blocks with the
+            <span class="btn btn-primary create-action">XHTML</span> and <span class="btn btn-primary create-action">Object</span> buttons at the bottom of the page. Reorder by dragging a block by
+            its drag handle and dropping it in a different position.</p>
+    </div>
+    <div>
+        <h2 id="cli">From the command line</h2>
+        <p>The composition is the <samp>root.ttl</samp> of the <a href="../hello-dataspace/">first stage</a>, grown to its final form and applied with the same <code>PUT</code>:</p>
+        <pre>ldh put -t text/turtle "$LDH_BASE" &lt; root.ttl</pre>
+        <p>To reorder, renumber the <code>rdf:_N</code> properties in the file and <code>PUT</code> it again — <code>PUT</code> replaces the document's description outright.</p>
+    </div>
     <div>
         <h2 id="result">What you now see</h2>
-        <p>The homepage is the finished application: branded header, live charts over the imported graph, and navigation into the containers — every pixel of it a rendering of one document's
+        <p>The homepage is the finished application: branded header, live charts over the imported graph, and navigation into the containers — all of it driven by one document's
             description.</p>
         <div class="screenshot-placeholder">
             <span class="msi" aria-hidden="true">image</span>
             <p>Screenshot: the finished Northwind landing page</p>
         </div>
+    </div>
+    <div>
+        <h2 id="how-this-works">How this works</h2>
+        <ul>
+            <li><a href="../../reference/data-model/blocks/" target="_blank">Content blocks</a> — XHTML and object blocks, their RDF serialization and their management</li>
+        </ul>
     </div>
     <p class="lead">Next: <a href="../publish/">Publish</a></p>
 </div>"""^^rdf:XMLLiteral .

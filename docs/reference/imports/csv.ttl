@@ -3,25 +3,30 @@
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
-  
+
 <> a dh:Item ;
     dct:title "CSV imports" ;
     dct:description "CSV imports and mapping to RDF using SPARQL CONSTRUCT" ;
     rdf:_1 <#content> .
-    
+
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">CSV imports and mapping to RDF using SPARQL CONSTRUCT</p>
     <p><a href="https://en.wikipedia.org/wiki/Comma-separated_values" target="_blank">CSV</a> is a plain-text format for
-      tabular data.</p>
+        tabular data.</p>
+    <div class="alert alert-info">
+        <p>Read the shared <a href="../#mapping-queries">mapping query rules</a> first — they apply to CSV and RDF imports alike.</p>
+    </div>
     <p>A CSV import is a combination of multiple resources:</p>
     <dl>
         <dt>File</dt>
-        <dd>The CSV file to be mapped to RDF and imported</dd>
+        <dd>The CSV file to be mapped to RDF and imported (<code>ldh:file</code>)</dd>
         <dt>Mapping query</dt>
-        <dd>A user-defined <code>CONSTRUCT</code> query that produces RDF</dd>
+        <dd>A user-defined <code>CONSTRUCT</code> query that produces RDF (<code>spin:query</code>)</dd>
+        <dt>Delimiter</dt>
+        <dd>The single-character column separator (<code>ldh:delimiter</code>). The CLI defaults it to <samp>,</samp></dd>
     </dl>
-    <p>CSV import in LinkedDataHub consists of 2 steps:</p>
+    <p>A CSV import in LinkedDataHub has two steps:</p>
     <ol>
         <li>
             <a href="#generic-conversion">generic conversion</a> creates an intermediary, generic CSV/RDF representation for each CSV row
@@ -30,13 +35,10 @@
             <a href="#vocabulary-conversion">vocabulary conversion</a> maps the CSV/RDF to the final RDF representation using the mapping query
         </li>
     </ol>
-    <p>The import process runs in the background, i.e. the import item is created before the process completes.
-        Currently the only way to determine when it completes is to refresh the import item and check the import
-        status (completed/failed). Upon successful report, metadata such as the number of imported RDF triples is attached
-        to the import.</p>
-    <p>The mapping is done <em>one row at a time</em>, with each row resulting in a new created document, which should attach to the <a href="../../dataset/#structure">document hierarchy</a>. The documents have to be URI resources. The server will automatically assign URIs for the documents constructed in the default graph. Alternatively, it is possible to explicitly specify the document graph using a <code>GRAPH</code> block in the <code>CONSTRUCT</code> template (which is a
-    <a href="https://jena.apache.org/documentation/query/construct-quad.html" target="_blank">Jena-specific extension</a> of SPARQL 1.1).</p>
-    <p>The resulting RDF data is validated against <a href="../../administration/ontologies/#constraints">constraints</a> in the process. Constraint violations, if any, are attached to the import item.</p>
+    <p>Imports run in the background — see <a href="../#execution">import execution</a>.</p>
+    <p>The mapping is done <em>one row at a time</em>, with each row resulting in a newly created document, which must be attached to the <a href="../../dataset/#structure">document hierarchy</a>. The documents have to be URI resources. The server will automatically assign URIs to the documents constructed in the default graph. Alternatively, it is possible to explicitly specify the document graph using a <code>GRAPH</code> block in the <code>CONSTRUCT</code> template (which is a
+        <a href="https://jena.apache.org/documentation/query/construct-quad.html" target="_blank">Jena-specific extension</a> of SPARQL 1.1).</p>
+    <p>The resulting RDF data is validated against <a href="../../administration/ontologies/#constraints">constraints</a> as it is created. Constraint violations, if any, are attached to the import item.</p>
     <p>The running example in the following sections is the Northwind Traders category data, exactly as the
         <a href="../../../tutorial/data/">tutorial</a> and the demo app import it:</p>
     <pre>categoryID,categoryName,description,pictureHash
@@ -51,40 +53,40 @@
     ldh:file &lt;https://localhost:4443/uploads/41049b79a4a6e8407a0e878c6e4943ea824a7f1f&gt; ;
     ldh:delimiter "," .</pre>
     <div>
-        <h3 id="generic-conversion">Generic conversion</h3>
+        <h2 id="generic-conversion">Generic conversion</h2>
         <p>The data table is converted to a graph by treating rows as resources, columns as predicates, and
-          cells as <code>xsd:string</code> literals. The approach is the same as CSV on the Web
-          <a href="https://www.w3.org/TR/2015/REC-csv2rdf-20151217/#dfn-minimal-mode" target="_blank">minimal mode</a>.</p>
-          <pre>@base &lt;https://localhost:4443/&gt; .
+            cells as <code>xsd:string</code> literals. The approach is the same as CSV on the Web
+            <a href="https://www.w3.org/TR/2015/REC-csv2rdf-20151217/#dfn-minimal-mode" target="_blank">minimal mode</a>.</p>
+        <pre>@base &lt;https://localhost:4443/&gt; .
 
 _:8228a149-8efe-448d-b15f-8abf92e7bd17
-&lt;#categoryID&gt; "1" ;
-&lt;#categoryName&gt; "Beverages" ;
-&lt;#description&gt; "Soft drinks coffees teas beers and ales" ;
-&lt;#pictureHash&gt; "5e1be0328ca2c694d1de6f5b1b3d3b1ce90cb41f" .
+    &lt;#categoryID&gt; "1" ;
+    &lt;#categoryName&gt; "Beverages" ;
+    &lt;#description&gt; "Soft drinks coffees teas beers and ales" ;
+    &lt;#pictureHash&gt; "5e1be0328ca2c694d1de6f5b1b3d3b1ce90cb41f" .
 
 _:ec59dcfc-872a-4144-822b-9ad5e2c6149c
-&lt;#categoryID&gt; "2" ;
-&lt;#categoryName&gt; "Condiments" ;
-&lt;#description&gt; "Sweet and savory sauces relishes spreads and seasonings" ;
-&lt;#pictureHash&gt; "6e5d9df213a6c46b4f75e9ba2e321436f80d8bed" .
+    &lt;#categoryID&gt; "2" ;
+    &lt;#categoryName&gt; "Condiments" ;
+    &lt;#description&gt; "Sweet and savory sauces relishes spreads and seasonings" ;
+    &lt;#pictureHash&gt; "6e5d9df213a6c46b4f75e9ba2e321436f80d8bed" .
 
 _:e8f2e8e9-3d02-4bf5-b4f1-4794ba5b52c9
-&lt;#categoryID&gt; "3" ;
-&lt;#categoryName&gt; "Confections" ;
-&lt;#description&gt; "Desserts candies and sweet breads" ;
-&lt;#pictureHash&gt; "c158852927adca461b57d6a1db332eaa38ff35e6" .</pre>
+    &lt;#categoryID&gt; "3" ;
+    &lt;#categoryName&gt; "Confections" ;
+    &lt;#description&gt; "Desserts candies and sweet breads" ;
+    &lt;#pictureHash&gt; "c158852927adca461b57d6a1db332eaa38ff35e6" .</pre>
     </div>
     <div>
-        <h3 id="vocabulary-conversion">Vocabulary conversion</h3>
-        <p>This step provides a semantic "lift" for the generic RDF output of the previous step by mapping it
-            to classes and properties from specific vocabularies. It also connects instances in the imported data to the documents in LinkedDataHub's <a href="../../dataset/" target="_blank">dataset</a>.</p>
+        <h2 id="vocabulary-conversion">Vocabulary conversion</h2>
+        <p>This step provides a semantic lift for the generic RDF output of the previous step by mapping it
+            to classes and properties from specific vocabularies. It also connects instances in the imported data to the documents in LinkedDataHub's <a href="../../dataset/">dataset</a>.</p>
         <p>The mapping is a user-defined SPARQL <code>CONSTRUCT</code> that follows the shared <a href="../#mapping-queries">mapping query rules</a>.</p>
         <div>
-            <h4 id="vocabulary-conversion-example">Example</h4>
+            <h3 id="vocabulary-conversion-example">Example</h3>
             <p>The demo's category mapping constructs a <code>schema:ProductGroup</code> per row and mints each row its own document with a
                 <code>GRAPH</code> block:</p>
-            <pre><code>PREFIX foaf:       &lt;http://xmlns.com/foaf/0.1/&gt;
+            <pre>PREFIX foaf:       &lt;http://xmlns.com/foaf/0.1/&gt;
 PREFIX dct:        &lt;http://purl.org/dc/terms/&gt;
 PREFIX schema:     &lt;https://schema.org/&gt;
 
@@ -115,11 +117,11 @@ WHERE
     BIND(uri(concat(str(?container), encode_for_uri(?categoryID), "/")) AS ?graph)
     BIND(uri(concat(str(?graph), "#this")) AS ?category)
     BIND(uri(concat(str($base), "uploads/", encode_for_uri(?pictureHash))) AS ?picture)
-}</code></pre>
+}</pre>
             <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/categories.rq" target="_blank">categories/categories.rq</a></p>
             <p>(A mapping can also construct <code>dh:Item</code> resources in the default graph and let the server assign the document URIs,
                 as described above — the <code>GRAPH</code> form gives the import full control over the URIs instead.)</p>
-            <p>When the import is complete, you should be able to see the imported documents as children of the <samp>${base}categories/</samp> container.
+            <p>When the import is complete, the imported documents appear as children of the <samp>{base}categories/</samp> container.
                 The Beverages row becomes:</p>
             <pre>PREFIX  dct:  &lt;http://purl.org/dc/terms/&gt;
 PREFIX  foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
@@ -139,7 +141,31 @@ PREFIX  schema: &lt;https://schema.org/&gt;
             <p class="exhibit-links">Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/1/" target="_blank">/categories/1/</a></p>
         </div>
     </div>
-    <p class="lead">If you are ready to import some CSV, see our step-by-step tutorial on <a href="../../../user-guide/import-data/import-csv-data/">creating an CSV import</a>.</p>
+    <div>
+        <h2 id="management">Management</h2>
+        <div>
+            <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>CLI command</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Create CSV import from an uploaded file and a query (<samp>--file</samp>, <samp>--query</samp>, <samp>--delimiter</samp>)</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh imports add-csv-import</samp></a></td>
+                    </tr>
+                    <tr>
+                        <th>Import a local CSV file end-to-end (<samp>--csv-file</samp>, <samp>--query-file</samp>, <samp>--delimiter</samp>)</th>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh imports import-csv</samp></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <p class="lead">If you are ready to import some CSV, follow the user guide on <a href="../../../user-guide/import-data/import-csv-data/">creating a CSV import</a>.</p>
 </div>"""^^rdf:XMLLiteral ;
         rdfs:seeAlso <https://www.w3.org/TR/2015/REC-csv2rdf-20151217/>,
             <https://www.w3.org/TR/sparql11-query/#construct> .
