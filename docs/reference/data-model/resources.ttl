@@ -250,17 +250,24 @@ ORDER BY DESC(?revenue)''' .
                 <li>Project IRIs that are stored <em>locally</em>. An IRI that only occurs as an object but is not itself described in the dataset — for example an external image URL — contributes no triples.</li>
                 <li>Project a <em>single</em> entity type. Projecting several resource variables of different types blends their descriptions into one result set, which rarely renders coherently; select the one type you want to list and reach the related resources through their properties instead.</li>
             </ul>
-            <p>Side by side: the left query drives the categories grid above. The right one <em>looks</em> equivalent, but it projects the name literal
-                instead of the category resource — so it describes nothing and renders an empty view:</p>
-            <pre># renders category documents          # renders nothing
-SELECT DISTINCT ?category             SELECT DISTINCT ?categoryName
-WHERE {                               WHERE {
-    GRAPH ?doc {                          GRAPH ?doc {
-        ?category                             ?category
-            a schema:ProductGroup ;               a schema:ProductGroup ;
-            schema:name ?categoryName             schema:name ?categoryName
-    }                                     }
-}                                     }</pre>
+            <p>The query that drives the categories grid above projects the category resource, so the view renders the category documents:</p>
+            <pre>SELECT DISTINCT ?category
+WHERE {
+    GRAPH ?doc {
+        ?category
+            a schema:ProductGroup ;
+            schema:name ?categoryName
+    }
+}</pre>
+            <p>This query <em>looks</em> equivalent, but it projects the name literal instead of the category resource — so it describes nothing and renders an empty view:</p>
+            <pre>SELECT DISTINCT ?categoryName
+WHERE {
+    GRAPH ?doc {
+        ?category
+            a schema:ProductGroup ;
+            schema:name ?categoryName
+    }
+}</pre>
         </div>
         <div>
             <h3 id="view-layout-modes">Layout modes</h3>
