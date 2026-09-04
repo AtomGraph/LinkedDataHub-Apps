@@ -20,7 +20,7 @@
     </div>
     <div class="screenshot-placeholder">
         <span aria-hidden="true" class="msi">image</span>
-        <p>Screenshot: the application layout: navigation bar, action bar, sidebars and content</p>
+        <p>Screenshot: the application layout: navigation bar, action bar, sidebar and content</p>
     </div>
     <div>
         <h2 id="nav-bar">Navigation bar</h2>
@@ -30,7 +30,10 @@
         </div>
         <p>The application title or logo in the top-left always links to the root container of the current application.</p>
         <p>The <dfn>address bar</dfn> in the middle accepts the URI of a resource to navigate to. Entering an external <code>http://</code> or <code>https://</code> URL loads it through the <a href="../http-api/#ld-proxy">Linked Data proxy</a> so that it can be browsed within LinkedDataHub.</p>
-        <p>On the right, dropdown menus provide access to the list of applications and to your user account.</p>
+        <p>On the right, dropdown menus provide access to the list of applications, to the settings, and to your user account. For authenticated users, the settings menu opens the application settings form and links to the <a href="../administration/">administration</a> application and to the dataspace's namespace ontology.</p>
+        <div class="alert alert-info">
+            <p>Only administration users have access to the administration application.</p>
+        </div>
         <div class="alert alert-info">
             <p>Due to current web browser limitations, it is not possible to log out when using client certificate authentication.
               As a workaround, you can close the browser and click <span class="btn">Cancel</span> when asked to select a
@@ -41,27 +44,23 @@
         <h2 id="action-bar">Action bar</h2>
         <div class="screenshot-placeholder">
             <span aria-hidden="true" class="msi">image</span>
-            <p>Screenshot: the action bar with the Create button, breadcrumbs and document actions</p>
+            <p>Screenshot: the action bar with the Create and Add dropdowns, breadcrumbs, timestamp, and the Actions, layout mode and export dropdowns</p>
         </div>
-        <p>The <span class="btn btn-primary create-action">Create <span class="caret"></span></span> button opens a dialog through which
-        child <a href="../data-model/documents/">documents</a> can be created. To add resources or content blocks inside the current document, use the
-        <a href="#creation-bar">creation bar</a> instead.</p>
+        <p>The action bar below the navigation bar groups the controls of the current document into three zones.</p>
+        <p>On the left, the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown opens a dialog through which
+        child <a href="../data-model/documents/">documents</a> can be created; it appears on <a href="../data-model/documents/#containers">containers</a> for users with write access. To add resources or content blocks inside the current document, use the
+        <a href="#creation-bar">creation bar</a> instead. Next to it, the <span class="btn">Add</span> dropdown collects data-generating actions for users with append access: <samp>Generate containers</samp> on end-user applications, <samp>Import ontology</samp> on administration applications.</p>
         <p>The path leading from the current document up the parent/child hierarchy to the root container is shown in
-        the <dfn>breadcrumb bar</dfn>, where the current document is always the last breadcrumb. The user can always
-        open any ancestor container by clicking a breadcrumb to the left of the current one. The icon shows the
-        type of the current document (<a href="../data-model/documents/#containers">container</a> or <a href="../data-model/documents/#items">item</a>). A label is displayed when the URL currently being browsed is external.</p>
-        <p>Further to the right, the action bar displays buttons for performing actions on the current document.</p>
-        <p>In dataspaces with <a href="../versioning/">versioning</a> enabled, the action bar also shows the document's last-modified timestamp. Clicking it opens the <a href="../../user-guide/version-history/">version history</a> dialog, which lists the document's versions with the agents that authored them.</p>
-        <p>The settings button provides a link to the <a href="../administration/">administration</a>
-        application.</p>
-        <div class="alert alert-info">
-            <p>Only administration users have access to the administration application.</p>
-        </div>
+        the <dfn>breadcrumb bar</dfn> in the middle, where the current document is always the last breadcrumb. The user can always
+        open any ancestor container by clicking a breadcrumb to the left of the current one. Each breadcrumb carries an icon showing the
+        type of its document (<a href="../data-model/documents/#containers">container</a> or <a href="../data-model/documents/#items">item</a>); external resources carry a link icon.</p>
+        <p>Next to the breadcrumbs, the action bar shows the document's last-modified timestamp, when the document has one. In dataspaces with <a href="../versioning/">versioning</a> enabled, clicking the timestamp opens the <a href="../../user-guide/version-history/">version history</a> dialog, which lists the document's versions with the agents that authored them.</p>
+        <p>On the right, the <span class="btn">Actions</span> dropdown collects the actions on the current document: <samp>Edit</samp>, <samp>Access</samp>, <samp>Save as</samp> and <samp>Delete</samp>. It appears for authenticated users, and the actions that modify the document are enabled only with write access. Beside it sit the <a href="#layout-modes">layout mode</a> selector and the export dropdown, which downloads the current document in the chosen RDF serialization: RDF/XML, Turtle or JSON-LD.</p>
     </div>
     <div>
         <h2 id="left-sidebar">Left sidebar</h2>
         <p>The left sidebar is the main way to navigate your data. At the top, the <dfn>search box</dfn> finds resources within the current application that have the specified keyword in their titles, descriptions etc.; results are shown in a dropdown list. Below the search box, the sidebar offers complementary ways to browse the dataspace — by document hierarchy, by class, and through a few other data-driven views.</p>
-        <p>On wide screens, the sidebar folds out when the mouse is moved to the left edge of the screen and hides again when the mouse leaves it. On narrow screens, it is always shown.</p>
+        <p>The sidebar slides out over the page when the mouse is moved to the left edge of the screen and hides again when the mouse leaves it.</p>
         <h3 id="document-hierarchy">Document hierarchy navigation</h3>
         <p>The document tree shows the document hierarchy of the dataspace. Clicking a container expands it to show its children.</p>
         <h3 id="class-navigation">Class-based navigation</h3>
@@ -86,18 +85,14 @@
         </dl>
     </div>
     <div>
-        <h2 id="right-sidebar">Right sidebar</h2>
+        <h2 id="backlinks">Backlinks</h2>
         <div class="screenshot-placeholder">
             <span aria-hidden="true" class="msi">image</span>
-            <p>Screenshot: the right sidebar on a Northwind order page, backlinks and related results visible</p>
+            <p>Screenshot: the links popover open on a Northwind order block, backlink rows visible</p>
         </div>
-        <p>A right sidebar appears alongside the main view to show navigation into and out of the current data:</p>
-        <dl>
-            <dt>Backlinks</dt>
-            <dd>In <a href="#layout-modes">properties mode</a>, lists resources that link <em>to</em> a resource in the current document — that is, resources that have a property whose value is that resource. This complements the outgoing properties shown in the main view.</dd>
-            <dt>Related results</dt>
-            <dd>For <a href="../data-model/resources/#views">view</a> result sets, <a href="../data-model/resources/#parallax">parallax</a> navigation lets you jump from the current results to a related set by following a selected property (for example, from a set of products to the companies that supply them). It works together with the view's faceted search.</dd>
-        </dl>
+        <p>Backlinks list the resources that link <em>to</em> a resource — that is, resources that have a property whose value is that resource. They complement the outgoing properties shown in the resource's own description.</p>
+        <p>Backlinks are per block: every block whose resource has a URI carries its own links button and popover, so in <a href="#layout-modes">Properties mode</a> each resource in the document offers the backlinks of that resource. The button sits among the block header's actions; XHTML blocks anchor it in the card's top-right corner, and views place it in the view toolbar. The backlink rows are loaded when the popover is first opened, and opening one popover closes the others.</p>
+        <p>For <a href="../data-model/resources/#views">view</a> result sets, <a href="../data-model/resources/#parallax">parallax</a> navigation plays the complementary role: it lets you jump from the current results to a related set by following a property in either direction (for example, from a set of products to the companies that supply them). It works together with the view's faceted search.</p>
     </div>
     <div>
         <h2 id="layout-modes">Layout modes</h2>
@@ -105,7 +100,7 @@
             <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: the Northwind orders container in each layout mode: content, properties, map (territories), chart, graph</p>
         </div>
-        <p>The active document <dfn>layout mode</dfn> is displayed in, and can be changed using, the mode selector at the top of the page.</p>
+        <p>The active document <dfn>layout mode</dfn> is displayed in, and can be changed using, the mode selector in the <a href="#action-bar">action bar</a>.</p>
         <p>Currently supported document layout modes:</p>
         <dl>
             <dt>Content</dt>
@@ -126,12 +121,12 @@
     <div>
         <h2 id="creation-bar">Creation bar</h2>
         <p>The creation bar creates resources and content blocks inside the current document, while the <a href="#action-bar">action bar</a>'s
-        <span class="btn">Create</span> button creates child documents. The creation bar serves different functions depending on the current mode:</p>
+        <span class="btn">Create</span> dropdown creates child documents. It renders as a sticky bar docked at the bottom of the page, appears for users with append access, and serves different functions depending on the current mode:</p>
         <dl>
             <dt>Content</dt>
-            <dd>Appends new content blocks to the page</dd>
+            <dd>The <span class="btn btn-primary create-action">XHTML</span> and <span class="btn btn-primary create-action">Object</span> buttons append new <a href="../data-model/blocks/">content blocks</a> to the page</dd>
             <dt>Properties</dt>
-            <dd>Creates a new resource of the selected type</dd>
+            <dd>The <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown creates a new resource of the selected type</dd>
         </dl>
     </div>
     <div>

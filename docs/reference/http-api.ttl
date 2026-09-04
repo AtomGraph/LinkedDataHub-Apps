@@ -14,20 +14,6 @@
     <p class="lead">Read and write RDF data from and to LinkedDataHub applications over HTTP</p>
     <p>LinkedDataHub implements a uniform, generic RESTful Linked Data API as defined by the
         <a href="https://www.w3.org/TR/sparql11-http-rdf-update/" target="_blank">SPARQL 1.1 Graph Store HTTP Protocol</a>. It adds a few conventions of its own, however — such as <a href="#document-metadata">automatic document metadata</a> — as well as some <a href="#constraints">constraints</a>.</p>
-    <p>On this page:</p>
-    <ul>
-        <li><a href="#auth">Authentication</a></li>
-        <li><a href="#acl">Access control</a></li>
-        <li><a href="#con-neg">Content negotiation</a></li>
-        <li><a href="#errors">Error responses</a></li>
-        <li><a href="#documents">Managing documents</a></li>
-        <li><a href="#versioned-documents">Versioned documents</a></li>
-        <li><a href="#sparql">Executing SPARQL</a></li>
-        <li><a href="#ld-proxy">Linked Data proxy</a></li>
-        <li><a href="#federation">Federation</a></li>
-        <li><a href="#system-endpoints">System endpoints</a></li>
-        <li><a href="#caching">Caching</a></li>
-    </ul>
     <div>
         <h2 id="auth">Authentication</h2>
         <p>The LinkedDataHub UI supports two authentication methods:</p>
@@ -233,7 +219,7 @@ Content-Type: text/turtle</pre>
         </div>
         <div>
             <h3 id="patch-example">Graph-scoped updates</h3>
-            <p>A <code>PATCH</code> applies a SPARQL update scoped to the requested document's graph. Appending a description to the Chai product:</p>
+            <p>A <code>PATCH</code> applies a SPARQL update scoped to the requested document's graph. The request body must contain a single update operation, in one of two forms: <code>DELETE</code>/<code>INSERT</code> with a <code>WHERE</code> clause (either template can be omitted, giving plain <code>INSERT { } WHERE { }</code> or <code>DELETE { } WHERE { }</code>), or the <code>DELETE WHERE</code> shorthand. Every other form is rejected with <samp>422 Unprocessable Entity</samp>, as is a body with more than one operation. Appending a description to the Chai product:</p>
             <pre>PATCH /products/1/ HTTP/1.1
 Host: localhost:4443
 Content-Type: application/sparql-update

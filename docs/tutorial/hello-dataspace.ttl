@@ -22,7 +22,7 @@
             <button aria-controls="from-the-command-line-pane" aria-selected="false" class="ldhc-tab" id="from-the-command-line-tab" role="tab" type="button"><span class="ldhc-tab-lbl">From the command line</span></button>
         </div>
         <div aria-labelledby="in-the-browser-tab" class="ldhc-tabpanel" id="in-the-browser-pane" role="tabpanel">
-        <p>Open the base URL (e.g. <samp>https://localhost:4443/</samp>) and authenticate with the owner's WebID certificate. Click the <span class="btn btn-edit">Edit</span> button in the action bar
+        <p>Open the base URL (e.g. <samp>https://localhost:4443/</samp>) and authenticate with the owner's WebID certificate. Choose <samp>Edit</samp> in the action bar's <span class="btn">Actions</span> dropdown
             to open the document edit form, change the title to <samp>Northwind Traders</samp>, fill in the description, and save. Then, in the
             <a href="../../reference/user-interface/#layout-modes" target="_blank">Content layout mode</a>, add an XHTML content block with a short welcome text using the
             <span class="btn btn-primary create-action">XHTML</span> button at the bottom of the page. The <a href="../../user-guide/edit-content/" target="_blank">Edit

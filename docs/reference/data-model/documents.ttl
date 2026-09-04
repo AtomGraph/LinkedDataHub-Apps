@@ -117,11 +117,11 @@
                     </tr>
                     <tr>
                         <th>Update</th>
-                        <td>Open the current document editing form by clicking the <span class="btn btn-edit"></span> button in the <a href="../../user-interface/#action-bar">action bar</a>. Make changes. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                        <td>Open the current document editing form by choosing <samp>Edit</samp> in the <a href="../../user-interface/#action-bar">action bar</a>'s <span class="btn">Actions</span> dropdown. Make changes. Click <span class="btn btn-primary btn-save">Save</span>.</td>
                     </tr>
                     <tr>
                         <th>Delete</th>
-                        <td>Delete the current document by clicking the <span class="btn btn-delete"></span> button in the <a href="../../user-interface/#action-bar">action bar</a>.</td>
+                        <td>Delete the current document by choosing <samp>Delete</samp> in the <a href="../../user-interface/#action-bar">action bar</a>'s <span class="btn">Actions</span> dropdown.</td>
                     </tr>
                 </tbody>
             </table>

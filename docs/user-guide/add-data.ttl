@@ -29,7 +29,7 @@
         </div>
         <p>To copy the contents of the current RDF document (local or remote) into a local document, follow these steps:</p>
         <ol>
-            <li>Click on the <span class="btn btn-save-as">Save</span> button on the right side of the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a>.
+            <li>Choose <samp>Save as</samp> in the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a>'s <span class="btn">Actions</span> dropdown.
                 A form will open with the following fields:
                 <dl>
                     <dt>Source</dt>

@@ -41,7 +41,7 @@
         <h2 id="object-blocks">Object blocks</h2>
         <p>Blocks other than XHTML content are called <dfn>objects</dfn> and must have a dereferenceable URI. Objects are embedded (transcluded) into the HTML page. You can use any <a href="../resources/">RDF resource</a> or uploaded file as an object.</p>
         <p>LinkedDataHub will first attempt to load RDF data from the object URI and render it as a block. If that fails, it will simply embed it using the HTML <code>&lt;object&gt;</code> element. Object blocks can be used to embed queries, charts, and other LinkedDataHub system resources.</p>
-        <p>Built-in block types follow a convention that splits the block into left, main and right content areas. The layout of the main content may depend on the active mode of the block. Left and right sections are block-type-specific.</p>
+        <p>Built-in block types render as cards: a header carries the block's title and actions such as the <a href="../../user-interface/#backlinks">links popover</a> and the copy-URI button, and the block's content follows below. Block-type-specific controls join the header area — a <a href="../resources/#views">view</a> block, for example, adds its <a href="../resources/#faceted-search">facet toolbar</a> and <a href="../resources/#parallax">parallax row</a> there. The layout of the content may depend on the active mode of the block.</p>
         <div>
             <h3 id="object-rdf-serialization">RDF serialization</h3>
             <pre>@prefix ldh: &lt;https://w3id.org/atomgraph/linkeddatahub#&gt; .

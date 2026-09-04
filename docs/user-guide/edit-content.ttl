@@ -20,7 +20,7 @@
     <p>The prose itself becomes part of the Knowledge Graph.</p>
     <div>
         <h2 id="entering-edit-mode">Entering edit mode</h2>
-        <p>Click anywhere inside an <a href="../../reference/data-model/blocks/#xhtml-blocks">XHTML block</a> to enter edit mode. The block gains a focus outline and the editor toolbar appears above the action bar. Clicking outside the block (including the surrounding column margins) returns the block to read mode.</p>
+        <p>Click anywhere inside an <a href="../../reference/data-model/blocks/#xhtml-blocks">XHTML block</a> to enter edit mode. The block gains a focus outline and the editor toolbar appears below the action bar. Clicking outside the block (including the surrounding page margins) returns the block to read mode.</p>
         <p>Edit mode is only available to authenticated users who have write access to the document. The block remains read-only for all other visitors.</p>
     </div>
     <div>

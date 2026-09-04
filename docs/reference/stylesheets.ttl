@@ -11,27 +11,6 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lead">Built-in XSLT, CSS and JavaScript assets, and how to override them</p>
-    <ul>
-        <li><a href="#xslt">XSLT</a>
-            <ul>
-                <li><a href="#rdf-xml-plain">Plain RDF/XML</a></li>
-                <li><a href="#stylesheet-structure">Stylesheet structure</a></li>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#templates">Templates</a></li>
-                <li><a href="#overriding-templates">Overriding templates</a></li>
-                <li><a href="#keys">Keys</a></li>
-                <li><a href="#loading-data">Loading data</a></li>
-                <li><a href="#parameters">Parameters</a></li>
-                <li><a href="#functions">Functions</a></li>
-            </ul>
-        </li>
-        <li><a href="#other-assets">Other assets</a>
-            <ul>
-                <li><a href="#css">CSS</a></li>
-                <li><a href="#javascript">JavaScript</a></li>
-            </ul>
-        </li>
-    </ul>
     <div>
         <h2 id="xslt">XSLT</h2>
         <p>XSLT is a functional, Turing-complete XML transformation language.</p>

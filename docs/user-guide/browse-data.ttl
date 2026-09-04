@@ -40,7 +40,7 @@
         <p>In addition to navigating by document hierarchy, you can navigate by class: the <samp>Classes</samp> list in the left sidebar shows the classes (<code>rdf:type</code> values) that occur in your data; the <a href="../../reference/user-interface/#class-navigation">user interface reference</a> describes the widget.</p>
         <h3 id="using-class-navigation">Using class-based navigation</h3>
         <ol>
-            <li>Open the left sidebar — slide the mouse to the left edge of the screen; on responsive layouts it is always visible</li>
+            <li>Open the left sidebar — slide the mouse to the left edge of the screen</li>
             <li>Find the <samp>Classes</samp> list</li>
             <li>Click on any class to open a dialog listing all instances of that class in your dataspace</li>
         </ol>
@@ -86,8 +86,8 @@ WHERE {
     </div>
     <div>
         <h2 id="backlinks">Backlinks</h2>
-        <p>Backlinks are shown in the <a href="../../reference/user-interface/#right-sidebar">right-side navigation</a> for every resource in <a href="../../reference/user-interface/#layout-modes">property layout mode</a>.
-            They display a list of resources which have properties with the current resource as the object.</p>
+        <p>Backlinks open in a <a href="../../reference/user-interface/#backlinks">popover anchored to each block's links button</a>.
+            They display a list of resources which have properties with the block's resource as the object.</p>
     </div>
     <p class="lead">Continue to the <a href="../query-data/">Query data</a> guide, or read more about the <a href="../../reference/user-interface/">user interface</a>.</p>
 </div>"""^^rdf:XMLLiteral .

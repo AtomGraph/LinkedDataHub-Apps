@@ -22,7 +22,7 @@
             <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
                     <div>
                         <ol>
-                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner and select <dfn>Container</dfn>. This will open a new form.</li>
+                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the <a href="../../../reference/user-interface/#action-bar">action bar</a> and select <dfn>Container</dfn>. This will open a new form.</li>
                             <li>Fill out the mandatory <dfn>Container</dfn> fields in the form:
                                 <dl>
                                     <dt>Title</dt>

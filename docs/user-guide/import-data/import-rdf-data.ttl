@@ -43,7 +43,7 @@
                         <p>All the import components can be created from a single dialog, but the steps below create them one at a time:</p>
                         <ol>
                             <li>First, create a container for the data to be imported. This will be the import's <dfn>target container</dfn>.</li>
-                            <li>Upload an RDF file. Click on the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner and select
+                            <li>Upload an RDF file. Click on the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown at the bottom of the page and select
                                     <dfn>File</dfn>. This will open a new form.</li>
                             <li>Fill out the <dfn>Item</dfn> fields — the document's <samp>Title</samp> (required) and optional <samp>Description</samp>, the same fields used when <a href="../../create-data/create-documents/">creating a document</a>.</li>
                             <li>
@@ -59,7 +59,7 @@
                             <li>The browser will open your uploaded file.</li>
                             <li>
                                 If you are importing with a transformation, create a <a href="../../../reference/imports/rdf/#transformation">transformation query</a> that will
-                                transform the uploaded RDF to a new RDF structure. Click on the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown in the top-left corner and
+                                transform the uploaded RDF to a new RDF structure. Click on the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown at the bottom of the page and
                                 select <dfn>CONSTRUCT</dfn>. This will open a new form. Fill out the <samp>Item</samp> fields and the mandatory <dfn>CONSTRUCT</dfn> fields:
                                 <dl>
                                     <dt>Text</dt>
@@ -71,7 +71,7 @@
                                 Once all the fields have been filled in, click <span class="btn btn-primary btn-save">Save</span>. You can find the query saved in the
                                 <dfn>Queries</dfn> container, which you can open from the <a href="../../../reference/user-interface/#document-hierarchy">document tree</a> in the left sidebar.
                             </li>
-                            <li>Click on the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown button in the top-left corner and select <dfn>RDF Import</dfn>.
+                            <li>Click on the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown button at the bottom of the page and select <dfn>RDF Import</dfn>.
                                     This will open a new form.</li>
                             <li>Fill out the <samp>Item</samp> fields.</li>
                             <li>
