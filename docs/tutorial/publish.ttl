@@ -23,7 +23,7 @@
             the authorization model: who (agents, agent classes), what (documents, document classes), and which <code>acl:mode</code>.</p>
         </div>
         <div aria-labelledby="from-the-command-line-tab" class="ldhc-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
-        <pre>ldh admin acl make-public</pre>
+        <pre>ldh admin make-public</pre>
         <p>The command extends the admin application's <samp>acl/authorizations/public/</samp> document: the built-in <samp>Public access</samp> authorization gains its access grants, and a second
             authorization is added. Authorizations are data, so you can inspect what the command wrote — and delete it to unpublish:</p>
         <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .

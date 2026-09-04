@@ -34,12 +34,12 @@ BIND(uri(concat(str($base), "uploads/", encode_for_uri(?pictureHash))) AS ?pictu
             <a href="../../user-guide/upload-file/" target="_blank">Upload file</a> guide walks through the form in detail.</p>
         </div>
         <div aria-labelledby="from-the-command-line-tab" class="ldhc-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
-        <pre>ldh add-file \\
+        <pre>ldh add file \\
     --title "Nancy Davolio" \\
     --file employees/nancy.jpg \\
     --content-type "image/jpeg" \\
     "$LDH_BASE"</pre>
-        <p><samp>ldh add-file</samp> prints the content-addressed URL of the upload (<samp>{base}uploads/{sha1}</samp>) as its only output, so it can be captured into a variable and referenced from imports or content.
+        <p><samp>ldh add file</samp> prints the content-addressed URL of the upload (<samp>{base}uploads/{sha1}</samp>) as its only output, so it can be captured into a variable and referenced from imports or content.
             <code>--content-type</code> is optional — the media type is detected from the file when it is omitted.</p>
         </div>
     </div>

@@ -216,35 +216,35 @@ skos:Concept spin:constructor [ a ldh:Constructor ;
                 <tbody>
                     <tr>
                         <th>Create ontology</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin ontologies create-ontology</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin create ontology</samp></a></td>
                     </tr>
                     <tr>
                         <th>Import external vocabulary</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin ontologies import-ontology</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin import ontology</samp></a></td>
                     </tr>
                     <tr>
                         <th>Add ontology import</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin add-ontology-import</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin add ontology-import</samp></a></td>
                     </tr>
                     <tr>
                         <th>Clear ontology from cache</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin clear-ontology</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin clear ontology</samp></a></td>
                     </tr>
                     <tr>
                         <th>Create class</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin ontologies add-class</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin add class</samp></a></td>
                     </tr>
                     <tr>
                         <th>Add constructor</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin ontologies add-constructor</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin add constructor</samp></a></td>
                     </tr>
                     <tr>
                         <th>Add property constraint</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin ontologies add-property-constraint</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin add property-constraint</samp></a></td>
                     </tr>
                     <tr>
                         <th>Add restriction</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin ontologies add-restriction</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin add restriction</samp></a></td>
                     </tr>
                 </tbody>
             </table>

@@ -67,7 +67,7 @@
             <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
                     <div>
                         <p>To add a new XHTML block to the Northwind dashboard, execute the following command:</p>
-                        <pre>ldh content add-xhtml-block \\
+                        <pre>ldh add xhtml-block \\
     --uri "#overview-intro" \\
     --value '&lt;div xmlns="http://www.w3.org/1999/xhtml"&gt;&lt;p&gt;The iconic sample database, reborn as an RDF Knowledge Graph.&lt;/p&gt;&lt;/div&gt;' \\
     "$LDH_BASE"</pre>
@@ -126,7 +126,7 @@
             <div aria-labelledby="command-line-interface-2-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-2-pane" role="tabpanel">
                     <div>
                         <p>To embed the Vice President of Sales on the dashboard — an object block whose value is a plain data resource — execute the following command:</p>
-                        <pre>ldh content add-object-block \\
+                        <pre>ldh add object-block \\
     --uri "#top-manager" \\
     --value "${LDH_BASE}employees/2/#this" \\
     "$LDH_BASE"</pre>

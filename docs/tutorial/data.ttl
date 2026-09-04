@@ -99,16 +99,16 @@ orders/orders.rq,orders/orders.csv,orders/,Orders
 ...</pre>
         <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/imports.csv" target="_blank">imports.csv</a></p>
         <p>A small loop over the <a href="../../reference/command-line-interface/" target="_blank">CLI</a> replays the manifest: each line saves its mapping query with
-            <samp>ldh add-construct</samp>, then pairs it with the CSV file and target container in an import created with <samp>ldh imports add-csv-import</samp>.</p>
-        <p>Upload the CSV first with <samp>ldh add-file</samp>, which prints the upload URI the import refers to (the <a href="../media/">Media</a> stage covers uploads). A single import
+            <samp>ldh add construct</samp>, then pairs it with the CSV file and target container in an import created with <samp>ldh add csv-import</samp>.</p>
+        <p>Upload the CSV first with <samp>ldh add file</samp>, which prints the upload URI the import refers to (the <a href="../media/">Media</a> stage covers uploads). A single import
             then looks like this:</p>
-        <pre>ldh add-construct \\
+        <pre>ldh add construct \\
   --uri "#categories-query" \\
   --title "Categories" \\
   --query-file categories/categories.rq \\
   "${LDH_BASE}categories/"
 
-ldh imports add-csv-import \\
+ldh add csv-import \\
   --title "Categories" \\
   --query "${LDH_BASE}categories/#categories-query" \\
   --file "$csv_upload_uri" \\

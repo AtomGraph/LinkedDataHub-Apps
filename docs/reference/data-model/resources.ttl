@@ -381,35 +381,35 @@ LIMIT 10""" ;
                 <tbody>
                     <tr>
                         <th><samp>CONSTRUCT</samp></th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-construct</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add construct</samp></a></td>
                     </tr>
                     <tr>
                         <th><samp>CSV import</samp></th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh imports add-csv-import</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add csv-import</samp></a></td>
                     </tr>
                     <tr>
                         <th><samp>File</samp></th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-file</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add file</samp></a></td>
                     </tr>
                     <tr>
                         <th><samp>RDF import</samp></th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh imports add-rdf-import</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add rdf-import</samp></a></td>
                     </tr>
                     <tr>
                         <th><samp>Result set chart</samp></th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-result-set-chart</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add result-set-chart</samp></a></td>
                     </tr>
                     <tr>
                         <th><samp>Select</samp></th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-select</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add select</samp></a></td>
                     </tr>
                     <tr>
                         <th><samp>Service</samp></th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-generic-service</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add generic-service</samp></a></td>
                     </tr>
                     <tr>
                         <th><samp>View</samp></th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh add-view</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add view</samp></a></td>
                     </tr>
                 </tbody>
             </table>

@@ -68,7 +68,7 @@ WHERE {}</pre>
                         <pre>base="https://localhost:4443/"
 admin_base="https://admin.localhost:4443/"
 
-ldh admin ontologies add-constructor \\
+ldh admin add constructor \\
   -b "$admin_base" \\
   --uri "${base}ns#ProductConstructor" \\
   --label "Product constructor" \\
@@ -112,7 +112,7 @@ ldh admin ontologies add-constructor \\
                 </div>
             <div aria-labelledby="command-line-interface-2-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-2-pane" role="tabpanel">
                     <div>
-                        <pre>ldh admin ontologies add-property-constraint \\
+                        <pre>ldh admin add property-constraint \\
   -b "$admin_base" \\
   --uri "${base}ns#MissingName" \\
   --label "Missing schema:name" \\
@@ -154,7 +154,7 @@ ldh admin ontologies add-constructor \\
                 </div>
             <div aria-labelledby="command-line-interface-3-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-3-pane" role="tabpanel">
                     <div>
-                        <pre>ldh admin ontologies add-class \\
+                        <pre>ldh admin add class \\
   -b "$admin_base" \\
   --uri "https://schema.org/Product" \\
   --label "Product" \\

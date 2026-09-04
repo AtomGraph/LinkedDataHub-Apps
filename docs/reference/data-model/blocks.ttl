@@ -118,15 +118,15 @@
                 <tbody>
                     <tr>
                         <th>Create XHTML block</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh content add-xhtml-block</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add xhtml-block</samp></a></td>
                     </tr>
                     <tr>
                         <th>Create object block</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh content add-object-block</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add object-block</samp></a></td>
                     </tr>
                     <tr>
                         <th>Delete</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh content remove-block</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh remove block</samp></a></td>
                     </tr>
                 </tbody>
             </table>

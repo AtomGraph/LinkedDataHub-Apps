@@ -42,11 +42,11 @@
             <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
                     <div>
                         <p>A file is uploaded to the document that will hold it, so create that document first. Uploading Nancy Davolio's portrait from the Northwind demo:</p>
-                        <pre>doc=$(ldh create-item \\
+                        <pre>doc=$(ldh create item \\
   --title "Nancy Davolio" \\
   --container "${LDH_BASE}employees/")
 
-ldh add-file \\
+ldh add file \\
   --title "Nancy Davolio" \\
   --file employees/nancy.jpg \\
   --content-type "image/jpeg" \\

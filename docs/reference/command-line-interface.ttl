@@ -33,7 +33,7 @@ ldh --help</pre>
         <div class="alert alert-warning" id="deprecated-scripts">
             <p><strong>Deprecated shell scripts</strong></p>
             <p>The HTTP API shell scripts in the <samp>bin</samp> folder that <samp>ldh</samp> replaces are <strong>deprecated</strong>. The certificate and WebID tooling (<samp>webid-keygen.sh</samp>, <samp>webid-keygen-pem.sh</samp>, <samp>webid-uri.sh</samp>, <samp>webid-modulus.sh</samp>, <samp>server-cert-gen.sh</samp>) talks to no API and is not deprecated.</p>
-            <p>Migrating from a script to its command means dropping the <samp>.sh</samp> suffix, prefixing the invocation with <samp>ldh</samp> (subfolders become subcommand groups, e.g. <samp>admin/acl/create-group.sh</samp> becomes <samp>ldh admin acl create-group</samp>), and passing the <samp>.p12</samp> keystore to <code>-f</code> instead of the <samp>.pem</samp> certificate.</p>
+            <p>Migrating from a script to its command means dropping the <samp>.sh</samp> suffix, prefixing the invocation with <samp>ldh</samp> (the hyphenated name becomes a verb-object pair, e.g. <samp>admin/acl/create-group.sh</samp> becomes <samp>ldh admin create group</samp>), and passing the <samp>.p12</samp> keystore to <code>-f</code> instead of the <samp>.pem</samp> certificate.</p>
         </div>
     </div>
     <div>
@@ -109,20 +109,20 @@ ldh --help</pre>
 export LDH_CERT_PASSWORD="$owner_cert_password"
 export LDH_BASE=https://localhost:4443/
 
-ldh create-container --parent "$LDH_BASE" --title "Categories" --slug categories</pre>
+ldh create container --parent "$LDH_BASE" --title "Categories" --slug categories</pre>
     </div>
     <div>
         <h2 id="output">Output</h2>
         <p>Commands that create or append to a document print its URL as the only line on standard output, so they compose in shell pipelines. All diagnostics go to standard error.</p>
-        <pre>item=$(ldh create-item --container "$LDH_BASE" --title "Example" --slug example)</pre>
+        <pre>item=$(ldh create item --container "$LDH_BASE" --title "Example" --slug example)</pre>
         <p>Exit codes are <samp>0</samp> on success, <samp>1</samp> on an HTTP error status or runtime failure (the message goes to standard error; add <code>--verbose</code> for a stack trace), and <samp>2</samp> on a usage error.</p>
     </div>
     <div>
         <h2 id="usage">Usage</h2>
         <p>A usage message with the parameters of a command is printed when the command is run without required arguments, or with <code>--help</code>. Commands take named parameters and default (positional) parameters; either kind can be optional. For example:</p>
-        <pre>$ ldh add-select
+        <pre>$ ldh add select
 Missing required options and parameters: '--title=TITLE', '--query-file=ABS_PATH', 'TARGET_URI'
-Usage: ldh add-select [--verbose] [-b=BASE_URI] [--description=DESCRIPTION]
+Usage: ldh add select [--verbose] [-b=BASE_URI] [--description=DESCRIPTION]
                       [-f=CERT_FILE] [-p=CERT_PASSWORD] [--proxy=PROXY_URL]
                       --query-file=ABS_PATH [--service=SERVICE_URI]
                       --title=TITLE [--uri=URI] TARGET_URI
@@ -145,14 +145,14 @@ Adds a SELECT query to a document.
       --verbose             Print stack traces of errors</pre>
         <p>The optional parameters are marked with <samp>(optional)</samp>. In this case the default parameter is the URI of the document the query is appended to.</p>
         <p>An <samp>add-select</samp> invocation looks like this (with the <a href="#environment-variables">environment variables</a> supplying the connection parameters):</p>
-        <pre>ldh add-select \\
+        <pre>ldh add select \\
   --title "Products by sales" \\
   --query-file products-by-sales.rq \\
   "${LDH_BASE}products/"</pre>
     </div>
     <div>
         <h2 id="commands">Commands</h2>
-        <p>The subcommand groups <samp>admin</samp>, <samp>content</samp> and <samp>imports</samp> mirror the folder structure of the <a href="#deprecated-scripts">deprecated scripts</a>. The following commands are currently supported:</p>
+        <p>Commands group by verb — <samp>create</samp>, <samp>add</samp> and <samp>remove</samp> make the single request they name, while <samp>import</samp> holds the composite workflows — plus the <samp>packages</samp> family and the <samp>admin</samp> scope. The following commands are currently supported:</p>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -191,11 +191,11 @@ Adds a SELECT query to a document.
                 </tr>
                 <tr>
                     <td>Create container document</td>
-                    <td><samp>ldh create-container</samp></td>
+                    <td><samp>ldh create container</samp></td>
                 </tr>
                 <tr>
                     <td>Create item document</td>
-                    <td><samp>ldh create-item</samp></td>
+                    <td><samp>ldh create item</samp></td>
                 </tr>
             </tbody>
             <tbody>
@@ -204,15 +204,15 @@ Adds a SELECT query to a document.
                 </tr>
                 <tr>
                     <td>Append object block (instance of <code>ldh:Object</code>) to document</td>
-                    <td><samp>ldh content add-object-block</samp></td>
+                    <td><samp>ldh add object-block</samp></td>
                 </tr>
                 <tr>
                     <td>Append XHTML block (instance of <code>ldh:XHTML</code>) to document</td>
-                    <td><samp>ldh content add-xhtml-block</samp></td>
+                    <td><samp>ldh add xhtml-block</samp></td>
                 </tr>
                 <tr>
                     <td>Remove block from document</td>
-                    <td><samp>ldh content remove-block</samp></td>
+                    <td><samp>ldh remove block</samp></td>
                 </tr>
             </tbody>
             <tbody>
@@ -221,27 +221,27 @@ Adds a SELECT query to a document.
                 </tr>
                 <tr>
                     <td>Append uploaded file (instance of <code>nfo:FileDataObject</code>) to document</td>
-                    <td><samp>ldh add-file</samp></td>
+                    <td><samp>ldh add file</samp></td>
                 </tr>
                 <tr>
                     <td>Append <code>CONSTRUCT</code> query (instance of <code>sp:Construct</code>) to document</td>
-                    <td><samp>ldh add-construct</samp></td>
+                    <td><samp>ldh add construct</samp></td>
                 </tr>
                 <tr>
                     <td>Append service (instance of <code>sd:Service</code>) to document</td>
-                    <td><samp>ldh add-generic-service</samp></td>
+                    <td><samp>ldh add generic-service</samp></td>
                 </tr>
                 <tr>
                     <td>Append result set chart (instance of <code>ldh:ResultSetChart</code>) to document</td>
-                    <td><samp>ldh add-result-set-chart</samp></td>
+                    <td><samp>ldh add result-set-chart</samp></td>
                 </tr>
                 <tr>
                     <td>Append <code>SELECT</code> query (instance of <code>sp:Select</code>) to document</td>
-                    <td><samp>ldh add-select</samp></td>
+                    <td><samp>ldh add select</samp></td>
                 </tr>
                 <tr>
                     <td>Append SPARQL view (instance of <code>ldh:View</code>) to document</td>
-                    <td><samp>ldh add-view</samp></td>
+                    <td><samp>ldh add view</samp></td>
                 </tr>
             </tbody>
             <tbody>
@@ -250,19 +250,19 @@ Adds a SELECT query to a document.
                 </tr>
                 <tr>
                     <td>Create CSV import</td>
-                    <td><samp>ldh imports add-csv-import</samp></td>
+                    <td><samp>ldh add csv-import</samp></td>
                 </tr>
                 <tr>
                     <td>Import CSV data</td>
-                    <td><samp>ldh imports import-csv</samp></td>
+                    <td><samp>ldh import csv</samp></td>
                 </tr>
                 <tr>
                     <td>Create RDF import</td>
-                    <td><samp>ldh imports add-rdf-import</samp></td>
+                    <td><samp>ldh add rdf-import</samp></td>
                 </tr>
                 <tr>
                     <td>Import RDF data</td>
-                    <td><samp>ldh imports import-rdf</samp></td>
+                    <td><samp>ldh import rdf</samp></td>
                 </tr>
             </tbody>
             <tbody>
@@ -271,11 +271,11 @@ Adds a SELECT query to a document.
                 </tr>
                 <tr>
                     <td>Add <code>owl:imports</code> to ontology</td>
-                    <td><samp>ldh admin add-ontology-import</samp></td>
+                    <td><samp>ldh admin add ontology-import</samp></td>
                 </tr>
                 <tr>
                     <td>Clear and reload ontology</td>
-                    <td><samp>ldh admin clear-ontology</samp></td>
+                    <td><samp>ldh admin clear ontology</samp></td>
                 </tr>
             </tbody>
             <tbody>
@@ -284,19 +284,19 @@ Adds a SELECT query to a document.
                 </tr>
                 <tr>
                     <td>Add <a href="../administration/acl/#agents">agent</a> to <a href="../administration/acl/#groups">group</a></td>
-                    <td><samp>ldh admin acl add-agent-to-group</samp></td>
+                    <td><samp>ldh admin add agent</samp></td>
                 </tr>
                 <tr>
                     <td>Create <a href="../administration/acl/#authorizations">authorization</a></td>
-                    <td><samp>ldh admin acl create-authorization</samp></td>
+                    <td><samp>ldh admin create authorization</samp></td>
                 </tr>
                 <tr>
                     <td>Create <a href="../administration/acl/#groups">group</a></td>
-                    <td><samp>ldh admin acl create-group</samp></td>
+                    <td><samp>ldh admin create group</samp></td>
                 </tr>
                 <tr>
                     <td>Make the application publicly readable by any agent</td>
-                    <td><samp>ldh admin acl make-public</samp></td>
+                    <td><samp>ldh admin make-public</samp></td>
                 </tr>
             </tbody>
             <tbody>
@@ -305,41 +305,41 @@ Adds a SELECT query to a document.
                 </tr>
                 <tr>
                     <td>Add <a href="../administration/ontologies/#classes">class</a></td>
-                    <td><samp>ldh admin ontologies add-class</samp></td>
+                    <td><samp>ldh admin add class</samp></td>
                 </tr>
                 <tr>
                     <td>Add <code>CONSTRUCT</code> query</td>
-                    <td><samp>ldh admin ontologies add-constructor</samp></td>
+                    <td><samp>ldh admin add constructor</samp></td>
                 </tr>
                 <tr>
                     <td>Create <a href="../administration/ontologies/#ontologies">ontology</a></td>
-                    <td><samp>ldh admin ontologies create-ontology</samp></td>
+                    <td><samp>ldh admin create ontology</samp></td>
                 </tr>
                 <tr>
                     <td>Add <a href="../administration/ontologies/#constraints">property constraint</a></td>
-                    <td><samp>ldh admin ontologies add-property-constraint</samp></td>
+                    <td><samp>ldh admin add property-constraint</samp></td>
                 </tr>
                 <tr>
                     <td>Add <a href="../administration/ontologies/#restrictions">restriction</a></td>
-                    <td><samp>ldh admin ontologies add-restriction</samp></td>
+                    <td><samp>ldh admin add restriction</samp></td>
                 </tr>
                 <tr>
                     <td>Add <code>SELECT</code> query</td>
-                    <td><samp>ldh admin ontologies add-select</samp></td>
+                    <td><samp>ldh admin add select</samp></td>
                 </tr>
                 <tr>
                     <td>Import ontology</td>
-                    <td><samp>ldh admin ontologies import-ontology</samp></td>
+                    <td><samp>ldh admin import ontology</samp></td>
                 </tr>
             </tbody>
         </table>
         <p>Usage example. The Northwind categories CSV is uploaded into a document, so create the document first:</p>
-        <pre>doc=$(ldh create-item \\
+        <pre>doc=$(ldh create item \\
   --container "${LDH_BASE}categories/" \\
   --title "Categories data" \\
   --slug categories-data)
 
-ldh add-file \\
+ldh add file \\
   --title "categories.csv" \\
   --file categories/categories.csv \\
   --content-type text/csv \\
@@ -351,7 +351,7 @@ ldh add-file \\
         <p><samp>ldh get</samp> also exposes a <a href="../versioning/">versioned</a> document's TimeMap, TimeGate and historical versions through
             three mutually exclusive options — see the <a href="../versioning/#management">versioning reference</a> for the options and examples.</p>
         <h3 id="packages">Packages</h3>
-        <p><a href="../administration/packages/">Packages</a> have no command of their own: an application imports a package with a single <code>ldh:import</code> triple, so <samp>ldh patch</samp> on the application's <samp>settings</samp> document is the whole interface. See the <a href="../../user-guide/manage-packages/">package management guide</a> for the full install and uninstall commands.</p>
+        <p><a href="../administration/packages/">Packages</a> are managed with the <samp>packages</samp> group: an application imports a package with a single <code>ldh:import</code> triple, which <samp>ldh packages add</samp> declares and <samp>ldh packages remove</samp> retracts on the application’s <samp>settings</samp> document, while <samp>ldh packages list</samp> reads the registry catalog and marks the imported ones. See the <a href="../../user-guide/manage-packages/">package management guide</a>.</p>
     </div>
     <p class="lead">Find the <a href="https://github.com/AtomGraph/LinkedDataHub/tree/master/cli" target="_blank">CLI on GitHub</a>, or see it in action in the
         <a href="../../tutorial/">tutorial</a> and the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo" target="_blank">demo apps</a>.</p>

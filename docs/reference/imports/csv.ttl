@@ -155,11 +155,11 @@ PREFIX  schema: &lt;https://schema.org/&gt;
                 <tbody>
                     <tr>
                         <th>Create CSV import from an uploaded file and a query (<samp>--file</samp>, <samp>--query</samp>, <samp>--delimiter</samp>)</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh imports add-csv-import</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add csv-import</samp></a></td>
                     </tr>
                     <tr>
                         <th>Import a local CSV file end-to-end (<samp>--csv-file</samp>, <samp>--query-file</samp>, <samp>--delimiter</samp>)</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh imports import-csv</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh import csv</samp></a></td>
                     </tr>
                 </tbody>
             </table>

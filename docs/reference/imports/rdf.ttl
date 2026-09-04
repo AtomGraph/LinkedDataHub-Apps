@@ -116,11 +116,11 @@ WHERE
                 <tbody>
                     <tr>
                         <th>Create RDF import from an uploaded file (<samp>--file</samp>, with <samp>--query</samp> or <samp>--graph</samp>)</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh imports add-rdf-import</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh add rdf-import</samp></a></td>
                     </tr>
                     <tr>
                         <th>Import a local RDF file end-to-end (<samp>--rdf-file</samp>, <samp>--content-type</samp>, with <samp>--query-file</samp> or <samp>--graph</samp>)</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh imports import-rdf</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh import rdf</samp></a></td>
                     </tr>
                 </tbody>
             </table>

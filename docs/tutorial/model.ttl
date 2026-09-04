@@ -57,7 +57,7 @@ schema:Order a owl:Class ;
     -t text/turtle \\
     "${admin_base}ontologies/namespace/"</pre>
         <p>The ontology is cached in memory, so tell the application to reload it:</p>
-        <pre>ldh admin clear-ontology \\
+        <pre>ldh admin clear ontology \\
     -b "$admin_base" \\
     --ontology "${LDH_BASE}ns#"</pre>
         </div>

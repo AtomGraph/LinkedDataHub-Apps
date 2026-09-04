@@ -137,11 +137,11 @@
                 <tbody>
                     <tr>
                         <th>Create container</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh create-container</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh create container</samp></a></td>
                     </tr>
                     <tr>
                         <th>Create item</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh create-item</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh create item</samp></a></td>
                     </tr>
                     <tr>
                         <th>Update</th>
@@ -154,7 +154,7 @@
                 </tbody>
             </table>
             <p>For example, creating the <samp>categories/</samp> container (with the <a href="../../command-line-interface/#environment-variables"><samp>LDH_*</samp> environment variables</a> supplying the certificate and base URI):</p>
-            <pre>ldh create-container \\
+            <pre>ldh create container \\
   --parent "$LDH_BASE" \\
   --title "Categories" \\
   --slug categories</pre>

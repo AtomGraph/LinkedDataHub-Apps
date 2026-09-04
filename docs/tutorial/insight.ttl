@@ -71,7 +71,7 @@ ORDER BY DESC(?revenue)''' .
         <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories.ttl" target="_blank">categories.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/" target="_blank">/categories/</a></p>
         <p>Add <code>&lt;#category-revenue-block&gt;</code> to the container's block sequence (in the finished app it sits at <code>rdf:_4</code>, after a prose block that introduces it) and <code>PUT</code> the document as before:</p>
         <pre>ldh put -t text/turtle "${LDH_BASE}categories/" &lt; categories.ttl</pre>
-        <p>Alternatively, <samp>ldh add-select</samp> and <samp>ldh add-result-set-chart</samp> append the query and the chart to the document one resource at a time.</p>
+        <p>Alternatively, <samp>ldh add select</samp> and <samp>ldh add result-set-chart</samp> append the query and the chart to the document one resource at a time.</p>
     </div>
     <div>
         <h2 id="view">A view</h2>
@@ -99,7 +99,7 @@ ORDER BY ?categoryName''' .
     spin:query &lt;#select-categories-query&gt; ;
     ac:mode &lt;https://w3id.org/atomgraph/client#GridMode&gt; .</pre>
         <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories.ttl" target="_blank">categories.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/" target="_blank">/categories/</a></p>
-        <p>The view and its query go into the same document, so the same <code>PUT</code> installs them; <samp>ldh add-view</samp> is the append alternative.</p>
+        <p>The view and its query go into the same document, so the same <code>PUT</code> installs them; <samp>ldh add view</samp> is the append alternative.</p>
     </div>
         </div>
     </div>

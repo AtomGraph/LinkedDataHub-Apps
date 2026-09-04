@@ -42,7 +42,7 @@
             <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
                     <div>
                         <p>With the <a href="../../../reference/command-line-interface/#environment-variables"><samp>LDH_*</samp> environment variables</a> supplying the certificate and base URI, execute the following command:</p>
-                        <pre>ldh create-container \\
+                        <pre>ldh create container \\
   --title "Categories" \\
   --slug "categories" \\
   --parent "$LDH_BASE"</pre>
@@ -68,7 +68,7 @@
             <div aria-labelledby="command-line-interface-2-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-2-pane" role="tabpanel">
                     <div>
                         <p>Execute the following command:</p>
-                        <pre>ldh create-item \\
+                        <pre>ldh create item \\
   --container "${LDH_BASE}categories/" \\
   --title "Beverages" \\
   --slug "1"</pre>

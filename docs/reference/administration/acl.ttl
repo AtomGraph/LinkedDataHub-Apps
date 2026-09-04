@@ -133,7 +133,7 @@
     acl:accessTo &lt;https://localhost:4443/orders/&gt; .</pre>
             </div>
             <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
-                <pre>ldh admin acl create-authorization \\
+                <pre>ldh admin create authorization \\
   --label "Order management" \\
   --agent-group "https://admin.localhost:4443/acl/groups/writers/#this" \\
   --to "https://localhost:4443/orders/" \\
@@ -151,7 +151,7 @@
     acl:mode acl:Read ;
     acl:accessToClass dh:Container .</pre>
         <p>A public-access authorization allows access for non-authenticated agents — the <a href="../../../tutorial/publish/">Publish</a> stage of the
-            tutorial shows the one <samp>ldh admin acl make-public</samp> creates, granting <code>acl:Read</code> to the <code>foaf:Agent</code> class
+            tutorial shows the one <samp>ldh admin make-public</samp> creates, granting <code>acl:Read</code> to the <code>foaf:Agent</code> class
             on every document class.</p>
         <div class="alert alert-info">
             <p>The owner's and <a href="../../dataspace/#dataspaces">secretary's</a> authorizations are stored under stable URIs (<samp>acl/authorizations/owner-webid/</samp> and <samp>acl/authorizations/secretary-webid/</samp>), so reloading the admin dataset does not create duplicates.</p>
@@ -187,19 +187,19 @@
                 <tbody>
                     <tr>
                         <th>Create group</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin acl create-group</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin create group</samp></a></td>
                     </tr>
                     <tr>
                         <th>Create authorization</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin acl create-authorization</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin create authorization</samp></a></td>
                     </tr>
                     <tr>
                         <th>Add agent to group</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin acl add-agent-to-group</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin add agent</samp></a></td>
                     </tr>
                     <tr>
                         <th>Make a document public</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin acl make-public</samp></a></td>
+                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin make-public</samp></a></td>
                     </tr>
                 </tbody>
             </table>
