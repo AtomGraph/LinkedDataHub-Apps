@@ -42,7 +42,7 @@
 &lt;&gt; a dh:Container ;
     dct:title "Categories" .</pre>
         <p><code>PUT</code> it to the container URL, the same way the root document was updated:</p>
-        <pre>ldh put -t text/turtle "${LDH_BASE}categories/" &lt; categories.ttl</pre>
+        <pre>ldh put "${LDH_BASE}categories/" categories.ttl</pre>
         <p>Repeat for the remaining eight containers — or skip to <a href="../app-as-repository/">App as a repository</a>, where one command replays a whole folder.</p>
         </div>
     </div>

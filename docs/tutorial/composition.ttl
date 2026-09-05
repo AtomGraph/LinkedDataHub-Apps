@@ -45,7 +45,7 @@
         </div>
         <div aria-labelledby="from-the-command-line-tab" class="ldhc-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
         <p>The composition is the <samp>root.ttl</samp> of the <a href="../hello-dataspace/">first stage</a>, grown to its final form and applied with the same <code>PUT</code>:</p>
-        <pre>ldh put -t text/turtle "$LDH_BASE" &lt; root.ttl</pre>
+        <pre>ldh put "$LDH_BASE" root.ttl</pre>
         <p>To reorder, renumber the <code>rdf:_N</code> properties in the file and <code>PUT</code> it again — <code>PUT</code> replaces the document's description outright.</p>
         </div>
     </div>

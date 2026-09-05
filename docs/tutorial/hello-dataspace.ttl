@@ -54,7 +54,7 @@
         <p class="exhibit-links">Source (finished form): <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/root.ttl" target="_blank">root.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">the homepage</a></p>
         <p><code>PUT</code> the file to the base URI to replace the root document's description. <samp>ldh put</samp> resolves the relative URIs in the file against the document URL, so the same
             file installs against any base URI:</p>
-        <pre>ldh put -t text/turtle "$LDH_BASE" &lt; root.ttl</pre>
+        <pre>ldh put "$LDH_BASE" root.ttl</pre>
         <p>This is the seed: by the <a href="../composition/">Composition</a> stage the same document grows into the demo's full executive dashboard, block by block.</p>
         </div>
     </div>
