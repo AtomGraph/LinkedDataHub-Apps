@@ -68,6 +68,9 @@
             <code>Cache-Control</code> — a historical version never changes.</p>
         <p>Historical versions are read-only: only <code>acl:Read</code> is advertised in the <code>Link</code> headers and write methods answer
             <code>405 Method Not Allowed</code>. In the user interface a historical version page shows a notice banner with a link back to the current version.</p>
+        <p>Historical versions are also outside the scope of SPARQL: the application's RDF dataset holds only the current version of every
+            document, while the history lives solely in the Git repository. Queries on the <a href="../http-api/#sparql">SPARQL endpoint</a>
+            therefore always answer over the latest versions.</p>
         <pre>GET /orders/10248/?version=8c9f2b1 HTTP/1.1
 Host: localhost:4443
 Accept: text/turtle
