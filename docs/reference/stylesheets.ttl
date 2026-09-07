@@ -85,7 +85,7 @@
                 <dt>Templates</dt>
                 <dd><a href="#templates">Template rules</a> for XML node processing</dd>
             </dl>
-            <p>One XSLT stylesheet can be specified per application. In order to reuse LinkedDataHub's built-in templates, it should import the <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/src/main/webapp/static/com/atomgraph/linkeddatahub/xsl/bootstrap/2.3.2/layout.xsl" target="_blank">system stylesheet <samp>layout.xsl</samp></a> and only override the necessary templates. That is not a requirement, however; a stylesheet can also use its own independent transformation logic.</p>
+            <p>One XSLT stylesheet can be specified per application. In order to reuse LinkedDataHub's built-in templates, it should import the <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/src/main/webapp/static/com/atomgraph/linkeddatahub/xsl/layout.xsl" target="_blank">system stylesheet <samp>layout.xsl</samp></a> and only override the necessary templates. That is not a requirement, however; a stylesheet can also use its own independent transformation logic.</p>
             <p>If there is no stylesheet specified for the application, the system stylesheet is used. It defines the overall layout and imports resource-level and container-specific stylesheets, as well as per-vocabulary stylesheets.</p>
             <p>Note that LinkedDataHub itself imports stylesheets from <a href="https://github.com/AtomGraph/Web-Client" target="_blank">Web-Client</a>, which uses the same template modes but produces a much simpler layout.</p>
             <p>The same XSLT 3.0 stylesheets run in two environments. On the server they are executed by Saxon-HE to produce the initial HTML response. In the browser they are executed by <a href="https://www.saxonica.com/saxon-js/index.xml" target="_blank">Saxon-JS 3</a>, which provides IXSL (<a href="https://www.saxonica.com/saxonjs/documentation3/index.html#!ixsl-extension" target="_blank">Interactive XSLT extensions</a>) for reading and manipulating the browser DOM.</p>
@@ -128,10 +128,10 @@
                         <td>Namespace for the <a href="https://www.saxonica.com/saxonjs/documentation3/index.html#!ixsl-extension" target="_blank">Interactive XSL extensions</a></td>
                     </tr>
                     <tr>
-                        <td><code>bs2:</code></td>
-                        <td><code>http://graphity.org/xsl/bootstrap/2.3.2</code></td>
-                        <td>(none — XSLT-internal)</td>
-                        <td>XSLT-only namespace that is used for layout templates. Historically <a href="https://getbootstrap.com/2.3.2/" target="_blank">Bootstrap 2.3.2</a>-based; the namespace is retained for compatibility although the UI has moved to the design system</td>
+                        <td><code>ldh:</code></td>
+                        <td><code>https://w3id.org/atomgraph/linkeddatahub#</code></td>
+                        <td>LinkedDataHub vocabulary</td>
+                        <td>LinkedDataHub concepts, also used for LinkedDataHub's own component template modes (named after the design system's components)</td>
                     </tr>
                     <tr>
                         <td><code>xhtml:</code></td>
@@ -181,23 +181,25 @@
             </dl>
             <p>XSLT processing starts at the root of the RDF/XML document and produces HTML elements by applying templates to all of the RDF/XML nodes while moving down the XML tree.
                 In other words, it starts at the graph level, moves down to resource description elements, then to property elements, and ends with identifier attributes and literal text nodes.</p>
-            <p>Templates are applied (invoked) using <code>&lt;xsl:apply-templates&gt;</code>. Mode can be specified, e.g. <code>&lt;xsl:apply-templates mode="bs2:Header"&gt;</code>. To stay in the current mode without explicitly specifying it, use <code>&lt;xsl:apply-templates mode="#current"&gt;</code>. <code>&lt;xsl:with-param&gt;</code> is used to supply parameters.</p>
+            <p>Templates are applied (invoked) using <code>&lt;xsl:apply-templates&gt;</code>. Mode can be specified, e.g. <code>&lt;xsl:apply-templates mode="ac:BlockHeader"&gt;</code>. To stay in the current mode without explicitly specifying it, use <code>&lt;xsl:apply-templates mode="#current"&gt;</code>. <code>&lt;xsl:with-param&gt;</code> is used to supply parameters.</p>
             <p>LinkedDataHub provides the following default template modes, which are used to render the <a href="../user-interface/#layout-modes" target="_blank">layout modes</a>:</p>
             <ul>
                 <li>Graph-level modes that apply to <code>rdf:RDF</code>
                     <ul>
                         <li><dfn>default mode</dfn> renders full resource descriptions</li>
-                        <li><code>bs2:BlockList</code> renders a list of resources</li>
+                        <li><code>ac:List</code> renders a list of resources</li>
                         <li><code>xhtml:Table</code> renders a table with resources as rows and properties as columns</li>
-                        <li><code>bs2:Grid</code> renders a gallery of thumbnails</li>
-                        <li><code>bs2:Form</code> renders an <a href="https://atomgraph.github.io/RDF-POST/" target="_blank">RDF/POST</a> form for creating new resources or editing an existing one</li>
+                        <li><code>ac:Grid</code> renders a gallery of thumbnails</li>
+                        <li><code>ac:Map</code> renders resources with coordinates on a map</li>
+                        <li><code>ac:Graph</code> renders the resources as a node-and-edge graph</li>
+                        <li><code>ac:ResourceForm</code> renders an <a href="https://atomgraph.github.io/RDF-POST/" target="_blank">RDF/POST</a> form for creating new resources or editing an existing one</li>
                     </ul>
                 </li>
                 <li>Resource-level template modes that apply to <code>rdf:Description</code>
                     <ul>
                         <li>default mode renders one full resource description (by default header and property list)</li>
-                        <li><code>bs2:Header</code> renders resource header (by default with type information)</li>
-                        <li><code>bs2:PropertyList</code> renders definition list with property names and values (by default grouped by resource types)</li>
+                        <li><code>ac:BlockHeader</code> renders resource header (by default with type information)</li>
+                        <li><code>ac:PropertyEditor</code> renders definition list with property names and values (by default grouped by resource types)</li>
                     </ul>
                 </li>
             </ul>
@@ -215,9 +217,9 @@
             &lt;xsl:attribute name="class" select="$class"/&gt;
         &lt;/xsl:if&gt;
 
-        &lt;xsl:apply-templates select="." mode="bs2:Header"/&gt;
+        &lt;xsl:apply-templates select="." mode="ac:BlockHeader"/&gt;
 
-        &lt;xsl:apply-templates select="." mode="bs2:PropertyList"/&gt;
+        &lt;xsl:apply-templates select="." mode="ac:PropertyEditor"/&gt;
     &lt;/div&gt;
 &lt;/xsl:template&gt;</pre>
             <p>Applied to the <a href="#rdf-xml-plain">Chai description above</a>, it produces markup of this shape (abridged):</p>
@@ -645,7 +647,7 @@
         <h2 id="other-assets">Other assets</h2>
         <div>
             <h3 id="css">CSS</h3>
-            <p>The stylesheet links are emitted by the <code>xhtml:Style</code> XSLT template mode. It links the design-system stylesheets (<samp>fonts.css</samp>, <samp>colors_and_type.css</samp>, <samp>app.css</samp>, <samp>retro.css</samp>) together with <samp>ldh.css</samp> and <samp>ldh-bridge.css</samp>, plus feature-specific stylesheets such as <samp>rdfa-editor.css</samp> (rich-text editing) and <samp>yasqe.css</samp> (SPARQL editor). Bootstrap itself is no longer used — the <code>bs2:</code> XSLT <a href="#namespaces">namespace</a> is a historical name. Application stylesheets that import <samp>layout.xsl</samp> can override the <code>xhtml:Style</code> template mode to add or replace stylesheets.</p>
+            <p>The stylesheet links are emitted by the <code>xhtml:Style</code> XSLT template mode. It links the design-system stylesheets (<samp>fonts.css</samp>, <samp>colors_and_type.css</samp>, <samp>app.css</samp>, <samp>retro.css</samp>) together with <samp>ldh.css</samp> and <samp>ldh-bridge.css</samp>, plus feature-specific stylesheets such as <samp>rdfa-editor.css</samp> (rich-text editing) and <samp>yasqe.css</samp> (SPARQL editor). Application stylesheets that import <samp>layout.xsl</samp> can override the <code>xhtml:Style</code> template mode to add or replace stylesheets.</p>
         </div>
         <div>
             <h3 id="javascript">JavaScript</h3>

@@ -86,7 +86,7 @@ XSLT templates using system modes to override default rendering:
 
 ```xsl
 <!-- Hide properties from default property list -->
-<xsl:template match="skos:narrower | skos:broader" mode="bs2:PropertyList"/>
+<xsl:template match="skos:narrower | skos:broader" mode="ac:PropertyEditor"/>
 
 <!-- Override XHTML head elements -->
 <xsl:template match="*" mode="xhtml:Style">
@@ -94,7 +94,7 @@ XSLT templates using system modes to override default rendering:
 </xsl:template>
 ```
 
-Available system modes include `bs2:*` (Bootstrap 2.3.2 components), `xhtml:*` (XHTML elements), and others.
+Available system modes include `ac:*` (Web-Client component modes named after the design system's components), `ldh:*` (LinkedDataHub components) and `xhtml:*` (XHTML elements).
 
 ## Installing Packages
 
@@ -143,7 +143,7 @@ These files should be deployed with the application. End-user stylesheet contain
     exclude-result-prefixes="xs">
 
     <!-- System stylesheet (lowest priority) -->
-    <xsl:import href="../com/atomgraph/linkeddatahub/xsl/bootstrap/2.3.2/layout.xsl"/>
+    <xsl:import href="../com/atomgraph/linkeddatahub/xsl/layout.xsl"/>
 
     <!-- Package stylesheets will be added here by InstallPackage endpoint -->
 
@@ -162,7 +162,7 @@ When you install a package, the system:
 6. **Downloads package stylesheet** (`layout.xsl`) and saves it to `/static/{package-path}/layout.xsl` where `{package-path}` is derived from the package URI (e.g., `com/linkeddatahub/packages/skos/` for `https://packages.linkeddatahub.com/skos/`)
 7. **Updates master stylesheet** at `/static/xsl/layout.xsl` by adding import:
    ```xml
-   <xsl:import href="../com/atomgraph/linkeddatahub/xsl/bootstrap/2.3.2/layout.xsl"/>  <!-- System -->
+   <xsl:import href="../com/atomgraph/linkeddatahub/xsl/layout.xsl"/>  <!-- System -->
    <xsl:import href="../com/linkeddatahub/packages/skos/layout.xsl"/>  <!-- Package (added) -->
    ```
 8. **Adds import to application** (TODO - currently manual): `<app> ldh:import <package-uri>`
@@ -246,7 +246,7 @@ List of available packages can be found in the [LinkedDataHub-Apps](https://gith
 
 1. Create directory: `packages/<name>/`
 2. Write `ns.ttl` with vocabulary and property views (using `ldh:view` or `ldh:inverseView`)
-3. Write `layout.xsl` with XSLT templates (using system modes like `bs2:*`, `xhtml:*`, etc.)
+3. Write `layout.xsl` with XSLT templates (using system modes like `ac:*`, `ldh:*`, `xhtml:*`, etc.)
 4. Publish package metadata as Linked Data at `https://packages.linkeddatahub.com/<name>/#this`
 5. Ensure the metadata contains `ldt:ontology` and `ac:stylesheet` properties pointing to the package resources
 

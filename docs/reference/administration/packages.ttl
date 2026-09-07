@@ -32,7 +32,7 @@
             <dt><samp>ns.ttl</samp> — Package ontology</dt>
             <dd>An RDF ontology file that imports the external vocabulary using <code>owl:imports</code> and attaches views to properties using <code>ldh:view</code> (forward relationships) or <code>ldh:inverseView</code> (inverse relationships). Views are typically <code>ldh:View</code> resources with SPARQL queries that render related data for property values.</dd>
             <dt><samp>layout.xsl</samp> — XSLT stylesheet</dt>
-            <dd>XSLT transformation file with templates that override default rendering using system modes like <code>bs2:*</code> and <code>xhtml:*</code>. See the <a href="../../stylesheets/">Stylesheets reference</a> for details on XSLT customization.</dd>
+            <dd>XSLT transformation file with templates that override default rendering using system modes like <code>ac:*</code>, <code>ldh:*</code> and <code>xhtml:*</code>. See the <a href="../../stylesheets/">Stylesheets reference</a> for details on XSLT customization.</dd>
         </dl>
         <p>Package files are organized in the LinkedDataHub-Apps repository:</p>
         <pre>packages/
@@ -92,7 +92,7 @@ ns:SelectNarrowerConcepts a sp:Select ;
         <h2 id="package-stylesheet">Package stylesheet</h2>
         <p>XSLT templates using system modes to override default rendering:</p>
         <pre>&lt;!-- Hide properties from default property list --&gt;
-&lt;xsl:template match="skos:narrower | skos:broader" mode="bs2:PropertyList"/&gt;
+&lt;xsl:template match="skos:narrower | skos:broader" mode="ac:PropertyEditor"/&gt;
 
 &lt;!-- Override XHTML head elements --&gt;
 &lt;xsl:template match="*" mode="xhtml:Style"&gt;
@@ -100,7 +100,8 @@ ns:SelectNarrowerConcepts a sp:Select ;
 &lt;/xsl:template&gt;</pre>
         <p>Available system modes include:</p>
         <ul>
-            <li><code>bs2:*</code> — layout components (PropertyList, Form, etc.; the namespace is historically Bootstrap 2.3.2-based, not a Bootstrap dependency)</li>
+            <li><code>ac:*</code> — Web-Client component modes named after the design system's components (PropertyEditor, ResourceForm, BlockHeader, etc.)</li>
+            <li><code>ldh:*</code> — LinkedDataHub's own component modes (BlockRow, ContentBody, etc.)</li>
             <li><code>xhtml:*</code> — XHTML elements (Style, Script, etc.)</li>
             <li>Additional modes documented in the <a href="../../stylesheets/">Stylesheets reference</a></li>
         </ul>
@@ -173,8 +174,8 @@ schema:knows ldh:view :PersonKnows .
     ORDER BY ?person
     \"\"\" .</pre>
         <h3 id="write-stylesheet">Write XSLT stylesheet</h3>
-        <p>Create <samp>layout.xsl</samp> with XSLT templates using system modes like <code>bs2:*</code> and <code>xhtml:*</code>. See the <a href="../../stylesheets/">Stylesheets reference</a> for template customization patterns.</p>
-        <pre>&lt;xsl:template match="schema:knows" mode="bs2:PropertyList"/&gt;</pre>
+        <p>Create <samp>layout.xsl</samp> with XSLT templates using system modes like <code>ac:*</code>, <code>ldh:*</code> and <code>xhtml:*</code>. See the <a href="../../stylesheets/">Stylesheets reference</a> for template customization patterns.</p>
+        <pre>&lt;xsl:template match="schema:knows" mode="ac:PropertyEditor"/&gt;</pre>
         <h3 id="publish-metadata">Publish package metadata</h3>
         <p>Publish package metadata as Linked Data at your package URI:</p>
         <pre>&lt;https://packages.linkeddatahub.com/schema.org/#this&gt; a lapp:Package ;

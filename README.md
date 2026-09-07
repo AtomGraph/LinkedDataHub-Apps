@@ -136,6 +136,6 @@ Installation integrates the package by:
 - **Declarative only** - RDF + XSLT, no Java code
 - **Installation-time composition** - Pre-composed before loading, no runtime overhead
 - **Property views** (`ldh:view` / `ldh:inverseView`) - SPARQL-based views attached to properties
-- **XSLT overrides** - Custom rendering using system modes (`bs2:*`, `xhtml:*`, etc.)
+- **XSLT overrides** - Custom rendering using system modes (`ac:*`, `ldh:*`, `xhtml:*`, etc.)
 
 [Read the full packages documentation →](packages/README.md)

@@ -98,7 +98,7 @@ COPY files/style.css  /usr/local/tomcat/webapps/ROOT/static/com/example/myapp/cs
         <p>You can specify a custom server-side XSLT 3.0 stylesheet in the <a href="../../user-guide/manage-dataspaces/#change-stylesheet">dataspace configuration</a>.</p>
         <p>You can reuse LinkedDataHub's stylesheets by importing them as explained in the <a href="../change-layout/">Change layout</a> guide.</p>
         <h3 id="server-side-xslt">Server-side</h3>
-        <p>The default server-side stylesheet <samp>layout.xsl</samp> and its imports can be found in the <samp>src/main/webapp/static/com/atomgraph/linkeddatahub/xsl/bootstrap/2.3.2</samp> folder.</p>
+        <p>The default server-side stylesheet <samp>layout.xsl</samp> and its imports can be found in the <samp>src/main/webapp/static/com/atomgraph/linkeddatahub/xsl</samp> folder.</p>
         <h3 id="client-side-xslt">Client-side</h3>
         <p>Client-side stylesheets render the layout in the browser and implement the interactive parts of the UI (event handling, AJAX calls etc.) using the <a href="https://www.saxonica.com/saxonjs/documentation3/index.html#!ixsl-extension" target="_blank">IXSL extension</a>
             provided by the Saxon-JS 3 library. After the server renders the initial page, the client-side stylesheet injects the left sidebar, navigation, document and tab panes, content blocks, forms and modal dialogs into the DOM, and re-renders in place as the user navigates. This makes the frontend almost entirely declarative: it requires virtually no hand-written JavaScript, apart from third-party libraries such as Google Charts and OpenLayers.</p>
