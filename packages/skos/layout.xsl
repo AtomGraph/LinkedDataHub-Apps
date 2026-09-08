@@ -30,7 +30,7 @@ exclude-result-prefixes="#all">
 
     <xsl:param name="foaf:Agent" as="document-node()?"/>
 
-    <xsl:template match="rdf:RDF | srx:sparql" mode="xhtml:Style">
+    <xsl:template match="rdf:RDF | srx:sparql" mode="ac:Stylesheets">
         <xsl:apply-imports/>
 
         <!-- inject the package's own theme on top of the system stylesheets -->

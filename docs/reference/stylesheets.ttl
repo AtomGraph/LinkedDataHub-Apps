@@ -188,7 +188,7 @@
                     <ul>
                         <li><dfn>default mode</dfn> renders full resource descriptions</li>
                         <li><code>ac:List</code> renders a list of resources</li>
-                        <li><code>xhtml:Table</code> renders a table with resources as rows and properties as columns</li>
+                        <li><code>ac:ResultsTable</code> renders a table with resources as rows and properties as columns</li>
                         <li><code>ac:Grid</code> renders a gallery of thumbnails</li>
                         <li><code>ac:Map</code> renders resources with coordinates on a map</li>
                         <li><code>ac:Graph</code> renders the resources as a node-and-edge graph</li>
@@ -647,7 +647,7 @@
         <h2 id="other-assets">Other assets</h2>
         <div>
             <h3 id="css">CSS</h3>
-            <p>The stylesheet links are emitted by the <code>xhtml:Style</code> XSLT template mode. It links the design-system stylesheets (<samp>fonts.css</samp>, <samp>colors_and_type.css</samp>, <samp>app.css</samp>, <samp>retro.css</samp>) together with <samp>ldh.css</samp> and <samp>ldh-bridge.css</samp>, plus feature-specific stylesheets such as <samp>rdfa-editor.css</samp> (rich-text editing) and <samp>yasqe.css</samp> (SPARQL editor). Application stylesheets that import <samp>layout.xsl</samp> can override the <code>xhtml:Style</code> template mode to add or replace stylesheets.</p>
+            <p>The stylesheet links are emitted by the <code>ac:Stylesheets</code> XSLT template mode. It links the design-system stylesheets (<samp>fonts.css</samp>, <samp>colors_and_type.css</samp>, <samp>app.css</samp>, <samp>retro.css</samp>) together with <samp>ldh.css</samp> and <samp>ldh-bridge.css</samp>, plus feature-specific stylesheets such as <samp>rdfa-editor.css</samp> (rich-text editing) and <samp>yasqe.css</samp> (SPARQL editor). Application stylesheets that import <samp>layout.xsl</samp> can override the <code>ac:Stylesheets</code> template mode to add or replace stylesheets.</p>
         </div>
         <div>
             <h3 id="javascript">JavaScript</h3>

@@ -95,7 +95,7 @@ ns:SelectNarrowerConcepts a sp:Select ;
 &lt;xsl:template match="skos:narrower | skos:broader" mode="ac:PropertyEditor"/&gt;
 
 &lt;!-- Override XHTML head elements --&gt;
-&lt;xsl:template match="*" mode="xhtml:Style"&gt;
+&lt;xsl:template match="*" mode="ac:Stylesheets"&gt;
     &lt;!-- Custom styles --&gt;
 &lt;/xsl:template&gt;</pre>
         <p>Available system modes include:</p>

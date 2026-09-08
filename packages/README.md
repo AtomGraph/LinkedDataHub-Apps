@@ -89,7 +89,7 @@ XSLT templates using system modes to override default rendering:
 <xsl:template match="skos:narrower | skos:broader" mode="ac:PropertyEditor"/>
 
 <!-- Override XHTML head elements -->
-<xsl:template match="*" mode="xhtml:Style">
+<xsl:template match="*" mode="ac:Stylesheets">
     <!-- Custom styles -->
 </xsl:template>
 ```
