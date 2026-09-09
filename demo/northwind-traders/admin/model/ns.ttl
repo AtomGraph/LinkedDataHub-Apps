@@ -493,7 +493,7 @@ schema:containedInPlace ldh:inverseView :CitiesInRegion .
 :CitiesInRegion a ldh:View ;
     dct:title "Cities in this region" ;
     spin:query :SelectCitiesInRegion ;
-    ac:mode ac:TableMode ;
+    ac:mode ac:MapMode ;
     ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
