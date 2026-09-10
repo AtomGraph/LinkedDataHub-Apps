@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Step-by-step guide to converting CSV data to RDF and importing it into the end-user application</p>
+    <p class="lede">Step-by-step guide to converting CSV data to RDF and importing it into the end-user application</p>
     <p>A CSV import has three components:</p>
     <dl>
         <dt>CSV file</dt>
@@ -34,7 +34,7 @@
                     <p>All the import components can be created from a single dialog, but the steps below create them one at a time:</p>
                     <ol>
                         <li>First, create a container for the data to be imported. This will be the import's <dfn>target container</dfn>.</li>
-                        <li>Upload a CSV file. Click on the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown at the bottom of the page and select
+                        <li>Upload a CSV file. Click on the <span class="ldhc-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown at the bottom of the page and select
                                 <dfn>File</dfn>. This will open a new form.</li>
                         <li>Fill out the <dfn>Item</dfn> fields — the document's <samp>Title</samp> (required) and optional <samp>Description</samp>, the same fields used when <a href="../../create-data/create-documents/">creating a document</a>.</li>
                         <li>
@@ -46,11 +46,11 @@
                                 <dd>File title</dd>
                             </dl>
                         </li>
-                        <li>Once all the fields have been filled in, click <span class="btn btn-primary btn-save">Save</span>.</li>
+                        <li>Once all the fields have been filled in, click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span>.</li>
                         <li>The browser will open your imported file.</li>
                         <li>Create a <a href="../../../reference/imports/csv/#vocabulary-conversion">mapping query</a> that will
                             transform the uploaded CSV to RDF — the <a href="../../../tutorial/data/">tutorial's Data stage</a> walks through a complete example, <samp>categories.rq</samp>.
-                            Click on the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown at the bottom of the page and
+                            Click on the <span class="ldhc-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown at the bottom of the page and
                             select <dfn>CONSTRUCT</dfn>. This will open a new form.</li>
                         <li>Fill out the <samp>Item</samp> fields.</li>
                         <li>
@@ -63,9 +63,9 @@
                                 <dd>Query title</dd>
                             </dl>
                         </li>
-                        <li>Once all the fields have been filled in, click <span class="btn btn-primary btn-save">Save</span>. You can find it saved in the
+                        <li>Once all the fields have been filled in, click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span>. You can find it saved in the
                                 <dfn>Queries</dfn> container, which you can open from the <a href="../../../reference/user-interface/#document-hierarchy">document tree</a> in the left sidebar.</li>
-                        <li>Click on the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown button at the bottom of the page and select <dfn>CSV Import</dfn>.
+                        <li>Click on the <span class="ldhc-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown button at the bottom of the page and select <dfn>CSV Import</dfn>.
                                 This will open a new form.</li>
                         <li>Fill out the <samp>Item</samp> fields.</li>
                         <li>
@@ -79,7 +79,7 @@
                                 <dd>Import title</dd>
                             </dl>
                         </li>
-                        <li>Click <span class="btn btn-primary btn-save">Save</span> and you will be redirected to the newly created import document.</li>
+                        <li>Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span> and you will be redirected to the newly created import document.</li>
                         <li>Reload the document after a few moments to see the import progress. On success, the amount of data imported is
                                 displayed; on failure, the constraint violations or other import errors.</li>
                         <li>Go back to the target container to see the newly imported data items.</li>
@@ -103,5 +103,5 @@ ldh import csv \\
                 </div>
             </div>
     </div>
-    <p class="lead"><a href="../../../reference/imports/csv/" target="_blank">Read more about how CSV imports work.</a></p>
+    <p class="lede"><a href="../../../reference/imports/csv/" target="_blank">Read more about how CSV imports work.</a></p>
 </div>"""^^rdf:XMLLiteral .

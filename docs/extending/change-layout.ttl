@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">How to customize an application's layout and the way its resources are rendered</p>
+    <p class="lede">How to customize an application's layout and the way its resources are rendered</p>
     <p>LinkedDataHub's user interface is simply a rendering of the underlying Linked Data resource descriptions, which are exposed via the <a href="../../reference/http-api/" target="_blank">HTTP API</a>.</p>
     <p>LinkedDataHub provides <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheets</a> that render a default UI layout. When building an application, however, you may want a custom
         layout. The recommended approach is a new stylesheet that imports the system stylesheet and overrides only the templates you need, reusing the rest of the layout.</p>
@@ -99,5 +99,5 @@ exclude-result-prefixes="#all"&gt;
             <p>Screenshot: the order page after suppression — order description and total only, line items hidden</p>
         </div>
     </div>
-    <p class="lead">Read more about the <a href="../../reference/stylesheets/">XSLT stylesheets</a> or continue with the <a href="../build-apps/">Build apps</a> guide.</p>
+    <p class="lede">Read more about the <a href="../../reference/stylesheets/">XSLT stylesheets</a> or continue with the <a href="../build-apps/">Build apps</a> guide.</p>
 </div>"""^^rdf:XMLLiteral .

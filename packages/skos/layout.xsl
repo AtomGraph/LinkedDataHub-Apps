@@ -30,12 +30,9 @@ exclude-result-prefixes="#all">
 
     <xsl:param name="foaf:Agent" as="document-node()?"/>
 
-    <xsl:template match="rdf:RDF | srx:sparql" mode="ac:Stylesheets">
-        <xsl:apply-imports/>
-
-        <!-- inject the package's own theme on top of the system stylesheets -->
-        <link href="{resolve-uri('static/com/linkeddatahub/demo/skos/css/bootstrap.css', $ac:contextUri)}" rel="stylesheet" type="text/css"/>
-    </xsl:template>
+    <!-- no stylesheet override: the package rides the design system the system layout links.
+         The theme injected here was a Bootstrap sheet under the application's static path, which
+         no longer exists and would have layered a second design system over the kits -->
 
     <!-- the hierarchy predicates render as the concept tree, not as statement rows -->
     <xsl:template match="skos:narrower | skos:broader | skos:related | skos:member" mode="ac:PropertyEditor"/>

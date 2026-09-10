@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Give your app an identity: a title, a description and a landing page</p>
+    <p class="lede">Give your app an identity: a title, a description and a landing page</p>
     <p>In LinkedDataHub everything is a <a href="../../reference/data-model/documents/" target="_blank">document</a>, and every document is a named graph whose name is the document's URL. Your
         dataspace starts with a single document: the <strong>root document</strong> at the base URI. It doubles as the app's homepage, so making the app yours starts with describing this one
         document.</p>
@@ -22,10 +22,10 @@
             <button aria-controls="from-the-command-line-pane" aria-selected="false" class="ldhc-tab" id="from-the-command-line-tab" role="tab" type="button"><span class="ldhc-tab-lbl">From the command line</span></button>
         </div>
         <div aria-labelledby="in-the-browser-tab" class="ldhc-tabpanel" id="in-the-browser-pane" role="tabpanel">
-        <p>Open the base URL (e.g. <samp>https://localhost:4443/</samp>) and authenticate with the owner's WebID certificate. Choose <samp>Edit</samp> in the action bar's <span class="btn">Actions</span> dropdown
+        <p>Open the base URL (e.g. <samp>https://localhost:4443/</samp>) and authenticate with the owner's WebID certificate. Choose <samp>Edit</samp> in the action bar's <span class="ldhc-btn in-neutral ap-outline sz-md">Actions</span> dropdown
             to open the document edit form, change the title to <samp>Northwind Traders</samp>, fill in the description, and save. Then, in the
             <a href="../../reference/user-interface/#layout-modes" target="_blank">Content layout mode</a>, add an XHTML content block with a short welcome text using the
-            <span class="btn btn-primary create-action">XHTML</span> button at the bottom of the page. The <a href="../../user-guide/edit-content/" target="_blank">Edit
+            <span class="ldhc-btn in-primary ap-solid sz-md">XHTML</span> button at the bottom of the page. The <a href="../../user-guide/edit-content/" target="_blank">Edit
             content</a> guide walks through the block editor in detail.</p>
         <div class="screenshot-placeholder">
             <span aria-hidden="true" class="msi">image</span>
@@ -75,5 +75,5 @@
             <li><a href="../../reference/http-api/" target="_blank">HTTP API</a> — the <code>PUT</code> semantics behind <samp>ldh put</samp></li>
         </ul>
     </div>
-    <p class="lead">Next: <a href="../structure/">Structure</a></p>
+    <p class="lede">Next: <a href="../structure/">Structure</a></p>
 </div>"""^^rdf:XMLLiteral .

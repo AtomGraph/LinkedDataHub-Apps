@@ -10,11 +10,14 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Copy RDF data from Linked Data resources and file uploads into your dataspace</p>
+    <p class="lede">Copy RDF data from Linked Data resources and file uploads into your dataspace</p>
     <p>Forking copies the contents of any RDF document into a named graph in your dataspace. Two sources of RDF are supported: RDF resources on the web (Linked Data) and RDF file uploads.</p>
-    <div class="alert alert-info">
-        <p>Adding data this way will cause a blocking request, so use it for small amounts of data only (e.g. a few thousand RDF triples).
-        For larger data, use asynchronous <a href="../import-data/import-rdf-data/" target="_blank">RDF imports</a>.</p>
+    <div class="ldhc-alert va-informative" role="status">
+        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+        <div class="ldhc-alert-body">
+            <p>Adding data this way will cause a blocking request, so use it for small amounts of data only (e.g. a few thousand RDF triples).
+            For larger data, use asynchronous <a href="../import-data/import-rdf-data/" target="_blank">RDF imports</a>.</p>
+        </div>
     </div>
     <div class="ldhc-tabs or-horizontal">
         <div class="ldhc-tablist sz-md va-line" role="tablist">
@@ -29,7 +32,7 @@
         </div>
         <p>To copy the contents of the current RDF document (local or remote) into a local document, follow these steps:</p>
         <ol>
-            <li>Choose <samp>Save as</samp> in the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a>'s <span class="btn">Actions</span> dropdown.
+            <li>Choose <samp>Save as</samp> in the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a>'s <span class="ldhc-btn in-neutral ap-outline sz-md">Actions</span> dropdown.
                 A form will open with the following fields:
                 <dl>
                     <dt>Source</dt>
@@ -38,7 +41,7 @@
                     <dd>The target document. The source data is appended to the target document's existing content, replacing nothing. You can start typing to find the document by its label, or paste its URI here.</dd>
                 </dl>
             </li>
-            <li>Click <span class="btn btn-primary btn-save">Save</span> to perform the fork operation.</li>
+            <li>Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span> to perform the fork operation.</li>
         </ol>
         <p>For example, the Northwind Beverages category <a href="../../reference/imports/rdf/">maps to</a> the UNESCO Thesaurus concept
             <a href="https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3683/" target="_blank"><samp>Beverages</samp></a>. Open it in the
@@ -56,7 +59,7 @@
         <div aria-labelledby="from-a-file-tab" class="ldhc-tabpanel" hidden="hidden" id="from-a-file-pane" role="tabpanel">
         <p>To upload the contents of an RDF file into a document, drag the file from your filesystem into LinkedDataHub when the document's <a href="../../reference/user-interface/#layout-modes">properties mode</a> is active.</p>
         <p>The following syntaxes are supported:</p>
-        <table class="table table-striped">
+        <table>
             <thead>
                 <tr>
                     <th>Syntax</th>
@@ -89,5 +92,5 @@
         </table>
         </div>
     </div>
-    <p class="lead"><a href="../browse-data/">Browse data</a> to find resources worth forking, or <a href="../import-data/import-rdf-data/">import RDF data</a> for larger datasets.</p>
+    <p class="lede"><a href="../browse-data/">Browse data</a> to find resources worth forking, or <a href="../import-data/import-rdf-data/">import RDF data</a> for larger datasets.</p>
 </div>"""^^rdf:XMLLiteral .

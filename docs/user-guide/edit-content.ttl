@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Edit XHTML documents in-place and annotate text with RDFa</p>
+    <p class="lede">Edit XHTML documents in-place and annotate text with RDFa</p>
     <p>XHTML content blocks in LinkedDataHub are living documents: authenticated users with write access can click directly into the content to edit it, apply rich-text formatting, and annotate any span of text with <a href="https://www.w3.org/TR/rdfa-primer/" target="_blank">RDFa</a>. Words and phrases link to terms in the Knowledge Graph without leaving the page.</p>
     <p>Annotating the word <samp>Chai</samp> in a Northwind welcome text with the product it names produces markup like:</p>
     <pre>&lt;p&gt;Our bestselling tea is
@@ -59,7 +59,7 @@
             <li>Select the text you want to annotate.</li>
             <li>Right-click the selection to open the annotation dialog.</li>
             <li>In the annotation dialog, fill out the fields:
-                <table class="table table-striped">
+                <table>
                     <thead>
                         <tr>
                             <th>Field</th>
@@ -78,7 +78,7 @@
                     </tbody>
                 </table>
                 <p>Expand <samp>Type, subject &amp; object</samp> for the advanced fields:</p>
-                <table class="table table-striped">
+                <table>
                     <thead>
                         <tr>
                             <th>Field</th>
@@ -109,10 +109,10 @@
                     </tbody>
                 </table>
             </li>
-            <li>Click <span class="btn">Annotate</span>. The selected text is wrapped in a <code>span</code> carrying the appropriate RDFa attributes.</li>
+            <li>Click <span class="ldhc-btn in-primary ap-solid sz-sm">Annotate</span>. The selected text is wrapped in a <code>span</code> carrying the appropriate RDFa attributes.</li>
         </ol>
         <h3 id="editing-an-annotation">Editing an existing annotation</h3>
-        <p>Right-click an already-annotated span to reopen the dialog pre-populated with the current values. Change any field and click <span class="btn">Annotate</span> to update, or click <span class="btn">Remove</span> to delete the annotation while keeping the text.</p>
+        <p>Right-click an already-annotated span to reopen the dialog pre-populated with the current values. Change any field and click <span class="ldhc-btn in-primary ap-solid sz-sm">Annotate</span> to update, or click <span class="ldhc-btn in-negative ap-solid sz-sm">Remove</span> to delete the annotation while keeping the text.</p>
         <h3 id="annotation-visibility">Annotation visibility</h3>
         <p>While a block is in edit mode, annotated spans are outlined so you can see at a glance which text carries machine-readable meaning.</p>
     </div>
@@ -129,7 +129,7 @@
     </div>
     <div>
         <h2 id="xhtml-source">Viewing the XHTML source</h2>
-        <p>Click the <span class="btn">Source</span> button in the toolbar to open a read-only view of the serialized XHTML markup, including all RDFa attributes. This is useful for verifying the exact markup that will be stored or for copying fragments into other documents.</p>
+        <p>Click the <span class="ldhc-btn in-neutral ap-outline sz-sm">Source</span> button in the toolbar to open a read-only view of the serialized XHTML markup, including all RDFa attributes. This is useful for verifying the exact markup that will be stored or for copying fragments into other documents.</p>
     </div>
-    <p class="lead">Read more about <a href="../../reference/data-model/blocks/">content blocks</a>, or manage them from the command line as shown in the <a href="../create-data/create-content/">Create content</a> guide.</p>
+    <p class="lede">Read more about <a href="../../reference/data-model/blocks/">content blocks</a>, or manage them from the command line as shown in the <a href="../create-data/create-content/">Create content</a> guide.</p>
 </div>"""^^rdf:XMLLiteral .

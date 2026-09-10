@@ -10,11 +10,14 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Step-by-step guide to installing and uninstalling packages</p>
-    <div class="alert alert-info">
-        <p>Package management requires write access to the application's <samp>settings</samp> document, which in practice means the owner of the dataspace.</p>
+    <p class="lede">Step-by-step guide to installing and uninstalling packages</p>
+    <div class="ldhc-alert va-informative" role="status">
+        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+        <div class="ldhc-alert-body">
+            <p>Package management requires write access to the application's <samp>settings</samp> document, which in practice means the owner of the dataspace.</p>
+        </div>
     </div>
-    <p>Packages were introduced in LinkedDataHub 5.2. Since 5.10 they are installed <em>declaratively</em>: an application imports a package with a single <code>ldh:import</code> triple in its settings. The dedicated install/uninstall endpoints, and the package <span class="btn">Actions</span> menu that drove them, have been removed.</p>
+    <p>Packages were introduced in LinkedDataHub 5.2. Since 5.10 they are installed <em>declaratively</em>: an application imports a package with a single <code>ldh:import</code> triple in its settings. The dedicated install/uninstall endpoints, and the package <samp>Actions</samp> menu that drove them, have been removed.</p>
     <div>
         <h2 id="install-package">Install a package</h2>
         <p>Installing a package adds new functionality to your dataspace by importing its ontology and stylesheet. Packages are published under <samp>https://packages.linkeddatahub.com/</samp>, with their sources in the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/packages" target="_blank"><samp>packages/</samp></a> directory of the LinkedDataHub-Apps repository.</p>
@@ -31,9 +34,9 @@
                         <li>Select <dfn>Application</dfn> from the dropdown menu to open the <dfn>Application settings</dfn> modal</li>
                         <li>Scroll down to the <dfn>Packages</dfn> section, which lists the available packages with their descriptions</li>
                         <li>Tick the <dfn>Installed</dfn> checkbox of the package you want to install</li>
-                        <li>Click <span class="btn btn-primary btn-save">Save</span></li>
+                        <li>Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span></li>
                     </ol>
-                    <p>The page reloads with the package applied. The checkboxes are inputs of the settings form, so several packages can be installed and uninstalled in a single <span class="btn btn-primary btn-save">Save</span>.</p>
+                    <p>The page reloads with the package applied. The checkboxes are inputs of the settings form, so several packages can be installed and uninstalled in a single <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span>.</p>
                 </div>
             <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
                     <p>Packages have no command of their own: an application imports a package with a single <code>ldh:import</code> triple, so installing a package means patching the application's <samp>settings</samp> document. Execute the following command:</p>
@@ -63,7 +66,7 @@ EOF</pre>
                         <li>Open the <dfn>Application settings</dfn> modal as described above</li>
                         <li>Find the package in the <dfn>Packages</dfn> section</li>
                         <li>Untick its <dfn>Installed</dfn> checkbox</li>
-                        <li>Click <span class="btn btn-primary btn-save">Save</span></li>
+                        <li>Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span></li>
                     </ol>
                 </div>
             <div aria-labelledby="command-line-interface-2-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-2-pane" role="tabpanel">
@@ -80,8 +83,11 @@ EOF</pre>
     </div>
     <div>
         <h2 id="verify-installation">Verify the installation</h2>
-        <div class="alert alert-info">
-            <p>Installing or uninstalling a package takes effect on the <strong>next request</strong> — the package ontology joins the application's imports closure and its stylesheet is composed into the application stylesheet. No restart is needed.</p>
+        <div class="ldhc-alert va-informative" role="status">
+            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ldhc-alert-body">
+                <p>Installing or uninstalling a package takes effect on the <strong>next request</strong> — the package ontology joins the application's imports closure and its stylesheet is composed into the application stylesheet. No restart is needed.</p>
+            </div>
         </div>
         <p>After installing a package, verify that it was applied:</p>
         <ol>
@@ -101,7 +107,7 @@ EOF</pre>
   --data-urlencode 'query=ASK { &lt;http://www.w3.org/2004/02/skos/core#Concept&gt; &lt;http://spinrdf.org/spin#constructor&gt; ?constructor }'</pre>
                 <p>SPARQL queries fall outside the <samp>ldh</samp> command set, so this one uses <samp>curl</samp> with the <a href="../../get-started/get-an-account/">PEM certificate</a>.</p>
             </li>
-            <li>In the end-user application, check that package-specific classes are offered by the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown</li>
+            <li>In the end-user application, check that package-specific classes are offered by the <span class="ldhc-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown</li>
             <li>If the package includes a stylesheet, verify that its custom UI elements are rendering</li>
         </ol>
     </div>
@@ -117,7 +123,7 @@ EOF</pre>
     <div>
         <h2 id="troubleshooting">Troubleshooting</h2>
         <h3 id="installation-fails">Installation fails</h3>
-        <p>If the <span class="btn btn-primary btn-save">Save</span> or the <samp>ldh patch</samp> is rejected:</p>
+        <p>If the <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span> or the <samp>ldh patch</samp> is rejected:</p>
         <ul>
             <li>Verify you are logged in with an agent that has write access to the application's <samp>settings</samp></li>
             <li>Verify the package URI is correct and dereferenceable, and that its metadata declares <code>ldt:ontology</code> and <code>ac:stylesheet</code></li>
@@ -132,5 +138,5 @@ EOF</pre>
             <li>Check that you have appropriate permissions to view package resources</li>
         </ul>
     </div>
-    <p class="lead"><a href="../../reference/administration/packages/" target="_blank">Read more about how packages work.</a></p>
+    <p class="lede"><a href="../../reference/administration/packages/" target="_blank">Read more about how packages work.</a></p>
 </div>"""^^rdf:XMLLiteral .

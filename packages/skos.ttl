@@ -16,7 +16,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">SKOS (Simple Knowledge Organization System) vocabulary support with custom templates for concept hierarchies, schemes, and collections.</p>
+    <p class="lede">SKOS (Simple Knowledge Organization System) vocabulary support with custom templates for concept hierarchies, schemes, and collections.</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Object ;

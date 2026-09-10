@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Assemble the landing page from content blocks</p>
+    <p class="lede">Assemble the landing page from content blocks</p>
     <p>Everything the app can show is now in place — text, data, charts, views. The landing page is their composition: an ordered sequence of
         <a href="../../reference/data-model/blocks/" target="_blank">content blocks</a> on the root document. Two block types exist: <code>ldh:XHTML</code> holds authored markup, and
         <code>ldh:Object</code> embeds any other resource — a chart, a view, a document.</p>
@@ -40,7 +40,7 @@
         </div>
         <div aria-labelledby="in-the-browser-tab" class="ldhc-tabpanel" id="in-the-browser-pane" role="tabpanel">
         <p>With the <a href="../../reference/user-interface/#layout-modes" target="_blank">Content layout mode</a> active, append blocks with the
-            <span class="btn btn-primary create-action">XHTML</span> and <span class="btn btn-primary create-action">Object</span> buttons at the bottom of the page. Reorder by dragging a block by
+            <span class="ldhc-btn in-primary ap-solid sz-md">XHTML</span> and <span class="ldhc-btn in-primary ap-solid sz-md">Object</span> buttons at the bottom of the page. Reorder by dragging a block by
             its drag handle and dropping it in a different position.</p>
         </div>
         <div aria-labelledby="from-the-command-line-tab" class="ldhc-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
@@ -64,5 +64,5 @@
             <li><a href="../../reference/data-model/blocks/" target="_blank">Content blocks</a> — XHTML and object blocks, their RDF serialization and their management</li>
         </ul>
     </div>
-    <p class="lead">Next: <a href="../publish/">Publish</a></p>
+    <p class="lede">Next: <a href="../publish/">Publish</a></p>
 </div>"""^^rdf:XMLLiteral .

@@ -15,7 +15,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Learn how to query application data with SPARQL, and save queries and charts</p>
+    <p class="lede">Learn how to query application data with SPARQL, and save queries and charts</p>
     <p>The <a href="../../reference/dataspace/#end-user-apps">end-user application</a> dataset can be queried using the SPARQL 1.1
         endpoint at the application's <samp>sparql</samp> URL (e.g. <samp>https://localhost:4443/sparql</samp>). Opening it in the browser renders an
         interactive SPARQL editor.</p>
@@ -85,7 +85,7 @@ LIMIT 10""" ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <div>
         <h2 id="save-query">Saving queries</h2>
-        <p>To save the query string currently in the editor, click the <span class="btn btn-save-query btn-save">Save</span> button underneath the editor form. A document creation form opens with the query
+        <p>To save the query string currently in the editor, click the <span class="ldhc-btn in-neutral ap-outline sz-md">Save</span> button underneath the editor form. A document creation form opens with the query
             string pre-filled; you only need to supply titles for the query and its document. You can then access the query by navigating to the query container via the dropdown in the
             <a href="../../reference/user-interface/#action-bar" target="_blank">breadcrumb bar</a>.</p>
         <p>The editor will not save a query that is not valid SPARQL 1.1.</p>
@@ -95,10 +95,10 @@ LIMIT 10""" ;
         <p>The SPARQL editor includes an interactive chart pane which can be used to visualize the query results. You can change the chart type, select its category and one or more series.</p>
         <p>The chart pane handles both graph results (<code>CONSTRUCT</code>, <code>DESCRIBE</code>) and result sets (<code>SELECT</code>). For graph results, the category and series are
             rendered from resource properties; for result sets, they are rendered from variable names.</p>
-        <p>To save the chart with the properties currently selected, click the <span class="btn btn-primary btn-save-chart btn-save">Save</span> button underneath the chart pane. Two document creation forms open: one for
+        <p>To save the chart with the properties currently selected, click the <span class="ldhc-btn in-primary ap-solid sz-md">Save</span> button underneath the chart pane. Two document creation forms open: one for
             the query, one for the chart that depends on it. The query string and chart properties are pre-filled; you only need to
             supply titles for the query, the chart and their document. You can then access the chart by navigating to the chart container via the dropdown in the
             <a href="../../reference/user-interface/#action-bar" target="_blank">breadcrumb bar</a>.</p>
     </div>
-    <p class="lead">See charts in action in the <a href="../../tutorial/insight/">Insight</a> tutorial stage, or read more about <a href="../../reference/data-model/resources/#charts">charts</a>.</p>
+    <p class="lede">See charts in action in the <a href="../../tutorial/insight/">Insight</a> tutorial stage, or read more about <a href="../../reference/data-model/resources/#charts">charts</a>.</p>
 </div>"""^^rdf:XMLLiteral .

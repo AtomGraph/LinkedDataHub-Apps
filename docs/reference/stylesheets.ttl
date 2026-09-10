@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Built-in XSLT, CSS and JavaScript assets, and how to override them</p>
+    <p class="lede">Built-in XSLT, CSS and JavaScript assets, and how to override them</p>
     <div>
         <h2 id="xslt">XSLT</h2>
         <p>XSLT is a functional, Turing-complete XML transformation language.</p>
@@ -18,7 +18,7 @@
         <div>
             <h3 id="rdf-xml-plain">Plain RDF/XML</h3>
             <p><a href="https://www.w3.org/TR/rdf-syntax-grammar/" target="_blank">RDF/XML</a> is an important RDF syntax which functions as a bridge to the XML technology stack. The stylesheets use Jena's <a href="https://jena.apache.org/documentation/io/rdfxml_howto.html#rdfxml-rdfxml-abbrev" target="_blank">"plain" RDF/XML</a> output which groups statements by subject and does not nest resource descriptions. This allows for predictable XPath patterns:</p>
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>XPath</th>
@@ -93,7 +93,7 @@
         </div>
         <div>
             <h3 id="namespaces">Namespaces</h3>
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>Prefix</th>
@@ -277,7 +277,7 @@
         <div>
             <h3 id="parameters">Parameters</h3>
             <p>Both global (i.e. stylesheet-level) and template parameters are declared using <code>&lt;xsl:param&gt;</code>. LinkedDataHub sets the following global parameters:</p>
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>Parameter</th>
@@ -351,7 +351,7 @@
             <h3 id="functions">Functions</h3>
             <p>LinkedDataHub and Web-Client provide XSLT functions available to all stylesheets.</p>
             <h4 id="uri-utility-functions">URI utility functions</h4>
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>Function</th>
@@ -438,7 +438,7 @@
                 </tbody>
             </table>
             <h4 id="rdf-metadata-functions">RDF metadata functions</h4>
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>Function</th>
@@ -515,7 +515,7 @@
                 </tbody>
             </table>
             <h4 id="http-and-sparql-functions">HTTP and SPARQL functions</h4>
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>Function</th>
@@ -552,7 +552,7 @@
                 </tbody>
             </table>
             <h4 id="application-and-access-functions">Application and access functions</h4>
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>Function</th>
@@ -579,7 +579,7 @@
                 </tbody>
             </table>
             <h4 id="versioning-functions">Versioning functions</h4>
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>Function</th>
@@ -606,7 +606,7 @@
                 </tbody>
             </table>
             <h4 id="utility-functions">Utility functions</h4>
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>Function</th>
@@ -655,5 +655,5 @@
             <p>LinkedDataHub only uses JavaScript for the functionality that cannot be achieved using client-side XSLT.</p>
         </div>
     </div>
-    <p class="lead">To customize the built-in stylesheets, follow the <a href="../../extending/change-layout/">Change layout</a> and <a href="../../extending/build-apps/">Build apps</a> guides</p>
+    <p class="lede">To customize the built-in stylesheets, follow the <a href="../../extending/change-layout/">Change layout</a> and <a href="../../extending/build-apps/">Build apps</a> guides</p>
 </div>"""^^rdf:XMLLiteral .

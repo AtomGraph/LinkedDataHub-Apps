@@ -10,13 +10,16 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Define classes, attach SPIN constructors that drive create forms, and add constraints that validate instances</p>
+    <p class="lede">Define classes, attach SPIN constructors that drive create forms, and add constraints that validate instances</p>
     <div>
         <p>To manage instances, you first need <a href="../../reference/administration/ontologies/#classes" target="_blank">classes</a> that represent them in your dataspace's <a href="../../reference/administration/ontologies/" target="_blank">model</a>. Not only will they serve as RDF types of the instances, but they will also have <a href="../../reference/administration/ontologies/#constructors" target="_blank">constructors</a> attached that define the default properties and their (data)types for that class.</p>
-        <p>The model is managed in the <a href="../../reference/dataspace/#admin-apps" target="_blank">administration application</a> of a dataspace. Head there by clicking the <span class="btn dropdown-toggle btn-settings"></span> in the <a href="../../reference/user-interface/#nav-bar" target="_blank">navigation bar</a> and then choosing <samp>Administration</samp>.</p>
-        <div class="alert alert-info">
-            <p>In order to manage the <a href="../../reference/administration/acl/" target="_blank">access control</a>, or the <a href="../../reference/administration/ontologies/" target="_blank">model</a> of a dataspace,
-            the agent needs to be a member of the <a href="../../reference/administration/acl/#groups" target="_blank">owners group</a>.</p>
+        <p>The model is managed in the <a href="../../reference/dataspace/#admin-apps" target="_blank">administration application</a> of a dataspace. Head there by clicking the <span class="ldhc-iconbtn sz-lg in-neutral ap-ghost"><span aria-hidden="true" class="msi outline sm">settings</span></span> in the <a href="../../reference/user-interface/#nav-bar" target="_blank">navigation bar</a> and then choosing <samp>Administration</samp>.</p>
+        <div class="ldhc-alert va-informative" role="status">
+            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ldhc-alert-body">
+                <p>In order to manage the <a href="../../reference/administration/acl/" target="_blank">access control</a>, or the <a href="../../reference/administration/ontologies/" target="_blank">model</a> of a dataspace,
+                the agent needs to be a member of the <a href="../../reference/administration/acl/#groups" target="_blank">owners group</a>.</p>
+            </div>
         </div>
         <p>This guide uses the Northwind Traders model and its <samp>schema:Product</samp> class as the example — the demo app ships
             exactly this constructor and constraint in its namespace ontology, so the finished result can be compared against
@@ -45,7 +48,7 @@ WHERE {}</pre>
                     <div>
                         <p>In the administration application, follow these steps:</p>
                         <ol>
-                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown at the bottom of the page</li>
+                            <li>Click the <span class="ldhc-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown at the bottom of the page</li>
                             <li>Click on <samp>CONSTRUCT</samp> in the dropdown list that appears</li>
                             <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://localhost:4443/ns#ProductConstructor</samp></li>
                             <li>Fill out the mandatory fields in the form:
@@ -58,7 +61,7 @@ WHERE {}</pre>
                                     <dd>Enter the SPARQL <code>CONSTRUCT</code> query string</dd>
                                 </dl>
                             </li>
-                            <li>Click <span class="btn btn-primary btn-save">Save</span></li>
+                            <li>Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span></li>
                         </ol>
                     </div>
                 </div>
@@ -79,7 +82,7 @@ ldh admin add constructor \\
                 </div>
         </div>
         <p>Follow the same steps for <samp>Category</samp> (<samp>schema:ProductGroup</samp>) if you want its instances to be creatable too.</p>
-        <p class="lead"><a href="../../reference/administration/ontologies/#constructors" target="_blank">Read more about constructors.</a></p>
+        <p class="lede"><a href="../../reference/administration/ontologies/#constructors" target="_blank">Read more about constructors.</a></p>
     </div>
     <div>
         <h2 id="create-constraint">Create a constraint</h2>
@@ -93,7 +96,7 @@ ldh admin add constructor \\
                     <div>
                         <p>In the administration application, follow these steps:</p>
                         <ol>
-                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown at the bottom of the page</li>
+                            <li>Click the <span class="ldhc-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown at the bottom of the page</li>
                             <li>Click on <samp>Missing property value</samp> in the dropdown list that appears</li>
                             <li>Fill out the fields in the form:
                                 <dl>
@@ -106,7 +109,7 @@ ldh admin add constructor \\
                                     <dd>Enter <samp>https://schema.org/name</samp></dd>
                                 </dl>
                             </li>
-                            <li>Click <span class="btn btn-primary btn-save">Save</span></li>
+                            <li>Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span></li>
                         </ol>
                     </div>
                 </div>
@@ -121,7 +124,7 @@ ldh admin add constructor \\
                     </div>
                 </div>
         </div>
-        <p class="lead"><a href="../../reference/administration/ontologies/#constraints" target="_blank">Read more about constraints.</a></p>
+        <p class="lede"><a href="../../reference/administration/ontologies/#constraints" target="_blank">Read more about constraints.</a></p>
     </div>
     <div>
         <h2 id="create-classes">Create classes</h2>
@@ -134,7 +137,7 @@ ldh admin add constructor \\
                     <div>
                         <p>In the administration application, follow these steps to create the product class:</p>
                         <ol>
-                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown at the bottom of the page</li>
+                            <li>Click the <span class="ldhc-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown at the bottom of the page</li>
                             <li>Click on <samp>Class</samp> in the dropdown list that appears</li>
                             <li>Switch the <samp>Blank node</samp> dropdown to <samp>URI</samp> and enter <samp>https://schema.org/Product</samp> — reusing the schema.org term rather than minting your own</li>
                             <li>Fill out the mandatory fields in the form:
@@ -148,7 +151,7 @@ ldh admin add constructor \\
                                     <dd>Select <samp>Product constructor</samp> from the list — this is the query you created beforehand</dd>
                                 </dl>
                             </li>
-                            <li>Click <span class="btn btn-primary btn-save">Save</span></li>
+                            <li>Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span></li>
                         </ol>
                     </div>
                 </div>
@@ -164,7 +167,7 @@ ldh admin add constructor \\
                     </div>
                 </div>
         </div>
-        <p class="lead"><a href="../../reference/administration/ontologies/#classes" target="_blank">Read more about classes.</a></p>
+        <p class="lede"><a href="../../reference/administration/ontologies/#classes" target="_blank">Read more about classes.</a></p>
     </div>
     <div>
         <h2 id="result">What ended up in the model</h2>
@@ -180,7 +183,7 @@ ldh admin add constructor \\
 &lt;https://localhost:4443/ns#MissingName&gt; a ldh:MissingPropertyValue ;
     rdfs:label "Missing schema:name" ;
     sp:arg1 schema:name .</pre>
-        <p>From now on, <samp>Product</samp> appears in the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown of the
+        <p>From now on, <samp>Product</samp> appears in the <span class="ldhc-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown of the
             end-user application, and its form offers name, identifier, category and supplier controls. A submission without a name is rejected with
             <samp>422 Unprocessable Entity</samp>, carrying the <a href="../../reference/administration/ontologies/#constraints" target="_blank">constraint violation</a>.</p>
         <div class="screenshot-placeholder">

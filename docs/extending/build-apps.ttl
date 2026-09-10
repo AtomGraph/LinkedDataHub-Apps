@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Extend LinkedDataHub with custom Docker images, Java endpoints and XSLT stylesheets</p>
+    <p class="lede">Extend LinkedDataHub with custom Docker images, Java endpoints and XSLT stylesheets</p>
     <p>Every component in LinkedDataHub is data-driven and was designed with extensibility in mind. You can override behavior (e.g. Java method or XSLT template) without having to modify LinkedDataHub's
         codebase, and more importantly, without having to write the same logic from scratch.</p>
     <p>If you are building your first app, start with the <a href="../../tutorial/">tutorial</a> — this guide covers the layers beyond it.</p>
@@ -109,5 +109,5 @@ COPY files/style.css  /usr/local/tomcat/webapps/ROOT/static/com/example/myapp/cs
     <p>You can also modify or extend the <a href="../../reference/dataset/#default-datasets">default RDF datasets</a> used by LinkedDataHub. However, a better practice is to use the
         <a href="../../reference/command-line-interface/">CLI</a> to create documents and to <a href="../../reference/imports/">import CSV and RDF data</a>.</p>
     <p><a href="https://github.com/AtomGraph/LinkedDataHub-Apps" target="_blank">See the LinkedDataHub app repository for more examples.</a></p>
-    <p class="lead">Continue with the <a href="../change-layout/">Change layout</a> guide or see how these layers fit together in the <a href="../../tutorial/beyond-low-code/">Beyond low-code</a> tutorial.</p>
+    <p class="lede">Continue with the <a href="../change-layout/">Change layout</a> guide or see how these layers fit together in the <a href="../../tutorial/beyond-low-code/">Beyond low-code</a> tutorial.</p>
 </div>"""^^rdf:XMLLiteral .

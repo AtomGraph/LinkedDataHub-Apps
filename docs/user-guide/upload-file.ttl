@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Learn how to upload files to LinkedDataHub</p>
+    <p class="lede">Learn how to upload files to LinkedDataHub</p>
     <div>
         <h2 id="upload">Upload a file</h2>
         <div class="ldhc-tabs or-horizontal">
@@ -21,7 +21,7 @@
             <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
                     <div>
                         <ol>
-                            <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown at the bottom of the page</li>
+                            <li>Click the <span class="ldhc-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown at the bottom of the page</li>
                             <li>Click on <samp>File</samp> in the dropdown list that appears</li>
                             <li>Fill out the mandatory <dfn>File</dfn> fields in the form:
                                 <dl>
@@ -31,7 +31,7 @@
                                     <dd>Enter file title</dd>
                                 </dl>
                             </li>
-                            <li>Click <span class="btn btn-primary btn-save">Save</span></li>
+                            <li>Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span></li>
                         </ol>
                         <div class="screenshot-placeholder">
                             <span aria-hidden="true" class="msi">play_circle</span>
@@ -60,11 +60,14 @@ ldh add file \\
                 </div>
         </div>
     </div>
-    <div class="alert alert-warning">
-        <p><strong>Note about ontology files</strong></p>
-        <p>If you upload an ontology file (RDF/OWL), be aware that it will not be automatically loaded via <code>owl:imports</code> declarations.
-        This is deliberate: resolving imports at upload time would risk circular dependencies during system initialization.</p>
-        <p>For more information on working with ontologies, see the <a href="../../reference/administration/ontologies/">ontologies reference documentation</a>.</p>
+    <div class="ldhc-alert va-warning" role="status">
+        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
+        <div class="ldhc-alert-body">
+            <span class="ldhc-alert-title">Note about ontology files</span>
+            <p>If you upload an ontology file (RDF/OWL), be aware that it will not be automatically loaded via <code>owl:imports</code> declarations.
+            This is deliberate: resolving imports at upload time would risk circular dependencies during system initialization.</p>
+            <p>For more information on working with ontologies, see the <a href="../../reference/administration/ontologies/">ontologies reference documentation</a>.</p>
+        </div>
     </div>
-    <p class="lead"><a href="../../reference/dataset/#hierarchical-uris" target="_blank">Read more about the content-addressed uploads namespace.</a></p>
+    <p class="lede"><a href="../../reference/dataset/#hierarchical-uris" target="_blank">Read more about the content-addressed uploads namespace.</a></p>
 </div>"""^^rdf:XMLLiteral .

@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Learn how to create data-driven content</p>
+    <p class="lede">Learn how to create data-driven content</p>
     <div class="screenshot-placeholder">
         <span aria-hidden="true" class="msi">image</span>
         <p>Screenshot: creating an XHTML block and an object block on the Northwind dashboard</p>
@@ -45,9 +45,9 @@
                         <p>To create a new XHTML block, follow these steps:</p>
                         <ol>
                             <li>Make sure you are in the content layout mode</li>
-                            <li>At the bottom of the page, click the <span class="btn btn-primary create-action add-constructor">XHTML</span> button</li>
+                            <li>At the bottom of the page, click the <span class="ldhc-btn in-primary ap-solid sz-md">XHTML</span> button</li>
                             <li>Add content in the rich-text editor</li>
-                            <li>Click the <span class="btn btn-primary btn-save">Save</span> button to save the block</li>
+                            <li>Click the <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span> button to save the block</li>
                         </ol>
                         <p>After this, a new XHTML block should be appended to the page, replacing the form.</p>
                     </div>
@@ -60,7 +60,7 @@
                         <p>To remove an XHTML block, follow these steps:</p>
                         <ol>
                             <li>Hover over the block — controls appear in its top-right corner</li>
-                            <li>Click <span class="btn btn-remove-resource"></span> to remove the block</li>
+                            <li>Click <span class="ldhc-iconbtn sz-sm in-destructive ap-ghost"><span aria-hidden="true" class="msi sm">close</span></span> to remove the block</li>
                         </ol>
                     </div>
                 </div>
@@ -89,14 +89,14 @@
                         <p>To create a new object block, follow these steps:</p>
                         <ol>
                             <li>Make sure you are in the content layout mode</li>
-                            <li>At the bottom of the page, click the <span class="btn btn-primary create-action add-constructor">Object</span> button</li>
+                            <li>At the bottom of the page, click the <span class="ldhc-btn in-primary ap-solid sz-md">Object</span> button</li>
                             <li>Fill out values in the form that appears
                                 <dl>
                                     <dt>Value</dt>
                                     <dd>The URI of the object resource</dd>
                                 </dl>
                             </li>
-                            <li>Click the <span class="btn btn-primary btn-save">Save</span> button to save the block</li>
+                            <li>Click the <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span> button to save the block</li>
                         </ol>
                         <p>After this, a new object block should be appended to the page, replacing the form.</p>
                     </div>
@@ -104,14 +104,14 @@
                         <h3 id="edit-object-block">Edit block</h3>
                         <p>To edit an object block, follow these steps:</p>
                         <ol>
-                            <li>Move the mouse to the very top-right of the block element where an editing button <span class="btn btn-edit"></span> should appear</li>
+                            <li>Move the mouse to the very top-right of the block element where an editing button <span class="ldhc-iconbtn sz-sm in-neutral ap-ghost"><span aria-hidden="true" class="msi sm">edit</span></span> should appear</li>
                             <li>Make changes in the editing form:
                                 <dl>
                                     <dt>Value</dt>
                                     <dd>The URI of the object resource</dd>
                                 </dl>
                             </li>
-                            <li>Click <span class="btn btn-primary btn-save">Save</span> at the bottom of the form to save the block</li>
+                            <li>Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span> at the bottom of the form to save the block</li>
                         </ol>
                     </div>
                     <div>
@@ -119,7 +119,7 @@
                         <p>To remove an object block, follow these steps:</p>
                         <ol>
                             <li>Hover over the block — controls appear in its top-right corner</li>
-                            <li>Click <span class="btn btn-remove-resource"></span> to remove the block</li>
+                            <li>Click <span class="ldhc-iconbtn sz-sm in-destructive ap-ghost"><span aria-hidden="true" class="msi sm">close</span></span> to remove the block</li>
                         </ol>
                     </div>
                 </div>
@@ -136,5 +136,5 @@
                 </div>
         </div>
     </div>
-    <p class="lead"><a href="../../../reference/data-model/blocks/" target="_blank">Read more about content blocks.</a></p>
+    <p class="lede"><a href="../../../reference/data-model/blocks/" target="_blank">Read more about content blocks.</a></p>
 </div>"""^^rdf:XMLLiteral .

@@ -10,12 +10,12 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Requirements and configuration for alternative SPARQL backends</p>
+    <p class="lede">Requirements and configuration for alternative SPARQL backends</p>
     <p>LinkedDataHub is designed to work with any SPARQL 1.1-compatible triplestore that supports the required protocols. While Apache Jena Fuseki is the default backend, you can use alternative triplestores by adding them as services in <samp>docker-compose.override.yml</samp> (without modifying the default <samp>docker-compose.yml</samp>).</p>
     <div>
         <h2 id="requirements">Requirements</h2>
         <p>For a triplestore to work with LinkedDataHub, it must support the following:</p>
-        <table class="table table-striped">
+        <table>
             <thead>
                 <tr>
                     <th>Feature</th>
@@ -69,15 +69,18 @@
             <dd>Optional — if omitted, LinkedDataHub will use graph-scoped GSP fallback</dd>
             <dd>Example: <code>&lt;http://fuseki-host:3030/ds/&gt;</code> (Fuseki-specific)</dd>
         </dl>
-        <div class="alert alert-info">
-            <p><strong>GSP fallback mode</strong></p>
-            <p>When <code>a:quadStore</code> is not provided, LinkedDataHub automatically uses graph-scoped Graph Store Protocol operations instead. This mode:</p>
-            <ul>
-                <li>Works with triplestores that do not support dataset-level TriG/N-Quads uploads</li>
-                <li>Loads data graph-by-graph rather than as a complete dataset</li>
-                <li>Takes longer during bootstrap (more HTTP requests) but is functionally equivalent</li>
-                <li>Is required for QLever, Tentris, and other GSP-only triplestores</li>
-            </ul>
+        <div class="ldhc-alert va-informative" role="status">
+            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ldhc-alert-body">
+                <span class="ldhc-alert-title">GSP fallback mode</span>
+                <p>When <code>a:quadStore</code> is not provided, LinkedDataHub automatically uses graph-scoped Graph Store Protocol operations instead. This mode:</p>
+                <ul>
+                    <li>Works with triplestores that do not support dataset-level TriG/N-Quads uploads</li>
+                    <li>Loads data graph-by-graph rather than as a complete dataset</li>
+                    <li>Takes longer during bootstrap (more HTTP requests) but is functionally equivalent</li>
+                    <li>Is required for QLever, Tentris, and other GSP-only triplestores</li>
+                </ul>
+            </div>
         </div>
     </div>
     <div>
@@ -220,5 +223,5 @@
         <p>For background discussion of the QLever integration, see <a href="https://github.com/AtomGraph/LinkedDataHub/issues/272" target="_blank">GitHub issue #272</a>.</p>
         <p>Browse available triplestore products at <a href="https://kgdev.net/products/" target="_blank">kgdev.net/products/</a>.</p>
     </div>
-    <p class="lead">To create dataspaces on your chosen backend, follow the <a href="../../user-guide/manage-dataspaces/">Manage dataspaces</a> guide.</p>
+    <p class="lede">To create dataspaces on your chosen backend, follow the <a href="../../user-guide/manage-dataspaces/">Manage dataspaces</a> guide.</p>
 </div>"""^^rdf:XMLLiteral .

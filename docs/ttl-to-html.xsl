@@ -81,13 +81,13 @@
                     <xsl:with-param name="title" select="'Documentation'"/>
                 </xsl:call-template>
                 <body class="app">
-                    <xsl:call-template name="navbar">
+                    <xsl:call-template name="header">
                         <xsl:with-param name="brand-href" select="''"/>
                     </xsl:call-template>
                     <div class="docs-layout">
-                        <nav class="docs-nav">
-                            <ul class="nav nav-list">
-                                <!-- current-uri = 'file:/' — none of the nav items match, so no active class -->
+                        <div class="docs-nav" role="navigation">
+                            <ul>
+                                <!-- current-uri = 'file:/' — none of the nav items match, so nothing is active -->
                                 <xsl:apply-templates select="$top-level-docs" mode="nav">
                                     <xsl:sort select="local:nav-order(.)" data-type="number"/>
                                     <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
@@ -95,14 +95,16 @@
                                     <xsl:with-param name="base-path" select="$root-base-path" tunnel="yes"/>
                                 </xsl:apply-templates>
                             </ul>
-                        </nav>
-                        <main class="docs-main">
-                            <xsl:apply-templates select="$top-level-docs" mode="child-item">
-                                <xsl:sort select="local:nav-order(.)" data-type="number"/>
-                                <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
-                                <xsl:with-param name="base-path" select="$root-base-path" tunnel="yes"/>
-                            </xsl:apply-templates>
-                        </main>
+                        </div>
+                        <div class="docs-main" role="main">
+                            <div class="docs-children">
+                                <xsl:apply-templates select="$top-level-docs" mode="child-item">
+                                    <xsl:sort select="local:nav-order(.)" data-type="number"/>
+                                    <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
+                                    <xsl:with-param name="base-path" select="$root-base-path" tunnel="yes"/>
+                                </xsl:apply-templates>
+                            </div>
+                        </div>
                     </div>
                     <xsl:call-template name="footer"/>
                 </body>
@@ -141,12 +143,12 @@
                     <xsl:with-param name="doc-path" select="$base-path"/>
                 </xsl:call-template>
                 <body class="app">
-                    <xsl:call-template name="navbar">
+                    <xsl:call-template name="header">
                         <xsl:with-param name="brand-href" select="local:relativize('/', $base-path)"/>
                     </xsl:call-template>
                     <div class="docs-layout">
-                        <nav class="docs-nav">
-                            <ul class="nav nav-list">
+                        <div class="docs-nav" role="navigation">
+                            <ul>
                                 <xsl:apply-templates
                                     select="$all-docs/rdf:RDF[resolve-uri('../', local:resource-uri(.)) = 'file:/']"
                                     mode="nav">
@@ -156,12 +158,12 @@
                                     <xsl:with-param name="base-path" select="$base-path" tunnel="yes"/>
                                 </xsl:apply-templates>
                             </ul>
-                        </nav>
-                        <main class="docs-main">
+                        </div>
+                        <div class="docs-main" role="main">
                             <xsl:apply-templates select="$resource">
                                 <xsl:with-param name="base-path" select="$base-path" tunnel="yes"/>
                             </xsl:apply-templates>
-                        </main>
+                        </div>
                     </div>
                     <xsl:call-template name="footer"/>
                 </body>
@@ -175,28 +177,24 @@
         <xsl:param name="base-path" tunnel="yes"/>
         <xsl:variable name="resource-uri" select="local:resource-uri(.)"/>
 
-        <header>
-            <h1><xsl:value-of select="dct:title"/></h1>
-        </header>
+        <h1><xsl:value-of select="dct:title"/></h1>
         <xsl:apply-templates select="*[namespace-uri() = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'][starts-with(local-name(), '_')]">
             <xsl:sort select="xs:integer(substring-after(local-name(), '_'))" data-type="number"/>
         </xsl:apply-templates>
-        <nav>
+        <div class="docs-children">
             <xsl:apply-templates
                 select="$all-docs/rdf:RDF[resolve-uri('../', local:resource-uri(.)) = $resource-uri]"
                 mode="child-item">
                 <xsl:sort select="local:nav-order(.)" data-type="number"/>
                 <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
             </xsl:apply-templates>
-        </nav>
+        </div>
     </xsl:template>
 
     <!-- ==================== ITEM ==================== -->
 
     <xsl:template match="rdf:Description[rdf:type/@rdf:resource = 'https://www.w3.org/ns/ldt/document-hierarchy#Item']">
-        <header>
-            <h1><xsl:value-of select="dct:title"/></h1>
-        </header>
+        <h1><xsl:value-of select="dct:title"/></h1>
         <xsl:apply-templates select="*[namespace-uri() = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'][starts-with(local-name(), '_')]">
             <xsl:sort select="xs:integer(substring-after(local-name(), '_'))" data-type="number"/>
         </xsl:apply-templates>
@@ -243,14 +241,15 @@
 
         <li>
             <xsl:if test="$resource-uri = $current-uri">
-                <xsl:attribute name="class">active</xsl:attribute>
+                <xsl:attribute name="class">is-active</xsl:attribute>
+                <xsl:attribute name="aria-current">page</xsl:attribute>
             </xsl:if>
             <a href="{local:relativize($resource-path, $base-path)}">
                 <xsl:value-of select="$resource/dct:title"/>
             </a>
             <!-- expand only the active trail: children render when the current page is this node or its descendant -->
             <xsl:if test="$children and starts-with($current-uri, $resource-uri)">
-                <ul class="nav nav-list">
+                <ul>
                     <xsl:apply-templates select="$children" mode="nav">
                         <xsl:sort select="local:nav-order(.)" data-type="number"/>
                         <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
@@ -303,11 +302,6 @@
         </xsl:choose>
     </xsl:template>
 
-    <!-- strip "LinkedDataHub Cloud" tabs, keep only the active tab content -->
-    <xsl:template match="xhtml:div[@class = 'tabbable'][xhtml:ul/xhtml:li/xhtml:a = 'LinkedDataHub Cloud']" mode="xhtml">
-        <xsl:apply-templates select="xhtml:div[@class = 'tab-content']/xhtml:div[contains-token(@class, 'active')]/*" mode="xhtml"/>
-    </xsl:template>
-
     <!-- ==================== HTML BOILERPLATE NAMED TEMPLATES ==================== -->
 
     <xsl:template name="html-head">
@@ -325,13 +319,19 @@
                 <meta name="last-modified" content="{$modified}"/>
             </xsl:if>
             <meta name="viewport" content="width=device-width, initial-scale=1"/>
-            <!-- LinkedDataHub design system: fonts, tokens, components, m3 skin, legacy-primitive bridge — then the docs skin -->
+            <!-- design system, in the order the platform links it: fonts (vendored), tokens, components
+                 (app.css imports core.css, which imports controls.css, overlays.css and surfaces.css),
+                 m3 skin, then LDH's own app layer over the kits — and the docs skin last -->
             <link href="{$css-base}fonts.css" rel="stylesheet" type="text/css"/>
             <link href="{$css-base}colors_and_type.css" rel="stylesheet" type="text/css"/>
             <link href="{$css-base}app.css" rel="stylesheet" type="text/css"/>
             <link href="{$css-base}retro.css" rel="stylesheet" type="text/css"/>
-            <link href="{$css-base}ldh-bridge.css" rel="stylesheet" type="text/css"/>
+            <link href="{$css-base}ldh.css" rel="stylesheet" type="text/css"/>
             <link href="{$css-base}docs.css" rel="stylesheet" type="text/css"/>
+            <!-- No '>' anywhere in this script: the xhtml output method escapes it to &gt;, and HTML
+                 parses script content as raw text, so the entity reaches the engine verbatim. A child
+                 combinator here threw "not a valid selector" and no panel ever switched. Own the
+                 child test in JS instead of in the selector. -->
             <script type="text/javascript">
                 <xsl:text><![CDATA[
                     document.addEventListener("click", function(event) {
@@ -343,7 +343,10 @@
                         tablist.querySelectorAll(".ldhc-tab").forEach(function(t) { t.classList.remove("is-on"); t.setAttribute("aria-selected", "false"); });
                         tab.classList.add("is-on");
                         tab.setAttribute("aria-selected", "true");
-                        tabs.querySelectorAll(":scope > .ldhc-tabpanel").forEach(function(pane) { pane.hidden = pane.id !== tab.getAttribute("aria-controls"); });
+                        tabs.querySelectorAll(".ldhc-tabpanel").forEach(function(pane) {
+                            if (pane.parentElement !== tabs) return;
+                            pane.hidden = pane.id !== tab.getAttribute("aria-controls");
+                        });
                     });
                 ]]></xsl:text>
             </script>
@@ -361,10 +364,10 @@
         </head>
     </xsl:template>
 
-    <xsl:template name="navbar">
+    <xsl:template name="header">
         <xsl:param name="brand-href" as="xs:string"/>
-        <div class="navbar ldh-header">
-            <a class="brand ldh-wordmark" href="{$brand-href}">
+        <div class="ldh-header" role="banner">
+            <a class="ldh-wordmark" href="{$brand-href}">
                 <span class="mark"></span>
                 <span>LinkedDataHub</span>
             </a>
@@ -390,7 +393,7 @@
     </xsl:template>
 
     <xsl:template name="footer">
-        <div class="footer ldh-footer">
+        <div class="ldh-footer" role="contentinfo">
             <div class="cols">
                 <div class="col brand-col">
                     <a class="ldh-wordmark" href="https://linkeddatahub.com" target="_blank">

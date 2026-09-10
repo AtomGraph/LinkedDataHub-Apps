@@ -11,11 +11,14 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">CSV imports and mapping to RDF using SPARQL CONSTRUCT</p>
+    <p class="lede">CSV imports and mapping to RDF using SPARQL CONSTRUCT</p>
     <p><a href="https://en.wikipedia.org/wiki/Comma-separated_values" target="_blank">CSV</a> is a plain-text format for
         tabular data.</p>
-    <div class="alert alert-info">
-        <p>Read the shared <a href="../#mapping-queries">mapping query rules</a> first — they apply to CSV and RDF imports alike.</p>
+    <div class="ldhc-alert va-informative" role="status">
+        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+        <div class="ldhc-alert-body">
+            <p>Read the shared <a href="../#mapping-queries">mapping query rules</a> first — they apply to CSV and RDF imports alike.</p>
+        </div>
     </div>
     <p>A CSV import is a combination of multiple resources:</p>
     <dl>
@@ -145,7 +148,7 @@ PREFIX  schema: &lt;https://schema.org/&gt;
         <h2 id="management">Management</h2>
         <div>
             <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>Action</th>
@@ -165,7 +168,7 @@ PREFIX  schema: &lt;https://schema.org/&gt;
             </table>
         </div>
     </div>
-    <p class="lead">If you are ready to import some CSV, follow the user guide on <a href="../../../user-guide/import-data/import-csv-data/">creating a CSV import</a>.</p>
+    <p class="lede">If you are ready to import some CSV, follow the user guide on <a href="../../../user-guide/import-data/import-csv-data/">creating a CSV import</a>.</p>
 </div>"""^^rdf:XMLLiteral ;
         rdfs:seeAlso <https://www.w3.org/TR/2015/REC-csv2rdf-20151217/>,
             <https://www.w3.org/TR/sparql11-query/#construct> .

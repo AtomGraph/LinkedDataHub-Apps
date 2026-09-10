@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Browse, navigate and search local and remote data</p>
+    <p class="lede">Browse, navigate and search local and remote data</p>
     <div class="screenshot-placeholder">
         <span aria-hidden="true" class="msi">play_circle</span>
         <p>Screen recording: browsing and navigating data</p>
@@ -89,5 +89,5 @@ WHERE {
         <p>Backlinks open in a <a href="../../reference/user-interface/#backlinks">popover anchored to each block's links button</a>.
             They display a list of resources which have properties with the block's resource as the object.</p>
     </div>
-    <p class="lead">Continue to the <a href="../query-data/">Query data</a> guide, or read more about the <a href="../../reference/user-interface/">user interface</a>.</p>
+    <p class="lede">Continue to the <a href="../query-data/">Query data</a> guide, or read more about the <a href="../../reference/user-interface/">user interface</a>.</p>
 </div>"""^^rdf:XMLLiteral .

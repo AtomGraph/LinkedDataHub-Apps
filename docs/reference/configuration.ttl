@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Environment variables, secrets and RDF configuration files</p>
+    <p class="lede">Environment variables, secrets and RDF configuration files</p>
     <p>This page covers the RDF configuration files, Compose overrides, and the environment variables and secrets of each service
         (defined in the <samp>environment</samp> sections of <samp>docker-compose.yml</samp>).</p>
     <div>
@@ -23,10 +23,13 @@ HTTP_PORT=80
 HTTPS_PORT=443
 HOST=ec2-54-235-229-141.compute-1.amazonaws.com
 ABS_PATH=/linkeddatahub/</pre>
-        <div class="alert alert-info">
-            <p>The <a href="../dataspace/#admin-apps">administration application</a> of each dataspace is served on the <code>admin.</code> subdomain
-                of its end-user host (e.g. <samp>admin.ec2-54-235-229-141.compute-1.amazonaws.com</samp>). The subdomain must resolve in DNS and be covered by the
-                server's TLS certificate, otherwise the admin application will not be reachable.</p>
+        <div class="ldhc-alert va-informative" role="status">
+            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ldhc-alert-body">
+                <p>The <a href="../dataspace/#admin-apps">administration application</a> of each dataspace is served on the <code>admin.</code> subdomain
+                    of its end-user host (e.g. <samp>admin.ec2-54-235-229-141.compute-1.amazonaws.com</samp>). The subdomain must resolve in DNS and be covered by the
+                    server's TLS certificate, otherwise the admin application will not be reachable.</p>
+            </div>
         </div>
         <p><a href="../../user-guide/manage-dataspaces/">Dataspace URIs</a> need to be relative to the system base URI in order to be reachable — after the change, the
             origins in <samp>config/dataspaces.trig</samp> have to follow. For the Northwind Traders dataspace, deploying from local development to the demo
@@ -146,8 +149,11 @@ ABS_PATH=/linkeddatahub/</pre>
                 <dt><samp>ENABLE_WEBID_SIGNUP</samp></dt>
                 <dd><samp>false</samp> to disable. Enabled by default.</dd>
                 <dd>
-                    <div class="alert alert-warning">
-                        <p>Currently this will only hide the signup button in the UI, without disabling the endpoint.</p>
+                    <div class="ldhc-alert va-warning" role="status">
+                        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
+                        <div class="ldhc-alert-body">
+                            <p>Currently this will only hide the signup button in the UI, without disabling the endpoint.</p>
+                        </div>
                     </div>
                 </dd>
                 <dt><samp>WEBID_CACHE_EXPIRATION</samp></dt>

@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Classes, constructors, constraints and properties of the application's domain model</p>
+    <p class="lede">Classes, constructors, constraints and properties of the application's domain model</p>
     <div>
         <h2 id="ontologies">Ontologies</h2>
         <p>Ontologies are sets of domain concepts. The domain can span both documents (information resources) and abstract/physical things
@@ -21,17 +21,20 @@
         <p><a href="../packages/">Package</a> ontologies join the application's imports closure automatically. They are derived from the application's
             <code>ldh:import</code> declarations at ontology load time and declared as <code>owl:imports</code> of the namespace ontology, so they resolve
             like any other import.</p>
-        <div class="alert alert-warning">
-            <p><strong>Best practice: avoid using <code>owl:imports</code> with uploaded files</strong></p>
-            <p>Do not use <code>owl:imports</code> declarations that point to paths under <samp>uploads/</samp>. This can cause circular dependency deadlocks
-            during system initialization, as the ontology loading process cannot access uploaded files without creating a circular reference.</p>
-            <p>Instead:</p>
-            <ul>
-                <li>Host ontologies as proper documents (not uploaded files)</li>
-                <li>Import them using their document URIs</li>
-                <li>If you need to use an ontology that was uploaded, create it as a proper ontology document first</li>
-            </ul>
-            <p>For more information, see the <a href="../../../user-guide/upload-file/">file upload documentation</a>.</p>
+        <div class="ldhc-alert va-warning" role="status">
+            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
+            <div class="ldhc-alert-body">
+                <span class="ldhc-alert-title">Best practice: avoid using <code>owl:imports</code> with uploaded files</span>
+                <p>Do not use <code>owl:imports</code> declarations that point to paths under <samp>uploads/</samp>. This can cause circular dependency deadlocks
+                during system initialization, as the ontology loading process cannot access uploaded files without creating a circular reference.</p>
+                <p>Instead:</p>
+                <ul>
+                    <li>Host ontologies as proper documents (not uploaded files)</li>
+                    <li>Import them using their document URIs</li>
+                    <li>If you need to use an ontology that was uploaded, create it as a proper ontology document first</li>
+                </ul>
+                <p>For more information, see the <a href="../../../user-guide/upload-file/">file upload documentation</a>.</p>
+            </div>
         </div>
         <p>Main ontology properties:</p>
         <dl>
@@ -42,7 +45,7 @@
         </dl>
         <div>
             <h3 id="system-ontologies">System ontologies</h3>
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>Ontology</th>
@@ -184,7 +187,7 @@ WHERE {}</pre>
     </div>
     <div>
         <h2 id="importing-vocabularies">Importing external vocabularies</h2>
-        <p>The <span class="btn">Import ontology</span> action loads an external vocabulary and derives instance <a href="#constructors">constructors</a> for its classes.
+        <p>The <samp>Import ontology</samp> action loads an external vocabulary and derives instance <a href="#constructors">constructors</a> for its classes.
             Only the derived <dfn>annotation ontology</dfn> is persisted — the generated constructors plus an <code>owl:imports</code> of the canonical vocabulary
             URI — and it is wired into the application's namespace ontology. The vocabulary itself resolves through its canonical URI as part of the imports closure.</p>
         <p>Importing the SKOS vocabulary, for example, persists an annotation ontology of this shape (abridged):</p>
@@ -206,7 +209,7 @@ skos:Concept spin:constructor [ a ldh:Constructor ;
         <h2 id="management">Management</h2>
         <div>
             <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>Action</th>
@@ -250,5 +253,5 @@ skos:Concept spin:constructor [ a ldh:Constructor ;
             </table>
         </div>
     </div>
-    <p class="lead">To evolve your application's model in practice, follow the <a href="../../../user-guide/change-model/">Change model</a> guide.</p>
+    <p class="lede">To evolve your application's model in practice, follow the <a href="../../../user-guide/change-model/">Change model</a> guide.</p>
 </div>"""^^rdf:XMLLiteral .

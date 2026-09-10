@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">LinkedDataHub dataspaces, applications, and services</p>
+    <p class="lede">LinkedDataHub dataspaces, applications, and services</p>
     <div>
         <h2 id="dataspaces">Dataspaces</h2>
         <p>The LinkedDataHub URI address space is split into <dfn>dataspaces</dfn>. Every dataspace consists of a pair of LinkedDataHub applications:
@@ -73,8 +73,11 @@
                 other ontologies from within the application as well as from external documents.</dd>
             <dd>Ontologies are <a href="../administration/ontologies/">managed in the administration application</a>.</dd>
         </dl>
-        <div class="alert alert-info">
-            <p>Base URI must end with a forward slash (<code>/</code>).</p>
+        <div class="ldhc-alert va-informative" role="status">
+            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ldhc-alert-body">
+                <p>Base URI must end with a forward slash (<code>/</code>).</p>
+            </div>
         </div>
         <p>LinkedDataHub applications have one further property:</p>
         <dl>
@@ -92,9 +95,12 @@
             <p>The base URI of an administration application is the base URI of its end-user application with the <code>admin.</code> subdomain
                 prefixed to the host (e.g. <samp>https://example.com/</samp> → <samp>https://admin.example.com/</samp>). Because the admin application lives on
                 its own subdomain (origin), it no longer occupies a path within the end-user application.</p>
-            <div class="alert alert-info">
-                <p>Since LinkedDataHub 5.1.0 the administration application is served on the <code>admin.</code> subdomain rather than under an
-                    <code>admin/</code> path. The subdomain must resolve in DNS and be covered by the server's TLS certificate.</p>
+            <div class="ldhc-alert va-informative" role="status">
+                <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+                <div class="ldhc-alert-body">
+                    <p>Since LinkedDataHub 5.1.0 the administration application is served on the <code>admin.</code> subdomain rather than under an
+                        <code>admin/</code> path. The subdomain must resolve in DNS and be covered by the server's TLS certificate.</p>
+                </div>
             </div>
             <p>The administration application provides means to control the <a href="../administration/ontologies/">domain model</a> and the
                 <a href="../administration/acl/">access control</a> of its end-user application. Only dataspace owners have access to its
@@ -112,9 +118,12 @@
         <p>A service is a persistent SPARQL 1.1-compatible store from which the application's <a href="../dataset/">RDF dataset</a> is accessible over HTTP. LinkedDataHub provides
             generic services as well as triplestore-specific ones, which allow simpler configuration and optimized access.</p>
         <p>LinkedDataHub works with various SPARQL backends, using Apache Jena Fuseki by default. See the <a href="../triplestores/">triplestores reference</a> for compatibility requirements and configuration examples.</p>
-        <div class="alert alert-info">
-            <p>The end-user application service must be able to federate with the administration application service using the
-            SPARQL <code>SERVICE</code> keyword.</p>
+        <div class="ldhc-alert va-informative" role="status">
+            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ldhc-alert-body">
+                <p>The end-user application service must be able to federate with the administration application service using the
+                SPARQL <code>SERVICE</code> keyword.</p>
+            </div>
         </div>
         <div>
             <h3 id="generic-services">Generic services</h3>
@@ -147,10 +156,13 @@
         a:quadStore &lt;http://fuseki-end-user:3030/ds/&gt; .
 }</pre>
             <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/config/system.trig" target="_blank">config/system.trig</a></p>
-            <div class="alert alert-info">
-                <p>LinkedDataHub has extension points for vendor-specific SPARQL services, which can be used to implement proprietary authentication schemes, for example.</p>
+            <div class="ldhc-alert va-informative" role="status">
+                <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+                <div class="ldhc-alert-body">
+                    <p>LinkedDataHub has extension points for vendor-specific SPARQL services, which can be used to implement proprietary authentication schemes, for example.</p>
+                </div>
             </div>
         </div>
     </div>
-    <p class="lead">If you are ready to create a dataspace, see the <a href="../../user-guide/manage-dataspaces/">dataspace management</a> user guide.</p>
+    <p class="lede">If you are ready to create a dataspace, see the <a href="../../user-guide/manage-dataspaces/">dataspace management</a> user guide.</p>
 </div>"""^^rdf:XMLLiteral .

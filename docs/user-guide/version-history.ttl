@@ -10,9 +10,12 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">View, compare and restore document versions</p>
-    <div class="alert alert-info">
-        <p>Version history is available in dataspaces with <a href="../../reference/versioning/">versioning</a> enabled — see the <a href="../../reference/versioning/#setup">setup instructions</a>.</p>
+    <p class="lede">View, compare and restore document versions</p>
+    <div class="ldhc-alert va-informative" role="status">
+        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+        <div class="ldhc-alert-body">
+            <p>Version history is available in dataspaces with <a href="../../reference/versioning/">versioning</a> enabled — see the <a href="../../reference/versioning/#setup">setup instructions</a>.</p>
+        </div>
     </div>
     <div class="ldhc-tabs or-horizontal">
         <div class="ldhc-tablist sz-md va-line" role="tablist">
@@ -49,7 +52,7 @@
     </div>
     <div>
         <h2 id="restore-version">Restore a version</h2>
-        <p>In the History dialog, click <span class="btn btn-primary">Restore</span> on the version you want to bring back and confirm. The version's
+        <p>In the History dialog, click <span class="ldhc-btn in-neutral ap-solid sz-sm">Restore</span> on the version you want to bring back and confirm. The version's
             content is written to the live document as a new version. Nothing is rewritten: the versions in between stay in the history.</p>
         <p>Restoring requires write access to the document; the button is not offered on the version you are currently viewing.</p>
     </div>
@@ -61,5 +64,5 @@
         <pre>ldh get --accept text/turtle --timemap "$doc"</pre>
         </div>
     </div>
-    <p class="lead"><a href="../../reference/versioning/">Read more about versioning and the Memento protocol.</a></p>
+    <p class="lede"><a href="../../reference/versioning/">Read more about versioning and the Memento protocol.</a></p>
 </div>"""^^rdf:XMLLiteral .

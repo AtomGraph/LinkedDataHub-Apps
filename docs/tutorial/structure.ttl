@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Lay out the document hierarchy that will hold your data</p>
+    <p class="lede">Lay out the document hierarchy that will hold your data</p>
     <p>Documents come in two kinds: <a href="../../reference/data-model/documents/#containers" target="_blank">containers</a>, which hold child documents, and
         <a href="../../reference/data-model/documents/#items" target="_blank">items</a>. Northwind's domain gives you the container layout directly — one container per entity type
         (order line items live inside their order documents):</p>
@@ -30,7 +30,7 @@
             <button aria-controls="from-the-command-line-pane" aria-selected="false" class="ldhc-tab" id="from-the-command-line-tab" role="tab" type="button"><span class="ldhc-tab-lbl">From the command line</span></button>
         </div>
         <div aria-labelledby="in-the-browser-tab" class="ldhc-tabpanel" id="in-the-browser-pane" role="tabpanel">
-        <p>On the root document, click the <span class="btn btn-primary create-action">Create</span> dropdown and select <samp>Container</samp>. Enter <samp>Categories</samp> as the title, replace
+        <p>On the root document, click the <span class="ldhc-btn in-primary ap-solid sz-md">Create</span> dropdown and select <samp>Container</samp>. Enter <samp>Categories</samp> as the title, replace
             the generated relative URI with <samp>categories</samp> using the dropdown in the top-right corner of the form, and save. The
             <a href="../../user-guide/create-data/create-documents/" target="_blank">Create documents</a> guide walks through the form in detail.</p>
         </div>
@@ -61,5 +61,5 @@
             <li><a href="../../reference/data-model/documents/#hierarchy" target="_blank">Document hierarchy</a> — how containers and items nest into the URL space</li>
         </ul>
     </div>
-    <p class="lead">Next: <a href="../model/">Model</a></p>
+    <p class="lede">Next: <a href="../model/">Model</a></p>
 </div>"""^^rdf:XMLLiteral .

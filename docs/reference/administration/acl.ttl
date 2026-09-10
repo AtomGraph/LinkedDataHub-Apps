@@ -10,12 +10,12 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Agents, groups, and authorizations</p>
+    <p class="lede">Agents, groups, and authorizations</p>
     <p>LinkedDataHub access control is based on the W3C <a href="https://www.w3.org/wiki/WebAccessControl" target="_blank">ACL ontology</a>.</p>
     <div>
         <h2 id="access-modes">Access modes</h2>
         <p>There are four access modes (classes of operation) that map to <a href="../../http-api/">HTTP methods</a>:</p>
-        <table class="table table-striped">
+        <table>
             <thead>
                 <tr>
                     <th>Mode</th>
@@ -63,12 +63,15 @@
             <li>Writers</li>
             <li>Readers</li>
         </ul>
-        <div class="alert alert-info">
-            <p>By default, only members of the owners group have access to the administration application: its built-in
-                <samp>Full control</samp> authorization grants the <a href="#access-modes">Control</a> mode (along with read and write)
-                to that group. See <a href="#authorizations">Authorizations</a>.</p>
-            <p>Note that an agent being a member of one of the above groups does not automatically provide it with an
-                authorization. A valid authorization for the whole group has to be present.</p>
+        <div class="ldhc-alert va-informative" role="status">
+            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ldhc-alert-body">
+                <p>By default, only members of the owners group have access to the administration application: its built-in
+                    <samp>Full control</samp> authorization grants the <a href="#access-modes">Control</a> mode (along with read and write)
+                    to that group. See <a href="#authorizations">Authorizations</a>.</p>
+                <p>Note that an agent being a member of one of the above groups does not automatically provide it with an
+                    authorization. A valid authorization for the whole group has to be present.</p>
+            </div>
         </div>
     </div>
     <div>
@@ -80,7 +83,7 @@
             able to log in to the <a href="../../dataspace/#admin-apps">administration application</a>. By default such an
             authorization is granted to the <a href="#groups">owners group</a>.</p>
         <p>The default authorizations for groups and their respective access modes:</p>
-        <table class="table table-striped">
+        <table>
             <thead>
                 <tr>
                     <th>Group</th>
@@ -153,8 +156,11 @@
         <p>A public-access authorization allows access for non-authenticated agents — the <a href="../../../tutorial/publish/">Publish</a> stage of the
             tutorial shows the one <samp>ldh admin make-public</samp> creates, granting <code>acl:Read</code> to the <code>foaf:Agent</code> class
             on every document class.</p>
-        <div class="alert alert-info">
-            <p>The owner's and <a href="../../dataspace/#dataspaces">secretary's</a> authorizations are stored under stable URIs (<samp>acl/authorizations/owner-webid/</samp> and <samp>acl/authorizations/secretary-webid/</samp>), so reloading the admin dataset does not create duplicates.</p>
+        <div class="ldhc-alert va-informative" role="status">
+            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ldhc-alert-body">
+                <p>The owner's and <a href="../../dataspace/#dataspaces">secretary's</a> authorizations are stored under stable URIs (<samp>acl/authorizations/owner-webid/</samp> and <samp>acl/authorizations/secretary-webid/</samp>), so reloading the admin dataset does not create duplicates.</p>
+            </div>
         </div>
         <div>
             <h3 id="auth-requests">Access requests</h3>
@@ -177,7 +183,7 @@
         <h2 id="management">Management</h2>
         <div>
             <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>Action</th>
@@ -205,5 +211,5 @@
             </table>
         </div>
     </div>
-    <p class="lead">To request access to someone else's dataspace, see the <a href="../../../get-started/request-access/">Request access</a> guide. To open your data to the public, follow the <a href="../../../tutorial/publish/">Publish</a> stage of the tutorial.</p>
+    <p class="lede">To request access to someone else's dataspace, see the <a href="../../../get-started/request-access/">Request access</a> guide. To open your data to the public, follow the <a href="../../../tutorial/publish/">Publish</a> stage of the tutorial.</p>
 </div>"""^^rdf:XMLLiteral .

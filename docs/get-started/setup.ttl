@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Set up LinkedDataHub on your local machine with Docker</p>
+    <p class="lede">Set up LinkedDataHub on your local machine with Docker</p>
     <div class="screenshot-placeholder">
         <span aria-hidden="true" class="msi">play_circle</span>
         <p>Screen recording: setting up LinkedDataHub with Docker</p>
@@ -76,8 +76,11 @@ OWNER_COUNTRY_NAME=DK</pre>
 └── uploads/    # content-hashed file uploads</pre>
             </li>
         </ol>
-        <div class="alert alert-info">
-            <p>The administration application of each <a href="../../reference/dataspace/">dataspace</a> is served on the <code>admin.</code> subdomain — for the default setup that is <samp>https://admin.localhost:4443/</samp>. Browsers resolve <samp>*.localhost</samp> automatically and the generated server certificate covers the subdomain, so the local setup works out of the box. On any other host, make sure <samp>admin.&lt;host&gt;</samp> resolves in DNS and is covered by the server's TLS certificate (e.g. a wildcard certificate).</p>
+        <div class="ldhc-alert va-informative" role="status">
+            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ldhc-alert-body">
+                <p>The administration application of each <a href="../../reference/dataspace/">dataspace</a> is served on the <code>admin.</code> subdomain — for the default setup that is <samp>https://admin.localhost:4443/</samp>. Browsers resolve <samp>*.localhost</samp> automatically and the generated server certificate covers the subdomain, so the local setup works out of the box. On any other host, make sure <samp>admin.&lt;host&gt;</samp> resolves in DNS and is covered by the server's TLS certificate (e.g. a wildcard certificate).</p>
+            </div>
         </div>
         <p>You are now the owner of this LinkedDataHub instance; <samp>ssl/owner/keystore.p12</samp> is your WebID certificate. The password is the value you put in <samp>secrets/owner_cert_password.txt</samp>.</p>
         <p>Startup takes up to half a minute while the datasets are loaded into the triplestores. After a successful startup you should see periodic healthcheck requests being made to the <samp>https://localhost:4443/ns</samp> URL in the log:</p>
@@ -85,7 +88,7 @@ OWNER_COUNTRY_NAME=DK</pre>
     </div>
     <div>
         <h2 id="common-commands">Common commands</h2>
-        <table class="table table-striped">
+        <table>
             <thead>
                 <tr>
                     <th>Command</th>
@@ -114,9 +117,12 @@ OWNER_COUNTRY_NAME=DK</pre>
         <p>If you need to start fresh and wipe the existing setup, you can do that using:</p>
         <pre>make drop</pre>
         <p>It stops the services, removes the Docker volumes, and wipes the local <samp>datasets</samp>, <samp>fuseki</samp>, <samp>ssl</samp> and <samp>uploads</samp> folders.</p>
-        <div class="alert alert-info">
-            <p><strong>This is destructive and cannot be undone.</strong></p>
+        <div class="ldhc-alert va-informative" role="status">
+            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ldhc-alert-body">
+                <span class="ldhc-alert-title">This is destructive and cannot be undone.</span>
+            </div>
         </div>
     </div>
-    <p class="lead">Is LinkedDataHub running? Proceed to <a href="../get-an-account/">get an account</a>.</p>
+    <p class="lede">Is LinkedDataHub running? Proceed to <a href="../get-an-account/">get an account</a>.</p>
 </div>"""^^rdf:XMLLiteral .

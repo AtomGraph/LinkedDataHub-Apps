@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Import CSV data using SPARQL mappings</p>
+    <p class="lede">Import CSV data using SPARQL mappings</p>
     <p>Northwind's data ships as plain CSV files. The first rows of <samp>categories.csv</samp>:</p>
     <pre>categoryID,categoryName,description,pictureHash
 1,Beverages,Soft drinks coffees teas beers and ales,5e1be0328ca2c694d1de6f5b1b3d3b1ce90cb41f
@@ -53,7 +53,7 @@ WHERE
 }</pre>
     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/categories.rq" target="_blank">categories/categories.rq</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/1/" target="_blank">/categories/1/</a></p>
     <p>The four <code>BIND</code>s carry the whole document model of the import:</p>
-    <table class="table table-striped">
+    <table>
         <thead>
             <tr>
                 <th>Variable</th>
@@ -86,7 +86,7 @@ WHERE
         </div>
         <div aria-labelledby="in-the-browser-tab" class="ldhc-tabpanel" id="in-the-browser-pane" role="tabpanel">
         <p>Upload the CSV file, save the mapping query as a <samp>CONSTRUCT</samp> document, then create a <samp>CSV Import</samp> that pairs the two with the target container — three passes through
-            the <span class="btn btn-primary create-action">Create</span> dropdown, walked through step by step in the <a href="../../user-guide/import-data/import-csv-data/" target="_blank">Import CSV data</a>
+            the <span class="ldhc-btn in-primary ap-solid sz-md">Create</span> dropdown, walked through step by step in the <a href="../../user-guide/import-data/import-csv-data/" target="_blank">Import CSV data</a>
             guide.</p>
         </div>
         <div aria-labelledby="from-the-command-line-tab" class="ldhc-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
@@ -135,5 +135,5 @@ ldh add csv-import \\
             <li><a href="../../reference/imports/#mapping-queries" target="_blank">Mapping queries</a> — the rules mapping queries follow, with an annotated skeleton</li>
         </ul>
     </div>
-    <p class="lead">Next: <a href="../media/">Media</a></p>
+    <p class="lede">Next: <a href="../media/">Media</a></p>
 </div>"""^^rdf:XMLLiteral .

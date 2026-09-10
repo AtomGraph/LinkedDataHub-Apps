@@ -1,7 +1,11 @@
 /* =========================================================================
    Documentation site skin — layout and primitives the docs pages need on top
    of the LinkedDataHub design system (colors_and_type.css, app.css, retro.css,
-   ldh-bridge.css). Uses design tokens only; no raw colors or sizes.
+   ldh.css). Uses design tokens only; no raw colors or sizes.
+
+   The page content comes from rdf:XMLLiteral bodies authored as plain semantic
+   XHTML, so everything here is keyed off elements wherever it can be. A class
+   in a literal has to earn its place.
    ========================================================================= */
 
 /* ---------- Page layout ---------- */
@@ -18,8 +22,8 @@
 
 /* ---------- Sidebar navigation (active trail) ---------- */
 .docs-nav { font-size: var(--fs-sm); position: sticky; top: calc(56px + var(--sp-6)); }
-.docs-nav ul.nav-list { list-style: none; margin: 0; padding: 0; }
-.docs-nav ul.nav-list ul.nav-list { padding-left: var(--sp-4); margin-top: var(--sp-1); border-left: 1px solid var(--border-default); }
+.docs-nav ul { list-style: none; margin: 0; padding: 0; }
+.docs-nav ul ul { padding-left: var(--sp-4); margin-top: var(--sp-1); border-left: 1px solid var(--border-default); }
 .docs-nav li { margin: 0; }
 .docs-nav a {
   display: block;
@@ -28,7 +32,7 @@
   color: var(--fg-2);
 }
 .docs-nav a:hover { color: var(--fg-1); background: var(--bg-hover); text-decoration: none; }
-.docs-nav li.active > a { color: var(--fg-link); font-weight: var(--fw-semibold); background: var(--bg-accent-quiet); }
+.docs-nav li.is-active > a { color: var(--fg-link); font-weight: var(--fw-semibold); background: var(--bg-accent-quiet); }
 
 /* ---------- Content typography ---------- */
 .docs-main h1 { font-size: var(--fs-4xl); font-weight: var(--fw-semibold); letter-spacing: var(--tracking-snug); line-height: var(--lh-tight); margin: 0 0 var(--sp-6); }
@@ -36,7 +40,7 @@
 .docs-main h3 { font-size: var(--fs-xl); font-weight: var(--fw-semibold); margin: var(--sp-8) 0 var(--sp-3); }
 .docs-main h4 { font-size: var(--fs-lg); font-weight: var(--fw-semibold); margin: var(--sp-6) 0 var(--sp-2); }
 .docs-main p, .docs-main li { line-height: var(--lh-relaxed); }
-.docs-main p.lead { font-size: var(--fs-lg); color: var(--fg-2); line-height: var(--lh-base); }
+.docs-main p.lede { font-size: var(--fs-lg); color: var(--fg-2); line-height: var(--lh-base); }
 .docs-main .page-header { border-bottom: 1px solid var(--border-default); margin-bottom: var(--sp-6); padding-bottom: var(--sp-4); }
 .docs-main dfn { font-style: italic; font-weight: var(--fw-medium); }
 
@@ -58,34 +62,73 @@
 .docs-main img, .docs-main iframe { max-width: 100%; }
 .docs-main img { border: 1px solid var(--border-default); border-radius: var(--r-md); }
 .docs-main object { width: 100%; min-height: 640px; }
-.docs-main .thumbnail { display: inline-block; padding: var(--sp-2); border: 1px solid var(--border-default); border-radius: var(--r-lg); background: var(--bg-card); }
+
+/* ---------- Reference tables ----------
+   Native table layout, styled to read as the design system's DataTable without
+   being it. .ldhc-table is grid-per-row: it trades the table layout algorithm
+   for one --ldhc-cols variable, which is the right deal for an app surface with
+   dynamic columns, and the wrong one here — it would put column tracks and a
+   replacement set of ARIA roles into content that is meant to stay plain
+   semantic XHTML, and it cannot express the rowspans these tables rely on. */
+.docs-main table {
+  width: 100%;
+  margin: var(--sp-4) 0;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+  background: var(--surface-0);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.docs-main thead th {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  font-weight: var(--fw-regular);
+  color: var(--fg-hint);
+  background: var(--surface-2);
+}
+.docs-main th, .docs-main td {
+  padding: var(--sp-3);
+  border-bottom: 1px solid var(--border-default);
+  text-align: left;
+  vertical-align: top;
+  line-height: var(--lh-base);
+}
+/* A row-header cell reads as the row's subject, so it keeps body weight. */
+.docs-main tbody th { font-weight: var(--fw-medium); color: var(--fg-1); }
+/* A th spanning the full width is a group heading within the body. */
+.docs-main tbody th[colspan] { background: var(--surface-1); color: var(--fg-2); }
+.docs-main tbody tr:last-child > th, .docs-main tbody tr:last-child > td { border-bottom: 0; }
+/* Successive tbodies group rows; the seam between them is the group's rule. */
+.docs-main tbody + tbody > tr:first-child > th { border-top: 1px solid var(--border-default); }
 
 /* ---------- Section/child cards ---------- */
+.docs-children { display: flex; flex-direction: column; gap: var(--sp-4); margin: var(--sp-6) 0 0; }
 .docs-card {
   background: var(--bg-card);
   border: 1px solid var(--border-default);
   border-radius: var(--r-lg);
   box-shadow: var(--shadow-xs);
   padding: var(--sp-5) var(--sp-6);
-  margin: 0 0 var(--sp-4);
+  margin: 0;
 }
 .docs-card h2 { margin: 0 0 var(--sp-2); font-size: var(--fs-xl); }
 .docs-card p { margin: 0; color: var(--fg-2); }
 
-/* ---------- UI/CLI tab strips (content markup keeps the tabbable classes) ---------- */
-.docs-main .nav-tabs { display: flex; gap: var(--sp-1); list-style: none; margin: 0 0 var(--sp-4); padding: 0; border-bottom: 1px solid var(--border-default); }
-.docs-main .nav-tabs li { margin: 0 0 -1px; }
-.docs-main .nav-tabs a {
-  display: block;
-  padding: var(--sp-2) var(--sp-4);
-  border: 1px solid transparent;
-  border-radius: var(--r-md) var(--r-md) 0 0;
-  color: var(--fg-2);
-  cursor: pointer;
-}
-.docs-main .nav-tabs a:hover { color: var(--fg-1); text-decoration: none; background: var(--bg-hover); }
-.docs-main .nav-tabs li.active a { color: var(--fg-link); font-weight: var(--fw-semibold); border-color: var(--border-default) var(--border-default) var(--bg-page); background: var(--bg-page); }
-.docs-main .tab-content > .tab-pane.active { display: block; }
+/* ---------- Design system components quoted inside prose ----------
+   A control named in a sentence is drawn as the control: the same .ldhc-btn /
+   .ldhc-iconbtn the platform emits. Centre it on the text baseline so a chip
+   does not set the line's height. */
+.docs-main p .ldhc-btn, .docs-main li .ldhc-btn, .docs-main td .ldhc-btn,
+.docs-main p .ldhc-iconbtn, .docs-main li .ldhc-iconbtn, .docs-main td .ldhc-iconbtn { vertical-align: middle; }
+
+/* An inline alert's body is a flex column with its own gap, so prose inside it
+   must not add the UA paragraph margins on top. */
+.docs-main .ldhc-alert-body > :first-child { margin-top: 0; }
+.docs-main .ldhc-alert-body > :last-child { margin-bottom: 0; }
+.docs-main .ldhc-alert { margin: var(--sp-4) 0; }
 
 /* ---------- Screenshot placeholders (swapped for real captures later) ---------- */
 .docs-main .screenshot-placeholder {
@@ -109,11 +152,8 @@
 .docs-main .exhibit-links { font-size: var(--fs-xs); color: var(--fg-hint); margin: calc(-1 * var(--sp-2)) 0 var(--sp-4); }
 .docs-main .exhibit-links a { color: var(--fg-2); }
 
-/* ---------- Alert variants (the bridge tints every .alert warning-amber) ---------- */
-.docs-main .alert.alert-info { background: var(--info-50); border-color: color-mix(in srgb, var(--info-500) 30%, transparent); }
-
 /* ---------- Header extras ---------- */
-/* sticky top navbar (app.css keeps the header static in the app; the docs pin it) */
+/* sticky header (app.css keeps it static in the app; the docs pin it) */
 .ldh-header { position: sticky; top: 0; z-index: 100; }
 html { scroll-padding-top: calc(56px + var(--sp-4)); }
 

@@ -11,9 +11,12 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">RDF imports and transforming RDF using SPARQL CONSTRUCT</p>
-    <div class="alert alert-info">
-        <p>Read the shared <a href="../#mapping-queries">mapping query rules</a> first — they apply to CSV and RDF imports alike.</p>
+    <p class="lede">RDF imports and transforming RDF using SPARQL CONSTRUCT</p>
+    <div class="ldhc-alert va-informative" role="status">
+        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+        <div class="ldhc-alert-body">
+            <p>Read the shared <a href="../#mapping-queries">mapping query rules</a> first — they apply to CSV and RDF imports alike.</p>
+        </div>
     </div>
     <p>An RDF import is a combination of multiple resources:</p>
     <dl>
@@ -24,8 +27,11 @@
         <dt>Graph (optional)</dt>
         <dd>The target graph (document) to which converted items are appended with <a href="../../http-api/#ld-post"><code>POST</code></a> (<code>sd:name</code>)</dd>
     </dl>
-    <div class="alert alert-info">
-        <p>Specify either the transformation query or the target graph, not both.</p>
+    <div class="ldhc-alert va-informative" role="status">
+        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+        <div class="ldhc-alert-body">
+            <p>Specify either the transformation query or the target graph, not both.</p>
+        </div>
     </div>
     <p>If the graph is specified, the resulting RDF data is appended to a single document.</p>
     <p>If the transformation query is specified, the resulting data should contain document instances in order to attach to the <a href="../../dataset/#structure">document hierarchy</a>. The documents have to be URI resources. The document graphs have to be <em>explicitly specified</em> using a <code>GRAPH</code> block in the <code>CONSTRUCT</code> template (a
@@ -106,7 +112,7 @@ WHERE
         <h2 id="management">Management</h2>
         <div>
             <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>Action</th>
@@ -126,7 +132,7 @@ WHERE
             </table>
         </div>
     </div>
-    <p class="lead">If you are ready to import some RDF, follow the user guide on <a href="../../../user-guide/import-data/import-rdf-data/">creating an RDF import</a>.</p>
+    <p class="lede">If you are ready to import some RDF, follow the user guide on <a href="../../../user-guide/import-data/import-rdf-data/">creating an RDF import</a>.</p>
 </div>"""^^rdf:XMLLiteral ;
         rdfs:seeAlso <https://www.w3.org/TR/sparql11-query/#construct> .
 

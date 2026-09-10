@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Document structure and the basic data management actions</p>
+    <p class="lede">Document structure and the basic data management actions</p>
     <div>
         <h2 id="hierarchy">Document hierarchy</h2>
         <p>The basic structure of resources in a LinkedDataHub <a href="../../dataspace/#applications">application</a> is analogous to a file system, but built using RDF
@@ -103,7 +103,7 @@
                 <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
             </div>
             <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>Action</th>
@@ -113,21 +113,21 @@
                 <tbody>
                     <tr>
                         <th>Create</th>
-                        <td>Create a new child document by clicking the <span class="btn btn-primary create-action">Create</span> button. Fill out the form. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                        <td>Create a new child document by clicking the <span class="ldhc-btn in-primary ap-solid sz-md">Create</span> button. Fill out the form. Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span>.</td>
                     </tr>
                     <tr>
                         <th>Update</th>
-                        <td>Open the current document editing form by choosing <samp>Edit</samp> in the <a href="../../user-interface/#action-bar">action bar</a>'s <span class="btn">Actions</span> dropdown. Make changes. Click <span class="btn btn-primary btn-save">Save</span>.</td>
+                        <td>Open the current document editing form by choosing <samp>Edit</samp> in the <a href="../../user-interface/#action-bar">action bar</a>'s <span class="ldhc-btn in-neutral ap-outline sz-md">Actions</span> dropdown. Make changes. Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span>.</td>
                     </tr>
                     <tr>
                         <th>Delete</th>
-                        <td>Delete the current document by choosing <samp>Delete</samp> in the <a href="../../user-interface/#action-bar">action bar</a>'s <span class="btn">Actions</span> dropdown.</td>
+                        <td>Delete the current document by choosing <samp>Delete</samp> in the <a href="../../user-interface/#action-bar">action bar</a>'s <span class="ldhc-btn in-neutral ap-outline sz-md">Actions</span> dropdown.</td>
                     </tr>
                 </tbody>
             </table>
             </div>
             <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>Action</th>
@@ -162,5 +162,5 @@
             </div>
         </div>
     </div>
-    <p class="lead">To create documents step-by-step, follow the <a href="../../../user-guide/create-data/create-documents/">Create documents</a> guide</p>
+    <p class="lede">To create documents step-by-step, follow the <a href="../../../user-guide/create-data/create-documents/">Create documents</a> guide</p>
 </div>"""^^rdf:XMLLiteral .

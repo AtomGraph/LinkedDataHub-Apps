@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Upload files and link them to resources</p>
+    <p class="lede">Upload files and link them to resources</p>
     <p>Northwind comes with images: a photo per employee, an icon per category. Uploaded files are stored <strong>content-addressed</strong> — the file's URL is derived from the SHA-1 hash of its
         content, under <samp>{base}uploads/</samp>. The same bytes always land at the same URL, which is what makes file references stable enough to bake into import mappings.</p>
     <div>
@@ -30,7 +30,7 @@ BIND(uri(concat(str($base), "uploads/", encode_for_uri(?pictureHash))) AS ?pictu
             <button aria-controls="from-the-command-line-pane" aria-selected="false" class="ldhc-tab" id="from-the-command-line-tab" role="tab" type="button"><span class="ldhc-tab-lbl">From the command line</span></button>
         </div>
         <div aria-labelledby="in-the-browser-tab" class="ldhc-tabpanel" id="in-the-browser-pane" role="tabpanel">
-        <p>Click the <span class="btn btn-primary create-action">Create</span> dropdown at the bottom of the page and select <samp>File</samp>. Choose the file, give it a title, and save. The
+        <p>Click the <span class="ldhc-btn in-primary ap-solid sz-md">Create</span> dropdown at the bottom of the page and select <samp>File</samp>. Choose the file, give it a title, and save. The
             <a href="../../user-guide/upload-file/" target="_blank">Upload file</a> guide walks through the form in detail.</p>
         </div>
         <div aria-labelledby="from-the-command-line-tab" class="ldhc-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
@@ -58,5 +58,5 @@ BIND(uri(concat(str($base), "uploads/", encode_for_uri(?pictureHash))) AS ?pictu
             <li><a href="../../user-guide/upload-file/" target="_blank">Upload file</a> — the upload form and the CLI command, step by step</li>
         </ul>
     </div>
-    <p class="lead">Next: <a href="../insight/">Insight</a></p>
+    <p class="lede">Next: <a href="../insight/">Insight</a></p>
 </div>"""^^rdf:XMLLiteral .
