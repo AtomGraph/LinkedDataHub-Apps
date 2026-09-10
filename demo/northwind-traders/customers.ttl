@@ -111,6 +111,7 @@ ORDER BY DESC(?customerCount)""" .
 
   # View block (references the query, uses TableMode)
   <#select-customers-view> a ldh:View ;
+      dct:title "All customers" ;
       spin:query <#select-customers-query> ;
       ac:mode <https://w3id.org/atomgraph/client#TableMode> .
 
