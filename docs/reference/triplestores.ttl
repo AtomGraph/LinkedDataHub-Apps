@@ -69,10 +69,10 @@
             <dd>Optional — if omitted, LinkedDataHub will use graph-scoped GSP fallback</dd>
             <dd>Example: <code>&lt;http://fuseki-host:3030/ds/&gt;</code> (Fuseki-specific)</dd>
         </dl>
-        <div class="ldhc-alert va-informative" role="status">
-            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-            <div class="ldhc-alert-body">
-                <span class="ldhc-alert-title">GSP fallback mode</span>
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
+                <span class="ac-alert-title">GSP fallback mode</span>
                 <p>When <code>a:quadStore</code> is not provided, LinkedDataHub automatically uses graph-scoped Graph Store Protocol operations instead. This mode:</p>
                 <ul>
                     <li>Works with triplestores that do not support dataset-level TriG/N-Quads uploads</li>
@@ -86,12 +86,12 @@
     <div>
         <h2 id="authentication">Authentication</h2>
         <p>LinkedDataHub supports two authentication methods for SPARQL services, both configured in <samp>secrets/credentials.trig</samp>. The file is mounted as a Docker secret and is not committed to version control (the <samp>/secrets</samp> folder is gitignored). See the <a href="../configuration/#secrets">configuration reference</a> for the <code>credentials</code> secret entry.</p>
-        <div class="ldhc-tabs or-horizontal">
-            <div class="ldhc-tablist sz-md va-line" role="tablist">
-                <button aria-controls="http-basic-pane" aria-selected="true" class="ldhc-tab is-on" id="http-basic-tab" role="tab" type="button"><span class="ldhc-tab-lbl">HTTP Basic authentication</span></button>
-                <button aria-controls="bearer-token-auth-pane" aria-selected="false" class="ldhc-tab" id="bearer-token-auth-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Bearer token authentication</span></button>
+        <div class="ac-tabs or-horizontal">
+            <div class="ac-tablist sz-md va-line" role="tablist">
+                <button aria-controls="http-basic-pane" aria-selected="true" class="ac-tab is-on" id="http-basic-tab" role="tab" type="button"><span class="ac-tab-lbl">HTTP Basic authentication</span></button>
+                <button aria-controls="bearer-token-auth-pane" aria-selected="false" class="ac-tab" id="bearer-token-auth-tab" role="tab" type="button"><span class="ac-tab-lbl">Bearer token authentication</span></button>
             </div>
-            <div aria-labelledby="http-basic-tab" class="ldhc-tabpanel" id="http-basic-pane" role="tabpanel">
+            <div aria-labelledby="http-basic-tab" class="ac-tabpanel" id="http-basic-pane" role="tabpanel">
             <p>Configure username and password using the <code>a:authUser</code> and <code>a:authPwd</code> properties:</p>
             <pre>@prefix a: &lt;https://w3id.org/atomgraph/core#&gt; .
 
@@ -107,7 +107,7 @@
         a:authPwd "password" .
 }</pre>
             </div>
-            <div aria-labelledby="bearer-token-auth-tab" class="ldhc-tabpanel" hidden="hidden" id="bearer-token-auth-pane" role="tabpanel">
+            <div aria-labelledby="bearer-token-auth-tab" class="ac-tabpanel" hidden="hidden" id="bearer-token-auth-pane" role="tabpanel">
             <p>For triplestores that require Bearer token authentication (like QLever), configure the token using the <code>a:authToken</code> property:</p>
             <pre>@prefix a: &lt;https://w3id.org/atomgraph/core#&gt; .
 

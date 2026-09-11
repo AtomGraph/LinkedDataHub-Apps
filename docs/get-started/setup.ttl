@@ -76,9 +76,9 @@ OWNER_COUNTRY_NAME=DK</pre>
 └── uploads/    # content-hashed file uploads</pre>
             </li>
         </ol>
-        <div class="ldhc-alert va-informative" role="status">
-            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-            <div class="ldhc-alert-body">
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
                 <p>The administration application of each <a href="../../reference/dataspace/">dataspace</a> is served on the <code>admin.</code> subdomain — for the default setup that is <samp>https://admin.localhost:4443/</samp>. Browsers resolve <samp>*.localhost</samp> automatically and the generated server certificate covers the subdomain, so the local setup works out of the box. On any other host, make sure <samp>admin.&lt;host&gt;</samp> resolves in DNS and is covered by the server's TLS certificate (e.g. a wildcard certificate).</p>
             </div>
         </div>
@@ -117,10 +117,10 @@ OWNER_COUNTRY_NAME=DK</pre>
         <p>If you need to start fresh and wipe the existing setup, you can do that using:</p>
         <pre>make drop</pre>
         <p>It stops the services, removes the Docker volumes, and wipes the local <samp>datasets</samp>, <samp>fuseki</samp>, <samp>ssl</samp> and <samp>uploads</samp> folders.</p>
-        <div class="ldhc-alert va-informative" role="status">
-            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-            <div class="ldhc-alert-body">
-                <span class="ldhc-alert-title">This is destructive and cannot be undone.</span>
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
+                <span class="ac-alert-title">This is destructive and cannot be undone.</span>
             </div>
         </div>
     </div>

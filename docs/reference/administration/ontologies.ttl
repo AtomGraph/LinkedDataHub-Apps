@@ -21,10 +21,10 @@
         <p><a href="../packages/">Package</a> ontologies join the application's imports closure automatically. They are derived from the application's
             <code>ldh:import</code> declarations at ontology load time and declared as <code>owl:imports</code> of the namespace ontology, so they resolve
             like any other import.</p>
-        <div class="ldhc-alert va-warning" role="status">
-            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
-            <div class="ldhc-alert-body">
-                <span class="ldhc-alert-title">Best practice: avoid using <code>owl:imports</code> with uploaded files</span>
+        <div class="ac-alert va-warning" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
+            <div class="ac-alert-body">
+                <span class="ac-alert-title">Best practice: avoid using <code>owl:imports</code> with uploaded files</span>
                 <p>Do not use <code>owl:imports</code> declarations that point to paths under <samp>uploads/</samp>. This can cause circular dependency deadlocks
                 during system initialization, as the ontology loading process cannot access uploaded files without creating a circular reference.</p>
                 <p>Instead:</p>

@@ -11,9 +11,9 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lede">Reusable bundles of an ontology and a stylesheet that add support and custom rendering for an RDF vocabulary</p>
-    <div class="ldhc-alert va-informative" role="status">
-        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-        <div class="ldhc-alert-body">
+    <div class="ac-alert va-informative" role="status">
+        <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+        <div class="ac-alert-body">
             <p>Packages were introduced in LinkedDataHub 5.2. Since 5.10 an application installs one by declaring a single <code>ldh:import</code> triple in its settings, replacing the <code>packages/install</code> and <code>packages/uninstall</code> endpoints and the file system mutations they performed.</p>
             <p>Packages are declarative only (RDF + XSLT) — they contain no Java code. See <a href="#architecture">Architecture</a> for how they are composed into the application.</p>
         </div>
@@ -138,9 +138,9 @@ ns:SelectNarrowerConcepts a sp:Select ;
     &lt;urn:linkeddatahub:apps/end-user&gt; ldh:import &lt;https://packages.linkeddatahub.com/skos/#this&gt; .
 }
 WHERE {}</pre>
-        <div class="ldhc-alert va-informative" role="status">
-            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-            <div class="ldhc-alert-body">
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
                 <p>Uninstalling a package does not remove user-created data that uses the package's vocabulary. That data stays in the dataspace but may not display or function correctly without the package.</p>
             </div>
         </div>
@@ -154,9 +154,9 @@ WHERE {}</pre>
             <li>The ontology closure and the stylesheet imports are assembled from the resolved package descriptions</li>
             <li>Installing and uninstalling take effect on the next request — no restart, no file system mutation</li>
         </ul>
-        <div class="ldhc-alert va-warning" role="status">
-            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
-            <div class="ldhc-alert-body">
+        <div class="ac-alert va-warning" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
+            <div class="ac-alert-body">
                 <p>Packages installed before 5.10 were applied by copying files into the webapp; those installations do not carry over. Re-declare them with <code>ldh:import</code>.</p>
             </div>
         </div>

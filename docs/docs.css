@@ -65,8 +65,8 @@
 
 /* ---------- Reference tables ----------
    Native table layout, styled to read as the design system's DataTable without
-   being it. .ldhc-table is grid-per-row: it trades the table layout algorithm
-   for one --ldhc-cols variable, which is the right deal for an app surface with
+   being it. .ac-table is grid-per-row: it trades the table layout algorithm
+   for one --ac-cols variable, which is the right deal for an app surface with
    dynamic columns, and the wrong one here — it would put column tracks and a
    replacement set of ARIA roles into content that is meant to stay plain
    semantic XHTML, and it cannot express the rowspans these tables rely on. */
@@ -118,17 +118,17 @@
 .docs-card p { margin: 0; color: var(--fg-2); }
 
 /* ---------- Design system components quoted inside prose ----------
-   A control named in a sentence is drawn as the control: the same .ldhc-btn /
-   .ldhc-iconbtn the platform emits. Centre it on the text baseline so a chip
+   A control named in a sentence is drawn as the control: the same .ac-btn /
+   .ac-iconbtn the platform emits. Centre it on the text baseline so a chip
    does not set the line's height. */
-.docs-main p .ldhc-btn, .docs-main li .ldhc-btn, .docs-main td .ldhc-btn,
-.docs-main p .ldhc-iconbtn, .docs-main li .ldhc-iconbtn, .docs-main td .ldhc-iconbtn { vertical-align: middle; }
+.docs-main p .ac-btn, .docs-main li .ac-btn, .docs-main td .ac-btn,
+.docs-main p .ac-iconbtn, .docs-main li .ac-iconbtn, .docs-main td .ac-iconbtn { vertical-align: middle; }
 
 /* An inline alert's body is a flex column with its own gap, so prose inside it
    must not add the UA paragraph margins on top. */
-.docs-main .ldhc-alert-body > :first-child { margin-top: 0; }
-.docs-main .ldhc-alert-body > :last-child { margin-bottom: 0; }
-.docs-main .ldhc-alert { margin: var(--sp-4) 0; }
+.docs-main .ac-alert-body > :first-child { margin-top: 0; }
+.docs-main .ac-alert-body > :last-child { margin-bottom: 0; }
+.docs-main .ac-alert { margin: var(--sp-4) 0; }
 
 /* ---------- Screenshot placeholders (swapped for real captures later) ---------- */
 .docs-main .screenshot-placeholder {

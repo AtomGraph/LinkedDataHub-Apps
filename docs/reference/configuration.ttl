@@ -23,9 +23,9 @@ HTTP_PORT=80
 HTTPS_PORT=443
 HOST=ec2-54-235-229-141.compute-1.amazonaws.com
 ABS_PATH=/linkeddatahub/</pre>
-        <div class="ldhc-alert va-informative" role="status">
-            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-            <div class="ldhc-alert-body">
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
                 <p>The <a href="../dataspace/#admin-apps">administration application</a> of each dataspace is served on the <code>admin.</code> subdomain
                     of its end-user host (e.g. <samp>admin.ec2-54-235-229-141.compute-1.amazonaws.com</samp>). The subdomain must resolve in DNS and be covered by the
                     server's TLS certificate, otherwise the admin application will not be reachable.</p>
@@ -149,9 +149,9 @@ ABS_PATH=/linkeddatahub/</pre>
                 <dt><samp>ENABLE_WEBID_SIGNUP</samp></dt>
                 <dd><samp>false</samp> to disable. Enabled by default.</dd>
                 <dd>
-                    <div class="ldhc-alert va-warning" role="status">
-                        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
-                        <div class="ldhc-alert-body">
+                    <div class="ac-alert va-warning" role="status">
+                        <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
+                        <div class="ac-alert-body">
                             <p>Currently this will only hide the signup button in the UI, without disabling the endpoint.</p>
                         </div>
                     </div>

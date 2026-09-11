@@ -21,12 +21,12 @@
         <p>Built-in classes are defined in <a href="../../administration/ontologies/#ontologies">system ontologies</a> while user-defined classes are defined in user ontologies.</p>
         <div>
             <h2 id="user-defined-classes">User-defined classes</h2>
-            <p>User-defined classes live in the application's namespace ontology, which is managed in the <a href="../../dataspace/#admin-apps">admin application</a>. A class becomes creatable in the UI once it has a <a href="../../administration/ontologies/#constructors">constructor</a>: it then appears in the <span class="ldhc-btn in-primary ap-solid sz-md">Create</span> dropdown alongside the built-in classes, and its instances are created and edited using the same forms. See <a href="../../../user-guide/change-model/">Change the model</a> for a walkthrough of defining classes, constructors and constraints.</p>
+            <p>User-defined classes live in the application's namespace ontology, which is managed in the <a href="../../dataspace/#admin-apps">admin application</a>. A class becomes creatable in the UI once it has a <a href="../../administration/ontologies/#constructors">constructor</a>: it then appears in the <span class="ac-btn in-primary ap-solid sz-md">Create</span> dropdown alongside the built-in classes, and its instances are created and edited using the same forms. See <a href="../../../user-guide/change-model/">Change the model</a> for a walkthrough of defining classes, constructors and constraints.</p>
         </div>
         <div>
             <h2 id="built-in-classes">Built-in classes</h2>
             <p>LinkedDataHub's built-in <a href="../../administration/ontologies/#classes">classes</a> have pre-defined <a href="../../administration/ontologies/#constructors">constructors</a>, <a href="../../administration/ontologies/#constraints">constraints</a> and often a customized UI rendering (implemented by <a href="../../stylesheets/#overriding-templates">overriding generic XSLT templates</a> with type-specific templates) as well, for example a query editor or a chart.</p>
-            <p>The table lists the built-in classes creatable from the <span class="ldhc-btn in-primary ap-solid sz-md">Create</span> dropdown; the two content block classes, <code>ldh:XHTML</code> and <code>ldh:Object</code>, are documented on the <a href="../blocks/">Content blocks</a> page.</p>
+            <p>The table lists the built-in classes creatable from the <span class="ac-btn in-primary ap-solid sz-md">Create</span> dropdown; the two content block classes, <code>ldh:XHTML</code> and <code>ldh:Object</code>, are documented on the <a href="../blocks/">Content blocks</a> page.</p>
             <table>
                 <thead>
                     <tr>
@@ -275,7 +275,7 @@ WHERE {
         </div>
         <div>
             <h3 id="inline-creation">Inline creation</h3>
-            <p>A view that carries <code>ldh:container</code> metadata renders a <span class="ldhc-btn in-primary ap-solid sz-md">Create</span> button that creates a new instance in that container, so a view can double as an entry point for the data it lists.</p>
+            <p>A view that carries <code>ldh:container</code> metadata renders a <span class="ac-btn in-primary ap-solid sz-md">Create</span> button that creates a new instance in that container, so a view can double as an entry point for the data it lists.</p>
             <p>A view with <code>ldh:showWhenEmpty</code> set to <code>false</code> is hidden while its query returns no results — the
                 <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/admin/model/ns.ttl" target="_blank">demo's property-attached views</a>
                 use it so "Orders from this customer" only appears on customers that have orders.</p>
@@ -339,12 +339,12 @@ LIMIT 10""" ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <div>
         <h2 id="management">Management</h2>
-        <div class="ldhc-tabs or-horizontal">
-            <div class="ldhc-tablist sz-md va-line" role="tablist">
-                <button aria-controls="user-interface-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
-                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+        <div class="ac-tabs or-horizontal">
+            <div class="ac-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-pane" aria-selected="true" class="ac-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ac-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ac-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ac-tab-lbl">Command line interface</span></button>
             </div>
-            <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
+            <div aria-labelledby="user-interface-tab" class="ac-tabpanel" id="user-interface-pane" role="tabpanel">
             <p>Resources can only be managed when the <a href="../../user-interface/#layout-modes" target="_blank">Properties layout mode</a> is active.</p>
             <table>
                 <thead>
@@ -356,20 +356,20 @@ LIMIT 10""" ;
                 <tbody>
                     <tr>
                         <th>Create</th>
-                        <td>Click the <span class="ldhc-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown at the bottom of the page. Fill out the fields in the form that appears. Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span>.</td>
+                        <td>Click the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown at the bottom of the page. Fill out the fields in the form that appears. Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span>.</td>
                     </tr>
                     <tr>
                         <th>Update</th>
-                        <td>Click the <span class="ldhc-iconbtn sz-sm in-neutral ap-ghost"><span aria-hidden="true" class="msi sm">edit</span></span> button in the top-right corner of the resource block (it appears when you move the mouse close to that corner). Make changes in the form that appears. Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span>.</td>
+                        <td>Click the <span class="ac-iconbtn sz-sm in-neutral ap-ghost"><span aria-hidden="true" class="msi sm">edit</span></span> button in the top-right corner of the resource block (it appears when you move the mouse close to that corner). Make changes in the form that appears. Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span>.</td>
                     </tr>
                     <tr>
                         <th>Delete</th>
-                        <td>Click the <span class="ldhc-iconbtn sz-sm in-neutral ap-ghost"><span aria-hidden="true" class="msi sm">edit</span></span> button in the top-right corner of the resource block. Click the <span class="ldhc-iconbtn sz-sm in-destructive ap-ghost"><span aria-hidden="true" class="msi sm">close</span></span> button to delete the resource.</td>
+                        <td>Click the <span class="ac-iconbtn sz-sm in-neutral ap-ghost"><span aria-hidden="true" class="msi sm">edit</span></span> button in the top-right corner of the resource block. Click the <span class="ac-iconbtn sz-sm in-destructive ap-ghost"><span aria-hidden="true" class="msi sm">close</span></span> button to delete the resource.</td>
                     </tr>
                 </tbody>
             </table>
             </div>
-            <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
+            <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
             <p>The following resource types can be created using the <a href="../../command-line-interface/" target="_blank">command line interface</a>. Any resource can be updated or deleted with <a href="../../command-line-interface/#commands"><samp>ldh patch</samp></a>, which applies a SPARQL update to the resource's document.</p>
             <table>
                 <thead>

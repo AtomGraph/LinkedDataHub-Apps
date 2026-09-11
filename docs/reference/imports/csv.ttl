@@ -14,9 +14,9 @@
     <p class="lede">CSV imports and mapping to RDF using SPARQL CONSTRUCT</p>
     <p><a href="https://en.wikipedia.org/wiki/Comma-separated_values" target="_blank">CSV</a> is a plain-text format for
         tabular data.</p>
-    <div class="ldhc-alert va-informative" role="status">
-        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-        <div class="ldhc-alert-body">
+    <div class="ac-alert va-informative" role="status">
+        <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+        <div class="ac-alert-body">
             <p>Read the shared <a href="../#mapping-queries">mapping query rules</a> first — they apply to CSV and RDF imports alike.</p>
         </div>
     </div>

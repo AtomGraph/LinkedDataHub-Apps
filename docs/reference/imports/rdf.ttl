@@ -12,9 +12,9 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lede">RDF imports and transforming RDF using SPARQL CONSTRUCT</p>
-    <div class="ldhc-alert va-informative" role="status">
-        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-        <div class="ldhc-alert-body">
+    <div class="ac-alert va-informative" role="status">
+        <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+        <div class="ac-alert-body">
             <p>Read the shared <a href="../#mapping-queries">mapping query rules</a> first — they apply to CSV and RDF imports alike.</p>
         </div>
     </div>
@@ -27,9 +27,9 @@
         <dt>Graph (optional)</dt>
         <dd>The target graph (document) to which converted items are appended with <a href="../../http-api/#ld-post"><code>POST</code></a> (<code>sd:name</code>)</dd>
     </dl>
-    <div class="ldhc-alert va-informative" role="status">
-        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-        <div class="ldhc-alert-body">
+    <div class="ac-alert va-informative" role="status">
+        <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+        <div class="ac-alert-body">
             <p>Specify either the transformation query or the target graph, not both.</p>
         </div>
     </div>

@@ -12,19 +12,19 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lede">How to get an account and log in to LinkedDataHub</p>
     <div>
-        <div class="ldhc-alert va-informative" role="status">
-            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-            <div class="ldhc-alert-body">
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
                 <p>In order to authenticate as the <em>owner</em> of a LinkedDataHub instance, you need to use the WebID authentication method.</p>
             </div>
         </div>
-        <div class="ldhc-tabs or-horizontal">
-            <div class="ldhc-tablist sz-md va-line" role="tablist">
-                <button aria-controls="get-a-webid-pane" aria-selected="true" class="ldhc-tab is-on" id="get-a-webid-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Get a WebID</span></button>
-                <button aria-controls="log-in-with-google-pane" aria-selected="false" class="ldhc-tab" id="log-in-with-google-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Log in with Google</span></button>
-                <button aria-controls="log-in-with-orcid-pane" aria-selected="false" class="ldhc-tab" id="log-in-with-orcid-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Log in with ORCID</span></button>
+        <div class="ac-tabs or-horizontal">
+            <div class="ac-tablist sz-md va-line" role="tablist">
+                <button aria-controls="get-a-webid-pane" aria-selected="true" class="ac-tab is-on" id="get-a-webid-tab" role="tab" type="button"><span class="ac-tab-lbl">Get a WebID</span></button>
+                <button aria-controls="log-in-with-google-pane" aria-selected="false" class="ac-tab" id="log-in-with-google-tab" role="tab" type="button"><span class="ac-tab-lbl">Log in with Google</span></button>
+                <button aria-controls="log-in-with-orcid-pane" aria-selected="false" class="ac-tab" id="log-in-with-orcid-tab" role="tab" type="button"><span class="ac-tab-lbl">Log in with ORCID</span></button>
             </div>
-            <div aria-labelledby="get-a-webid-tab" class="ldhc-tabpanel" id="get-a-webid-pane" role="tabpanel">
+            <div aria-labelledby="get-a-webid-tab" class="ac-tabpanel" id="get-a-webid-pane" role="tabpanel">
                 <div>
                     <h2 id="get-cert">Get certificate</h2>
                     <p>LinkedDataHub uses WebID as the <a href="https://en.wikipedia.org/wiki/Single_sign-on" target="_blank">Single sign-on</a> (SSO)
@@ -35,7 +35,7 @@
                     <p>Complete the <a href="../setup/">setup</a> to run your own instance of LinkedDataHub.</p>
                     <p>The <samp>ssl/owner/keystore.p12</samp> file is your WebID certificate. The password is the <samp>owner_cert_password</samp> Docker secret value.</p>
                     <h3 id="sign-up">Sign up to an existing instance</h3>
-                    <p>Click the <span class="ldhc-btn in-primary ap-solid sz-md">Sign up</span> button and fill out the form with your details to get a WebID, as shown below.</p>
+                    <p>Click the <span class="ac-btn in-primary ap-solid sz-md">Sign up</span> button and fill out the form with your details to get a WebID, as shown below.</p>
                     <div class="screenshot-placeholder">
                         <span aria-hidden="true" class="msi">image</span>
                         <p>Screenshot: the WebID signup form</p>
@@ -44,9 +44,9 @@
                     <p>The <a href="../../reference/command-line-interface/">command line interface</a> reads the PKCS12 (<samp>.p12</samp>) file directly — no conversion needed. Setup writes it to <samp>ssl/owner/keystore.p12</samp>.</p>
                     <p><samp>curl</samp> needs a PEM version instead. Setup writes that too, to <samp>ssl/owner/cert.pem</samp>. A certificate received by email can be converted from PKCS12 to PEM with OpenSSL:</p>
                     <pre>openssl pkcs12 -in cert.p12 -out cert.pem -nodes</pre>
-                    <div class="ldhc-alert va-informative" role="status">
-                        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-                        <div class="ldhc-alert-body">
+                    <div class="ac-alert va-informative" role="status">
+                        <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+                        <div class="ac-alert-body">
                             <p>Unlike most LinkedDataHub resources, your WebID profile will have <em>public access</em> as required by the protocol. Your email address, however, stays hidden.</p>
                         </div>
                     </div>
@@ -79,31 +79,31 @@
                     <p>Applications may make some or all of their documents public; you can browse those without authenticating. To reach
                         protected (non-public) resources, or the administration application, you have to be authenticated <em>and
                         authorized</em> (authorizations can be <a href="../../reference/administration/acl/#auth-requests">requested</a>).</p>
-                    <div class="ldhc-alert va-informative" role="status">
-                        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-                        <div class="ldhc-alert-body">
+                    <div class="ac-alert va-informative" role="status">
+                        <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+                        <div class="ac-alert-body">
                             <p>Authenticated agents <em>are not guaranteed to have access</em> to all resources. Different access levels for
                                 different agents can be specified by the application administrators.</p>
                         </div>
                     </div>
                 </div>
              </div>
-            <div aria-labelledby="log-in-with-google-tab" class="ldhc-tabpanel" hidden="hidden" id="log-in-with-google-pane" role="tabpanel">
-                <p>Open the <span class="ldhc-btn in-primary ap-solid sz-md">Login <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown in the navigation bar and choose <samp>Login with Google</samp> to authenticate with your Google account.</p>
+            <div aria-labelledby="log-in-with-google-tab" class="ac-tabpanel" hidden="hidden" id="log-in-with-google-pane" role="tabpanel">
+                <p>Open the <span class="ac-btn in-primary ap-solid sz-md">Login <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown in the navigation bar and choose <samp>Login with Google</samp> to authenticate with your Google account.</p>
                 <p>If the email address of your Google account matches the dataspace owner's email address that was specified during <a href="../setup/">setup</a>, you will be authenticated as the owner with <a href="../../reference/administration/acl/">full control</a> access rights.</p>
-                <div class="ldhc-alert va-informative" role="status">
-                    <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-                    <div class="ldhc-alert-body">
+                <div class="ac-alert va-informative" role="status">
+                    <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+                    <div class="ac-alert-body">
                         <p>Login with Google is only enabled if LinkedDataHub was <a href="../../reference/configuration/#secrets">configured with social login</a>.</p>
                     </div>
                 </div>
              </div>
-            <div aria-labelledby="log-in-with-orcid-tab" class="ldhc-tabpanel" hidden="hidden" id="log-in-with-orcid-pane" role="tabpanel">
-                <p>Open the <span class="ldhc-btn in-primary ap-solid sz-md">Login <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown in the navigation bar and choose <samp>Login with ORCID</samp> to authenticate with your <a href="https://orcid.org" target="_blank">ORCID</a> account using OpenID Connect.</p>
+            <div aria-labelledby="log-in-with-orcid-tab" class="ac-tabpanel" hidden="hidden" id="log-in-with-orcid-pane" role="tabpanel">
+                <p>Open the <span class="ac-btn in-primary ap-solid sz-md">Login <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown in the navigation bar and choose <samp>Login with ORCID</samp> to authenticate with your <a href="https://orcid.org" target="_blank">ORCID</a> account using OpenID Connect.</p>
                 <p>If the email address of your ORCID account matches the dataspace owner's email address that was specified during <a href="../setup/">setup</a>, you will be authenticated as the owner with <a href="../../reference/administration/acl/">full control</a> access rights.</p>
-                <div class="ldhc-alert va-informative" role="status">
-                    <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-                    <div class="ldhc-alert-body">
+                <div class="ac-alert va-informative" role="status">
+                    <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+                    <div class="ac-alert-body">
                         <p>Login with ORCID is only enabled if LinkedDataHub was <a href="../../reference/configuration/#secrets">configured with social login</a>.</p>
                     </div>
                 </div>

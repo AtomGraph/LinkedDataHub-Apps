@@ -335,15 +335,15 @@
             <script type="text/javascript">
                 <xsl:text><![CDATA[
                     document.addEventListener("click", function(event) {
-                        var tab = event.target.closest(".ldhc-tab[role='tab']");
+                        var tab = event.target.closest(".ac-tab[role='tab']");
                         if (!tab) return;
                         var tablist = tab.closest("[role='tablist']");
-                        var tabs = tablist.closest(".ldhc-tabs");
-                        if (!tabs || !tabs.querySelector(".ldhc-tabpanel")) return;
-                        tablist.querySelectorAll(".ldhc-tab").forEach(function(t) { t.classList.remove("is-on"); t.setAttribute("aria-selected", "false"); });
+                        var tabs = tablist.closest(".ac-tabs");
+                        if (!tabs || !tabs.querySelector(".ac-tabpanel")) return;
+                        tablist.querySelectorAll(".ac-tab").forEach(function(t) { t.classList.remove("is-on"); t.setAttribute("aria-selected", "false"); });
                         tab.classList.add("is-on");
                         tab.setAttribute("aria-selected", "true");
-                        tabs.querySelectorAll(".ldhc-tabpanel").forEach(function(pane) {
+                        tabs.querySelectorAll(".ac-tabpanel").forEach(function(pane) {
                             if (pane.parentElement !== tabs) return;
                             pane.hidden = pane.id !== tab.getAttribute("aria-controls");
                         });

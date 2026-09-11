@@ -61,12 +61,12 @@
     </div>
     <div>
         <h2 id="management">Management</h2>
-        <div class="ldhc-tabs or-horizontal">
-            <div class="ldhc-tablist sz-md va-line" role="tablist">
-                <button aria-controls="user-interface-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
-                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+        <div class="ac-tabs or-horizontal">
+            <div class="ac-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-pane" aria-selected="true" class="ac-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ac-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ac-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ac-tab-lbl">Command line interface</span></button>
             </div>
-            <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
+            <div aria-labelledby="user-interface-tab" class="ac-tabpanel" id="user-interface-pane" role="tabpanel">
             <p>Content blocks can only be managed when the <a href="../../user-interface/#layout-modes" target="_blank">Content layout mode</a> is active. The edit and delete buttons only appear for agents with write access.</p>
             <table>
                 <thead>
@@ -78,11 +78,11 @@
                 <tbody>
                     <tr>
                         <th>Create XHTML block</th>
-                        <td>Click the <span class="ldhc-btn in-primary ap-solid sz-md">XHTML</span> button at the bottom of the page. Create the XHTML content in the rich-text editor.</td>
+                        <td>Click the <span class="ac-btn in-primary ap-solid sz-md">XHTML</span> button at the bottom of the page. Create the XHTML content in the rich-text editor.</td>
                     </tr>
                     <tr>
                         <th>Create object block</th>
-                        <td>Click the <span class="ldhc-btn in-primary ap-solid sz-md">Object</span> button at the bottom of the page. Enter the object's value URI. Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span>.</td>
+                        <td>Click the <span class="ac-btn in-primary ap-solid sz-md">Object</span> button at the bottom of the page. Enter the object's value URI. Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span>.</td>
                     </tr>
                     <tr>
                         <th>Update XHTML block</th>
@@ -90,11 +90,11 @@
                     </tr>
                     <tr>
                         <th>Update object block</th>
-                        <td>Click the <span class="ldhc-iconbtn sz-sm in-neutral ap-ghost"><span aria-hidden="true" class="msi sm">edit</span></span> button in the top-right corner of the block (it will only appear when you move the mouse close to that corner). Change the object's value URI. Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span>.</td>
+                        <td>Click the <span class="ac-iconbtn sz-sm in-neutral ap-ghost"><span aria-hidden="true" class="msi sm">edit</span></span> button in the top-right corner of the block (it will only appear when you move the mouse close to that corner). Change the object's value URI. Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span>.</td>
                     </tr>
                     <tr>
                         <th>Delete</th>
-                        <td>Click the <span class="ldhc-iconbtn sz-sm in-destructive ap-ghost"><span aria-hidden="true" class="msi sm">close</span></span> button in the top-right corner of the block (it will only appear when you move the mouse close to that corner). Confirm in the dialog that appears.</td>
+                        <td>Click the <span class="ac-iconbtn sz-sm in-destructive ap-ghost"><span aria-hidden="true" class="msi sm">close</span></span> button in the top-right corner of the block (it will only appear when you move the mouse close to that corner). Confirm in the dialog that appears.</td>
                     </tr>
                     <tr>
                         <th>Reorder</th>
@@ -107,7 +107,7 @@
                 </tbody>
             </table>
             </div>
-            <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
+            <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
             <table>
                 <thead>
                     <tr>

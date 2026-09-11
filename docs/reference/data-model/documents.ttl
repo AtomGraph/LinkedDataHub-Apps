@@ -97,12 +97,12 @@
     </div>
     <div>
         <h2 id="management">Management</h2>
-        <div class="ldhc-tabs or-horizontal">
-            <div class="ldhc-tablist sz-md va-line" role="tablist">
-                <button aria-controls="user-interface-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
-                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+        <div class="ac-tabs or-horizontal">
+            <div class="ac-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-pane" aria-selected="true" class="ac-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ac-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ac-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ac-tab-lbl">Command line interface</span></button>
             </div>
-            <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
+            <div aria-labelledby="user-interface-tab" class="ac-tabpanel" id="user-interface-pane" role="tabpanel">
             <table>
                 <thead>
                     <tr>
@@ -113,20 +113,20 @@
                 <tbody>
                     <tr>
                         <th>Create</th>
-                        <td>Create a new child document by clicking the <span class="ldhc-btn in-primary ap-solid sz-md">Create</span> button. Fill out the form. Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span>.</td>
+                        <td>Create a new child document by clicking the <span class="ac-btn in-primary ap-solid sz-md">Create</span> button. Fill out the form. Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span>.</td>
                     </tr>
                     <tr>
                         <th>Update</th>
-                        <td>Open the current document editing form by choosing <samp>Edit</samp> in the <a href="../../user-interface/#action-bar">action bar</a>'s <span class="ldhc-btn in-neutral ap-outline sz-md">Actions</span> dropdown. Make changes. Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span>.</td>
+                        <td>Open the current document editing form by choosing <samp>Edit</samp> in the <a href="../../user-interface/#action-bar">action bar</a>'s <span class="ac-btn in-neutral ap-outline sz-md">Actions</span> dropdown. Make changes. Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span>.</td>
                     </tr>
                     <tr>
                         <th>Delete</th>
-                        <td>Delete the current document by choosing <samp>Delete</samp> in the <a href="../../user-interface/#action-bar">action bar</a>'s <span class="ldhc-btn in-neutral ap-outline sz-md">Actions</span> dropdown.</td>
+                        <td>Delete the current document by choosing <samp>Delete</samp> in the <a href="../../user-interface/#action-bar">action bar</a>'s <span class="ac-btn in-neutral ap-outline sz-md">Actions</span> dropdown.</td>
                     </tr>
                 </tbody>
             </table>
             </div>
-            <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
+            <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
             <table>
                 <thead>
                     <tr>

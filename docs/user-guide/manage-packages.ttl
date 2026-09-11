@@ -11,9 +11,9 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="lede">Step-by-step guide to installing and uninstalling packages</p>
-    <div class="ldhc-alert va-informative" role="status">
-        <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-        <div class="ldhc-alert-body">
+    <div class="ac-alert va-informative" role="status">
+        <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+        <div class="ac-alert-body">
             <p>Package management requires write access to the application's <samp>settings</samp> document, which in practice means the owner of the dataspace.</p>
         </div>
     </div>
@@ -21,12 +21,12 @@
     <div>
         <h2 id="install-package">Install a package</h2>
         <p>Installing a package adds new functionality to your dataspace by importing its ontology and stylesheet. Packages are published under <samp>https://packages.linkeddatahub.com/</samp>, with their sources in the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/packages" target="_blank"><samp>packages/</samp></a> directory of the LinkedDataHub-Apps repository.</p>
-        <div class="ldhc-tabs or-horizontal">
-            <div class="ldhc-tablist sz-md va-line" role="tablist">
-                <button aria-controls="user-interface-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
-                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+        <div class="ac-tabs or-horizontal">
+            <div class="ac-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-pane" aria-selected="true" class="ac-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ac-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ac-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ac-tab-lbl">Command line interface</span></button>
             </div>
-            <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
+            <div aria-labelledby="user-interface-tab" class="ac-tabpanel" id="user-interface-pane" role="tabpanel">
                     <p>Follow these steps to install a package through the web interface:</p>
                     <ol>
                         <li>Open the end-user application of your dataspace and make sure you are logged in</li>
@@ -34,11 +34,11 @@
                         <li>Select <dfn>Application</dfn> from the dropdown menu to open the <dfn>Application settings</dfn> modal</li>
                         <li>Scroll down to the <dfn>Packages</dfn> section, which lists the available packages with their descriptions</li>
                         <li>Tick the <dfn>Installed</dfn> checkbox of the package you want to install</li>
-                        <li>Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span></li>
+                        <li>Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span></li>
                     </ol>
-                    <p>The page reloads with the package applied. The checkboxes are inputs of the settings form, so several packages can be installed and uninstalled in a single <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span>.</p>
+                    <p>The page reloads with the package applied. The checkboxes are inputs of the settings form, so several packages can be installed and uninstalled in a single <span class="ac-btn in-primary ap-solid sz-sm">Save</span>.</p>
                 </div>
-            <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
+            <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
                     <p>Packages have no command of their own: an application imports a package with a single <code>ldh:import</code> triple, so installing a package means patching the application's <samp>settings</samp> document. Execute the following command:</p>
                     <pre>ldh patch "https://localhost:4443/settings" &lt;&lt;EOF
 INSERT
@@ -55,21 +55,21 @@ EOF</pre>
     <div>
         <h2 id="uninstall-package">Uninstall a package</h2>
         <p>Uninstalling a package removes its ontology and stylesheet from your dataspace. Data you created using the package vocabulary remains but may not display or function correctly without the package.</p>
-        <div class="ldhc-tabs or-horizontal">
-            <div class="ldhc-tablist sz-md va-line" role="tablist">
-                <button aria-controls="user-interface-2-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-2-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
-                <button aria-controls="command-line-interface-2-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-2-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+        <div class="ac-tabs or-horizontal">
+            <div class="ac-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-2-pane" aria-selected="true" class="ac-tab is-on" id="user-interface-2-tab" role="tab" type="button"><span class="ac-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-2-pane" aria-selected="false" class="ac-tab" id="command-line-interface-2-tab" role="tab" type="button"><span class="ac-tab-lbl">Command line interface</span></button>
             </div>
-            <div aria-labelledby="user-interface-2-tab" class="ldhc-tabpanel" id="user-interface-2-pane" role="tabpanel">
+            <div aria-labelledby="user-interface-2-tab" class="ac-tabpanel" id="user-interface-2-pane" role="tabpanel">
                     <p>Follow these steps to uninstall a package through the web interface:</p>
                     <ol>
                         <li>Open the <dfn>Application settings</dfn> modal as described above</li>
                         <li>Find the package in the <dfn>Packages</dfn> section</li>
                         <li>Untick its <dfn>Installed</dfn> checkbox</li>
-                        <li>Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span></li>
+                        <li>Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span></li>
                     </ol>
                 </div>
-            <div aria-labelledby="command-line-interface-2-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-2-pane" role="tabpanel">
+            <div aria-labelledby="command-line-interface-2-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-2-pane" role="tabpanel">
                     <p>Uninstalling is the same update with <code>DELETE</code> in place of <code>INSERT</code>:</p>
                     <pre>ldh patch "https://localhost:4443/settings" &lt;&lt;EOF
 DELETE
@@ -83,9 +83,9 @@ EOF</pre>
     </div>
     <div>
         <h2 id="verify-installation">Verify the installation</h2>
-        <div class="ldhc-alert va-informative" role="status">
-            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-            <div class="ldhc-alert-body">
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
                 <p>Installing or uninstalling a package takes effect on the <strong>next request</strong> — the package ontology joins the application's imports closure and its stylesheet is composed into the application stylesheet. No restart is needed.</p>
             </div>
         </div>
@@ -107,7 +107,7 @@ EOF</pre>
   --data-urlencode 'query=ASK { &lt;http://www.w3.org/2004/02/skos/core#Concept&gt; &lt;http://spinrdf.org/spin#constructor&gt; ?constructor }'</pre>
                 <p>SPARQL queries fall outside the <samp>ldh</samp> command set, so this one uses <samp>curl</samp> with the <a href="../../get-started/get-an-account/">PEM certificate</a>.</p>
             </li>
-            <li>In the end-user application, check that package-specific classes are offered by the <span class="ldhc-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown</li>
+            <li>In the end-user application, check that package-specific classes are offered by the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown</li>
             <li>If the package includes a stylesheet, verify that its custom UI elements are rendering</li>
         </ol>
     </div>
@@ -123,7 +123,7 @@ EOF</pre>
     <div>
         <h2 id="troubleshooting">Troubleshooting</h2>
         <h3 id="installation-fails">Installation fails</h3>
-        <p>If the <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span> or the <samp>ldh patch</samp> is rejected:</p>
+        <p>If the <span class="ac-btn in-primary ap-solid sz-sm">Save</span> or the <samp>ldh patch</samp> is rejected:</p>
         <ul>
             <li>Verify you are logged in with an agent that has write access to the application's <samp>settings</samp></li>
             <li>Verify the package URI is correct and dereferenceable, and that its metadata declares <code>ldt:ontology</code> and <code>ac:stylesheet</code></li>

@@ -73,9 +73,9 @@
                 other ontologies from within the application as well as from external documents.</dd>
             <dd>Ontologies are <a href="../administration/ontologies/">managed in the administration application</a>.</dd>
         </dl>
-        <div class="ldhc-alert va-informative" role="status">
-            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-            <div class="ldhc-alert-body">
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
                 <p>Base URI must end with a forward slash (<code>/</code>).</p>
             </div>
         </div>
@@ -95,9 +95,9 @@
             <p>The base URI of an administration application is the base URI of its end-user application with the <code>admin.</code> subdomain
                 prefixed to the host (e.g. <samp>https://example.com/</samp> → <samp>https://admin.example.com/</samp>). Because the admin application lives on
                 its own subdomain (origin), it no longer occupies a path within the end-user application.</p>
-            <div class="ldhc-alert va-informative" role="status">
-                <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-                <div class="ldhc-alert-body">
+            <div class="ac-alert va-informative" role="status">
+                <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+                <div class="ac-alert-body">
                     <p>Since LinkedDataHub 5.1.0 the administration application is served on the <code>admin.</code> subdomain rather than under an
                         <code>admin/</code> path. The subdomain must resolve in DNS and be covered by the server's TLS certificate.</p>
                 </div>
@@ -118,9 +118,9 @@
         <p>A service is a persistent SPARQL 1.1-compatible store from which the application's <a href="../dataset/">RDF dataset</a> is accessible over HTTP. LinkedDataHub provides
             generic services as well as triplestore-specific ones, which allow simpler configuration and optimized access.</p>
         <p>LinkedDataHub works with various SPARQL backends, using Apache Jena Fuseki by default. See the <a href="../triplestores/">triplestores reference</a> for compatibility requirements and configuration examples.</p>
-        <div class="ldhc-alert va-informative" role="status">
-            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-            <div class="ldhc-alert-body">
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
                 <p>The end-user application service must be able to federate with the administration application service using the
                 SPARQL <code>SERVICE</code> keyword.</p>
             </div>
@@ -156,9 +156,9 @@
         a:quadStore &lt;http://fuseki-end-user:3030/ds/&gt; .
 }</pre>
             <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/config/system.trig" target="_blank">config/system.trig</a></p>
-            <div class="ldhc-alert va-informative" role="status">
-                <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-                <div class="ldhc-alert-body">
+            <div class="ac-alert va-informative" role="status">
+                <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+                <div class="ac-alert-body">
                     <p>LinkedDataHub has extension points for vendor-specific SPARQL services, which can be used to implement proprietary authentication schemes, for example.</p>
                 </div>
             </div>

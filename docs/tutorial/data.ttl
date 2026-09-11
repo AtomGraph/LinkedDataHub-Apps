@@ -79,17 +79,17 @@ WHERE
             </tr>
         </tbody>
     </table>
-    <div class="ldhc-tabs or-horizontal">
-        <div class="ldhc-tablist sz-md va-line" role="tablist">
-            <button aria-controls="in-the-browser-pane" aria-selected="true" class="ldhc-tab is-on" id="in-the-browser-tab" role="tab" type="button"><span class="ldhc-tab-lbl">In the browser</span></button>
-            <button aria-controls="from-the-command-line-pane" aria-selected="false" class="ldhc-tab" id="from-the-command-line-tab" role="tab" type="button"><span class="ldhc-tab-lbl">From the command line</span></button>
+    <div class="ac-tabs or-horizontal">
+        <div class="ac-tablist sz-md va-line" role="tablist">
+            <button aria-controls="in-the-browser-pane" aria-selected="true" class="ac-tab is-on" id="in-the-browser-tab" role="tab" type="button"><span class="ac-tab-lbl">In the browser</span></button>
+            <button aria-controls="from-the-command-line-pane" aria-selected="false" class="ac-tab" id="from-the-command-line-tab" role="tab" type="button"><span class="ac-tab-lbl">From the command line</span></button>
         </div>
-        <div aria-labelledby="in-the-browser-tab" class="ldhc-tabpanel" id="in-the-browser-pane" role="tabpanel">
+        <div aria-labelledby="in-the-browser-tab" class="ac-tabpanel" id="in-the-browser-pane" role="tabpanel">
         <p>Upload the CSV file, save the mapping query as a <samp>CONSTRUCT</samp> document, then create a <samp>CSV Import</samp> that pairs the two with the target container — three passes through
-            the <span class="ldhc-btn in-primary ap-solid sz-md">Create</span> dropdown, walked through step by step in the <a href="../../user-guide/import-data/import-csv-data/" target="_blank">Import CSV data</a>
+            the <span class="ac-btn in-primary ap-solid sz-md">Create</span> dropdown, walked through step by step in the <a href="../../user-guide/import-data/import-csv-data/" target="_blank">Import CSV data</a>
             guide.</p>
         </div>
-        <div aria-labelledby="from-the-command-line-tab" class="ldhc-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
+        <div aria-labelledby="from-the-command-line-tab" class="ac-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
         <p>Each import pairs a mapping query with a CSV file and a target container. The demo lists them in a manifest, <samp>imports.csv</samp>:</p>
         <pre>query_filename,csv_filename,target,title
 categories/categories.rq,categories/categories.csv,categories/,Categories

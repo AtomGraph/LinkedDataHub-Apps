@@ -16,23 +16,23 @@
         document.</p>
     <p>In this stage you give the root document a title, a description and a first <a href="../../reference/data-model/blocks/" target="_blank">content block</a> — and see the result render as your
         homepage.</p>
-    <div class="ldhc-tabs or-horizontal">
-        <div class="ldhc-tablist sz-md va-line" role="tablist">
-            <button aria-controls="in-the-browser-pane" aria-selected="true" class="ldhc-tab is-on" id="in-the-browser-tab" role="tab" type="button"><span class="ldhc-tab-lbl">In the browser</span></button>
-            <button aria-controls="from-the-command-line-pane" aria-selected="false" class="ldhc-tab" id="from-the-command-line-tab" role="tab" type="button"><span class="ldhc-tab-lbl">From the command line</span></button>
+    <div class="ac-tabs or-horizontal">
+        <div class="ac-tablist sz-md va-line" role="tablist">
+            <button aria-controls="in-the-browser-pane" aria-selected="true" class="ac-tab is-on" id="in-the-browser-tab" role="tab" type="button"><span class="ac-tab-lbl">In the browser</span></button>
+            <button aria-controls="from-the-command-line-pane" aria-selected="false" class="ac-tab" id="from-the-command-line-tab" role="tab" type="button"><span class="ac-tab-lbl">From the command line</span></button>
         </div>
-        <div aria-labelledby="in-the-browser-tab" class="ldhc-tabpanel" id="in-the-browser-pane" role="tabpanel">
-        <p>Open the base URL (e.g. <samp>https://localhost:4443/</samp>) and authenticate with the owner's WebID certificate. Choose <samp>Edit</samp> in the action bar's <span class="ldhc-btn in-neutral ap-outline sz-md">Actions</span> dropdown
+        <div aria-labelledby="in-the-browser-tab" class="ac-tabpanel" id="in-the-browser-pane" role="tabpanel">
+        <p>Open the base URL (e.g. <samp>https://localhost:4443/</samp>) and authenticate with the owner's WebID certificate. Choose <samp>Edit</samp> in the action bar's <span class="ac-btn in-neutral ap-outline sz-md">Actions</span> dropdown
             to open the document edit form, change the title to <samp>Northwind Traders</samp>, fill in the description, and save. Then, in the
             <a href="../../reference/user-interface/#layout-modes" target="_blank">Content layout mode</a>, add an XHTML content block with a short welcome text using the
-            <span class="ldhc-btn in-primary ap-solid sz-md">XHTML</span> button at the bottom of the page. The <a href="../../user-guide/edit-content/" target="_blank">Edit
+            <span class="ac-btn in-primary ap-solid sz-md">XHTML</span> button at the bottom of the page. The <a href="../../user-guide/edit-content/" target="_blank">Edit
             content</a> guide walks through the block editor in detail.</p>
         <div class="screenshot-placeholder">
             <span aria-hidden="true" class="msi">image</span>
             <p>Screenshot: root document in edit mode with the title and first XHTML block</p>
         </div>
         </div>
-        <div aria-labelledby="from-the-command-line-tab" class="ldhc-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
+        <div aria-labelledby="from-the-command-line-tab" class="ac-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
         <p>The same change, expressed as data. Describe the root document in a <samp>root.ttl</samp> file:</p>
         <pre>@prefix def:    &lt;https://w3id.org/atomgraph/linkeddatahub/default#&gt; .
 @prefix ldh:    &lt;https://w3id.org/atomgraph/linkeddatahub#&gt; .

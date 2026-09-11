@@ -63,9 +63,9 @@
             <li>Writers</li>
             <li>Readers</li>
         </ul>
-        <div class="ldhc-alert va-informative" role="status">
-            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-            <div class="ldhc-alert-body">
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
                 <p>By default, only members of the owners group have access to the administration application: its built-in
                     <samp>Full control</samp> authorization grants the <a href="#access-modes">Control</a> mode (along with read and write)
                     to that group. See <a href="#authorizations">Authorizations</a>.</p>
@@ -120,12 +120,12 @@
             </tbody>
         </table>
         <p>An authorization is a plain RDF resource. Granting the <samp>writers</samp> group full access to the Northwind orders container:</p>
-        <div class="ldhc-tabs or-horizontal">
-            <div class="ldhc-tablist sz-md va-line" role="tablist">
-                <button aria-controls="rdf-pane" aria-selected="true" class="ldhc-tab is-on" id="rdf-tab" role="tab" type="button"><span class="ldhc-tab-lbl">RDF</span></button>
-                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+        <div class="ac-tabs or-horizontal">
+            <div class="ac-tablist sz-md va-line" role="tablist">
+                <button aria-controls="rdf-pane" aria-selected="true" class="ac-tab is-on" id="rdf-tab" role="tab" type="button"><span class="ac-tab-lbl">RDF</span></button>
+                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ac-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ac-tab-lbl">Command line interface</span></button>
             </div>
-            <div aria-labelledby="rdf-tab" class="ldhc-tabpanel" id="rdf-pane" role="tabpanel">
+            <div aria-labelledby="rdf-tab" class="ac-tabpanel" id="rdf-pane" role="tabpanel">
                 <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
 
@@ -135,7 +135,7 @@
     acl:mode acl:Read, acl:Append, acl:Write ;
     acl:accessTo &lt;https://localhost:4443/orders/&gt; .</pre>
             </div>
-            <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
+            <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
                 <pre>ldh admin create authorization \\
   --label "Order management" \\
   --agent-group "https://admin.localhost:4443/acl/groups/writers/#this" \\
@@ -156,9 +156,9 @@
         <p>A public-access authorization allows access for non-authenticated agents — the <a href="../../../tutorial/publish/">Publish</a> stage of the
             tutorial shows the one <samp>ldh admin make-public</samp> creates, granting <code>acl:Read</code> to the <code>foaf:Agent</code> class
             on every document class.</p>
-        <div class="ldhc-alert va-informative" role="status">
-            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-            <div class="ldhc-alert-body">
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
                 <p>The owner's and <a href="../../dataspace/#dataspaces">secretary's</a> authorizations are stored under stable URIs (<samp>acl/authorizations/owner-webid/</samp> and <samp>acl/authorizations/secretary-webid/</samp>), so reloading the admin dataset does not create duplicates.</p>
             </div>
         </div>

@@ -14,15 +14,15 @@
     <div>
         <h2 id="create-container">Create a container</h2>
         <p>To create a container document (which can have <a href="../../../reference/data-model/documents/#hierarchy" target="_blank">child documents</a>) with a custom URL, follow these steps:</p>
-        <div class="ldhc-tabs or-horizontal">
-            <div class="ldhc-tablist sz-md va-line" role="tablist">
-                <button aria-controls="user-interface-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
-                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+        <div class="ac-tabs or-horizontal">
+            <div class="ac-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-pane" aria-selected="true" class="ac-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ac-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ac-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ac-tab-lbl">Command line interface</span></button>
             </div>
-            <div aria-labelledby="user-interface-tab" class="ldhc-tabpanel" id="user-interface-pane" role="tabpanel">
+            <div aria-labelledby="user-interface-tab" class="ac-tabpanel" id="user-interface-pane" role="tabpanel">
                     <div>
                         <ol>
-                            <li>Click the <span class="ldhc-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown in the <a href="../../../reference/user-interface/#action-bar">action bar</a> and select <dfn>Container</dfn>. This will open a new form.</li>
+                            <li>Click the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown in the <a href="../../../reference/user-interface/#action-bar">action bar</a> and select <dfn>Container</dfn>. This will open a new form.</li>
                             <li>Fill out the mandatory <dfn>Container</dfn> fields in the form:
                                 <dl>
                                     <dt>Title</dt>
@@ -31,7 +31,7 @@
                             </li>
                             <li>To customize the container URL, click on the dropdown in the top-right corner of the form</li>
                             <li>Replace the generated unique relative URI with <samp>categories</samp></li>
-                            <li>Click <span class="ldhc-btn in-primary ap-solid sz-sm">Save</span></li>
+                            <li>Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span></li>
                         </ol>
                         <div class="screenshot-placeholder">
                             <span aria-hidden="true" class="msi">play_circle</span>
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </div>
-            <div aria-labelledby="command-line-interface-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
+            <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
                     <div>
                         <p>With the <a href="../../../reference/command-line-interface/#environment-variables"><samp>LDH_*</samp> environment variables</a> supplying the certificate and base URI, execute the following command:</p>
                         <pre>ldh create container \\
@@ -55,17 +55,17 @@
     <div>
         <h2 id="create-item">Create an item</h2>
         <p>Items are created the same way:</p>
-        <div class="ldhc-tabs or-horizontal">
-            <div class="ldhc-tablist sz-md va-line" role="tablist">
-                <button aria-controls="user-interface-2-pane" aria-selected="true" class="ldhc-tab is-on" id="user-interface-2-tab" role="tab" type="button"><span class="ldhc-tab-lbl">User interface</span></button>
-                <button aria-controls="command-line-interface-2-pane" aria-selected="false" class="ldhc-tab" id="command-line-interface-2-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Command line interface</span></button>
+        <div class="ac-tabs or-horizontal">
+            <div class="ac-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-2-pane" aria-selected="true" class="ac-tab is-on" id="user-interface-2-tab" role="tab" type="button"><span class="ac-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-2-pane" aria-selected="false" class="ac-tab" id="command-line-interface-2-tab" role="tab" type="button"><span class="ac-tab-lbl">Command line interface</span></button>
             </div>
-            <div aria-labelledby="user-interface-2-tab" class="ldhc-tabpanel" id="user-interface-2-pane" role="tabpanel">
+            <div aria-labelledby="user-interface-2-tab" class="ac-tabpanel" id="user-interface-2-pane" role="tabpanel">
                     <div>
-                        <p>Select <dfn>Item</dfn> from the <span class="ldhc-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown instead and follow the same steps as above.</p>
+                        <p>Select <dfn>Item</dfn> from the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown instead and follow the same steps as above.</p>
                     </div>
                 </div>
-            <div aria-labelledby="command-line-interface-2-tab" class="ldhc-tabpanel" hidden="hidden" id="command-line-interface-2-pane" role="tabpanel">
+            <div aria-labelledby="command-line-interface-2-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-2-pane" role="tabpanel">
                     <div>
                         <p>Execute the following command:</p>
                         <pre>ldh create item \\

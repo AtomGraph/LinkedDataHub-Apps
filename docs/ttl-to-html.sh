@@ -35,7 +35,7 @@ LDH_CSS_PATH="src/main/webapp/static/com/atomgraph/linkeddatahub/css"
 # The pages link fonts.css, colors_and_type.css, app.css, retro.css and ldh.css, in that order.
 # core.css, controls.css, overlays.css and surfaces.css are never linked directly — app.css
 # @imports core.css, which @imports the other three — but they must be copied alongside or the
-# imports 404 and every ldhc-* primitive loses its styling.
+# imports 404 and every ac-* primitive loses its styling.
 CSS_FILES="colors_and_type.css core.css controls.css overlays.css surfaces.css app.css retro.css ldh.css fonts.css"
 FONT_FILES="geist.woff2 geist-latin-ext.woff2 geist-mono.woff2 geist-mono-latin-ext.woff2 instrument-serif.woff2 instrument-serif-italic.woff2 instrument-serif-latin-ext.woff2 instrument-serif-italic-latin-ext.woff2 material-symbols-rounded.woff2"
 mkdir -p "$OUTPUT_FOLDER"/static/css/fonts

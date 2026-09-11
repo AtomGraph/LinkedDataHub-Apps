@@ -22,9 +22,9 @@
             <li>OpenID Connect using <a href="https://developers.google.com/identity/protocols/oauth2/openid-connect" target="_blank">Google</a> or <a href="https://info.orcid.org/documentation/integration-guide/" target="_blank">ORCID</a></li>
         </ul>
         <p>See how those authentication methods can be <a href="../configuration/">configured</a> or how to <a href="../../get-started/get-an-account/">get an account</a> on LinkedDataHub.</p>
-        <div class="ldhc-alert va-informative" role="status">
-            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-            <div class="ldhc-alert-body">
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
                 <p>HTTP API access using the <a href="../command-line-interface/">CLI</a> or curl currently does not support the OIDC method.</p>
             </div>
         </div>
@@ -80,9 +80,9 @@ ETag: "1e635b4-ntriples"
     <div>
         <h2 id="documents">Managing documents</h2>
         <p>Every document is also a <a href="../dataset/#structure">named graph</a> in the application's RDF dataset. LinkedDataHub supports the SPARQL Graph Store Protocol's <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#direct-graph-identification" target="_blank">direct graph identification</a> as the HTTP CRUD protocol for managing document data.</p>
-        <div class="ldhc-alert va-informative" role="status">
-            <span class="ldhc-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
-            <div class="ldhc-alert-body">
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
                 <p>GSP <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#indirect-graph-identification" target="_blank">indirect graph identification</a> is not supported starting with LinkedDataHub version 5.x.</p>
             </div>
         </div>

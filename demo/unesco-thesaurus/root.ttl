@@ -28,20 +28,20 @@
                 <img alt="UNESCO Thesaurus" src="uploads/3fd6333140bf7a78f19f6a3aa602ea79d8b572a3"></img>
             </a>
         </div>
-        <div class="ldhc-tabs or-horizontal">
-            <div class="ldhc-tablist sz-md va-line" role="tablist">
-                <button aria-controls="browser-pane" aria-selected="true" class="ldhc-tab is-on" id="browser-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Browser</span></button>
-                <button aria-controls="editor-pane" aria-selected="false" class="ldhc-tab" id="editor-tab" role="tab" type="button"><span class="ldhc-tab-lbl">Editor</span></button>
-                <button aria-controls="rdf-import-pane" aria-selected="false" class="ldhc-tab" id="rdf-import-tab" role="tab" type="button"><span class="ldhc-tab-lbl">RDF Import</span></button>
+        <div class="ac-tabs or-horizontal">
+            <div class="ac-tablist sz-md va-line" role="tablist">
+                <button aria-controls="browser-pane" aria-selected="true" class="ac-tab is-on" id="browser-tab" role="tab" type="button"><span class="ac-tab-lbl">Browser</span></button>
+                <button aria-controls="editor-pane" aria-selected="false" class="ac-tab" id="editor-tab" role="tab" type="button"><span class="ac-tab-lbl">Editor</span></button>
+                <button aria-controls="rdf-import-pane" aria-selected="false" class="ac-tab" id="rdf-import-tab" role="tab" type="button"><span class="ac-tab-lbl">RDF Import</span></button>
             </div>
-            <div aria-labelledby="browser-tab" class="ldhc-tabpanel" id="browser-pane" role="tabpanel">
+            <div aria-labelledby="browser-tab" class="ac-tabpanel" id="browser-pane" role="tabpanel">
                 <p>Navigate <a href="concepts/">concepts</a>, <a href="collections/">collections</a> and <a href="concept-schemes/">concept schemes</a> — broader, narrower and related links walk the
                    vocabulary's semantic network with parallax navigation.</p>
             </div>
-            <div aria-labelledby="editor-tab" class="ldhc-tabpanel" hidden="hidden" id="editor-pane" role="tabpanel">
+            <div aria-labelledby="editor-tab" class="ac-tabpanel" hidden="hidden" id="editor-pane" role="tabpanel">
                 <p>Create and edit SKOS resources — labels, notes and semantic relations — directly on their documents (requires authentication).</p>
             </div>
-            <div aria-labelledby="rdf-import-tab" class="ldhc-tabpanel" hidden="hidden" id="rdf-import-pane" role="tabpanel">
+            <div aria-labelledby="rdf-import-tab" class="ac-tabpanel" hidden="hidden" id="rdf-import-pane" role="tabpanel">
                 <p>The thesaurus itself was loaded from the published SKOS RDF with a SPARQL transformation query — <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/unesco-thesaurus/concept-schemes/unesco-thesaurus/skos-import.rq" target="_blank"><samp>skos-import.rq</samp></a> reshapes the source
                    into LinkedDataHub documents.</p>
             </div>
