@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Step-by-step guide to importing RDF data</p>
+    <p class="ldh-body-lg">Step-by-step guide to importing RDF data</p>
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
@@ -125,5 +125,5 @@ ldh import rdf \\
                 </div>
         </div>
     </div>
-    <p class="lede"><a href="../../../reference/imports/rdf/" target="_blank">Read more about how RDF imports work.</a></p>
+    <p class="ldh-body-lg"><a href="../../../reference/imports/rdf/" target="_blank">Read more about how RDF imports work.</a></p>
 </div>"""^^rdf:XMLLiteral .

@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Reusable bundles of an ontology and a stylesheet that add support and custom rendering for an RDF vocabulary</p>
+    <p class="ldh-body-lg">Reusable bundles of an ontology and a stylesheet that add support and custom rendering for an RDF vocabulary</p>
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
@@ -223,5 +223,5 @@ WHERE {}
 EOF</pre>
         </div>
     </div>
-    <p class="lede">To install and manage packages step by step, follow the <a href="../../../user-guide/manage-packages/">Manage packages</a> guide.</p>
+    <p class="ldh-body-lg">To install and manage packages step by step, follow the <a href="../../../user-guide/manage-packages/">Manage packages</a> guide.</p>
 </div>"""^^rdf:XMLLiteral .

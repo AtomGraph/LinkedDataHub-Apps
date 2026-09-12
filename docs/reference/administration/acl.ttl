@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Agents, groups, and authorizations</p>
+    <p class="ldh-body-lg">Agents, groups, and authorizations</p>
     <p>LinkedDataHub access control is based on the W3C <a href="https://www.w3.org/wiki/WebAccessControl" target="_blank">ACL ontology</a>.</p>
     <div>
         <h2 id="access-modes">Access modes</h2>
@@ -211,5 +211,5 @@
             </table>
         </div>
     </div>
-    <p class="lede">To request access to someone else's dataspace, see the <a href="../../../get-started/request-access/">Request access</a> guide. To open your data to the public, follow the <a href="../../../tutorial/publish/">Publish</a> stage of the tutorial.</p>
+    <p class="ldh-body-lg">To request access to someone else's dataspace, see the <a href="../../../get-started/request-access/">Request access</a> guide. To open your data to the public, follow the <a href="../../../tutorial/publish/">Publish</a> stage of the tutorial.</p>
 </div>"""^^rdf:XMLLiteral .

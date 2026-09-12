@@ -11,7 +11,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Feature-by-feature reference for the LinkedDataHub platform, its data model, HTTP API and administration</p>
+    <p class="ldh-body-lg">Feature-by-feature reference for the LinkedDataHub platform, its data model, HTTP API and administration</p>
     <p>The concept pages describe the <a href="dataspace/">dataspace</a>, its <a href="dataset/">dataset</a> and the <a href="data-model/">data model</a>.
         The interface pages cover the <a href="user-interface/">user interface</a>, the <a href="http-api/">HTTP API</a> and the <a href="command-line-interface/">command line interface</a>.
         Customization is covered by the <a href="stylesheets/">stylesheets</a> and <a href="imports/">imports</a> pages,

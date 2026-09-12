@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Assemble the landing page from content blocks</p>
+    <p class="ldh-body-lg">Assemble the landing page from content blocks</p>
     <p>Everything the app can show is now in place — text, data, charts, views. The landing page is their composition: an ordered sequence of
         <a href="../../reference/data-model/blocks/" target="_blank">content blocks</a> on the root document. Two block types exist: <code>ldh:XHTML</code> holds authored markup, and
         <code>ldh:Object</code> embeds any other resource — a chart, a view, a document.</p>
@@ -64,5 +64,5 @@
             <li><a href="../../reference/data-model/blocks/" target="_blank">Content blocks</a> — XHTML and object blocks, their RDF serialization and their management</li>
         </ul>
     </div>
-    <p class="lede">Next: <a href="../publish/">Publish</a></p>
+    <p class="ldh-body-lg">Next: <a href="../publish/">Publish</a></p>
 </div>"""^^rdf:XMLLiteral .

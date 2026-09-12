@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">The default RDF dataset structure used by LinkedDataHub</p>
+    <p class="ldh-body-lg">The default RDF dataset structure used by LinkedDataHub</p>
     <div>
         <h2 id="structure">Structure</h2>
         <p>The default LinkedDataHub dataset structure follows these conventions:</p>
@@ -60,5 +60,5 @@ https://localhost:4443/categories/1/#this  # the category itself — a fragment 
         <p>The default triplestore is <a href="https://jena.apache.org/documentation/fuseki2/" target="_blank">Apache Jena Fuseki</a>, and multiple dataspaces can share the same backend service.
             See the <a href="../triplestores/">triplestores reference</a> for compatibility requirements and configuration examples.</p>
     </div>
-    <p class="lede">Read more about <a href="../data-model/documents/">documents</a> in the data model reference.</p>
+    <p class="ldh-body-lg">Read more about <a href="../data-model/documents/">documents</a> in the data model reference.</p>
 </div>"""^^rdf:XMLLiteral .

@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Learn how to create container and item documents</p>
+    <p class="ldh-body-lg">Learn how to create container and item documents</p>
     <div>
         <h2 id="create-container">Create a container</h2>
         <p>To create a container document (which can have <a href="../../../reference/data-model/documents/#hierarchy" target="_blank">child documents</a>) with a custom URL, follow these steps:</p>
@@ -77,5 +77,5 @@
                 </div>
         </div>
     </div>
-    <p class="lede"><a href="../../../reference/data-model/documents/" target="_blank">Read more about documents and the document hierarchy.</a></p>
+    <p class="ldh-body-lg"><a href="../../../reference/data-model/documents/" target="_blank">Read more about documents and the document hierarchy.</a></p>
 </div>"""^^rdf:XMLLiteral .

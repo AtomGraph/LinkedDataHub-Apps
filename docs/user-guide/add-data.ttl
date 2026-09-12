@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Copy RDF data from Linked Data resources and file uploads into your dataspace</p>
+    <p class="ldh-body-lg">Copy RDF data from Linked Data resources and file uploads into your dataspace</p>
     <p>Forking copies the contents of any RDF document into a named graph in your dataspace. Two sources of RDF are supported: RDF resources on the web (Linked Data) and RDF file uploads.</p>
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
@@ -92,5 +92,5 @@
         </table>
         </div>
     </div>
-    <p class="lede"><a href="../browse-data/">Browse data</a> to find resources worth forking, or <a href="../import-data/import-rdf-data/">import RDF data</a> for larger datasets.</p>
+    <p class="ldh-body-lg"><a href="../browse-data/">Browse data</a> to find resources worth forking, or <a href="../import-data/import-rdf-data/">import RDF data</a> for larger datasets.</p>
 </div>"""^^rdf:XMLLiteral .

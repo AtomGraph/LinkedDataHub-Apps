@@ -40,7 +40,6 @@
 .docs-main h3 { font-size: var(--fs-xl); font-weight: var(--fw-semibold); margin: var(--sp-8) 0 var(--sp-3); }
 .docs-main h4 { font-size: var(--fs-lg); font-weight: var(--fw-semibold); margin: var(--sp-6) 0 var(--sp-2); }
 .docs-main p, .docs-main li { line-height: var(--lh-relaxed); }
-.docs-main p.lede { font-size: var(--fs-lg); color: var(--fg-2); line-height: var(--lh-base); }
 .docs-main .page-header { border-bottom: 1px solid var(--border-default); margin-bottom: var(--sp-6); padding-bottom: var(--sp-4); }
 .docs-main dfn { font-style: italic; font-weight: var(--fw-medium); }
 

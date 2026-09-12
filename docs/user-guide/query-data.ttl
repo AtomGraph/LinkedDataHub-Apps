@@ -15,7 +15,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Learn how to query application data with SPARQL, and save queries and charts</p>
+    <p class="ldh-body-lg">Learn how to query application data with SPARQL, and save queries and charts</p>
     <p>The <a href="../../reference/dataspace/#end-user-apps">end-user application</a> dataset can be queried using the SPARQL 1.1
         endpoint at the application's <samp>sparql</samp> URL (e.g. <samp>https://localhost:4443/sparql</samp>). Opening it in the browser renders an
         interactive SPARQL editor.</p>
@@ -100,5 +100,5 @@ LIMIT 10""" ;
             supply titles for the query, the chart and their document. You can then access the chart by navigating to the chart container via the dropdown in the
             <a href="../../reference/user-interface/#action-bar" target="_blank">breadcrumb bar</a>.</p>
     </div>
-    <p class="lede">See charts in action in the <a href="../../tutorial/insight/">Insight</a> tutorial stage, or read more about <a href="../../reference/data-model/resources/#charts">charts</a>.</p>
+    <p class="ldh-body-lg">See charts in action in the <a href="../../tutorial/insight/">Insight</a> tutorial stage, or read more about <a href="../../reference/data-model/resources/#charts">charts</a>.</p>
 </div>"""^^rdf:XMLLiteral .

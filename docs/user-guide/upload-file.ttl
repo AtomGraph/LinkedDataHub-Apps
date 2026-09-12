@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Learn how to upload files to LinkedDataHub</p>
+    <p class="ldh-body-lg">Learn how to upload files to LinkedDataHub</p>
     <div>
         <h2 id="upload">Upload a file</h2>
         <div class="ac-tabs or-horizontal">
@@ -69,5 +69,5 @@ ldh add file \\
             <p>For more information on working with ontologies, see the <a href="../../reference/administration/ontologies/">ontologies reference documentation</a>.</p>
         </div>
     </div>
-    <p class="lede"><a href="../../reference/dataset/#hierarchical-uris" target="_blank">Read more about the content-addressed uploads namespace.</a></p>
+    <p class="ldh-body-lg"><a href="../../reference/dataset/#hierarchical-uris" target="_blank">Read more about the content-addressed uploads namespace.</a></p>
 </div>"""^^rdf:XMLLiteral .

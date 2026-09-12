@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Environment variables, secrets and RDF configuration files</p>
+    <p class="ldh-body-lg">Environment variables, secrets and RDF configuration files</p>
     <p>This page covers the RDF configuration files, Compose overrides, and the environment variables and secrets of each service
         (defined in the <samp>environment</samp> sections of <samp>docker-compose.yml</samp>).</p>
     <div>

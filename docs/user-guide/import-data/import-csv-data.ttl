@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Step-by-step guide to converting CSV data to RDF and importing it into the end-user application</p>
+    <p class="ldh-body-lg">Step-by-step guide to converting CSV data to RDF and importing it into the end-user application</p>
     <p>A CSV import has three components:</p>
     <dl>
         <dt>CSV file</dt>
@@ -103,5 +103,5 @@ ldh import csv \\
                 </div>
             </div>
     </div>
-    <p class="lede"><a href="../../../reference/imports/csv/" target="_blank">Read more about how CSV imports work.</a></p>
+    <p class="ldh-body-lg"><a href="../../../reference/imports/csv/" target="_blank">Read more about how CSV imports work.</a></p>
 </div>"""^^rdf:XMLLiteral .

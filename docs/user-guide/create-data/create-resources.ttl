@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Learn how to create instances of built-in and user-defined classes</p>
+    <p class="ldh-body-lg">Learn how to create instances of built-in and user-defined classes</p>
     <div class="screenshot-placeholder">
         <span aria-hidden="true" class="msi">play_circle</span>
         <p>Screen recording: creating resource instances</p>
@@ -83,5 +83,5 @@ EOF</pre>
         <p>The posted data is validated against the class <a href="../../../reference/administration/ontologies/#constraints">constraints</a> the same way form submissions are — leaving out <code>schema:name</code> gets the request rejected with <samp>422 Unprocessable Entity</samp>.</p>
         </div>
     </div>
-    <p class="lede"><a href="../../../reference/administration/ontologies/#constructors" target="_blank">Read more about constructors.</a></p>
+    <p class="ldh-body-lg"><a href="../../../reference/administration/ontologies/#constructors" target="_blank">Read more about constructors.</a></p>
 </div>"""^^rdf:XMLLiteral .

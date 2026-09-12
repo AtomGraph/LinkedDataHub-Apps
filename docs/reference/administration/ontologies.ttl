@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Classes, constructors, constraints and properties of the application's domain model</p>
+    <p class="ldh-body-lg">Classes, constructors, constraints and properties of the application's domain model</p>
     <div>
         <h2 id="ontologies">Ontologies</h2>
         <p>Ontologies are sets of domain concepts. The domain can span both documents (information resources) and abstract/physical things
@@ -253,5 +253,5 @@ skos:Concept spin:constructor [ a ldh:Constructor ;
             </table>
         </div>
     </div>
-    <p class="lede">To evolve your application's model in practice, follow the <a href="../../../user-guide/change-model/">Change model</a> guide.</p>
+    <p class="ldh-body-lg">To evolve your application's model in practice, follow the <a href="../../../user-guide/change-model/">Change model</a> guide.</p>
 </div>"""^^rdf:XMLLiteral .

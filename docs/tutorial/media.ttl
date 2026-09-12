@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Upload files and link them to resources</p>
+    <p class="ldh-body-lg">Upload files and link them to resources</p>
     <p>Northwind comes with images: a photo per employee, an icon per category. Uploaded files are stored <strong>content-addressed</strong> — the file's URL is derived from the SHA-1 hash of its
         content, under <samp>{base}uploads/</samp>. The same bytes always land at the same URL, which is what makes file references stable enough to bake into import mappings.</p>
     <div>
@@ -58,5 +58,5 @@ BIND(uri(concat(str($base), "uploads/", encode_for_uri(?pictureHash))) AS ?pictu
             <li><a href="../../user-guide/upload-file/" target="_blank">Upload file</a> — the upload form and the CLI command, step by step</li>
         </ul>
     </div>
-    <p class="lede">Next: <a href="../insight/">Insight</a></p>
+    <p class="ldh-body-lg">Next: <a href="../insight/">Insight</a></p>
 </div>"""^^rdf:XMLLiteral .

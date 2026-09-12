@@ -15,7 +15,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">RDF resources and their management</p>
+    <p class="ldh-body-lg">RDF resources and their management</p>
     <div>
         <p>Within <a href="../documents/">documents</a>, users can create RDF resources, i.e. instances of both built-in and user-defined RDF classes.</p>
         <p>Built-in classes are defined in <a href="../../administration/ontologies/#ontologies">system ontologies</a> while user-defined classes are defined in user ontologies.</p>
@@ -416,5 +416,5 @@ LIMIT 10""" ;
             </div>
         </div>
     </div>
-    <p class="lede">To query data and create resources step-by-step, follow the <a href="../../../user-guide/query-data/">Query data</a> and <a href="../../../user-guide/create-data/create-resources/">Create resources</a> guides</p>
+    <p class="ldh-body-lg">To query data and create resources step-by-step, follow the <a href="../../../user-guide/query-data/">Query data</a> and <a href="../../../user-guide/create-data/create-resources/">Create resources</a> guides</p>
 </div>"""^^rdf:XMLLiteral .

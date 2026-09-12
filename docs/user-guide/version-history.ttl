@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">View, compare and restore document versions</p>
+    <p class="ldh-body-lg">View, compare and restore document versions</p>
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
@@ -64,5 +64,5 @@
         <pre>ldh get --accept text/turtle --timemap "$doc"</pre>
         </div>
     </div>
-    <p class="lede"><a href="../../reference/versioning/">Read more about versioning and the Memento protocol.</a></p>
+    <p class="ldh-body-lg"><a href="../../reference/versioning/">Read more about versioning and the Memento protocol.</a></p>
 </div>"""^^rdf:XMLLiteral .

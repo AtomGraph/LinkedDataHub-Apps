@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Build your first Knowledge Graph application, from an empty dataspace to a published app</p>
+    <p class="ldh-body-lg">Build your first Knowledge Graph application, from an empty dataspace to a published app</p>
     <p>This tutorial rebuilds the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/northwind-traders" target="_blank">Northwind Traders demo application</a>: the iconic sample
         database, reborn as an RDF Knowledge Graph. Every stage ends with a result you can see in the browser. Most steps are shown in two ways: point-and-click in the user interface, and as
         <a href="../reference/command-line-interface/" target="_blank">CLI commands</a> you can script, version and replay. If you are new to the platform,

@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Give your app an identity: a title, a description and a landing page</p>
+    <p class="ldh-body-lg">Give your app an identity: a title, a description and a landing page</p>
     <p>In LinkedDataHub everything is a <a href="../../reference/data-model/documents/" target="_blank">document</a>, and every document is a named graph whose name is the document's URL. Your
         dataspace starts with a single document: the <strong>root document</strong> at the base URI. It doubles as the app's homepage, so making the app yours starts with describing this one
         document.</p>
@@ -75,5 +75,5 @@
             <li><a href="../../reference/http-api/" target="_blank">HTTP API</a> — the <code>PUT</code> semantics behind <samp>ldh put</samp></li>
         </ul>
     </div>
-    <p class="lede">Next: <a href="../structure/">Structure</a></p>
+    <p class="ldh-body-lg">Next: <a href="../structure/">Structure</a></p>
 </div>"""^^rdf:XMLLiteral .

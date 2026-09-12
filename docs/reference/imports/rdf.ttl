@@ -11,7 +11,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">RDF imports and transforming RDF using SPARQL CONSTRUCT</p>
+    <p class="ldh-body-lg">RDF imports and transforming RDF using SPARQL CONSTRUCT</p>
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
@@ -132,7 +132,7 @@ WHERE
             </table>
         </div>
     </div>
-    <p class="lede">If you are ready to import some RDF, follow the user guide on <a href="../../../user-guide/import-data/import-rdf-data/">creating an RDF import</a>.</p>
+    <p class="ldh-body-lg">If you are ready to import some RDF, follow the user guide on <a href="../../../user-guide/import-data/import-rdf-data/">creating an RDF import</a>.</p>
 </div>"""^^rdf:XMLLiteral ;
         rdfs:seeAlso <https://www.w3.org/TR/sparql11-query/#construct> .
 

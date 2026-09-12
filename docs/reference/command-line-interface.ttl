@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">The <samp>ldh</samp> CLI drives the same HTTP API as the UI and covers most UI actions</p>
+    <p class="ldh-body-lg">The <samp>ldh</samp> CLI drives the same HTTP API as the UI and covers most UI actions</p>
     <p>The LinkedDataHub CLI wraps the <a href="../http-api/">HTTP API</a> into a single executable with convenient parameters.
         It can be used for testing, automation, scheduled execution and similar tasks. Performing actions with the CLI is usually quicker than using the
         <a href="../user-interface/">user interface</a>, and easier to reproduce.</p>
@@ -362,6 +362,6 @@ ldh add file \\
         <h3 id="packages">Packages</h3>
         <p><a href="../administration/packages/">Packages</a> are managed with the <samp>packages</samp> group: an application imports a package with a single <code>ldh:import</code> triple, which <samp>ldh packages add</samp> declares and <samp>ldh packages remove</samp> retracts on the application’s <samp>settings</samp> document, while <samp>ldh packages list</samp> reads the registry catalog and marks the imported ones. See the <a href="../../user-guide/manage-packages/">package management guide</a>.</p>
     </div>
-    <p class="lede">Find the <a href="https://github.com/AtomGraph/LinkedDataHub/tree/master/cli" target="_blank">CLI on GitHub</a>, or see it in action in the
+    <p class="ldh-body-lg">Find the <a href="https://github.com/AtomGraph/LinkedDataHub/tree/master/cli" target="_blank">CLI on GitHub</a>, or see it in action in the
         <a href="../../tutorial/">tutorial</a> and the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo" target="_blank">demo apps</a>.</p>
 </div>"""^^rdf:XMLLiteral .

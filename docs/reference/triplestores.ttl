@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Requirements and configuration for alternative SPARQL backends</p>
+    <p class="ldh-body-lg">Requirements and configuration for alternative SPARQL backends</p>
     <p>LinkedDataHub is designed to work with any SPARQL 1.1-compatible triplestore that supports the required protocols. While Apache Jena Fuseki is the default backend, you can use alternative triplestores by adding them as services in <samp>docker-compose.override.yml</samp> (without modifying the default <samp>docker-compose.yml</samp>).</p>
     <div>
         <h2 id="requirements">Requirements</h2>
@@ -223,5 +223,5 @@
         <p>For background discussion of the QLever integration, see <a href="https://github.com/AtomGraph/LinkedDataHub/issues/272" target="_blank">GitHub issue #272</a>.</p>
         <p>Browse available triplestore products at <a href="https://kgdev.net/products/" target="_blank">kgdev.net/products/</a>.</p>
     </div>
-    <p class="lede">To create dataspaces on your chosen backend, follow the <a href="../../user-guide/manage-dataspaces/">Manage dataspaces</a> guide.</p>
+    <p class="ldh-body-lg">To create dataspaces on your chosen backend, follow the <a href="../../user-guide/manage-dataspaces/">Manage dataspaces</a> guide.</p>
 </div>"""^^rdf:XMLLiteral .

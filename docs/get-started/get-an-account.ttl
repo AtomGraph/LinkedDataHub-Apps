@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">How to get an account and log in to LinkedDataHub</p>
+    <p class="ldh-body-lg">How to get an account and log in to LinkedDataHub</p>
     <div>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
@@ -110,5 +110,5 @@
              </div>
         </div>
     </div>
-    <p class="lede">Signed in? Next, <a href="../request-access/">request access</a> to the documents you need.</p>
+    <p class="ldh-body-lg">Signed in? Next, <a href="../request-access/">request access</a> to the documents you need.</p>
 </div>"""^^rdf:XMLLiteral .

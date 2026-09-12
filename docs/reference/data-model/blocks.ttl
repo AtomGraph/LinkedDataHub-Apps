@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Content blocks and the actions for managing them</p>
+    <p class="ldh-body-lg">Content blocks and the actions for managing them</p>
     <p>The content list is a <a href="../../user-interface/#layout-modes" target="_blank">layout mode</a> that allows composition of rich, structured web documents from multiple types of content blocks.</p>
     <p>The blocks are attached to the document resource using <a href="https://www.w3.org/TR/rdf-schema/#ch_seq" target="_blank">RDF sequence properties</a> <code>rdf:_1</code>, <code>rdf:_2</code> etc.
         The index number in the property URI indicates the position of the content block on the document's content list. The Northwind dashboard's root document, for example, starts with:</p>
@@ -134,5 +134,5 @@
             </div>
         </div>
     </div>
-    <p class="lede">To compose content blocks step-by-step, follow the <a href="../../../user-guide/create-data/create-content/">Create content</a> guide</p>
+    <p class="ldh-body-lg">To compose content blocks step-by-step, follow the <a href="../../../user-guide/create-data/create-content/">Create content</a> guide</p>
 </div>"""^^rdf:XMLLiteral .

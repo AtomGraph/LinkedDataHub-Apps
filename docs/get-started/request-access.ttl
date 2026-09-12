@@ -10,7 +10,7 @@
     
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">How to get access to an application</p>
+    <p class="ldh-body-lg">How to get access to an application</p>
     <div>
         <p>After you have logged in to LinkedDataHub, by default you do not have access rights to view or edit the documents in the dataspace. The owner of the dataspace has to create
             an explicit authorization to allow access for you.</p>
@@ -23,5 +23,5 @@
         <p>The submitted request is itself an RDF resource in the admin application; the owner accepts it by creating the matching
             <a href="../../reference/administration/acl/#authorizations">authorization</a>. The <a href="../../reference/administration/acl/#auth-requests">ACL reference</a> shows its shape.</p>
     </div>
-    <p class="lede">Once the owner accepts your request, continue with the <a href="../../tutorial/">tutorial</a> or the <a href="../../user-guide/">user guide</a>.</p>
+    <p class="ldh-body-lg">Once the owner accepts your request, continue with the <a href="../../tutorial/">tutorial</a> or the <a href="../../user-guide/">user guide</a>.</p>
 </div>"""^^rdf:XMLLiteral .

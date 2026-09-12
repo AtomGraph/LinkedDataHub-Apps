@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Import CSV data using SPARQL mappings</p>
+    <p class="ldh-body-lg">Import CSV data using SPARQL mappings</p>
     <p>Northwind's data ships as plain CSV files. The first rows of <samp>categories.csv</samp>:</p>
     <pre>categoryID,categoryName,description,pictureHash
 1,Beverages,Soft drinks coffees teas beers and ales,5e1be0328ca2c694d1de6f5b1b3d3b1ce90cb41f
@@ -135,5 +135,5 @@ ldh add csv-import \\
             <li><a href="../../reference/imports/#mapping-queries" target="_blank">Mapping queries</a> — the rules mapping queries follow, with an annotated skeleton</li>
         </ul>
     </div>
-    <p class="lede">Next: <a href="../media/">Media</a></p>
+    <p class="ldh-body-lg">Next: <a href="../media/">Media</a></p>
 </div>"""^^rdf:XMLLiteral .

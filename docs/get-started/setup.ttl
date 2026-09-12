@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Set up LinkedDataHub on your local machine with Docker</p>
+    <p class="ldh-body-lg">Set up LinkedDataHub on your local machine with Docker</p>
     <div class="screenshot-placeholder">
         <span aria-hidden="true" class="msi">play_circle</span>
         <p>Screen recording: setting up LinkedDataHub with Docker</p>
@@ -124,5 +124,5 @@ OWNER_COUNTRY_NAME=DK</pre>
             </div>
         </div>
     </div>
-    <p class="lede">Is LinkedDataHub running? Proceed to <a href="../get-an-account/">get an account</a>.</p>
+    <p class="ldh-body-lg">Is LinkedDataHub running? Proceed to <a href="../get-an-account/">get an account</a>.</p>
 </div>"""^^rdf:XMLLiteral .

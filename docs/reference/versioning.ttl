@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Git-backed document versioning with Memento access to the history</p>
+    <p class="ldh-body-lg">Git-backed document versioning with Memento access to the history</p>
     <p>A dataspace can be configured to mirror every document write into a GitHub repository. The synchronization goes through the
         GitHub REST API (<samp>api.github.com</samp>), so it is specific to GitHub rather than generic Git. Every write becomes a commit
         authored with the writing agent's WebID, so the repository holds a complete, attributable history of the dataspace's documents.</p>

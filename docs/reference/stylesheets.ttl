@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Built-in XSLT, CSS and JavaScript assets, and how to override them</p>
+    <p class="ldh-body-lg">Built-in XSLT, CSS and JavaScript assets, and how to override them</p>
     <div>
         <h2 id="xslt">XSLT</h2>
         <p>XSLT is a functional, Turing-complete XML transformation language.</p>
@@ -655,5 +655,5 @@
             <p>LinkedDataHub only uses JavaScript for the functionality that cannot be achieved using client-side XSLT.</p>
         </div>
     </div>
-    <p class="lede">To customize the built-in stylesheets, follow the <a href="../../extending/change-layout/">Change layout</a> and <a href="../../extending/build-apps/">Build apps</a> guides</p>
+    <p class="ldh-body-lg">To customize the built-in stylesheets, follow the <a href="../../extending/change-layout/">Change layout</a> and <a href="../../extending/build-apps/">Build apps</a> guides</p>
 </div>"""^^rdf:XMLLiteral .

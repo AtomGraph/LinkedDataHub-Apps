@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Grant public access and ship it</p>
+    <p class="ldh-body-lg">Grant public access and ship it</p>
     <p>So far only the owner's WebID certificate can see the app. Access is governed by <a href="../../reference/administration/acl/" target="_blank">ACL authorizations</a> — documents in the admin
         app, like everything else. Publishing means creating one authorization: read access on the whole dataspace for all agents.</p>
     <div class="ac-tabs or-horizontal">
@@ -64,5 +64,5 @@
             <li><a href="../../reference/administration/acl/" target="_blank">Access control</a> — agents, groups, authorizations and access modes</li>
         </ul>
     </div>
-    <p class="lede">Next: <a href="../app-as-repository/">App as a repository</a></p>
+    <p class="ldh-body-lg">Next: <a href="../app-as-repository/">App as a repository</a></p>
 </div>"""^^rdf:XMLLiteral .

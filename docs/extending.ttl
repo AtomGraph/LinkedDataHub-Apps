@@ -11,7 +11,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Extending LinkedDataHub with your own code: XSLT stylesheets, Java endpoints, Docker images</p>
+    <p class="ldh-body-lg">Extending LinkedDataHub with your own code: XSLT stylesheets, Java endpoints, Docker images</p>
     <p>Everything in the <a href="../tutorial/">tutorial</a> and the <a href="../user-guide/">user guide</a> happens through the UI, the CLI and RDF files. The pages in this section pick up where low-code ends: they show how to override the rendering with your own <a href="change-layout/">XSLT stylesheet</a> and how to <a href="build-apps/">package an app</a> with custom Java endpoints and a dedicated Docker image.</p>
 </div>"""^^rdf:XMLLiteral .
 

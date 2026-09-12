@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Where to go when data alone is not enough</p>
+    <p class="ldh-body-lg">Where to go when data alone is not enough</p>
     <p>Everything in this tutorial was done with data: documents, queries and authorizations, applied over HTTP. That is the ceiling of the low-code approach — and it opens. Each layer
         of LinkedDataHub can be extended without forking it:</p>
     <ul>
@@ -23,6 +23,6 @@
             source alongside further demo apps and installable packages.</li>
     </ul>
     <p>If you get stuck or build something worth showing, open a thread on <a href="https://github.com/AtomGraph/LinkedDataHub/discussions" target="_blank">GitHub Discussions</a>.</p>
-    <p class="lede">You have built and published a Knowledge Graph application. From here: the <a href="../../user-guide/">user guide</a> for everyday tasks, the
+    <p class="ldh-body-lg">You have built and published a Knowledge Graph application. From here: the <a href="../../user-guide/">user guide</a> for everyday tasks, the
         <a href="../../reference/">reference</a> for the full feature set, and the <a href="../../extending/">Extending section</a> when you outgrow low-code.</p>
 </div>"""^^rdf:XMLLiteral .

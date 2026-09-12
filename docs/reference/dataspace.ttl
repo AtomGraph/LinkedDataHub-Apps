@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">LinkedDataHub dataspaces, applications, and services</p>
+    <p class="ldh-body-lg">LinkedDataHub dataspaces, applications, and services</p>
     <div>
         <h2 id="dataspaces">Dataspaces</h2>
         <p>The LinkedDataHub URI address space is split into <dfn>dataspaces</dfn>. Every dataspace consists of a pair of LinkedDataHub applications:
@@ -164,5 +164,5 @@
             </div>
         </div>
     </div>
-    <p class="lede">If you are ready to create a dataspace, see the <a href="../../user-guide/manage-dataspaces/">dataspace management</a> user guide.</p>
+    <p class="ldh-body-lg">If you are ready to create a dataspace, see the <a href="../../user-guide/manage-dataspaces/">dataspace management</a> user guide.</p>
 </div>"""^^rdf:XMLLiteral .

@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Step-by-step guide to installing and uninstalling packages</p>
+    <p class="ldh-body-lg">Step-by-step guide to installing and uninstalling packages</p>
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
@@ -138,5 +138,5 @@ EOF</pre>
             <li>Check that you have appropriate permissions to view package resources</li>
         </ul>
     </div>
-    <p class="lede"><a href="../../reference/administration/packages/" target="_blank">Read more about how packages work.</a></p>
+    <p class="ldh-body-lg"><a href="../../reference/administration/packages/" target="_blank">Read more about how packages work.</a></p>
 </div>"""^^rdf:XMLLiteral .

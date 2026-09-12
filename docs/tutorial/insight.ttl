@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Turn SPARQL queries into charts and views</p>
+    <p class="ldh-body-lg">Turn SPARQL queries into charts and views</p>
     <p>With the graph populated, analysis is a query away — and in LinkedDataHub, queries, <a href="../../reference/data-model/resources/#charts" target="_blank">charts</a> and
         <a href="../../reference/data-model/resources/#views" target="_blank">views</a> are resources like everything else. A chart is three resources chained together: an
         <code>sp:Select</code> query holding the SPARQL text, an <code>ldh:ResultSetChart</code> describing how to plot its results, and an <code>ldh:Object</code> block placing it on a document.</p>
@@ -119,5 +119,5 @@ ORDER BY ?categoryName''' .
             <li><a href="../../reference/data-model/resources/#views" target="_blank">Views</a> — layout modes, projected variables and faceted search</li>
         </ul>
     </div>
-    <p class="lede">Next: <a href="../composition/">Composition</a></p>
+    <p class="ldh-body-lg">Next: <a href="../composition/">Composition</a></p>
 </div>"""^^rdf:XMLLiteral .

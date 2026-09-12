@@ -11,7 +11,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Types of data imports supported by LinkedDataHub</p>
+    <p class="ldh-body-lg">Types of data imports supported by LinkedDataHub</p>
     <p>LinkedDataHub supports two types of data imports: <a href="csv/">CSV imports</a>, which map tabular data to RDF, and <a href="rdf/">RDF imports</a>, which load RDF data and optionally transform it. The <a href="#mapping-queries">mapping query</a> rules below apply to both import types.</p>
     <div>
         <h2 id="mapping-queries">Mapping queries</h2>

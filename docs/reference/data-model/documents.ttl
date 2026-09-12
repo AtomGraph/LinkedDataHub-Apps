@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Document structure and the basic data management actions</p>
+    <p class="ldh-body-lg">Document structure and the basic data management actions</p>
     <div>
         <h2 id="hierarchy">Document hierarchy</h2>
         <p>The basic structure of resources in a LinkedDataHub <a href="../../dataspace/#applications">application</a> is analogous to a file system, but built using RDF
@@ -162,5 +162,5 @@
             </div>
         </div>
     </div>
-    <p class="lede">To create documents step-by-step, follow the <a href="../../../user-guide/create-data/create-documents/">Create documents</a> guide</p>
+    <p class="ldh-body-lg">To create documents step-by-step, follow the <a href="../../../user-guide/create-data/create-documents/">Create documents</a> guide</p>
 </div>"""^^rdf:XMLLiteral .

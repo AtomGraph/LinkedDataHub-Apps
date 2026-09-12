@@ -11,7 +11,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Read and write RDF data from and to LinkedDataHub applications over HTTP</p>
+    <p class="ldh-body-lg">Read and write RDF data from and to LinkedDataHub applications over HTTP</p>
     <p>LinkedDataHub implements a uniform, generic RESTful Linked Data API as defined by the
         <a href="https://www.w3.org/TR/sparql11-http-rdf-update/" target="_blank">SPARQL 1.1 Graph Store HTTP Protocol</a>. It adds a few conventions of its own, however — such as <a href="#document-metadata">automatic document metadata</a> — as well as some <a href="#constraints">constraints</a>.</p>
     <div>

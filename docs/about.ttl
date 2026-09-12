@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">LinkedDataHub is a Knowledge Graph application platform by
+    <p class="ldh-body-lg">LinkedDataHub is a Knowledge Graph application platform by
         <a href="https://atomgraph.com" target="_blank">AtomGraph</a> that fully exploits the federated features of RDF and SPARQL.
         It can also be used as an RDF-native content management platform.</p>
     <p>LinkedDataHub is an open source project that has its roots in Linked Data publishing. Over time the focus has shifted to Linked Data consumption —
@@ -60,5 +60,5 @@
             using <a href="https://github.com/AtomGraph/Processor" target="_blank">Processor</a>.</p>
         <p>See the <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/CHANGELOG.md" target="_blank">CHANGELOG</a> for release notes.</p>
     </div>
-    <p class="lede">Follow the <a href="../tutorial/">tutorial</a> to build your first app, then see the <a href="../extending/build-apps/">application building</a> guide for the customization and extension options.</p>
+    <p class="ldh-body-lg">Follow the <a href="../tutorial/">tutorial</a> to build your first app, then see the <a href="../extending/build-apps/">application building</a> guide for the customization and extension options.</p>
 </div>"""^^rdf:XMLLiteral .

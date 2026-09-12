@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Learn how to create data-driven content</p>
+    <p class="ldh-body-lg">Learn how to create data-driven content</p>
     <div class="screenshot-placeholder">
         <span aria-hidden="true" class="msi">image</span>
         <p>Screenshot: creating an XHTML block and an object block on the Northwind dashboard</p>
@@ -136,5 +136,5 @@
                 </div>
         </div>
     </div>
-    <p class="lede"><a href="../../../reference/data-model/blocks/" target="_blank">Read more about content blocks.</a></p>
+    <p class="ldh-body-lg"><a href="../../../reference/data-model/blocks/" target="_blank">Read more about content blocks.</a></p>
 </div>"""^^rdf:XMLLiteral .

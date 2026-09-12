@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Define the vocabulary that describes your domain</p>
+    <p class="ldh-body-lg">Define the vocabulary that describes your domain</p>
     <p>Each dataspace has a <strong>namespace ontology</strong> where you define the classes and properties of your domain. It lives in the <em>admin</em> application, which shares your base URI with
         an <samp>admin.</samp> subdomain prefix: for the end-user app at <samp>https://localhost:4443/</samp>, the ontology document is
         <samp>https://admin.localhost:4443/ontologies/namespace/</samp>.</p>
@@ -74,5 +74,5 @@ schema:Order a owl:Class ;
             <li><a href="../../user-guide/change-model/" target="_blank">Change model</a> — classes, constructors and constraints from the UI</li>
         </ul>
     </div>
-    <p class="lede">Next: <a href="../data/">Data</a></p>
+    <p class="ldh-body-lg">Next: <a href="../data/">Data</a></p>
 </div>"""^^rdf:XMLLiteral .

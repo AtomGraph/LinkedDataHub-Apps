@@ -10,7 +10,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">The main features of the LinkedDataHub user interface</p>
+    <p class="ldh-body-lg">The main features of the LinkedDataHub user interface</p>
     <p>See the <a href="../data-model/">Data model</a> reference for definitions of LinkedDataHub components such as documents, content blocks, and resources.</p>
     <p>The user interface is only one of the interfaces LinkedDataHub provides; the other is the <a href="../command-line-interface/">command line interface</a>. The <samp>ldh</samp> CLI drives the same HTTP API as the UI and covers most UI actions.</p>
     <p>The UI layout <a href="../../extending/change-layout/" target="_blank">can be customized</a> and extended using <a href="../stylesheets/" target="_blank">stylesheets</a>.</p>
