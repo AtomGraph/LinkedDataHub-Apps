@@ -15,7 +15,7 @@
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
-            <p>Read the shared <a href="../#mapping-queries">mapping query rules</a> first — they apply to CSV and RDF imports alike.</p>
+            <p class="ac-alert-text">Read the shared <a href="../#mapping-queries">mapping query rules</a> first — they apply to CSV and RDF imports alike.</p>
         </div>
     </div>
     <p>An RDF import is a combination of multiple resources:</p>
@@ -30,7 +30,7 @@
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
-            <p>Specify either the transformation query or the target graph, not both.</p>
+            <p class="ac-alert-text">Specify either the transformation query or the target graph, not both.</p>
         </div>
     </div>
     <p>If the graph is specified, the resulting RDF data is appended to a single document.</p>
@@ -113,19 +113,20 @@ WHERE
         <div>
             <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
             <table>
+                <caption class="ac-vh">RDF import actions and their CLI commands</caption>
                 <thead>
                     <tr>
-                        <th>Action</th>
-                        <th>CLI command</th>
+                        <th scope="col">Action</th>
+                        <th scope="col">CLI command</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th>Create RDF import from an uploaded file (<samp>--file</samp>, with <samp>--query</samp> or <samp>--graph</samp>)</th>
+                        <th scope="row">Create RDF import from an uploaded file (<samp>--file</samp>, with <samp>--query</samp> or <samp>--graph</samp>)</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh add rdf-import</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Import a local RDF file end-to-end (<samp>--rdf-file</samp>, <samp>--content-type</samp>, with <samp>--query-file</samp> or <samp>--graph</samp>)</th>
+                        <th scope="row">Import a local RDF file end-to-end (<samp>--rdf-file</samp>, <samp>--content-type</samp>, with <samp>--query-file</samp> or <samp>--graph</samp>)</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh import rdf</samp></a></td>
                     </tr>
                 </tbody>

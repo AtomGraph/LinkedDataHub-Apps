@@ -22,7 +22,7 @@
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p>Application base URIs must be relative to the <a href="../../reference/configuration/#system-base-uri" target="_blank">system base URI</a> configured in <samp>.env</samp>. If you change the system base URI, you must update the application base URIs too, or they will not be reachable.</p>
+                <p class="ac-alert-text">Application base URIs must be relative to the <a href="../../reference/configuration/#system-base-uri" target="_blank">system base URI</a> configured in <samp>.env</samp>. If you change the system base URI, you must update the application base URIs too, or they will not be reachable.</p>
             </div>
         </div>
         <div>
@@ -38,7 +38,7 @@
             <div class="ac-alert va-informative" role="status">
                 <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
                 <div class="ac-alert-body">
-                    <p>Use URIs (for example in the <samp>urn:</samp> scheme) to identify apps and services, not blank nodes. Make sure both files are valid <a href="https://www.w3.org/TR/trig/" target="_blank">TriG</a>, or the setup will not work. You can check the syntax with Apache Jena's <samp>riot --validate</samp>.</p>
+                    <p class="ac-alert-text">Use URIs (for example in the <samp>urn:</samp> scheme) to identify apps and services, not blank nodes. Make sure both files are valid <a href="https://www.w3.org/TR/trig/" target="_blank">TriG</a>, or the setup will not work. You can check the syntax with Apache Jena's <samp>riot --validate</samp>.</p>
                 </div>
             </div>
         </div>

@@ -17,7 +17,7 @@
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p>In order to manage the <a href="../../reference/administration/acl/" target="_blank">access control</a>, or the <a href="../../reference/administration/ontologies/" target="_blank">model</a> of a dataspace,
+                <p class="ac-alert-text">In order to manage the <a href="../../reference/administration/acl/" target="_blank">access control</a>, or the <a href="../../reference/administration/ontologies/" target="_blank">model</a> of a dataspace,
                 the agent needs to be a member of the <a href="../../reference/administration/acl/#groups" target="_blank">owners group</a>.</p>
             </div>
         </div>

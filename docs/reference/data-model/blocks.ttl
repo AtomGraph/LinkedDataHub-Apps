@@ -69,39 +69,40 @@
             <div aria-labelledby="user-interface-tab" class="ac-tabpanel" id="user-interface-pane" role="tabpanel">
             <p>Content blocks can only be managed when the <a href="../../user-interface/#layout-modes" target="_blank">Content layout mode</a> is active. The edit and delete buttons only appear for agents with write access.</p>
             <table>
+                <caption class="ac-vh">Block management actions</caption>
                 <thead>
                     <tr>
-                        <th>Action</th>
-                        <th>Description</th>
+                        <th scope="col">Action</th>
+                        <th scope="col">Description</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th>Create XHTML block</th>
+                        <th scope="row">Create XHTML block</th>
                         <td>Click the <span class="ac-btn in-primary ap-solid sz-md">XHTML</span> button at the bottom of the page. Create the XHTML content in the rich-text editor.</td>
                     </tr>
                     <tr>
-                        <th>Create object block</th>
+                        <th scope="row">Create object block</th>
                         <td>Click the <span class="ac-btn in-primary ap-solid sz-md">Object</span> button at the bottom of the page. Enter the object's value URI. Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span>.</td>
                     </tr>
                     <tr>
-                        <th>Update XHTML block</th>
+                        <th scope="row">Update XHTML block</th>
                         <td>Click into the block's content and edit it in place. The changes are <a href="../../../user-guide/edit-content/">saved automatically</a> when the focus leaves the block — there is no separate save button.</td>
                     </tr>
                     <tr>
-                        <th>Update object block</th>
+                        <th scope="row">Update object block</th>
                         <td>Click the <span class="ac-iconbtn sz-sm in-neutral ap-ghost"><span aria-hidden="true" class="msi sm">edit</span></span> button in the top-right corner of the block (it will only appear when you move the mouse close to that corner). Change the object's value URI. Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span>.</td>
                     </tr>
                     <tr>
-                        <th>Delete</th>
+                        <th scope="row">Delete</th>
                         <td>Click the <span class="ac-iconbtn sz-sm in-destructive ap-ghost"><span aria-hidden="true" class="msi sm">close</span></span> button in the top-right corner of the block (it will only appear when you move the mouse close to that corner). Confirm in the dialog that appears.</td>
                     </tr>
                     <tr>
-                        <th>Reorder</th>
+                        <th scope="row">Reorder</th>
                         <td>Drag the block by its drag handle and drop it in a different position on the content list.</td>
                     </tr>
                     <tr>
-                        <th>Copy URI</th>
+                        <th scope="row">Copy URI</th>
                         <td>Click the copy button on the block to copy the block's URI to the clipboard.</td>
                     </tr>
                 </tbody>
@@ -109,23 +110,24 @@
             </div>
             <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
             <table>
+                <caption class="ac-vh">Block actions and their CLI commands</caption>
                 <thead>
                     <tr>
-                        <th>Action</th>
-                        <th>CLI command</th>
+                        <th scope="col">Action</th>
+                        <th scope="col">CLI command</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th>Create XHTML block</th>
+                        <th scope="row">Create XHTML block</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh add xhtml-block</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Create object block</th>
+                        <th scope="row">Create object block</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh add object-block</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Delete</th>
+                        <th scope="row">Delete</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh remove block</samp></a></td>
                     </tr>
                 </tbody>

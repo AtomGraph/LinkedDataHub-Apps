@@ -25,7 +25,7 @@
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p>HTTP API access using the <a href="../command-line-interface/">CLI</a> or curl currently does not support the OIDC method.</p>
+                <p class="ac-alert-text">HTTP API access using the <a href="../command-line-interface/">CLI</a> or curl currently does not support the OIDC method.</p>
             </div>
         </div>
     </div>
@@ -42,14 +42,44 @@
     <div>
         <h2 id="con-neg">Content negotiation</h2>
         <p>LinkedDataHub implements <a href="https://tools.ietf.org/html/rfc7231#section-3.4.1" target="_blank">proactive content negotiation</a> based on the request <code>Accept</code>
-            header value. The following RDF media types are supported (for requests as well as responses, unless indicated otherwise):</p>
-        <ul>
-            <li><a href="https://www.w3.org/TR/turtle/" target="_blank">Turtle</a> <code>text/turtle</code></li>
-            <li><a href="https://www.w3.org/TR/n-triples/" target="_blank">N-Triples</a> <code>application/n-triples</code></li>
-            <li><a href="https://www.w3.org/TR/rdf-syntax-grammar/" target="_blank">RDF/XML</a> <code>application/rdf+xml</code></li>
-            <li><a href="https://www.w3.org/TR/json-ld/" target="_blank">JSON-LD</a> <code>application/ld+json</code></li>
-            <li><a href="https://atomgraph.github.io/RDF-POST/" target="_blank">RDF/POST</a> <code>application/x-www-form-urlencoded</code> (for requests only)</li>
-        </ul>
+            header value. The following RDF media types are supported:</p>
+        <table>
+            <caption class="ac-vh">Supported formats and their media types</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Format</th>
+                    <th scope="col">Media type</th>
+                    <th scope="col">Direction</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><a href="https://www.w3.org/TR/turtle/" target="_blank">Turtle</a></th>
+                    <td><code>text/turtle</code></td>
+                    <td>Request, response</td>
+                </tr>
+                <tr>
+                    <th scope="row"><a href="https://www.w3.org/TR/n-triples/" target="_blank">N-Triples</a></th>
+                    <td><code>application/n-triples</code></td>
+                    <td>Request, response</td>
+                </tr>
+                <tr>
+                    <th scope="row"><a href="https://www.w3.org/TR/rdf-syntax-grammar/" target="_blank">RDF/XML</a></th>
+                    <td><code>application/rdf+xml</code></td>
+                    <td>Request, response</td>
+                </tr>
+                <tr>
+                    <th scope="row"><a href="https://www.w3.org/TR/json-ld/" target="_blank">JSON-LD</a></th>
+                    <td><code>application/ld+json</code></td>
+                    <td>Request, response</td>
+                </tr>
+                <tr>
+                    <th scope="row"><a href="https://atomgraph.github.io/RDF-POST/" target="_blank">RDF/POST</a></th>
+                    <td><code>application/x-www-form-urlencoded</code></td>
+                    <td>Request only</td>
+                </tr>
+            </tbody>
+        </table>
         <p>The same document, negotiated as N-Triples:</p>
         <pre>GET /products/1/ HTTP/1.1
 Host: localhost:4443
@@ -83,24 +113,25 @@ ETag: "1e635b4-ntriples"
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p>GSP <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#indirect-graph-identification" target="_blank">indirect graph identification</a> is not supported starting with LinkedDataHub version 5.x.</p>
+                <p class="ac-alert-text">GSP <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#indirect-graph-identification" target="_blank">indirect graph identification</a> is not supported starting with LinkedDataHub version 5.x.</p>
             </div>
         </div>
         <p>The API also supports the <code>PATCH</code> HTTP method which is <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#http-patch">optional in GSP</a>. It accepts graph-scoped SPARQL updates that will modify the requested document. Only the <code>INSERT/WHERE</code> and <code>DELETE WHERE</code> forms are supported; <code>GRAPH</code> patterns are not allowed.</p>
         <p>Trailing slashes in document URIs are enforced using <code>308 Permanent Redirect</code> responses.</p>
         <table>
+            <caption class="ac-vh">HTTP methods and the responses they return</caption>
             <thead>
                 <tr>
-                    <th>Method</th>
-                    <th>Description</th>
-                    <th>Success</th>
-                    <th>Failure</th>
-                    <th>Reason</th>
+                    <th scope="col">Method</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Success</th>
+                    <th scope="col">Failure</th>
+                    <th scope="col">Reason</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th rowspan="2"><code id="ld-get">GET</code></th>
+                    <th rowspan="2" scope="row"><code id="ld-get">GET</code></th>
                     <td rowspan="2">Returns the data of a document</td>
                     <td rowspan="2"><code>200 OK</code></td>
                     <td><code>404 Not Found</code></td>
@@ -111,7 +142,7 @@ ETag: "1e635b4-ntriples"
                     <td><a href="#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <th rowspan="5"><code id="ld-post">POST</code></th>
+                    <th rowspan="5" scope="row"><code id="ld-post">POST</code></th>
                     <td rowspan="5">Appends data to a document</td>
                     <td rowspan="5"><code>204 No Content</code></td>
                     <td><code>400 Bad Request</code></td>
@@ -134,9 +165,9 @@ ETag: "1e635b4-ntriples"
                     <td><a href="../administration/ontologies/#constraints">Constraint</a> violation</td>
                 </tr>
                 <tr>
-                    <th rowspan="5"><code id="ld-put">PUT</code></th>
+                    <th rowspan="5" scope="row"><code id="ld-put">PUT</code></th>
                     <td rowspan="5">Upserts a document</td>
-                    <td rowspan="5"><code>200 OK</code> <code>201 Created</code> <code>308 Permanent Redirect</code></td>
+                    <td rowspan="5"><code>200 OK</code><br></br><code>201 Created</code><br></br><code>308 Permanent Redirect</code></td>
                     <td rowspan="2"><code>400 Bad Request</code></td>
                     <td>RDF syntax error</td>
                 </tr>
@@ -156,7 +187,7 @@ ETag: "1e635b4-ntriples"
                     <td><a href="../administration/ontologies/#constraints">Constraint</a> violation</td>
                 </tr>
                 <tr>
-                    <th rowspan="2"><code id="ld-delete">DELETE</code></th>
+                    <th rowspan="2" scope="row"><code id="ld-delete">DELETE</code></th>
                     <td rowspan="2">Removes the requested document</td>
                     <td rowspan="2"><code>204 No Content</code></td>
                     <td><code>404 Not Found</code></td>
@@ -167,7 +198,7 @@ ETag: "1e635b4-ntriples"
                     <td>Deleting root, owner, or secretary documents is not allowed</td>
                 </tr>
                 <tr>
-                    <th><code id="ld-patch">PATCH</code></th>
+                    <th scope="row"><code id="ld-patch">PATCH</code></th>
                     <td>Modifies a document using SPARQL Update</td>
                     <td><code>204 No Content</code></td>
                     <td><code>422 Unprocessable Entity</code></td>
@@ -347,36 +378,65 @@ Link: &lt;https://unesco-thesaurus.demo.linkeddatahub.com/sparql&gt;; rel="http:
     <div>
         <h2 id="system-endpoints">System endpoints</h2>
         <p>Endpoints that LinkedDataHub serves in addition to the document hierarchy. Paths are relative to the application's base URI.</p>
-        <div>
-            <h3 id="app-endpoints">Admin and end-user apps</h3>
-            <dl>
-                <dt><samp>ns</samp></dt>
-                <dd>In-memory namespace ontology as well as its SPARQL endpoint</dd>
-                <dt><samp>settings</samp></dt>
-                <dd>The application's own description in the dataspace configuration. <code>PATCH</code> with a SPARQL update edits it — this is how <a href="../administration/packages/">packages</a> are installed and uninstalled. Editing is restricted to end-user applications: a <code>PATCH</code> on an admin application's settings answers <samp>422 Unprocessable Entity</samp></dd>
-            </dl>
-        </div>
-        <div>
-            <h3 id="admin-endpoints">Admin app only</h3>
-            <dl>
-                <dt><samp>admin/access</samp></dt>
-                <dd>Access metadata (for the authenticated agent)</dd>
-                <dt><samp>admin/access/request</samp></dt>
-                <dd>Access request (for the authenticated agent)</dd>
-                <dt><samp>admin/sign%20up</samp></dt>
-                <dd>WebID-TLS agent signup</dd>
-                <dt><samp>oauth2/login/google</samp></dt>
-                <dd>OpenID Connect with Google login</dd>
-                <dt><samp>oauth2/login/orcid</samp></dt>
-                <dd>OpenID Connect with ORCID login</dd>
-                <dt><samp>oauth2/authorize/google</samp></dt>
-                <dd>OpenID Connect with Google callback</dd>
-                <dt><samp>oauth2/authorize/orcid</samp></dt>
-                <dd>OpenID Connect with ORCID callback</dd>
-                <dt><samp>admin/clear</samp></dt>
-                <dd>Clears the specified ontology from memory cache and reloads it from the admin SPARQL endpoint</dd>
-            </dl>
-        </div>
+        <table>
+            <caption class="ac-vh">System endpoints by path</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Path</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th colspan="2" id="app-endpoints" scope="rowgroup">Admin and end-user apps</th>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>ns</samp></th>
+                    <td>In-memory namespace ontology as well as its SPARQL endpoint</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>settings</samp></th>
+                    <td>The application's own description in the dataspace configuration. <code>PATCH</code> with a SPARQL update edits it — this is how <a href="../administration/packages/">packages</a> are installed and uninstalled. Editing is restricted to end-user applications: a <code>PATCH</code> on an admin application's settings answers <samp>422 Unprocessable Entity</samp></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <th colspan="2" id="admin-endpoints" scope="rowgroup">Admin app only</th>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>admin/access</samp></th>
+                    <td>Access metadata (for the authenticated agent)</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>admin/access/request</samp></th>
+                    <td>Access request (for the authenticated agent)</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>admin/sign%20up</samp></th>
+                    <td>WebID-TLS agent signup</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>oauth2/login/google</samp></th>
+                    <td>OpenID Connect with Google login</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>oauth2/login/orcid</samp></th>
+                    <td>OpenID Connect with ORCID login</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>oauth2/authorize/google</samp></th>
+                    <td>OpenID Connect with Google callback</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>oauth2/authorize/orcid</samp></th>
+                    <td>OpenID Connect with ORCID callback</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>admin/clear</samp></th>
+                    <td>Clears the specified ontology from memory cache and reloads it from the admin SPARQL endpoint</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <div>
         <h2 id="caching">Caching</h2>

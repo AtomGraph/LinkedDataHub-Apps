@@ -14,7 +14,7 @@
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
-            <p>This guide is for importing larger amounts of data (e.g. more than a few thousand RDF triples) asynchronously.
+            <p class="ac-alert-text">This guide is for importing larger amounts of data (e.g. more than a few thousand RDF triples) asynchronously.
             For smaller data, it is simpler to <a href="../../add-data/" target="_blank">add data</a> synchronously.</p>
         </div>
     </div>
@@ -32,7 +32,7 @@
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
-            <p>Specify either a query or a graph, but not both.</p>
+            <p class="ac-alert-text">Specify either a query or a graph, but not both.</p>
         </div>
     </div>
     <div>

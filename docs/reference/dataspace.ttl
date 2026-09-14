@@ -76,7 +76,7 @@
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p>Base URI must end with a forward slash (<code>/</code>).</p>
+                <p class="ac-alert-text">Base URI must end with a forward slash (<code>/</code>).</p>
             </div>
         </div>
         <p>LinkedDataHub applications have one further property:</p>
@@ -98,7 +98,7 @@
             <div class="ac-alert va-informative" role="status">
                 <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
                 <div class="ac-alert-body">
-                    <p>Since LinkedDataHub 5.1.0 the administration application is served on the <code>admin.</code> subdomain rather than under an
+                    <p class="ac-alert-text">Since LinkedDataHub 5.1.0 the administration application is served on the <code>admin.</code> subdomain rather than under an
                         <code>admin/</code> path. The subdomain must resolve in DNS and be covered by the server's TLS certificate.</p>
                 </div>
             </div>
@@ -121,7 +121,7 @@
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p>The end-user application service must be able to federate with the administration application service using the
+                <p class="ac-alert-text">The end-user application service must be able to federate with the administration application service using the
                 SPARQL <code>SERVICE</code> keyword.</p>
             </div>
         </div>
@@ -159,7 +159,7 @@
             <div class="ac-alert va-informative" role="status">
                 <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
                 <div class="ac-alert-body">
-                    <p>LinkedDataHub has extension points for vendor-specific SPARQL services, which can be used to implement proprietary authentication schemes, for example.</p>
+                    <p class="ac-alert-text">LinkedDataHub has extension points for vendor-specific SPARQL services, which can be used to implement proprietary authentication schemes, for example.</p>
                 </div>
             </div>
         </div>

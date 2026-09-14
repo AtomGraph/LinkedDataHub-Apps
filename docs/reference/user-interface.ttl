@@ -17,7 +17,7 @@
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
-            <p>Note that user interface features are subject to <a href="../administration/acl/">access control</a>. For example,
+            <p class="ac-alert-text">Note that user interface features are subject to <a href="../administration/acl/">access control</a>. For example,
                 actions such as creating or editing documents are only available to users with the corresponding write access.</p>
         </div>
     </div>
@@ -37,13 +37,13 @@
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p>Only administration users have access to the administration application.</p>
+                <p class="ac-alert-text">Only administration users have access to the administration application.</p>
             </div>
         </div>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p>Due to current web browser limitations, it is not possible to log out when using client certificate authentication.
+                <p class="ac-alert-text">Due to current web browser limitations, it is not possible to log out when using client certificate authentication.
                   As a workaround, you can close the browser and click <samp>Cancel</samp> when asked to select a
                   certificate the next time.</p>
             </div>

@@ -14,7 +14,7 @@
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
-            <p>Version history is available in dataspaces with <a href="../../reference/versioning/">versioning</a> enabled — see the <a href="../../reference/versioning/#setup">setup instructions</a>.</p>
+            <p class="ac-alert-text">Version history is available in dataspaces with <a href="../../reference/versioning/">versioning</a> enabled — see the <a href="../../reference/versioning/#setup">setup instructions</a>.</p>
         </div>
     </div>
     <div class="ac-tabs or-horizontal">

@@ -19,13 +19,13 @@
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
-            <p>To create class instances, you have to be in <a href="../../../reference/user-interface/#layout-modes">properties mode</a>.</p>
+            <p class="ac-alert-text">To create class instances, you have to be in <a href="../../../reference/user-interface/#layout-modes">properties mode</a>.</p>
         </div>
     </div>
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
-            <p>You can only create instances of classes that have <a href="../../../reference/administration/ontologies/#constructors">constructors</a>.</p>
+            <p class="ac-alert-text">You can only create instances of classes that have <a href="../../../reference/administration/ontologies/#constructors">constructors</a>.</p>
         </div>
     </div>
     <div class="ac-tabs or-horizontal">

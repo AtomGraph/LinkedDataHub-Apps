@@ -64,9 +64,9 @@ ldh add file \\
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
         <div class="ac-alert-body">
             <span class="ac-alert-title">Note about ontology files</span>
-            <p>If you upload an ontology file (RDF/OWL), be aware that it will not be automatically loaded via <code>owl:imports</code> declarations.
+            <p class="ac-alert-text">If you upload an ontology file (RDF/OWL), be aware that it will not be automatically loaded via <code>owl:imports</code> declarations.
             This is deliberate: resolving imports at upload time would risk circular dependencies during system initialization.</p>
-            <p>For more information on working with ontologies, see the <a href="../../reference/administration/ontologies/">ontologies reference documentation</a>.</p>
+            <p class="ac-alert-text">For more information on working with ontologies, see the <a href="../../reference/administration/ontologies/">ontologies reference documentation</a>.</p>
         </div>
     </div>
     <p class="ldh-body-lg"><a href="../../reference/dataset/#hierarchical-uris" target="_blank">Read more about the content-addressed uploads namespace.</a></p>

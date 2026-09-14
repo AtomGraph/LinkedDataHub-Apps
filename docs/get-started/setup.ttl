@@ -79,7 +79,7 @@ OWNER_COUNTRY_NAME=DK</pre>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p>The administration application of each <a href="../../reference/dataspace/">dataspace</a> is served on the <code>admin.</code> subdomain — for the default setup that is <samp>https://admin.localhost:4443/</samp>. Browsers resolve <samp>*.localhost</samp> automatically and the generated server certificate covers the subdomain, so the local setup works out of the box. On any other host, make sure <samp>admin.&lt;host&gt;</samp> resolves in DNS and is covered by the server's TLS certificate (e.g. a wildcard certificate).</p>
+                <p class="ac-alert-text">The administration application of each <a href="../../reference/dataspace/">dataspace</a> is served on the <code>admin.</code> subdomain — for the default setup that is <samp>https://admin.localhost:4443/</samp>. Browsers resolve <samp>*.localhost</samp> automatically and the generated server certificate covers the subdomain, so the local setup works out of the box. On any other host, make sure <samp>admin.&lt;host&gt;</samp> resolves in DNS and is covered by the server's TLS certificate (e.g. a wildcard certificate).</p>
             </div>
         </div>
         <p>You are now the owner of this LinkedDataHub instance; <samp>ssl/owner/keystore.p12</samp> is your WebID certificate. The password is the value you put in <samp>secrets/owner_cert_password.txt</samp>.</p>
@@ -89,23 +89,24 @@ OWNER_COUNTRY_NAME=DK</pre>
     <div>
         <h2 id="common-commands">Common commands</h2>
         <table>
+            <caption class="ac-vh">Common commands and what they do</caption>
             <thead>
                 <tr>
-                    <th>Command</th>
-                    <th>Description</th>
+                    <th scope="col">Command</th>
+                    <th scope="col">Description</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th><samp>make up</samp></th>
+                    <th scope="row"><samp>make up</samp></th>
                     <td>Start the services; extra arguments are forwarded to <samp>docker-compose up</samp>, e.g. <samp>make up -- --build</samp> to rebuild the images first</td>
                 </tr>
                 <tr>
-                    <th><samp>make down</samp></th>
+                    <th scope="row"><samp>make down</samp></th>
                     <td>Stop the services; <samp>make down -- -v</samp> also removes the Docker volumes</td>
                 </tr>
                 <tr>
-                    <th><samp>make drop</samp></th>
+                    <th scope="row"><samp>make drop</samp></th>
                     <td>Wipe the setup completely, as described under <a href="#reset">Reset</a></td>
                 </tr>
             </tbody>

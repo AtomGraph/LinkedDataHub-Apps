@@ -25,15 +25,15 @@
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
             <div class="ac-alert-body">
                 <span class="ac-alert-title">Best practice: avoid using <code>owl:imports</code> with uploaded files</span>
-                <p>Do not use <code>owl:imports</code> declarations that point to paths under <samp>uploads/</samp>. This can cause circular dependency deadlocks
+                <p class="ac-alert-text">Do not use <code>owl:imports</code> declarations that point to paths under <samp>uploads/</samp>. This can cause circular dependency deadlocks
                 during system initialization, as the ontology loading process cannot access uploaded files without creating a circular reference.</p>
-                <p>Instead:</p>
-                <ul>
+                <p class="ac-alert-text">Instead:</p>
+                <ul class="ac-alert-text">
                     <li>Host ontologies as proper documents (not uploaded files)</li>
                     <li>Import them using their document URIs</li>
                     <li>If you need to use an ontology that was uploaded, create it as a proper ontology document first</li>
                 </ul>
-                <p>For more information, see the <a href="../../../user-guide/upload-file/">file upload documentation</a>.</p>
+                <p class="ac-alert-text">For more information, see the <a href="../../../user-guide/upload-file/">file upload documentation</a>.</p>
             </div>
         </div>
         <p>Main ontology properties:</p>
@@ -46,11 +46,12 @@
         <div>
             <h3 id="system-ontologies">System ontologies</h3>
             <table>
+                <caption class="ac-vh">System ontologies and their prefixes</caption>
                 <thead>
                     <tr>
-                        <th>Ontology</th>
-                        <th>Title</th>
-                        <th>Prefix</th>
+                        <th scope="col">Ontology</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Prefix</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -210,43 +211,44 @@ skos:Concept spin:constructor [ a ldh:Constructor ;
         <div>
             <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
             <table>
+                <caption class="ac-vh">Ontology actions and their CLI commands</caption>
                 <thead>
                     <tr>
-                        <th>Action</th>
-                        <th>CLI command</th>
+                        <th scope="col">Action</th>
+                        <th scope="col">CLI command</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th>Create ontology</th>
+                        <th scope="row">Create ontology</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh admin create ontology</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Import external vocabulary</th>
+                        <th scope="row">Import external vocabulary</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh admin import ontology</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Add ontology import</th>
+                        <th scope="row">Add ontology import</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh admin add ontology-import</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Clear ontology from cache</th>
+                        <th scope="row">Clear ontology from cache</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh admin clear ontology</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Create class</th>
+                        <th scope="row">Create class</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh admin add class</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Add constructor</th>
+                        <th scope="row">Add constructor</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh admin add constructor</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Add property constraint</th>
+                        <th scope="row">Add property constraint</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh admin add property-constraint</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Add restriction</th>
+                        <th scope="row">Add restriction</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh admin add restriction</samp></a></td>
                     </tr>
                 </tbody>

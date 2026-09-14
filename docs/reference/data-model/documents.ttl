@@ -104,23 +104,24 @@
             </div>
             <div aria-labelledby="user-interface-tab" class="ac-tabpanel" id="user-interface-pane" role="tabpanel">
             <table>
+                <caption class="ac-vh">Document management actions</caption>
                 <thead>
                     <tr>
-                        <th>Action</th>
-                        <th>Description</th>
+                        <th scope="col">Action</th>
+                        <th scope="col">Description</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th>Create</th>
+                        <th scope="row">Create</th>
                         <td>Create a new child document by clicking the <span class="ac-btn in-primary ap-solid sz-md">Create</span> button. Fill out the form. Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span>.</td>
                     </tr>
                     <tr>
-                        <th>Update</th>
+                        <th scope="row">Update</th>
                         <td>Open the current document editing form by choosing <samp>Edit</samp> in the <a href="../../user-interface/#action-bar">action bar</a>'s <span class="ac-btn in-neutral ap-outline sz-md">Actions</span> dropdown. Make changes. Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span>.</td>
                     </tr>
                     <tr>
-                        <th>Delete</th>
+                        <th scope="row">Delete</th>
                         <td>Delete the current document by choosing <samp>Delete</samp> in the <a href="../../user-interface/#action-bar">action bar</a>'s <span class="ac-btn in-neutral ap-outline sz-md">Actions</span> dropdown.</td>
                     </tr>
                 </tbody>
@@ -128,27 +129,28 @@
             </div>
             <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
             <table>
+                <caption class="ac-vh">Document actions and their CLI commands</caption>
                 <thead>
                     <tr>
-                        <th>Action</th>
-                        <th>CLI command</th>
+                        <th scope="col">Action</th>
+                        <th scope="col">CLI command</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th>Create container</th>
+                        <th scope="row">Create container</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh create container</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Create item</th>
+                        <th scope="row">Create item</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh create item</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Update</th>
+                        <th scope="row">Update</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh put</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Delete</th>
+                        <th scope="row">Delete</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh delete</samp></a></td>
                     </tr>
                 </tbody>

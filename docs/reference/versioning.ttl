@@ -149,23 +149,24 @@ Link: &lt;https://localhost:4443/orders/10248/&gt;; rel="original"</pre>
             <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
             <p><samp>ldh get</samp> exposes a versioned document's TimeMap, TimeGate and historical versions through three mutually exclusive options:</p>
             <table>
+                <caption class="ac-vh">Version history options</caption>
                 <thead>
                     <tr>
-                        <th>Option</th>
-                        <th>Description</th>
+                        <th scope="col">Option</th>
+                        <th scope="col">Description</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th><samp>--timemap</samp></th>
+                        <th scope="row"><samp>--timemap</samp></th>
                         <td>The version history (PROV-O in RDF formats, or <code>application/link-format</code> via <samp>--accept</samp>)</td>
                     </tr>
                     <tr>
-                        <th><samp>--version &lt;sha&gt;</samp></th>
+                        <th scope="row"><samp>--version &lt;sha&gt;</samp></th>
                         <td>The historical version at the given commit</td>
                     </tr>
                     <tr>
-                        <th><samp>--timegate</samp></th>
+                        <th scope="row"><samp>--timegate</samp></th>
                         <td>Datetime negotiation; the optional <samp>--datetime</samp> takes an RFC 1123 or ISO 8601 datetime. Prints the negotiated version's URI as the only line on stdout, so it pipes into another <samp>ldh get</samp></td>
                     </tr>
                 </tbody>

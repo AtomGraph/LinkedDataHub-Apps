@@ -11,7 +11,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Packages that turn a dataspace into an editor for a kind of data, each one pairing an ontology with the stylesheet that renders it.</p>
+    <p class="ldh-body-lg">Packages that turn a dataspace into an editor for a kind of data, each one pairing an ontology with the stylesheet that renders it.</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Object ;

@@ -16,31 +16,32 @@
         <h2 id="access-modes">Access modes</h2>
         <p>There are four access modes (classes of operation) that map to <a href="../../http-api/">HTTP methods</a>:</p>
         <table>
+            <caption class="ac-vh">Access modes and the HTTP methods they permit</caption>
             <thead>
                 <tr>
-                    <th>Mode</th>
-                    <th>Permits</th>
-                    <th>HTTP method</th>
+                    <th scope="col">Mode</th>
+                    <th scope="col">Permits</th>
+                    <th scope="col">HTTP method</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th>Read</th>
+                    <th scope="row">Read</th>
                     <td>Read the contents, including querying them.</td>
                     <td><code>GET</code></td>
                 </tr>
                 <tr>
-                    <th>Write</th>
+                    <th scope="row">Write</th>
                     <td>Overwrite the contents, including deleting or modifying them.</td>
                     <td><code>PUT</code>, <code>PATCH</code>, <code>DELETE</code></td>
                 </tr>
                 <tr>
-                    <th>Append</th>
+                    <th scope="row">Append</th>
                     <td>Add information without removing or replacing any.</td>
                     <td><code>POST</code></td>
                 </tr>
                 <tr>
-                    <th>Control</th>
+                    <th scope="row">Control</th>
                     <td>Change the authorizations that apply to the resource.</td>
                     <td>— (no corresponding HTTP method)</td>
                 </tr>
@@ -66,10 +67,10 @@
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p>By default, only members of the owners group have access to the administration application: its built-in
+                <p class="ac-alert-text">By default, only members of the owners group have access to the administration application: its built-in
                     <samp>Full control</samp> authorization grants the <a href="#access-modes">Control</a> mode (along with read and write)
                     to that group. See <a href="#authorizations">Authorizations</a>.</p>
-                <p>Note that an agent being a member of one of the above groups does not automatically provide it with an
+                <p class="ac-alert-text">Note that an agent being a member of one of the above groups does not automatically provide it with an
                     authorization. A valid authorization for the whole group has to be present.</p>
             </div>
         </div>
@@ -84,17 +85,18 @@
             authorization is granted to the <a href="#groups">owners group</a>.</p>
         <p>The default authorizations for groups and their respective access modes:</p>
         <table>
+            <caption class="ac-vh">Default access for each group</caption>
             <thead>
                 <tr>
-                    <th>Group</th>
-                    <th>Read access</th>
-                    <th>Write/append access</th>
-                    <th>Full control</th>
+                    <th scope="col">Group</th>
+                    <th scope="col">Read access</th>
+                    <th scope="col">Write/append access</th>
+                    <th scope="col">Full control</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th rowspan="2">Owners</th>
+                    <th rowspan="2" scope="row">Owners</th>
                     <td rowspan="2"><a href="#access-modes">Read</a></td>
                     <td><a href="#access-modes">Write</a></td>
                     <td rowspan="2"><a href="#access-modes">Control</a></td>
@@ -103,7 +105,7 @@
                     <td><a href="#access-modes">Append</a></td>
                 </tr>
                 <tr>
-                    <th rowspan="2">Writers</th>
+                    <th rowspan="2" scope="row">Writers</th>
                     <td rowspan="2"><a href="#access-modes">Read</a></td>
                     <td><a href="#access-modes">Write</a></td>
                     <td rowspan="2">—</td>
@@ -112,7 +114,7 @@
                     <td><a href="#access-modes">Append</a></td>
                 </tr>
                 <tr>
-                    <th>Readers</th>
+                    <th scope="row">Readers</th>
                     <td><a href="#access-modes">Read</a></td>
                     <td>—</td>
                     <td>—</td>
@@ -159,7 +161,7 @@
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p>The owner's and <a href="../../dataspace/#dataspaces">secretary's</a> authorizations are stored under stable URIs (<samp>acl/authorizations/owner-webid/</samp> and <samp>acl/authorizations/secretary-webid/</samp>), so reloading the admin dataset does not create duplicates.</p>
+                <p class="ac-alert-text">The owner's and <a href="../../dataspace/#dataspaces">secretary's</a> authorizations are stored under stable URIs (<samp>acl/authorizations/owner-webid/</samp> and <samp>acl/authorizations/secretary-webid/</samp>), so reloading the admin dataset does not create duplicates.</p>
             </div>
         </div>
         <div>
@@ -184,27 +186,28 @@
         <div>
             <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
             <table>
+                <caption class="ac-vh">Access control actions and their CLI commands</caption>
                 <thead>
                     <tr>
-                        <th>Action</th>
-                        <th>CLI command</th>
+                        <th scope="col">Action</th>
+                        <th scope="col">CLI command</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th>Create group</th>
+                        <th scope="row">Create group</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh admin create group</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Create authorization</th>
+                        <th scope="row">Create authorization</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh admin create authorization</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Add agent to group</th>
+                        <th scope="row">Add agent to group</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh admin add agent</samp></a></td>
                     </tr>
                     <tr>
-                        <th>Make a document public</th>
+                        <th scope="row">Make a document public</th>
                         <td><a href="../../command-line-interface/#commands"><samp>ldh admin make-public</samp></a></td>
                     </tr>
                 </tbody>

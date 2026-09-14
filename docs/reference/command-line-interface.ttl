@@ -30,15 +30,15 @@ ldh --help</pre>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p>The CLI talks to the HTTP API directly and embeds <a href="https://jena.apache.org/" target="_blank">Apache Jena</a>. Unlike the shell scripts it replaces, it needs no <samp>curl</samp>, <samp>python</samp> or Jena command line tools on <code>$PATH</code>.</p>
+                <p class="ac-alert-text">The CLI talks to the HTTP API directly and embeds <a href="https://jena.apache.org/" target="_blank">Apache Jena</a>. Unlike the shell scripts it replaces, it needs no <samp>curl</samp>, <samp>python</samp> or Jena command line tools on <code>$PATH</code>.</p>
             </div>
         </div>
         <div class="ac-alert va-warning" id="deprecated-scripts" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
             <div class="ac-alert-body">
                 <span class="ac-alert-title">Deprecated shell scripts</span>
-                <p>The HTTP API shell scripts in the <samp>bin</samp> folder that <samp>ldh</samp> replaces are <strong>deprecated</strong>. The certificate and WebID tooling (<samp>webid-keygen.sh</samp>, <samp>webid-keygen-pem.sh</samp>, <samp>webid-uri.sh</samp>, <samp>webid-modulus.sh</samp>, <samp>server-cert-gen.sh</samp>) talks to no API and is not deprecated.</p>
-                <p>Migrating from a script to its command means dropping the <samp>.sh</samp> suffix, prefixing the invocation with <samp>ldh</samp> (the hyphenated name becomes a verb-object pair, e.g. <samp>admin/acl/create-group.sh</samp> becomes <samp>ldh admin create group</samp>), and passing the <samp>.p12</samp> keystore to <code>-f</code> instead of the <samp>.pem</samp> certificate.</p>
+                <p class="ac-alert-text">The HTTP API shell scripts in the <samp>bin</samp> folder that <samp>ldh</samp> replaces are <strong>deprecated</strong>. The certificate and WebID tooling (<samp>webid-keygen.sh</samp>, <samp>webid-keygen-pem.sh</samp>, <samp>webid-uri.sh</samp>, <samp>webid-modulus.sh</samp>, <samp>server-cert-gen.sh</samp>) talks to no API and is not deprecated.</p>
+                <p class="ac-alert-text">Migrating from a script to its command means dropping the <samp>.sh</samp> suffix, prefixing the invocation with <samp>ldh</samp> (the hyphenated name becomes a verb-object pair, e.g. <samp>admin/acl/create-group.sh</samp> becomes <samp>ldh admin create group</samp>), and passing the <samp>.p12</samp> keystore to <code>-f</code> instead of the <samp>.pem</samp> certificate.</p>
             </div>
         </div>
     </div>
@@ -64,7 +64,7 @@ ldh --help</pre>
         <div class="ac-alert va-warning" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
             <div class="ac-alert-body">
-                <p>The CLI does not validate TLS server certificates, so self-signed development instances work out of the box. Do not point it at untrusted hosts.</p>
+                <p class="ac-alert-text">The CLI does not validate TLS server certificates, so self-signed development instances work out of the box. Do not point it at untrusted hosts.</p>
             </div>
         </div>
     </div>
@@ -89,10 +89,11 @@ ldh --help</pre>
         <h3 id="environment-variables">Environment variables</h3>
         <p>The repeated parameters can be set once in the environment instead of being passed to every command:</p>
         <table>
+            <caption class="ac-vh">Environment variables and the parameters they supply</caption>
             <thead>
                 <tr>
-                    <th>Variable</th>
-                    <th>Parameter</th>
+                    <th scope="col">Variable</th>
+                    <th scope="col">Parameter</th>
                 </tr>
             </thead>
             <tbody>
@@ -163,15 +164,16 @@ Adds a SELECT query to a document.
         <h2 id="commands">Commands</h2>
         <p>Commands group by verb — <samp>create</samp>, <samp>add</samp> and <samp>remove</samp> make the single request they name, while <samp>import</samp> holds the composite workflows — plus the <samp>packages</samp> family and the <samp>admin</samp> scope. The following commands are currently supported:</p>
         <table>
+            <caption class="ac-vh">Commands grouped by purpose</caption>
             <thead>
                 <tr>
-                    <th>Purpose</th>
-                    <th>Command</th>
+                    <th scope="col">Purpose</th>
+                    <th scope="col">Command</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th colspan="2">Low-level (Graph Store Protocol)</th>
+                    <th colspan="2" scope="rowgroup">Low-level (Graph Store Protocol)</th>
                 </tr>
                 <tr>
                     <td><code>GET</code> request</td>
@@ -196,7 +198,7 @@ Adds a SELECT query to a document.
             </tbody>
             <tbody>
                 <tr>
-                    <th colspan="2">Documents</th>
+                    <th colspan="2" scope="rowgroup">Documents</th>
                 </tr>
                 <tr>
                     <td>Create container document</td>
@@ -209,7 +211,7 @@ Adds a SELECT query to a document.
             </tbody>
             <tbody>
                 <tr>
-                    <th colspan="2">Content</th>
+                    <th colspan="2" scope="rowgroup">Content</th>
                 </tr>
                 <tr>
                     <td>Append object block (instance of <code>ldh:Object</code>) to document</td>
@@ -226,7 +228,7 @@ Adds a SELECT query to a document.
             </tbody>
             <tbody>
                 <tr>
-                    <th colspan="2">Instances of system classes</th>
+                    <th colspan="2" scope="rowgroup">Instances of system classes</th>
                 </tr>
                 <tr>
                     <td>Append uploaded file (instance of <code>nfo:FileDataObject</code>) to document</td>
@@ -255,7 +257,7 @@ Adds a SELECT query to a document.
             </tbody>
             <tbody>
                 <tr>
-                    <th colspan="2"><a href="../imports/">Imports</a></th>
+                    <th colspan="2" scope="rowgroup"><a href="../imports/">Imports</a></th>
                 </tr>
                 <tr>
                     <td>Create CSV import</td>
@@ -276,7 +278,7 @@ Adds a SELECT query to a document.
             </tbody>
             <tbody>
                 <tr>
-                    <th colspan="2"><a href="../administration/">Administration</a></th>
+                    <th colspan="2" scope="rowgroup"><a href="../administration/">Administration</a></th>
                 </tr>
                 <tr>
                     <td>Add <code>owl:imports</code> to ontology</td>
@@ -289,7 +291,7 @@ Adds a SELECT query to a document.
             </tbody>
             <tbody>
                 <tr>
-                    <th colspan="2"><a href="../administration/acl/">Access control</a></th>
+                    <th colspan="2" scope="rowgroup"><a href="../administration/acl/">Access control</a></th>
                 </tr>
                 <tr>
                     <td>Add <a href="../administration/acl/#agents">agent</a> to <a href="../administration/acl/#groups">group</a></td>
@@ -310,7 +312,7 @@ Adds a SELECT query to a document.
             </tbody>
             <tbody>
                 <tr>
-                    <th colspan="2"><a href="../administration/ontologies/">Ontologies</a></th>
+                    <th colspan="2" scope="rowgroup"><a href="../administration/ontologies/">Ontologies</a></th>
                 </tr>
                 <tr>
                     <td>Add <a href="../administration/ontologies/#classes">class</a></td>

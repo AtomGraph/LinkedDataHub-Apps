@@ -16,7 +16,7 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">Taxonomy editing on SKOS: a concept tree beside the content, hierarchy views in both assertion directions, and constructors and constraints for concepts, schemes and collections.</p>
+    <p class="ldh-body-lg">Taxonomy editing on SKOS: a concept tree beside the content, hierarchy views in both assertion directions, and constructors and constraints for concepts, schemes and collections.</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Object ;

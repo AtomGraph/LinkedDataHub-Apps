@@ -87,8 +87,6 @@
 
 /* An inline alert's body is a flex column with its own gap, so prose inside it
    must not add the UA paragraph margins on top. */
-.docs-main .ac-alert-body > :first-child { margin-top: 0; }
-.docs-main .ac-alert-body > :last-child { margin-bottom: 0; }
 .docs-main .ac-alert { margin: var(--sp-4) 0; }
 
 /* ---------- Screenshot placeholders (swapped for real captures later) ---------- */

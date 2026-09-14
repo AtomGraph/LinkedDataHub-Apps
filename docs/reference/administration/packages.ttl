@@ -14,8 +14,8 @@
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
-            <p>Packages were introduced in LinkedDataHub 5.2. Since 5.10 an application installs one by declaring a single <code>ldh:import</code> triple in its settings, replacing the <code>packages/install</code> and <code>packages/uninstall</code> endpoints and the file system mutations they performed.</p>
-            <p>Packages are declarative only (RDF + XSLT) — they contain no Java code. See <a href="#architecture">Architecture</a> for how they are composed into the application.</p>
+            <p class="ac-alert-text">Packages were introduced in LinkedDataHub 5.2. Since 5.10 an application installs one by declaring a single <code>ldh:import</code> triple in its settings, replacing the <code>packages/install</code> and <code>packages/uninstall</code> endpoints and the file system mutations they performed.</p>
+            <p class="ac-alert-text">Packages are declarative only (RDF + XSLT) — they contain no Java code. See <a href="#architecture">Architecture</a> for how they are composed into the application.</p>
         </div>
     </div>
     <div>
@@ -143,7 +143,7 @@ WHERE {}</pre>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p>Uninstalling a package does not remove user-created data that uses the package's vocabulary. That data stays in the dataspace but may not display or function correctly without the package.</p>
+                <p class="ac-alert-text">Uninstalling a package does not remove user-created data that uses the package's vocabulary. That data stays in the dataspace but may not display or function correctly without the package.</p>
             </div>
         </div>
     </div>
@@ -159,7 +159,7 @@ WHERE {}</pre>
         <div class="ac-alert va-warning" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
             <div class="ac-alert-body">
-                <p>Packages installed before 5.10 were applied by copying files into the webapp; those installations do not carry over. Re-declare them with <code>ldh:import</code>.</p>
+                <p class="ac-alert-text">Packages installed before 5.10 were applied by copying files into the webapp; those installations do not carry over. Re-declare them with <code>ldh:import</code>.</p>
             </div>
         </div>
     </div>

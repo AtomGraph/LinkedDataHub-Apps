@@ -14,7 +14,7 @@
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
-            <p>Package management requires write access to the application's <samp>settings</samp> document, which in practice means the owner of the dataspace.</p>
+            <p class="ac-alert-text">Package management requires write access to the application's <samp>settings</samp> document, which in practice means the owner of the dataspace.</p>
         </div>
     </div>
     <p>Packages were introduced in LinkedDataHub 5.2. Since 5.10 they are installed <em>declaratively</em>: an application imports a package with a single <code>ldh:import</code> triple in its settings. The dedicated install/uninstall endpoints, and the package <samp>Actions</samp> menu that drove them, have been removed.</p>
@@ -86,7 +86,7 @@ EOF</pre>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p>Installing or uninstalling a package takes effect on the <strong>next request</strong> — the package ontology joins the application's imports closure and its stylesheet is composed into the application stylesheet. No restart is needed.</p>
+                <p class="ac-alert-text">Installing or uninstalling a package takes effect on the <strong>next request</strong> — the package ontology joins the application's imports closure and its stylesheet is composed into the application stylesheet. No restart is needed.</p>
             </div>
         </div>
         <p>After installing a package, verify that it was applied:</p>

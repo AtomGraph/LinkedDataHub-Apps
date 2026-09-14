@@ -15,7 +15,7 @@
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
-            <p>Adding data this way will cause a blocking request, so use it for small amounts of data only (e.g. a few thousand RDF triples).
+            <p class="ac-alert-text">Adding data this way will cause a blocking request, so use it for small amounts of data only (e.g. a few thousand RDF triples).
             For larger data, use asynchronous <a href="../import-data/import-rdf-data/" target="_blank">RDF imports</a>.</p>
         </div>
     </div>
@@ -60,11 +60,12 @@
         <p>To upload the contents of an RDF file into a document, drag the file from your filesystem into LinkedDataHub when the document's <a href="../../reference/user-interface/#layout-modes">properties mode</a> is active.</p>
         <p>The following syntaxes are supported:</p>
         <table>
+            <caption class="ac-vh">Supported RDF syntaxes and their media types</caption>
             <thead>
                 <tr>
-                    <th>Syntax</th>
-                    <th>File extensions</th>
-                    <th>Media type</th>
+                    <th scope="col">Syntax</th>
+                    <th scope="col">File extensions</th>
+                    <th scope="col">Media type</th>
                 </tr>
             </thead>
             <tbody>

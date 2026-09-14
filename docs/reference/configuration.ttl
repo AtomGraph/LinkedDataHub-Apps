@@ -26,7 +26,7 @@ ABS_PATH=/linkeddatahub/</pre>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p>The <a href="../dataspace/#admin-apps">administration application</a> of each dataspace is served on the <code>admin.</code> subdomain
+                <p class="ac-alert-text">The <a href="../dataspace/#admin-apps">administration application</a> of each dataspace is served on the <code>admin.</code> subdomain
                     of its end-user host (e.g. <samp>admin.ec2-54-235-229-141.compute-1.amazonaws.com</samp>). The subdomain must resolve in DNS and be covered by the
                     server's TLS certificate, otherwise the admin application will not be reachable.</p>
             </div>
@@ -152,7 +152,7 @@ ABS_PATH=/linkeddatahub/</pre>
                     <div class="ac-alert va-warning" role="status">
                         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
                         <div class="ac-alert-body">
-                            <p>Currently this will only hide the signup button in the UI, without disabling the endpoint.</p>
+                            <p class="ac-alert-text">Currently this will only hide the signup button in the UI, without disabling the endpoint.</p>
                         </div>
                     </div>
                 </dd>

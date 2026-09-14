@@ -16,11 +16,12 @@
         <h2 id="requirements">Requirements</h2>
         <p>For a triplestore to work with LinkedDataHub, it must support the following:</p>
         <table>
+            <caption class="ac-vh">Triplestore features and whether they are required</caption>
             <thead>
                 <tr>
-                    <th>Feature</th>
-                    <th>Required</th>
-                    <th>Description</th>
+                    <th scope="col">Feature</th>
+                    <th scope="col">Required</th>
+                    <th scope="col">Description</th>
                 </tr>
             </thead>
             <tbody>
@@ -73,8 +74,8 @@
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
                 <span class="ac-alert-title">GSP fallback mode</span>
-                <p>When <code>a:quadStore</code> is not provided, LinkedDataHub automatically uses graph-scoped Graph Store Protocol operations instead. This mode:</p>
-                <ul>
+                <p class="ac-alert-text">When <code>a:quadStore</code> is not provided, LinkedDataHub automatically uses graph-scoped Graph Store Protocol operations instead. This mode:</p>
+                <ul class="ac-alert-text">
                     <li>Works with triplestores that do not support dataset-level TriG/N-Quads uploads</li>
                     <li>Loads data graph-by-graph rather than as a complete dataset</li>
                     <li>Takes longer during bootstrap (more HTTP requests) but is functionally equivalent</li>

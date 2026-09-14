@@ -54,27 +54,28 @@ WHERE
     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/categories.rq" target="_blank">categories/categories.rq</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/1/" target="_blank">/categories/1/</a></p>
     <p>The four <code>BIND</code>s carry the whole document model of the import:</p>
     <table>
+        <caption class="ac-vh">BIND variables and what they bind to</caption>
         <thead>
             <tr>
-                <th>Variable</th>
-                <th>Binds to</th>
+                <th scope="col">Variable</th>
+                <th scope="col">Binds to</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <th><code>?container</code></th>
+                <th scope="row"><code>?container</code></th>
                 <td>The target container from the <a href="../structure/">Structure</a> stage, resolved against <code>$base</code>, which LinkedDataHub binds to the application's base URI when the mapping runs</td>
             </tr>
             <tr>
-                <th><code>?graph</code></th>
+                <th scope="row"><code>?graph</code></th>
                 <td>One document (named graph) per row, minted inside the container from the row's identifier</td>
             </tr>
             <tr>
-                <th><code>?category</code></th>
+                <th scope="row"><code>?category</code></th>
                 <td>The document's topic: the document is <em>about</em> the category, so the category is a <samp>#this</samp> fragment of it</td>
             </tr>
             <tr>
-                <th><code>?picture</code></th>
+                <th scope="row"><code>?picture</code></th>
                 <td>The category's image, addressed by the content hash the CSV carries (the <a href="../media/">Media</a> stage explains why that works)</td>
             </tr>
         </tbody>
