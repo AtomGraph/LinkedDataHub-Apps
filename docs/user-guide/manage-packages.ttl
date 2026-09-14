@@ -39,16 +39,12 @@
                     <p>The page reloads with the package applied. The checkboxes are inputs of the settings form, so several packages can be installed and uninstalled in a single <span class="ac-btn in-primary ap-solid sz-sm">Save</span>.</p>
                 </div>
             <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
-                    <p>Packages have no command of their own: an application imports a package with a single <code>ldh:import</code> triple, so installing a package means patching the application's <samp>settings</samp> document. Execute the following command:</p>
-                    <pre>ldh patch "https://localhost:4443/settings" &lt;&lt;EOF
-INSERT
-{
-    &lt;urn:linkeddatahub:apps/end-user&gt; &lt;https://w3id.org/atomgraph/linkeddatahub#import&gt; &lt;https://packages.linkeddatahub.com/editor/taxonomy/#this&gt; .
-}
-WHERE {}
-EOF</pre>
-                    <p>(The owner certificate and its password come from the <a href="../../reference/command-line-interface/#environment-variables"><samp>LDH_*</samp> environment variables</a>.)</p>
-                    <p>The subject of the triple is the URI of the application the package is installed into, as declared in <samp>config/system.trig</samp> (<samp>urn:linkeddatahub:apps/end-user</samp> in the default configuration). The object is the package URI.</p>
+                    <p>List what the registry offers, marking the ones this application already imports:</p>
+                    <pre>ldh packages list</pre>
+                    <p>Then install one by its URI:</p>
+                    <pre>ldh packages add --package https://packages.linkeddatahub.com/editor/taxonomy/#this</pre>
+                    <p>(The base URI, owner certificate and its password come from the <a href="../../reference/command-line-interface/#environment-variables"><samp>LDH_*</samp> environment variables</a>.)</p>
+                    <p>The command writes a single <code>ldh:import</code> triple on the application's <samp>settings</samp> document — that declaration <em>is</em> the installation. It matches the application by type rather than by URI, because the application's URI is an opaque <samp>urn:</samp> declared in <samp>config/system.trig</samp>.</p>
                 </div>
         </div>
     </div>
@@ -70,14 +66,8 @@ EOF</pre>
                     </ol>
                 </div>
             <div aria-labelledby="command-line-interface-2-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-2-pane" role="tabpanel">
-                    <p>Uninstalling is the same update with <code>DELETE</code> in place of <code>INSERT</code>:</p>
-                    <pre>ldh patch "https://localhost:4443/settings" &lt;&lt;EOF
-DELETE
-{
-    &lt;urn:linkeddatahub:apps/end-user&gt; &lt;https://w3id.org/atomgraph/linkeddatahub#import&gt; &lt;https://packages.linkeddatahub.com/editor/taxonomy/#this&gt; .
-}
-WHERE {}
-EOF</pre>
+                    <p>Uninstalling retracts the same triple, and is idempotent — removing an import the application does not have succeeds and changes nothing:</p>
+                    <pre>ldh packages remove --package https://packages.linkeddatahub.com/editor/taxonomy/#this</pre>
                 </div>
         </div>
     </div>

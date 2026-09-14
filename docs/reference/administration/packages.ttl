@@ -212,17 +212,16 @@ schema:knows ldh:view :PersonKnows .
         <h2 id="management">Management</h2>
         <div>
             <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
-            <p>Packages have no command of their own: an application imports a package with a single <code>ldh:import</code> triple, so <samp>ldh patch</samp> on the application's <samp>settings</samp> document is the whole interface:</p>
-            <pre>ldh patch \\
-  -f ssl/owner/keystore.p12 \\
-  -p "$owner_cert_password" \\
-  "https://localhost:4443/settings" &lt;&lt;EOF
-INSERT
-{
-    &lt;urn:linkeddatahub:apps/end-user&gt; &lt;https://w3id.org/atomgraph/linkeddatahub#import&gt; &lt;https://packages.linkeddatahub.com/schema.org/#this&gt; .
-}
-WHERE {}
-EOF</pre>
+            <p>The <samp>packages</samp> group reads the registry and writes the <code>ldh:import</code> triple:</p>
+            <pre>ldh packages list
+ldh packages add --package https://packages.linkeddatahub.com/editor/taxonomy/#this
+ldh packages remove --package https://packages.linkeddatahub.com/editor/taxonomy/#this</pre>
+            <p><samp>packages list</samp> prints one tab-separated line per package — state, URI, title — so the listing greps and cuts. The registry
+                defaults to <samp>https://packages.linkeddatahub.com/</samp> and <samp>--registry</samp> overrides it; it is read through the
+                application's Linked Data proxy rather than fetched directly, so <samp>list</samp> needs <samp>--base</samp> as much as the other two do.</p>
+            <p>All three go through <code>PATCH</code> on the <samp>settings</samp> document, which is the live path: the change takes effect on the
+                next request with no restart, but lives in the running application's context dataset. Declaring the same <code>ldh:import</code> triple
+                in <samp>config/dataspaces.trig</samp> is the permanent one, applied on restart. <samp>packages remove</samp> is idempotent.</p>
         </div>
     </div>
     <p class="ldh-body-lg">To install and manage packages step by step, follow the <a href="../../../user-guide/manage-packages/">Manage packages</a> guide.</p>

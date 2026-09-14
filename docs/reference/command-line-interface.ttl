@@ -343,6 +343,23 @@ Adds a SELECT query to a document.
                     <td><samp>ldh admin import ontology</samp></td>
                 </tr>
             </tbody>
+            <tbody>
+                <tr>
+                    <th colspan="2" scope="rowgroup"><a href="../administration/packages/">Packages</a></th>
+                </tr>
+                <tr>
+                    <td>List available packages</td>
+                    <td><samp>ldh packages list</samp></td>
+                </tr>
+                <tr>
+                    <td>Import a package</td>
+                    <td><samp>ldh packages add</samp></td>
+                </tr>
+                <tr>
+                    <td>Drop a package import</td>
+                    <td><samp>ldh packages remove</samp></td>
+                </tr>
+            </tbody>
         </table>
         <p>Usage example. The Northwind categories CSV is uploaded into a document, so create the document first:</p>
         <pre>doc=$(ldh create item \\
@@ -362,7 +379,7 @@ ldh add file \\
         <p><samp>ldh get</samp> also exposes a <a href="../versioning/">versioned</a> document's TimeMap, TimeGate and historical versions through
             three mutually exclusive options — see the <a href="../versioning/#management">versioning reference</a> for the options and examples.</p>
         <h3 id="packages">Packages</h3>
-        <p><a href="../administration/packages/">Packages</a> are managed with the <samp>packages</samp> group: an application imports a package with a single <code>ldh:import</code> triple, which <samp>ldh packages add</samp> declares and <samp>ldh packages remove</samp> retracts on the application’s <samp>settings</samp> document, while <samp>ldh packages list</samp> reads the registry catalog and marks the imported ones. See the <a href="../../user-guide/manage-packages/">package management guide</a>.</p>
+        <p><a href="../administration/packages/">Packages</a> are managed with the <samp>packages</samp> group: an application imports a package with a single <code>ldh:import</code> triple, which <samp>ldh packages add</samp> declares and <samp>ldh packages remove</samp> retracts on the application's <samp>settings</samp> document, while <samp>ldh packages list</samp> reads the registry catalog and marks the imported ones. See the <a href="../../user-guide/manage-packages/">package management guide</a>.</p>
     </div>
     <p class="ldh-body-lg">Find the <a href="https://github.com/AtomGraph/LinkedDataHub/tree/master/cli" target="_blank">CLI on GitHub</a>, or see it in action in the
         <a href="../../tutorial/">tutorial</a> and the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo" target="_blank">demo apps</a>.</p>

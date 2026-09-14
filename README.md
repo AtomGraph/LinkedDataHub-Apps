@@ -4,11 +4,13 @@ System, demo, and user-submitted applications built on LinkedDataHub. Completely
 
 ## Prerequisites
 
-The installation scripts in this repository use [LinkedDataHub's CLI scripts](https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/command-line-interface/). You need to add the `bin` (and its subfolders) of your LinkedDataHub fork or clone to `$PATH`, for example:
+The installation scripts in this repository use [LinkedDataHub's `ldh` CLI](https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/reference/command-line-interface/). Build it from your LinkedDataHub fork or clone and put it on `$PATH`:
 
 ```shell
-export PATH="$(find bin -type d -exec realpath {} \; | tr '\n' ':')$PATH"
+cd ../LinkedDataHub/cli && mvn package && export PATH="$PWD/bin:$PATH"
 ```
+
+The `bin` shell scripts that `ldh` replaces are deprecated. The certificate and WebID tooling in `bin` (`webid-keygen.sh`, `server-cert-gen.sh` and friends) talks to no API and is not.
 
 __Note that app installation scripts are not idempotent. Subsequent runs might continue adding data but are not guaranteed to succeed.__
 
@@ -101,31 +103,24 @@ __You need to request append/write access to be able to create/edit the data.__
 
 **Reusable vocabulary packages that add domain-specific functionality to LinkedDataHub dataspaces.**
 
-Packages provide ontology imports and custom XSLT templates for rendering specific RDF vocabularies. They use **installation-time composition** - integrating content during installation via JAX-RS endpoints rather than loading dynamically at runtime.
+Packages provide ontology imports and custom XSLT templates for rendering specific RDF vocabularies. They are **composed at request time** out of a declaration: a single `ldh:import` triple in the application's settings, resolved on the next request.
 
 ### Structure
 
 Each package consists of:
 - **`ns.ttl`** - Ontology with vocabulary imports (`owl:imports`) and property views (`ldh:view` / `ldh:inverseView`)
-- **`layout.xsl`** - XSLT stylesheet with custom rendering templates using system modes
+- **A stylesheet** - XSLT with custom rendering templates using system modes. The filename is whatever the package's `ac:stylesheet` names.
 
 ### Installation
 
-Packages are installed via CLI or from application install scripts:
+The declaration *is* the installation:
 
 ```bash
-install-package.sh \
-  -b https://localhost:4443/ \
-  -f ssl/owner/cert.pem \
-  -p Password \
-  --package https://packages.linkeddatahub.com/editor/taxonomy/#this
+ldh packages list
+ldh packages add --package https://packages.linkeddatahub.com/editor/taxonomy/#this
 ```
 
-Installation integrates the package by:
-1. Downloading and storing the ontology as a SPARQL document
-2. Adding `owl:imports` to the namespace ontology
-3. Saving the stylesheet and updating master stylesheets with `xsl:import`
-4. Clearing caches to load the new content
+From the next request onwards the server resolves it: the package ontology joins the application's `owl:imports` closure, and its stylesheet is composed into the application stylesheet. No restart, and nothing is copied into the webapp.
 
 ### Available Packages
 
@@ -134,7 +129,7 @@ Installation integrates the package by:
 ### Architecture
 
 - **Declarative only** - RDF + XSLT, no Java code
-- **Installation-time composition** - Pre-composed before loading, no runtime overhead
+- **Request-time composition** - resolved from the `ldh:import` declaration, nothing copied into the webapp
 - **Property views** (`ldh:view` / `ldh:inverseView`) - SPARQL-based views attached to properties
 - **XSLT overrides** - Custom rendering using system modes (`ac:*`, `ldh:*`, `xhtml:*`, etc.)
 

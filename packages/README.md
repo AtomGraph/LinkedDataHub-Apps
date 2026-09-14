@@ -104,147 +104,54 @@ Available system modes include `ac:*` (Web-Client component modes named after th
 
 ## Installing Packages
 
-### Method 1: CLI Script
+The declaration *is* the installation. An application imports a package by carrying a single
+`ldh:import` triple in its settings, and the `packages` CLI group reads the registry and writes that
+triple:
 
 ```bash
-install-package.sh \
-  -b https://localhost:4443/ \
-  -f ssl/owner/cert.pem \
-  -p Password \
-  --package https://packages.linkeddatahub.com/editor/taxonomy/#this
+ldh packages list
+ldh packages add --package https://packages.linkeddatahub.com/editor/taxonomy/#this
+ldh packages remove --package https://packages.linkeddatahub.com/editor/taxonomy/#this
 ```
 
-### Method 2: From Application Install Script
+`packages list` prints one tab-separated line per package — state, URI, title. The registry defaults
+to `https://packages.linkeddatahub.com/`; `--registry` overrides it. It is read through the
+application's Linked Data proxy rather than fetched directly, so `list` needs `--base` as much as
+the other two do.
 
-```bash
-# In LinkedDataHub-Apps/demo/unesco-thesaurus/install.sh
-install-package.sh \
-  -b "$base" \
-  -f "$cert_pem_file" \
-  -p "$cert_password" \
-  --package "https://packages.linkeddatahub.com/editor/taxonomy/#this"
-```
+The application settings modal offers the same thing as a checkbox per package, saved with the rest
+of the settings in one `PATCH`.
 
-## Prerequisites
-
-Before installing packages, **master stylesheets** must exist in the webapp directory:
-
-- `/static/xsl/layout.xsl` - End-user application master stylesheet
-- `/static/xsl/admin/layout.xsl` - Admin application master stylesheet
-
-Default templates are provided at:
-
-```
-src/main/webapp/static/xsl/layout.xsl
-src/main/webapp/static/xsl/admin/layout.xsl
-```
-
-These files should be deployed with the application. End-user stylesheet contains:
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="3.0"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    exclude-result-prefixes="xs">
-
-    <!-- System stylesheet (lowest priority) -->
-    <xsl:import href="../com/atomgraph/linkeddatahub/xsl/layout.xsl"/>
-
-    <!-- Package stylesheets will be added here by InstallPackage endpoint -->
-
-</xsl:stylesheet>
-```
-
-## What Installation Does
-
-When you install a package, the system:
-
-1. **Fetches package metadata** from the package URI
-2. **Hashes the package ontology URI** using SHA-1 to create a unique document slug
-3. **Downloads package ontology** (`ns.ttl`) and PUTs it as a document to `${admin_base}ontologies/{hash}/` where `{hash}` is the SHA-1 hash of the ontology URI
-4. **Adds owl:imports** from the namespace ontology to the package ontology in the namespace graph (`${admin_base}ontologies/namespace/`)
-5. **Clears and reloads** the namespace ontology from cache to pick up the new imports
-6. **Downloads package stylesheet** (`layout.xsl`) and saves it to `/static/{package-path}/layout.xsl` where `{package-path}` is derived from the package URI (e.g., `com/linkeddatahub/packages/editor/taxonomy/` for `https://packages.linkeddatahub.com/editor/taxonomy/`)
-7. **Updates master stylesheet** at `/static/xsl/layout.xsl` by adding import:
-   ```xml
-   <xsl:import href="../com/atomgraph/linkeddatahub/xsl/layout.xsl"/>  <!-- System -->
-   <xsl:import href="../com/linkeddatahub/packages/editor/taxonomy/skos.xsl"/>  <!-- Package (added) -->
-   ```
-8. **Adds import to application** (TODO - currently manual): `<app> ldh:import <package-uri>`
-
-**Note**: The master stylesheet must already exist or installation will fail with `InternalServerErrorException`.
-
-**Important**: After installing or uninstalling a package, you must restart the Docker service for XSLT stylesheet changes to take effect:
-
-```bash
-docker-compose restart linkeddatahub
-```
-
-Do not use `--force-recreate` as that would overwrite the stylesheet file changes.
-
-## Architecture
-
-### Installation-Time vs Runtime
-
-Packages use **installation-time composition**, NOT runtime composition:
-
-- ✅ Package content is integrated during installation (via JAX-RS endpoints)
-- ✅ Ontology and XSLT are pre-composed before being loaded
-- ✅ No runtime overhead
-- ❌ No dynamic package loading at request time
-
-### JAX-RS Endpoints
-
-**On the admin application**
-
-- **POST `/packages/install`** - Installs a package
-  - Parameter: `package-uri` (form-urlencoded)
-  - Requires owner/admin authentication
-  - Delegates authenticated agent credentials for PUT requests
-
-- **POST `/packages/uninstall`** - Uninstalls a package
-  - Parameter: `package-uri` (form-urlencoded)
-  - Requires owner/admin authentication
-
-### File System Structure
-
-After installing the taxonomy editor package:
-
-```
-webapp/
-├── static/
-│   ├── com/
-│   │   └── linkeddatahub/
-│   │       └── packages/
-│   │           └── editor/
-│   │               └── taxonomy/
-│   │                   └── skos.xsl        # Package stylesheet
-│   └── xsl/
-│       ├── layout.xsl                      # End-user master stylesheet
-│       └── admin/
-│           └── layout.xsl                  # Admin master stylesheet
-```
-
-### SPARQL Data Structure
+Both paths go through `PATCH /settings`, which is the live route: the change takes effect on the
+next request, and lives in the running application's context dataset. Declaring the same triple in
+`config/dataspaces.trig` is the permanent one, applied on restart.
 
 ```turtle
-# In admin SPARQL endpoint at <${admin_base}ontologies/{hash}/>
-# Package ontology stored as a document where {hash} is SHA-1 of ontology URI
-<https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/ns.ttl#> a owl:Ontology ;
-    # ... package ontology content ...
-
-# In admin SPARQL endpoint (namespace graph at <${admin_base}ontologies/namespace/>)
-# Namespace ontology imports package ontology
-<https://localhost:4443/ns#> a owl:Ontology ;
-    owl:imports <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/ns.ttl#> .
-
-# In system.trig (application config)
-<urn:linkeddatahub:apps/end-user> a lapp:EndUserApplication ;
-    ldt:ontology <https://localhost:4443/ns#> ;
-    ac:stylesheet <static/xsl/layout.xsl> ;  # Master stylesheet
+<urn:linkeddatahub:apps/end-user> ldh:import <https://packages.linkeddatahub.com/editor/taxonomy/#this> .
 ```
 
+## What the Declaration Does
+
+From the next request onwards, the server resolves it:
+
+1. **Resolves the package description** from the package URI. Bundled descriptions and cached graphs
+   come from the graph repository; other URIs are dereferenced over HTTP.
+2. **Adds the package ontology** (`ldt:ontology`) to the application's ontology imports closure, as
+   an `owl:imports` of the namespace ontology. Its classes, constructors, constraints and views
+   become available on the `ns` endpoint and in the UI.
+3. **Composes the package stylesheet** (`ac:stylesheet`) into the application stylesheet by
+   appending an `xsl:import` after the existing ones, so package templates override the system's.
+
+Packages are applied in the order of their URIs. One that declares only an ontology, or only a
+stylesheet, contributes only that; one whose description cannot be resolved is skipped. If the
+composed stylesheet fails to compile — an unreachable stylesheet URL, say — the application falls
+back to its own.
+
+**Nothing is copied into the webapp and `/static/` is never modified.** No restart is needed.
+
+Uninstalling is the same in reverse: retract the triple, and from the next request the ontology is
+out of the closure and the stylesheet is no longer composed in. Data created with the package's
+vocabulary stays in the dataspace, and may not display or validate correctly without it.
 ## Available Packages
 
 List of available packages can be found in the [LinkedDataHub-Apps](https://github.com/AtomGraph/LinkedDataHub-Apps/tree/develop/packages) repository.
@@ -272,6 +179,6 @@ List of available packages can be found in the [LinkedDataHub-Apps](https://gith
 
 - Packages are **declarative only** (RDF + XSLT, no Java code)
 - Package ontologies use `owl:imports` (handled automatically by Jena)
-- Package stylesheets use `xsl:import` (handled by master stylesheet generation)
+- Package stylesheets are composed into the application stylesheet with `xsl:import`, in memory, per dataspace
 - Property views (`ldh:view`/`ldh:inverseView`) are separate from XSLT overrides
 - Both mechanisms work independently and complement each other

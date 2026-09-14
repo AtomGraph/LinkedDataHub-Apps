@@ -78,7 +78,7 @@ ldh post -t text/turtle "$doc" &lt;&lt;EOF
 &lt;${doc}#this&gt; a schema:Product ;
     schema:name "Masala Chai" ;
     schema:identifier "78" ;
-    schema:category &lt;${LDH_BASE}categories/1/&gt; .
+    schema:category &lt;${LDH_BASE}categories/1/#this&gt; .
 EOF</pre>
         <p>The posted data is validated against the class <a href="../../../reference/administration/ontologies/#constraints">constraints</a> the same way form submissions are — leaving out <code>schema:name</code> gets the request rejected with <samp>422 Unprocessable Entity</samp>.</p>
         </div>
