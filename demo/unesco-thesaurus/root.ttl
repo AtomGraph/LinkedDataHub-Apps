@@ -23,7 +23,7 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
         <div class="ldh-section">
             <h2>UNESCO Thesaurus</h2>
-            <p>This application demonstrates the capabilities of LinkedDataHub's <a href="https://packages.linkeddatahub.com/skos/#this" target="_blank">SKOS package</a>.</p>
+            <p>This application demonstrates the capabilities of LinkedDataHub's <a href="https://packages.linkeddatahub.com/editor/taxonomy/#this" target="_blank">taxonomy editor package</a>.</p>
             <a href="https://vocabularies.unesco.org/browser/thesaurus/en/" target="_blank">
                 <img alt="UNESCO Thesaurus" src="uploads/3fd6333140bf7a78f19f6a3aa602ea79d8b572a3"></img>
             </a>

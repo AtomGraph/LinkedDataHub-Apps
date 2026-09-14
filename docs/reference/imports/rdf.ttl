@@ -44,7 +44,7 @@
         <p>The running example connects the Northwind Traders dataspace to the <a href="https://unesco-thesaurus.demo.linkeddatahub.com/" target="_blank">UNESCO Thesaurus dataspace</a>:
             each Northwind product category is mapped to the thesaurus concept it corresponds to, using the SKOS mapping relations. The mapping file
             also types the categories as <code>skos:Concept</code>, which makes the relations applicable (and lets the
-            <a href="../../administration/packages/">SKOS package</a> render the categories as concepts):</p>
+            <a href="../../administration/packages/">taxonomy editor package</a> render the categories as concepts):</p>
         <pre>@prefix skos:   &lt;http://www.w3.org/2004/02/skos/core#&gt; .
 
 # 1 Beverages -&gt; Beverages

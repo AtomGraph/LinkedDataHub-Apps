@@ -118,7 +118,7 @@ install-package.sh \
   -b https://localhost:4443/ \
   -f ssl/owner/cert.pem \
   -p Password \
-  --package https://packages.linkeddatahub.com/skos/#this
+  --package https://packages.linkeddatahub.com/editor/taxonomy/#this
 ```
 
 Installation integrates the package by:
@@ -129,7 +129,7 @@ Installation integrates the package by:
 
 ### Available Packages
 
-- **[skos](packages/skos/)** - SKOS vocabulary support (concepts, schemes, collections)
+- **[editor/taxonomy](packages/editor/taxonomy/)** - Taxonomy editing on SKOS (concepts, schemes, collections)
 
 ### Architecture
 

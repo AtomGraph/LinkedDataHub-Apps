@@ -45,9 +45,9 @@ fi
 
 ./update-folder.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "$pwd" "$proxy"
 
-printf "\n### Installing SKOS package\n\n"
+printf "\n### Installing taxonomy editor package\n\n"
 
-install-package.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy" --package "https://packages.linkeddatahub.com/skos/#this"
+install-package.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy" --package "https://packages.linkeddatahub.com/editor/taxonomy/#this"
 
 printf "\n### Importing SKOS vocabulary\n\n"
 

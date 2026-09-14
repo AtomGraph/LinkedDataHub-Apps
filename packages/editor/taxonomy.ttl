@@ -8,26 +8,26 @@
 @prefix foaf:   <http://xmlns.com/foaf/0.1/> .
 
 <> a dh:Container ;
-    dct:title "SKOS" ;
-    dct:description "SKOS (Simple Knowledge Organization System) vocabulary support with custom templates for concept hierarchies, schemes, and collections." ;
+    dct:title "Taxonomy" ;
+    dct:description "Taxonomy editing on SKOS: a concept tree beside the content, hierarchy views in both assertion directions, and constructors and constraints for concepts, schemes and collections." ;
     foaf:primaryTopic <#this> ;
     rdf:_1 <#content> ;
     rdf:_2 <#select-children> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lede">SKOS (Simple Knowledge Organization System) vocabulary support with custom templates for concept hierarchies, schemes, and collections.</p>
+    <p class="lede">Taxonomy editing on SKOS: a concept tree beside the content, hierarchy views in both assertion directions, and constructors and constraints for concepts, schemes and collections.</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Object ;
     rdf:value ldh:ChildrenView .
 
 <#this> a lapp:Package ;
-    dct:title "SKOS Package" ;
-    dct:description "Provides SKOS (Simple Knowledge Organization System) vocabulary support with custom templates for concept hierarchies, schemes, and collections." ;
+    dct:title "Taxonomy Editor" ;
+    dct:description "Turns a dataspace into a taxonomy editor: SKOS concepts, schemes and collections gain a concept tree beside the content, hierarchy views that read both assertion directions, and constructors and constraints that keep a concept labelled and in a scheme." ;
     dct:creator <https://atomgraph.com/#company> ;
     ldt:ontology <ns/> ;
-    ac:stylesheet <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/refs/heads/develop/packages/skos/layout.xsl> .
+    ac:stylesheet <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/refs/heads/develop/packages/editor/taxonomy/skos.xsl> .
 
 <https://atomgraph.com/#company> a foaf:Organization ;
     foaf:name "AtomGraph" ;

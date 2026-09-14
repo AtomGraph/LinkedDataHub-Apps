@@ -9,22 +9,28 @@ This directory contains reusable packages for LinkedDataHub dataspaces. Packages
 Each package consists of:
 
 ```
-packages/<package-name>/
+packages/<package-path>/
 ├── ns.ttl         # Ontology with property views (ldh:view/ldh:inverseView)
-└── layout.xsl     # XSLT stylesheet with custom templates
+└── <name>.xsl     # XSLT stylesheet with custom templates
 ```
 
-Package metadata is Linked Data that resolves from the package URI (e.g., `https://packages.linkeddatahub.com/skos/#this`).
+The directory path is the package URI: a package under `packages/a/b/` is published at
+`https://packages.linkeddatahub.com/a/b/`, so a path may carry as many segments as the grouping
+needs. The stylesheet filename is not a convention — it is whatever the package's `ac:stylesheet`
+names.
 
-### Example: SKOS Package
+Package metadata is Linked Data that resolves from the package URI (e.g., `https://packages.linkeddatahub.com/editor/taxonomy/#this`).
+
+### Example: the taxonomy editor package
 
 ```
-packages/skos/
+packages/editor/taxonomy/
 ├── ns.ttl         # SKOS vocabulary with ldh:view attachments to properties
-└── layout.xsl     # XSLT templates for SKOS concepts, schemes, collections
+└── skos.xsl       # XSLT templates for SKOS concepts, schemes, collections
 ```
 
-Metadata for this package resolves from `https://packages.linkeddatahub.com/skos/#this`.
+Metadata for this package resolves from `https://packages.linkeddatahub.com/editor/taxonomy/#this`.
+The package is named for what it does; its stylesheet is named for the vocabulary it speaks.
 
 ## How Packages Work
 
@@ -37,11 +43,11 @@ Package metadata resolves as Linked Data from the package URI using standard Lin
 @prefix ldt:  <https://www.w3.org/ns/ldt#> .
 @prefix ac:   <https://w3id.org/atomgraph/client#> .
 
-<https://packages.linkeddatahub.com/skos/#this> a lapp:Package ;
-    rdfs:label "SKOS Package" ;
-    dct:description "SKOS vocabulary support with custom templates" ;
-    ldt:ontology <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/ns.ttl#> ;
-    ac:stylesheet <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/layout.xsl> .
+<https://packages.linkeddatahub.com/editor/taxonomy/#this> a lapp:Package ;
+    rdfs:label "Taxonomy Editor" ;
+    dct:description "Taxonomy editing on SKOS, with custom templates" ;
+    ldt:ontology <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/ns.ttl#> ;
+    ac:stylesheet <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/skos.xsl> .
 ```
 
 **Note**: Uses standard `ldt:ontology` and `ac:stylesheet` properties instead of inventing new ones.
@@ -55,7 +61,7 @@ Contains two layers:
 Imports the external vocabulary using `owl:imports`:
 
 ```turtle
-<https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/ns.ttl#> a owl:Ontology ;
+<https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/ns.ttl#> a owl:Ontology ;
     owl:imports <http://www.w3.org/2004/02/skos/core> .
 ```
 
@@ -80,7 +86,7 @@ ns:SelectNarrowerConcepts a sp:Select ;
 
 Use `ldh:view` for forward relationships (resource has property) or `ldh:inverseView` for inverse relationships (other resources point to this resource via property).
 
-### 3. XSLT Stylesheet (`layout.xsl`)
+### 3. XSLT Stylesheet (named by `ac:stylesheet`)
 
 XSLT templates using system modes to override default rendering:
 
@@ -105,18 +111,18 @@ install-package.sh \
   -b https://localhost:4443/ \
   -f ssl/owner/cert.pem \
   -p Password \
-  --package https://packages.linkeddatahub.com/skos/#this
+  --package https://packages.linkeddatahub.com/editor/taxonomy/#this
 ```
 
 ### Method 2: From Application Install Script
 
 ```bash
-# In LinkedDataHub-Apps/demo/skos/install.sh
+# In LinkedDataHub-Apps/demo/unesco-thesaurus/install.sh
 install-package.sh \
   -b "$base" \
   -f "$cert_pem_file" \
   -p "$cert_password" \
-  --package "https://packages.linkeddatahub.com/skos/#this"
+  --package "https://packages.linkeddatahub.com/editor/taxonomy/#this"
 ```
 
 ## Prerequisites
@@ -159,11 +165,11 @@ When you install a package, the system:
 3. **Downloads package ontology** (`ns.ttl`) and PUTs it as a document to `${admin_base}ontologies/{hash}/` where `{hash}` is the SHA-1 hash of the ontology URI
 4. **Adds owl:imports** from the namespace ontology to the package ontology in the namespace graph (`${admin_base}ontologies/namespace/`)
 5. **Clears and reloads** the namespace ontology from cache to pick up the new imports
-6. **Downloads package stylesheet** (`layout.xsl`) and saves it to `/static/{package-path}/layout.xsl` where `{package-path}` is derived from the package URI (e.g., `com/linkeddatahub/packages/skos/` for `https://packages.linkeddatahub.com/skos/`)
+6. **Downloads package stylesheet** (`layout.xsl`) and saves it to `/static/{package-path}/layout.xsl` where `{package-path}` is derived from the package URI (e.g., `com/linkeddatahub/packages/editor/taxonomy/` for `https://packages.linkeddatahub.com/editor/taxonomy/`)
 7. **Updates master stylesheet** at `/static/xsl/layout.xsl` by adding import:
    ```xml
    <xsl:import href="../com/atomgraph/linkeddatahub/xsl/layout.xsl"/>  <!-- System -->
-   <xsl:import href="../com/linkeddatahub/packages/skos/layout.xsl"/>  <!-- Package (added) -->
+   <xsl:import href="../com/linkeddatahub/packages/editor/taxonomy/skos.xsl"/>  <!-- Package (added) -->
    ```
 8. **Adds import to application** (TODO - currently manual): `<app> ldh:import <package-uri>`
 
@@ -203,7 +209,7 @@ Packages use **installation-time composition**, NOT runtime composition:
 
 ### File System Structure
 
-After installing the SKOS package:
+After installing the taxonomy editor package:
 
 ```
 webapp/
@@ -211,8 +217,9 @@ webapp/
 │   ├── com/
 │   │   └── linkeddatahub/
 │   │       └── packages/
-│   │           └── skos/
-│   │               └── layout.xsl          # Package stylesheet
+│   │           └── editor/
+│   │               └── taxonomy/
+│   │                   └── skos.xsl        # Package stylesheet
 │   └── xsl/
 │       ├── layout.xsl                      # End-user master stylesheet
 │       └── admin/
@@ -224,13 +231,13 @@ webapp/
 ```turtle
 # In admin SPARQL endpoint at <${admin_base}ontologies/{hash}/>
 # Package ontology stored as a document where {hash} is SHA-1 of ontology URI
-<https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/ns.ttl#> a owl:Ontology ;
+<https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/ns.ttl#> a owl:Ontology ;
     # ... package ontology content ...
 
 # In admin SPARQL endpoint (namespace graph at <${admin_base}ontologies/namespace/>)
 # Namespace ontology imports package ontology
 <https://localhost:4443/ns#> a owl:Ontology ;
-    owl:imports <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/skos/ns.ttl#> .
+    owl:imports <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/ns.ttl#> .
 
 # In system.trig (application config)
 <urn:linkeddatahub:apps/end-user> a lapp:EndUserApplication ;
@@ -244,10 +251,10 @@ List of available packages can be found in the [LinkedDataHub-Apps](https://gith
 
 ## Creating New Packages
 
-1. Create directory: `packages/<name>/`
+1. Create directory: `packages/<path>/`, naming it for what the package does
 2. Write `ns.ttl` with vocabulary and property views (using `ldh:view` or `ldh:inverseView`)
-3. Write `layout.xsl` with XSLT templates (using system modes like `ac:*`, `ldh:*`, `xhtml:*`, etc.)
-4. Publish package metadata as Linked Data at `https://packages.linkeddatahub.com/<name>/#this`
+3. Write the stylesheet with XSLT templates (using system modes like `ac:*`, `ldh:*`, `xhtml:*`, etc.), naming the file for the vocabulary it covers
+4. Publish package metadata as Linked Data at `https://packages.linkeddatahub.com/<path>/#this`
 5. Ensure the metadata contains `ldt:ontology` and `ac:stylesheet` properties pointing to the package resources
 
 ## Vocabulary Reference
