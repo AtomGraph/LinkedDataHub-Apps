@@ -50,10 +50,12 @@
 
 <#overview-intro> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-        <h3>Vocabulary overview</h3>
-        <p>The UNESCO Thesaurus is a comprehensive multilingual vocabulary covering terminology across education, science,
-           culture, and communication. This SKOS-based implementation demonstrates semantic knowledge organization with
-           thousands of concepts organized into hierarchical and associative relationships.</p>
+        <div class="ldh-section">
+            <h2>What is in the vocabulary</h2>
+            <p>UNESCO's thesaurus covers education, science, culture and communication, in several languages at once.
+               It arrives here as SKOS, so the counts below are of concepts, schemes and collections as the vocabulary
+               itself declares them — not of anything this application invented.</p>
+        </div>
     </div>"""^^rdf:XMLLiteral .
 
 <#vocabulary-stats-block> a ldh:Object ;

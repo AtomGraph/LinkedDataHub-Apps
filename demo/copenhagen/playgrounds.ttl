@@ -8,7 +8,18 @@
 # Main container document
 <> a dh:Container ;
     dct:title "Playgrounds" ;
-    rdf:_1 <#select-children> .
+    rdf:_1 <#playgrounds-intro> ;
+    rdf:_2 <#select-children> .
+
+# Intro XHTML
+<#playgrounds-intro> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <div class="ldh-section">
+            <h2>Where the children play</h2>
+            <p>126 playgrounds, each with the age range it was built for, a description and a link to the city's
+               own page for it.</p>
+        </div>
+    </div>"""^^rdf:XMLLiteral .
 
 # Object block
 <#select-children> a ldh:Object ;

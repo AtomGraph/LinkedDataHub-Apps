@@ -15,10 +15,13 @@
 # Intro XHTML
 <#concepts-intro> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-        <h3>SKOS concepts</h3>
-        <p>Concepts are the fundamental building blocks of the UNESCO Thesaurus vocabulary. Each concept represents
-           a distinct unit of thought or terminology, enriched with multilingual labels, definitions, and semantic relationships.</p>
-        <p>SKOS (Simple Knowledge Organization System) relationships connect concepts three ways:</p>
+        <div class="ldh-section">
+            <h2>The concepts</h2>
+            <p>Every concept carries its labels in each language the thesaurus publishes, and its place in the
+               hierarchy. Open one to get the concept tree beside it — that column is the taxonomy editor package's,
+               not the platform's.</p>
+        </div>
+        <p>SKOS connects concepts three ways:</p>
         <div class="ac-tabs or-horizontal">
             <div class="ac-tablist sz-md va-line" role="tablist">
                 <button aria-controls="hierarchical-pane" aria-selected="true" class="ac-tab is-on" id="hierarchical-tab" role="tab" type="button"><span class="ac-tab-lbl">Hierarchical</span></button>

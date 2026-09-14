@@ -8,7 +8,18 @@
 # Main container document
 <> a dh:Container ;
     dct:title "Sport centers" ;
-    rdf:_1 <#select-children> .
+    rdf:_1 <#sports-intro> ;
+    rdf:_2 <#select-children> .
+
+# Intro XHTML
+<#sports-intro> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <div class="ldh-section">
+            <h2>Sport and recreation</h2>
+            <p>31 sports centres with their address, contact address and own page. The map is the index; the link
+               is where the opening times live.</p>
+        </div>
+    </div>"""^^rdf:XMLLiteral .
 
 # Object block
 <#select-children> a ldh:Object ;

@@ -9,8 +9,9 @@
 # Main container document
 <> a dh:Container ;
     dct:title "Parking facilities" ;
-    rdf:_1 <#largest-parkings-block> ;
-    rdf:_2 <#select-children> .
+    rdf:_1 <#parking-intro> ;
+    rdf:_2 <#largest-parkings-block> ;
+    rdf:_3 <#select-children> .
 
 # Chart block (wrapped in ldh:Object per ContentMode contract)
 <#largest-parkings-block> a ldh:Object ;
@@ -42,6 +43,16 @@ WHERE
 }
 ORDER BY DESC(?spaces)
 LIMIT 100""" .
+
+# Intro XHTML
+<#parking-intro> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <div class="ldh-section">
+            <h2>The city's car parks</h2>
+            <p>Eighteen public car parks with their operator, address and capacity. Capacity is what ranks them in
+               the chart below and what the map is worth reading for.</p>
+        </div>
+    </div>"""^^rdf:XMLLiteral .
 
 # Object block
 <#select-children> a ldh:Object ;

@@ -14,12 +14,11 @@
 # Intro XHTML
 <#cycling-intro> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-        <h3>Cycling infrastructure</h3>
-        <p>Copenhagen is renowned as one of the world's most bicycle-friendly cities, with extensive cycling infrastructure
-           serving hundreds of thousands of daily cyclists. The city's bicycle parking facilities are strategically located
-           throughout the urban area to support this sustainable transportation network.</p>
-        <p>Explore the map below to discover bicycle parking locations across Copenhagen, including capacity information
-           and geographic distribution patterns.</p>
+        <div class="ldh-section">
+            <h2>Where the bikes go</h2>
+            <p>4,390 municipal bicycle racks, each with its capacity, street address and city district. Capacity
+               is the number the rack was built for, so the map reads as supply rather than as points.</p>
+        </div>
     </div>"""^^rdf:XMLLiteral .
 
 # Object block

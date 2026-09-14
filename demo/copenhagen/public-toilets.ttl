@@ -8,7 +8,18 @@
 # Main container document
 <> a dh:Container ;
     dct:title "Public toilets" ;
-    rdf:_1 <#select-children> .
+    rdf:_1 <#toilets-intro> ;
+    rdf:_2 <#select-children> .
+
+# Intro XHTML
+<#toilets-intro> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <div class="ldh-section">
+            <h2>Public conveniences</h2>
+            <p>211 public toilets carrying their opening hours and whether they are step-free. Both are properties
+               of the facility, so the map answers availability and not just location.</p>
+        </div>
+    </div>"""^^rdf:XMLLiteral .
 
 # Object block
 <#select-children> a ldh:Object ;
