@@ -59,11 +59,12 @@
         <p>On the left, the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown opens a dialog through which
         child <a href="../data-model/documents/">documents</a> can be created; it appears on <a href="../data-model/documents/#containers">containers</a> for users with write access. To add resources or content blocks inside the current document, use the
         <a href="#creation-bar">creation bar</a> instead.</p>
-        <p>The path leading from the current document up the parent/child hierarchy to the root container is shown in
-        the <dfn>breadcrumb bar</dfn> in the middle, where the current document is always the last breadcrumb. The user can always
+        <p>In the middle, the <dfn>breadcrumb bar</dfn> shows the path leading from the current document up the parent/child hierarchy to the
+        root container, where the current document is always the last breadcrumb. The user can always
         open any ancestor container by clicking a breadcrumb to the left of the current one. Each breadcrumb carries an icon showing the
-        type of its document (<a href="../data-model/documents/#containers">container</a> or <a href="../data-model/documents/#items">item</a>); external resources carry a link icon.</p>
-        <p>Next to the breadcrumbs, the action bar shows the document's last-modified timestamp, when the document has one. In dataspaces with <a href="../versioning/">versioning</a> enabled, clicking the timestamp opens the <a href="../../user-guide/version-history/">version history</a> dialog, which lists the document's versions with the agents that authored them.</p>
+        type of its document (<a href="../data-model/documents/#containers">container</a> or <a href="../data-model/documents/#items">item</a>); external resources carry a link icon.
+        Beside them sits the document's last-modified timestamp, when it has one — and in dataspaces with <a href="../versioning/">versioning</a> enabled, clicking it opens the
+        <a href="../../user-guide/version-history/">version history</a> dialog, which lists the document's versions with the agents that authored them.</p>
         <p>On the right, the <span class="ac-btn in-neutral ap-outline sz-md">Actions</span> dropdown collects the actions on the current document: <samp>Edit</samp>, <samp>Access</samp>, <samp>Save as</samp> and <samp>Delete</samp>. It appears for authenticated users, and the actions that modify the document are enabled only with write access. The same menu carries the data-generating actions for users with append access — <samp>Generate containers</samp> on end-user applications, <samp>Import ontology</samp> on administration applications. Beside it sit the <a href="#layout-modes">layout mode</a> selector and the export dropdown, which downloads the current document in the chosen RDF serialization: RDF/XML, Turtle or JSON-LD.</p>
     </div>
     <div>

@@ -183,36 +183,33 @@
     </div>
     <div>
         <h2 id="management">Management</h2>
-        <div>
-            <h3 id="management-cli"><a href="../../command-line-interface/">Command line interface</a></h3>
-            <table>
-                <caption class="ac-vh">Access control actions and their CLI commands</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">Action</th>
-                        <th scope="col">CLI command</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Create group</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin create group</samp></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Create authorization</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin create authorization</samp></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Add agent to group</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin add agent</samp></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Make a document public</th>
-                        <td><a href="../../command-line-interface/#commands"><samp>ldh admin make-public</samp></a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <table>
+            <caption class="ac-vh">Access control actions and their CLI commands</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Action</th>
+                    <th scope="col">CLI command</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Create group</th>
+                    <td><a href="../../command-line-interface/#commands"><samp>ldh admin create group</samp></a></td>
+                </tr>
+                <tr>
+                    <th scope="row">Create authorization</th>
+                    <td><a href="../../command-line-interface/#commands"><samp>ldh admin create authorization</samp></a></td>
+                </tr>
+                <tr>
+                    <th scope="row">Add agent to group</th>
+                    <td><a href="../../command-line-interface/#commands"><samp>ldh admin add agent</samp></a></td>
+                </tr>
+                <tr>
+                    <th scope="row">Make a document public</th>
+                    <td><a href="../../command-line-interface/#commands"><samp>ldh admin make-public</samp></a></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <p class="ldh-body-lg">To request access to someone else's dataspace, see the <a href="../../../get-started/request-access/">Request access</a> guide. To open your data to the public, follow the <a href="../../../tutorial/publish/">Publish</a> stage of the tutorial.</p>
 </div>"""^^rdf:XMLLiteral .
