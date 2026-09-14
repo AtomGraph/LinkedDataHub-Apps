@@ -34,28 +34,14 @@
 .docs-nav a:hover { color: var(--fg-1); background: var(--bg-hover); text-decoration: none; }
 .docs-nav li.is-active > a { color: var(--fg-link); font-weight: var(--fw-semibold); background: var(--bg-accent-quiet); }
 
-/* ---------- Content typography ---------- */
-.docs-main h1 { font-size: var(--fs-4xl); font-weight: var(--fw-semibold); letter-spacing: var(--tracking-snug); line-height: var(--lh-tight); margin: 0 0 var(--sp-6); }
-.docs-main h2 { font-size: var(--fs-2xl); font-weight: var(--fw-semibold); letter-spacing: var(--tracking-snug); margin: var(--sp-10) 0 var(--sp-4); }
-.docs-main h3 { font-size: var(--fs-xl); font-weight: var(--fw-semibold); margin: var(--sp-8) 0 var(--sp-3); }
-.docs-main h4 { font-size: var(--fs-lg); font-weight: var(--fw-semibold); margin: var(--sp-6) 0 var(--sp-2); }
+/* ---------- Content typography ----------
+   Headings, inline code, pre, dfn, blockquote, kbd, hr and the table base all
+   moved into the kit as ELEMENT rules (colors_and_type.css, surfaces.css). They
+   were here because the design system had no long-form layer; it has one now,
+   and the same rules reaching the product is the whole point — this file is only
+   linked by the static site. What is left below is genuinely site-only. */
 .docs-main p, .docs-main li { line-height: var(--lh-relaxed); }
 .docs-main .page-header { border-bottom: 1px solid var(--border-default); margin-bottom: var(--sp-6); padding-bottom: var(--sp-4); }
-.docs-main dfn { font-style: italic; font-weight: var(--fw-medium); }
-
-/* code */
-.docs-main pre {
-  background: var(--bg-recess);
-  border: 1px solid var(--border-default);
-  border-radius: var(--r-md);
-  padding: var(--sp-4);
-  overflow-x: auto;
-  font-family: var(--font-mono);
-  font-size: var(--fs-sm);
-  line-height: var(--lh-base);
-}
-.docs-main code, .docs-main samp, .docs-main kbd { font-family: var(--font-mono); font-size: 0.9em; background: var(--bg-recess); border-radius: var(--r-xs); padding: 0 var(--sp-1); }
-.docs-main pre code, .docs-main pre samp { background: none; padding: 0; }
 
 /* media */
 .docs-main img, .docs-main iframe { max-width: 100%; }
@@ -63,45 +49,21 @@
 .docs-main object { width: 100%; min-height: 640px; }
 
 /* ---------- Reference tables ----------
-   Native table layout, styled to read as the design system's DataTable without
-   being it. .ac-table is grid-per-row: it trades the table layout algorithm
-   for one --ac-cols variable, which is the right deal for an app surface with
-   dynamic columns, and the wrong one here — it would put column tracks and a
-   replacement set of ARIA roles into content that is meant to stay plain
-   semantic XHTML, and it cannot express the rowspans these tables rely on. */
-.docs-main table {
-  width: 100%;
-  margin: var(--sp-4) 0;
-  border-collapse: collapse;
-  font-size: var(--fs-sm);
-  background: var(--surface-0);
-  border: 1px solid var(--border-default);
-  border-radius: var(--r-md);
-  overflow: hidden;
-}
-.docs-main thead th {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  font-weight: var(--fw-regular);
-  color: var(--fg-hint);
-  background: var(--surface-2);
-}
-.docs-main th, .docs-main td {
-  padding: var(--sp-3);
-  border-bottom: 1px solid var(--border-default);
-  text-align: left;
-  vertical-align: top;
-  line-height: var(--lh-base);
-}
-/* A row-header cell reads as the row's subject, so it keeps body weight. */
-.docs-main tbody th { font-weight: var(--fw-medium); color: var(--fg-1); }
-/* A th spanning the full width is a group heading within the body. */
-.docs-main tbody th[colspan] { background: var(--surface-1); color: var(--fg-2); }
-.docs-main tbody tr:last-child > th, .docs-main tbody tr:last-child > td { border-bottom: 0; }
-/* Successive tbodies group rows; the seam between them is the group's rule. */
-.docs-main tbody + tbody > tr:first-child > th { border-top: 1px solid var(--border-default); }
+   The reference tables ARE the design system's DataTable, and they say so by
+   being <table> — the base dress lives on the element in surfaces.css, so the
+   content needs no class. It restated the look here for as long as the component
+   was grid-per-row, which would have written column tracks and a replacement set
+   of ARIA roles into the content and could not have expressed the rowspans the
+   HTTP method matrix and the ACL access matrix are built on. Table layout came
+   back, so both objections went, and the copy with them; row-header weight, group
+   headings and tbody seams live in surfaces.css where every table gets them.
+   What stays below is what belongs to a table sitting in PROSE rather than on an
+   app surface: flow spacing above and below, and cells topped out because a
+   reference row wraps to several lines while an app row is one. Keyed off the
+   element — the base dress moved onto `table` itself, so the content carries no
+   class at all now. Mirrors the same pair in ldh.css for the product. */
+.docs-main table { margin: var(--sp-4) 0; }
+.docs-main th, .docs-main td { vertical-align: top; line-height: var(--lh-base); }
 
 /* ---------- Section/child cards ---------- */
 .docs-children { display: flex; flex-direction: column; gap: var(--sp-4); margin: var(--sp-6) 0 0; }
