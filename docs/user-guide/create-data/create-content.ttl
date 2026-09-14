@@ -90,12 +90,7 @@
                         <ol>
                             <li>Make sure you are in the content layout mode</li>
                             <li>At the bottom of the page, click the <span class="ac-btn in-primary ap-solid sz-md">Object</span> button</li>
-                            <li>Fill out values in the form that appears
-                                <dl>
-                                    <dt>Value</dt>
-                                    <dd>The URI of the object resource</dd>
-                                </dl>
-                            </li>
+                            <li>Fill out values in the form that appears: <dfn>Value</dfn> takes the URI of the object resource</li>
                             <li>Click the <span class="ac-btn in-primary ap-solid sz-sm">Save</span> button to save the block</li>
                         </ol>
                         <p>After this, a new object block should be appended to the page, replacing the form.</p>
@@ -105,12 +100,7 @@
                         <p>To edit an object block, follow these steps:</p>
                         <ol>
                             <li>Move the mouse to the very top-right of the block element where an editing button <span class="ac-iconbtn sz-sm in-neutral ap-ghost"><span aria-hidden="true" class="msi sm">edit</span></span> should appear</li>
-                            <li>Make changes in the editing form:
-                                <dl>
-                                    <dt>Value</dt>
-                                    <dd>The URI of the object resource</dd>
-                                </dl>
-                            </li>
+                            <li>Make changes in the editing form: <dfn>Value</dfn> takes the URI of the object resource</li>
                             <li>Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span> at the bottom of the form to save the block</li>
                         </ol>
                     </div>

@@ -23,12 +23,7 @@
                     <div>
                         <ol>
                             <li>Click the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown in the <a href="../../../reference/user-interface/#action-bar">action bar</a> and select <dfn>Container</dfn>. This will open a new form.</li>
-                            <li>Fill out the mandatory <dfn>Container</dfn> fields in the form:
-                                <dl>
-                                    <dt>Title</dt>
-                                    <dd>Enter <samp>Categories</samp></dd>
-                                </dl>
-                            </li>
+                            <li>Fill out the mandatory <dfn>Container</dfn> fields in the form: enter <samp>Categories</samp> as the <dfn>Title</dfn></li>
                             <li>To customize the container URL, click on the dropdown in the top-right corner of the form</li>
                             <li>Replace the generated unique relative URI with <samp>categories</samp></li>
                             <li>Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span></li>

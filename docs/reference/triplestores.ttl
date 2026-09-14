@@ -56,20 +56,37 @@
     <div>
         <h2 id="service-configuration">Service configuration</h2>
         <p>Services are configured in <samp>config/system.trig</samp> using three key properties. See the <a href="../dataspace/#services">dataspace reference</a> for the full list of service properties and the default Fuseki service declaration — the configuration you start with. The sections below walk through configuring an alternative backend (QLever) instead.</p>
-        <dl>
-            <dt><code>sd:endpoint</code></dt>
-            <dd>The SPARQL Protocol endpoint URI (for SPARQL Query and Update operations)</dd>
-            <dd>Required for all triplestores</dd>
-            <dd>Example: <code>&lt;http://qlever-host:7001/&gt;</code></dd>
-            <dt><code>a:graphStore</code></dt>
-            <dd>The Graph Store Protocol endpoint URI (for graph-scoped CRUD operations)</dd>
-            <dd>Required for all triplestores</dd>
-            <dd>Example: <code>&lt;http://qlever-host:7001/&gt;</code> (QLever serves both protocols on the same URL)</dd>
-            <dt><code>a:quadStore</code></dt>
-            <dd>The quad store endpoint URI (for dataset-level CRUD operations)</dd>
-            <dd>Optional — if omitted, LinkedDataHub will use graph-scoped GSP fallback</dd>
-            <dd>Example: <code>&lt;http://fuseki-host:3030/ds/&gt;</code> (Fuseki-specific)</dd>
-        </dl>
+        <table>
+            <caption class="ac-vh">Service properties, whether each is required, and an example value</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Property</th>
+                    <th scope="col">Endpoint</th>
+                    <th scope="col">Required</th>
+                    <th scope="col">Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><code>sd:endpoint</code></th>
+                    <td>SPARQL Protocol, for Query and Update</td>
+                    <td>Yes</td>
+                    <td><code>&lt;http://qlever-host:7001/&gt;</code></td>
+                </tr>
+                <tr>
+                    <th scope="row"><code>a:graphStore</code></th>
+                    <td>Graph Store Protocol, for graph-scoped CRUD</td>
+                    <td>Yes</td>
+                    <td><code>&lt;http://qlever-host:7001/&gt;</code> — QLever serves both protocols on the same URL</td>
+                </tr>
+                <tr>
+                    <th scope="row"><code>a:quadStore</code></th>
+                    <td>Quad store, for dataset-level CRUD</td>
+                    <td>No — omitting it falls back to graph-scoped GSP</td>
+                    <td><code>&lt;http://fuseki-host:3030/ds/&gt;</code>, which is Fuseki-specific</td>
+                </tr>
+            </tbody>
+        </table>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">

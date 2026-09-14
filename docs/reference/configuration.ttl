@@ -177,10 +177,7 @@ ABS_PATH=/linkeddatahub/</pre>
         </div>
         <div>
             <h3 id="linked-data">Linked Data</h3>
-            <dl>
-                <dt><samp>ENABLE_LINKED_DATA_PROXY</samp></dt>
-                <dd><samp>false</samp> to disable the <a href="../http-api/#ld-proxy">Linked Data proxy</a> (enabled by default)</dd>
-            </dl>
+            <p><samp>ENABLE_LINKED_DATA_PROXY</samp> takes <samp>false</samp> to disable the <a href="../http-api/#ld-proxy">Linked Data proxy</a>, which is enabled by default.</p>
         </div>
         <div>
             <h3 id="http">HTTP(S)</h3>
@@ -242,10 +239,7 @@ ABS_PATH=/linkeddatahub/</pre>
     </div>
     <div>
         <h2 id="fuseki"><samp>fuseki-admin</samp> and <samp>fuseki-end-user</samp> services</h2>
-        <dl>
-            <dt><samp>JAVA_OPTIONS</samp></dt>
-            <dd>Java options of the Fuseki process, used to size its heap. Defaults to <samp>-Xmx768m -Xms768m</samp> for <samp>fuseki-admin</samp> and <samp>-Xmx1536m -Xms1536m</samp> for <samp>fuseki-end-user</samp>.</dd>
-        </dl>
+        <p><samp>JAVA_OPTIONS</samp> carries the Java options of the Fuseki process, and is what sizes its heap. It defaults to <samp>-Xmx768m -Xms768m</samp> for <samp>fuseki-admin</samp> and <samp>-Xmx1536m -Xms1536m</samp> for <samp>fuseki-end-user</samp>.</p>
     </div>
     <div>
         <h2 id="nginx"><samp>nginx</samp> service</h2>

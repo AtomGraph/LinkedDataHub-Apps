@@ -71,20 +71,33 @@ ldh --help</pre>
     <div>
         <h2 id="parameters">Parameters</h2>
         <p>Parameters shared by most commands:</p>
-        <dl>
-            <dt>-f</dt>
-            <dt>--cert-file</dt>
-            <dd><samp>.p12</samp> (PKCS12) keystore with the WebID certificate of the agent</dd>
-            <dt>-p</dt>
-            <dt>--cert-password</dt>
-            <dd>Password of the WebID certificate</dd>
-            <dt>-b</dt>
-            <dt>--base</dt>
-            <dd>Base URI of the application</dd>
-            <dt>--proxy</dt>
-            <dd>The host the request is proxied through (optional)</dd>
-            <dd>Use it with port 5443, on which client certificate authentication is always enabled, for example <samp>--proxy https://localhost:5443/</samp></dd>
-        </dl>
+        <table>
+            <caption class="ac-vh">Parameters every command accepts</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Parameter</th>
+                    <th scope="col">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><samp>-f</samp>, <samp>--cert-file</samp></th>
+                    <td><samp>.p12</samp> (PKCS12) keystore with the WebID certificate of the agent</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>-p</samp>, <samp>--cert-password</samp></th>
+                    <td>Password of the WebID certificate</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>-b</samp>, <samp>--base</samp></th>
+                    <td>Base URI of the application</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>--proxy</samp></th>
+                    <td>The host the request is proxied through (optional). Use it with port 5443, on which client certificate authentication is always enabled — for example <samp>--proxy https://localhost:5443/</samp>.</td>
+                </tr>
+            </tbody>
+        </table>
         <p>Other parameters are command-specific. Most commands take the URI of the document they act on as a default (positional) parameter.</p>
         <h3 id="environment-variables">Environment variables</h3>
         <p>The repeated parameters can be set once in the environment instead of being passed to every command:</p>
