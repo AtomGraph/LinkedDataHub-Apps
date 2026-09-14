@@ -374,6 +374,10 @@ Link: &lt;https://unesco-thesaurus.demo.linkeddatahub.com/sparql&gt;; rel="http:
         </ul>
         <p>In the user interface this means you can <a href="../../user-guide/browse-data/">browse</a> a remote dataspace and
             <a href="../../user-guide/add-data/">add data</a> to its documents the same way as to local ones, provided the remote access control allows it.</p>
+        <p>The example above uses the public demo hosts because they are reachable without any setup, but nothing about federation requires a second
+            instance: two <a href="../dataspace/#dataspaces">dataspaces</a> on one LinkedDataHub are distinct origins, so the same exchange happens between
+            <samp>northwind-traders.demo.localhost:4443</samp> and <samp>unesco-thesaurus.demo.localhost:4443</samp> once both are
+            <a href="../../user-guide/manage-dataspaces/#create-dataspace">declared</a>.</p>
     </div>
     <div>
         <h2 id="system-endpoints">System endpoints</h2>
