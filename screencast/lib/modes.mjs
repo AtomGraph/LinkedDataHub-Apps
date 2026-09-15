@@ -25,10 +25,15 @@ const toggleOf = (page) => ui(page).locator('.ldh-view-toolbar .right .ldh-mode 
 export async function currentViewMode(page) {
   const toggle = toggleOf(page);
   if (!(await toggle.count())) return null;
+
+  // The toggle reads like "grid_viewGrid": a Material icon ligature running
+  // straight into the label, with no separator. A word-boundary match therefore
+  // never fires — there is no boundary between "grid_view" and "Grid" — which is
+  // why this silently reported "unknown" and every switch went ahead. The label is
+  // the tail of the string, so that is what gets compared.
   const text = (await toggle.textContent().catch(() => '')).replace(/expand_more/g, '').trim();
   for (const [cls, label] of Object.entries(LABELS)) {
-    // The label appears twice — once as the icon ligature, once as the word.
-    if (new RegExp(`\\b${label}\\b`).test(text)) return cls;
+    if (text.toLowerCase().endsWith(label.toLowerCase())) return cls;
   }
   return null;
 }

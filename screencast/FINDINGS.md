@@ -148,6 +148,30 @@ its label. Both are hypotheses from the rendered output, not read off the code.
 
 ---
 
+## 4. The query editor's prefix list is blocked as mixed content
+
+**Severity** Low — a silent loss of autocomplete, not a failure.
+
+**Reproduce** Open any document in Properties, `Create ▸ SELECT`, and watch the
+console while the editor mounts.
+
+**Observed**
+
+```
+Mixed Content: The page at 'https://northwind-traders.demo.localhost/…' was loaded
+over HTTPS, but requested an insecure XMLHttpRequest endpoint
+'http://prefix.cc/popular/all.file.json'. This request has been blocked; the
+content must be served over HTTPS.
+```
+
+YASQE fetches its prefix definitions from prefix.cc over **http**, so on an HTTPS
+instance the browser blocks it and the editor comes up without prefix
+autocompletion. Nothing reports this to the user.
+
+`https://prefix.cc/popular/all.file.json` serves the same file over TLS, so this
+looks like a one-character fix wherever the endpoint is configured — or the list
+could be bundled, which would also make the editor work offline.
+
 ## Not reproduced / not attributed
 
 - **`Terminated with [object DocumentFragment]`** appears twice on essentially every

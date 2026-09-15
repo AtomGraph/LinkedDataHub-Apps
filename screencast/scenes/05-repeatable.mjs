@@ -15,14 +15,26 @@
 import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
 import { resetDocument } from '../lib/fixture.mjs';
 import { addProse, addObject, copyUri, switchDocumentMode } from '../lib/blocks.mjs';
-import { create, typeQuery, fill, save } from '../lib/constructors.mjs';
+import { create, typeQuery, fill, save, field } from '../lib/constructors.mjs';
 import { scrollThrough } from '../lib/frame.mjs';
 
 const opts = await resolve('/');
 const { base, identity } = opts;
 const SLUG = 'category-mix';
 
-const QUERY = 'PREFIX schema: <https://schema.org/> SELECT ?category (COUNT(?product) AS ?products) WHERE { GRAPH ?g { ?product a schema:Product ; schema:category ?category } } GROUP BY ?category ORDER BY DESC(?products)';
+// Written the way a person writes SPARQL, and deliberately without indentation:
+// the editor supplies that itself, and supplying our own would double it.
+const QUERY = `PREFIX schema: <https://schema.org/>
+
+SELECT ?category (COUNT(?product) AS ?products)
+WHERE {
+GRAPH ?g {
+?product a schema:Product ;
+schema:category ?category .
+}
+}
+GROUP BY ?category
+ORDER BY DESC(?products)`;
 
 const { url } = await resetDocument({
   ldh: opts.ldh,
@@ -67,8 +79,8 @@ await runScene({
 
     if (cs.ok) {
       const q = await typeQuery(page, cursor, QUERY);
-      await marks.beat('query', q.ok ? 'the question, as SPARQL' : q.why);
-      await sleep(1200);
+      await marks.beat('query', q.ok ? `the question, as SPARQL — ${q.lines} lines${q.verified ? ', read back and matching' : ''}` : q.why);
+      await sleep(1600);
 
       const t = await fill(page, cursor, 'Title', 'Products per category');
       await marks.beat('title', t.ok ? 'Products per category' : t.why);
@@ -93,14 +105,16 @@ await runScene({
     await sleep(900);
 
     if (cv.ok) {
-      const combo = page.locator('.ldh-pane.is-active input.resource-combobox:visible').first();
+      // The Query field by name — the View form's controls are not in a fixed order.
+      const combo = field(page, 'Query', 'input:not([type=hidden]):visible');
       if (await combo.isVisible().catch(() => false)) {
         await cursor.click(combo);
         const modifier = process.platform === 'darwin' ? 'Meta' : 'Control';
         await page.keyboard.press(`${modifier}+V`);
         await sleep(1500);
       }
-      await fill(page, cursor, 'Title', 'Category mix');
+      const tv = await fill(page, cursor, 'Title', 'Category mix');
+      await marks.beat('view-title', tv.ok ? `written to ${tv.into ?? 'the Title field'}` : tv.why);
       const s2 = await save(page, cursor);
       await marks.beat('save-view', s2.ok ? 'saved — a view anyone can render' : s2.why);
       await sleep(1600);

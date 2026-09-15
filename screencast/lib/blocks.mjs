@@ -9,6 +9,7 @@
 // authoring in the app's own idiom rather than a demo-only path.
 
 import { ui } from './dom.mjs';
+import { field } from './constructors.mjs';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -82,7 +83,9 @@ export async function addObject(page, cursor, type, uri, { mode = null, settle =
   if (!(await btn.count())) return { ok: false, why: 'no + Object button' };
 
   const form = ui(page).locator('form').filter({ has: page.locator('button.btn-save') }).last();
-  const value = form.locator('input[name="ou"]:visible, input[type="text"]:visible, input[type="url"]:visible, input[type="search"]:visible').first();
+  // By property name, never by position: the first control in this form is not
+  // reliably the one labelled Value.
+  const value = field(page, 'Value', 'input:not([type=hidden]):visible');
 
   let ready = false;
   for (let attempt = 1; attempt <= 3 && !ready; attempt++) {
@@ -109,7 +112,7 @@ export async function addObject(page, cursor, type, uri, { mode = null, settle =
   }
 
   if (mode) {
-    const modeSelect = form.locator('select').last();
+    const modeSelect = field(page, 'Layout mode', 'select:visible');
     if (await modeSelect.count()) await modeSelect.selectOption({ label: mode }).catch(() => {});
     await sleep(600);
   }
