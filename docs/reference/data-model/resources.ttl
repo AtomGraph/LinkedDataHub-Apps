@@ -268,14 +268,20 @@ WHERE {
         </div>
         <div>
             <h3 id="inline-creation">Inline creation</h3>
-            <p>A view that carries <code>ldh:container</code> metadata renders a <span class="ac-btn in-primary ap-solid sz-md">Create</span> button that creates a new instance in that container, so a view can double as an entry point for the data it lists.</p>
+            <p>A view attached to a property in the <a href="../../administration/packages/#property-views">application's ontology</a> renders a <span class="ac-btn in-primary ap-solid sz-md">Create</span> button in its header, so a view can double as an entry point for the data it lists. The class to construct is inferred from the attaching property: its <code>rdfs:range</code> for a forward <code>ldh:view</code>, its <code>rdfs:domain</code> for an inverse <code>ldh:inverseView</code>. A property whose range is not a named class — an <code>owl:unionOf</code> list, say — gets no button, because there is nothing to construct.</p>
+            <p>Where the new instance is stored is not declared anywhere. LinkedDataHub works it out from the view's own results: a second query, derived from the view's <code>SELECT</code> pattern with <code>LIMIT</code>, <code>OFFSET</code> and <code>ORDER BY</code> removed, asks which containers hold the documents that describe the existing solutions. A view is a projection and its rows are its solutions, so creating a row means making a new solution appear in that projection — and the existing solutions already say where their descriptions live.</p>
+            <ul>
+                <li><em>Exactly one container</em> — the button renders and targets it.</li>
+                <li><em>No container</em>, because the result set is empty — no button. There is nothing to generalise from, so the first instance of a kind is created through its container the usual way.</li>
+                <li><em>More than one container</em>, because the results span several — no button. Nothing in the data says where a new row belongs, and deciding by majority would be placement nobody stated.</li>
+            </ul>
+            <p>The question is put to the whole result set rather than to the page on screen, so the destination cannot depend on which page the reader happens to be looking at. The determined container is then checked for <code>acl:Write</code> access, which is why the button appears a moment after the rest of the view header; a forward view also writes the linking triple into the current document, so it needs write access there as well.</p>
             <p>A view with <code>ldh:showWhenEmpty</code> set to <code>false</code> is hidden while its query returns no results — the
                 <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/admin/model/ns.ttl" target="_blank">demo's property-attached views</a>
                 use it so "Orders from this customer" only appears on customers that have orders.</p>
             <pre>&lt;#select-products-view&gt; a ldh:View ;
     spin:query &lt;#select-products-query&gt; ;
     ac:mode &lt;https://w3id.org/atomgraph/client#TableMode&gt; ;
-    ldh:container &lt;https://localhost:4443/products/&gt; ;   # renders a Create button targeting the container
     ldh:showWhenEmpty false .</pre>
         </div>
         <div>
