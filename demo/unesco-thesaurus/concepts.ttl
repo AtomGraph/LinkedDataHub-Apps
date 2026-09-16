@@ -50,6 +50,7 @@
 
 # View block (references the query)
 <#select-concepts-view> a ldh:View ;
+    dct:title "All concepts" ;
     spin:query <#select-concepts-query> .
 
 # SELECT query

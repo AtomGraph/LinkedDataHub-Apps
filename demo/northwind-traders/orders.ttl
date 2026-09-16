@@ -40,6 +40,7 @@
 
   # View block (references the query, uses TableMode)
   <#select-orders-view> a ldh:View ;
+      dct:title "All orders" ;
       spin:query <#select-orders-query> ;
       ac:mode <https://w3id.org/atomgraph/client#TableMode> .
 

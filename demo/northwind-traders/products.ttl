@@ -114,6 +114,7 @@ LIMIT 10""" .
 
   # View block (references the query, uses TableMode)
   <#select-products-view> a ldh:View ;
+      dct:title "All products" ;
       spin:query <#select-products-query> ;
       ac:mode <https://w3id.org/atomgraph/client#TableMode> .
 

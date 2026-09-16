@@ -27,5 +27,6 @@
 
 # View block with MapMode
 <#select-children-view> a ldh:View ;
+    dct:title "All bicycle parkings" ;
     spin:query ldh:SelectChildren ;
     ac:mode ac:MapMode .

@@ -115,6 +115,7 @@ ORDER BY DESC(?productCount)""" .
 
   # View block (references the query, uses GridMode)
   <#select-categories-view> a ldh:View ;
+      dct:title "All categories" ;
       spin:query <#select-categories-query> ;
       ac:mode <https://w3id.org/atomgraph/client#GridMode> .
 

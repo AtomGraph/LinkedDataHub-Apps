@@ -27,6 +27,7 @@
 
   # View block (references the query, no mode specified - uses default)
   <#select-shippers-view> a ldh:View ;
+      dct:title "All shippers" ;
       spin:query <#select-shippers-query> .
 
   # SELECT query

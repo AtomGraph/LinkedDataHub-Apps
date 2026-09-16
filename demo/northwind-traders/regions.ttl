@@ -28,6 +28,7 @@
 
   # View block (references the query, no mode specified - uses default)
   <#select-regions-view> a ldh:View ;
+      dct:title "All regions" ;
       spin:query <#select-regions-query> .
 
   # SELECT query

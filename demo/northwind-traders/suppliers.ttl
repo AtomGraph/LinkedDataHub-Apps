@@ -29,6 +29,7 @@
 
   # View block (references the query, uses TableMode)
   <#select-suppliers-view> a ldh:View ;
+      dct:title "All suppliers" ;
       spin:query <#select-suppliers-query> ;
       ac:mode <https://w3id.org/atomgraph/client#TableMode> .
 

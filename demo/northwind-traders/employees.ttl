@@ -73,6 +73,7 @@ ORDER BY DESC(?totalSales)""" .
 
   # View block (references the query, uses GridMode)
   <#select-employees-view> a ldh:View ;
+      dct:title "All employees" ;
       spin:query <#select-employees-query> ;
       ac:mode <https://w3id.org/atomgraph/client#GridMode> .
 

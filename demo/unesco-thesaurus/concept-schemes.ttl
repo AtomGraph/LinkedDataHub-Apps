@@ -17,6 +17,7 @@
 
 # View block (references the query)
 <#select-concept-schemes-view> a ldh:View ;
+    dct:title "All concept schemes" ;
     spin:query <#select-concept-schemes-query> .
 
 # SELECT query
