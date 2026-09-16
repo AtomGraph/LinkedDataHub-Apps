@@ -1,3 +1,8 @@
+import { glideTo } from './frame.mjs';
+
+// The sticky chrome a target must clear, and the breathing room at the bottom edge.
+const HEADER_PX = 120;
+const EDGE_PX = 24;
 // A scripted pointer leaves no trace on screen: page.mouse.move() dispatches real
 // mousemove events but paints no cursor, so an unedited recording shows a UI
 // operating itself with nothing touching it.
@@ -119,6 +124,16 @@ export function makeCursor(page, { fps = 60 } = {}) {
 
   async function centreOf(locator) {
     await locator.waitFor({ state: 'visible' });
+
+    // scrollIntoViewIfNeeded jumps, so an off-screen target arrives by cut. Glide to
+    // it instead, and only when it is actually off screen — a target already in view
+    // must not make the page move at all.
+    const box0 = await locator.boundingBox().catch(() => null);
+    const vh = page.viewportSize()?.height ?? 0;
+    if (box0 && vh && (box0.y < HEADER_PX || box0.y + box0.height > vh - EDGE_PX)) {
+      const y = await page.evaluate(([top, header]) => window.scrollY + top - header, [box0.y, HEADER_PX + 40]);
+      await glideTo(page, y, 550);
+    }
     await locator.scrollIntoViewIfNeeded();
     const box = await locator.boundingBox();
     if (!box) throw new Error('cursor: target has no bounding box');

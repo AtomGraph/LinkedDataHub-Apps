@@ -59,7 +59,7 @@ await runScene({
       const pill = facetPill(n);
       if ((await pill.getAttribute('aria-expanded')) === 'true') {
         await cursor.click(pill);
-        await sleep(700);
+        await sleep(400);
       }
     }
 
@@ -73,7 +73,7 @@ await runScene({
       await summary.scrollIntoViewIfNeeded();
       if (!(await bar.evaluate((e) => e.open))) {
         await cursor.click(summary);
-        await sleep(1100);
+        await sleep(500);
       }
       const pill = page.locator('.ldh-pivot-pill:visible').filter({ hasText: relation }).first();
       if (!(await pill.count())) return marks.beat(beat, `${relation} not offered — skipped`);
@@ -87,14 +87,14 @@ await runScene({
     // ── the team ────────────────────────────────────────────────────────────
     await page.goto(target, { waitUntil: 'load' });
     await toolbar.waitFor({ state: 'visible', timeout: 45_000 });
-    await sleep(1400);
+    await sleep(650);
     await marks.beat('open', `${await total()} people in the directory`);
-    await sleep(1600);
+    await sleep(700);
 
     // Grid, because the question is "who are these people" and they have faces.
     await switchMode('grid-mode');
     await marks.beat('who', 'Grid — the people, with their photographs');
-    await sleep(2600);
+    await sleep(1150);
 
     // ── look one up ─────────────────────────────────────────────────────────
     // Fuller specifically, because the next question is about his team. His page
@@ -106,15 +106,15 @@ await runScene({
       const label = (await row.textContent().catch(() => '')).trim().slice(0, 40);
       await cursor.click(row);
       await page.waitForLoadState('load');
-      await sleep(4200);
+      await sleep(1900);
       await marks.beat('lookup', `${label} — his reports, territories and orders, all declared`);
-      await sleep(2600);
+      await sleep(1150);
 
       await page.goBack({ waitUntil: 'load' });
       await toolbar.waitFor({ state: 'visible', timeout: 45_000 });
-      await sleep(2200);
+      await sleep(1000);
       await marks.beat('back', `${await total()} people`);
-      await sleep(700);
+      await sleep(400);
     }
 
     // ── his team ────────────────────────────────────────────────────────────
@@ -123,9 +123,9 @@ await runScene({
       () => !document.querySelector('.facet-pop:not(.sort-pop) .facet-loading'),
       null, { timeout: 20_000 },
     ).catch(() => {});
-    await sleep(900);
+    await sleep(400);
     await marks.beat('facet-open', 'who reports to whom');
-    await sleep(800);
+    await sleep(400);
 
     const opt = page.locator('.facet-pop:not(.sort-pop) .facet-values button.opt').filter({ hasText: MANAGER }).first();
     if (await opt.count()) {
@@ -135,27 +135,27 @@ await runScene({
     await closeFacet(MANAGER_FACET);
     const team = await total();
     await marks.beat('team', `reports to ${MANAGER}: ${team} of 9`);
-    await sleep(1700);
+    await sleep(750);
 
     // ── what they cover ─────────────────────────────────────────────────────
     const territories = await hop('Territory', 'territories', `the ground those ${team} cover`);
-    await sleep(1600);
+    await sleep(700);
 
     // ── where ───────────────────────────────────────────────────────────────
     const mapped = await switchMode('map-mode');
     if (mapped) {
-      await sleep(4500);
+      await sleep(2000);
       // Keep the toolbar on screen: it carries the route taken to get here, and the
       // beats after this need its controls clickable.
       await frameTogether(page, toolbar, page.locator('.ol-viewport').first(), { prefer: 'controls' });
       await marks.beat('where', `${territories} territories, plotted`);
-      await sleep(1400);
+      await sleep(650);
 
       const found = await findMarkers(page);
       if (found.markers?.length) {
         const label = await openMarker(page, cursor, found.markers, { after: 2600 });
         await marks.beat('one-territory', label ?? `none of ${found.markers.length} pins opened`);
-        await sleep(2200);
+        await sleep(1000);
         await closeInfo(page);
       } else {
         await marks.beat('one-territory', found.error ?? 'no pins detected');
@@ -166,19 +166,19 @@ await runScene({
       const back = await switchMode('table-mode');
       await marks.beat('back-to-table',
         back === 'already' ? 'already tabular' : back ? `${await total()} territories` : 'mode menu would not open');
-      await sleep(1000);
+      await sleep(450);
     }
 
     // ── which regions ───────────────────────────────────────────────────────
     const regions = await hop('Region', 'regions', 'and those sit in');
-    await sleep(1800);
+    await sleep(800);
 
     const steps = await page.evaluate(() => [...document.querySelectorAll('.parallax-steps button.parallax-step')]
       .map((b) => b.querySelector('.val')?.textContent.trim()));
     await marks.beat('answer', `${team} reps → ${territories} territories → ${regions} regions  (${steps.join(' → ')})`);
-    await sleep(2800);
+    await sleep(1250);
 
     await marks.beat('end');
-    await sleep(900);
+    await sleep(400);
   },
 });

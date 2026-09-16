@@ -167,7 +167,10 @@ export async function runScene({
 
   let failure = null;
   try {
-    await body({ page, cursor, type, typeCode, marks, target, sleep, shot });
+    // Scenes open on the strongest frame the data can give rather than on their own
+    // blank page, so they need the origin as well as their own document.
+    const base = new URL(target).origin;
+    await body({ page, cursor, type, typeCode, marks, target, base, sleep, shot });
   } catch (e) {
     failure = e;
     console.error(`\n✗ scene body failed at ${marks.elapsed.toFixed(2)}s: ${e.message}`);

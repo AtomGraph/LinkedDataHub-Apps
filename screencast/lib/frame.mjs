@@ -1,3 +1,26 @@
+// One continuous scroll, driven a frame at a time.
+//
+// scrollTo({ behavior: 'smooth' }) hands the animation to the browser, whose
+// duration is its own business — so a sequence of them fired on a timer interrupts
+// each animation with the next and the picture stutters. Animating it here instead
+// puts one position on screen per frame for exactly as long as asked, and an
+// ease-in-out means it starts and stops gently rather than snapping into motion.
+export async function glideTo(page, y, ms = 900) {
+  await page.evaluate(([to, dur]) => new Promise((done) => {
+    const from = window.scrollY;
+    const delta = Math.max(0, to) - from;
+    if (!delta || dur <= 0) { window.scrollTo(0, Math.max(0, to)); return done(); }
+    const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - ((-2 * t + 2) ** 2) / 2);
+    const start = performance.now();
+    const frame = (now) => {
+      const t = Math.min(1, (now - start) / dur);
+      window.scrollTo(0, from + delta * ease(t));
+      if (t < 1) requestAnimationFrame(frame); else done();
+    };
+    requestAnimationFrame(frame);
+  }), [y, ms]);
+}
+
 // Framing a control and its effect together.
 //
 // A block that carries controls — a chart's axes, a view's mode, a query editor —
@@ -30,7 +53,7 @@ export async function frameTogether(page, controls, result, { headerPx = 120, pa
     }
   }
 
-  await page.evaluate((y) => window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' }), top);
+  await glideTo(page, top, 700);
   await page.waitForTimeout(settle);
 
   // Report what actually ended up on screen, so a scene can mark it honestly.
@@ -68,17 +91,15 @@ async function selectorOf(locator) {
 // carries a tall block. A story is only legible in sequence, so the close scrolls
 // through it at a readable pace.
 export async function scrollThrough(page, { duration = 6000, settle = 900 } = {}) {
-  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  await glideTo(page, 0, 450);
   await page.waitForTimeout(settle);
 
   const height = await page.evaluate(() => Math.max(0, document.body.scrollHeight - innerHeight));
   if (height <= 0) return 0;
 
-  const steps = Math.max(4, Math.round(duration / 220));
-  for (let i = 1; i <= steps; i++) {
-    await page.evaluate((y) => window.scrollTo({ top: y, behavior: 'smooth' }), (height * i) / steps);
-    await page.waitForTimeout(duration / steps);
-  }
+  // The whole way down as a single animation, rather than a staircase of separate
+  // smooth scrolls that cut each other off.
+  await glideTo(page, height, duration);
   await page.waitForTimeout(settle);
   return height;
 }

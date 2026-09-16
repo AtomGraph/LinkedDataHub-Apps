@@ -30,3 +30,16 @@ export function ui(page) {
 export function chrome(page) {
   return page;
 }
+
+// How long a settle actually takes is the app's business, not the scene's. LDH marks
+// a block that is still fetching with .is-loading, and the tree and facet popovers
+// carry their own; when none of them is on screen the page has finished. The cap is
+// what the fixed sleep used to be, so a slow render is no worse than before and a
+// fast one costs nothing.
+export async function settled(page, cap = 3500) {
+  await page.waitForFunction(
+    () => !document.querySelector('.is-loading, .facet-loading, .tree-loading'),
+    null, { timeout: cap },
+  ).catch(() => {});
+  await new Promise((r) => setTimeout(r, 250));
+}

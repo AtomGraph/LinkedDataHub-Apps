@@ -8,7 +8,7 @@
 // The form renders inline on the document rather than in a modal, because the
 // resource being created belongs to this document.
 
-import { ui } from './dom.mjs';
+import { ui, settled } from './dom.mjs';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -23,7 +23,7 @@ export async function create(page, cursor, label) {
     const item = ui(page).locator('.add-constructor').filter({ hasText: label }).first();
     if (await item.isVisible().catch(() => false)) {
       await cursor.click(item);
-      await sleep(3000);
+      await settled(page, 3000);
       return { ok: true };
     }
   }
@@ -96,6 +96,6 @@ export async function save(page, cursor) {
   if (!(await btn.isVisible().catch(() => false))) return { ok: false, why: 'no Save on the form' };
   await btn.scrollIntoViewIfNeeded().catch(() => {});
   await cursor.click(btn);
-  await sleep(3200);
+  await settled(page, 3200);
   return { ok: true };
 }

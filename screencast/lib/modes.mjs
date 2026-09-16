@@ -44,9 +44,23 @@ export async function switchViewMode(page, cursor, mode, { settle = 2200, tries 
   if ((await currentViewMode(page)) === mode) return 'already';
 
   const toggle = toggleOf(page);
-  const item = ui(page).locator(`.modes-pop.view-mode-list button.mi.${mode}`).first();
+  // Scoped to the popover belonging to THIS toolbar: the document-scope switcher
+  // offers the same mode names from its own menu, and picking the wrong one renders
+  // the document instead of the results.
+  const item = ui(page).locator(`.ldh-view-toolbar .ldh-mode .modes-pop.view-mode-list button.mi.${mode}`).first();
   for (let i = 0; i < tries; i++) {
     if (!(await toggle.count())) return false;
+
+    // The popover is a drop-up (.ldh-mode.drop-up), so it needs room ABOVE the
+    // toggle. A toolbar scrolled flush to the top of the viewport opens the menu off
+    // screen, where it is invisible and unclickable — and the switch then reports
+    // "not on offer" for a control that is right there.
+    const box = await toggle.boundingBox().catch(() => null);
+    if (box && box.y < 260) {
+      await page.evaluate((dy) => window.scrollBy(0, dy), -(260 - box.y));
+      await sleep(400);
+    }
+
     await cursor.click(toggle);
     await sleep(650);
     if (await item.isVisible().catch(() => false)) {

@@ -1,3 +1,4 @@
+import { settled, ui } from './dom.mjs';
 // Getting around the way the interface intends.
 //
 // The document tree lives in a drawer that opens when the pointer reaches the left
@@ -14,7 +15,11 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const SIDEBAR = '.left-sidebar.ldh-sidebar, .ldh-sidebar';
 
 export async function openTree(page, cursor, { timeout = 8000 } = {}) {
-  if (await page.locator('.tree-link').first().isVisible().catch(() => false)) return true;
+  // Scoped to the active pane throughout: LDH keeps inactive tabs in the DOM, so an
+  // unscoped .tree-link or .is-open answers for whichever pane is behind the one on
+  // screen — which is how the drawer reported itself open in a proxied second tab
+  // while the search box that belongs to it was nowhere to be found.
+  if (await ui(page).locator('.tree-link').first().isVisible().catch(() => false)) return true;
 
   // Approach the edge so it reads as a movement, then land exactly on x=0.
   await cursor.moveTo(240, 420, { duration: 420 });
@@ -23,7 +28,10 @@ export async function openTree(page, cursor, { timeout = 8000 } = {}) {
   await sleep(500);
 
   const opened = await page.waitForFunction(
-    (sel) => !!document.querySelector(`${sel}.is-open`),
+    (sel) => {
+      const pane = document.querySelector('.ldh-pane.is-active') ?? document;
+      return !!pane.querySelector(`${sel}.is-open`);
+    },
     SIDEBAR, { timeout },
   ).then(() => true, () => false);
   await sleep(600);
@@ -39,7 +47,7 @@ export async function treeGo(page, cursor, label) {
 
   await cursor.click(link);
   await page.waitForLoadState('load').catch(() => {});
-  await sleep(3800);
+  await settled(page, 3800);
   return { ok: true };
 }
 
@@ -49,30 +57,95 @@ export async function treeGo(page, cursor, label) {
 // a specific document — faster than walking the tree when the target is not a
 // sibling. It lives inside the drawer, so it carries the same precondition, and its
 // results must be clicked: Enter does not navigate.
-export async function searchGo(page, cursor, query, { match = query, timeout = 8000 } = {}) {
+// Finding a resource by name — the way a person does when the container is too big
+// to scroll and too big to facet.
+//
+// The drawer's search is an input, not a typeahead: it opens the search dialog on
+// submit, and the dialog renders its results as an ordinary view. The previous
+// version of this waited on a `.typeahead` that the app has never rendered, so it
+// always timed out.
+//
+// This is the replacement for filtering by a label-valued facet (Name, Title,
+// skos:prefLabel), which hangs — see FINDINGS.md #1.
+export async function searchGo(page, cursor, query, { match = query, type = null, timeout = 25000 } = {}) {
   if (!(await openTree(page, cursor))) return { ok: false, why: 'drawer would not open' };
 
-  const box = page.locator('.sb-search input[name="q"], input[type="search"][name="q"]').first();
+  const box = ui(page).locator('.left-sidebar input[name="q"], .sb-search input[name="q"]').first();
   if (!(await box.isVisible().catch(() => false))) return { ok: false, why: 'no search box in the drawer' };
 
   await cursor.click(box);
   await box.pressSequentially(query, { delay: 70 });
+  await sleep(400);
+  await page.keyboard.press('Enter');
 
-  const results = page.locator('.typeahead a, .typeahead li, .ac-menu-item, [class*="result"] a');
-  const found = await page.waitForFunction(
-    () => document.querySelectorAll('.typeahead a, .typeahead li, .ac-menu-item').length > 0,
+  const modal = page.locator('.ac-modal').first();
+  if (!(await modal.waitFor({ state: 'visible', timeout }).then(() => true, () => false))) {
+    return { ok: false, why: 'the search dialog did not open' };
+  }
+
+  // The dialog's results are a view, so the count in its toolbar is the ready signal.
+  const counted = await page.waitForFunction(
+    () => { const m = document.querySelector('.ac-modal'); return !!m && /Total results\s+\d/.test(m.textContent); },
     null, { timeout },
   ).then(() => true, () => false);
-  if (!found) return { ok: false, why: `no results for ${query}` };
-  await sleep(700);
+  if (!counted) return { ok: false, why: `the dialog never reported a result count for ${query}` };
+  await sleep(1200);
 
-  const hit = results.filter({ hasText: match }).first();
-  const target = (await hit.count()) ? hit : results.first();
+  const total = Number(((await modal.innerText()).match(/Total results\s+(\d+)/) || [])[1] ?? 0);
+  if (!total) return { ok: false, why: `no results for ${query}` };
+
+  // Every result is a link to a document; the dialog's own chrome is not.
+  const results = modal.locator('a[href^="http"]').filter({ hasNotText: /^\s*$/ });
+  const n = await results.count();
+
+  // Two things make the obvious pick wrong. A result link wraps the whole row, so
+  // its text carries the label among the description, date and type as separate
+  // lines — substring matching then answers "Beverages" with "Alcoholic beverages".
+  // And the triplestore is shared across dataspaces, so a search inside the
+  // thesaurus also returns Northwind's own Beverages category. The label has to
+  // match a line outright, and a result in the dataspace being searched wins.
+  const wanted = match.trim().toLowerCase();
+  const origin = new URL(page.url()).origin;
+  const scored = [];
+  for (let i = 0; i < n; i++) {
+    const text = (await results.nth(i).innerText().catch(() => '')).trim();
+    const lines = text.split('\n').map((l) => l.trim().toLowerCase()).filter(Boolean);
+    const href = (await results.nth(i).getAttribute('href').catch(() => '')) || '';
+    let score = 0;
+    if (lines.some((l) => l === wanted)) score += 4;
+    else if (lines.some((l) => l.startsWith(wanted))) score += 2;
+    else if (lines.some((l) => l.includes(wanted))) score += 1;
+    if (href.startsWith(origin) && !href.includes('?uri=')) score += 3;
+    if (type && lines.some((l) => l === type.toLowerCase())) score += 3;
+    scored.push({ i, score, text, href });
+  }
+  scored.sort((a, b) => b.score - a.score);
+  const best = scored[0];
+  if (!best || best.score === 0) return { ok: false, why: `nothing in the results matched ${match}` };
+  const target = results.nth(best.i);
+  const label = best.text;
   const href = await target.getAttribute('href').catch(() => null);
+
   await cursor.click(target);
   await page.waitForLoadState('load').catch(() => {});
-  await sleep(3600);
-  return { ok: true, href };
+  await settled(page, 3600);
+  return { ok: true, href, label, total };
+}
+
+// Which document the active pane is actually showing.
+//
+// A tab switch does not change page.url(), so a scene that has been into another
+// dataspace and come back cannot verify where it is from the URL. The address bar
+// input belongs to the shell and tracks the front tab, so it is the honest answer —
+// and asking is not optional: a write issued against the wrong pane lands silently
+// in the wrong dataspace.
+export async function activeDocument(page) {
+  return page.evaluate(() => {
+    const pane = document.querySelector('.ldh-pane.is-active') ?? document;
+    const crumb = [...pane.querySelectorAll('.ac-breadcrumb a, .breadcrumb a')].pop();
+    const input = document.querySelector('form.ldh-address input[name="uri"]');
+    return (crumb && crumb.href) || (input && input.value) || null;
+  });
 }
 
 // Switching tabs.
@@ -87,7 +160,7 @@ export async function goToTab(page, cursor, label) {
   if (!(await tab.count())) return { ok: false, why: `no tab named ${label}` };
 
   await cursor.click(tab);
-  await sleep(2500);
+  await settled(page, 2500);
 
   const active = await page.locator('.ldh-pane.is-active').first()
     .textContent().then((t) => t ?? '').catch(() => '');

@@ -13,9 +13,8 @@
 
 import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
 import { resetDocument } from '../lib/fixture.mjs';
-import { addProse, addObject, copyUri, switchDocumentMode } from '../lib/blocks.mjs';
+import { addProse, addObject, switchDocumentMode } from '../lib/blocks.mjs';
 import { switchViewMode } from '../lib/modes.mjs';
-import { treeGo } from '../lib/nav.mjs';
 import { scrollThrough } from '../lib/frame.mjs';
 
 const opts = await resolve('/');
@@ -43,7 +42,7 @@ await runScene({
   identity,
   geometry: geometryFrom(opts, { width: 1440, height: 810, deviceScaleFactor: 2 }),
 
-  async body({ page, cursor, type, marks }) {
+  async body({ page, cursor, type, marks, base }) {
     const total = async () => (await page.locator('.ldh-view-toolbar .right .count b').first()
       .textContent().catch(() => '?')).trim();
     const settle = (ms = 2200) => sleep(ms);
@@ -55,13 +54,13 @@ await runScene({
         () => !document.querySelector('.facet-pop:not(.sort-pop) .facet-loading'),
         null, { timeout: 20_000 },
       ).catch(() => {});
-      await sleep(800);
+      await sleep(400);
     }
     async function closeFacet(n) {
       const pill = facetPill(n);
       if ((await pill.getAttribute('aria-expanded')) === 'true') {
         await cursor.click(pill);
-        await sleep(700);
+        await sleep(400);
       }
     }
     async function hop(relation, beat, note) {
@@ -71,7 +70,7 @@ await runScene({
       await summary.scrollIntoViewIfNeeded();
       if (!(await bar.evaluate((e) => e.open))) {
         await cursor.click(summary);
-        await sleep(1100);
+        await sleep(500);
       }
       const pill = page.locator('.ldh-pivot-pill:visible').filter({ hasText: relation }).first();
       if (!(await pill.count())) return marks.beat(beat, `${relation} not offered — skipped`);
@@ -83,40 +82,39 @@ await runScene({
     }
 
     // ── the question ────────────────────────────────────────────────────────
+    // ── open on the data ────────────────────────────────────────────────────
+    // Not on a blank page: the first frame has to be the best one available without
+    // a gesture, and nobody creates an empty document and stares at it — you find
+    // something first and write it up after.
+    //
+    // The clip opens on what the catalogue already shows — the grid and its charts —
+    // because the question is about a gap in it.
+    await page.goto(`${base}/products/`, { waitUntil: 'load' });
+    await sleep(5200);
+    await marks.beat('catalogue', 'seventy-seven products, and the charts the catalogue already carries');
+    await sleep(800);
+
+    // the page being written is opened once there is something to write
     await page.goto(url, { waitUntil: 'load' });
-    await sleep(3500);
-    await marks.beat('empty', 'a blank page for a recurring question');
-    await sleep(1000);
+    await sleep(2600);
 
     const inContent = await switchDocumentMode(page, cursor, 'content-mode');
     await marks.beat('content-mode', inContent ? 'switched to Content' : 'mode switcher would not open');
-    await sleep(1200);
+    await sleep(550);
 
 
     const p1 = await addProse(page, cursor, type,
       'Three categories carry a third of the catalogue. Who supplies them?');
     await marks.beat('question', p1.ok ? 'written into the page' : p1.why);
-    await sleep(1100);
+    await sleep(500);
 
-    // ── go and get the catalogue view ───────────────────────────────────────
-    const went = await treeGo(page, cursor, 'Products');
-    await marks.beat('products', went.ok ? 'the catalogue, via the document tree' : went.why);
-
-    const viewBlock = page.locator('.ldh-block').filter({ has: page.locator('.ldh-view-toolbar') }).first();
-    const copied = await copyUri(page, cursor, viewBlock);
-    await marks.beat('copy-uri', copied.ok ? (copied.value ?? 'copied') : copied.why);
-    await sleep(1200);
-
-    for (let i = 0; i < 4 && !page.url().startsWith(url); i++) {
-      await page.goBack({ waitUntil: 'load' }).catch(() => {});
-      await sleep(1800);
-    }
-    await sleep(2000);
-    await marks.beat('return', page.url().startsWith(url) ? 'back to the page' : `lost: ${page.url()}`);
-
-    const o1 = await addObject(page, cursor, type, null, { paste: true });
-    await marks.beat('embed', o1.ok ? 'the catalogue, embedded' : o1.why);
-    await sleep(2000);
+    // ── the catalogue ───────────────────────────────────────────────────────
+    // The view's URI is neither known nor guessed: the combobox is given its name
+    // and the app resolves it, which spares the scene a trip to the catalogue and
+    // back. The kind keeps the embed from wrapping an Object in another Object.
+    const o1 = await addObject(page, cursor, type, null, { label: 'All products', kind: 'View' });
+    await marks.beat('embed', o1.ok ? 'the catalogue, looked up by name and embedded' : o1.why);
+    await sleep(900);
 
     // ── the three categories ────────────────────────────────────────────────
     const all = await total();
@@ -130,16 +128,16 @@ await runScene({
     await closeFacet(CATEGORY_FACET);
     const filtered = await total();
     await marks.beat('categories', `${CATEGORIES.join(', ')}: ${filtered} of ${all}`);
-    await sleep(1400);
+    await sleep(650);
 
     const p2 = await addProse(page, cursor, type,
       `${CATEGORIES.join(', ')} account for ${filtered} of ${all} products.`);
     await marks.beat('note-categories', p2.ok ? undefined : p2.why);
-    await sleep(1200);
+    await sleep(550);
 
     // ── who supplies them ───────────────────────────────────────────────────
     const covering = await hop('Provider', 'suppliers', 'suppliers behind those products');
-    await sleep(1400);
+    await sleep(650);
 
     // ── and how many suppliers are there in total? ──────────────────────────
     // Clearing the categories on the pivoted view answers it without leaving:
@@ -153,7 +151,7 @@ await runScene({
     await closeFacet(CATEGORY_FACET);
     const everyone = await total();
     await marks.beat('all-suppliers', `${covering} of ${everyone} suppliers`);
-    await sleep(1500);
+    await sleep(700);
 
     const gap = Number(everyone) - Number(covering);
     const p3 = await addProse(page, cursor, type,
@@ -161,39 +159,25 @@ await runScene({
         ? `Only ${covering} of our ${everyone} suppliers serve them — ${gap} do not.`
         : `${covering} suppliers serve them.`);
     await marks.beat('note-gap', p3.ok ? undefined : p3.why);
-    await sleep(1400);
+    await sleep(650);
 
     // ── evidence that survives a reload ─────────────────────────────────────
     // The block embedded above renders the plain catalogue when the page is next
     // opened, because facet and pivot state is not persisted — which would leave
     // the prose talking about suppliers beside a grid of products. The suppliers
     // have a view of their own, and embedding that keeps the page honest.
-    const wentS = await treeGo(page, cursor, 'Suppliers');
-    await marks.beat('suppliers-page', wentS.ok ? 'the suppliers, via the tree' : wentS.why);
-
-    const sBlock = page.locator('.ldh-block').filter({ has: page.locator('.ldh-view-toolbar') }).first();
-    const copiedS = await copyUri(page, cursor, sBlock);
-    await marks.beat('copy-suppliers', copiedS.ok ? (copiedS.value ?? 'copied') : copiedS.why);
-    await sleep(1000);
-
-    for (let i = 0; i < 4 && !page.url().startsWith(url); i++) {
-      await page.goBack({ waitUntil: 'load' }).catch(() => {});
-      await sleep(1800);
-    }
-    await sleep(1800);
-
     // The embedding carries its own layout, so the page renders suppliers as a
     // table regardless of how that view is shown anywhere else.
-    const o2 = await addObject(page, cursor, type, null, { paste: true, mode: 'Table' });
+    const o2 = await addObject(page, cursor, type, null, { label: 'All suppliers', kind: 'View', mode: 'Table' });
     await marks.beat('embed-suppliers', o2.ok ? 'the suppliers, embedded as a table' : o2.why);
-    await sleep(2200);
+    await sleep(1000);
 
     // ── read it back ────────────────────────────────────────────────────────
     const scrolled = await scrollThrough(page, { duration: 6500 });
     await marks.beat('page', `read back over ${Math.round(scrolled)}px`);
-    await sleep(1400);
+    await sleep(650);
 
     await marks.beat('end');
-    await sleep(800);
+    await sleep(400);
   },
 });
