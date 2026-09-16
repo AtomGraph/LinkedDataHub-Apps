@@ -11,10 +11,7 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="ldh-body-lg">Browse, navigate and search local and remote data</p>
-    <div class="screenshot-placeholder">
-        <span aria-hidden="true" class="msi">play_circle</span>
-        <p>Screen recording: browsing and navigating data</p>
-    </div>
+    <video aria-label="Browsing and navigating data" controls="controls" preload="metadata" src="../../uploads/109f03edd7577ebe343f0cd4f1d12e8028063493"></video>
     <div>
         <h2 id="linked-data-browser">Linked Data browser</h2>
         <p>LinkedDataHub has a built-in Linked Data browser which is accessed through <a href="../../reference/user-interface/#nav-bar">the navigation bar</a>. Enter a <code>http://</code> or <code>https://</code> URL and
@@ -30,10 +27,7 @@
     <div>
         <h2 id="document-tree">Document tree</h2>
         <p>The document tree in the left sidebar gives a quick overview of the application's <a href="../../reference/data-model/documents/#hierarchy">document hierarchy</a>; the <a href="../../reference/user-interface/#document-hierarchy">user interface reference</a> describes the widget.</p>
-        <div class="screenshot-placeholder">
-            <span aria-hidden="true" class="msi">image</span>
-            <p>Screenshot: the document tree with a container expanded</p>
-        </div>
+        <img alt="The document tree with a container expanded" src="../../uploads/0e4b22db2c8fcae2c79193cf06a40f094f2db775"></img>
     </div>
     <div>
         <h2 id="class-navigation">Class-based navigation</h2>
@@ -75,10 +69,7 @@ WHERE {
     }
 }</pre>
         <p>The same widget is used for autocomplete inputs in create and edit forms.</p>
-        <div class="screenshot-placeholder">
-            <span aria-hidden="true" class="msi">image</span>
-            <p>Screenshot: the search dropdown with matching Northwind resources</p>
-        </div>
+        <img alt="The search dropdown with matching Northwind resources" src="../../uploads/6a1e2e654b0366b9275aa25e032efb1e72e0d48b"></img>
     </div>
     <div>
         <h2 id="structured-search">Structured search</h2>

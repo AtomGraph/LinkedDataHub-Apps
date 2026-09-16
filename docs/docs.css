@@ -46,7 +46,7 @@
 /* media */
 .docs-main img, .docs-main iframe { max-width: 100%; }
 .docs-main img { border: 1px solid var(--border-default); border-radius: var(--r-md); }
-.docs-main object { width: 100%; min-height: 640px; }
+.docs-main video { width: 100%; aspect-ratio: 16 / 9; }
 
 /* ---------- Reference tables ----------
    The reference tables ARE the design system's DataTable, and they say so by

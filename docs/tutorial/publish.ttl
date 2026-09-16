@@ -53,10 +53,7 @@
         <h2 id="result">What you now see</h2>
         <p>Open the base URL in a private browser window, with no certificate: the Northwind Traders app renders, charts and all. It is now a public Linked Data dataset <em>and</em> a public web
             application — the same URLs serve both, negotiated by content type.</p>
-        <div class="screenshot-placeholder">
-            <span aria-hidden="true" class="msi">image</span>
-            <p>Screenshot: the app in a private window, unauthenticated</p>
-        </div>
+        <img alt="The app in a private window, unauthenticated" src="../../uploads/2a22d48d6d47d12971320417aba1173adbef48d4"></img>
     </div>
     <div>
         <h2 id="how-this-works">How this works</h2>

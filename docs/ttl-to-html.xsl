@@ -288,8 +288,8 @@
 
     <xsl:mode name="xhtml" on-no-match="shallow-copy"/>
 
-    <!-- resolve uploads/<hash> to files/<name> in img src and object data -->
-    <xsl:template match="xhtml:img/@src[contains(., 'uploads/')] | xhtml:object/@data[contains(., 'uploads/')]" mode="xhtml">
+    <!-- resolve uploads/<hash> to files/<name> in img/video src and object data -->
+    <xsl:template match="xhtml:img/@src[contains(., 'uploads/')] | xhtml:video/@src[contains(., 'uploads/')] | xhtml:object/@data[contains(., 'uploads/')]" mode="xhtml">
         <xsl:variable name="hash" select="substring-after(., 'uploads/')"/>
         <xsl:variable name="match" select="key('file-by-sha1', $hash, $files-xml)"/>
         <xsl:choose>

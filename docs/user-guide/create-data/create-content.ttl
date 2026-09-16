@@ -11,10 +11,7 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="ldh-body-lg">Learn how to create data-driven content</p>
-    <div class="screenshot-placeholder">
-        <span aria-hidden="true" class="msi">image</span>
-        <p>Screenshot: creating an XHTML block and an object block on the Northwind dashboard</p>
-    </div>
+    <img alt="Creating an XHTML block and an object block" src="../../../uploads/a5902af7241e79d1230ef2840f2c670bc85ba7e5"></img>
     <p>Each document (container or item) can have <dfn>content</dfn>, i.e. a list of <dfn>blocks</dfn> which is shown in the <a href="../../../reference/user-interface/#layout-modes">content layout mode</a>. A block is one of two types:</p>
     <dl>
         <dt>XHTML</dt>

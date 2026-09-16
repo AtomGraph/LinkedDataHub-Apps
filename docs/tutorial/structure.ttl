@@ -50,10 +50,7 @@
         <h2 id="result">What you now see</h2>
         <p>The root document now lists the containers as its children, and each container URL resolves to an (empty) listing page. The URL space of your app <em>is</em> its information
             architecture.</p>
-        <div class="screenshot-placeholder">
-            <span aria-hidden="true" class="msi">image</span>
-            <p>Screenshot: root document children listing with the nine containers</p>
-        </div>
+        <img alt="Root document children listing with the nine containers" src="../../uploads/14ad1cc25b6bb761e9c8f5d46e6148f82808f7df"></img>
     </div>
     <div>
         <h2 id="how-this-works">How this works</h2>

@@ -28,10 +28,7 @@
                             <li>Replace the generated unique relative URI with <samp>categories</samp></li>
                             <li>Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span></li>
                         </ol>
-                        <div class="screenshot-placeholder">
-                            <span aria-hidden="true" class="msi">play_circle</span>
-                            <p>Screen recording: the container creation form</p>
-                        </div>
+                        <video aria-label="The container creation form" controls="controls" preload="metadata" src="../../../uploads/cbb64779fca8c9e87ce09507b01d9031b5b90b72"></video>
                     </div>
                 </div>
             <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
