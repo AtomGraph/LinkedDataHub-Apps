@@ -88,19 +88,41 @@ Use `ldh:view` for forward relationships (resource has property) or `ldh:inverse
 
 ### 3. XSLT Stylesheet (named by `ac:stylesheet`)
 
-XSLT templates using system modes to override default rendering:
+XSLT template rules in the platform's **open modes**:
 
 ```xsl
-<!-- Hide properties from default property list -->
+<!-- Hide the hierarchy predicates from the property list: the concept tree shows them -->
 <xsl:template match="skos:narrower | skos:broader" mode="ac:PropertyEditor"/>
 
-<!-- Override XHTML head elements -->
-<xsl:template match="*" mode="ac:Stylesheets">
-    <!-- Custom styles -->
+<!-- Render a concept's tree node as expandable, keeping the platform's markup -->
+<xsl:template match="*[@rdf:about][rdf:type/@rdf:resource = '&skos;Concept']" mode="ldh:TreeNode" priority="1">
+    <xsl:next-match>
+        <xsl:with-param name="expandable" select="true()"/>
+    </xsl:next-match>
 </xsl:template>
 ```
 
-Available system modes include `ac:*` (Web-Client component modes named after the design system's components), `ldh:*` (LinkedDataHub components) and `xhtml:*` (XHTML elements).
+The package stylesheet is composed into the platform's import tree right above `hooks.xsl`, the module
+that declares the open modes and their generic fallbacks, and below everything else. Import precedence
+beats template priority, so that position is the contract: a package rule outranks a fallback in an open
+mode whatever the priorities, and loses to any rule in a sealed mode whatever its own priority. A package
+cannot replace the page head, the content body, a typed rule or a global - those are sealed by
+precedence, not by policy.
+
+An open mode is a leaf: it renders or contributes for one node and carries no control flow. The open
+modes, with what a rule in each one owes:
+
+| Mode | What it renders | A package rule |
+|---|---|---|
+| `ldh:TreeNode` | one tree node | replaces the fallback, or decorates it with `xsl:next-match` |
+| `ac:PropertyEditor` | one resource's property list, or one statement row | replaces or decorates; an empty rule hides |
+| `ldh:ContentColumn` | the navigation slot beside the content body | fills it; nothing to inherit |
+| `ldh:TreeChildrenLoad` | (client) the children fetch for one tree node | replaces |
+| `ldh:RowHook` | (client) factories of deferred work for one rendered row | contributes; nothing to inherit |
+
+`hooks.xsl` in the platform sources carries the same table beside the declarations. The value-leaf modes
+(`ac:FormControl`, `ac:PropertyListValue`, the unnamed mode) and the component modes (`ldh:Modal`,
+`ac:FieldShell`...) are sealed in this version.
 
 ## Installing Packages
 
@@ -140,7 +162,8 @@ From the next request onwards, the server resolves it:
    an `owl:imports` of the namespace ontology. Its classes, constructors, constraints and views
    become available on the `ns` endpoint and in the UI.
 3. **Composes the package stylesheet** (`ac:stylesheet`) into the application stylesheet by
-   appending an `xsl:import` after the existing ones, so package templates override the system's.
+   inserting an `xsl:import` right after the platform's `hooks.xsl` import, so package templates
+   override the open modes' fallbacks and nothing else (see the stylesheet section above).
 
 Packages are applied in the order of their URIs. One that declares only an ontology, or only a
 stylesheet, contributes only that; one whose description cannot be resolved is skipped. If the
@@ -179,6 +202,6 @@ List of available packages can be found in the [LinkedDataHub-Apps](https://gith
 
 - Packages are **declarative only** (RDF + XSLT, no Java code)
 - Package ontologies use `owl:imports` (handled automatically by Jena)
-- Package stylesheets are composed into the application stylesheet with `xsl:import`, in memory, per dataspace
+- Package stylesheets are composed into the application stylesheet with `xsl:import` at the `hooks.xsl` marker, in memory, per dataspace
 - Property views (`ldh:view`/`ldh:inverseView`) are separate from XSLT overrides
 - Both mechanisms work independently and complement each other
