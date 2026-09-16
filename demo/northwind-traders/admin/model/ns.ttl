@@ -103,6 +103,28 @@ schema:Product spin:constructor :ProductConstructor ;
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
+schema:City spin:constructor :CityConstructor .
+
+:CityConstructor a ldh:Constructor ;
+    rdfs:label "Territory constructor" ;
+    dct:title "Territory constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX geo:     <http://www.w3.org/2003/01/geo/wgs84_pos#>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
+                schema:identifier [ a xsd:string ] ;
+                geo:lat [ a xsd:string ] ;
+                geo:long [ a xsd:string ] ;
+                schema:containedInPlace [ a schema:Place ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
 :MissingName a ldh:MissingPropertyValue ;
     rdfs:label "Missing schema:name" ;
     sp:arg1 schema:name ;
@@ -508,6 +530,90 @@ WHERE
       { ?city schema:containedInPlace $about }
   }
 ORDER BY ?city
+""" ;
+    rdfs:isDefinedBy : .
+
+# category
+
+# products in this category
+
+schema:category ldh:inverseView :ProductsInCategory .
+
+:ProductsInCategory a ldh:View ;
+    dct:title "Products in this category" ;
+    spin:query :SelectProductsInCategory ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
+    rdfs:isDefinedBy : .
+
+:SelectProductsInCategory a sp:Select ;
+    rdfs:label "Select products in category" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?product
+WHERE
+  { GRAPH ?graph
+      { ?product a schema:Product ;
+                 schema:category $about }
+  }
+ORDER BY ?product
+""" ;
+    rdfs:isDefinedBy : .
+
+# areaServed
+
+# employees serving this territory
+
+schema:areaServed ldh:inverseView :EmployeesServingTerritory .
+
+:EmployeesServingTerritory a ldh:View ;
+    dct:title "Employees serving this territory" ;
+    spin:query :SelectEmployeesServingTerritory ;
+    ac:mode ac:GridMode ;
+    ldh:showWhenEmpty false ;
+    rdfs:isDefinedBy : .
+
+:SelectEmployeesServingTerritory a sp:Select ;
+    rdfs:label "Select employees serving territory" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?employee
+WHERE
+  { GRAPH ?graph
+      { ?employee a schema:Person ;
+                  schema:areaServed $about }
+  }
+ORDER BY ?employee
+""" ;
+    rdfs:isDefinedBy : .
+
+# sponsor
+
+# employees reporting to this employee
+
+schema:sponsor ldh:inverseView :DirectReports .
+
+:DirectReports a ldh:View ;
+    dct:title "Direct reports" ;
+    spin:query :SelectDirectReports ;
+    ac:mode ac:GridMode ;
+    ldh:showWhenEmpty false ;
+    rdfs:isDefinedBy : .
+
+:SelectDirectReports a sp:Select ;
+    rdfs:label "Select direct reports" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?employee
+WHERE
+  { GRAPH ?graph
+      { ?employee a schema:Person ;
+                  schema:sponsor $about }
+  }
+ORDER BY ?employee
 """ ;
     rdfs:isDefinedBy : .
 
