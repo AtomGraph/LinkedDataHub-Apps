@@ -32,6 +32,31 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
     <dd>164 lines of installation shell scripts</dd>
 </dl>
 
+#### Screenshots and screen recordings
+
+The documentation's images and clips are not taken by hand. Every
+`div.screenshot-placeholder` in the `.ttl` sources is a slot in
+[`screencast/docs/manifest.mjs`](screencast/docs/manifest.mjs), which binds it to a
+scripted Playwright run against a live dataspace — so a shot is reproducible, and a
+slot that cannot be shot against the demo data says why instead of going missing.
+
+```shell
+cd screencast
+node docs/shoot.mjs --base … --cert-file … --cert-password-file …   # into docs/out/
+make docs-publish                                                   # into ../docs/
+```
+
+The shoot writes masters — 2880px lossless PNG, a `.webm` and an `.mp4` per clip.
+`make docs-publish` derives the shipping copies into `docs/`, converting the stills
+to WebP at twice the docs' content width and copying the already-optimised `.mp4`s,
+then prints each published file's SHA-1. That hash is its address: uploads are
+content-addressed at `{base}uploads/{sha1}`, so the bytes have to be final before
+anything references them. The references themselves are plain XHTML in the literal
+bodies — `<img src="../../uploads/{sha1}">` and `<video src="../../uploads/{sha1}">`
+— and `docs/install.sh` uploads the files along with the documents.
+
+[More on the recording rig →](screencast/README.md)
+
 ### Northwind Traders
 
 ![Set-based (parallax) navigation](demo/northwind-traders/screenshot.gif "Set-based (parallax) navigation")

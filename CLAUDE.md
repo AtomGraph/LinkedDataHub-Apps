@@ -34,6 +34,35 @@ make validate          # Validate documents
 make ttl-to-html      # Convert Turtle files to HTML
 ```
 
+### Documentation media (screencast/)
+
+Screenshots and clips for the docs are produced by a scripted Playwright rig, never taken by hand.
+
+```bash
+cd screencast
+node docs/shoot.mjs --base … --cert-file … --cert-password-file … [--only reference]
+make docs-publish   # optimise docs/out/ into ../docs/, printing sha1 per published file
+```
+
+- `docs/manifest.mjs` is the shot list — one entry per `div.screenshot-placeholder` in the `.ttl` sources, bound to its file, line and caption verbatim. New slots go there, not in the runner.
+- Each entry's `want` is asserted after `act` and before the capture, so a shot that never reached its state is reported missed rather than written.
+- `blocked` slots stay as placeholders with their reason recorded. Do not fill one by hand.
+- The shoot writes **masters** — 2880px lossless PNG, a `.webm` and an `.mp4` per clip — into `docs/out/`, plus an `index.json` of slot, caption, file and outcome. It never edits a `.ttl`.
+- `make docs-publish` derives the web assets into `docs/`: stills to WebP at 2240px (twice the docs' content column), `.mp4`s copied since they already carry CRF 20 / `yuv420p` / faststart, `.webm`s dropped.
+
+**Optimise before hashing.** Uploads are content-addressed at `{base}uploads/{sha1}`, so a reference is only valid for the bytes that ship — never hash a master.
+
+References are document-relative, one `../` per path segment of the page, and live inside `rdf:XMLLiteral` bodies that must stay canonical (attributes alphabetical, explicit end tags, each start tag on one line):
+
+```xml
+<img alt="The document tree with a container expanded" src="../../uploads/{sha1}"></img>
+<video aria-label="Browsing and navigating data" controls="controls" preload="metadata" src="../../uploads/{sha1}"></video>
+```
+
+A clip is a `<video>`, never an `<object>`. `Item.java` serves every upload with `Content-Security-Policy: default-src 'none'; sandbox` (the LNK-011 stored-XSS fix). An `<object>` loads the file as a nested *document*, so that CSP governs the document's own media load and Chrome blocks it — Firefox does not, which makes the breakage look browser-specific when it is not. A `<video>` is a subresource of the page, governed by the page's CSP, and loads normally. Images are unaffected for the same reason.
+
+Shipping them needs no script change: `docs/update-folder.sh` already uploads every non-`.ttl`/`.sh` file in a folder to that folder's container, and `ttl-to-html.xsl` rewrites `uploads/{sha1}` to `files/{name}` for the static build, terminating on a hash it cannot find — so a clean `make ttl-to-html` proves every baked hash resolves.
+
 ### Prerequisites
 All installation scripts require LinkedDataHub CLI scripts in PATH:
 ```bash
@@ -78,4 +107,5 @@ Some applications like SKOS use custom XSLT stylesheets and CSS that need to be 
 - `.rq` - SPARQL query files
 - `.csv` - Data import files
 - `.sh` - Shell scripts for installation and deployment
+- `.webp` / `.mp4` - Documentation screenshots and clips, published by `make docs-publish`
 - `Makefile` - Interactive installation and build targets
