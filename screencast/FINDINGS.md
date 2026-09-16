@@ -172,6 +172,54 @@ autocompletion. Nothing reports this to the user.
 looks like a one-character fix wherever the endpoint is configured — or the list
 could be bundled, which would also make the editor work offline.
 
+---
+
+## 5. The SPARQL endpoint could not render HTML — **fixed**
+
+Every SPARQL result set requested as HTML used to 500. `ResultSetXSLTWriter` runs
+`layout.xsl` over SPARQL Results XML, whose root is `sparql:sparql`; `layout.xsl:718`
+bound `$local-pane` with `as="element()"` from `apply-templates … mode="ldh:TabPanel"`,
+and the only such rule was `document.xsl:463`, `match="rdf:RDF"`. Nothing matched, and
+the empty sequence failed the cardinality check.
+
+Fixed and verified 2026-09-15 on both stacks: `GET /sparql?query=…` with a browser
+`Accept` answers **200** with the results as an `ac-table`, with and without `&mode=`.
+The bare `GET /sparql` still answers 400 "Query string not provided", which is what
+the SPARQL protocol calls for — so there is no bare landing page, and
+`user-guide/query-data.ttl:19-21` is describing the query form rather than an empty
+one.
+
+---
+
+## 6. Document-scope Map mode draws Null Island when there is nothing to plot
+
+**Severity** Low — cosmetic, but it reads as a broken map and costs real debugging time.
+
+**Reproduce** Open `/territories/` and switch the **document's** layout mode (the
+action-bar toggle, not the view block's) to Map.
+
+**Observed** A world basemap centred on 0,0 — the Gulf of Guinea — with no markers.
+Indistinguishable from a map that failed to load its data.
+
+**Cause** Not a defect in the plotting path, and not a data problem. Measured:
+
+| | |
+|---|---|
+| `geo:lat` in the `/territories/` container graph | **0** |
+| `geo:lat` in the RDF the document serves | **0** |
+| territory child resources carrying `geo:lat`/`geo:long` | **53** |
+
+Document-scope Map renders the resources **the document describes**; a container
+describes its children as links, not as geometry. The *view* block's Map mode renders
+its query results and plots all 53 correctly. The coordinates themselves are plain
+literals with no datatype, which is harmless — `converters/RDFXML2GeoJSON.xsl:48`
+reads them with `xsl:value-of`, which takes the text value either way.
+
+**Suggested fix** With zero features, either do not offer Map in the document-scope
+menu, or render an empty state saying the document describes no geometry. Falling
+back to centre 0,0 zoom 2 is the one outcome that looks like a bug.
+
+
 ## Not reproduced / not attributed
 
 - **`Terminated with [object DocumentFragment]`** appears twice on essentially every
