@@ -168,3 +168,44 @@ export async function goToTab(page, cursor, label) {
   const ok = tabClass.includes('is-active') || active.length > 0;
   return ok ? { ok: true } : { ok: false, why: `clicked ${label} but the pane did not follow` };
 }
+
+// Going up by breadcrumb.
+//
+// The action bar carries the document's ancestry as pills — `a.bc-pill` inside the
+// div[role="navigation"] that document.xsl:300 emits, the current one marked
+// `is-current`. It is on every document in every layout mode, graph included, so it
+// is the shortest visible route from wherever a scene is back to a container it can
+// create in. A page.goto() to the same place shows the viewer nothing; this shows
+// them the click.
+//
+// Ends-with on the label: the pill text runs an icon ligature into the word
+// ("folder Root"), the same way the mode toggle and the Create entries do.
+export async function crumbGo(page, cursor, label) {
+  const pill = page.locator('[role="navigation"] a.bc-pill')
+    .filter({ hasText: new RegExp(`${label}\\s*$`) }).first();
+  if (!(await pill.count())) return { ok: false, why: `no breadcrumb for ${label}` };
+  if (((await pill.getAttribute('class')) ?? '').includes('is-current')) return { ok: 'already' };
+
+  await cursor.click(pill);
+  await page.waitForLoadState('load').catch(() => {});
+  await settled(page, 3800);
+  return { ok: true };
+}
+
+// Opening a page from the list on the container you are standing on.
+//
+// The route back to a page created a minute ago. Measured: the drawer's search does
+// not return it (whatever indexes the search has not seen it yet), the app opens no
+// tab for a same-dataspace move, and the tree lists it but would not open from graph
+// mode — while the container's own children list shows it at once, on one page. So
+// the way back mirrors the way out: breadcrumb up, then this click down.
+export async function listGo(page, cursor, title, { timeout = 15_000 } = {}) {
+  const link = ui(page).locator('a').filter({ hasText: title }).first();
+  const shown = await link.waitFor({ state: 'visible', timeout }).then(() => true, () => false);
+  if (!shown) return { ok: false, why: `${title} is not listed on this page` };
+  await link.scrollIntoViewIfNeeded().catch(() => {});
+  await cursor.click(link);
+  await page.waitForLoadState('load').catch(() => {});
+  await settled(page, 3800);
+  return { ok: true };
+}

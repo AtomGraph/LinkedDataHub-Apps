@@ -154,3 +154,58 @@ export async function closeInfo(page) {
 }
 
 export const INFO_SELECTOR = INFO;
+
+// The pin of a known resource, as a page coordinate.
+//
+// The harness captures every ol.Map the page builds (window.__olMaps), and each
+// feature's id is the resource URI (map.xsl:254). The visible map is asked for the
+// pixel of the first wanted feature that stands clear of every unwanted one, so the
+// click lands on the pin meant and no other. `ids` are resource URIs.
+export async function locateMarker(page, ids, { clearance = 16 } = {}) {
+  return page.evaluate(({ ids, clearance }) => {
+    const want = new Set(ids);
+    const maps = (window.__olMaps || []).filter((m) => { const el = m.getTargetElement(); return el && el.offsetParent !== null && el.getBoundingClientRect().width > 0; });
+    if (!maps.length) return { error: 'no map on screen' };
+    const map = maps[maps.length - 1];
+    const rect = map.getTargetElement().getBoundingClientRect();
+    const feats = [];
+    for (const layer of map.getLayers().getArray()) {
+      const src = layer.getSource && layer.getSource();
+      if (!src || !src.getFeatures) continue;
+      for (const f of src.getFeatures()) {
+        const g = f.getGeometry(); if (!g || g.getType() !== 'Point') continue;
+        const [x, y] = map.getPixelFromCoordinate(g.getCoordinates());
+        feats.push({ id: f.getId(), x, y, wanted: want.has(f.getId()) });
+      }
+    }
+    const inView = feats.filter((f) => f.x > 8 && f.y > 8 && f.x < rect.width - 8 && f.y < rect.height - 8);
+    const wanted = inView.filter((f) => f.wanted);
+    if (!wanted.length) return { error: `none of ${ids.length} resources has a pin in view (${feats.length} features)` };
+    const clear = (f) => inView.every((o) => o.wanted || Math.hypot(o.x - f.x, o.y - f.y) >= clearance);
+    // Prefer a pin the viewer can see right now; the map may run past the fold.
+    const onScreen = (f) => rect.top + f.y > 40 && rect.top + f.y < window.innerHeight - 24;
+    const pick = wanted.filter(onScreen).find(clear) || wanted.find(clear) || wanted[0];
+    return { id: pick.id, x: rect.left + pick.x, y: rect.top + pick.y, isolated: clear(pick), onScreen: onScreen(pick), pins: inView.length };
+  }, { ids, clearance });
+}
+
+// One click on the pin of a known resource, then the popup. The icon's anchor is
+// its tip, so the click lands a few pixels up, in the head.
+export async function clickMarker(page, cursor, ids, { after = 1800 } = {}) {
+  let at = await locateMarker(page, ids);
+  if (at.error) return { ok: false, why: at.error };
+  if (!at.onScreen) {
+    // Below the fold: scroll the page so the pin sits in the lower half, on camera.
+    const dy = await page.evaluate((y) => Math.round(y - window.innerHeight * 0.62), at.y);
+    await page.mouse.wheel(0, dy);
+    await sleep(1200);
+    at = await locateMarker(page, ids);
+    if (at.error) return { ok: false, why: at.error };
+  }
+  await cursor.clickAt(at.x, at.y - 8, { duration: 850, settle: 220, after: 500 });
+  await sleep(800);
+  if (!(await ui(page).locator(INFO).count())) return { ok: false, why: `the pin at ${Math.round(at.x)},${Math.round(at.y)} opened no popup` };
+  await sleep(after);
+  const label = (await ui(page).locator('.ol-overlay-container').first().textContent().catch(() => '')).replace(/\s+/g, ' ').trim().slice(0, 48);
+  return { ok: true, id: at.id, label, isolated: at.isolated };
+}

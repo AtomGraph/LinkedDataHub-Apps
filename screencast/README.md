@@ -8,6 +8,29 @@ ask, each step follows from the one before, and it ends by answering it — usua
 by writing the finding into a ContentMode document, so the recording leaves an
 artefact behind rather than a memory.
 
+It also opens on a frame worth watching. The document a scene starts from is chosen
+so that its loaded render — a map of pins, a grid of photographs, a force graph — is
+already the strongest thing the clip has, because the first two seconds decide who
+stays. That is a property of the workflow, not of the edit: nothing is lifted forward,
+and the page the scene writes into is opened late, once there is something to put on
+it.
+
+The five scenes, in the order they answer best:
+
+| Scene | opens on | question |
+|---|---|---|
+| `02-where-we-have-nobody` | `/territories/`, 53 pins | which territories have no sales rep? |
+| `04-is-our-beverages-theirs` | `/categories/`, eight photographs | does a published vocabulary mean what we mean? |
+| `06-worked-from-london` | `/employees/`, nine faces | which US territories are worked from London? |
+| `07-one-rep-for-the-south` | `/territories/`, 53 pins | how thinly is each region staffed? |
+| `08-late-customer-or-shipper` | a late order in Graph mode | do late orders follow the customer or the carrier? |
+| `09-opening-houston` | `/territories/`, 53 pins | a new territory, created from the region's own list |
+| `10-the-dearest-thing` | `/categories/`, eight photographs | the dearest product's bare page, documented from outside |
+
+Each of those five writes a block saying *why* the opening state was on screen and what
+it could not answer — a strong first frame the rest of the clip never refers back to is
+decoration, and the seam shows.
+
 ## Running
 
 ```bash
@@ -15,7 +38,7 @@ make screencasts BASE=https://northwind-traders.demo.localhost \
   CERT_FILE=../../linkeddatahub.com/ssl/owner/keystore.p12 \
   CERT_PASSWORD_FILE=../../linkeddatahub.com/secrets/owner_cert_password.txt
 
-make scene SCENE=02-briefing FLAGS=--headed   # watch one drive
+make scene SCENE=02-where-we-have-nobody FLAGS=--headed   # watch one drive
 make screenshots                              # stills only, no video
 make mp4 DWELLS="2 4"                         # compare pacings
 make probe PATH_=/products/                   # dump a page's chrome
@@ -35,6 +58,13 @@ transcode is **paced**: `render/pace.mjs` detects static stretches with ffmpeg's
 `freezedetect` and speeds only those up, leaving pointer travel, typing and redraws
 at 1x. A uniform speed-up scales the gestures too and reads as fast-forward. The
 sidecar is remapped onto the new timeline, since the mapping is piecewise.
+
+Then `render/head.mjs` cuts the page load off the front. That is the only edit made to
+the opening, and it is a trim rather than a rearrangement: a scene **starts** on the
+document whose loaded render is its strongest frame, so there is no payoff to lift
+forward and nothing is shown out of order. Where to cut is measured, not chosen —
+a scene fires its first beat the instant its opening view has painted, and the trim
+lands 0.3s before it.
 
 `render/review.mjs` answers the three questions worth asking: did every beat happen
 (an aborted run does not report green), did the page end up rich, and does anything
@@ -121,15 +151,23 @@ that every baked hash resolves.
 
 ## Rules the scenes follow
 
+- **Open on the strongest frame the data gives.** A scene begins on a document whose
+  loaded render is already a map, a grid or a graph — never on the blank page it will
+  write into, and never on a payoff spliced to the front.
+- **One `page.goto()` per scene, and it is the opening.** Every later move is a click
+  the viewer can follow: the write-up page is created on camera with `Create ▸ Item`
+  after a breadcrumb to Root, and reached again the same way. A second `goto` is a cut
+  to a page nobody saw you reach.
 - **No URI is known in advance.** To reference a resource, navigate to it, copy its
   URI with the app's own control, and paste. Synthesising a `?mode=` URL is the
-  same violation in the address bar.
+  same violation in the address bar — except for the scene's own starting document,
+  where a saved layout mode is part of the bookmark.
 - **Copy the inner resource**, not the `ldh:Object` block wrapping it — nesting
   renders two stacked headers for one piece of content.
 - **No no-op gestures.** Do not switch to a mode already in force; helpers return
   `'already'` so a beat can say so.
 - **Presence in the DOM is not availability.** Collapsed `<details>`, ContentMode-only
-  add buttons, the `inert` hover-gated drawer, canvas-drawn map pins and
+  add buttons, the `inert` hover-gated drawer, canvas-drawn map pins (the harness captures the `ol.Map` instances, so a pin is located by its resource URI) and
   hover-revealed copy controls each need a real gesture first.
 - **Scope to the active pane.** Inactive tabs stay in the DOM, so an unscoped
   locator can drive a tab nobody is looking at — see `lib/dom.mjs`.

@@ -220,6 +220,156 @@ menu, or render an empty state saying the document describes no geometry. Fallin
 back to centre 0,0 zoom 2 is the one outcome that looks like a bug.
 
 
+## 7. A two-series chart labels its axis with the first series' name
+
+**Severity** Low — the chart is readable, but the label on it is wrong.
+
+**Reproduce**
+1. Save a SELECT returning one literal axis variable and two aggregates, e.g.
+   `?rep`, `(COUNT(…) AS ?territories)`, `(COUNT(…) AS ?orders)`.
+2. From the query block's action bar, Create a Result set chart: Bar chart,
+   Category `rep`, Series `territories` **and** `orders`.
+
+**Observed** The bars are correct and both series render with a legend. The value axis
+is titled **`territories`** while its scale runs 0–160, which is the range of `orders`
+(max 156; `territories` maxes at 10). So the axis is named after the first series and
+scaled to the second.
+
+**Measured** on `/workload/`, the chart built by `01-who-carries-the-load`: axis title
+`territories`, gridlines at 0, 20, … 160, `orders` reaching 156 for Peacock.
+
+**Where to start** `client/block/chart.xsl`, the same data-table construction that
+FINDINGS #3 is about. A single-series chart has one honest name for the axis; with two
+there is none, so the axis title should be dropped rather than guessed — the legend
+already names both.
+
+---
+
+## 8. `block-html` throws on a page carrying a proxied resource
+
+**Severity** Low — twice per load, nothing visibly fails.
+
+**Observed** Loading a ContentMode document that embeds a resource from another
+dataspace through the proxy raises, twice:
+
+```
+Required cardinality of value in 'xsl:variable name="Q{}block-html"' expression is
+exactly one; supplied value is empty
+```
+
+Seen on `/category-alignment/` once the UNESCO concept is embedded beside the local
+category grid, alongside six `404 (Not Found)` resource loads on the same page. The
+blocks render regardless, so this is noise hiding real errors rather than a failure —
+the same category as the `[object DocumentFragment]` entry below, but this one does
+correlate with a gesture, which makes it worth chasing first.
+
+---
+
+## 9. The chart pane selects every variable as a series, including the category
+
+**Severity** Low — self-inflicted error message on a form that just opened.
+
+**Reproduce**
+1. Save a SELECT with a literal category and one or more aggregates.
+2. Open its block's **Chart** tab.
+
+**Observed** The Series multi-select arrives with **every** result variable selected,
+the category among them. With `?city` and `?orders` that draws the city twice — a
+Table with two identical columns. With `?rep`, `?territories` and `?orders` and a bar
+chart it draws nothing and shows a red banner instead:
+
+```
+All series on a given axis must be of the same data type
+```
+
+The category is a string and the aggregates are integers, so the default selection is
+guaranteed to be invalid the moment the chart type is anything but Table. Correcting
+the Series makes it render; nothing else is wrong.
+
+**Suggested fix** Default the Series to the variables that are *not* bound to the
+Category — or to the numeric ones. The current default is never the one wanted.
+
+**And it comes back after a successful save.** Creating a chart from the pane's own
+Create button writes a correct resource — verified on `/workload/`:
+`ldh:categoryVarName "rep"`, `ldh:seriesVarName "territories", "orders"`,
+`ldh:chartType ac:BarChart`. The pane behind it then re-renders **back to the invalid
+default**, so a successful action leaves a red error on screen. The configuration the
+user just confirmed by saving is discarded rather than kept.
+
+Even reading the pane as a scratch surface whose artifact is the saved chart, resetting
+to a state that immediately errors is the wrong reset: the valid configuration is
+inferable — numeric variables as series, the string one as category — and was just
+demonstrated.
+
+The block offers no tab to switch away to, so nothing in the UI dismisses it.
+
+**Working around it on camera** `lib/constructors.mjs` `configureChart()` sets the chart
+type first, then the category, then the series **last** — the reverse order looks right
+and is worse, because changing the type re-renders the pane and resets the multi-select,
+which saves the error into the chart. The selection is read back and re-applied once
+rather than assumed.
+
+---
+
+## 10. A class without a constructor gets an empty Create form, and Save writes a nameless document
+
+**Where** the `button.add-instance` on a derived inverse view (`client/block/view.xsl:493`),
+on `/regions/4/` — "Cities in this region" — where the class is `schema:City`.
+
+**What happens** The modal opens with the type chip ("Territory") and the add-property
+combobox, and nothing else: the Northwind ontology defines a constructor for
+`schema:Product` only. Save is enabled, and it creates a document under `/territories/`
+holding one typed, nameless fragment resource — which then counts in the view ("Total
+results 10" for eight territories) and, having no coordinates, plots nowhere.
+
+**Expected** Either the form says the class has no constructor and offers to build one, or
+Save is held back until the resource has at least a name — the ontology's own
+`ldh:MissingPropertyValue` constraint exists for exactly this, and the shape it would check
+against is what is missing.
+
+**Worked around** the demo ontology gets a Territory constructor
+(`demo/northwind-traders/admin/model/ns.ttl`, `:CityConstructor`), PATCHed into
+`admin.northwind-traders…/ontologies/namespace/` as a single `INSERT … WHERE {}` and made
+live with `ldh admin clear ontology` against the **admin** base (against the end-user base
+`/clear` is 403); the two nameless documents were deleted. Three inverse views went in the
+same way — `:ProductsInCategory`, `:EmployeesServingTerritory`, `:DirectReports` — so
+category, territory and employee pages list what points at them.
+
+---
+
+## 11. A stack restart drops the dataspace's package imports
+
+**Where** `linkeddatahub.com` compose stack; `ldh packages list -b https://northwind-traders…`.
+
+**What happens** After `docker compose restart` the Taxonomy Editor package reads
+`available` again, and a `packages add` issued while the entrypoint is still initialising is
+overwritten by it: `/` answers 200 from the cache well before the settings are rewritten, so
+"the stack is up" is not "the entrypoint is done". Re-adding after Tomcat's startup message
+sticks.
+
+**Cost** scene 04's `skos:exactMatch` typeahead comes up empty (the SKOS vocabulary
+arrives only with the package), and the scene fails 105 s in.
+
+---
+
+## 12. Table mode promises sortable columns and its headers are labels
+
+**Where** any view in Table mode — the layout switcher describes it as "Property values
+in sortable columns"; seen on the derived "Products in this category" view on
+`/categories/1/`.
+
+**What happens** A header is `<th scope="col"><span title="https://schema.org/price">Price</span></th>`:
+no control, no `aria-sort`, and clicking it changes nothing. Twelve beverages stay in
+document order however many times Price is clicked.
+
+**Expected** Either the headers sort — the toolbar already knows how to order a view — or
+the mode description stops saying they do.
+
+**Cost** scene 10 planned to sort the category's products by price to bring the dearest to
+the top; it reads the column instead.
+
+---
+
 ## Not reproduced / not attributed
 
 - **`Terminated with [object DocumentFragment]`** appears twice on essentially every
@@ -239,5 +389,13 @@ back to centre 0,0 zoom 2 is the one outcome that looks like a bug.
 - **`:5443` resolves an app base without its port.** Passing the client-cert port as
   `--proxy` to an installer whose base carries `:4443` makes every write 400, since
   the document URIs then sit outside the app's base.
+- **SKOS properties are not offered by the RDFa annotation typeahead until the
+  Taxonomy Editor package is imported.** `ldh packages list` reports it as `available`
+  rather than `installed` on a fresh Northwind, and with it missing the property
+  combobox answers `exact` with nothing at all — not a slow lookup, an empty panel
+  after 10s. `ldh packages add --package https://packages.linkeddatahub.com/editor/taxonomy/#this`
+  restores it and takes effect without a restart. The vocabulary a dataspace offers is
+  the vocabulary its packages bring, so a scene that annotates with `skos:exactMatch`
+  depends on that import the way it depends on the data.
 - **The app centres a ~1230 px content column**, so a 1920-wide capture is mostly
   empty gradient with small type. Scenes render at 1440×810.

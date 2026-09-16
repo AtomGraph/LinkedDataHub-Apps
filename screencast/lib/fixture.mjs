@@ -11,9 +11,10 @@
 import { spawn } from 'node:child_process';
 import fs from 'node:fs/promises';
 
-function run(cmd, args) {
+function run(cmd, args, input = null) {
   return new Promise((resolve) => {
     const p = spawn(cmd, args);
+    if (input !== null) { p.stdin.write(input); p.stdin.end(); }
     let out = '', err = '';
     p.stdout.on('data', (d) => (out += d));
     p.stderr.on('data', (d) => (err += d));
@@ -77,4 +78,48 @@ export async function removeAll({ ldh, certFile, certPassword, certPasswordFile,
     gone.push([url, r.code === 0]);
   }
   return gone;
+}
+
+// Removing last take's write-up document, off camera, when its path is not known.
+//
+// A document created on camera through Create ▸ Item lands at a UUID path, so there
+// is no slug to reset by. The title is stable, so the previous take's document is
+// found by it and deleted before the browser context exists — the same off-camera
+// discipline as resetDocument, keyed differently. Exact title match, scoped to this
+// base; the store is shared across dataspaces.
+export async function deleteByTitle({ ldh, base, certFile, certPassword, certPasswordFile, title }) {
+  const root = base.endsWith('/') ? base : `${base}/`;
+  const endpoint = `${root}sparql`;
+  const q = `PREFIX dct: <http://purl.org/dc/terms/>
+SELECT DISTINCT ?doc WHERE { GRAPH ?doc { ?s dct:title ${JSON.stringify(title)} } FILTER(STRSTARTS(STR(?doc), ${JSON.stringify(root)})) }
+# ${Date.now()}`;
+  const prev = process.env.NODE_TLS_REJECT_UNAUTHORIZED;
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+  let urls = [];
+  try {
+    const u = new URL(endpoint); u.searchParams.set('query', q);
+    const r = await fetch(u, { headers: { Accept: 'application/sparql-results+json' } });
+    if (r.ok) urls = (await r.json()).results.bindings.map((b) => b.doc.value);
+  } finally {
+    if (prev === undefined) delete process.env.NODE_TLS_REJECT_UNAUTHORIZED; else process.env.NODE_TLS_REJECT_UNAUTHORIZED = prev;
+  }
+  if (!urls.length) return { removed: [] };
+  const gone = await removeAll({ ldh, certFile, certPassword, certPasswordFile, urls });
+  return { removed: gone.filter(([, ok]) => ok).map(([u]) => u), failed: gone.filter(([, ok]) => !ok).map(([u]) => u) };
+}
+
+// Stripping last take's content blocks off an EXISTING document, off camera.
+//
+// A scene that documents a record the demo already has — a product page — writes
+// its blocks onto that page, and the next take must start from the bare page again.
+// The document itself stays: only the ldh:XHTML / ldh:Object blocks and the rdf:_N
+// slots that hold them go, through the document's own PATCH.
+export async function clearBlocks({ ldh, certFile, certPassword, certPasswordFile, url }) {
+  const password = certPassword ?? (certPasswordFile ? (await fs.readFile(certPasswordFile, 'utf8')).trim() : null);
+  if (!password) throw new Error('clearBlocks needs --cert-password or --cert-password-file');
+  const update = `PREFIX ldh: <https://w3id.org/atomgraph/linkeddatahub#>
+DELETE { <${url}> ?slot ?block . ?block ?p ?o }
+WHERE { <${url}> ?slot ?block . ?block a ?type . FILTER(?type IN (ldh:XHTML, ldh:Object)) FILTER(STRSTARTS(STR(?slot), "http://www.w3.org/1999/02/22-rdf-syntax-ns#_")) ?block ?p ?o }`;
+  const r = await run(ldh, ['patch', url, '-f', certFile, '-p', password], update);
+  return { ok: r.code === 0, out: String(r.err || r.out).split(password).join('••••').slice(0, 300) };
 }

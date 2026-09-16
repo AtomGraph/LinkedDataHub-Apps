@@ -9,6 +9,7 @@
 // authoring in the app's own idiom rather than a demo-only path.
 
 import { ui, settled } from './dom.mjs';
+import { currentDocumentMode } from './modes.mjs';
 import { field } from './constructors.mjs';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -269,7 +270,14 @@ export async function copyUri(page, cursor, within, { match = null } = {}) {
 
 // The document-level mode switcher, for reaching ContentMode without inventing a
 // ?mode= query string.
+//
+// Returns 'already' when no gesture was needed — same contract as switchViewMode, and
+// for the same reason: a fresh document opens in Properties, so asking for Properties
+// films a menu opening and closing for nothing, which reads as a script working
+// through a list rather than a person choosing a view.
 export async function switchDocumentMode(page, cursor, mode = 'content-mode', { settle = 3000 } = {}) {
+  if ((await currentDocumentMode(page)) === mode) return 'already';
+
   const toggle = ui(page).locator('button.layout-modes.drop-toggle, button[title="Mode"]').first();
   const item = ui(page).locator(`.modes-pop a.mi.${mode}`).first();
   for (let i = 0; i < 3; i++) {

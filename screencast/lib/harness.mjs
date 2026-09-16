@@ -106,6 +106,7 @@ export async function resolve(pathname = '/') {
 export async function runScene({
   id,
   target,
+  warm = null,
   identity = null,
   geometry = { width: 1920, height: 1080, deviceScaleFactor: 2 },
   overlays = { cursor: true },
@@ -139,12 +140,52 @@ export async function runScene({
     { name: 'LinkedDataHub.first-time-message', value: 'true', domain: hostname, path: '/' },
   ]);
 
-  // The recording starts with the context, so the clock does too.
-  const marks = new Marks(id).start();
   console.log(`\n▶ ${id}  →  ${target}`);
 
   if (overlays.cursor) await context.addInitScript(CURSOR_INIT);
+  // The app keeps no handle to its OpenLayers maps (map.xsl builds one in a local
+  // variable), but every pin is a feature whose id is the resource URI. Wrapping the
+  // constructor before the bundle loads collects the instances, so a scene can ask a
+  // map where a known resource's pin is and click it once — instead of opening pins
+  // in turn until one turns out to be the right one.
+  await context.addInitScript(() => {
+    let ol;
+    Object.defineProperty(window, 'ol', {
+      configurable: true,
+      get() { return ol; },
+      set(v) {
+        if (v && v.Map && !v.Map.__captured) {
+          const Orig = v.Map;
+          const Captured = function (...a) { const m = new Orig(...a); (window.__olMaps ||= []).push(m); return m; };
+          Captured.prototype = Orig.prototype;
+          Object.setPrototypeOf(Captured, Orig);
+          Captured.__captured = true;
+          v.Map = Captured;
+        }
+        ol = v;
+      },
+    });
+  });
 
+  // The opening state IS the money shot, so the take must not begin on a loading
+  // shell. A throwaway page loads the opening document first — off camera, like the
+  // fixture reset and the first-time-message cookie — which warms Varnish and fills
+  // the browser cache with the SEF, the stylesheets and the images. The recorded page
+  // then paints the rendered view instead of a spinner. Nothing is trimmed or
+  // reordered afterwards; the first frame is simply the frame the scene starts on.
+  if (warm) {
+    const scout = await context.newPage();
+    await scout.goto(warm, { waitUntil: 'load' }).catch(() => {});
+    await scout.waitForSelector('.ldh-view-toolbar, .ldh-block', { timeout: 20_000 }).catch(() => {});
+    await sleep(3000);
+    const scoutVideo = scout.video();
+    await scout.close();
+    if (scoutVideo) await scoutVideo.delete().catch(() => {});
+    console.log(`  warmed  ${warm}`);
+  }
+
+  // Video is per page and starts when the page is created, so the clock starts here.
+  const marks = new Marks(id).start();
   const page = await context.newPage();
   const cursor = makeCursor(page);
 

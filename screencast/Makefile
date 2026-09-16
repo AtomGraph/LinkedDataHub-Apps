@@ -50,16 +50,10 @@ DWELLS ?=
 SPEED ?= 1
 SPEEDS ?= $(SPEED)
 
-# Which beat each scene cold-opens on: the moment the workflow was FOR, lifted to
-# the front, because the first two seconds decide whether the rest is watched and
-# every scene honestly begins on an empty page.
-# scene:teaser-beat:first-body-beat — the teaser is lifted to the front, and the
-# empty opening before the body beat is cut, so the flash-forward does not cut back
-# into fifteen seconds of blank page.
-OPENS ?= 01-follow-the-thread:where:who 02-briefing:map:question \
-         03-coverage:all-suppliers:question 04-alignment:align:question \
-         05-repeatable:embed:question 06-who-touches:expand-1:question
-HOLD ?= 2.5
+# A scene opens on the document whose loaded render IS its strongest frame, so there
+# is no teaser to configure and no beat to lift. All that is left is the page load in
+# front of it, which `render/head.mjs` trims to the first beat — measured, since a
+# scene fires that beat the instant its opening view has painted.
 
 # Extra uniform speed-ups emitted ALONGSIDE the paced cut, from the paced cut — so
 # the dead air is already compressed and the multiplier applies on top of that.
@@ -77,15 +71,13 @@ DOCS_DEST ?= ../docs
 DOCS_WIDTH ?= 2240
 DOCS_QUALITY ?= 90
 
-.PHONY: help deps screencasts screenshots docs-publish docs-fill scene probe mp4 mp4-uniform opens clean
+.PHONY: help deps screencasts screenshots docs-publish docs-fill scene probe mp4 mp4-uniform clean
 
 help:
 	@echo "make screencasts [BASE=…] [CERT_FILE=…] [CERT_PASSWORD=…] [FLAGS=…]"
 	@echo "                    render every scene in scenes/ to tracks/"
-	@echo "make scene SCENE=01-follow-the-thread [FLAGS=--headed]"
+	@echo "make scene SCENE=02-where-we-have-nobody [FLAGS=--headed]"
 	@echo "                    render one scene"
-	@echo "make opens [HOLD=2.5]"
-	@echo "                    lift each scene's payoff beat to the front"
 	@echo "make mp4 [DWELL=3] [DWELLS=\"2 4\"] [CRF=20] [EXTRA_SPEEDS=\"1.5\"]"
 	@echo "                    transcode to H.264, speeding up only the dead air,"
 	@echo "                    plus a uniform Nx of that paced cut (default 1.5x)"
@@ -114,7 +106,6 @@ screencasts: deps
 		node scenes/$$s.mjs $(OPTS) $(FLAGS) || exit 1; \
 	done
 	@$(MAKE) --no-print-directory mp4
-	@$(MAKE) --no-print-directory opens
 
 # Stills only — no video, one PNG per beat. Fills the docs' 33 empty placeholders.
 screenshots: deps
@@ -161,6 +152,7 @@ mp4:
 		if [ -z "$(DWELLS)" ]; then \
 			node render/pace.mjs "$$w" "$$b.mp4" --dwell $(DWELL) --crf $(CRF) \
 				--marks "$$b.marks.json" --out-marks "$$b.paced.marks.json" || exit 1; \
+			node render/head.mjs "$$b.mp4" --marks "$$b.paced.marks.json" --crf $(CRF) || exit 1; \
 			for sp in $(EXTRA_SPEEDS); do \
 				echo "── $$b-$${sp}x.mp4"; \
 				ffmpeg -y -loglevel error -i "$$b.mp4" -filter:v "setpts=PTS/$$sp" -an \
@@ -175,16 +167,6 @@ mp4:
 					--marks "$$b.marks.json" --out-marks "$$b-dwell$${d}x.marks.json" || exit 1; \
 			done; \
 		fi; \
-	done
-
-# Cold opens. Run after mp4: reads the paced cut and its marks, lifts the named beat
-# to the front, and shifts the edit list to match.
-opens:
-	@for pair in $(OPENS); do \
-		scene="$${pair%%:*}"; rest="$${pair#*:}"; beat="$${rest%%:*}"; from="$${rest#*:}"; \
-		[ -f "tracks/$$scene.mp4" ] || continue; \
-		node render/cold-open.mjs "tracks/$$scene.mp4" --beat "$$beat" --from "$$from" \
-			--hold $(HOLD) --crf $(CRF) || exit 1; \
 	done
 
 mp4-uniform:

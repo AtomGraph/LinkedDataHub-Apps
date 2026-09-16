@@ -81,17 +81,70 @@ typed *title* is in.
 input: it opens the search dialog on submit, and the dialog renders its results as an
 ordinary view. There is no typeahead dropdown on it.
 
-**In 3D graph mode, double-click a node to expand it.** Its properties appear and the
-graph grows to include what it points at, following the data rather than the document
-— so the expansion crosses document boundaries and pulls in nodes from elsewhere. A
-single click only shows details. This is the strongest thing graph mode does: a
-static force layout is a hairball, an expanding one is the graph being walked.
+**Graph mode has three node gestures, and they do three different things**
+(`client/graph3d.xsl`). **Double-click expands forward**: the node's properties appear
+and the graph grows to include what it points at, following the data rather than the
+document, so the expansion crosses document boundaries. **Right-click expands
+backwards** along the backlinks — what points *at* this node. **Single click selects**:
+it renders the node's description into `#info-content-<canvas-id>`.
+
+That info panel is the way out of the canvas. `rdf:Description` in mode
+`ldh:graph3d-info` emits `<a href="{$node-id}" target="_blank">`, so the node's URI is
+an ordinary link and clicking it opens the document in a new browser tab — the app does
+not intercept it. **The graph is therefore not a dead end**, and a scene that opens on
+it does not have to leave graph mode to prove the canvas is part of the application.
+
+Two things about that link, both found the hard way. It appears **only for a node that
+has a description in the loaded graph**: the click handler falls back to rendering the
+bare label for a stub, and that fallback emits no anchor — so select a node *after*
+expanding it, not before. And the anchor is inline inside a taller `<dd>`, so the
+centre of its bounding box resolves to the `<dd>`; a click aimed there is refused by the
+hit-target check while the link sits visibly under the pointer. `lib/graph.mjs`
+`select()` returns a point that `elementFromPoint` actually resolves to the anchor.
+
+A static force layout is a hairball; an expanding one is the graph being walked.
 
 **Every block has a backlinks button** (`button.tb-links`), which traverses the graph
 backwards — the only route from a resource to what points at it. What it yields
 depends on which way the data points: `/employees/2/` lists ten referrers,
 `/products/1/` five, `/orders/10265/` one, `/customers/` none. Check before building a
-beat on it.
+beat on it — and check *what* it yields, not just how many. On a territory it answers
+with the content blocks that reference it rather than with the rep who serves it,
+because `schema:areaServed` points from the employee and a block reference is a
+referrer too. A backlinks beat that expected a person gets a list of `id<uuid>` blocks.
+
+**A map marker's popup carries the resource's own controls**, so a pin is a drill-down
+and not just a dot: the popup holds the title as a link, the type chip, `button.tb-links`,
+`button.btn-copy-uri`, `button.btn-edit`, and the resource's property values as links —
+including `schema:containedInPlace`, which is how a territory reaches its region without
+leaving the map.
+
+**The pin is chosen before the click, never by clicking.** Opening pins in turn until one
+turns out to be Southern is trial and error on camera — a viewer sees the cursor wander,
+and a pixel scan cannot tell pins apart or even find the ones that overlap. The harness
+captures every `ol.Map` the page builds (`window.__olMaps`, `lib/harness.mjs`), and each
+feature's id is the resource URI (`client/map.xsl`), so `clickMarker(page, cursor, uris)`
+asks the map where a known resource's pin is, scrolls it into view if it is below the fold,
+and clicks it once. The URIs come from a read-only SPARQL query at scene start
+(`lib/sparql.mjs`), like every other value a scene depends on.
+
+**A graph node is under the pointer only when the canvas says so.** The 3D projection
+of a node is not where its click lands: label sprites are drawn above every node and take
+hits, so a double-click aimed at a customer once dereferenced the `schema:Order` class
+sitting 16 px below it and pulled 97 nodes of schema.org into the canvas. The canvas
+dispatches `ForceGraph3DNodeHoverOn` with the hovered node's id
+(`client/3d-force-graph.xsl`), so `approach()` in `lib/graph.mjs` moves the pointer, reads
+that id back, tries a ring of nearby points, and turns the view by dragging when none of
+them is the node meant — and `expand()` confirms afterwards that the document it loaded is
+the node's own. Nothing on the canvas is clicked on a projected coordinate alone.
+
+**The strongest scenes close a loop: read → write → the same read again.** Opening Houston
+works because the territory map is read at the open (53), a territory is created, and the
+same map is read at the close (54). The write is not the point; the second read is — it
+shows the app answering to what was just put into it. A scene that reads, then writes a
+query or a chart, then reads *that*, has added a lens; the data it opened on is unchanged,
+and the clip is thinner for it. So: open on evidence, write into the data, and end on the
+evidence re-read through the same view, query or chart. Scored as **C** in the rubric.
 
 **Returning from a proxied dataspace is a tab switch, not browser back** — and a tab
 switch does not change the URL.
@@ -249,15 +302,85 @@ cache — not in the URL, not on the resource. What persists is a saved `SELECT`
 view block, a chart's type and axes, an `ldh:Object` reference, and prose. So:
 explore with facets, then express the finding as a query or a chart and save that.
 
-**The first two seconds are the strongest thing in the clip.** Length is not what
-loses viewers — the opening is; a 60s clip and a 15s clip shed the same people in the
-first two seconds, so length is cheap and the opening is expensive. Cold-open on the
-payoff — the map filled with pins, the graph expanding, the finished page — then cut
-back to the question and show how it was reached. Every scene as built opens on an
-*empty document*, which is the worst available frame in the only two seconds that
-matter. The opening must be a **real moment from this take**: a cold open showing
-something the workflow never produces is the same lie as a staged screenshot. The
-marks sidecar makes it a trim, not a re-record.
+**The first two seconds are the strongest thing in the clip, so the scene must START
+there.** Length is not what loses viewers — the opening is; a 60s clip and a 15s clip
+shed the same people in the first two seconds, so length is cheap and the opening is
+expensive.
+
+The answer is **not** a cold open. Lifting a later beat to the front is an edit, and
+an edit that shows a moment out of order is the same lie as a staged screenshot —
+worse, it tells the viewer the workflow had nothing worth watching where it actually
+began. What the scene does instead is **begin on a document whose loaded render is
+already its strongest frame**:
+
+| Document | what it renders without a gesture |
+|---|---|
+| `/territories/` | `ac:MapMode` — 53 pins |
+| `/employees/` | `ac:GridMode` — nine photographs |
+| `/categories/` | `ac:GridMode` — eight food photographs |
+| an order, in Graph mode | 28 nodes and 52 links on the dark canvas |
+| `/` | the dashboard's charts |
+| `/orders/`, `/products/`, `/customers/` | `ac:TableMode` — the weakest openings in the dataspace |
+
+Read the mode off the document rather than assuming it: it is `ac:mode` on the view
+block, and it is what decides whether an opening is a map or a table.
+
+**And the opening state has to be paid for, before the work starts.** A strong first
+frame the clip never refers back to is decoration, and the viewer feels the seam. The
+page the scene leaves behind must carry an `ldh:XHTML` block saying *why that state was
+on screen and what it could not answer* — the map plots all fifty-three and cannot draw
+an absent rep; the dashboard answers by country and the territories are cities; the
+order book shows a row and the graph shows what the row is hiding.
+
+Three things about that block, all of them learned by getting it wrong:
+
+- **It is written BEFORE the work, not after.** Writing it at the end satisfies a grep
+  of the finished document and fails the clip: the viewer goes from a grid of faces
+  straight into Properties mode and a query editor with nothing on screen saying why.
+  The question is the beat immediately after the opening exploration, and every
+  authoring beat comes after it.
+- **The blank page it is typed onto is fine.** That is the mid-clip blank the opening
+  rule already permits, and two seconds of it costs nothing where it lands.
+- **It has to survive pacing.** `freezedetect` speeds a static stretch threefold, so a
+  700 ms hold after the beat is a fifth of a second in the cut — not a sentence anybody
+  read. Hold ~3 s minimum, and check the gap to the next beat in the paced sidecar
+  rather than trusting the raw timeline.
+
+**And every move after the opening is a click the viewer can follow.** A scene has
+exactly one `page.goto()` — the document it opens on. Reaching the write-up page by a
+second `goto` is a teleport: the viewer sees the opening state, then a different page,
+and nothing in between that they could have done. It reads as a cut to something
+unrelated, whatever the page says once it loads. So the write-up page is **created on
+camera, from where the scene is** — breadcrumb up to Root (`a.bc-pill` in the action
+bar's `div[role="navigation"]`, present in every layout mode, graph included), then
+`Create ▸ Item`, whose modal opens inside the active pane with a Title and no slug, and
+whose Save lands on the new page in Properties. Its path is a UUID, so the previous
+take's page is removed off camera **by title** (`fixture.mjs` `deleteByTitle`), not
+reset by slug.
+
+Getting back to that page later has three routes that fail and one that works,
+measured: the drawer's search does **not** return a page created a minute earlier; the
+app opens no tab for a same-dataspace move; the tree lists it but would not open from
+graph mode. The container's own children list shows it at once, on one page — so the
+way back mirrors the way out: breadcrumb to Root, then the page's entry in the list
+(`nav.mjs` `listGo`). Leaving a graph to come back to one: the drawer's search by
+identifier, then the mode switcher — not the opening bookmark a second time.
+
+`grep -c 'page.goto(' scenes/*.mjs` must print `1` for every scene. It is the cheapest
+check in the rig and it catches the defect that every other check missed.
+
+The corollary is that **the document a scene writes into is opened late**. A blank
+page is the honest start of the authoring half and the worst possible first frame, so
+the scene explores first, and the fixture is opened once there is something to put on
+it — mid-clip, where two seconds of empty page costs nothing.
+
+What is left in front of the opening state is the page load, and that IS trimmed:
+`render/head.mjs` cuts to the first beat, which a scene fires the instant its opening
+view has painted. Warming the document off camera (`runScene({ warm })`) shortens the
+load but does not remove it — the remaining second is Saxon-JS and the map library
+drawing, which is CPU in the browser rather than network. Waiting on paint, not
+presence: an `<img>` is in the DOM a beat before it decodes, which is how one take
+opened on a grid of nine white boxes.
 
 **Scenes are workflows, not tours.** Open on a question a real user would have, let
 each step follow from the one before, and end by answering it. Reaching for a control

@@ -11,6 +11,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // The label the toggle shows for each mode class.
 const LABELS = {
+  'content-mode': 'Content',
   'read-mode': 'Properties',
   'list-mode': 'List',
   'table-mode': 'Table',
@@ -70,4 +71,17 @@ export async function switchViewMode(page, cursor, mode, { settle = 2200, tries 
     }
   }
   return false;
+}
+
+// The same reading, for the DOCUMENT-scope switcher in the action bar. Its toggle
+// carries the active mode as its label exactly as the view toolbar's does, so a
+// scene can tell whether a switch is needed before opening a menu for nothing.
+export async function currentDocumentMode(page) {
+  const toggle = ui(page).locator('button.layout-modes.drop-toggle, button[title="Mode"]').first();
+  if (!(await toggle.count())) return null;
+  const text = (await toggle.textContent().catch(() => '')).replace(/expand_more/g, '').trim();
+  for (const [cls, label] of Object.entries(LABELS)) {
+    if (text.toLowerCase().endsWith(label.toLowerCase())) return cls;
+  }
+  return null;
 }
