@@ -40,3 +40,41 @@ export async function resetDocument({ ldh, base, certFile, certPassword, certPas
   }
   return { url: made.out || url, deleted: gone.code === 0 };
 }
+
+// The scratch container a docs shot writes into.
+//
+// Shots that document an ACT of authoring — annotating a word, uploading a file,
+// creating a resource — have to write somewhere, and writing into the demo data is
+// not on: the demo is the showcase, and anything left behind becomes somebody's
+// puzzle later. So a run provisions its own container, uses it, and removes it.
+//
+// Reset rather than create: delete first, so a run that died before teardown does
+// not poison the next one. Nothing here assumes a document that some earlier session
+// happened to leave lying around.
+export async function resetContainer({ ldh, base, certFile, certPassword, certPasswordFile, parent, slug, title }) {
+  const password = certPassword ?? (certPasswordFile ? (await fs.readFile(certPasswordFile, 'utf8')).trim() : null);
+  if (!password) throw new Error('resetContainer needs --cert-password or --cert-password-file');
+
+  const root = base.endsWith('/') ? base : `${base}/`;
+  const auth = ['-b', root, '-f', certFile, '-p', password];
+  const scrub = (t) => String(t).split(password).join('••••');
+
+  await run(ldh, ['delete', `${(parent ?? root).replace(/\/$/, '')}/${slug}/`, ...auth.slice(2)]);
+  const made = await run(ldh, ['create', 'container', ...auth, '--parent', parent ?? root, '--title', title, '--slug', slug]);
+  if (made.code !== 0) throw new Error(`could not create container ${slug}: ${scrub(made.err || made.out).slice(0, 400)}`);
+  return made.out || `${root}${slug}/`;
+}
+
+// Remove what a run created: the documents it made, then the container itself. A shot
+// that creates through the UI declares the slugs it will leave behind, because the
+// runner cannot see them otherwise.
+export async function removeAll({ ldh, certFile, certPassword, certPasswordFile, urls }) {
+  const password = certPassword ?? (certPasswordFile ? (await fs.readFile(certPasswordFile, 'utf8')).trim() : null);
+  const auth = ['-f', certFile, '-p', password];
+  const gone = [];
+  for (const url of urls) {
+    const r = await run(ldh, ['delete', url, ...auth]);
+    gone.push([url, r.code === 0]);
+  }
+  return gone;
+}

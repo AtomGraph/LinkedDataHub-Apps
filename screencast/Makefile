@@ -50,19 +50,52 @@ DWELLS ?=
 SPEED ?= 1
 SPEEDS ?= $(SPEED)
 
-.PHONY: help deps screencasts screenshots scene probe mp4 mp4-uniform clean
+# Which beat each scene cold-opens on: the moment the workflow was FOR, lifted to
+# the front, because the first two seconds decide whether the rest is watched and
+# every scene honestly begins on an empty page.
+# scene:teaser-beat:first-body-beat — the teaser is lifted to the front, and the
+# empty opening before the body beat is cut, so the flash-forward does not cut back
+# into fifteen seconds of blank page.
+OPENS ?= 01-follow-the-thread:where:who 02-briefing:map:question \
+         03-coverage:all-suppliers:question 04-alignment:align:question \
+         05-repeatable:embed:question 06-who-touches:expand-1:question
+HOLD ?= 2.5
+
+# Extra uniform speed-ups emitted ALONGSIDE the paced cut, from the paced cut — so
+# the dead air is already compressed and the multiplier applies on top of that.
+# 1.5 rather than 2: pacing has already removed the waiting, so the multiplier is
+# working on gestures alone and 2x reads as fast-forward.
+# Set EXTRA_SPEEDS= to emit the paced cut alone.
+EXTRA_SPEEDS ?= 1.5
+
+# Publishing the docs shots. The shoot writes masters: 2880px lossless PNG (1440x810
+# at deviceScaleFactor 2) and both a .webm and an .mp4 per clip. None of that is what
+# a documentation page should download, and the .ttl references are content-addressed,
+# so the bytes have to be final before they are hashed.
+DOCS_OUT ?= docs/out
+DOCS_DEST ?= ../docs
+DOCS_WIDTH ?= 2240
+DOCS_QUALITY ?= 90
+
+.PHONY: help deps screencasts screenshots docs-publish docs-fill scene probe mp4 mp4-uniform opens clean
 
 help:
 	@echo "make screencasts [BASE=…] [CERT_FILE=…] [CERT_PASSWORD=…] [FLAGS=…]"
 	@echo "                    render every scene in scenes/ to tracks/"
 	@echo "make scene SCENE=01-follow-the-thread [FLAGS=--headed]"
 	@echo "                    render one scene"
-	@echo "make mp4 [DWELL=3] [DWELLS=\"2 4\"] [CRF=20]"
-	@echo "                    transcode to H.264, speeding up only the dead air"
+	@echo "make opens [HOLD=2.5]"
+	@echo "                    lift each scene's payoff beat to the front"
+	@echo "make mp4 [DWELL=3] [DWELLS=\"2 4\"] [CRF=20] [EXTRA_SPEEDS=\"1.5\"]"
+	@echo "                    transcode to H.264, speeding up only the dead air,"
+	@echo "                    plus a uniform Nx of that paced cut (default 1.5x)"
 	@echo "make mp4-uniform SPEEDS=\"1 2\""
 	@echo "                    transcode at a flat speed, gestures included"
 	@echo "make screenshots [BASE=…]"
 	@echo "                    run every scene for stills only, into shots/<scene>/"
+	@echo "make docs-publish [DOCS_WIDTH=2240] [DOCS_QUALITY=90]"
+	@echo "                    optimise docs/out/ into ../docs/, printing sha1 per file"
+	@echo "make docs-fill      point the .ttl sources at the published files (idempotent)"
 	@echo "make probe PATH=/customers/"
 	@echo "                    dump the chrome at a path, so selectors come from the app"
 	@echo "make clean          remove rendered tracks"
@@ -81,12 +114,44 @@ screencasts: deps
 		node scenes/$$s.mjs $(OPTS) $(FLAGS) || exit 1; \
 	done
 	@$(MAKE) --no-print-directory mp4
+	@$(MAKE) --no-print-directory opens
 
 # Stills only — no video, one PNG per beat. Fills the docs' 33 empty placeholders.
 screenshots: deps
 	@for s in $(SCENES); do \
 		echo "── $$s"; \
 		node scenes/$$s.mjs $(OPTS) --shots --no-video $(FLAGS) || exit 1; \
+	done
+
+# Point the .ttl sources at what docs-publish wrote. Idempotent: a re-shoot changes the
+# hash, and this rewrites the reference in place rather than needing a placeholder that
+# is no longer there. Run it after docs-publish, every time.
+docs-fill:
+	@node docs/fill.mjs
+
+# Publish the docs shots as web assets and print each one's uploads/ address.
+#
+# Stills become WebP capped at DOCS_WIDTH — true 2x for the docs' widest content
+# column, so nothing softens on a retina display while the bytes drop by ~76%.
+# The .mp4s already carry CRF 20, yuv420p and a leading moov atom, so they are
+# copied rather than re-encoded; the .webm twins are not published.
+#
+# The sha1 printed per file IS its {base}uploads/{sha1} address, which is what the
+# .ttl references are written from. Hashing the published file rather than the
+# master is the whole point of doing this before the references are written.
+docs-publish:
+	@command -v cwebp > /dev/null || { echo "cwebp is required (brew install webp)" >&2; exit 1; }
+	@find $(DOCS_OUT) \( -name '*.png' -o -name '*.mp4' \) | sort | while read -r src; do \
+		rel="$${src#$(DOCS_OUT)/}"; \
+		case "$$src" in \
+			*.png) dest="$(DOCS_DEST)/$${rel%.png}.webp"; \
+				mkdir -p "$$(dirname "$$dest")"; \
+				cwebp -quiet -q $(DOCS_QUALITY) -m 6 -sharp_yuv -resize $(DOCS_WIDTH) 0 "$$src" -o "$$dest" || exit 1;; \
+			*.mp4) dest="$(DOCS_DEST)/$$rel"; \
+				mkdir -p "$$(dirname "$$dest")"; \
+				cp "$$src" "$$dest" || exit 1;; \
+		esac; \
+		printf "%s  %s\n" "$$(sha1sum "$$dest" | cut -d' ' -f1)" "$${dest#$(DOCS_DEST)/}"; \
 	done
 
 mp4:
@@ -96,12 +161,30 @@ mp4:
 		if [ -z "$(DWELLS)" ]; then \
 			node render/pace.mjs "$$w" "$$b.mp4" --dwell $(DWELL) --crf $(CRF) \
 				--marks "$$b.marks.json" --out-marks "$$b.paced.marks.json" || exit 1; \
+			for sp in $(EXTRA_SPEEDS); do \
+				echo "── $$b-$${sp}x.mp4"; \
+				ffmpeg -y -loglevel error -i "$$b.mp4" -filter:v "setpts=PTS/$$sp" -an \
+					-c:v libx264 -preset medium -crf $(CRF) -pix_fmt yuv420p \
+					-movflags +faststart "$$b-$${sp}x.mp4" || exit 1; \
+				[ -f "$$b.paced.marks.json" ] && \
+					node render/respeed.mjs "$$b.paced.marks.json" "$$sp" "$$b-$${sp}x.marks.json"; \
+			done; \
 		else \
 			for d in $(DWELLS); do \
 				node render/pace.mjs "$$w" "$$b-dwell$${d}x.mp4" --dwell $$d --crf $(CRF) \
 					--marks "$$b.marks.json" --out-marks "$$b-dwell$${d}x.marks.json" || exit 1; \
 			done; \
 		fi; \
+	done
+
+# Cold opens. Run after mp4: reads the paced cut and its marks, lifts the named beat
+# to the front, and shifts the edit list to match.
+opens:
+	@for pair in $(OPENS); do \
+		scene="$${pair%%:*}"; rest="$${pair#*:}"; beat="$${rest%%:*}"; from="$${rest#*:}"; \
+		[ -f "tracks/$$scene.mp4" ] || continue; \
+		node render/cold-open.mjs "tracks/$$scene.mp4" --beat "$$beat" --from "$$from" \
+			--hold $(HOLD) --crf $(CRF) || exit 1; \
 	done
 
 mp4-uniform:
