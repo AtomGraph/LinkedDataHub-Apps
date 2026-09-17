@@ -170,16 +170,17 @@
                 </tbody>
             </table>
             <p>You can use either HTTP Basic authentication (username/password) or Bearer token authentication (auth token), but not both for the same service.</p>
-            <p>The default end-user service, which the Northwind Traders dataspace shares:</p>
-            <pre>&lt;urn:linkeddatahub:services/end-user&gt;
+            <p>Each dataspace has its own end-user and admin service, pointing at its own datasets in the single <a href="../configuration/#fuseki"><samp>fuseki</samp></a> server. A dataset is named after the dataspace origin with the deployment host dropped and the role appended, so the Northwind Traders end-user service reads <samp>northwind-traders.demo.end-user</samp>:</p>
+            <pre>&lt;urn:northwind-traders:services/end-user&gt;
 {
-    &lt;urn:linkeddatahub:services/end-user&gt; a sd:Service ;
-        dct:title "LinkedDataHub service" ;
+    &lt;urn:northwind-traders:services/end-user&gt; a sd:Service ;
+        dct:title "Northwind Traders service" ;
         sd:supportedLanguage sd:SPARQL11Query, sd:SPARQL11Update ;
-        sd:endpoint &lt;http://fuseki-end-user:3030/ds/&gt; ;
-        a:graphStore &lt;http://fuseki-end-user:3030/ds/&gt; ;
-        a:quadStore &lt;http://fuseki-end-user:3030/ds/&gt; .
+        sd:endpoint &lt;http://fuseki:3030/northwind-traders.demo.end-user/&gt; ;
+        a:graphStore &lt;http://fuseki:3030/northwind-traders.demo.end-user/&gt; ;
+        a:quadStore &lt;http://fuseki:3030/northwind-traders.demo.end-user/&gt; .
 }</pre>
+            <p>The root dataspace's services keep the plain <samp>end-user</samp> and <samp>admin</samp> dataset names. Several dataspaces may still share one service where isolation is not required.</p>
             <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/config/system.trig" target="_blank">config/system.trig</a></p>
             <div class="ac-alert va-informative" role="status">
                 <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>

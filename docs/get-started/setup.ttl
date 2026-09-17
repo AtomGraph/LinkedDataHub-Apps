@@ -69,7 +69,7 @@ OWNER_COUNTRY_NAME=DK</pre>
                 <pre>LinkedDataHub/
 ├── config/     # dataspace and service configuration (dataspaces.trig, system.trig)
 ├── datasets/   # owner and secretary agent metadata
-├── fuseki/     # the backend triplestores' persisted RDF data
+├── fuseki/     # the triplestore's persisted RDF data, one TDB2 directory per dataset
 ├── ssl/
 │   ├── owner/      # your WebID certificate (keystore.p12)
 │   └── secretary/  # the service agent's certificate

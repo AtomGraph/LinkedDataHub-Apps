@@ -30,7 +30,8 @@
             <p>To create a new dataspace:</p>
             <ol>
                 <li>Add instances of <code>lapp:EndUserApplication</code> and <code>lapp:AdminApplication</code> to <samp>config/dataspaces.trig</samp>, following the default dataspace as a template</li>
-                <li>Add corresponding <code>sd:Service</code> instances to <samp>config/system.trig</samp> with the SPARQL endpoint connection details</li>
+                <li>Declare an <samp>end-user</samp> and an <samp>admin</samp> dataset for the dataspace in <samp>config/fuseki/config.ttl</samp>, named after its origin (deployment host dropped, role appended)</li>
+                <li>Add corresponding <code>sd:Service</code> instances to <samp>config/system.trig</samp>, each pointing at one of those datasets, and bind the applications to them</li>
             </ol>
             <p>The relationship between end-user and admin applications is automatically inferred based on naming conventions — you do not need to specify
             <code>lapp:endUserApplication</code> or <code>lapp:adminApplication</code> properties manually. Applications whose origin (<code>lapp:origin</code>) uses the
@@ -51,7 +52,7 @@
     </div>
     <div>
         <h2 id="manage-services">Manage services</h2>
-        <p>The LinkedDataHub service, along with the default SPARQL services <samp>fuseki-end-user</samp> and <samp>fuseki-admin</samp>, is defined in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/docker-compose.yml" target="_blank"><samp>docker-compose.yml</samp></a>; each runs as a Docker container.</p>
+        <p>The LinkedDataHub service, the single <samp>fuseki</samp> triplestore and the <samp>egress</samp> proxy are defined in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/docker-compose.yml" target="_blank"><samp>docker-compose.yml</samp></a>; each runs as a Docker container. One Fuseki server holds an <samp>end-user</samp> and an <samp>admin</samp> dataset per dataspace, declared in <samp>config/fuseki/config.ttl</samp> — so giving a dataspace its own datasets means adding a dataset pair there and a matching pair of <code>sd:Service</code> instances in <samp>config/system.trig</samp>.</p>
         <p>While LinkedDataHub uses Apache Jena Fuseki by default, you can configure it to use other SPARQL 1.1-compatible triplestores such as <a href="https://github.com/ad-freiburg/qlever" target="_blank">QLever</a>, <a href="https://github.com/dice-group/tentris" target="_blank">Tentris</a>, or others.</p>
         <p>See the <a href="../../reference/triplestores/" target="_blank">triplestores reference</a> for step-by-step configuration examples, including QLever setup and troubleshooting.</p>
     </div>
