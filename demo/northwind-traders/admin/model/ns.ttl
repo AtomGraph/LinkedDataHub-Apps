@@ -125,6 +125,298 @@ schema:City spin:constructor :CityConstructor .
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
+schema:Person spin:constructor :PersonConstructor .
+
+:PersonConstructor a ldh:Constructor ;
+    rdfs:label "Person constructor" ;
+    dct:title "Person constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:givenName [ a xsd:string ] ;
+                schema:familyName [ a xsd:string ] ;
+                schema:honorificPrefix [ a xsd:string ] ;
+                schema:jobTitle [ a xsd:string ] ;
+                schema:birthDate [ a xsd:date ] ;
+                schema:telephone [ a xsd:string ] ;
+                schema:description [ a xsd:string ] ;
+                schema:address [ a schema:PostalAddress ] ;
+                schema:sponsor [ a schema:Person ] ;
+                schema:areaServed [ a schema:City ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:Corporation spin:constructor :CorporationConstructor .
+
+:CorporationConstructor a ldh:Constructor ;
+    rdfs:label "Company constructor" ;
+    dct:title "Company constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:legalName [ a xsd:string ] ;
+                schema:identifier [ a xsd:string ] ;
+                schema:telephone [ a xsd:string ] ;
+                schema:contactPoint [ a schema:ContactPoint ] ;
+                schema:employee [ a schema:Person ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:ContactPoint spin:constructor :ContactPointConstructor .
+
+:ContactPointConstructor a ldh:Constructor ;
+    rdfs:label "Contact point constructor" ;
+    dct:title "Contact point constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                schema:telephone [ a xsd:string ] ;
+                schema:faxNumber [ a xsd:string ] ;
+                schema:url [ a xsd:string ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:PostalAddress spin:constructor :PostalAddressConstructor .
+
+:PostalAddressConstructor a ldh:Constructor ;
+    rdfs:label "Postal address constructor" ;
+    dct:title "Postal address constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                schema:streetAddress [ a xsd:string ] ;
+                schema:addressLocality [ a xsd:string ] ;
+                schema:addressRegion [ a xsd:string ] ;
+                schema:postalCode [ a xsd:string ] ;
+                schema:addressCountry [ a xsd:string ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:ProductGroup spin:constructor :ProductGroupConstructor .
+
+:ProductGroupConstructor a ldh:Constructor ;
+    rdfs:label "Category constructor" ;
+    dct:title "Category constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
+                schema:description [ a xsd:string ] ;
+                schema:identifier [ a xsd:string ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:Place spin:constructor :PlaceConstructor .
+
+:PlaceConstructor a ldh:Constructor ;
+    rdfs:label "Region constructor" ;
+    dct:title "Region constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
+                schema:identifier [ a xsd:string ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:Order spin:constructor :OrderConstructor .
+
+:OrderConstructor a ldh:Constructor ;
+    rdfs:label "Order constructor" ;
+    dct:title "Order constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:identifier [ a xsd:string ] ;
+                schema:orderDate [ a xsd:date ] ;
+                schema:customer [ a schema:Corporation ] ;
+                schema:broker [ a schema:Person ] ;
+                schema:orderedItem [ a schema:OrderItem ] ;
+                schema:orderDelivery [ a schema:ParcelDelivery ] ;
+                schema:acceptedOffer [ a schema:Offer ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:OrderItem spin:constructor :OrderItemConstructor .
+
+:OrderItemConstructor a ldh:Constructor ;
+    rdfs:label "Order item constructor" ;
+    dct:title "Order item constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                schema:orderedItem [ a schema:Product ] ;
+                schema:orderQuantity [ a xsd:integer ] ;
+                schema:price [ a xsd:float ] ;
+                schema:priceCurrency [ a xsd:string ] ;
+                schema:discount [ a xsd:float ] ;
+                schema:priceSpecification [ a schema:UnitPriceSpecification ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:ParcelDelivery spin:constructor :ParcelDeliveryConstructor .
+
+:ParcelDeliveryConstructor a ldh:Constructor ;
+    rdfs:label "Delivery constructor" ;
+    dct:title "Delivery constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                schema:partOfOrder [ a schema:Order ] ;
+                schema:provider [ a schema:Corporation ] ;
+                schema:deliveryAddress [ a schema:PostalAddress ] ;
+                schema:expectedArrivalUntil [ a xsd:date ] ;
+                schema:deliveryStatus [ a schema:DeliveryEvent ] ;
+                schema:price [ a xsd:float ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:DeliveryEvent spin:constructor :DeliveryEventConstructor .
+
+:DeliveryEventConstructor a ldh:Constructor ;
+    rdfs:label "Shipment constructor" ;
+    dct:title "Shipment constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:startDate [ a xsd:date ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:Offer spin:constructor :OfferConstructor .
+
+:OfferConstructor a ldh:Constructor ;
+    rdfs:label "Offer constructor" ;
+    dct:title "Offer constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:itemOffered [ a schema:Product ] ;
+                schema:price [ a xsd:float ] ;
+                schema:priceCurrency [ a xsd:string ] ;
+                schema:priceSpecification [ a schema:PriceSpecification ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:PriceSpecification spin:constructor :PriceSpecificationConstructor .
+
+:PriceSpecificationConstructor a ldh:Constructor ;
+    rdfs:label "Price specification constructor" ;
+    dct:title "Price specification constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:price [ a xsd:float ] ;
+                schema:priceCurrency [ a xsd:string ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:UnitPriceSpecification spin:constructor :UnitPriceSpecificationConstructor .
+
+:UnitPriceSpecificationConstructor a ldh:Constructor ;
+    rdfs:label "Unit price constructor" ;
+    dct:title "Unit price constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:price [ a xsd:float ] ;
+                schema:priceCurrency [ a xsd:string ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:DeliveryChargeSpecification spin:constructor :DeliveryChargeSpecificationConstructor .
+
+:DeliveryChargeSpecificationConstructor a ldh:Constructor ;
+    rdfs:label "Delivery charge constructor" ;
+    dct:title "Delivery charge constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:price [ a xsd:float ] ;
+                schema:priceCurrency [ a xsd:string ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
 :MissingName a ldh:MissingPropertyValue ;
     rdfs:label "Missing schema:name" ;
     sp:arg1 schema:name ;
