@@ -119,10 +119,16 @@ modes, with what a rule in each one owes:
 | `ldh:ContentColumn` | the navigation slot beside the content body | fills it; nothing to inherit |
 | `ldh:TreeChildrenLoad` | (client) the children fetch for one tree node | replaces |
 | `ldh:RowHook` | (client) factories of deferred work for one rendered row | contributes; nothing to inherit |
+| `ac:FormControl` | one property's form control, or one value's | replaces the generic control for the package's property or datatype, or decorates it with `xsl:next-match` |
+| `ac:PropertyListValue` | one value cell in the property list | replaces or decorates |
+| `ac:ValueAnnotations` | the term-kind / datatype / language chip beside a value | replaces or decorates |
+| `ldh:TypeControl`, `ac:property-label`, `ac:object-label`, the unnamed mode | the property row and how a value is labelled and linked | replaces or decorates |
 
-`hooks.xsl` in the platform sources carries the same table beside the declarations. The value-leaf modes
-(`ac:FormControl`, `ac:PropertyListValue`, the unnamed mode) and the component modes (`ldh:Modal`,
-`ac:FieldShell`...) are sealed in this version.
+`hooks.xsl` in the platform sources carries the same table beside the declarations; the value leaves are
+in `imports/values.xsl`, which it imports. The platform's own vocabulary modules (`imports/rdf.xsl`,
+`imports/dct.xsl`...) sit above the packages, so a package specialises core's *generic* rendering and
+cannot contradict how core renders its own terms. The component modes (`ldh:Modal`, `ac:FieldShell`...),
+the `ldh:Combobox` widget and the library in `imports/default.xsl` (keys, params, functions) are sealed.
 
 ## Installing Packages
 
