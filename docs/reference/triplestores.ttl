@@ -83,7 +83,7 @@
                     <th scope="row"><code>a:quadStore</code></th>
                     <td>Quad store, for dataset-level CRUD</td>
                     <td>No — omitting it falls back to graph-scoped GSP</td>
-                    <td><code>&lt;http://fuseki-host:3030/ds/&gt;</code>, which is Fuseki-specific</td>
+                    <td><code>&lt;http://fuseki:3030/end-user/&gt;</code>, which is Fuseki-specific</td>
                 </tr>
             </tbody>
         </table>

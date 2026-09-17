@@ -238,8 +238,14 @@ ABS_PATH=/linkeddatahub/</pre>
         </dl>
     </div>
     <div>
-        <h2 id="fuseki"><samp>fuseki-admin</samp> and <samp>fuseki-end-user</samp> services</h2>
-        <p><samp>JAVA_OPTIONS</samp> carries the Java options of the Fuseki process, and is what sizes its heap. It defaults to <samp>-Xmx768m -Xms768m</samp> for <samp>fuseki-admin</samp> and <samp>-Xmx1536m -Xms1536m</samp> for <samp>fuseki-end-user</samp>.</p>
+        <h2 id="fuseki"><samp>fuseki</samp> service</h2>
+        <p>A single Apache Jena Fuseki server holds a TDB2 dataset for every dataspace role — an <samp>end-user</samp> and an <samp>admin</samp> dataset per dataspace — declared in <samp>config/fuseki/config.ttl</samp> and persisted under the <samp>fuseki/</samp> folder, one sub-folder per dataset. <samp>JAVA_OPTIONS</samp> carries the Java options of the Fuseki process, and is what sizes its heap.</p>
+        <p>Datasets are named after the dataspace origin with the deployment host dropped and the role appended — <samp>northwind-traders.demo.end-user</samp>, <samp>northwind-traders.demo.admin</samp> — so the names hold across development and production; the root dataspace's are plain <samp>end-user</samp> and <samp>admin</samp>. See the <a href="../dataspace/#services">dataspace reference</a> for the service declarations that bind an application to its datasets.</p>
+    </div>
+    <div>
+        <h2 id="egress"><samp>egress</samp> service</h2>
+        <p>A forward proxy (Squid) that the outbound SPARQL <code>SERVICE</code> and <code>LOAD</code> requests of both Fuseki and the platform pass through. It permits public destinations and refuses loopback, private and link-local ones, resolving each where it connects so redirect hops and DNS answers are checked too. Federation with public endpoints keeps working, while a <code>SERVICE</code> clause cannot reach another dataset, the cache or the platform.</p>
+        <p>Fuseki is pointed at it through its <samp>JAVA_TOOL_OPTIONS</samp>; the platform's own in-process queries (imports and PATCH updates) are routed through it when <samp>EGRESS_PROXY</samp> is set to its <samp>host:port</samp>. Without a proxy and without <samp>ALLOW_INTERNAL_URLS</samp>, the platform disables <code>SERVICE</code> in those queries rather than leaving it open.</p>
     </div>
     <div>
         <h2 id="nginx"><samp>nginx</samp> service</h2>
