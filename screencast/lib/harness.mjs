@@ -122,6 +122,9 @@ export async function runScene({
   const context = await browser.newContext({
     ignoreHTTPSErrors: true,
     viewport: { width: geometry.width, height: geometry.height },
+    // SCHEME=dark records the page in the dark colour scheme (the page follows
+    // prefers-color-scheme; nothing pins it).
+    ...(process.env.SCHEME ? { colorScheme: process.env.SCHEME } : {}),
     deviceScaleFactor: geometry.deviceScaleFactor ?? 2,
     ...(opts.video
       ? { recordVideo: { dir: TRACKS, size: { width: geometry.width, height: geometry.height } } }
@@ -188,6 +191,10 @@ export async function runScene({
   const marks = new Marks(id).start();
   const page = await context.newPage();
   const cursor = makeCursor(page);
+  // Every beat carries the drawn cursor's position: the cutter keeps it inside the
+  // frame, so a click is never cropped away from the result it caused.
+  const beat = marks.beat.bind(marks);
+  marks.beat = (beatId, note, extra = null) => beat(beatId, note, { pointer: cursor.position, ...(extra ?? {}) });
 
   // Stills are a by-product of filming: the docs carry 33 unfilled placeholders and
   // a beat boundary is where the action has settled, so it is the right frame.

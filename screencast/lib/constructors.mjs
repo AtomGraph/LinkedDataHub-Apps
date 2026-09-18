@@ -9,6 +9,8 @@
 // resource being created belongs to this document.
 
 import { ui, settled } from './dom.mjs';
+import { pickByLabel } from './blocks.mjs';
+import { addValue } from './editing.mjs';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -40,7 +42,11 @@ export async function create(page, cursor, label) {
 // CodeMirror types over the ones its auto-closing inserted.
 //
 // All of that is silent when it goes wrong, so the text is read back and compared.
-export async function typeQuery(page, cursor, query) {
+// `onAttempt(n)` fires as each typing attempt starts — a scene re-marks its shot's start
+// there, so a retake after a failed read-back is what the cut shows, not the failure.
+// `onTyped()` fires the moment the last character is in, before the settle and the
+// read-back — the beat that ends a typing shot.
+export async function typeQuery(page, cursor, query, { onAttempt = null, onTyped = null } = {}) {
   const code = ui(page).locator('.CodeMirror, .yasqe').first();
   if (!(await code.isVisible().catch(() => false))) return { ok: false, why: 'no query editor on the form' };
 
@@ -61,6 +67,7 @@ export async function typeQuery(page, cursor, query) {
         await page.keyboard.press('Enter');
       }
     }
+    if (onTyped) await onTyped();
     await sleep(1200);
   };
   const readBack = () => page.evaluate(() => {
@@ -70,6 +77,7 @@ export async function typeQuery(page, cursor, query) {
   // Compare ignoring the indentation the editor added for us.
   const flat = (t) => t.split('\n').map((l) => l.trim()).filter(Boolean).join('\n');
 
+  if (onAttempt) await onAttempt(1);
   await typeLines(14);
   let written = await readBack();
   if (written === null) return { ok: true, lines: query.split('\n').length, verified: false };
@@ -78,6 +86,7 @@ export async function typeQuery(page, cursor, query) {
     // than a retake on camera.
     const mod = process.platform === 'darwin' ? 'Meta' : 'Control';
     await page.keyboard.press(`${mod}+A`); await page.keyboard.press('Backspace'); await sleep(300);
+    if (onAttempt) await onAttempt(2);
     await typeLines(28);
     written = await readBack();
   }
@@ -92,9 +101,16 @@ export async function typeQuery(page, cursor, query) {
 
 // The control belonging to a named property. Everything that writes to a form goes
 // through here — see the form-fields-by-name rule.
-export function field(page, label, kind = 'input:not([type=hidden]):visible, textarea:visible, select:visible') {
-  return ui(page).locator('.ldh-prop-group').filter({ hasText: label }).first().locator(kind).first();
+// `scope` narrows the search to one form. Without it the first `.ldh-prop-group`
+// named Title on a record page is the record's own read-only Title row, and the
+// form's field is never reached — the query form on the Southern page sat unfilled
+// for a minute that way.
+export function field(page, label, kind = 'input:not([type=hidden]):visible, textarea:visible, select:visible', scope = null) {
+  return (scope ?? ui(page)).locator('.ldh-prop-group').filter({ hasText: label }).first().locator(kind).first();
 }
+
+// The form being edited: the last visible form that carries a Save button.
+export const openForm = (page) => ui(page).locator('form').filter({ has: page.locator('button.btn-save, button[class*="btn-save"]') }).filter({ visible: true }).last();
 
 // Fills a field by its property name.
 //
@@ -103,8 +119,9 @@ export function field(page, label, kind = 'input:not([type=hidden]):visible, tex
 // container that holds EVERY label, and then takes its first control, which on the
 // View form is the query combobox. That is how a title once got typed into the
 // middle of a URI.
-export async function fill(page, cursor, label, value) {
-  const input = field(page, label, 'input:not([type=hidden]):visible, textarea:visible');
+export async function fill(page, cursor, label, value, { scope = null } = {}) {
+  const form = scope ?? openForm(page);
+  const input = field(page, label, 'input:not([type=hidden]):visible, textarea:visible', (await form.count().catch(() => 0)) ? form : null);
   if (!(await input.isVisible().catch(() => false))) return { ok: false, why: `${label} has no editable control` };
 
   await cursor.click(input);
@@ -114,8 +131,9 @@ export async function fill(page, cursor, label, value) {
 }
 
 // The inline form's own Save, not the document action bar's.
-export async function save(page, cursor) {
-  const btn = ui(page).locator('button.btn-save, button[class*="btn-save"]').last();
+export async function save(page, cursor, { scope = null } = {}) {
+  const form = scope ?? openForm(page);
+  const btn = ((await form.count().catch(() => 0)) ? form : ui(page)).locator('button.btn-save, button[class*="btn-save"]').filter({ visible: true }).last();
   if (!(await btn.isVisible().catch(() => false))) return { ok: false, why: 'no Save on the form' };
   await btn.scrollIntoViewIfNeeded().catch(() => {});
   await cursor.click(btn);
@@ -287,8 +305,12 @@ export async function createItem(page, cursor, title) {
 // class's shape, so they are filled BY LABEL against `values` — a map of regexes to
 // strings — and every field the shape asks for that nothing matched is reported, so a
 // first run says what the form wanted instead of failing quietly.
-export async function createFromView(page, cursor, values) {
-  const btn = ui(page).locator('button.add-instance').first();
+export async function createFromView(page, cursor, values, { type = null, extra = [], view = null } = {}) {
+  // A page can carry several derived views, each with its own Create — Fuller's has
+  // Direct reports AND Orders handled by this employee — so the button is taken from
+  // the view named, never the first one found.
+  const scope = view ? ui(page).locator('.ldh-block[data-for-class]').filter({ hasText: view }).first() : ui(page);
+  const btn = scope.locator('button.add-instance').first();
   const shown = await btn.waitFor({ state: 'visible', timeout: 30_000 }).then(() => true, () => false);
   if (!shown) return { ok: false, why: 'no Create button on any view here' };
   await btn.scrollIntoViewIfNeeded().catch(() => {});
@@ -312,9 +334,36 @@ export async function createFromView(page, cursor, values) {
     if (current) continue; // prefilled by the inverse — leave it
     const key = Object.keys(values).find((re) => new RegExp(re, 'i').test(label));
     if (!key) { unmatched.push(label.slice(0, 30)); continue; }
-    await cursor.click(input);
-    await input.pressSequentially(values[key], { delay: 45 });
-    filled.push(`${label.split(' ')[0]}=${values[key]}`);
+    // A resource-valued field is a lookup: the value is [label, kind] and is bound by
+    // name, the way every other combobox in the rig is (out-of-band names are fine,
+    // out-of-band URIs are not).
+    const isLookup = ((await input.getAttribute('class')) ?? '').includes('resource-combobox');
+    if (isLookup) {
+      const [lbl, kind] = Array.isArray(values[key]) ? values[key] : [values[key], null];
+      const picked = await pickByLabel(page, cursor, type, input, lbl, { kind });
+      if (!picked.ok) return { ok: false, why: `${label.split(' ')[0]}: ${picked.why}`, filled, unmatched };
+      filled.push(`${label.split(' ')[0]}→${lbl}`);
+    } else {
+      await cursor.click(input);
+      await input.pressSequentially(String(values[key]), { delay: 45 });
+      filled.push(`${label.split(' ')[0]}=${values[key]}`);
+    }
+    await sleep(300);
+  }
+
+  // More values of one property than the shape gives rows for — three more
+  // territories on a hire — come through the form's own add-property row.
+  for (const [localName, val] of extra) {
+    const added = await addValue(page, cursor, modal, localName);
+    if (!added.ok) return { ok: false, why: added.why, filled, unmatched };
+    const row = modal.locator('.ldh-prop-group').filter({ has: page.locator(`input[name="pu"][value$="${localName}"]`) }).last();
+    const input = row.locator('input:not([type=hidden]):visible').first();
+    const [lbl, kind] = Array.isArray(val) ? val : [val, null];
+    if (((await input.getAttribute('class')) ?? '').includes('resource-combobox')) {
+      const picked = await pickByLabel(page, cursor, type, input, lbl, { kind });
+      if (!picked.ok) return { ok: false, why: `${localName}: ${picked.why}`, filled, unmatched };
+    } else { await cursor.click(input); await input.pressSequentially(String(lbl), { delay: 45 }); }
+    filled.push(`${localName}→${lbl}`);
     await sleep(300);
   }
 
@@ -322,7 +371,10 @@ export async function createFromView(page, cursor, values) {
   if (!(await save.count())) return { ok: false, why: 'no Save on the constructor', unmatched };
   const before = page.url();
   await cursor.click(save);
-  await page.waitForFunction((b) => location.href !== b, before, { timeout: 20_000 }).catch(() => {});
+  // Some constructors navigate to the new document (a City), some close the modal and
+  // leave the page where it was (a Product, an Order) — so the wait is for either,
+  // not twenty seconds for a navigation that may never come.
+  await page.waitForFunction((b) => location.href !== b || ![...document.querySelectorAll('.modal-constructor, .ac-modal')].some((m) => m.offsetParent !== null), before, { timeout: 20_000 }).catch(() => {});
   await page.waitForLoadState('load').catch(() => {});
   await settled(page, 3500);
   const url = page.url().split('?')[0];

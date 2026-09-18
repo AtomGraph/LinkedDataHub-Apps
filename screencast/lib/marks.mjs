@@ -41,9 +41,10 @@ export class Marks {
 
   // Awaitable so an attached shooter can finish before the scene moves on. Safe to
   // call without awaiting when no shooter is attached.
-  async beat(id, note) {
+  async beat(id, note, extra = null) {
     const at = this.elapsed;
-    this.entries.push(note === undefined ? { beat: id, at } : { beat: id, at, note });
+    // `extra` rides along in the sidecar — a supercut shot's focus box, for one.
+    this.entries.push({ beat: id, at, ...(note === undefined ? {} : { note }), ...(extra ?? {}) });
     process.stdout.write(`  ${at.toFixed(2).padStart(7)}s  ${id}${note ? `  — ${note}` : ''}\n`);
     if (this.#shoot) {
       const file = await this.#shoot(id, this.entries.length);

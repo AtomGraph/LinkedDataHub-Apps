@@ -145,6 +145,13 @@ docs-publish:
 		printf "%s  %s\n" "$$(sha1sum "$$dest" | cut -d' ' -f1)" "$${dest#$(DOCS_DEST)/}"; \
 	done
 
+# The supercut: one-gesture shots cut from the gesture takes (scenes/supercut-*.mjs)
+# between their <id>-start / <id>-end beats, captioned and joined. SUPERCUT names the
+# shot list.
+SUPERCUT ?= render/supercut.json
+supercut:
+	node render/supercut.mjs $(SUPERCUT)
+
 mp4:
 	@shopt -s nullglob; \
 	for w in tracks/*.webm; do \

@@ -1,0 +1,31 @@
+{
+  "output": "tracks/supercut.mp4",
+  "spineOutput": "tracks/supercut-spine.mp4",
+  "width": 1440,
+  "height": 900,
+  "fps": 30,
+  "crf": 20,
+  "leadSeconds": 0.3,
+  "trailSeconds": 0.1,
+  "maxZoom": 2.4,
+  "source": { "width": 2880, "height": 1800 },
+  "caption": { "font": "/System/Library/Fonts/Helvetica.ttc", "size": 44 },
+  "maxSeconds": 5,
+  "padColor": "black",
+  "vignette": "PI/5",
+  "shots": [
+    { "id": "1",   "track": "supercut-northwind-graph", "from": "1-start",  "to": "1-end",   "hold": 1.0, "caption": "one click, another document", "spine": true, "maxZoom": 2.0, "maxSeconds": 5 },
+    { "id": "1b",  "track": "supercut-northwind-graph", "from": "1b-start", "to": "1b-end",  "hold": 0.8, "caption": "every node is a page", "spine": true, "focus": false },
+    { "id": "4",   "track": "supercut-northwind-main",  "from": "4-start",  "to": "4-end",   "hold": 1.5, "caption": "forms write data", "spine": true, "maxSeconds": 5 },
+    { "id": "c1",  "track": "supercut-compose", "from": "c1-start",  "to": "c1-end",   "hold": 0.6, "caption": "a query, and its results", "spine": true, "maxSeconds": 5 },
+    { "id": "c2",  "track": "supercut-compose", "from": "c2-start",  "to": "c2-end",   "hold": 0.6, "caption": "a chart from it", "spine": true, "maxSeconds": 5 },
+    { "id": "c3t", "track": "supercut-compose", "from": "c3t-start", "to": "c3t-end",  "hold": 0.4, "caption": "Content mode", "maxSeconds": 3.5 },
+    { "id": "c3",  "track": "supercut-compose", "from": "c3-start",  "to": "c3-end",   "hold": 0.5, "caption": "a sentence, on the page", "maxSeconds": 4 },
+    { "id": "c4",  "track": "supercut-compose", "from": "c4-start",  "to": "c4-end",   "hold": 0.8, "caption": "the chart, embedded", "spine": true, "maxSeconds": 5, "toOffset": -0.6 },
+    { "id": "c5",  "track": "supercut-compose", "from": "c5-start",  "to": "c5-end",   "hold": 1.2, "caption": "drag it into place", "spine": true, "maxSeconds": 5 },
+    { "id": "12",  "track": "supercut-northwind-12",   "from": "12-start", "to": "12-end",  "hold": 1.0, "caption": "a word becomes a link", "source": { "width": 1440, "height": 900 }, "maxSeconds": 4.5 },
+    { "id": "8",   "track": "supercut-northwind-main",  "from": "8-start",  "to": "8-end",   "hold": 0.8, "caption": "another dataspace", "focus": false },
+    { "id": "21",  "track": "supercut-unesco", "from": "21-start", "to": "21-end", "hold": 0.4, "caption": "the document tree", "optional": true, "focus": false },
+    { "id": "15r", "track": "supercut-rebrickable-pivot", "from": "p-start", "to": "p-end", "hold": 1.4, "caption": "same brick, every colour", "spine": true, "optional": true, "maxSeconds": 5 }
+  ]
+}

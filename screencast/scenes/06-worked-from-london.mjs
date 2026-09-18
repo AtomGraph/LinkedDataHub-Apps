@@ -10,8 +10,9 @@
 //   make scene SCENE=06-worked-from-london BASE=… CERT_FILE=… CERT_PASSWORD_FILE=… LDH_BIN=…
 
 import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
-import { deleteByTitle } from '../lib/fixture.mjs';
-import { crumbGo } from '../lib/nav.mjs';
+import { deleteByTitle, patchDocument } from '../lib/fixture.mjs';
+import { editResource, removeValue, addValue, pickAddedValue, saveForm } from '../lib/editing.mjs';
+import { crumbGo, listGo, searchGo } from '../lib/nav.mjs';
 import { addProse, addObject, pickByLabel, switchDocumentMode } from '../lib/blocks.mjs';
 import { create, createItem, typeQuery, fill, save, field } from '../lib/constructors.mjs';
 import { switchViewMode } from '../lib/modes.mjs';
@@ -47,6 +48,16 @@ console.log(`cleanup: removed ${gone.removed.length} earlier "${TITLE}"`);
 const LONDON = (await sparql(base, `PREFIX schema: <https://schema.org/>
 SELECT ?rep WHERE { GRAPH ?g { ?rep schema:address ?a . ?a schema:addressLocality "London" } }`)).map((r) => r.rep);
 if (!LONDON.length) throw new Error('no rep based in London');
+// Last take handed Chicago from King to Peacock; both records go back first.
+const [chi] = await sparql(base, `PREFIX schema: <https://schema.org/> SELECT ?t WHERE { GRAPH ?g { ?t a schema:City ; schema:name "Chicago" } }`);
+const [king] = await sparql(base, `PREFIX schema: <https://schema.org/> SELECT ?e WHERE { GRAPH ?g { ?e a schema:Person ; schema:familyName "King" } }`);
+const [peacock] = await sparql(base, `PREFIX schema: <https://schema.org/> SELECT ?e WHERE { GRAPH ?g { ?e a schema:Person ; schema:familyName "Peacock" } }`);
+if (!chi || !king || !peacock) throw new Error('Chicago, King or Peacock not found');
+const doc = (u) => u.replace(/#.*$/, '');
+for (const [who, update] of [
+  [king.e, `PREFIX schema: <https://schema.org/> INSERT { <${king.e}> schema:areaServed <${chi.t}> } WHERE {}`],
+  [peacock.e, `PREFIX schema: <https://schema.org/> DELETE { <${peacock.e}> schema:areaServed <${chi.t}> } WHERE {}`],
+]) { const r = await patchDocument({ ldh: opts.ldh, certFile: opts.certFile, certPassword: opts.certPassword, certPasswordFile: opts.certPasswordFile, url: doc(who), update }); console.log(`reset ${doc(who)}: ${r.ok ? 'ok' : r.out}`); }
 let url = null;
 
 await runScene({
@@ -102,7 +113,7 @@ await runScene({
     await switchDocumentMode(page, cursor, 'content-mode');
     await sleep(600);
     const p1 = await addProse(page, cursor, type,
-      'The team map shows two clusters: five reps around Seattle and four in London. Every sales territory is in the United States. This page finds the territories that are worked from London.');
+      'The team map shows two clusters: five reps around Seattle and four in London. Every sales territory is in the United States. This page finds the territories that are worked from London, and hands one of them to Seattle.');
     await marks.beat('question', p1.ok ? 'the question, written down' : p1.why);
     await sleep(3200);
 
@@ -139,9 +150,48 @@ await runScene({
     await sleep(700);
     const o1 = await addObject(page, cursor, type, null, { label: 'Territories worked from London', kind: 'View', mode: 'Map' });
     await marks.beat('ground', o1.ok ? 'twenty-nine territories, plotted — none of them near London' : o1.why);
-    await sleep(1400);
+    await sleep(2600);
+
+    // ── Chicago: off King's record, onto Peacock's ──────────────────────────
+    const k = await searchGo(page, cursor, 'King', { type: 'Person' });
+    if (!k.ok) throw new Error(k.why);
+    const ed = await editResource(page, cursor, /Family name/);
+    await marks.beat('king', ed.ok ? 'King — ten territories, open for editing' : ed.why);
+    if (!ed.ok) throw new Error(ed.why);
+    await sleep(900);
+    const rm = await removeValue(page, cursor, ed.form, 'Territory', 'Chicago');
+    if (!rm.ok) throw new Error(rm.why);
+    const sv = await saveForm(page, cursor, ed.form);
+    await marks.beat('unassign', sv.ok ? 'Chicago removed — nine' : sv.why);
+    if (!sv.ok) throw new Error(sv.why);
+    await sleep(1200);
+    const pk = await searchGo(page, cursor, 'Peacock', { type: 'Person' });
+    if (!pk.ok) throw new Error(pk.why);
+    const ed2 = await editResource(page, cursor, /Family name/);
+    if (!ed2.ok) throw new Error(ed2.why);
+    await sleep(700);
+    const av = await addValue(page, cursor, ed2.form, 'areaServed');
+    if (!av.ok) throw new Error(av.why);
+    const pv = await pickAddedValue(page, cursor, type, ed2.form, 'areaServed', 'Chicago', { kind: 'Territory' });
+    if (!pv.ok) throw new Error(pv.why);
+    const sv2 = await saveForm(page, cursor, ed2.form);
+    await marks.beat('reassign', sv2.ok ? 'Peacock — Chicago added, from Seattle' : sv2.why);
+    if (!sv2.ok) throw new Error(sv2.why);
+    await sleep(1200);
+
+    // ── the same map, read again ────────────────────────────────────────────
+    const up2 = await crumbGo(page, cursor, 'Root');
+    if (!up2.ok) throw new Error(up2.why);
+    await sleep(600);
+    const back2 = await listGo(page, cursor, TITLE);
+    if (!back2.ok) throw new Error(back2.why);
+    await page.waitForSelector('.ldh-pane.is-active .ldh-block .ldh-view-toolbar .count b', { timeout: 25_000 }).catch(() => {});
+    await sleep(3000);
+    const left = (await page.locator('.ldh-pane.is-active .ldh-block').filter({ hasText: 'Territories worked from London' }).first().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 }).catch(() => '?')).trim();
+    await marks.beat('ground-again', `the same view, read again — ${left} territories worked from London`);
+    await sleep(2600);
     const p2 = await addProse(page, cursor, type,
-      'Twenty-nine of the forty-nine covered territories are served from London. King alone holds ten. The five reps around Seattle hold the other twenty.');
+      'Twenty-nine of the forty-nine covered territories were served from London; Chicago now belongs to Peacock in Seattle, and the map above — the same query, run again — shows twenty-eight. King still holds nine.');
     await marks.beat('note', p2.ok ? undefined : p2.why);
     await sleep(700);
     const scrolled = await scrollThrough(page, { duration: 5600 });

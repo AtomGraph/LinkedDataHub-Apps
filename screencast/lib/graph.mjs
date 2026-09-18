@@ -3,6 +3,8 @@
 // Nodes are WebGL, not DOM, so there is nothing to locate: their positions come from
 // the ForceGraph3D instance the app keeps at LinkedDataHub.graphs[<canvas id>],
 // nested one level down under .instance. graph2ScreenCoords() gives canvas-relative
+// UNZOOMED pixels; under a CSS zoom on the document (the 2× takes) the canvas rect is
+// in zoomed viewport pixels, so a screen point is rect.x + p.x × zoom.
 // coordinates; the canvas offset makes them page coordinates.
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -53,6 +55,7 @@ export async function foreignNode(page, documentUri, { skip = 0, prefer = null }
     const canvasEl = document.querySelector('canvas');
     if (!canvasEl) return { error: 'no canvas' };
     const canvas = canvasEl.getBoundingClientRect();
+    const z = (() => { const v = Number(getComputedStyle(document.documentElement).zoom); return Number.isFinite(v) && v > 0 ? v : 1; })();
     const raw = g['loaded-uris'];
     const loaded = new Set(Array.isArray(raw) ? raw : (raw && typeof raw === 'object' ? Object.keys(raw) : []));
     // A document's graph carries more than its subject: the container's own saved
@@ -64,15 +67,15 @@ export async function foreignNode(page, documentUri, { skip = 0, prefer = null }
       .filter((x) => String(x.id).startsWith('http') && !String(x.id).startsWith(here) && !loaded.has(String(x.id)))
       // nodes near the middle of the canvas are the ones a pointer can actually reach
       .map((x) => ({ x, p: fg.graph2ScreenCoords(x.x, x.y, x.z) }))
-      .filter(({ p }) => p.x > 120 && p.x < canvas.width - 120 && p.y > 80 && p.y < canvas.height - 80);
+      .filter(({ p }) => p.x > 120 && p.x < canvas.width / z - 120 && p.y > 80 && p.y < canvas.height / z - 80);
     const preferred = want ? reachable.filter(({ x }) => want.test(String(x.id))) : [];
     const foreign = preferred.length ? preferred : reachable;
     const hit = foreign[n];
     if (!hit) return { error: `no reachable foreign node (${foreign.length} candidates)` };
     return {
       id: String(hit.x.id),
-      x: Math.round(canvas.x + hit.p.x),
-      y: Math.round(canvas.y + hit.p.y),
+      x: Math.round(canvas.x + hit.p.x * z),
+      y: Math.round(canvas.y + hit.p.y * z),
       of: foreign.length,
       preferred: preferred.length,
     };
@@ -104,13 +107,14 @@ export async function nodeById(page, uri) {
     const canvasEl = document.querySelector('canvas');
     if (!canvasEl) return { error: 'no canvas' };
     const canvas = canvasEl.getBoundingClientRect();
+    const z = (() => { const v = Number(getComputedStyle(document.documentElement).zoom); return Number.isFinite(v) && v > 0 ? v : 1; })();
     const hit = fg.graphData().nodes.find((x) => String(x.id) === wanted);
     if (!hit) return { error: `no node ${wanted}` };
     const p = fg.graph2ScreenCoords(hit.x, hit.y, hit.z);
-    if (p.x < 120 || p.x > canvas.width - 120 || p.y < 80 || p.y > canvas.height - 80) {
+    if (p.x < 120 || p.x > canvas.width / z - 120 || p.y < 80 || p.y > canvas.height / z - 80) {
       return { error: 'node is off the reachable part of the canvas' };
     }
-    return { id: wanted, x: Math.round(canvas.x + p.x), y: Math.round(canvas.y + p.y) };
+    return { id: wanted, x: Math.round(canvas.x + p.x * z), y: Math.round(canvas.y + p.y * z) };
   }, [uri]);
 }
 
@@ -207,6 +211,7 @@ export async function aim(page, uri, { radius = 14 } = {}) {
     const canvasEl = document.querySelector('canvas');
     if (!canvasEl) return { error: 'no canvas' };
     const canvas = canvasEl.getBoundingClientRect();
+    const z = (() => { const v = Number(getComputedStyle(document.documentElement).zoom); return Number.isFinite(v) && v > 0 ? v : 1; })();
     const nodes = fg.graphData().nodes;
     const hit = nodes.find((x) => String(x.id) === wanted);
     if (!hit) return { error: `no node ${wanted}` };
@@ -218,8 +223,8 @@ export async function aim(page, uri, { radius = 14 } = {}) {
       .filter(({ q }) => Math.hypot(q.x - p.x, q.y - p.y) <= radius)
       .filter(({ n }) => dist(n) < mine)
       .map(({ n }) => String(n.id));
-    const off = p.x < 120 || p.x > canvas.width - 120 || p.y < 80 || p.y > canvas.height - 80;
-    return { id: wanted, x: Math.round(canvas.x + p.x), y: Math.round(canvas.y + p.y), clear: occluders.length === 0 && !off, occluders, off };
+    const off = p.x < 120 || p.x > canvas.width / z - 120 || p.y < 80 || p.y > canvas.height / z - 80;
+    return { id: wanted, x: Math.round(canvas.x + p.x * z), y: Math.round(canvas.y + p.y * z), clear: occluders.length === 0 && !off, occluders, off };
   }, [uri, radius]);
 }
 
@@ -313,9 +318,19 @@ export async function expand(page, cursor, node, { settle = 6000 } = {}) {
 }
 
 export async function zoomToFit(page, cursor) {
-  const fit = page.locator('button, .ac-btn').filter({ hasText: /Zoom to fit/i }).first();
+  // the maximised canvas's own button when there is one; the drawn cursor clicks it,
+  // but a click that cannot land in a moment (a fixed container the page cannot scroll)
+  // gives way to the graph's own zoomToFit so a take never hangs here
+  const scope = (await page.locator('.graph-3d-maximized').count()) ? page.locator('.graph-3d-maximized') : page;
+  const fit = scope.locator('button, .ac-btn').filter({ hasText: /Zoom to fit/i }).filter({ visible: true }).first();
   if (!(await fit.count())) return false;
-  await cursor.click(fit);
+  const box = await fit.boundingBox({ timeout: 3000 }).catch(() => null);
+  if (box) {
+    await cursor.moveTo(box.x + box.width / 2, box.y + box.height / 2, { duration: 400 });
+    const clicked = await fit.click({ timeout: 5000 }).then(() => true, () => false);
+    if (clicked) { await sleep(2200); return true; }
+  }
+  await page.evaluate(() => { const gs = window.LinkedDataHub?.graphs ?? {}; for (const g of Object.values(gs)) { try { (g.instance ?? g).zoomToFit(400); } catch {} } });
   await sleep(2200);
   return true;
 }

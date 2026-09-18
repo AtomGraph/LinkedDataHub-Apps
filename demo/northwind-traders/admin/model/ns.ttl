@@ -268,6 +268,7 @@ schema:Order spin:constructor :OrderConstructor .
                 dct:title [ a xsd:string ] ;
                 schema:identifier [ a xsd:string ] ;
                 schema:orderDate [ a xsd:date ] ;
+                schema:orderStatus schema:OrderProcessing ;
                 schema:customer [ a schema:Corporation ] ;
                 schema:broker [ a schema:Person ] ;
                 schema:orderedItem [ a schema:OrderItem ] ;

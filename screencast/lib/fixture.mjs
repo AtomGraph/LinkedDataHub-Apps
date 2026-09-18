@@ -123,3 +123,12 @@ WHERE { <${url}> ?slot ?block . ?block a ?type . FILTER(?type IN (ldh:XHTML, ldh
   const r = await run(ldh, ['patch', url, '-f', certFile, '-p', password], update);
   return { ok: r.code === 0, out: String(r.err || r.out).split(password).join('••••').slice(0, 300) };
 }
+
+// Putting a record back the way a take found it, off camera: one SPARQL update
+// through the document's own PATCH (INSERT/DELETE … WHERE {} without GRAPH).
+export async function patchDocument({ ldh, certFile, certPassword, certPasswordFile, url, update }) {
+  const password = certPassword ?? (certPasswordFile ? (await fs.readFile(certPasswordFile, 'utf8')).trim() : null);
+  if (!password) throw new Error('patchDocument needs --cert-password or --cert-password-file');
+  const r = await run(ldh, ['patch', url, '-f', certFile, '-p', password], update);
+  return { ok: r.code === 0, out: String(r.err || r.out).split(password).join('••••').slice(0, 300) };
+}

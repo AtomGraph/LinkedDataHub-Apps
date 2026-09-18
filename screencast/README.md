@@ -19,13 +19,17 @@ The five scenes, in the order they answer best:
 
 | Scene | opens on | question |
 |---|---|---|
-| `02-where-we-have-nobody` | `/territories/`, 53 pins | which territories have no sales rep? |
+| `02-where-we-have-nobody` | `/territories/`, 53 pins | which territories have no sales rep? — then a hire covers them, and the map is read again |
 | `04-is-our-beverages-theirs` | `/categories/`, eight photographs | does a published vocabulary mean what we mean? |
-| `06-worked-from-london` | `/employees/`, nine faces | which US territories are worked from London? |
+| `06-worked-from-london` | `/employees/`, nine faces | which US territories are worked from London? — then one is handed to Seattle |
 | `07-one-rep-for-the-south` | `/territories/`, 53 pins | how thinly is each region staffed? |
-| `08-late-customer-or-shipper` | a late order in Graph mode | do late orders follow the customer or the carrier? |
+| `08-late-customer-or-shipper` | a late order in Graph mode | do late orders follow the customer or the carrier? — then the order is marked delivered and the chart re-read |
 | `09-opening-houston` | `/territories/`, 53 pins | a new territory, created from the region's own list |
 | `10-the-dearest-thing` | `/categories/`, eight photographs | the dearest product's bare page, documented from outside |
+| `11-a-new-order` | a customer's page, their orders listed | an order booked from the customer's own list; the list read again |
+| `13-a-new-product` | `/categories/`, eight photographs | a product created from the category's own list; the list read again |
+| `14-reporting-lines` | `/employees/`, nine faces | one reporting link re-pointed; both managers' lists read again |
+| `16-a-territory-where-the-orders-are` | `/territories/`, 53 pins | US deliveries with no territory, charted; a territory opened where most land; the chart read again |
 
 Each of those five writes a block saying *why* the opening state was on screen and what
 it could not answer — a strong first frame the rest of the clip never refers back to is
@@ -173,3 +177,103 @@ that every baked hash resolves.
   locator can drive a tab nobody is looking at — see `lib/dom.mjs`.
 
 `FINDINGS.md` records the product defects these scenes ran into.
+
+## Supercut
+
+`make supercut` cuts `tracks/supercut.mp4` (every shot) and `tracks/supercut-spine.mp4`
+(the shots flagged `spine`) from the gesture takes, following `render/supercut.json`: each
+shot is the stretch of a track between its `<id>-start` and `<id>-end` beats, led in by
+0.3 s and stopped 0.1 s short (a beat and its gesture are the same instant), capped from
+the front at `maxSeconds` (shifted by `fromOffset` / `toOffset` seconds — a negative
+`toOffset` ends a shot before a helper's dead settle), framed on the component the beat's
+`focus` box names — `move: "push"` closes in from the full frame over the whole shot,
+`"static"` holds the box's frame throughout, `"pan"` moves from the start beat's box to the
+end beat's over `moveSeconds` (1.4 s by default — a move between blocks is gradual, never
+a jump) at `moveAt` (negative counts back from the gesture's end, where the new block has
+just appeared); zoom between `minZoom` (1.4) and `maxZoom` (2.4)
+per shot, anchored on the box's top part; every beat carries the drawn cursor's position
+(`pointer`, added by the harness), which shapes the frame only for a shot with
+`keepPointer: true` (unioning it into every frame flattened the pans, so it is off by
+default) — held on its last frame,
+captioned (rendered by Playwright, overlaid), and joined by hard cuts through the concat
+demuxer — one decoder at a time; a single xfade graph over every input was killed for
+memory twice.
+
+The cut is now **one connected flow on Northwind**, `scenes/supercut-northwind-flow.mjs`:
+one recording, and after the opening load no page is reached by a goto. The Employees
+view opens in Graph mode (its `ac:mode` is patched to `ac:GraphMode` off camera and put
+back afterwards); an employee's node blooms with its own document; the Territory pill
+pivots the graph to the 53 territories and the Region pill to the four regions; the
+Southern node's link opens the region's page. Everything else happens on that page: a
+city through the form and its pin on the region's own map (the view re-reads itself after
+Save); Create ▸ SELECT, the query typed and saved; a bar chart from it; Content mode from
+the document's mode toggle; a sentence; the chart embedded as an Object; the sentence
+dragged below it. The whole take is 2× footage, graph included: `lib/graph.mjs` scales
+the canvas-local points `graph2ScreenCoords` returns by the document's CSS zoom (the
+canvas rect is in zoomed viewport pixels, the graph's own coordinates are not), so the
+earlier zoom-1 exception for graph takes is gone. Southern's blocks and the
+previous take's query and chart are cleared off camera first. Beats mark 17 shots; the
+cut list picks the stretches, so what the viewer does not see (the form being filled at
+3×, the query typed at 2×) is compressed, never cut to another page.
+
+Earlier takes stay in `scenes/` for the record: `supercut-northwind-graph.mjs` (the order
+graph), `supercut-northwind.mjs` (gesture shots 4, 9, 15, 12, 8), `supercut-compose.mjs`
+(the compose sequence on its own page), `supercut-unesco.mjs`, `supercut-ltlod.mjs`, and
+the Rebrickable pair `supercut-rebrickable.mjs` / `supercut-rebrickable-flow.mjs` —
+Rebrickable was dropped from the cut: its stack runs `atomgraph/linkeddatahub:5.6.0`,
+which has no dark theme, so its shots came out light in a dark cut.
+
+The takes are 2× footage: a 2880×1800 viewport with the document zoomed 200 %
+(`lib/supercut.mjs`), since the video is the viewport in CSS pixels. `FLAGS=--shots=6,9`
+records a subset of a gesture take; **rename the take to its own track straight after**
+(`supercut-rebrickable-b`), then point the JSON's shots at it — a second `make scene` of
+the same file overwrites `tracks/<scene>.webm`, which is how one good take was lost.
+
+Stacks: `linkeddatahub.com` serves Northwind and UNESCO; Rebrickable is `:4444`; LTLOD is
+`:4443`. Each stack's nginx also binds a client-certificate port, and the defaults collide
+— LTLOD's 5443 with `linkeddatahub.com`, Rebrickable's 5444 with the LinkedDataHub dev
+stack — so start them with a free one: `HTTPS_CLIENT_CERT_PORT=5445 docker compose up -d`
+in `../LTLOD`, `HTTPS_CLIENT_CERT_PORT=5446 docker compose up -d nginx` in `../Rebrickable`
+(the port is only nginx's; the rest of the stack is unaffected). `docker compose stop` /
+`docker compose start` put everything back.
+
+A page scroll on camera is `easeScrollTo` (`lib/supercut.mjs`): the page glides to the
+element over ~1.4 s on an ease-in-out, so a static crop reads as a slow pan. The
+browser's own smooth scroll is a 300 ms lurch, and a pan in the cutter over a page that
+jumps underneath cannot be smooth either.
+
+Drag-and-drop on camera is the app's own drag events (`dragBlock` in `lib/editing.mjs`):
+Playwright's pointer drags and `dragTo` never reach the handler, a dispatched `DragEvent`
+whose `DataTransfer` carries `application/vnd.atomgraph.linkeddatahub.block` does, and the
+pointer overlay travels alongside. The app moves the dragged block **after** the drop
+target (`client/block.xsl:612`), so a drop on the previous sibling is a no-op — to put the
+chart above the sentence, the sentence is dragged onto the chart.
+
+Not in the cut, and why:
+
+- **File drop** — the content body accepts only the app's block type (`client/block.xsl:698`);
+  the set's edit form on Rebrickable offers no file input either (`foaf:depiction` is a URL).
+- **Map popup on LTLOD** — the pixel-scan pin click did not open a popup at 2×.
+- **Search on Rebrickable** — the dialog answered "the endpoint could not be reached" on
+  a 158 k-document search; the lookup-by-title combobox also times out there, so the
+  grid embed pastes a copied URI instead.
+- **Tree expand on UNESCO** — the branch did not open (4 rows before and after).
+- **Versioning, ACL, import wizard** — not shot: no history on these stacks; the other two
+  were not designed.
+
+## Vector mock (retired)
+
+Retired 2026-09-18: too much of every shot was imitation and the result read as fake beside
+the recorded cut. Left in place, not extended. The shots were not screen recordings. Each shot is a page under `mock/`
+(`form-pin.html`, `bloom.html`, `shapes.html`) that composes the app's **own components** —
+markup and stylesheets captured from the running dataspace (`scenes/capture-states.mjs`
+writes `mock/states/app.css` with every `@import` and `url()` inlined, plus the modal, the
+view block head, the results in each mode, the graph chrome as `mock/templates/*.html`) —
+around **made-up data**, and animates between states on a `window.render(t)` timeline.
+`render/mock.mjs` serves the page, steps `t` frame by frame, screenshots at 2× and encodes:
+crisp at any zoom, no cursor, no chrome the shot does not want, and the timing is the
+shot's, not the app's. Maps, graphs and charts are drawn (SVG over a captured basemap;
+d3-force for layout, in the app's hue-per-type idiom) because their canvases do not
+serialise. The contract: every **state** shown is one the product produces; the **motion**
+between states is invented; the **data** is whatever reads best. `render/mock-cut.json` +
+`make supercut SUPERCUT=render/mock-cut.json` joins the shots.
