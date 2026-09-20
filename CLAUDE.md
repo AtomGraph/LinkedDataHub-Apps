@@ -79,7 +79,7 @@ export PATH="$(find bin -type d -exec realpath {} \; | tr '\n' ':')$PATH"
 
 ### Key Components per Application
 1. **Installation scripts** (`install.sh`) - Deploy application to LinkedDataHub instance
-2. **Data import scripts** (`import-csv.sh`, `import-rdf.sh`) - Load data from CSV/RDF sources
+2. **Data import scripts** (`import-csv.sh`) - Load data from CSV sources, one `ldh import csv` per manifest row
 3. **SPARQL queries** (`queries/` directory) - Define data processing and views
 4. **Ontology files** (`admin/model/*.ttl`) - Define classes, properties, and constraints
 5. **Configuration scripts** - Create containers, charts, and authorizations

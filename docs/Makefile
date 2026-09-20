@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 BASE_URL_DEFAULT=https://localhost:4443/
-CERT_PATH_DEFAULT=../../LinkedDataHub/ssl/owner/cert.pem
+CERT_PATH_DEFAULT=../../LinkedDataHub/ssl/owner/keystore.p12
 PROXY_URL_DEFAULT=https://localhost:5443/
 
 install:

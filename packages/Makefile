@@ -1,7 +1,9 @@
 SHELL := /bin/bash
 
+# Pushes the package registry with the ldh CLI, which reads the LDH_* variables
+
 BASE_URL_DEFAULT=https://packages.linkeddatahub.com/
-CERT_PATH_DEFAULT=../../LinkedDataHub/ssl/owner/cert.pem
+CERT_PATH_DEFAULT=../../LinkedDataHub/ssl/owner/keystore.p12
 PROXY_URL_DEFAULT=https://localhost:5443/
 
 install:
@@ -16,8 +18,5 @@ install:
 		exit 1; \
 	fi; \
 	read -p "Enter Proxy URL (optional) [$(PROXY_URL_DEFAULT)]: " PROXY_URL; \
-	if [ -n "$${PROXY_URL}" ]; then \
-		./install.sh "$${BASE_URL}" "$${CERT_PATH}" "$${PASSWORD}" "$${PROXY_URL}"; \
-	else \
-		./install.sh "$${BASE_URL}" "$${CERT_PATH}" "$${PASSWORD}"; \
-	fi
+	export LDH_BASE="$${BASE_URL}" LDH_CERT_FILE="$${CERT_PATH}" LDH_CERT_PASSWORD="$${PASSWORD}" LDH_PROXY="$${PROXY_URL:-$${BASE_URL}}"; \
+	ldh push --dir . "$$LDH_BASE"

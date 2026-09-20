@@ -1,50 +1,35 @@
 #!/usr/bin/env bash
+# Installs the app onto a LinkedDataHub instance with the ldh CLI: makes it public, installs the
+# namespace ontology, pushes the document tree with its files, and runs the CSV imports.
+# Re-running is safe: PUT replaces each document, and the ontology is reset before re-import.
+set -euo pipefail
 
 if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
-  echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy]' >&2
-  echo "Example: $0" 'https://localhost:4443/ ../../../LinkedDataHub/ssl/owner/cert.pem Password [https://localhost:5443/]' >&2
+  echo "Usage:   $0" '$base $cert_file $cert_password [$proxy]' >&2
+  echo "Example: $0" 'https://localhost:4443/ ../../../LinkedDataHub/ssl/owner/keystore.p12 Password [https://localhost:5443/]' >&2
   echo "Note: special characters such as $ need to be escaped in passwords!" >&2
   exit 1
 fi
 
 base="$1"
-cert_pem_file=$(realpath "$2")
+cert_file=$(realpath "$2")
 cert_password="$3"
+proxy="${4:-$base}"
 
-if [ -n "$4" ]; then
-    proxy="$4"
-else
-    proxy="$base"
-fi
-
-pwd="$(realpath "$PWD")"
+app_dir="$(cd "$(dirname "$0")" && pwd)"
 
 printf "\n### Creating authorization to make the app public\n\n"
 
-make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
-
-cd admin/model
+ldh admin make-public -b "$base" -f "$cert_file" -p "$cert_password" --proxy "$proxy"
 
 printf "\n### Importing namespace ontology\n\n"
 
-./import-ns.sh "$base" "$cert_pem_file" "$cert_password" "$proxy"
+"$app_dir/admin/model/import-ns.sh" "$base" "$cert_file" "$cert_password" "$proxy"
 
-cd ../..
+printf "\n### Pushing documents and files\n\n"
 
-printf "\n### Updating documents and uploading files\n\n"
-
-if [[ -f "root.ttl" ]]; then
-  printf "\n### Updating %s\n" "$base"
-  cat root.ttl | turtle --base="$base" | put.sh \
-    -f "$cert_pem_file" \
-    -p "$cert_password" \
-    --proxy "$proxy" \
-    -t "application/n-triples" \
-    "$base"
-fi
-
-./update-folder.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "$pwd" "$proxy"
+ldh push -b "$base" -f "$cert_file" -p "$cert_password" --proxy "$proxy" --dir "$app_dir" "$base"
 
 printf "\n### Importing CSV data\n\n"
 
-./import-csv.sh "$base" "$cert_pem_file" "$cert_password" "$proxy" "$pwd/imports.csv"
+"$app_dir/import-csv.sh" "$base" "$cert_file" "$cert_password" "$proxy" "$app_dir/imports.csv"
