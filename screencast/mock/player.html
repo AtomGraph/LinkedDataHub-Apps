@@ -1,0 +1,115 @@
+<!doctype html>
+<html data-retro="m3" data-theme="dark" lang="en">
+<meta charset="utf-8">
+<title>form → pin</title>
+<link rel="stylesheet" href="states/app.css">
+<style>
+  /* the stage on top of the app's own styles: a dark plate, no page chrome */
+  html, body { margin: 0; background: #0f131a; width: 1440px; height: 900px; overflow: hidden; }
+  #stage { position: relative; width: 1440px; height: 900px; font-family: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; color: #f3f6fc; }
+  .scene { position: absolute; inset: 0; opacity: 0; }
+  #form { display: grid; place-items: center; }
+  /* the captured modal, as the app draws it — minus the backdrop and the subject bar */
+  #modal { width: 840px; transform-origin: 50% 40%; }
+  #modal .ac-backdrop, #modal.ac-backdrop { position: static; background: none; inset: auto; display: block; }
+  #modal .ldh-form-subjbar, #modal .ldh-subject, #modal .ldh-prop-addrow, #modal legend { display: none !important; }
+  #modal * { pointer-events: none; }
+  #map { overflow: hidden; }
+  /* the captured page, offset so the view block sits where the app put it (its box is
+     recorded in the capture); everything the app draws around the map stays */
+  #page { position: absolute; left: 0; top: 0; width: 1440px; transform-origin: 0 0; }
+  #page * { pointer-events: none; }
+  #page .ldh-content-add, #page .ldh-add-bar, #page .content-add-bar { display: none !important; }
+  /* the shot is the one block: everything after it is clipped by the stage */
+  #map::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 120px; background: linear-gradient(transparent, #0f131a); }
+  /* the simulated canvas: tiles as the captured raster, pins as SVG on top */
+  .sim-map { position: relative; width: 100%; height: 100%; overflow: hidden; }
+  .sim-map img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .sim-map svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .pin { fill: #2f6fe0; stroke: #ffffff; stroke-width: 1.5; }
+  .pin.new { fill: #ffb703; }
+  .caption { position: absolute; left: 96px; bottom: 72px; font: 500 40px 'Geist', system-ui, sans-serif; color: #f3f6fc; opacity: 0; letter-spacing: -.01em; }
+  .caption i { font: 400 40px 'Instrument Serif', Georgia, serif; color: #98ccff; }
+</style>
+<div id="stage">
+  <div class="scene" id="form"><div class="modal" id="modal"></div></div>
+  <div class="scene" id="map"><div id="page"></div></div>
+  <div class="caption" id="cap"><i>forms</i> write data</div>
+</div>
+<script type="module">
+  const T = 30; // fps
+  const q = (s) => document.querySelector(s);
+  const ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const clamp = (t) => Math.max(0, Math.min(1, t));
+
+  // assets
+  const formHtml = await (await fetch('states/form-filled.html')).text();
+  q('#modal').innerHTML = formHtml.split('\n').slice(1).join('\n');
+  // the app's modal is a fixed backdrop; on the stage it sits in flow
+  const bd = q('#modal > .ac-backdrop, #modal > .modal'); if (bd) { bd.style.position = 'static'; bd.style.background = 'none'; }
+  const mapData = await (await fetch('states/map-pins.json')).json();
+  const pins = mapData.pins.filter((p) => !/Amarillo/.test(p.label));
+  const NEW = 'Amarillo', newPin = mapData.pins.find((p) => /Amarillo/.test(p.label)) ?? { x: 372, y: 470 };
+  // the captured territories page, with the OpenLayers canvas swapped for our layer
+  const pageHtml = await (await fetch('states/territories-page.html')).text();
+  const pageMeta = JSON.parse(pageHtml.split('\n')[0].replace(/^<!-- | -->$/g, ''));
+  q('#page').innerHTML = pageHtml.split('\n').slice(1).join('\n');
+  const mapBox = await (await fetch('states/map-box.json')).json();
+  // scroll the page so the view block (toolbar + map) fills the stage
+  const blockTop = q('#page .ldh-view-toolbar')?.getBoundingClientRect().top ?? mapBox.y; const shift = -(blockTop - 96 - 60);
+  q('#page').style.transform = `translateY(${shift}px)`;
+  const host = q('#page .map-canvas');
+  host.innerHTML = '<div class="sim-map"><img src="states/map-tiles.png"><svg viewBox="0 0 1182 675" preserveAspectRatio="none"></svg></div>';
+  const svg = host.querySelector('svg');
+  const countEl = q('#page .ldh-view-toolbar .count b') || q('#page .count b');
+  const NS = 'http://www.w3.org/2000/svg';
+  const dots = pins.map((p) => { const c = document.createElementNS(NS, 'circle'); c.setAttribute('class', 'pin'); c.setAttribute('cx', p.x); c.setAttribute('cy', p.y); c.setAttribute('r', 0); svg.appendChild(c); return c; });
+  const img = host.querySelector('img');
+  const nd = document.createElementNS(NS, 'circle'); nd.setAttribute('class', 'pin new'); nd.setAttribute('cx', newPin.x); nd.setAttribute('cy', newPin.y); nd.setAttribute('r', 0); svg.appendChild(nd);
+  const ring = document.createElementNS(NS, 'circle'); ring.setAttribute('cx', newPin.x); ring.setAttribute('cy', newPin.y); ring.setAttribute('r', 0); ring.setAttribute('fill', 'none'); ring.setAttribute('stroke', '#ffb703'); ring.setAttribute('stroke-width', 2); svg.appendChild(ring);
+  const lbl = document.createElementNS(NS, 'text'); lbl.setAttribute('x', newPin.x + 14); lbl.setAttribute('y', newPin.y + 5); lbl.setAttribute('fill', '#1a1a1a'); lbl.setAttribute('font-size', 13); lbl.setAttribute('font-family', 'Geist, system-ui, sans-serif'); lbl.setAttribute('font-weight', 600); lbl.textContent = NEW; lbl.setAttribute('opacity', 0); svg.appendChild(lbl);
+  // the Save button inside the captured form
+  const save = q('#modal button.btn-save') || q('#modal button[type=submit]');
+
+  // timeline, seconds
+  const K = {
+    formIn: [0.0, 0.8],    // the form rises and settles
+    hold1: [0.8, 1.6],     // read it
+    press: [1.6, 1.9],     // Save presses
+    formOut: [1.9, 2.5],   // form recedes, map plate arrives
+    pinsIn: [2.4, 3.4],    // 58 pins sweep in west → east
+    drop: [3.5, 4.0],      // the new pin drops
+    ring: [3.9, 4.7],      // a ring expands and fades
+    count: [3.8, 4.4],     // 58 → 59
+    cap: [4.2, 6.0],       // caption
+    end: 6.4,
+  };
+  const at = (s, [a, b]) => clamp((s - a) / (b - a));
+
+  window.render = (s) => {
+    // form
+    const fi = ease(at(s, K.formIn)), fo = ease(at(s, K.formOut));
+    q('#form').style.opacity = String(Math.min(fi, 1 - fo));
+    q('#modal').style.transform = `translateY(${(1 - fi) * 40 - fo * 30}px) scale(${0.96 + 0.04 * fi - 0.06 * fo})`;
+    const pr = at(s, K.press);
+    if (save) { const k = pr < 0.5 ? pr * 2 : 2 - pr * 2; save.style.transform = `scale(${1 - 0.06 * k})`; save.style.filter = `brightness(${1 + 0.35 * k})`; }
+    // map
+    const mi = ease(at(s, [K.formOut[0] + 0.2, K.formOut[1] + 0.3]));
+    q('#map').style.opacity = String(mi);
+    q('#map').style.transform = `scale(${0.97 + 0.03 * mi})`;
+    const xs = pins.map((p) => p.x); const minX = Math.min(...xs), maxX = Math.max(...xs);
+    dots.forEach((c, i) => { const p = pins[i]; const w = (p.x - minX) / (maxX - minX); const t = ease(clamp((at(s, K.pinsIn) - w * 0.7) / 0.3)); c.setAttribute('r', 6 * t); });
+    const d = at(s, K.drop); const dy = (1 - ease(d)) * -60;
+    nd.setAttribute('r', 7.5 * ease(clamp(d * 1.4))); nd.setAttribute('cy', newPin.y + dy);
+    const rg = at(s, K.ring); ring.setAttribute('r', 8 + 42 * ease(rg)); ring.setAttribute('opacity', String((1 - rg) * 0.9));
+    lbl.setAttribute('opacity', String(ease(at(s, [K.drop[1], K.drop[1] + 0.4]))));
+    const cn = at(s, K.count); if (countEl) { countEl.textContent = cn < 0.5 ? String(pins.length) : String(pins.length + 1); countEl.style.color = cn > 0.4 && cn < 1 ? '#ffb703' : ''; }
+    img.style.opacity = String(ease(at(s, K.pinsIn)) * 0.92 + 0.08);
+    // caption
+    const c = at(s, K.cap); q('#cap').style.opacity = String(ease(clamp(c * 3)) * (1 - ease(clamp((c - 0.75) * 4))));
+    q('#cap').style.transform = `translateY(${(1 - ease(clamp(c * 3))) * 14}px)`;
+    return s < K.end;
+  };
+  window.duration = K.end;
+  window.ready = true;
+</script>

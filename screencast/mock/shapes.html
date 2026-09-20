@@ -1,0 +1,77 @@
+<!doctype html>
+<html data-retro="m3" data-theme="dark" lang="en">
+<meta charset="utf-8">
+<title>one list, six shapes</title>
+<link rel="stylesheet" href="states/app.css">
+<style>
+  html, body { margin: 0; background: #0f131a; width: 1440px; height: 900px; overflow: hidden; }
+  #stage { position: relative; width: 1440px; height: 900px; font-family: 'Geist', system-ui, sans-serif; color: #f3f6fc; }
+  #stage * { pointer-events: none; }
+  #view { position: absolute; inset: 0; padding: 60px 129px 0; }
+  #view h1 { font: 600 34px 'Geist', system-ui, sans-serif; margin: 0 0 6px; }
+  #view .lede { color: #9aa3b5; font-size: 15px; margin: 0 0 22px; }
+  /* the block: the app's head + toolbar from the capture; the results slot holds one shape at a time */
+  .shapes { position: relative; height: 560px; overflow: hidden; }
+  .shape { position: absolute; inset: 0; opacity: 0; transform: translateY(14px); }
+  .shape.drawn { background: #121822; }
+  .shape svg { width: 100%; height: 100%; }
+  .shape img.basemap { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .pin { fill: #2f6fe0; stroke: #fff; stroke-width: 1.6; }
+  .caption { position: absolute; right: 129px; top: 58px; font: 500 40px 'Geist', system-ui, sans-serif; color: #f3f6fc; opacity: 0; letter-spacing: -.01em; }
+  .caption i { font: 400 40px 'Instrument Serif', Georgia, serif; color: #98ccff; }
+  /* the mode pill in the toolbar: our label swaps with the shape */
+  .ldh-mode .drop-toggle .label { font-variant-numeric: tabular-nums; }
+</style>
+<script src="assets/d3-force.min.js"></script>
+<div id="stage">
+  <div id="view"><h1>The team</h1><p class="lede">Everyone on the Northwind payroll, who they report to and the territories they cover.</p><div id="block"></div></div>
+  <div class="caption" id="cap"><i>same rows,</i> six shapes</div>
+</div>
+<script type="module">
+  import { ease, at, q, svgEl, template } from './lib.js';
+  import { hueOf, layout, draw } from './graph.js';
+  const block = await template('view-block-head'); q('#block').append(block);
+  q('.ldh-block-head .ttl', block).textContent = 'All employees';
+  q('.ldh-view-toolbar .count b', block).textContent = '9';
+  // the facet pills: this view's own
+  const pills = q('.ldh-view-toolbar .left', block); pills.querySelectorAll('.facet').forEach((f) => f.remove());
+  for (const [pred, val] of [['family name', 'Any'], ['territory', 'Any'], ['reports to', 'Any']]) { const d = document.createElement('div'); d.className = 'facet'; d.innerHTML = `<button type="button" class="facet-pill"><span class="pred">${pred}</span><span class="val">${val}</span><span class="msi sm caret" aria-hidden="true">expand_more</span></button>`; pills.append(d); }
+  const modeLabel = q('.ldh-view-toolbar .ldh-mode .drop-toggle .label', block), modeIcon = q('.ldh-view-toolbar .ldh-mode .drop-toggle .msi', block);
+  const slot = q('[data-slot=canvas]', block); slot.className = 'shapes'; slot.removeAttribute('data-slot');
+  // ── the six shapes ──────────────────────────────────────────────────────────
+  const shapes = [];
+  const add = (name, icon, el) => { el.classList.add('shape'); slot.append(el); shapes.push({ name, icon, el }); };
+  const wrap = async (tpl) => { const d = document.createElement('div'); d.innerHTML = await (await fetch(`templates/${tpl}.html`)).text(); return d; };
+  add('List', 'view_list', await wrap('results-list'));
+  add('Table', 'table', await wrap('results-table'));
+  add('Grid', 'grid_view', await wrap('results-grid'));
+  // map: basemap + the nine reps, made-up spread London/Seattle
+  { const d = document.createElement('div'); d.className = 'drawn'; d.innerHTML = '<img class="basemap" src="assets/basemap-us.png"><svg viewBox="0 0 1182 675" preserveAspectRatio="xMidYMid slice"></svg>'; const s = q('svg', d); [[140, 170], [150, 185], [160, 176], [172, 190], [148, 200], [1080, 130], [1092, 142], [1070, 150], [1100, 155]].forEach(([x, y]) => s.append(svgEl('circle', { class: 'pin', cx: x, cy: y, r: 9 }))); add('Map', 'map', d); }
+  // chart: territories per rep as bars, in the app's chart idiom (light on dark)
+  { const d = document.createElement('div'); d.className = 'drawn'; const s = svgEl('svg', { viewBox: '0 0 1182 560' }); d.append(s); const reps = [['King', 10], ['Buchanan', 7], ['Dodsworth', 7], ['Fuller', 7], ['Suyama', 5], ['Callahan', 4], ['Leverling', 4], ['Peacock', 3], ['Davolio', 2]]; reps.forEach(([n, v], i) => { const y = 40 + i * 54; const t = svgEl('text', { x: 150, y: y + 18, 'text-anchor': 'end', fill: '#cfd6e3', 'font-size': 14, 'font-family': 'Geist, system-ui, sans-serif' }); t.textContent = n; s.append(t); s.append(svgEl('rect', { x: 170, y, width: v * 90, height: 26, rx: 3, fill: '#4da3ff', 'data-w': v * 90 })); }); add('Chart', 'bar_chart', d); }
+  // graph: the app's own layout for this view, captured from Graph mode (projected 3D
+  // positions, hue-per-type colours, size by depth) and drawn as SVG
+  { const d = document.createElement('div'); d.className = 'drawn'; d.style.background = '#000011'; const s = svgEl('svg', { viewBox: '0 0 1182 560' }); d.append(s);
+    const g = await (await fetch('assets/graph-employees.json')).json();
+    const xs = g.nodes.map((n) => n.x), ys = g.nodes.map((n) => n.y);
+    const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
+    const sc = Math.min(1100 / (maxX - minX), 500 / (maxY - minY)), ox = (1182 - (maxX - minX) * sc) / 2 - minX * sc, oy = (560 - (maxY - minY) * sc) / 2 - minY * sc;
+    const P = g.nodes.map((n) => ({ x: n.x * sc + ox, y: n.y * sc + oy }));
+    const dmin = Math.min(...g.nodes.map((n) => n.depth)), dmax = Math.max(...g.nodes.map((n) => n.depth));
+    // far nodes drawn first, near nodes on top — the depth cue the 3D canvas gives
+    const order = g.nodes.map((n, i) => i).sort((i, j) => g.nodes[j].depth - g.nodes[i].depth);
+    for (const l of g.links) s.append(svgEl('line', { x1: P[l.s].x, y1: P[l.s].y, x2: P[l.t].x, y2: P[l.t].y, stroke: 'rgba(255,255,255,.22)', 'stroke-width': 1 }));
+    for (const i of order) { const n = g.nodes[i]; const near = 1 - (n.depth - dmin) / (dmax - dmin); const r = (2.6 + 4.2 * near) * (n.val > 1 ? 1.3 : 1); s.append(svgEl('circle', { cx: P[i].x, cy: P[i].y, r, fill: n.color ?? 'hsl(200,70%,60%)', opacity: 0.55 + 0.45 * near })); if (n.label && !/^https?:/.test(n.label) && near > 0.55) { const t = svgEl('text', { x: P[i].x, y: P[i].y - r - 5, 'text-anchor': 'middle', fill: 'rgba(255,255,255,.9)', 'font-size': 11, 'font-family': 'Geist, system-ui, sans-serif' }); t.textContent = n.label; s.append(t); } }
+    add('Graph', 'hub', d); }
+  // ── timeline: each shape holds ~1.4 s, crossfading on the beat ─────────────
+  const STEP = 1.4, FADE = 0.35, START = 0.6;
+  const K = { cap: [1.0, 8.2], end: START + STEP * shapes.length + 0.6 };
+  window.render = (s) => {
+    shapes.forEach((sh, i) => { const t0 = START + i * STEP; const inT = ease(at(s, [t0, t0 + FADE])); const outT = i < shapes.length - 1 ? ease(at(s, [t0 + STEP, t0 + STEP + FADE])) : 0; const o = Math.min(inT, 1 - outT); sh.el.style.opacity = String(o); sh.el.style.transform = `translateY(${(1 - inT) * 14}px)`; if (inT > 0 && outT < 1 && o > 0.5) { modeLabel.textContent = sh.name; modeIcon.textContent = sh.icon; } });
+    // bars grow when the chart is in
+    const ci = ease(at(s, [START + 4 * STEP, START + 4 * STEP + 0.8])); shapes[4].el.querySelectorAll('rect').forEach((r) => r.setAttribute('width', Number(r.dataset.w) * ci));
+    const c = at(s, K.cap); q('#cap').style.opacity = String(ease(Math.min(1, c * 3)) * (1 - ease(Math.max(0, Math.min(1, (c - 0.8) * 5)))));
+    return s < K.end;
+  };
+  window.duration = K.end; window.ready = true;
+</script>
