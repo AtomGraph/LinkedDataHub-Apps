@@ -52,7 +52,10 @@ make docs-publish                             # optimise docs/out/ into ../docs/
 ```
 
 Nothing is hardcoded: origin, keystore, password and the `ldh` binary are all
-parameters, with the Makefile carrying overridable defaults.
+parameters, with the Makefile carrying overridable defaults. The off-camera fixture
+resets shell out to `ldh`, so it must be on PATH (`../../LinkedDataHub/cli/bin`) or named
+by `LDH_BIN`; a scene whose reset fails stops before the browser opens rather than
+filming last take's leftovers.
 
 ## Output
 
@@ -69,6 +72,23 @@ document whose loaded render is its strongest frame, so there is no payoff to li
 forward and nothing is shown out of order. Where to cut is measured, not chosen —
 a scene fires its first beat the instant its opening view has painted, and the trim
 lands 0.3s before it.
+
+`render/stitch.mjs` turns a scroll a take made into ground the camera can cross, for a
+take that jumped: a browser's own scroll is a 300 ms glide, but its frames are one page
+at successive offsets, so the script measures each frame's shift, lays the rows into one
+tall still (`tracks/<take>.scroll.png`, fixed chrome dropped) and ends it on the frame
+the cut resumes from; the cutter reads a `.png` track as a still whose `from`/`to` span
+the pan in seconds. The compose take no longer needs it: the scene glides the form up
+with `easeScrollTo` before the Title click and `easeScrollTop` before the mode switch and
+the drag, so the camera rides the page's own scroll from the query editor down to Save.
+
+Shots that continue one take abut exactly: a shot's lead (`leadSeconds`) and trail
+(`trailSeconds`) overlap its neighbour by 0.2 s, so a continuing shot carries
+`fromOffset: 0.2` and the join lands on the frame the previous shot ended on. A shot's
+`startFocus` or `focus` box may carry its own `minZoom`/`maxZoom`/`pad`, so a shot can
+start on the tight frame its predecessor held and land on a wider one. Every framing
+runs on zoompan now — the crop filter's size is fixed for a stream, so it could slide
+but never zoom, and its rounding differed from zoompan's by a pixel at a join.
 
 `render/review.mjs` answers the three questions worth asking: did every beat happen
 (an aborted run does not report green), did the page end up rich, and does anything
@@ -217,8 +237,12 @@ cut list picks the stretches, so what the viewer does not see (the form being fi
 3×, the query typed at 2×) is compressed, never cut to another page.
 
 Earlier takes stay in `scenes/` for the record: `supercut-northwind-graph.mjs` (the order
-graph), `supercut-northwind.mjs` (gesture shots 4, 9, 15, 12, 8), `supercut-compose.mjs`
-(the compose sequence on its own page), `supercut-unesco.mjs`, `supercut-ltlod.mjs`, and
+graph, then the customer record's Related results hopped to the reps and on to their
+territories, Rockville opened, a rep hired for it on the Person form its view constructs,
+the grid re-read one face richer, the breadcrumb up to Sales territories — one take, so
+the cut moves the camera between those beats and never cuts; recorded with
+`SCHEME=dark`, like every take in the dark cut), `supercut-northwind.mjs` (gesture shots 4, 9, 15, 12, 8), `supercut-compose.mjs`
+(the compose sequence on its own page — one take from the query to the drag, cut as one continuous camera: every shot continues the previous one, the long gestures at 2–3×), `supercut-unesco.mjs`, `supercut-ltlod.mjs`, and
 the Rebrickable pair `supercut-rebrickable.mjs` / `supercut-rebrickable-flow.mjs` —
 Rebrickable was dropped from the cut: its stack runs `atomgraph/linkeddatahub:5.6.0`,
 which has no dark theme, so its shots came out light in a dark cut.

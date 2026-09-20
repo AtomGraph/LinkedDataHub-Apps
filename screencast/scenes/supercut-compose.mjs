@@ -8,7 +8,7 @@ import { create, typeQuery, fill, save, configureChart } from '../lib/constructo
 import { addProse, addObject, switchDocumentMode, contentModeUrl } from '../lib/blocks.mjs';
 import { dragBlock } from '../lib/editing.mjs';
 import { ui } from '../lib/dom.mjs';
-import { GEOMETRY_2X, zoom2x, focus, centre, load, easeScrollTo } from '../lib/supercut.mjs';
+import { GEOMETRY_2X, zoom2x, focus, centre, load, easeScrollTo, easeScrollTop } from '../lib/supercut.mjs';
 
 const opts = await resolve('/');
 const { base, identity } = opts;
@@ -50,8 +50,19 @@ await runScene({
       onTyped: async () => marks.beat('c1-typed', 'the last character in', await focus(form)),
     });
     await marks.beat('c1-verified', q.ok ? 'the query, read back' : q.why, await focus(form));
+    // The form is taller than the viewport: glide it up so that Save sits at the bottom and
+    // the Title field is in view, rather than letting the Title click jump the page. The
+    // camera can then ride the page's own scroll from the editor down to Save.
+    const saveBtn = form.locator('button.btn-save, button[class*="btn-save"]').filter({ visible: true }).last();
+    await easeScrollTo(saveBtn, { ms: 2000, block: 'end', margin: 0 }).catch(() => {});
+    await sleep(300);
+    await marks.beat('c1-scrolled', 'the form\'s foot in view: Title, Save', await focus(saveBtn));
     await fill(page, cursor, 'Title', TITLE);
-    const s1 = await save(page, cursor);
+    await cursor.moveTo(...(await centre(saveBtn)), { duration: 600 });
+    await marks.beat('c1-save', 'pointer on Save', await focus(saveBtn));
+    await cursor.click(saveBtn);
+    const s1 = { ok: true };
+    await marks.beat('c1-saved', 'saved');
     const row = () => ui(page).locator('.ldh-block-row').filter({ hasText: TITLE }).first();
     await row().locator('table tbody tr').first().waitFor({ state: 'visible', timeout: 30_000 }).catch(() => {});
     // the form was taller than the viewport; the block it became is above — scroll to it
@@ -77,7 +88,7 @@ await runScene({
     const xhtml = () => ui(page).locator('button.create-action.add-constructor').filter({ hasText: 'XHTML' }).first();
     // the document-level mode toggle, with room below it for its menu
     const toggle = ui(page).locator('button.layout-modes.drop-toggle, button[title="Mode"]').first();
-    await page.evaluate(() => window.scrollTo(0, 0)); await sleep(600);
+    await easeScrollTop(page, { ms: 1400 }); await sleep(600);
     const tb = await toggle.boundingBox();
     const menuBox = tb ? { focus: { x: tb.x - 420, y: Math.max(0, tb.y - 30), w: tb.width + 520, h: 560 } } : null;
     await marks.beat('c3t-start', 'Properties mode; pointer to the mode toggle', menuBox);
@@ -102,12 +113,12 @@ await runScene({
       await xhtml().waitFor({ state: 'visible', timeout: 30_000 }).catch(() => {});
     }
     await sleep(800);
-    await marks.beat('c3-start', 'Content mode, an empty page');
+    await marks.beat('c3-start', 'Content mode, an empty page', await focus(xhtml()));
     const p1 = await addProse(page, cursor, type, 'Eastern has four reps on nineteen territories. Southern has two on eight.');
     await sleep(800);
     await marks.beat('c3-end', p1.ok ? 'the sentence, on the page' : p1.why, await focus(ui(page).locator('.ldh-block-row').first()));
     // ── c4 · the chart, embedded beside it ─────────────────────────────────────
-    await marks.beat('c4-start', 'pointer on + Object');
+    await marks.beat('c4-start', 'pointer on + Object', await focus(ui(page).locator('button.create-action.add-constructor').filter({ hasText: 'Object' }).first()));
     const o1 = await addObject(page, cursor, type, null, { label: TITLE, kind: 'Result set chart' });
     await ui(page).locator('.ldh-block-row svg').first().waitFor({ state: 'visible', timeout: 15_000 }).catch(() => {});
     await sleep(1200);
@@ -115,12 +126,17 @@ await runScene({
     // ── c5 · the chart dragged above the sentence ──────────────────────────────
     const rows = ui(page).locator('.ldh-block-row').filter({ has: page.locator('span.ldh-bh-drag') });
     const prose = rows.first(), chart = rows.last();
-    await page.evaluate(() => window.scrollTo(0, 0)); await sleep(500);
+    await easeScrollTop(page, { ms: 1400 }); await sleep(500);
     await marks.beat('c5-start', 'sentence above, chart below', await focus(prose, chart));
     // the app moves the dragged block after the drop target: the sentence goes below the chart
     const dr = await dragBlock(page, cursor, prose, chart);
     await sleep(1500);
-    await marks.beat('c5-end', dr.ok ? 'chart above, sentence below' : dr.why, await focus(rows.first(), rows.last()));
+    await marks.beat('c5-dropped', dr.ok ? 'dropped: the sentence now follows the chart' : dr.why, await focus(rows.first()));
+    // the chart block is taller than the fold: glide down so the bars and the sentence
+    // under them are both on screen, and the swap can be read
+    await easeScrollTo(rows.last(), { ms: 1400, block: 'end', margin: 440 }).catch(() => {});
+    await sleep(600);
+    await marks.beat('c5-end', dr.ok ? 'chart above, sentence below' : dr.why, await focus(rows.last()));
     await sleep(600);
     await marks.beat('end');
   },

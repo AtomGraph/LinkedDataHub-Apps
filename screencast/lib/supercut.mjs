@@ -44,9 +44,21 @@ export const load = async (page, url, ready, settle = 2500, { timeout = 120_000 
 export const easeScrollTo = (locator, { ms = 1400, block = 'start', margin = 0 } = {}) =>
   locator.evaluate((el, { ms, block, margin }) => new Promise((done) => {
     const r = el.getBoundingClientRect();
-    const target = block === 'center' ? r.top + window.scrollY - (window.innerHeight - r.height) / 2 : r.top + window.scrollY - margin;
+    const target = block === 'center' ? r.top + window.scrollY - (window.innerHeight - r.height) / 2
+      : block === 'end' ? r.bottom + window.scrollY - window.innerHeight + margin
+      : r.top + window.scrollY - margin;
     const from = window.scrollY, to = Math.max(0, Math.min(target, document.documentElement.scrollHeight - window.innerHeight));
     const t0 = performance.now();
     const step = (now) => { const u = Math.min(1, (now - t0) / ms); const k = u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2; window.scrollTo(0, from + (to - from) * k); if (u < 1) requestAnimationFrame(step); else done(); };
     requestAnimationFrame(step);
   }), { ms, block, margin });
+
+// The same glide to the top of the page, where a scene resets its scroll before the
+// next gesture: an instant scrollTo(0, 0) is a jump no camera move can hide.
+export const easeScrollTop = (page, { ms = 1400 } = {}) =>
+  page.evaluate(({ ms }) => new Promise((done) => {
+    const from = window.scrollY; if (!from) return done();
+    const t0 = performance.now();
+    const step = (now) => { const u = Math.min(1, (now - t0) / ms); const k = u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2; window.scrollTo(0, from * (1 - k)); if (u < 1) requestAnimationFrame(step); else done(); };
+    requestAnimationFrame(step);
+  }), { ms });

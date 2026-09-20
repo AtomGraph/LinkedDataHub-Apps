@@ -47,7 +47,7 @@ const beatTime = async (track, ref) => (await beat(track, ref)).at;
 // `points` are pointer positions the frame must contain (the click at either end of
 // the shot): the box widens to take them in, and a frame zoomed past 1.6× is centred
 // on the last of them — the click — rather than on the block.
-function frameFor(box, W, H, { maxZoom = 2.4, minZoom = 1.4, pad = 0.1 } = {}, points = []) {
+function frameFor(box, W, H, { maxZoom = 2.4, minZoom = 1.4, pad = 0.1 } = {}, points = [], bounds = { W, H }) {
   const pts = points.filter((p) => p && Number.isFinite(p.x) && Number.isFinite(p.y));
   if (!box && !pts.length) return { w: W, h: H, cx: W / 2, cy: H / 2 };
   if (!box) return { w: W, h: H, cx: W / 2, cy: H / 2 };
@@ -65,7 +65,7 @@ function frameFor(box, W, H, { maxZoom = 2.4, minZoom = 1.4, pad = 0.1 } = {}, p
   if (box.h > h) cy = box.y + h * 0.45;
   let cx = box.x + box.w / 2;
   if (pts.length && W / w >= 1.6) { const p = pts[pts.length - 1]; cx = p.x; cy = p.y; }
-  cx = Math.min(Math.max(cx, w / 2), W - w / 2); cy = Math.min(Math.max(cy, h / 2), H - h / 2);
+  cx = Math.min(Math.max(cx, w / 2), bounds.W - w / 2); cy = Math.min(Math.max(cy, h / 2), bounds.H - h / 2);
   return { w, h, cx, cy };
 }
 // A crop that moves from frame A to frame B, smoothstepped over `T` seconds starting at
@@ -99,6 +99,39 @@ function cropPath(keys, M) {
   const cw = dim('w'), ch = dim('h'), cx = dim('cx'), cy = dim('cy');
   return `crop=w='${cw}':h='${ch}':x='${cx}-${cw}/2':y='${cy}-${ch}/2'`;
 }
+// A zoom: the frame closes from A onto B over `T` seconds from `t0`, the zoom factor
+// and the centre both on the smoothstep, then holds B. A crop's size is fixed for the
+// stream (only its position is evaluated per frame, so `cropBetween` slides at the end
+// zoom); zoompan scales a shrinking window, so the block grows in place. The window's
+// aspect is the source's, and the output is the frame size, so nothing is rescaled after.
+function zoomBetween(A, B, t0, T, W, fps, out) {
+  const f = (v) => v.toFixed(3);
+  const u = `(max(0,min(1,(in/${fps}-${f(t0)})/${f(Math.max(0.01, T))})))`;
+  const k = `(3*pow(${u},2)-2*pow(${u},3))`;
+  const lerp = (a, b) => `(${f(a)}+(${f(b)}-${f(a)})*${k})`;
+  const z = lerp(W / A.w, W / B.w), cx = lerp(A.cx, B.cx), cy = lerp(A.cy, B.cy);
+  return `fps=${fps},zoompan=z='${z}':x='${cx}-iw/(2*zoom)':y='${cy}-ih/(2*zoom)':d=1:s=${out.width}x${out.height}:fps=${fps}`;
+}
+// The same path on zoompan: zoom factor and centre both move between the keyframes, so a
+// tight frame on a control and a wide one on the block it belongs to are really
+// different sizes on screen (cropPath keeps the last key's size and slides).
+function zoomPath(keys, M, W, fps, out) {
+  const f = (v) => v.toFixed(3);
+  const t = `(in/${fps})`;
+  const lerp = (a, b, k) => `(${f(a)}+(${f(b)}-${f(a)})*${k})`;
+  const val = (F, name) => (name === 'z' ? W / F.w : F[name]);
+  const dim = (name) => {
+    let expr = f(val(keys[keys.length - 1].F, name));
+    for (let i = keys.length - 2; i >= 0; i--) {
+      const t1 = keys[i + 1].t, m = Math.max(0.01, Math.min(M, t1 - keys[i].t));
+      const u = `(max(0,min(1,(${t}-${f(t1 - m)})/${f(m)})))`;
+      const k = `(3*pow(${u},2)-2*pow(${u},3))`;
+      expr = `if(lt(${t},${f(t1)}),${lerp(val(keys[i].F, name), val(keys[i + 1].F, name), k)},${expr})`;
+    }
+    return expr;
+  };
+  return `fps=${fps},zoompan=z='${dim('z')}':x='${dim('cx')}-iw/(2*zoom)':y='${dim('cy')}-ih/(2*zoom)':d=1:s=${out.width}x${out.height}:fps=${fps}`;
+}
 async function duration(file) {
   return new Promise((resolve, reject) => {
     const p = spawn('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', file]);
@@ -121,9 +154,12 @@ async function renderCaption(text, out) {
 }
 
 async function cutShot(shot) {
-  // a mock renders straight to .mp4; a recording is a .webm
+  // a mock renders straight to .mp4; a recording is a .webm; a stitched page
+  // (render/stitch.mjs) is a .png still, and `from`/`to` are then the pan's span in seconds
   let src = path.join(TRACKS, `${shot.track}.webm`);
   if (!(await fs.access(src).then(() => true, () => false))) src = path.join(TRACKS, `${shot.track}.mp4`);
+  if (!(await fs.access(src).then(() => true, () => false))) src = path.join(TRACKS, `${shot.track}.png`);
+  const still = src.endsWith('.png');
   const exists = await fs.access(src).then(() => true, () => false);
   if (!exists) { if (shot.optional) { console.log(`  skip ${shot.id}: no ${src}`); return null; } throw new Error(`missing ${src}`); }
   // A beat and its gesture (or teardown) are the same instant, so the frame AT a beat
@@ -134,8 +170,8 @@ async function cutShot(shot) {
   catch (e) { if (shot.optional) { console.log(`  skip ${shot.id}: ${e.message}`); return null; } throw e; }
   // `fromOffset` / `toOffset` shift a shot's ends in seconds (a negative `toOffset`
   // ends a shot before its beat, where a helper's settle after the result is dead air).
-  let from = Math.max(0, bFrom.at - (same ? 0 : (cfg.leadSeconds ?? 0.3)) + (shot.fromOffset ?? 0));
-  const to = same ? from : bTo.at - (cfg.trailSeconds ?? 0.1) + (shot.toOffset ?? 0);
+  let from = still ? bFrom.at : Math.max(0, bFrom.at - (same ? 0 : (cfg.leadSeconds ?? 0.3)) + (shot.fromOffset ?? 0));
+  const to = still ? bTo.at : same ? from : bTo.at - (cfg.trailSeconds ?? 0.1) + (shot.toOffset ?? 0);
   // A gesture that took longer than a shot should keeps its end — the result — and
   // loses its beginning.
   // `speed` plays the gesture faster than it was made (typing a query at 2×); the cap
@@ -143,25 +179,40 @@ async function cutShot(shot) {
   const speed = shot.speed ?? 1;
   const max = shot.maxSeconds ?? cfg.maxSeconds ?? 6;
   if ((to - from) / speed > max) from = to - max * speed;
-  // The focus: the end beat's box (where the result is), else the start beat's.
-  const box = shot.focus === false ? null : (bTo.focus ?? bFrom.focus ?? null);
+  // The focus: the end beat's box (where the result is), else the start beat's. A shot
+  // may carry its own box (`focus: {x, y, w, h}` in take pixels) where the take's beat
+  // marked none — measured off the frame, until the scene marks it.
+  const ownBox = shot.focus && typeof shot.focus === 'object' ? shot.focus : null;
+  const box = shot.focus === false ? null : (ownBox ?? bTo.focus ?? bFrom.focus ?? null);
   const hold = shot.hold ?? 0;
   const out = path.join(TMP, `${shot.id}.mp4`);
   const { width, height, fps, crf } = cfg;
   const filters = [];
   if (speed !== 1) filters.push(`setpts=PTS/${speed}`);
-  if (to > from && hold > 0) filters.push(`tpad=stop_mode=clone:stop_duration=${hold}`);
+  if (to > from && hold > 0 && !still) filters.push(`tpad=stop_mode=clone:stop_duration=${hold}`);
   // Source frames are the take's own size (2880×1800 for 2× takes); the push-in crops
   // in source pixels, then everything is scaled to the output frame.
   const srcSize = shot.source ?? cfg.source ?? { width: 2880, height: 1800 };
   // The push runs the whole shot (gesture + hold), never a lunge-then-hold.
   const total = (to > from ? (to - from) / speed : 0) + hold;
-  // Framing: `move` is "push" (the full frame closes on the end box over the whole
-  // shot), "static" (the end box's frame throughout) or "pan" (from the start beat's
-  // box to the end beat's, over `moveSeconds` starting `moveAt` seconds in — negative
-  // counts back from the end of the gesture, where the new block has just appeared).
+  // Framing: `move` is "push" (the end box's frame, slid into from the page's top-left
+  // over `push` seconds), "zoom" (the full frame closes straight onto the end box over
+  // `push` seconds, a true zoom), "static" (the end box's frame throughout) or "pan"
+  // (from the start beat's box to the end beat's, over `moveSeconds` starting `moveAt`
+  // seconds in — negative counts back from the end of the gesture, where the new block
+  // has just appeared).
   if (box) {
-    const W = srcSize.width, H = srcSize.height;
+    // Frames are the take's viewport: its aspect is the output's, and zoom is relative to
+    // its width. A stitched still is taller than the viewport, so its frames are clamped
+    // to the still's bounds and the still is padded out to the viewport's aspect before
+    // zoompan, whose window takes the shape of its input.
+    const view = shot.viewport ?? (still ? cfg.source : null) ?? srcSize;
+    const W = view.width, H = view.height;
+    const bounds = { W: srcSize.width, H: srcSize.height };
+    const canvas = { W: Math.max(bounds.W, Math.round(bounds.H * W / H)), H: Math.max(bounds.H, Math.round(bounds.W * H / W)) };
+    const padX = Math.round((canvas.W - bounds.W) / 2), padY = Math.round((canvas.H - bounds.H) / 2);
+    if (padX || padY) filters.push(`pad=${canvas.W}:${canvas.H}:${padX}:${padY}:color=${cfg.padColor ?? 'black'}`);
+    const onCanvas = (F) => ({ ...F, cx: F.cx + padX, cy: F.cy + padY });
     const limits = { maxZoom: shot.maxZoom ?? cfg.maxZoom ?? 2.4, minZoom: shot.minZoom ?? cfg.minZoom ?? 1.4, pad: shot.pad ?? 0.1 };
     // Pointer positions ride in the sidecar but only shape the frame when a shot asks
     // (`keepPointer: true`): unioning them into every frame pushed the crops out to the
@@ -169,23 +220,35 @@ async function cutShot(shot) {
     // design instead — the cursor travels within the framed block.
     const pFrom = shot.keepPointer ? bFrom.pointer ?? null : null, pTo = shot.keepPointer ? bTo.pointer ?? null : null;
     const move = shot.move ?? 'push';
-    const B = frameFor(box, W, H, limits, move === 'pan' ? [pTo] : [pFrom, pTo]);
+    // a shot-level box may carry its own `minZoom` / `maxZoom` / `pad`, so a shot can start
+    // on the tight frame the previous one held and land on a wider one (or the reverse)
+    const limitsFor = (b) => ({ ...limits, ...(b && b.minZoom != null ? { minZoom: b.minZoom } : {}), ...(b && b.maxZoom != null ? { maxZoom: b.maxZoom } : {}), ...(b && b.pad != null ? { pad: b.pad } : {}) });
+    const B = frameFor(box, W, H, limitsFor(ownBox), move === 'pan' ? [pTo] : [pFrom, pTo], bounds);
     // `via`: beats inside the shot whose focus boxes the crop passes through — the
-    // control the pointer reaches before a click — each on its own smooth move
-    if (Array.isArray(shot.via) && shot.via.length) {
-      const A = frameFor(bFrom.focus ?? box, W, H, limits);
+    // control the pointer reaches before a click — each on its own smooth move. An entry
+    // may be a keyframe the take did not mark, `{ at, focus }` in take seconds and pixels.
+    // `startFocus` is the first frame's box where the start beat's is stale (the page
+    // scrolled since it was marked).
+    // (an empty `via` is the plain path: the start box, then one move onto the end box)
+    if (Array.isArray(shot.via)) {
+      const A = frameFor(shot.startFocus ?? bFrom.focus ?? box, W, H, limitsFor(shot.startFocus), [], bounds);
       const viaLimits = { ...limits, maxZoom: shot.viaZoom ?? Math.max(limits.maxZoom, 1.6), minZoom: 1 };
-      const keys = [{ t: 0, F: A }];
+      const keys = [{ t: 0, F: onCanvas(A) }];
       for (const name of shot.via) {
-        const b = await beat(shot.track, name).catch(() => null);
+        // `{ beat, focus, offset }`: a marked beat's time (plus `offset` seconds) with a box
+        // the take did not carry for it — the frame to reach a moment after a click, say
+        const b = typeof name === 'object' ? (name.beat ? await beat(shot.track, name.beat).then((x) => ({ ...x, at: x.at + (name.offset ?? 0), focus: name.focus ?? x.focus })).catch(() => null) : name) : await beat(shot.track, name).catch(() => null);
         if (!b || !b.focus) { console.log(`  ${shot.id}: via ${name} missing, skipped`); continue; }
         const t = (b.at - from) / speed;
         if (t <= 0 || t >= (to > from ? (to - from) / speed : 0)) continue;
-        keys.push({ t, F: frameFor(b.focus, W, H, viaLimits) });
+        // a via box may carry its own floor too (`minZoom` on the box), e.g. to land on the
+        // frame the shot ends on and hold there
+        keys.push({ t, F: onCanvas(frameFor(b.focus, W, H, { ...viaLimits, ...(b.focus.minZoom != null ? { minZoom: b.focus.minZoom } : {}), ...(b.focus.maxZoom != null ? { maxZoom: b.focus.maxZoom } : {}), ...(b.focus.pad != null ? { pad: b.focus.pad } : {}) }, [], bounds)) });
       }
-      keys.push({ t: to > from ? (to - from) / speed : 0.01, F: B });
-      filters.push(cropPath(keys, shot.moveSeconds ?? cfg.viaSeconds ?? 1.0));
-    } else if (move === 'static') filters.push(cropBetween(B, B, 0, 0.01));
+      keys.push({ t: to > from ? (to - from) / speed : 0.01, F: onCanvas(B) });
+      filters.push(zoomPath(keys, shot.moveSeconds ?? cfg.viaSeconds ?? 1.0, canvas.W, fps, { width, height }));
+    } else if (move === 'static') filters.push(zoomBetween(onCanvas(B), onCanvas(B), 0, 0.01, canvas.W, fps, { width, height }));
+    else if (move === 'zoom') filters.push(zoomBetween(onCanvas({ w: W, h: H, cx: W / 2, cy: H / 2 }), onCanvas(B), 0, shot.push ?? Math.max(0.8, total), canvas.W, fps, { width, height }));
     else if (move === 'pan') {
       const A = frameFor(bFrom.focus ?? box, W, H, limits, [pFrom]);
       // a move between blocks is gradual — the eye travelling down the page, never a jump
@@ -211,7 +274,9 @@ async function cutShot(shot) {
   const graph = (vf) => capPng ? ['-filter_complex', `[0:v]${vf}[b];[b][1:v]overlay=0:0:format=auto[v]`, '-map', '[v]'] : ['-vf', vf];
   const capIn = capPng ? ['-i', capPng] : [];
   if (to > from) {
-    await run('ffmpeg', ['-y', '-loglevel', 'error', '-ss', String(from), '-to', String(to), '-i', src, ...capIn, ...graph(filters.join(',')), ...enc, out]);
+    // a still loops for the pan and its hold; a take is trimmed between its beats
+    const input = still ? ['-loop', '1', '-t', String(total), '-i', src] : ['-ss', String(from), '-to', String(to), '-i', src];
+    await run('ffmpeg', ['-y', '-loglevel', 'error', ...input, ...capIn, ...graph(filters.join(',')), ...enc, out]);
   } else {
     // a held frame: extract it, then loop it for `hold` seconds
     const png = path.join(TMP, `${shot.id}.png`);
