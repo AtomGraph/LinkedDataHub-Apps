@@ -399,6 +399,14 @@ Link: &lt;https://unesco-thesaurus.demo.linkeddatahub.com/sparql&gt;; rel="http:
                     <td>In-memory namespace ontology as well as its SPARQL endpoint</td>
                 </tr>
                 <tr>
+                    <th scope="row"><samp>sitemap.xml</samp></th>
+                    <td>The dataspace's public documents, in the <a href="https://www.sitemaps.org/protocol.html" target="_blank">sitemaps protocol</a>: generated at startup from the public read rules of the dataspace's own admin service, so an origin lists only its own documents. An end-user dataspace with nothing public has none, and neither does an admin application</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>robots.txt</samp></th>
+                    <td>Allows crawling and names the sitemap when the dataspace has one; disallows everything when it has none</td>
+                </tr>
+                <tr>
                     <th scope="row"><samp>settings</samp></th>
                     <td>The application's own description in the dataspace configuration. <code>PATCH</code> with a SPARQL update edits it — this is how <a href="../administration/packages/">packages</a> are installed and uninstalled. Editing is restricted to end-user applications: a <code>PATCH</code> on an admin application's settings answers <samp>422 Unprocessable Entity</samp></td>
                 </tr>

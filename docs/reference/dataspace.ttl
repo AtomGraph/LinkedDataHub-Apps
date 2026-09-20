@@ -120,8 +120,9 @@
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p class="ac-alert-text">The end-user application service must be able to federate with the administration application service using the
-                SPARQL <code>SERVICE</code> keyword.</p>
+                <p class="ac-alert-text">The end-user and administration services need no federation between them: the platform queries each service on its own, and the
+                stores' outbound <code>SERVICE</code> requests go through the <a href="../configuration/#egress"><samp>egress</samp></a> proxy, which refuses internal destinations —
+                so a query on one dataset cannot reach another.</p>
             </div>
         </div>
         <div>

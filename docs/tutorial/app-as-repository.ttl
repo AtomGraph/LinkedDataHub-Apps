@@ -12,11 +12,11 @@
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="ldh-body-lg">Make the app reproducible: a git repository that installs into any instance</p>
     <p>Every stage so far produced files — document descriptions, mapping queries, CSV data, media. Kept in a repository with a small install script, they <em>are</em> the application: versionable,
-        diffable, reviewable, and replayable into any LinkedDataHub instance. This is the layout the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/northwind-traders" target="_blank">Northwind Traders repository</a> uses:</p>
+        diffable, reviewable, and replayable into any LinkedDataHub instance with <samp>ldh push</samp>. This is the layout the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/northwind-traders" target="_blank">Northwind Traders repository</a> uses:</p>
     <pre>northwind-traders/
-├── root.ttl              # one .ttl per document...
-├── categories.ttl
-├── categories/           # ...and a folder for the files it imports
+├── root.ttl              # the target document itself
+├── categories.ttl        # one RDF file per document...
+├── categories/           # ...and a folder for the files it holds
 │   ├── categories.csv
 │   ├── categories.rq
 │   └── *.gif
@@ -26,28 +26,32 @@
 │   └── import-ns.sh
 ├── imports.csv           # the CSV import manifest
 ├── install.sh            # replays everything against a base URI
-├── update-folder.sh      # walks the tree, PUTting documents and uploading files
 ├── import-csv.sh         # replays the import manifest
-├── .ldhignore            # files that are not documents
+├── .ldhignore            # files that are neither documents nor uploads
 └── Makefile</pre>
     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/northwind-traders" target="_blank">demo/northwind-traders</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">northwind-traders.demo.linkeddatahub.com</a></p>
     <p>To follow along, clone the apps repository — <samp>git clone https://github.com/AtomGraph/LinkedDataHub-Apps</samp>, the demo lives in <samp>demo/northwind-traders</samp> — or assemble the
         files from the previous stages into a folder of the same shape.</p>
     <div>
         <h2 id="convention">The convention</h2>
-        <p>The document URL is derived from the file path: <samp>categories.ttl</samp> installs to <samp>${base}categories/</samp>.
-            <samp>update-folder.sh</samp> walks the tree applying that rule: it resolves each file's relative URIs against its document URL and <code>PUT</code>s the result. Anything
-            matched by <samp>.ldhignore</samp> is skipped:</p>
+        <p>The document URL is derived from the file path: <samp>categories.ttl</samp> installs to <samp>${base}categories/</samp>, and <samp>root.ttl</samp> at the top of the tree is the
+            target document <samp>${base}</samp> itself. <a href="../../reference/command-line-interface/#push" target="_blank"><samp>ldh push</samp></a> walks the tree applying that rule: an RDF
+            file is <code>PUT</code> to the document its path spells, with its relative URIs resolved against that URL; every other file is uploaded into its folder's document; a subfolder
+            recurses under the child document the RDF file beside it describes. Anything matched by <samp>.ldhignore</samp> is skipped:</p>
         <pre>admin/
 Makefile
 imports.csv
-root.ttl
 screenshot.gif
-unesco-mappings.ttl</pre>
-        <p><samp>root.ttl</samp> is on that list because the walker cannot derive the root URL from it — <samp>install.sh</samp> <code>PUT</code>s it to <samp>${base}</samp> itself, as a separate
-            first step. The patterns match file names at any depth, so entries need not appear in the tree above: <samp>unesco-mappings.ttl</samp> excludes
-            <samp>categories/unesco-mappings.ttl</samp>, which is <a href="../../user-guide/import-data/import-rdf-data/" target="_blank">import material</a> rather than a document, and
-            <samp>screenshot.gif</samp> excludes the repository's own screenshot, which is not app media.</p>
+unesco-mappings.ttl
+*.csv
+*.sh</pre>
+        <p>The patterns apply to the whole subtree below the ignore file, gitignore-style. A name pattern matches at any depth, so entries need not appear in the tree above:
+            <samp>unesco-mappings.ttl</samp> excludes <samp>categories/unesco-mappings.ttl</samp>, which is <a href="../../user-guide/import-data/import-rdf-data/" target="_blank">import material</a>
+            rather than a document, and <samp>screenshot.gif</samp> excludes the repository's own screenshot, which is not app media. A trailing slash restricts a pattern to directories, so
+            <samp>admin/</samp> keeps the ontology sources out of the document tree. Nothing is excluded by default beyond hidden entries, so <samp>*.sh</samp> keeps the scripts from being
+            uploaded, and <samp>*.csv</samp> leaves the data files to the <a href="#install">CSV imports</a>, which upload each one into the document it is imported into.</p>
+        <pre>ldh push --dry-run "$LDH_BASE"   # print the plan, send nothing
+ldh push "$LDH_BASE"</pre>
     </div>
     <div>
         <h2 id="idempotency">Idempotency</h2>
@@ -77,13 +81,13 @@ WHERE {
     <div>
         <h2 id="install">Installing</h2>
         <pre>make install</pre>
-        <p><samp>make install</samp> prompts for the base URI, certificate path, certificate password and an optional proxy URL, then runs <samp>install.sh</samp>: make public, import the ontology,
-            replay the documents, upload the files, run the CSV imports. The entire tutorial, replayed in one command — against localhost today, against production tomorrow.</p>
+        <p><samp>make install</samp> prompts for the base URI, certificate path, certificate password and an optional proxy URL, then runs <samp>install.sh</samp>: <samp>ldh admin make-public</samp>, the namespace ontology
+            install, <samp>ldh push</samp>, and one <samp>ldh import csv</samp> per row of the manifest. The entire tutorial, replayed in one command — against localhost today, against production tomorrow.</p>
     </div>
     <div>
         <h2 id="result">What you now see</h2>
         <p>The install prints a banner per step — <samp>### Creating authorization to make the app public</samp>, <samp>### Importing namespace ontology</samp>,
-            <samp>### Updating documents and uploading files</samp> (with one <samp>### Updating …</samp> line per document), <samp>### Importing CSV data</samp>. When it finishes, open the base
+            <samp>### Pushing documents and files</samp> (with one <samp>PUT</samp> or <samp>POST</samp> line per document or upload), <samp>### Importing CSV data</samp>. When it finishes, open the base
             URI: the finished app renders, with no certificate required — the first step made it public.</p>
     </div>
     <div>

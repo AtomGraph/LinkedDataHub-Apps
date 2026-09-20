@@ -95,21 +95,24 @@ ns:SelectNarrowerConcepts a sp:Select ;
     </div>
     <div>
         <h2 id="package-stylesheet">Package stylesheet</h2>
-        <p>XSLT templates using system modes to override default rendering:</p>
-        <pre>&lt;!-- Hide properties from default property list --&gt;
-&lt;xsl:template match="skos:narrower | skos:broader" mode="ac:PropertyEditor"/&gt;
+        <p>XSLT templates in the platform's <em>open</em> modes, specialising the rendering of the package's own vocabulary:</p>
+        <pre>&lt;!-- The hierarchy predicates render as the concept tree, not as statement rows --&gt;
+&lt;xsl:template match="skos:narrower | skos:broader | skos:related | skos:member" mode="ac:PropertyEditor"/&gt;
 
-&lt;!-- Override XHTML head elements --&gt;
-&lt;xsl:template match="*" mode="ac:Stylesheets"&gt;
-    &lt;!-- Custom styles --&gt;
+&lt;!-- Fill the column beside the content body on a concept scheme's document --&gt;
+&lt;xsl:template match="rdf:RDF[...]" mode="ldh:ContentColumn"&gt;
+    &lt;xsl:param name="mode" as="xs:anyURI?"/&gt;
+    &lt;!-- the concept tree --&gt;
 &lt;/xsl:template&gt;</pre>
-        <p>Available system modes include:</p>
+        <p>A package stylesheet is composed into the platform's import tree right after <samp>hooks.xsl</samp>, the module that declares the open modes and their generic fallbacks, and below everything else. Import precedence decides what a package can do: its rule for a node in an open mode outranks the fallback whatever the priorities, and it cannot contradict a sealed rule for the same node — a component mode, a typed rule, a global variable, named template or function — since that rule outranks the package. An open mode is a leaf: it renders or contributes for one node and carries no control flow. The open modes are:</p>
         <ul>
-            <li><code>ac:*</code> — Web-Client component modes named after the design system's components (PropertyEditor, ResourceForm, BlockHeader, etc.)</li>
-            <li><code>ldh:*</code> — LinkedDataHub's own component modes (BlockRow, ContentBody, etc.)</li>
-            <li><code>xhtml:*</code> — XHTML elements (Style, Script, etc.)</li>
-            <li>Additional modes documented in the <a href="../../stylesheets/">Stylesheets reference</a></li>
+            <li><code>ldh:TreeNode</code> — one tree node; replace the default renderer, or decorate it with <code>xsl:next-match</code></li>
+            <li><code>ac:PropertyEditor</code> — one resource's property list, or one statement row; replace or decorate, and an empty rule hides</li>
+            <li><code>ldh:ContentColumn</code> — a slot beside the content body, empty unless a package fills it (the taxonomy editor's concept tree)</li>
+            <li><code>ldh:TreeChildrenLoad</code> and <code>ldh:RowHook</code> — client only: the children fetch for one tree node, and deferred work for one rendered row</li>
+            <li>The value leaves — <code>ac:FormControl</code>, <code>ac:PropertyListValue</code>, <code>ac:ValueAnnotations</code>, <code>ldh:TypeControl</code>, <code>ac:property-label</code>, <code>ac:object-label</code>, <code>ac:lang-tag</code>, <code>ac:ResultsTableHeaderCell</code>, <code>xhtml:Anchor</code> and the unnamed mode's property row and value link. A rule for the package's own property or datatype replaces the generic one, or decorates it</li>
         </ul>
+        <p>The modes are documented in the <a href="../../stylesheets/">Stylesheets reference</a>. The package stylesheet reaches the browser as well: the platform composes each dataspace's client stylesheet with its package stylesheets and has the <a href="../../configuration/#sef-compiler"><samp>sef-compiler</samp></a> compile the result, so a package's rendering is the same on a direct page load and on client-side navigation.</p>
     </div>
     <div>
         <h2 id="installing-packages">Installing packages</h2>
@@ -121,7 +124,7 @@ ns:SelectNarrowerConcepts a sp:Select ;
         <ol>
             <li><strong>Resolves the package description</strong> from the package URI. Bundled descriptions and cached graphs are read from the graph repository; other URIs are dereferenced over HTTP.</li>
             <li><strong>Adds the package ontology</strong> (<code>ldt:ontology</code>) to the application's ontology imports closure — it is declared as an <code>owl:imports</code> of the namespace ontology. The package's classes, constructors, constraints and views become available on the <samp>ns</samp> endpoint and in the UI.</li>
-            <li><strong>Composes the package stylesheet</strong> (<code>ac:stylesheet</code>) into the application stylesheet by appending an <code>xsl:import</code> after the existing imports, so package templates override the system ones.</li>
+            <li><strong>Composes the package stylesheet</strong> (<code>ac:stylesheet</code>) into the application stylesheet with an <code>xsl:import</code> right after <samp>hooks.xsl</samp>, so package templates outrank the open modes' fallbacks and nothing else; the client-side stylesheet is composed the same way and compiled by the <samp>sef-compiler</samp>.</li>
         </ol>
         <p>Packages are applied in the order of their URIs. A package that declares only an ontology, or only a stylesheet, contributes only that, and one whose description cannot be resolved is skipped. If the composed stylesheet fails to compile — an unreachable package stylesheet URL, for instance — the application falls back to its own stylesheet.</p>
         <p>On the Northwind Traders dataspace the taxonomy editor package pays off immediately: the product categories that the

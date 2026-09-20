@@ -290,11 +290,6 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><code>$ldt:base</code></td>
-                        <td><code>xs:anyURI?</code></td>
-                        <td>Base URI of the current application (prefer the <code>ldt:base()</code> function)</td>
-                    </tr>
-                    <tr>
                         <td><code>$lapp:Context</code></td>
                         <td><code>document-node()</code></td>
                         <td>RDF/XML description of the configured dataspaces; the current application is looked up in it by origin</td>
@@ -395,9 +390,9 @@
                         <td>Returns the origin (scheme, host and port) of the current application, e.g. <code>https://localhost:4443/</code>. Used to build absolute URIs for static resources and same-site requests</td>
                     </tr>
                     <tr>
-                        <td><code>ldt:base()</code></td>
+                        <td><code>lapp:base()</code></td>
                         <td><code>xs:anyURI</code></td>
-                        <td>Returns the base URI of the current application. Replaces the former <code>$ldt:base</code> parameter</td>
+                        <td>Returns the base URI of the current application. Replaces the former <code>ldt:base()</code> function and <code>$ldt:base</code> parameter</td>
                     </tr>
                     <tr>
                         <td><code>ldh:request-uri()</code></td>

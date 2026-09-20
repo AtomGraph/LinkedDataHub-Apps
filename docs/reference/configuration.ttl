@@ -248,6 +248,11 @@ ABS_PATH=/linkeddatahub/</pre>
         <p>Fuseki is pointed at it through its <samp>JAVA_TOOL_OPTIONS</samp>; the platform's own in-process queries (imports and PATCH updates) are routed through it when <samp>EGRESS_PROXY</samp> is set to its <samp>host:port</samp>. Without a proxy and without <samp>ALLOW_INTERNAL_URLS</samp>, the platform disables <code>SERVICE</code> in those queries rather than leaving it open.</p>
     </div>
     <div>
+        <h2 id="sef-compiler"><samp>sef-compiler</samp> service</h2>
+        <p>Compiles each dataspace's client-side stylesheet together with the stylesheets of its <a href="../administration/packages/">imported packages</a> into a SEF that the browser runs, so a package's rendering reaches the client as well as the server. The platform composes the wrapper and submits it; the compiled SEF is written to the <samp>sef</samp> bind mount (<samp>/var/www/linkeddatahub/sef</samp>, served under <samp>/static/xsl/sef/</samp>) and its URL travels to the page as a <code>Link</code> header. The service is built from the same Dockerfile as the platform, so its copy of the stylesheets is the deployed one.</p>
+        <p><samp>SEF_ROOT</samp> and <samp>SEF_COMPILER</samp> reach the platform through <samp>CATALINA_OPTS</samp> and are optional: without them packages compose server-side only, and the client runs the stock stylesheet. A deployment with its own compose file adds the service, the platform's <samp>depends_on</samp> on it and the bind mount.</p>
+    </div>
+    <div>
         <h2 id="nginx"><samp>nginx</samp> service</h2>
         <dl>
             <dt><samp>SERVER_CERT_FILE</samp></dt>

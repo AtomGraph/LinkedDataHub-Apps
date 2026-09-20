@@ -63,17 +63,15 @@
     </div>
         </div>
         <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
-        <p>Instances are plain RDF, so the CLI equivalent is appending a description to a document with <samp>ldh post</samp>. Creating a new product in its own document:</p>
+        <p>Instances are plain RDF, so the CLI equivalent is appending a description to a document with <samp>ldh post</samp>. Creating a new product in its own document — <code>--primary-topic</code> makes the document about the <samp>#this</samp> resource, and the <samp>post</samp> describes it:</p>
         <pre>doc=$(ldh create item \\
   --container "${LDH_BASE}products/" \\
   --title "Masala Chai" \\
-  --slug 78)
+  --slug 78 \\
+  --primary-topic '#this')
 
 ldh post -t text/turtle "$doc" &lt;&lt;EOF
 @prefix schema: &lt;https://schema.org/&gt; .
-@prefix foaf:   &lt;http://xmlns.com/foaf/0.1/&gt; .
-
-&lt;$doc&gt; foaf:primaryTopic &lt;${doc}#this&gt; .
 
 &lt;${doc}#this&gt; a schema:Product ;
     schema:name "Masala Chai" ;
