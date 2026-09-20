@@ -1,52 +1,39 @@
-// Not a scene. Types a formatted query into the editor and reads it back, because
-// auto-indent and bracket auto-closing mangle text silently.
-import { chromium } from 'playwright';
-import { resolve, sleep } from '../lib/harness.mjs';
-import { switchDocumentMode } from '../lib/blocks.mjs';
+// Read-only: open Create ▸ SELECT on the compose page, type the query fast, read it
+// back, print the difference, leave without saving.
+import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
 import { create } from '../lib/constructors.mjs';
-
-const { base, target, identity } = await resolve('/scratch-briefing/');
-const browser = await chromium.launch({ headless: true });
-const context = await browser.newContext({
-  ignoreHTTPSErrors: true, viewport: { width: 1440, height: 810 },
-  ...(identity ? { clientCertificates: identity } : {}),
-});
-await context.addCookies([{ name: 'LinkedDataHub.first-time-message', value: 'true', domain: new URL(base).hostname, path: '/' }]);
-const page = await context.newPage();
-const plain = { click: async (l) => l.click() };
-
-await page.goto(target, { waitUntil: 'load' });
-await sleep(3500);
-await switchDocumentMode(page, plain, 'read-mode');
-await sleep(3000);
-console.log('create SELECT:', JSON.stringify(await create(page, plain, 'SELECT')));
-await sleep(2500);
-
+import { ui } from '../lib/dom.mjs';
+const opts = await resolve('/supercut-compose/');
 const QUERY = `PREFIX schema: <https://schema.org/>
 
-SELECT ?category (COUNT(?product) AS ?products)
+SELECT ?region (COUNT(DISTINCT ?rep) AS ?reps)
 WHERE {
 GRAPH ?g {
-?product a schema:Product ;
-schema:category ?category .
+?rep schema:areaServed ?territory .
+}
+GRAPH ?h {
+?territory schema:containedInPlace ?place .
+}
+GRAPH ?i {
+?place schema:name ?region .
 }
 }
-GROUP BY ?category
-ORDER BY DESC(?products)`;
-
-const code = page.locator('.ldh-pane.is-active .CodeMirror').first();
-console.log('editor visible:', await code.isVisible().catch(() => false));
-await code.click();
-await sleep(400);
-await page.keyboard.type(QUERY, { delay: 12 });
-await sleep(1500);
-
-const back = await page.evaluate(() => {
-  const cm = document.querySelector('.ldh-pane.is-active .CodeMirror');
-  return cm?.CodeMirror ? cm.CodeMirror.getValue() : (cm?.innerText ?? 'no editor');
-});
-console.log('--- read back ---');
-console.log(back);
-console.log('--- end ---');
-await page.screenshot({ path: 'shots/probe-typequery.png' });
-await context.close(); await browser.close();
+GROUP BY ?region
+ORDER BY DESC(?reps)`;
+await runScene({ id: 'probe-typequery', target: opts.target + '?mode=' + encodeURIComponent('https://w3id.org/atomgraph/client#ReadMode'), identity: opts.identity, geometry: geometryFrom(opts, { width: 1440, height: 900, deviceScaleFactor: 1 }),
+  async body({ page, cursor }) {
+    await page.goto(opts.target + '?mode=' + encodeURIComponent('https://w3id.org/atomgraph/client#ReadMode'), { waitUntil: 'load' }); await sleep(3000);
+    const cs = await create(page, cursor, 'SELECT'); if (!cs.ok) throw new Error(cs.why);
+    const code = ui(page).locator('.CodeMirror').first(); await cursor.click(code); await sleep(400);
+    const lines = QUERY.split('\n');
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i]) await page.keyboard.type(lines[i], { delay: 14 });
+      if (i < lines.length - 1) { await sleep(160); if (await page.locator('.CodeMirror-hints:visible').count()) { await page.keyboard.press('Escape'); await sleep(120); } await page.keyboard.press('Enter'); }
+    }
+    await sleep(1200);
+    const got = await page.evaluate(() => document.querySelector('.ldh-pane.is-active .CodeMirror')?.CodeMirror?.getValue());
+    const flat = (t) => t.split('\n').map((l) => l.trim()).filter(Boolean);
+    const a = flat(QUERY), b = flat(got ?? '');
+    console.log('  same:', JSON.stringify(a) === JSON.stringify(b));
+    for (let i = 0; i < Math.max(a.length, b.length); i++) if (a[i] !== b[i]) console.log(`  line ${i}: want ${JSON.stringify(a[i])} got ${JSON.stringify(b[i])}`);
+  } });
