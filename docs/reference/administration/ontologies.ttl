@@ -18,9 +18,16 @@
         <p>Ontologies can <a href="https://www.w3.org/TR/owl2-primer/#Ontology_Management" target="_blank">import other ontologies</a>, both user-defined
             and system ones provided by LinkedDataHub. The application's <a href="../../dataspace/#applications">namespace ontology</a> is resolved as a native <code>owl:imports</code> union graph —
             the transitive closure of its imports — which is cached per ontology URI. No inference is materialized: the terms are served exactly as declared.</p>
+        <p>An ontology URI is resolved against the store first and the platform's bundled copies second: a document in the admin application that declares
+            the ontology (<code>&lt;uri&gt; a owl:Ontology</code>) is the graph that resolves, even for a vocabulary the platform ships a copy of. That is what lets
+            an imported vocabulary and its annotations live in one document under the vocabulary's own URI.</p>
         <p><a href="../packages/">Package</a> ontologies join the application's imports closure automatically. They are derived from the application's
             <code>ldh:import</code> declarations at ontology load time and declared as <code>owl:imports</code> of the namespace ontology, so they resolve
-            like any other import.</p>
+            like any other import. On the first request after the import, the package ontology is <dfn>materialized</dfn>: copied verbatim into a document under the
+            admin application's <samp>ontologies/</samp> container, named after the package's path (<samp>ontologies/editor-taxonomy/</samp> for the taxonomy editor),
+            with the ontology as its <code>foaf:primaryTopic</code>. From then on that document is what the closure resolves the package ontology to, and its constructors,
+            constraints and views are edited like the namespace ontology's. A later change to the published package does not reach the application until the document
+            is deleted, after which the next request materializes the package again.</p>
         <div class="ac-alert va-warning" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
             <div class="ac-alert-body">
@@ -188,12 +195,16 @@ WHERE {}</pre>
     </div>
     <div>
         <h2 id="importing-vocabularies">Importing external vocabularies</h2>
-        <p>The <samp>Import ontology</samp> action loads an external vocabulary and derives instance <a href="#constructors">constructors</a> for its classes.
-            Only the derived <dfn>annotation ontology</dfn> is persisted — the generated constructors plus an <code>owl:imports</code> of the canonical vocabulary
-            URI — and it is wired into the application's namespace ontology. The vocabulary itself resolves through its canonical URI as part of the imports closure.</p>
-        <p>Importing the SKOS vocabulary, for example, persists an annotation ontology of this shape (abridged):</p>
-        <pre>&lt;#this&gt; a owl:Ontology ;
-    owl:imports &lt;http://www.w3.org/2004/02/skos/core&gt; .    # the vocabulary stays at its canonical URI
+        <p>The <samp>Import ontology</samp> action loads an external vocabulary into a document of the admin application and derives instance
+            <a href="#constructors">constructors</a> for its classes. The vocabulary stays in that document, under its own URI and with its own header, and the
+            derived constructors are appended beside it; the document names the vocabulary as its <code>foaf:primaryTopic</code> rather than claiming to be an ontology
+            itself. The application's namespace ontology imports the vocabulary URI, which resolves to that document because it declares the vocabulary — so the
+            constructors are edited where the vocabulary is, and nothing has to be re-fetched from the network or a bundled copy.</p>
+        <p>Importing the SKOS vocabulary, for example, leaves the target document with content of this shape (abridged):</p>
+        <pre>&lt;&gt; a dh:Item ;
+    foaf:primaryTopic &lt;http://www.w3.org/2004/02/skos/core&gt; .    # the document is about the vocabulary
+
+&lt;http://www.w3.org/2004/02/skos/core&gt; a owl:Ontology .          # the vocabulary's own header and terms follow
 
 skos:Concept spin:constructor [ a ldh:Constructor ;
     sp:text \"\"\"

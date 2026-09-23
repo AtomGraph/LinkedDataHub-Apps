@@ -309,7 +309,7 @@ Adds a SELECT query to a document.
                     <td><samp>ldh admin add ontology-import</samp></td>
                 </tr>
                 <tr>
-                    <td>Clear and reload ontology</td>
+                    <td>Clear the ontology cache, reloading one ontology if named</td>
                     <td><samp>ldh admin clear ontology</samp></td>
                 </tr>
             </tbody>

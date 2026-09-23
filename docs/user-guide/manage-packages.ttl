@@ -102,6 +102,17 @@
         </ol>
     </div>
     <div>
+        <h2 id="edit-package-ontology">Edit the package ontology</h2>
+        <p>On the first request after the import, the package ontology is copied into a document of your dataspace's admin application, under its
+            <samp>ontologies/</samp> container and named after the package path — for the taxonomy editor, <samp>https://admin.localhost:4443/ontologies/editor-taxonomy/</samp>.
+            That document is the package ontology as far as your application is concerned: its constructors, constraints and views are edited there the same
+            way as those of your own namespace ontology, and a change takes effect after the ontology cache is cleared.</p>
+        <p>The copy is taken once. A newer version of the package does not reach an application that already imported it; to pick it up, delete the
+            <samp>ontologies/</samp> document, clear the ontology cache, and let the next request materialize the package again — edits made to the document are lost with it.</p>
+        <pre>ldh delete "https://admin.localhost:4443/ontologies/editor-taxonomy/"
+ldh admin clear ontology</pre>
+    </div>
+    <div>
         <h2 id="customize-package-behavior">Customize package behavior</h2>
         <p>Packages may include custom XSLT stylesheets that affect how data is displayed. You can further customize the behavior by:</p>
         <ul>

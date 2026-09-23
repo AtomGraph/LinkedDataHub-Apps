@@ -445,7 +445,7 @@ Link: &lt;https://unesco-thesaurus.demo.linkeddatahub.com/sparql&gt;; rel="http:
                 </tr>
                 <tr>
                     <th scope="row"><samp>admin/clear</samp></th>
-                    <td>Clears the specified ontology from memory cache and reloads it from the admin SPARQL endpoint</td>
+                    <td>Clears every cached ontology graph and imports closure from memory. With an optional <code>uri</code> form parameter, also purges that ontology's proxy caches and reloads its closure from the admin SPARQL endpoint</td>
                 </tr>
             </tbody>
         </table>
