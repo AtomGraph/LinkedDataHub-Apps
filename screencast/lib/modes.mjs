@@ -39,10 +39,38 @@ export async function currentViewMode(page) {
   return null;
 }
 
+// Opens a view block's controls, if they are collapsed. Safe to call when they are
+// already open, and when the block has no such button at all.
+export async function showControls(page, cursor) {
+  const toolbar = ui(page).locator('.ldh-view-toolbar').first();
+  if (!(await toolbar.count())) return false;
+  if (await toolbar.isVisible().catch(() => false)) return 'already';
+
+  const block = toolbar.locator('xpath=ancestor::*[contains(@class,"ldh-block-row")][1]');
+  const btn = (await block.count())
+    ? block.locator('button.tb-controls').first()
+    : ui(page).locator('button.tb-controls').first();
+  if (!(await btn.count())) return false;
+
+  await btn.scrollIntoViewIfNeeded().catch(() => {});
+  await cursor.click(btn);
+  await toolbar.waitFor({ state: 'visible', timeout: 8000 }).catch(() => {});
+  await sleep(600);
+  return await toolbar.isVisible().catch(() => false);
+}
+
 // Returns 'already' when no gesture was needed, true when it switched, false when
 // the mode is not on offer.
 export async function switchViewMode(page, cursor, mode, { settle = 2200, tries = 3 } = {}) {
   if ((await currentViewMode(page)) === mode) return 'already';
+
+  // The toolbar is collapsed by default — `.ldh-view-toolbar.is-collapsed` is
+  // `display: none`, and the mode toggle inside it is therefore not clickable. The
+  // block head's "Block controls" button (button.tb-controls, the tune glyph) is what
+  // opens it. Without this the switch waits 30s on a control that is in the DOM the
+  // whole time, which is how a clip of the layout modes timed out on a page whose
+  // toolbar simply had not been opened.
+  await showControls(page, cursor);
 
   const toggle = toggleOf(page);
   // Scoped to the popover belonging to THIS toolbar: the document-scope switcher

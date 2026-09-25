@@ -26,6 +26,15 @@ import * as modes from '../lib/modes.mjs';
 import * as blocks from '../lib/blocks.mjs';
 import { SHOTS } from './manifest.mjs';
 
+// A shot that belongs to the dataspace's ADMIN application rather than its end-user
+// one — the sign-up form is served there. LDH's convention is an `admin.` label on the
+// same origin, so the manifest says `admin: true` and stays free of hostnames.
+const adminOrigin = (base) => {
+  const u = new URL(base);
+  u.hostname = `admin.${u.hostname}`;
+  return u.origin;
+};
+
 const OUT = path.join(ROOT, 'docs', 'out');
 const opts = args();
 const argv = process.argv.slice(2);
@@ -182,7 +191,10 @@ for (const shot of wanted) {
   const dir = path.join(OUT, path.dirname(shot.doc));
   await fs.mkdir(dir, { recursive: true });
 
-  const identity = shot.anonymous ? null : await identityFor(opts);
+  // The origin this shot is taken against: the dataspace's admin application when the
+  // shot asks for it, its end-user application otherwise.
+  const shotBase = shot.admin ? adminOrigin(opts.base) : opts.base;
+  const identity = shot.anonymous ? null : await identityFor({ ...opts, base: shotBase });
   const context = await browser.newContext({
     ignoreHTTPSErrors: true,
     viewport: { width: GEOMETRY.width, height: GEOMETRY.height },
@@ -194,7 +206,7 @@ for (const shot of wanted) {
       : {}),
   });
   await context.addCookies([
-    { name: 'LinkedDataHub.first-time-message', value: 'true', domain: new URL(opts.base).hostname, path: '/' },
+    { name: 'LinkedDataHub.first-time-message', value: 'true', domain: new URL(shotBase).hostname, path: '/' },
   ]);
   await context.addInitScript(CURSOR_INIT);
 
@@ -209,7 +221,7 @@ for (const shot of wanted) {
 
   let outcome = 'ok', why;
   try {
-    await page.goto(opts.base + shot.at, { waitUntil: 'load' });
+    await page.goto(shotBase + shot.at, { waitUntil: 'load' });
     await page.waitForTimeout(shot.settle ?? 5000);
     if (shot.act) await shot.act({ page, cursor, type, typeCode, marks, nav, modes, blocks, sleep, scratch });
     await page.waitForTimeout(1200);

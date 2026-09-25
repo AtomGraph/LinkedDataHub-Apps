@@ -83,10 +83,17 @@ for (const shot of index) {
   }
 
   // Not filled yet: find the placeholder whose caption this is.
+  //
+  // Compared as TEXT: a caption may carry inline markup — reference/administration
+  // /ontologies names its controls in <samp> — and the manifest's caption is the plain
+  // sentence, which is also what becomes @alt. Comparing the raw content would never
+  // match those, and putting the markup in the manifest would put escaped tags in the
+  // attribute. Captions without markup compare exactly as before.
+  const plain = (x) => x.replace(/<[^>]+>/g, '');
   let hit = null;
   for (const m of text.matchAll(PLACEHOLDER)) {
     const caption = /<p>([\s\S]*?)<\/p>/.exec(m[0]);
-    if (caption && caption[1].split(': ').slice(1).join(': ').trim() === shot.caption) { hit = m; break; }
+    if (caption && plain(caption[1]).split(': ').slice(1).join(': ').trim() === shot.caption) { hit = m; break; }
   }
   if (!hit) {
     report.missing.push(`${shot.doc} #${shot.n} — no placeholder and no element for "${shot.caption.slice(0, 60)}"`);

@@ -2,8 +2,13 @@
 //
 // The Create menu is mode-gated: in ContentMode it offers only the two block types,
 // because those are the only things allowed as rdf:_N content. Switch the document
-// to Properties and it offers every class the ontology declares — SELECT, View,
-// Result set chart, the import types, File, Service.
+// to Properties and the dock offers LDH's own creatable types — Instance, SELECT,
+// View, Result set chart, the import types, File, Service (13 entries, measured).
+//
+// Not "every class the ontology declares": that list is a fixed parameter of the
+// platform, and a domain class such as schema:Product never appears in it. An instance
+// of one is made by creating an Instance and setting its Type, which is the route the
+// user guide describes.
 //
 // The form renders inline on the document rather than in a modal, because the
 // resource being created belongs to this document.
@@ -28,6 +33,41 @@ export async function create(page, cursor, label) {
     }
   }
   return { ok: false, why: `${label} not offered by the Create menu` };
+}
+
+// The create DOCK, at the foot of the document — a different control from the action
+// bar's Create menu, and the one that offers the ontology's classes.
+//
+// The action bar offers Container and Item; the dock offers Instance, File, the import
+// types, the query types, View and the charts. Both toggles read "Create", so a locator
+// that takes the first match in the document gets the action bar's and reports that the
+// menu does not offer what was asked for — which is what "the Create menu hides every
+// constructor but Container and Item" recorded.
+//
+// Measured on /products/ in Properties mode: the dock offers 13 entries. In Content mode
+// it offers the two block types instead, so the document must be in Properties first.
+export async function createFromDock(page, cursor, label) {
+  const dock = page.locator('.ldh-create-dock');
+  if (!(await dock.count())) return { ok: false, why: 'no create dock on this document' };
+
+  const toggle = dock.locator('button.drop-toggle').first();
+  if (!(await toggle.count())) return { ok: false, why: 'the dock has no Create menu — is the document in Properties?' };
+
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    await cursor.click(toggle);
+    await sleep(1100);
+    // Ends-with: every entry runs a Material icon ligature straight into its word, so
+    // the text reads "categoryInstance" and an anchored /^Instance$/ matches nothing.
+    const item = page.locator('.add-constructor:visible')
+      .filter({ hasText: new RegExp(`${label}$`) }).first();
+    if (await item.isVisible().catch(() => false)) {
+      await cursor.click(item);
+      await settled(page, 3000);
+      return { ok: true };
+    }
+  }
+  const offered = await page.locator('.add-constructor:visible').allInnerTexts().catch(() => []);
+  return { ok: false, why: `${label} not offered by the dock (${offered.length} entries)` };
 }
 
 // The query text field is a CodeMirror, which ignores value assignment — only real
