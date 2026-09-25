@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -48,28 +48,27 @@
     <div>
         <h2 id="package-metadata">Package metadata</h2>
         <p>Package metadata is published as Linked Data that resolves from the package URI (e.g. <code>https://packages.linkeddatahub.com/editor/taxonomy/#this</code>).
-            A package descriptor is an instance of the <code>lapp:Package</code> class with these properties:</p>
+            A package descriptor is an instance of the <code>lds:Package</code> class with these properties:</p>
         <dl>
             <dt><code>rdfs:label</code></dt>
             <dd>Human-readable package name</dd>
             <dt><code>dct:description</code></dt>
             <dd>Package description and purpose</dd>
-            <dt><code>ldt:ontology</code></dt>
+            <dt><code>lds:ontology</code></dt>
             <dd>The package ontology URI (LDT vocabulary)</dd>
             <dt><code>ac:stylesheet</code></dt>
             <dd>The package stylesheet URI (AtomGraph Client vocabulary)</dd>
         </dl>
         <p>Example package metadata:</p>
-        <pre>@prefix lapp: &lt;https://w3id.org/atomgraph/linkeddatahub/apps#&gt; .
-@prefix ldt:  &lt;https://www.w3.org/ns/ldt#&gt; .
+        <pre>@prefix lds: &lt;https://w3id.org/atomgraph/linkeddatahub/dataspaces#&gt; .
 @prefix ac:   &lt;https://w3id.org/atomgraph/client#&gt; .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
 @prefix dct:  &lt;http://purl.org/dc/terms/&gt; .
 
-&lt;https://packages.linkeddatahub.com/editor/taxonomy/#this&gt; a lapp:Package ;
+&lt;https://packages.linkeddatahub.com/editor/taxonomy/#this&gt; a lds:Package ;
     rdfs:label "Taxonomy Editor" ;
     dct:description "Taxonomy editing on SKOS, with custom templates" ;
-    ldt:ontology &lt;https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/ns.ttl#&gt; ;
+    lds:ontology &lt;https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/ns.ttl#&gt; ;
     ac:stylesheet &lt;https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/skos.xsl&gt; .</pre>
     </div>
     <div>
@@ -123,7 +122,7 @@ ns:SelectNarrowerConcepts a sp:Select ;
         <p>From the next request onwards, the server resolves the declaration:</p>
         <ol>
             <li><strong>Resolves the package description</strong> from the package URI. Bundled descriptions and cached graphs are read from the graph repository; other URIs are dereferenced over HTTP.</li>
-            <li><strong>Materializes the package ontology</strong> (<code>ldt:ontology</code>) as a document under the admin application's <samp>ontologies/</samp> container, named after the package path — <samp>ontologies/editor-taxonomy/</samp> for the taxonomy editor. The ontology is copied verbatim and the document names it as its <code>foaf:primaryTopic</code>; the copy is taken once, and the document is skipped on later requests.</li>
+            <li><strong>Materializes the package ontology</strong> (<code>lds:ontology</code>) as a document under the admin application's <samp>ontologies/</samp> container, named after the package path — <samp>ontologies/editor-taxonomy/</samp> for the taxonomy editor. The ontology is copied verbatim and the document names it as its <code>foaf:primaryTopic</code>; the copy is taken once, and the document is skipped on later requests.</li>
             <li><strong>Adds the package ontology</strong> to the application's ontology imports closure — it is declared as an <code>owl:imports</code> of the namespace ontology and resolves to the materialized document. The package's classes, constructors, constraints and views become available on the <samp>ns</samp> endpoint and in the UI, and are edited in that document like the namespace ontology's own.</li>
             <li><strong>Copies the package stylesheet</strong> (<code>ac:stylesheet</code>) once under the platform's package root and serves it from the application's own origin under <samp>/static/com/linkeddatahub/packages/</samp>, so what the instance compiles cannot change under it.</li>
             <li><strong>Composes that copy</strong> into the application stylesheet with an <code>xsl:import</code> right after <samp>hooks.xsl</samp>, so package templates outrank the open modes' fallbacks and nothing else; the client-side stylesheet is composed the same way and compiled by the <samp>sef-compiler</samp>.</li>
@@ -201,12 +200,12 @@ schema:knows ldh:view :PersonKnows .
         <pre>&lt;xsl:template match="schema:knows" mode="ac:PropertyEditor"/&gt;</pre>
         <h3 id="publish-metadata">Publish package metadata</h3>
         <p>Publish package metadata as Linked Data at your package URI:</p>
-        <pre>&lt;https://packages.linkeddatahub.com/schema.org/#this&gt; a lapp:Package ;
+        <pre>&lt;https://packages.linkeddatahub.com/schema.org/#this&gt; a lds:Package ;
     rdfs:label "Schema.org Package" ;
     dct:description "Schema.org vocabulary support" ;
-    ldt:ontology &lt;https://raw.githubusercontent.com/you/repo/master/packages/schema.org/ns.ttl#&gt; ;
+    lds:ontology &lt;https://raw.githubusercontent.com/you/repo/master/packages/schema.org/ns.ttl#&gt; ;
     ac:stylesheet &lt;https://raw.githubusercontent.com/you/repo/master/packages/schema.org/schema.xsl&gt; .</pre>
-        <p>Ensure the metadata contains <code>ldt:ontology</code> and <code>ac:stylesheet</code> properties pointing to the package resources.</p>
+        <p>Ensure the metadata contains <code>lds:ontology</code> and <code>ac:stylesheet</code> properties pointing to the package resources.</p>
         <h3 id="test-installation">Test installation</h3>
         <p>Declare the <code>ldh:import</code> triple in a test application's <samp>settings</samp> document — see <a href="#management">Management</a> for the command.</p>
     </div>

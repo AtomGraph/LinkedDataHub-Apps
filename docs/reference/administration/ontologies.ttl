@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -68,9 +68,9 @@
                         <td><code>def:</code></td>
                     </tr>
                     <tr>
-                        <td><a href="https://w3id.org/atomgraph/linkeddatahub/apps" id="lapp-ont" target="_blank"><code>https://w3id.org/atomgraph/linkeddatahub/apps#</code></a></td>
+                        <td><a href="https://w3id.org/atomgraph/linkeddatahub/dataspaces" id="lapp-ont" target="_blank"><code>https://w3id.org/atomgraph/linkeddatahub/dataspaces#</code></a></td>
                         <td>Applications</td>
-                        <td><code>lapp:</code></td>
+                        <td><code>lds:</code></td>
                     </tr>
                     <tr>
                         <td><a href="https://w3id.org/atomgraph/linkeddatahub/admin/acl" id="lacl-ont" target="_blank"><code>https://w3id.org/atomgraph/linkeddatahub/admin/acl#</code></a></td>
@@ -88,7 +88,7 @@
                         <td><code>ldh:</code></td>
                     </tr>
                     <tr>
-                        <td><a href="https://www.w3.org/ns/ldt/document-hierarchy" id="dh-ont" target="_blank"><code>https://www.w3.org/ns/ldt/document-hierarchy#</code></a></td>
+                        <td><a href="https://w3id.org/atomgraph/linkeddatahub/document-hierarchy" id="dh-ont" target="_blank"><code>https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#</code></a></td>
                         <td>Document hierarchy</td>
                         <td><code>dh:</code></td>
                     </tr>

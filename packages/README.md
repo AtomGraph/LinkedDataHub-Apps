@@ -39,18 +39,17 @@ The package is named for what it does; its stylesheet is named for the vocabular
 Package metadata resolves as Linked Data from the package URI using standard LinkedDataHub properties:
 
 ```turtle
-@prefix lapp: <https://w3id.org/atomgraph/linkeddatahub/apps#> .
-@prefix ldt:  <https://www.w3.org/ns/ldt#> .
+@prefix lds: <https://w3id.org/atomgraph/linkeddatahub/dataspaces#> .
 @prefix ac:   <https://w3id.org/atomgraph/client#> .
 
-<https://packages.linkeddatahub.com/editor/taxonomy/#this> a lapp:Package ;
+<https://packages.linkeddatahub.com/editor/taxonomy/#this> a lds:Package ;
     rdfs:label "Taxonomy Editor" ;
     dct:description "Taxonomy editing on SKOS, with custom templates" ;
-    ldt:ontology <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/ns.ttl#> ;
+    lds:ontology <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/ns.ttl#> ;
     ac:stylesheet <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/skos.xsl> .
 ```
 
-**Note**: Uses standard `ldt:ontology` and `ac:stylesheet` properties instead of inventing new ones.
+**Note**: Uses standard `lds:ontology` and `ac:stylesheet` properties instead of inventing new ones.
 
 ### 2. Ontology (`ns.ttl`)
 
@@ -164,7 +163,7 @@ From the next request onwards, the server resolves it:
 
 1. **Resolves the package description** from the package URI. Bundled descriptions and cached graphs
    come from the graph repository; other URIs are dereferenced over HTTP.
-2. **Adds the package ontology** (`ldt:ontology`) to the application's ontology imports closure, as
+2. **Adds the package ontology** (`lds:ontology`) to the application's ontology imports closure, as
    an `owl:imports` of the namespace ontology. Its classes, constructors, constraints and views
    become available on the `ns` endpoint and in the UI.
 3. **Composes the package stylesheet** (`ac:stylesheet`) into the application stylesheet by
@@ -191,17 +190,17 @@ List of available packages can be found in the [LinkedDataHub-Apps](https://gith
 2. Write `ns.ttl` with vocabulary and property views (using `ldh:view` or `ldh:inverseView`)
 3. Write the stylesheet with XSLT templates (using system modes like `ac:*`, `ldh:*`, `xhtml:*`, etc.), naming the file for the vocabulary it covers
 4. Publish package metadata as Linked Data at `https://packages.linkeddatahub.com/<path>/#this`
-5. Ensure the metadata contains `ldt:ontology` and `ac:stylesheet` properties pointing to the package resources
+5. Ensure the metadata contains `lds:ontology` and `ac:stylesheet` properties pointing to the package resources
 
 ## Vocabulary Reference
 
-### LAPP Vocabulary (`https://w3id.org/atomgraph/linkeddatahub/apps#`)
+### LAPP Vocabulary (`https://w3id.org/atomgraph/linkeddatahub/dataspaces#`)
 
-- `lapp:Package` - Package class
+- `lds:Package` - Package class
 
 ### Standard Properties (Reused)
 
-- `ldt:ontology` - Points to package ontology URI (from LDT vocabulary)
+- `lds:ontology` - Points to package ontology URI (from LDT vocabulary)
 - `ac:stylesheet` - Points to package stylesheet URI (from AtomGraph Client vocabulary)
 
 ## Notes

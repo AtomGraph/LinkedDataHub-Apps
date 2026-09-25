@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -148,7 +148,7 @@
         <p>An authorization can also target a whole class of documents with <code>acl:accessToClass</code>. Granting the <samp>readers</samp> group read access to every container:</p>
         <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
-@prefix dh:   &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+@prefix dh:   &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
 
 &lt;#this&gt; a acl:Authorization ;
     rdfs:label "Container read access" ;

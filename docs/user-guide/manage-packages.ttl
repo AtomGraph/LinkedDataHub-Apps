@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -127,7 +127,7 @@ ldh admin clear ontology</pre>
         <p>If the <span class="ac-btn in-primary ap-solid sz-sm">Save</span> or the <samp>ldh patch</samp> is rejected:</p>
         <ul>
             <li>Verify you are logged in with an agent that has write access to the application's <samp>settings</samp></li>
-            <li>Verify the package URI is correct and dereferenceable, and that its metadata declares <code>ldt:ontology</code> and <code>ac:stylesheet</code></li>
+            <li>Verify the package URI is correct and dereferenceable, and that its metadata declares <code>lds:ontology</code> and <code>ac:stylesheet</code></li>
             <li>Review the error message — a rejected settings update reports the constraint violation that caused it</li>
         </ul>
         <h3 id="functionality-not-visible">Package functionality not visible</h3>

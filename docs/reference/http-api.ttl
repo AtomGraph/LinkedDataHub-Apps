@@ -1,7 +1,7 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -217,13 +217,13 @@ ETag: "1e635b4-ntriples"
 Host: localhost:4443
 Content-Type: text/turtle
 
-@prefix dh:     &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+@prefix dh:     &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
 @prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
 
 &lt;&gt; a dh:Container ;
     dct:title "Regions" .</pre>
             <p>will produce the following document triples:</p>
-            <pre>@prefix dh:     &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+            <pre>@prefix dh:     &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
 @prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
 @prefix xsd:    &lt;http://www.w3.org/2001/XMLSchema#&gt; .
 @prefix sioc:   &lt;http://rdfs.org/sioc/ns#&gt; .
@@ -241,7 +241,7 @@ Content-Type: text/turtle
 Host: localhost:4443
 Content-Type: text/turtle</pre>
             <p>It will create an item document with the following triples:</p>
-            <pre>@prefix dh:     &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+            <pre>@prefix dh:     &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
 @prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
 @prefix xsd:    &lt;http://www.w3.org/2001/XMLSchema#&gt; .
 @prefix sioc:   &lt;http://rdfs.org/sioc/ns#&gt; .

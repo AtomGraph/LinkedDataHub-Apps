@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -23,12 +23,12 @@
         <p>Versioning is enabled per dataspace:</p>
         <ol>
             <li>Create a GitHub repository to hold the version history, and a <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens" target="_blank">fine-grained personal access token</a> with read/write access to that repository's contents</li>
-            <li>In <samp>config/system.trig</samp>, point the application at a repository description with <code>lapp:versioningRepository</code>:
+            <li>In <samp>config/system.trig</samp>, point the application at a repository description with <code>lds:versioningRepository</code>:
                 <pre>&lt;urn:linkeddatahub:apps/end-user&gt;
 {
-    &lt;urn:linkeddatahub:apps/end-user&gt; a lapp:EndUserApplication ;
-        ldt:service &lt;urn:linkeddatahub:services/end-user&gt; ;
-        lapp:versioningRepository &lt;urn:linkeddatahub:versioning/end-user&gt; .
+    &lt;urn:linkeddatahub:apps/end-user&gt; a lds:EndUserDataspace ;
+        lds:service &lt;urn:linkeddatahub:services/end-user&gt; ;
+        lds:versioningRepository &lt;urn:linkeddatahub:versioning/end-user&gt; .
 }
 
 &lt;urn:linkeddatahub:versioning/end-user&gt;
@@ -59,7 +59,7 @@
 &lt;https://localhost:4443/orders/10248/#this&gt; &lt;https://schema.org/identifier&gt; "10248" .
 &lt;https://localhost:4443/orders/10248/#this&gt; &lt;https://schema.org/orderDate&gt; "1996-07-04"^^&lt;http://www.w3.org/2001/XMLSchema#date&gt; .
 …</pre>
-        <p>To disable versioning, remove the <code>lapp:versioningRepository</code> triple and restart — the repository configuration is read at startup.</p>
+        <p>To disable versioning, remove the <code>lds:versioningRepository</code> triple and restart — the repository configuration is read at startup.</p>
     </div>
     <div>
         <h2 id="snapshots">Historical versions</h2>

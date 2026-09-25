@@ -4,7 +4,7 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:dct="http://purl.org/dc/terms/"
-    xmlns:dh="https://www.w3.org/ns/ldt/document-hierarchy#"
+    xmlns:dh="https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#"
     xmlns:ldh="https://w3id.org/atomgraph/linkeddatahub#"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     xmlns:json="http://www.w3.org/2005/xpath-functions"
@@ -90,7 +90,7 @@
                                 <!-- current-uri = 'file:/' — none of the nav items match, so nothing is active -->
                                 <xsl:apply-templates select="$top-level-docs" mode="nav">
                                     <xsl:sort select="local:nav-order(.)" data-type="number"/>
-                                    <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
+                                    <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Item', 'https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Container')]/dct:title"/>
                                     <xsl:with-param name="current-uri" select="'file:/'" tunnel="yes"/>
                                     <xsl:with-param name="base-path" select="$root-base-path" tunnel="yes"/>
                                 </xsl:apply-templates>
@@ -100,7 +100,7 @@
                             <div class="docs-children">
                                 <xsl:apply-templates select="$top-level-docs" mode="child-item">
                                     <xsl:sort select="local:nav-order(.)" data-type="number"/>
-                                    <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
+                                    <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Item', 'https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Container')]/dct:title"/>
                                     <xsl:with-param name="base-path" select="$root-base-path" tunnel="yes"/>
                                 </xsl:apply-templates>
                             </div>
@@ -131,7 +131,7 @@
     <!-- ==================== ONE PAGE PER RDF DOCUMENT ==================== -->
 
     <xsl:template match="/rdf:RDF">
-        <xsl:variable name="resource" select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]"/>
+        <xsl:variable name="resource" select="rdf:Description[rdf:type/@rdf:resource = ('https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Item', 'https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Container')]"/>
         <xsl:variable name="resource-uri" select="local:resource-uri(.)"/>
         <xsl:variable name="base-path" select="replace($resource-uri, '^file:', '')"/>
 
@@ -153,7 +153,7 @@
                                     select="$all-docs/rdf:RDF[resolve-uri('../', local:resource-uri(.)) = 'file:/']"
                                     mode="nav">
                                     <xsl:sort select="local:nav-order(.)" data-type="number"/>
-                                    <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
+                                    <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Item', 'https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Container')]/dct:title"/>
                                     <xsl:with-param name="current-uri" select="$resource-uri" tunnel="yes"/>
                                     <xsl:with-param name="base-path" select="$base-path" tunnel="yes"/>
                                 </xsl:apply-templates>
@@ -173,7 +173,7 @@
 
     <!-- ==================== CONTAINER ==================== -->
 
-    <xsl:template match="rdf:Description[rdf:type/@rdf:resource = 'https://www.w3.org/ns/ldt/document-hierarchy#Container']">
+    <xsl:template match="rdf:Description[rdf:type/@rdf:resource = 'https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Container']">
         <xsl:param name="base-path" tunnel="yes"/>
         <xsl:variable name="resource-uri" select="local:resource-uri(.)"/>
 
@@ -186,14 +186,14 @@
                 select="$all-docs/rdf:RDF[resolve-uri('../', local:resource-uri(.)) = $resource-uri]"
                 mode="child-item">
                 <xsl:sort select="local:nav-order(.)" data-type="number"/>
-                <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
+                <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Item', 'https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Container')]/dct:title"/>
             </xsl:apply-templates>
         </div>
     </xsl:template>
 
     <!-- ==================== ITEM ==================== -->
 
-    <xsl:template match="rdf:Description[rdf:type/@rdf:resource = 'https://www.w3.org/ns/ldt/document-hierarchy#Item']">
+    <xsl:template match="rdf:Description[rdf:type/@rdf:resource = 'https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Item']">
         <h1><xsl:value-of select="dct:title"/></h1>
         <xsl:apply-templates select="*[namespace-uri() = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'][starts-with(local-name(), '_')]">
             <xsl:sort select="xs:integer(substring-after(local-name(), '_'))" data-type="number"/>
@@ -234,7 +234,7 @@
         <xsl:param name="current-uri" tunnel="yes"/>
         <xsl:param name="base-path" tunnel="yes"/>
 
-        <xsl:variable name="resource" select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]"/>
+        <xsl:variable name="resource" select="rdf:Description[rdf:type/@rdf:resource = ('https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Item', 'https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Container')]"/>
         <xsl:variable name="resource-uri" select="local:resource-uri(.)"/>
         <xsl:variable name="resource-path" select="replace($resource-uri, '^file:', '')"/>
         <xsl:variable name="children" select="$all-docs/rdf:RDF[resolve-uri('../', local:resource-uri(.)) = $resource-uri]"/>
@@ -252,7 +252,7 @@
                 <ul>
                     <xsl:apply-templates select="$children" mode="nav">
                         <xsl:sort select="local:nav-order(.)" data-type="number"/>
-                        <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]/dct:title"/>
+                        <xsl:sort select="rdf:Description[rdf:type/@rdf:resource = ('https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Item', 'https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Container')]/dct:title"/>
                     </xsl:apply-templates>
                 </ul>
             </xsl:if>
@@ -266,7 +266,7 @@
     <xsl:template match="/rdf:RDF" mode="child-item">
         <xsl:param name="base-path" tunnel="yes"/>
 
-        <xsl:variable name="resource" select="rdf:Description[rdf:type/@rdf:resource = ('https://www.w3.org/ns/ldt/document-hierarchy#Item', 'https://www.w3.org/ns/ldt/document-hierarchy#Container')]"/>
+        <xsl:variable name="resource" select="rdf:Description[rdf:type/@rdf:resource = ('https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Item', 'https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Container')]"/>
         <xsl:variable name="resource-path" select="replace(local:resource-uri(.), '^file:', '')"/>
 
         <div class="docs-card">

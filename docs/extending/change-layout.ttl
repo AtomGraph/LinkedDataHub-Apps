@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -53,7 +53,7 @@ exclude-result-prefixes="#all"&gt;
     volumes:
       - ./files/northwind.xsl:/usr/local/tomcat/webapps/ROOT/static/com/atomgraph/linkeddatahub/northwind/xsl/layout.xsl:ro</pre>
         <p>Then change the value of <code>ac:stylesheet</code> on the dataspace with base URI <code>https://localhost:4443/</code> to the URL of the stylesheet. The value has to be an absolute URL on the application's own origin:</p>
-        <pre>&lt;urn:linkeddatahub:apps/end-user&gt; a lapp:Application ;
+        <pre>&lt;urn:linkeddatahub:apps/end-user&gt; a lds:Dataspace ;
     ...
     ac:stylesheet &lt;https://localhost:4443/static/com/atomgraph/linkeddatahub/northwind/xsl/layout.xsl&gt; ;
     ...</pre>

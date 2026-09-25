@@ -43,5 +43,5 @@ ldh admin create authorization \
   --proxy "$admin_proxy" \
   --label "Read access to graph items" \
   --agent-class "http://www.w3.org/ns/auth/acl#AuthenticatedAgent" \
-  --to-all-in "https://www.w3.org/ns/ldt/document-hierarchy#Item" \
+  --to-all-in "https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Item" \
   --read
