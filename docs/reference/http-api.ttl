@@ -206,7 +206,7 @@ ETag: "1e635b4-ntriples"
                 </tr>
             </tbody>
         </table>
-        <p>Any method may additionally answer <code>403 Forbidden</code> — see <a href="#acl">Access control</a>.</p>
+        <p>Any method may additionally answer <code>403 Forbidden</code> — see <a href="#acl">Access control</a>. Any method that writes may answer <code>428 Precondition Required</code> when the request carries no precondition, or <code>412 Precondition Failed</code> when the one it carries is out of date — see <a href="#preconditions">Conditional writes</a>.</p>
         <div>
             <h3 id="document-metadata">Document metadata</h3>
             <p>Unlike earlier versions, LinkedDataHub 5.x manages the <a href="../data-model/documents/#hierarchy">document hierarchy</a> automatically.</p>
@@ -295,6 +295,37 @@ WHERE {}</pre>
             </ul>
             <p>The built-in constraints are similar to, but separate from the <a href="../administration/ontologies/#constraints">ontology constraints</a>.</p>
         </div>
+    </div>
+    <div>
+        <h2 id="preconditions">Conditional writes</h2>
+        <p>A write to a document that already exists must say which state it was written against. Every write reads the document's graph, changes it in memory and writes the whole graph back, so two writers that name no precondition overwrite each other with nothing to show that anything was lost.</p>
+        <p>Such a write is answered <code>428 Precondition Required</code>. To make it conditional, send either:</p>
+        <ul>
+            <li><code>If-Match</code> with the document's current <code>ETag</code>, to modify what you read</li>
+            <li><code>If-None-Match: *</code>, to create a document only if it does not exist yet</li>
+        </ul>
+        <p>Creating a document needs no precondition — there is no prior state to have been written against — so a <code>PUT</code> to a URL that does not exist is accepted as it always was.</p>
+        <p>If the document changed since you read it, the write is refused <code>412 Precondition Failed</code>, and that response carries the document's current <code>ETag</code> so you can re-read, reapply your change and retry without an extra request. <code>If-None-Match: *</code> against a document that already exists is likewise refused <code>412</code>, which is how a client can create-or-append in two steps.</p>
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
+                <p class="ac-alert-text">An <code>ETag</code> identifies a <em>negotiated representation</em>, not the graph alone: the same document answers a different tag as RDF/XML than as Turtle. Read the validator with the same <code>Accept</code> the write will send, or the write is refused <code>412</code>.</p>
+            </div>
+        </div>
+        <pre>HEAD /my/document/ HTTP/1.1
+Accept: application/n-triples
+
+HTTP/1.1 200 OK
+ETag: "f731c06f5ac4fec6490dff1399bd5440"
+
+PATCH /my/document/ HTTP/1.1
+Accept: application/n-triples
+Content-Type: application/sparql-update
+If-Match: "f731c06f5ac4fec6490dff1399bd5440"
+
+HTTP/1.1 204 No Content</pre>
+        <p><code>HEAD</code> is answered for any access mode the agent holds, not <code>acl:Read</code> alone, so an agent granted <code>acl:Write</code> or <code>acl:Append</code> can read the validator its writes have to quote without being able to read the document. <code>GET</code> still requires <code>acl:Read</code>.</p>
+        <p>The <a href="../command-line-interface/">command line interface</a> does this for you: every <samp>ldh</samp> command that writes reads the document's validator first and sends it.</p>
     </div>
     <div>
         <h2 id="versioned-documents">Versioned documents</h2>
@@ -454,7 +485,7 @@ Link: &lt;https://unesco-thesaurus.demo.linkeddatahub.com/sparql&gt;; rel="http:
         <h2 id="caching">Caching</h2>
         <p><code>GET</code> and <code>HEAD</code> RDF responses from the backend triplestores (<em>not LinkedDataHub responses</em>) are cached automatically by LinkedDataHub using <a href="https://varnish-cache.org" target="_blank">Varnish</a>
             as an HTTP proxy cache. You can check the age of the response by inspecting the <code>Age</code> response header (the value is in seconds).</p>
-        <p>LinkedDataHub sends <code>ETag</code> response headers that are derived as hashes of the requested document's RDF content. Every representation (HTML, RDF/XML, Turtle, etc.) gets a distinct <code>ETag</code> value, and language-negotiated HTML representations factor the accepted languages into the tag.</p>
+        <p>LinkedDataHub sends <code>ETag</code> response headers derived from a digest of the document's URL and its RDF content. Every representation (HTML, RDF/XML, Turtle, etc.) gets a distinct <code>ETag</code> value, and language-negotiated HTML representations factor the accepted languages into the tag. Treat the value as opaque: it is a validator to quote back in a <a href="#preconditions">conditional request</a>, and nothing about the document can be read from it.</p>
         <p>HTML responses carry a <code>Content-Language</code> negotiated against the languages the UI ships with, and advertise <code>Vary: Accept-Language</code> so shared caches keep the renderings apart.</p>
         <p>Caching of LinkedDataHub responses can be enabled on the nginx HTTP proxy server by uncommenting the <code>add_header Cache-Control</code> directives in the <samp>platform/nginx.conf.template</samp> file.
             Caching of <samp>/uploads/</samp> and <samp>/static/</samp> namespaces is enabled by default.</p>
