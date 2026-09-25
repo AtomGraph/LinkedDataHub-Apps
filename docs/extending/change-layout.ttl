@@ -71,7 +71,7 @@ exclude-result-prefixes="#all"&gt;
 &lt;/xsl:template&gt;</pre>
         <p>The pattern matches resource descriptions that are the primary topic of the requested document (i.e. its order), are typed <code>schema:Order</code>, and have line items present in the RDF graph.</p>
         <p>With the overriding template, the order page shows the computed total after the order's default description.</p>
-        <img alt="The augmented order page with the Order total heading and sum under the order description" src="/uploads/3da36d7eaf315c33add654777cb15a012492b54c"></img>
+        <img alt="The augmented order page with the Order total heading and sum under the order description" src="/uploads/59c543d37a229e1e525a9249008192f53a015d33"></img>
     </div>
     <div>
         <h2 id="override-output">Override output</h2>

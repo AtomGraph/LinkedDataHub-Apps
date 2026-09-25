@@ -976,6 +976,15 @@ export const SHOTS = [
     caption: 'the augmented order page with the Order total heading and sum under the order description',
     // Properties is where a description renders, and where the override applies.
     at: '/orders/10248/?mode=https%3A%2F%2Fw3id.org%2Fatomgraph%2Fclient%23ReadMode',
+    // The document's own metadata renders above the order, so a viewport-framed shot ends
+    // before the total and shows nothing the caption promises. Frame the subject instead:
+    // the order's description and the total that the override adds under it. The heading
+    // between them falls inside the union.
+    of: [
+      (page) => page.locator('.ldh-pane.is-active .ldh-block-row').filter({ hasText: 'Accepted offer' }).first(),
+      (page) => page.locator('.ldh-pane.is-active p').filter({ hasText: /\d[\d,]*\.\d{2} USD/ }).first(),
+    ],
+    pad: 16,
     want: async (page) => {
       const text = await page.locator('.ldh-pane.is-active').innerText().catch(() => '');
       return /Order total/.test(text) && /\d[\d,]*\.\d{2} USD/.test(text);
