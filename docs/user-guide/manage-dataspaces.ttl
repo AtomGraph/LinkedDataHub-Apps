@@ -33,9 +33,9 @@
                 <li>Declare an <samp>end-user</samp> and an <samp>admin</samp> dataset for the dataspace in <samp>config/fuseki/config.ttl</samp>, named after its origin (deployment host dropped, role appended)</li>
                 <li>Add corresponding <code>sd:Service</code> instances to <samp>config/system.trig</samp>, each pointing at one of those datasets, and bind the applications to them</li>
             </ol>
-            <p>The relationship between end-user and admin applications is automatically inferred based on naming conventions — you do not need to specify
-            <code>lds:endUserApplication</code> or <code>lds:adminApplication</code> properties manually. Applications whose origin (<code>lds:origin</code>) uses the
-            <samp>admin.</samp> subdomain are automatically recognized as administration applications, and paired with the end-user application on the corresponding bare host.</p>
+            <p>The relationship between end-user and admin applications is inferred from their origins, and there is nothing to declare. An application whose origin
+            (<code>lds:origin</code>) uses the <samp>admin.</samp> subdomain is recognized as an administration application, and paired with the end-user application on
+            the corresponding bare host.</p>
             <div class="ac-alert va-informative" role="status">
                 <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
                 <div class="ac-alert-body">
