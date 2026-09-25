@@ -29,7 +29,7 @@ RUN mvn clean install
 
 # =================
 
-FROM atomgraph/linkeddatahub:5.10.0
+FROM atomgraph/linkeddatahub:6.0.0
 
 WORKDIR $CATALINA_HOME
 
@@ -40,7 +40,7 @@ COPY --from=maven /usr/src/myapp/target/ROOT webapps/ROOT
 COPY files/layout.xsl /usr/local/tomcat/webapps/ROOT/static/com/example/myapp/xsl/layout.xsl
 COPY files/client.xsl /usr/local/tomcat/webapps/ROOT/static/com/example/myapp/xsl/client.xsl
 COPY files/style.css  /usr/local/tomcat/webapps/ROOT/static/com/example/myapp/css/style.css</pre>
-        <p>Replace <samp>5.10.0</samp> with the LinkedDataHub release you are running.</p>
+        <p>Replace <samp>6.0.0</samp> with the LinkedDataHub release you are running.</p>
         <p><code>SERVLET_NAME</code> must be set to the fully-qualified name of your JAX-RS application class (see the <a href="#java">Java section</a> below).</p>
     </div>
     <div>
@@ -51,13 +51,13 @@ COPY files/style.css  /usr/local/tomcat/webapps/ROOT/static/com/example/myapp/cs
     &lt;dependency&gt;
         &lt;groupId&gt;com.atomgraph&lt;/groupId&gt;
         &lt;artifactId&gt;linkeddatahub&lt;/artifactId&gt;
-        &lt;version&gt;5.10.0&lt;/version&gt;
+        &lt;version&gt;6.0.0&lt;/version&gt;
         &lt;classifier&gt;classes&lt;/classifier&gt;
     &lt;/dependency&gt;
     &lt;dependency&gt;
         &lt;groupId&gt;com.atomgraph&lt;/groupId&gt;
         &lt;artifactId&gt;linkeddatahub&lt;/artifactId&gt;
-        &lt;version&gt;5.10.0&lt;/version&gt;
+        &lt;version&gt;6.0.0&lt;/version&gt;
         &lt;type&gt;war&lt;/type&gt;
     &lt;/dependency&gt;
 &lt;/dependencies&gt;

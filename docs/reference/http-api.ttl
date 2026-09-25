@@ -209,7 +209,7 @@ ETag: "1e635b4-ntriples"
         <p>Any method may additionally answer <code>403 Forbidden</code> — see <a href="#acl">Access control</a>. Any method that writes may answer <code>428 Precondition Required</code> when the request carries no precondition, or <code>412 Precondition Failed</code> when the one it carries is out of date — see <a href="#preconditions">Conditional writes</a>.</p>
         <div>
             <h3 id="document-metadata">Document metadata</h3>
-            <p>Unlike earlier versions, LinkedDataHub 5.x manages the <a href="../data-model/documents/#hierarchy">document hierarchy</a> automatically.</p>
+            <p>Since LinkedDataHub 5, the <a href="../data-model/documents/#hierarchy">document hierarchy</a> is managed automatically.</p>
             <p>By default, LinkedDataHub treats an RDF document as an item by giving it the <code>dh:Item</code> type and attaching it to the parent container using <code>sioc:has_container</code>. If the client wants to create a container instead, it has to explicitly add the <code>dh:Container</code> type on the document resource; the new container will be attached to its parent using <code>sioc:has_parent</code>. In either case, the URI of the new document will be relative to its parent's.</p>
             <p>LinkedDataHub will also manage additional document metadata, such as its owner and creation/modification timestamps.</p>
             <p>For example, this HTTP request creating the Northwind regions container (Turtle syntax):</p>
