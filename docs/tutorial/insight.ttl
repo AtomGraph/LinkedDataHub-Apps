@@ -121,7 +121,7 @@
         <h2 id="result">What you now see</h2>
         <p>The Categories container is a small dashboard: a revenue bar chart and a grid of the categories themselves — all live views over the graph, recomputed on
             each request.</p>
-        <img alt="The Categories container with charts and grid view" src="../../uploads/2944e95993dd514ce9b54f24afb0f084a7ad887f"></img>
+        <img alt="The Categories container with charts and grid view" src="/uploads/2944e95993dd514ce9b54f24afb0f084a7ad887f"></img>
     </div>
     <div>
         <h2 id="how-this-works">How this works</h2>

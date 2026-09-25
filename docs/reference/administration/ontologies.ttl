@@ -200,7 +200,7 @@ WHERE {}</pre>
             derived constructors are appended beside it; the document names the vocabulary as its <code>foaf:primaryTopic</code> rather than claiming to be an ontology
             itself. The application's namespace ontology imports the vocabulary URI, which resolves to that document because it declares the vocabulary — so the
             constructors are edited where the vocabulary is, and nothing has to be re-fetched from the network or a bundled copy.</p>
-        <img alt="The Import ontology form, with the vocabulary URI as Source and the target document as Graph" src="../../../uploads/3ec09a0069882615f5754801ebab899556655cba"></img>
+        <img alt="The Import ontology form, with the vocabulary URI as Source and the target document as Graph" src="/uploads/3ec09a0069882615f5754801ebab899556655cba"></img>
         <p>Importing the SKOS vocabulary, for example, leaves the target document with content of this shape (abridged):</p>
         <pre>&lt;&gt; a dh:Item ;
     foaf:primaryTopic &lt;http://www.w3.org/2004/02/skos/core&gt; .    # the document is about the vocabulary

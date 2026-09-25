@@ -137,7 +137,7 @@ ns:SelectNarrowerConcepts a sp:Select ;
         <p>On the Northwind Traders dataspace the taxonomy editor package pays off immediately: the product categories that the
             <a href="../../imports/rdf/">UNESCO mapping import</a> doubled as <code>skos:Concept</code>s pick up the package's concept rendering and views,
             and their mapping relations link into the UNESCO Thesaurus dataspace.</p>
-        <img alt="A Northwind category page with the taxonomy editor package installed, concept rendering and UNESCO mappings visible" src="../../../uploads/e0fae965a67a3a1de09833dc20dabdb90ce4c54f"></img>
+        <img alt="A Northwind category page with the taxonomy editor package installed, concept rendering and UNESCO mappings visible" src="/uploads/e0fae965a67a3a1de09833dc20dabdb90ce4c54f"></img>
     </div>
     <div>
         <h2 id="uninstalling-packages">Uninstalling packages</h2>

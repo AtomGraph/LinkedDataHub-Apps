@@ -25,7 +25,7 @@
         <div aria-labelledby="user-interface-tab" class="ac-tabpanel" id="user-interface-pane" role="tabpanel">
     <div>
         <h2 id="open-history">Open the history</h2>
-        <img alt="The History dialog on a Northwind order, versions with agent attribution" src="../../uploads/e631baa8a512cf8eec9ad43806bf44d06d5354c0"></img>
+        <img alt="The History dialog on a Northwind order, versions with agent attribution" src="/uploads/e631baa8a512cf8eec9ad43806bf44d06d5354c0"></img>
         <p>Click the document's last-modified timestamp in the <a href="../../reference/user-interface/#action-bar">action bar</a>. The
             <dfn>History</dfn> dialog opens with the document's versions listed newest first, each showing its datetime and the agent who authored it.
             The version you are currently viewing is marked.</p>
@@ -34,7 +34,7 @@
     </div>
     <div>
         <h2 id="compare-versions">Compare versions</h2>
-        <img alt="A version diff on an order document — added/removed/changed borders and the color legend" src="../../uploads/1eb2fa845c5a9162e432a05f2a2ca8ccf4e6e7cf"></img>
+        <img alt="A version diff on an order document — added/removed/changed borders and the color legend" src="/uploads/1eb2fa845c5a9162e432a05f2a2ca8ccf4e6e7cf"></img>
         <p>In the History dialog, select a <dfn>From</dfn> and a <dfn>To</dfn> version to compare. The diff renders on the document page:</p>
         <ul>
             <li>added, removed and changed parts are marked with distinct borders, explained by a color legend</li>

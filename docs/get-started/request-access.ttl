@@ -16,7 +16,7 @@
             an explicit authorization to allow access for you.</p>
         <p>To notify the owner, issue an <a href="../../reference/administration/acl/#auth-requests">access request</a>. Navigate to the document you want to gain access to, click the
             <span class="ac-btn in-primary ap-solid sz-md">Request access</span> button and submit the form that appears, as shown below. You can choose the desired <a href="../../reference/administration/acl/#access-modes">access modes</a>.</p>
-        <video aria-label="Submitting an access request" controls="controls" preload="metadata" src="../../uploads/1ba1b3f7dd9fb3c22f60cc1a323af63eb010d9cf"></video>
+        <video aria-label="Submitting an access request" controls="controls" preload="metadata" src="/uploads/1ba1b3f7dd9fb3c22f60cc1a323af63eb010d9cf"></video>
         <p>The submitted request is itself an RDF resource in the admin application; the owner accepts it by creating the matching
             <a href="../../reference/administration/acl/#authorizations">authorization</a>. The <a href="../../reference/administration/acl/#auth-requests">ACL reference</a> shows its shape.</p>
     </div>

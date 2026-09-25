@@ -33,7 +33,7 @@
                             </li>
                             <li>Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span></li>
                         </ol>
-                        <video aria-label="Uploading a file" controls="controls" preload="metadata" src="../../uploads/20d18118ee468bfc150fb35b27fc51293bab9667"></video>
+                        <video aria-label="Uploading a file" controls="controls" preload="metadata" src="/uploads/20d18118ee468bfc150fb35b27fc51293bab9667"></video>
                     </div>
                 </div>
             <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">

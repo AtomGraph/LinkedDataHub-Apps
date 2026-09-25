@@ -27,7 +27,7 @@
         </div>
         <div aria-labelledby="user-interface-tab" class="ac-tabpanel" id="user-interface-pane" role="tabpanel">
                 <div>
-                    <video aria-label="Importing CSV data and mapping it to RDF" controls="controls" preload="metadata" src="../../../uploads/a1152e7d99c4d59d1cb8a894895be4d85a1aaeca"></video>
+                    <video aria-label="Importing CSV data and mapping it to RDF" controls="controls" preload="metadata" src="/uploads/a1152e7d99c4d59d1cb8a894895be4d85a1aaeca"></video>
                     <p>All the import components can be created from a single dialog, but the steps below create them one at a time:</p>
                     <ol>
                         <li>First, create a container for the data to be imported. This will be the import's <dfn>target container</dfn>.</li>

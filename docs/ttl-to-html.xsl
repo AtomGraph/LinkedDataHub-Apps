@@ -288,13 +288,17 @@
 
     <xsl:mode name="xhtml" on-no-match="shallow-copy"/>
 
-    <!-- resolve uploads/<hash> to files/<name> in img/video src and object data -->
+    <!-- resolve /uploads/<hash> to files/<name> in img/video src and object data. The source
+         reference is absolute from the dataspace root, because uploads/ is a flat namespace
+         outside the document hierarchy; the static build is served from a sub-path, so the
+         result is relativized against the page being written rather than kept absolute. -->
     <xsl:template match="xhtml:img/@src[contains(., 'uploads/')] | xhtml:video/@src[contains(., 'uploads/')] | xhtml:object/@data[contains(., 'uploads/')]" mode="xhtml">
+        <xsl:param name="base-path" as="xs:string" tunnel="yes"/>
         <xsl:variable name="hash" select="substring-after(., 'uploads/')"/>
         <xsl:variable name="match" select="key('file-by-sha1', $hash, $files-xml)"/>
         <xsl:choose>
             <xsl:when test="$match">
-                <xsl:attribute name="{local-name()}" select="substring-before(., 'uploads/') || 'files/' || $match/json:string[@key='name']"/>
+                <xsl:attribute name="{local-name()}" select="local:relativize('/files/' || $match/json:string[@key='name'], $base-path)"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:message terminate="yes">Could not find file for hash '<xsl:value-of select="$hash"/>'</xsl:message>

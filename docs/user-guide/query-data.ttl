@@ -25,7 +25,7 @@
         against the service the query names, and the results render below it in whichever
         <a href="../../reference/user-interface/#layout-modes">layout mode</a> suits them. Editing the block edits the resource, so a query
         you refine is saved rather than retyped.</p>
-    <img alt="A query block with its editor open and results below" src="../../uploads/6ca06aeac11332cb14d522633b129ae7f3d7691f"></img>
+    <img alt="A query block with its editor open and results below" src="/uploads/6ca06aeac11332cb14d522633b129ae7f3d7691f"></img>
     <p>This is the demo's top-selling-products query, which drives a chart on the Northwind Traders dataspace:</p>
     <pre>PREFIX schema: &lt;https://schema.org/&gt;
 

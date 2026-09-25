@@ -20,7 +20,7 @@
     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/root.ttl" target="_blank">root.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">the dashboard</a></p>
     <p>Blocks come in two types: XHTML (<code>ldh:XHTML</code>) and object (<code>ldh:Object</code>). These are the only types allowed as content block values — anything that is not XHTML markup, such as a query, a chart or an external resource, has to be wrapped into an <code>ldh:Object</code>. A built-in constraint rejects other values.</p>
     <p>Blocks can be rearranged by dragging a block's handle to a new position. Every block also offers a button that copies the block's URI to the clipboard.</p>
-    <img alt="The top of the Northwind dashboard's content list, with a block's drag handle and copy button visible" src="../../../uploads/6ee792727c3a4b661f5139ec86c60105db18d958"></img>
+    <img alt="The top of the Northwind dashboard's content list, with a block's drag handle and copy button visible" src="/uploads/6ee792727c3a4b661f5139ec86c60105db18d958"></img>
     <div>
         <h2 id="xhtml-blocks">XHTML blocks</h2>
         <p>An XHTML block is a fragment of XHTML, stored as a <a href="https://www.w3.org/TR/xml-c14n11/" target="_blank">canonical XML</a> literal (<code>rdf:XMLLiteral</code>) in the RDF document. It is edited in place using the rich-text editor, which also supports <a href="../../../user-guide/edit-content/">RDFa annotations</a>.</p>

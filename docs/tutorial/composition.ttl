@@ -53,7 +53,7 @@
         <h2 id="result">What you now see</h2>
         <p>The homepage is the finished application: branded header, live charts over the imported graph, and navigation into the containers — all of it driven by one document's
             description.</p>
-        <img alt="The finished Northwind landing page" src="../../uploads/4634992ca1715ade5ff9f5a1201c2c18db1a63fb"></img>
+        <img alt="The finished Northwind landing page" src="/uploads/4634992ca1715ade5ff9f5a1201c2c18db1a63fb"></img>
     </div>
     <div>
         <h2 id="how-this-works">How this works</h2>

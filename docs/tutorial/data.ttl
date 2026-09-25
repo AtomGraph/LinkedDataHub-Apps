@@ -124,7 +124,7 @@ ldh add csv-import \\
         <p>The Categories container lists eight category documents. Open one: the category renders with its name, description and identifier, typed as a product group — with the labels coming from
             the <a href="../model/">Model</a> stage. Repeat the pattern for the remaining entities and the Knowledge Graph fills in: orders link to products, products to suppliers and
             categories.</p>
-        <img alt="The Categories container listing after the import" src="../../uploads/a82ec6b20641ed77016fdec0d0ce56a3afac64aa"></img>
+        <img alt="The Categories container listing after the import" src="/uploads/a82ec6b20641ed77016fdec0d0ce56a3afac64aa"></img>
     </div>
     <div>
         <h2 id="how-this-works">How this works</h2>

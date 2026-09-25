@@ -63,10 +63,11 @@ for (const shot of index) {
   const ttl = path.join(DOCS, `${shot.doc}.ttl`);
   const text = edits.get(ttl) ?? await fs.readFile(ttl, 'utf8');
   const label = shot.caption.charAt(0).toUpperCase() + shot.caption.slice(1);
-  // One `../` per path segment of the page, so the reference resolves to {base}uploads/
-  // from the document itself — LDH emits no <base href>, and the static build carries
-  // the same prefix through to files/.
-  const src = '../'.repeat(shot.doc.split('/').length) + `uploads/${digest}`;
+  // Absolute from the dataspace root. uploads/ is a flat namespace anchored at the base
+  // URI, outside the document hierarchy, so its depth is fixed and a relative path would
+  // encode the REFERRING document's depth instead — breaking every image in a document
+  // that later moves. The static build relativizes it against each page (ttl-to-html.xsl).
+  const src = `/uploads/${digest}`;
   const element = elementFor(shot.kind, label, src);
 
   // Already filled: rewrite the element carrying this caption, hash and all.
