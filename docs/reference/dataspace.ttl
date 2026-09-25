@@ -116,7 +116,7 @@
         <h2 id="services">Services</h2>
         <p>A service is a persistent SPARQL 1.1-compatible store from which the application's <a href="../dataset/">RDF dataset</a> is accessible over HTTP. LinkedDataHub provides
             generic services as well as triplestore-specific ones, which allow simpler configuration and optimized access.</p>
-        <p>LinkedDataHub works with various SPARQL backends, using Apache Jena Fuseki by default. See the <a href="../triplestores/">triplestores reference</a> for compatibility requirements and configuration examples.</p>
+        <p>LinkedDataHub works with various SPARQL backends, using <a href="https://jena.apache.org/documentation/fuseki2/" target="_blank">Apache Jena Fuseki</a> by default. See the <a href="../triplestores/">triplestores reference</a> for compatibility requirements and configuration examples.</p>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">

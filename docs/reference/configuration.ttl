@@ -239,7 +239,7 @@ ABS_PATH=/linkeddatahub/</pre>
     </div>
     <div>
         <h2 id="fuseki"><samp>fuseki</samp> service</h2>
-        <p>A single Apache Jena Fuseki server holds a TDB2 dataset for every dataspace role — an <samp>end-user</samp> and an <samp>admin</samp> dataset per dataspace — declared in <samp>config/fuseki/config.ttl</samp> and persisted under the <samp>fuseki/</samp> folder, one sub-folder per dataset. <samp>JAVA_OPTIONS</samp> carries the Java options of the Fuseki process, and is what sizes its heap.</p>
+        <p>A single <a href="https://jena.apache.org/documentation/fuseki2/" target="_blank">Apache Jena Fuseki</a> server holds a TDB2 dataset for every dataspace role — an <samp>end-user</samp> and an <samp>admin</samp> dataset per dataspace — declared in <samp>config/fuseki/config.ttl</samp> and persisted under the <samp>fuseki/</samp> folder, one sub-folder per dataset. <samp>JAVA_OPTIONS</samp> carries the Java options of the Fuseki process, and is what sizes its heap.</p>
         <p>Datasets are named after the dataspace origin with the deployment host dropped and the role appended — <samp>northwind-traders.demo.end-user</samp>, <samp>northwind-traders.demo.admin</samp> — so the names hold across development and production; the root dataspace's are plain <samp>end-user</samp> and <samp>admin</samp>. See the <a href="../dataspace/#services">dataspace reference</a> for the service declarations that bind an application to its datasets.</p>
     </div>
     <div>
