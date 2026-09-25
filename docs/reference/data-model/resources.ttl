@@ -104,7 +104,7 @@
     </div>
     <div>
         <h2 id="queries">Queries</h2>
-        <img alt="A query block with the SPARQL editor" src="../../../uploads/509e856aca035de3d391e9a09c99bc8233a0aa26"></img>
+        <img alt="A query block with the SPARQL editor" src="../../../uploads/0931818c26218525110876d68c83caf3758754b9"></img>
         <p>Queries are SPARQL 1.1 query strings that can be executed interactively. A query may name the SPARQL
         service it executes against; otherwise it runs against the application's own service.</p>
         <p>A query is a resource typed by its SPARQL form, carrying the query string as <code>sp:text</code>:</p>
@@ -125,7 +125,7 @@ ORDER BY ?categoryName''' .</pre>
     </div>
     <div>
         <h2 id="charts">Charts</h2>
-        <img alt="A chart block rendering SPARQL results" src="../../../uploads/f770ca74d04f9f5e733e6670193a450c156e2c58"></img>
+        <img alt="A chart block rendering SPARQL results" src="../../../uploads/5ef380cf4b9b4f0f451b6abe96516e4fd50fd530"></img>
         <p>Charts can render both types of SPARQL results:</p>
         <ul>
             <li>tabular <code>SELECT</code> results (<code>ldh:ResultSetChart</code>)</li>
@@ -217,7 +217,7 @@ ORDER BY DESC(?revenue)''' .
     </div>
     <div>
         <h2 id="views">Views</h2>
-        <img alt="A view block with paginated results" src="../../../uploads/0c33bbbdb5644d8be1d4a8b78c381baf4908cfbc"></img>
+        <img alt="A view block with paginated results" src="../../../uploads/83d04d55088908b1932e777348ef5cd01f160148"></img>
         <p>A view renders the results of a SPARQL <code>SELECT</code> query as an interactive, paginated and optionally ordered list.
         The UI renders the descriptions of the resources selected by the result set, rather than the tabular result itself.
         That is achieved by on-the-fly SPARQL query rewriting: the <code>SELECT</code> is wrapped into
@@ -291,7 +291,7 @@ WHERE {
         </div>
         <div>
             <h3 id="parallax">Parallax navigation</h3>
-            <img alt="Parallax navigation jumping from a result set to a related one" src="../../../uploads/012a51f49ff6d2ca1e29c911504b1f184511e024"></img>
+            <img alt="Parallax navigation jumping from a result set to a related one" src="../../../uploads/f1082691b9775720f8fc01142edc7e24fa7b778d"></img>
             <p>Parallax is an unusual navigation approach that suits graph data particularly well. It allows jumping from a result set to a related result set by following an RDF property. The available pivots render as a row of chips directly under the view toolbar, one chip per property linking the result set to the rest of the graph; the row stays hidden while there are no pivots. Parallax navigates in both directions: a chip with a forward arrow follows a property of the results onto its objects, a chip with a backward arrow follows a property pointing at the results onto its subjects. The pivots are discovered by querying the whole result set, so they cover results beyond the current page.</p>
             <p>Clicking a chip pivots the view onto the related result set and restarts paging from the first page. The applied steps appear in the toolbar next to the facets as removable chips reading <samp>via</samp> (forward) or <samp>linked by</samp> (backward); removing one rewinds the view to that step. Parallax works in
                 combination with faceted search which can be used to filter the initial result set.</p>

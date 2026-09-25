@@ -45,7 +45,7 @@
     </div>
     <div>
         <h2 id="rdfa-annotations">RDFa annotations</h2>
-        <img alt="The annotation dialog over the selected word &quot;Chai&quot;, Property typeahead open" src="../../uploads/0d70ba3b7f61b9c1c5fd8c61497f1db7ce3c4ca2"></img>
+        <img alt="The annotation dialog over the selected word &quot;Chai&quot;, Property typeahead open" src="../../uploads/e50e7d238aa5441c7a35f7ebf6e0dec431ae80fd"></img>
         <p>RDFa annotations embed machine-readable RDF statements directly in the XHTML markup. A single annotation expresses a statement of the form <em>subject — property — object</em>, where subject and object are IRIs or typed literals drawn from your Knowledge Graph.</p>
         <h3 id="adding-an-annotation">Adding an annotation</h3>
         <ol>

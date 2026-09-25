@@ -26,10 +26,7 @@
             <button aria-controls="from-a-file-pane" aria-selected="false" class="ac-tab" id="from-a-file-tab" role="tab" type="button"><span class="ac-tab-lbl">From a file</span></button>
         </div>
         <div aria-labelledby="from-linked-data-tab" class="ac-tabpanel" id="from-linked-data-pane" role="tabpanel">
-        <div class="screenshot-placeholder">
-            <span aria-hidden="true" class="msi">play_circle</span>
-            <p>Screen recording: forking a remote RDF document into the dataspace</p>
-        </div>
+        <video aria-label="Forking a remote RDF document into the dataspace" controls="controls" preload="metadata" src="../../uploads/77a0696a5eb9a84bf2f1255dc1ac9947b4a1fbac"></video>
         <p>To copy the contents of the current RDF document (local or remote) into a local document, follow these steps:</p>
         <ol>
             <li>Choose <samp>Save as</samp> in the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a>'s <span class="ac-btn in-neutral ap-outline sz-md">Actions</span> dropdown.

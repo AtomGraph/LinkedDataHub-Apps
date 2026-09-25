@@ -11,7 +11,7 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="ldh-body-lg">Browse, navigate and search local and remote data</p>
-    <video aria-label="Browsing and navigating data" controls="controls" preload="metadata" src="../../uploads/109f03edd7577ebe343f0cd4f1d12e8028063493"></video>
+    <video aria-label="Browsing and navigating data" controls="controls" preload="metadata" src="../../uploads/1e2bef871b490b6414c260bbedc7b96a90933067"></video>
     <div>
         <h2 id="linked-data-browser">Linked Data browser</h2>
         <p>LinkedDataHub has a built-in Linked Data browser which is accessed through <a href="../../reference/user-interface/#nav-bar">the navigation bar</a>. Enter a <code>http://</code> or <code>https://</code> URL and
@@ -27,7 +27,7 @@
     <div>
         <h2 id="document-tree">Document tree</h2>
         <p>The document tree in the left sidebar gives a quick overview of the application's <a href="../../reference/data-model/documents/#hierarchy">document hierarchy</a>; the <a href="../../reference/user-interface/#document-hierarchy">user interface reference</a> describes the widget.</p>
-        <img alt="The document tree with a container expanded" src="../../uploads/0e4b22db2c8fcae2c79193cf06a40f094f2db775"></img>
+        <img alt="The document tree with a container expanded" src="../../uploads/ed6827ec72470e0600b3c4c74430ada0395146bd"></img>
     </div>
     <div>
         <h2 id="class-navigation">Class-based navigation</h2>
@@ -69,7 +69,7 @@ WHERE {
     }
 }</pre>
         <p>The same widget is used for autocomplete inputs in create and edit forms.</p>
-        <img alt="The search dropdown with matching Northwind resources" src="../../uploads/6a1e2e654b0366b9275aa25e032efb1e72e0d48b"></img>
+        <img alt="The search dropdown with matching Northwind resources" src="../../uploads/1a6ab1a91a4e247b059804ec693b9a8fe218d840"></img>
     </div>
     <div>
         <h2 id="structured-search">Structured search</h2>

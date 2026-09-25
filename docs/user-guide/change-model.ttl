@@ -183,12 +183,9 @@ ldh admin add constructor \\
 &lt;https://localhost:4443/ns#MissingName&gt; a ldh:MissingPropertyValue ;
     rdfs:label "Missing schema:name" ;
     sp:arg1 schema:name .</pre>
-        <p>From now on, <samp>Product</samp> appears in the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown of the
-            end-user application, and its form offers name, identifier, category and supplier controls. A submission without a name is rejected with
+        <p>From now on, <samp>Product</samp> can be chosen as the <samp>Type</samp> of a new <samp>Instance</samp> created from the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown of the
+            end-user application, and its form is then generated from the constructor, offering name, identifier, category and supplier controls. A submission without a name is rejected with
             <samp>422 Unprocessable Entity</samp>, carrying the <a href="../../reference/administration/ontologies/#constraints" target="_blank">constraint violation</a>.</p>
-        <div class="screenshot-placeholder">
-            <span aria-hidden="true" class="msi">image</span>
-            <p>Screenshot: the generated Product create form, with the Missing schema:name violation shown after an empty submit</p>
-        </div>
+        <img alt="The generated Product create form, with the Missing schema:name violation shown after an empty submit" src="../../uploads/1dce1edf1ff2994206eadc60087fd1934635768d"></img>
     </div>
 </div>"""^^rdf:XMLLiteral .

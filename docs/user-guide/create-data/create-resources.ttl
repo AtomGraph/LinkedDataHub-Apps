@@ -11,10 +11,7 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="ldh-body-lg">Learn how to create instances of built-in and user-defined classes</p>
-    <div class="screenshot-placeholder">
-        <span aria-hidden="true" class="msi">play_circle</span>
-        <p>Screen recording: creating resource instances</p>
-    </div>
+    <video aria-label="Creating resource instances" controls="controls" preload="metadata" src="../../../uploads/61f5c05de6e7cc44f17db9de870e932d136a22f9"></video>
     <p><a href="../../../reference/data-model/resources/#built-in-classes">Built-in classes</a> (such as <samp>Container</samp>, <samp>Item</samp>, <samp>SELECT</samp> etc.) ship with <a href="../../../reference/administration/ontologies/#ontologies">system ontologies</a> in LinkedDataHub while <dfn>user-defined classes</dfn> come from ontologies imported by the user (see the user guide on <a href="../../change-model/">changing the model</a> on how to do that).</p>
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
@@ -56,10 +53,7 @@
             <li>Continue as with the <a href="#built-in-classes">built-in classes</a>: fill out the fields and click <span class="ac-btn in-primary ap-solid sz-sm">Save</span></li>
         </ol>
         <p>When you create a <samp>Product</samp> this way, its <a href="../../change-model/" target="_blank">constructor</a> renders name and identifier inputs plus category and supplier typeaheads — the form is entirely constructor-driven.</p>
-        <div class="screenshot-placeholder">
-            <span aria-hidden="true" class="msi">image</span>
-            <p>Screenshot: the Product create form generated from the constructor, with category and supplier typeaheads</p>
-        </div>
+        <img alt="The Product create form generated from the constructor, with category and supplier typeaheads" src="../../../uploads/bd8c29b9fa4caafcdc251b133d72414c9ef84b6c"></img>
     </div>
         </div>
         <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">

@@ -36,10 +36,7 @@
                     <p>The <samp>ssl/owner/keystore.p12</samp> file is your WebID certificate. The password is the <samp>owner_cert_password</samp> Docker secret value.</p>
                     <h3 id="sign-up">Sign up to an existing instance</h3>
                     <p>Click the <span class="ac-btn in-primary ap-solid sz-md">Sign up</span> button and fill out the form with your details to get a WebID, as shown below.</p>
-                    <div class="screenshot-placeholder">
-                        <span aria-hidden="true" class="msi">image</span>
-                        <p>Screenshot: the WebID signup form</p>
-                    </div>
+                    <img alt="The WebID signup form" src="../../uploads/a9b5df4541a4b73c3c9764e6b4d8bf4918df1961"></img>
                     <p>You will get an email with a <samp>.p12</samp> file attached, which is your WebID certificate. The certificate's password is the one you entered in the signup form.</p>
                     <p>The <a href="../../reference/command-line-interface/">command line interface</a> reads the PKCS12 (<samp>.p12</samp>) file directly — no conversion needed. Setup writes it to <samp>ssl/owner/keystore.p12</samp>.</p>
                     <p><samp>curl</samp> needs a PEM version instead. Setup writes that too, to <samp>ssl/owner/cert.pem</samp>. A certificate received by email can be converted from PKCS12 to PEM with OpenSSL:</p>
