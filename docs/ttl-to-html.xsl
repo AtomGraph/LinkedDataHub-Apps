@@ -378,8 +378,9 @@
             <div/> <!-- keep the header grid columns aligned -->
             <div class="ldh-header-actions">
                 <details class="docs-versions">
-                    <summary>Documentation v5</summary>
+                    <summary>Documentation v6</summary>
                     <div>
+                        <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/v5/">Documentation v5</a>
                         <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/v3/">Documentation v3</a>
                         <a href="https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/v2/">Documentation v2</a>
                     </div>
