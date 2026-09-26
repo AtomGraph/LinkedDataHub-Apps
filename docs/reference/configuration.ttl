@@ -17,12 +17,14 @@
         <h2 id="system-base-uri">System base URI</h2>
         <p>The system base URI is the URI at which the LinkedDataHub service is accessible.</p>
         <p>A common case is changing the system base URI from the default <samp>https://localhost:4443/</samp> to your own.
-            Take <samp>https://ec2-54-235-229-141.compute-1.amazonaws.com/linkeddatahub/</samp> as an example. Split the URI into components and set them in the <samp>.env</samp> file:</p>
+            Take <samp>https://ec2-54-235-229-141.compute-1.amazonaws.com/</samp> as an example. Split the URI into components and set them in the <samp>.env</samp> file:</p>
         <pre>PROTOCOL=https
 HTTP_PORT=80
 HTTPS_PORT=443
-HOST=ec2-54-235-229-141.compute-1.amazonaws.com
-ABS_PATH=/linkeddatahub/</pre>
+HOST=ec2-54-235-229-141.compute-1.amazonaws.com</pre>
+        <p>A dataspace serves its documents from the root of its origin, so the base URI is always the origin followed by <samp>/</samp> — there is no
+            sub-path component to configure. Serving several dataspaces from one instance is a matter of giving each its own subdomain, as described under
+            <a href="../dataspace/">Dataspaces</a>.</p>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
@@ -104,8 +106,6 @@ ABS_PATH=/linkeddatahub/</pre>
             <dd>URI scheme of the system base URI (<samp>http</samp> or <samp>https</samp>)</dd>
             <dt><samp>HOST</samp></dt>
             <dd>Hostname of the system base URI</dd>
-            <dt><samp>ABS_PATH</samp></dt>
-            <dd>Path of the system base URI (<samp>/</samp> unless the instance is served under a sub-path)</dd>
             <dt><samp>HTTP_PORT</samp></dt>
             <dd>Host port mapped to the container's port <samp>8080</samp>, which redirects HTTP to HTTPS</dd>
             <dt><samp>HTTPS_PORT</samp></dt>
