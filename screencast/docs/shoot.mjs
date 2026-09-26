@@ -24,6 +24,7 @@ import { makeTyper } from '../lib/typing.mjs';
 import * as nav from '../lib/nav.mjs';
 import * as modes from '../lib/modes.mjs';
 import * as blocks from '../lib/blocks.mjs';
+import { record as recordTerminal } from '../lib/terminal.mjs';
 import { SHOTS } from './manifest.mjs';
 
 // A shot that belongs to the dataspace's ADMIN application rather than its end-user
@@ -190,6 +191,46 @@ for (const shot of wanted) {
 
   const dir = path.join(OUT, path.dirname(shot.doc));
   await fs.mkdir(dir, { recursive: true });
+
+  // A terminal shot films a shell, not a page, so it takes none of what follows: no
+  // browser, no cursor, no cookie, no certificate. What it shares with a clip is
+  // everything downstream — the same pacer, the same encoding, the same record shape —
+  // so fill.mjs needs no knowledge of it and writes the same <video>.
+  if (shot.kind === 'terminal') {
+    const raw = path.join(dir, `${path.basename(shot.doc)}-${shot.n}.vhs.mp4`);
+    const mp4 = path.join(dir, `${path.basename(shot.doc)}-${shot.n}.mp4`);
+    let taken;
+    try {
+      taken = await recordTerminal(path.join(ROOT, 'tapes', `${shot.tape}.tape`), {
+        output: raw,
+        env: await (shot.prepare ? shot.prepare() : Promise.resolve({})),
+        watchUrl: shot.watch ?? null,
+      });
+    } catch (ex) {
+      console.log(`  ✗ ${slug.padEnd(42)} ${ex.message}`);
+      index.push({ ...record, outcome: 'failed', why: ex.message.split('\n')[0].slice(0, 110) });
+      continue;
+    }
+
+    const paced = taken.ok
+      ? await run('node', [path.join(ROOT, 'render', 'pace.mjs'), raw, mp4, '--dwell', String(shot.dwell ?? 3), '--crf', '20'])
+      : { code: 1 };
+    if (paced.code === 0) await fs.rm(raw, { force: true });
+
+    // The caption is the contract here too. For a setup recording the claim is that the
+    // setup worked, and the honest evidence is the instance answering — which is why the
+    // probe runs alongside the recording rather than after it.
+    const met = !shot.watch || taken.cameUp;
+    record.file = path.relative(ROOT, paced.code === 0 ? mp4 : raw);
+    record.duration = taken.seconds;
+    record.outcome = !taken.ok ? 'failed' : met ? 'ok' : 'missed';
+    if (!taken.ok) record.why = taken.why;
+    else if (!met) record.why = 'the instance the tape built never answered';
+    index.push(record);
+    console.log(`  ${{ ok: '✓', missed: '~', failed: '✗' }[record.outcome]} ${slug.padEnd(42)} ${record.file}${record.why ? ' ' + record.why : ''}`);
+    if (shot.cleanup) await shot.cleanup().catch(() => {});
+    continue;
+  }
 
   // The origin this shot is taken against: the dataspace's admin application when the
   // shot asks for it, its end-user application otherwise.

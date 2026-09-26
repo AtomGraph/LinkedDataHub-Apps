@@ -105,6 +105,29 @@ only those up, so gestures stay at 1x — and lands as H.264: CRF 20, `yuv420p`,
 `-movflags +faststart`, which puts the `moov` atom ahead of the media so the clip
 starts playing before it finishes downloading.
 
+**Recording a terminal.** A few slots are a shell rather than a page — the Docker setup
+the get-started guide opens with, and, when the long cut is made, its CLI beats and the
+right-hand pane of the split-screen teaser. Those are `kind: 'terminal'`: the shot names
+a tape in `tapes/`, and `lib/terminal.mjs` drives [VHS](https://github.com/charmbracelet/vhs)
+over a real pty (`brew install vhs`). A tape is to a terminal what a scene is to a
+browser — committed, and running the real commands.
+
+The producer owns two things the tape does not. Geometry, so a terminal clip cuts with a
+browser clip: 1440x810 at 25fps, prepended to the tape at run time so tapes carry no
+dimensions. And the readiness check, because the assertion worth making about a setup
+recording is that the setup worked — `watch` names a URL, and any HTTP answer counts,
+since an instance that is up but refuses an anonymous caller replies 403. That probe runs
+*while* the recording does, because a tape that ends with a stack still attached to the
+shell loses it the moment VHS exits.
+
+From there the path is a clip's: the same `render/pace.mjs`, the same encoding, the same
+record, so `fill.mjs` writes the same `<video>` and knows nothing about where it came
+from. `make tape TAPE=<name>` records one on its own while you iterate.
+
+One honest limitation: VHS types at a single fixed speed, which is the tell `lib/typing.mjs`
+exists to avoid. The preamble sets 55ms, that module's base for code, so a command reads
+at the pace a person types one — but without the per-character jitter a scene gets.
+
 **Publishing them.** What the shoot writes are masters, not web assets: 2880px
 lossless PNG, and both a `.webm` and an `.mp4` per clip. `make docs-publish` derives
 the shipping copies into `../docs/`, sibling to the `.ttl` that uses them:

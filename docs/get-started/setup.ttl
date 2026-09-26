@@ -11,10 +11,7 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="ldh-body-lg">Set up LinkedDataHub on your local machine with Docker</p>
-    <div class="screenshot-placeholder">
-        <span aria-hidden="true" class="msi">play_circle</span>
-        <p>Screen recording: setting up LinkedDataHub with Docker</p>
-    </div>
+    <video aria-label="Setting up LinkedDataHub with Docker" controls="controls" preload="metadata" src="/uploads/740bd4dfbc112a477132d6e4941984dfd7890872"></video>
     <div>
         <h2 id="start-linkeddatahub">Start LinkedDataHub</h2>
         <p>This section assumes you will be running on your local machine, i.e. <samp>localhost</samp>. If you intend to run it on a different host, <a href="../../reference/configuration/#system-base-uri">change the system base URI</a>.</p>

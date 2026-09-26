@@ -17,6 +17,10 @@
 // `blocked` marks the slots that cannot be shot against Northwind as it stands, with
 // the reason, so the gap is visible rather than silently missing.
 
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import { spawn } from 'node:child_process';
 import { selectWord } from '../lib/annotate.mjs';
 import * as constructors from '../lib/constructors.mjs';
 
@@ -71,6 +75,28 @@ const openProductForm = async ({ page, cursor, type, blocks, sleep }) => {
 
 // The form itself, once it carries the constructor's controls.
 const productForm = (page) => page.locator('form:visible').filter({ hasText: 'Product' }).last();
+
+// The setup clip builds a whole instance, so it needs somewhere to build it and a way
+// to take it down again. Both hang off the shot rather than the tape, so the tape stays
+// a transcript of the page and nothing else.
+const setupClip = (() => {
+  let dir = null;
+  const clone = () => path.join(dir, 'LinkedDataHub');
+  return {
+    async prepare() {
+      dir = await fs.mkdtemp(path.join(os.tmpdir(), 'ldh-setup-clip-'));
+      return { LDH_CLIP_DIR: dir };
+    },
+    async cleanup() {
+      if (!dir) return;
+      // down, not down -v: the volumes are this project's, but the habit of passing -v
+      // near a shared Docker daemon is the one that eventually removes somebody else's.
+      await new Promise((r) => spawn('docker', ['compose', 'down'], { cwd: clone(), stdio: 'ignore' }).on('close', r)).catch(() => {});
+      await fs.rm(dir, { recursive: true, force: true });
+      dir = null;
+    },
+  };
+})();
 
 export const SHOTS = [
   // ── reference/user-interface ───────────────────────────────────────────────
@@ -401,7 +427,28 @@ export const SHOTS = [
 
   // ── blocked ────────────────────────────────────────────────────────────────
   { doc: 'about', n: 1, line: 37, kind: 'clip', caption: 'LinkedDataHub overview', blocked: 'the flagship film — its own project' },
-  { doc: 'get-started/setup', n: 1, line: 16, kind: 'clip', caption: 'setting up LinkedDataHub with Docker', blocked: 'a terminal recording, not a browser one' },
+  {
+    // The one slot that is a shell rather than a page. It runs the page's procedure end
+    // to end in a throwaway clone — see tapes/get-started-setup.tape for why two values
+    // in the .env differ from the block the page prints.
+    //
+    // `watch` is the contract: the instance the tape builds has to answer, and the probe
+    // runs while the recording does, because the tape ends with the stack still attached
+    // to the shell VHS is about to take away. Any HTTP answer counts — a LinkedDataHub
+    // that is up but refuses an anonymous caller replies 403, which is the readiness gate
+    // the CI workflows wait on.
+    //
+    // dwell 4 rather than the usual 3: most of this recording is a cold image build and a
+    // healthcheck wait, and the frozen parts of it are long enough to want compressing
+    // harder than a browser clip's half-second holds.
+    doc: 'get-started/setup', n: 1, line: 16, kind: 'terminal',
+    caption: 'setting up LinkedDataHub with Docker',
+    tape: 'get-started-setup',
+    watch: 'https://localhost:4443/',
+    dwell: 4,
+    prepare: () => setupClip.prepare(),
+    cleanup: () => setupClip.cleanup(),
+  },
   {
     // The one slot that needs an identity other than the owner's, and a dataspace that
     // identity cannot read: the button renders only for an AUTHENTICATED agent who is

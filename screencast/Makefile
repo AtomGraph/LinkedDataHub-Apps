@@ -71,7 +71,7 @@ DOCS_DEST ?= ../docs
 DOCS_WIDTH ?= 2240
 DOCS_QUALITY ?= 90
 
-.PHONY: help deps screencasts screenshots docs-publish docs-fill scene probe mp4 mp4-uniform clean
+.PHONY: help deps screencasts screenshots docs-publish docs-fill scene tape probe mp4 mp4-uniform clean
 
 help:
 	@echo "make screencasts [BASE=…] [CERT_FILE=…] [CERT_PASSWORD=…] [FLAGS=…]"
@@ -88,6 +88,8 @@ help:
 	@echo "make docs-publish [DOCS_WIDTH=2240] [DOCS_QUALITY=90]"
 	@echo "                    optimise docs/out/ into ../docs/, printing sha1 per file"
 	@echo "make docs-fill      point the .ttl sources at the published files (idempotent)"
+	@echo "make tape TAPE=get-started-setup [WORKDIR=…]"
+	@echo "                    record one terminal tape to tracks/, without the shoot"
 	@echo "make probe PATH=/customers/"
 	@echo "                    dump the chrome at a path, so selectors come from the app"
 	@echo "make clean          remove rendered tracks"
@@ -192,6 +194,21 @@ mp4-uniform:
 scene: deps
 	@test -n "$(SCENE)" || { echo "SCENE= is required, one of: $(SCENES)"; exit 2; }
 	node scenes/$(SCENE).mjs $(OPTS) $(FLAGS)
+
+# Record one tape on its own, for iterating without the whole shoot around it. The
+# geometry and the typing speed come from lib/terminal.mjs, the same as in a shot, so
+# what this writes is what the shoot would write.
+#
+#   make tape TAPE=get-started-setup
+#
+# WORKDIR is where the tape does its work; tapes that need one read $LDH_CLIP_DIR.
+WORKDIR ?= $(shell mktemp -d)
+tape: deps
+	@command -v vhs > /dev/null || { echo "vhs is required (brew install vhs)" >&2; exit 1; }
+	@LDH_CLIP_DIR="$(WORKDIR)" node -e "import('./lib/terminal.mjs').then(async (m) => { \
+	  const r = await m.record('tapes/$(TAPE).tape', { output: 'tracks/$(TAPE).mp4', env: { LDH_CLIP_DIR: process.env.LDH_CLIP_DIR } }); \
+	  console.log(r.ok ? 'recorded tracks/$(TAPE).mp4 in ' + r.seconds + 's' : 'failed: ' + r.why); \
+	  process.exit(r.ok ? 0 : 1); })"
 
 probe: deps
 	node scenes/probe.mjs --path $(or $(PATH_),/customers/) $(OPTS) $(FLAGS)
