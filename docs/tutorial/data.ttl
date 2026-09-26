@@ -64,7 +64,7 @@ WHERE
         <tbody>
             <tr>
                 <th scope="row"><code>?container</code></th>
-                <td>The target container from the <a href="../structure/">Structure</a> stage, resolved against <code>$base</code>, which LinkedDataHub binds to the application's base URI when the mapping runs</td>
+                <td>The target container from the <a href="../structure/">Structure</a> stage, resolved against <code>$base</code>, which LinkedDataHub binds to the dataspace's base URI when the mapping runs</td>
             </tr>
             <tr>
                 <th scope="row"><code>?graph</code></th>

@@ -5,12 +5,12 @@
 
 <> a dh:Item ;
     dct:title "Import CSV data" ;
-    dct:description "Step-by-step guide to converting CSV data to RDF and importing it into the end-user application" ;
+    dct:description "Step-by-step guide to converting CSV data to RDF and importing it into the end-user dataspace" ;
     rdf:_1 <#content> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="ldh-body-lg">Step-by-step guide to converting CSV data to RDF and importing it into the end-user application</p>
+    <p class="ldh-body-lg">Step-by-step guide to converting CSV data to RDF and importing it into the end-user dataspace</p>
     <p>A CSV import has three components:</p>
     <dl>
         <dt>CSV file</dt>

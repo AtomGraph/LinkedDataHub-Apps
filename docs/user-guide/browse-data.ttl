@@ -26,7 +26,7 @@
     </div>
     <div>
         <h2 id="document-tree">Document tree</h2>
-        <p>The document tree in the left sidebar gives a quick overview of the application's <a href="../../reference/data-model/documents/#hierarchy">document hierarchy</a>; the <a href="../../reference/user-interface/#document-hierarchy">user interface reference</a> describes the widget.</p>
+        <p>The document tree in the left sidebar gives a quick overview of the dataspace's <a href="../../reference/data-model/documents/#hierarchy">document hierarchy</a>; the <a href="../../reference/user-interface/#document-hierarchy">user interface reference</a> describes the widget.</p>
         <img alt="The document tree with a container expanded" src="/uploads/ed6827ec72470e0600b3c4c74430ada0395146bd"></img>
     </div>
     <div>
@@ -73,7 +73,7 @@ WHERE {
     </div>
     <div>
         <h2 id="structured-search">Structured search</h2>
-        <p>You can use SPARQL to <a href="../query-data/">query data</a> from the application's SPARQL service.</p>
+        <p>You can use SPARQL to <a href="../query-data/">query data</a> from the dataspace's SPARQL service.</p>
     </div>
     <div>
         <h2 id="backlinks">Backlinks</h2>

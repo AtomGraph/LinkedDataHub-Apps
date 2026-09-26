@@ -5,14 +5,14 @@
 
 <> a dh:Item ;
     dct:title "Change layout" ;
-    dct:description "How to customize an application's layout and the way its resources are rendered" ;
+    dct:description "How to customize a dataspace's layout and the way its resources are rendered" ;
     rdf:_1 <#content> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="ldh-body-lg">How to customize an application's layout and the way its resources are rendered</p>
+    <p class="ldh-body-lg">How to customize a dataspace's layout and the way its resources are rendered</p>
     <p>LinkedDataHub's user interface is simply a rendering of the underlying Linked Data resource descriptions, which are exposed via the <a href="../../reference/http-api/" target="_blank">HTTP API</a>.</p>
-    <p>LinkedDataHub provides <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheets</a> that render a default UI layout. When building an application, however, you may want a custom
+    <p>LinkedDataHub provides <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheets</a> that render a default UI layout. When building a dataspace, however, you may want a custom
         layout. The recommended approach is a new stylesheet that imports the system stylesheet and overrides only the templates you need, reusing the rest of the layout.</p>
     <div>
         <h2 id="default-layout">Default layout</h2>
@@ -40,7 +40,7 @@ exclude-result-prefixes="#all"&gt;
     &lt;!-- overriding templates go here --&gt;
 
 &lt;/xsl:stylesheet&gt;</pre>
-        <p>(Imports under the application's <samp>/static/</samp> path resolve to local webapp files, so no HTTP round-trip is made.)</p>
+        <p>(Imports under the dataspace's <samp>/static/</samp> path resolve to local webapp files, so no HTTP round-trip is made.)</p>
     </div>
     <div>
         <h2 id="configure-dataspace">Configure the dataspace</h2>
@@ -49,7 +49,7 @@ exclude-result-prefixes="#all"&gt;
   linkeddatahub:
     volumes:
       - ./files/northwind.xsl:/usr/local/tomcat/webapps/ROOT/static/com/atomgraph/linkeddatahub/northwind/xsl/layout.xsl:ro</pre>
-        <p>Then change the value of <code>ac:stylesheet</code> on the dataspace with base URI <code>https://localhost:4443/</code> to the URL of the stylesheet. The value has to be an absolute URL on the application's own origin:</p>
+        <p>Then change the value of <code>ac:stylesheet</code> on the dataspace with base URI <code>https://localhost:4443/</code> to the URL of the stylesheet. The value has to be an absolute URL on the dataspace's own origin:</p>
         <pre>&lt;urn:linkeddatahub:apps/end-user&gt; a lds:Dataspace ;
     ...
     ac:stylesheet &lt;https://localhost:4443/static/com/atomgraph/linkeddatahub/northwind/xsl/layout.xsl&gt; ;

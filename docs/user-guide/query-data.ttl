@@ -7,7 +7,7 @@
 
 <> a dh:Item ;
     dct:title "Query data" ;
-    dct:description "Learn how to query application data with SPARQL, and save queries and charts" ;
+    dct:description "Learn how to query dataspace data with SPARQL, and save queries and charts" ;
     rdf:_1 <#content> ;
     rdf:_2 <#live-example> ;
     rdf:_3 <#northwind-query-block> ;
@@ -15,11 +15,11 @@
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="ldh-body-lg">Learn how to query application data with SPARQL, and save queries and charts</p>
-    <p>The <a href="../../reference/dataspace/#end-user-apps">end-user application</a> dataset is queried through the SPARQL 1.1
-        endpoint at the application's <samp>sparql</samp> URL (e.g. <samp>https://localhost:4443/sparql</samp>). All forms of SPARQL
+    <p class="ldh-body-lg">Learn how to query dataspace data with SPARQL, and save queries and charts</p>
+    <p>The <a href="../../reference/dataspace/#end-user">end-user dataspace</a> dataset is queried through the SPARQL 1.1
+        endpoint at the dataspace's <samp>sparql</samp> URL (e.g. <samp>https://localhost:4443/sparql</samp>). All forms of SPARQL
         queries are allowed; SPARQL updates are <em>not</em> allowed.</p>
-    <p>In the application itself there is no separate editor page. A <a href="../../reference/data-model/resources/#queries">query is a
+    <p>In the dataspace itself there is no separate editor page. A <a href="../../reference/data-model/resources/#queries">query is a
         resource</a> like any other — it lives in a document, it has a URI, and other resources refer to it. Placing one in a
         <a href="../../reference/data-model/blocks/">block</a> renders it as an interactive editor: the query text is editable, it runs
         against the service the query names, and the results render below it in whichever

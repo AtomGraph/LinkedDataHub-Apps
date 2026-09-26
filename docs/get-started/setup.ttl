@@ -75,7 +75,7 @@ OWNER_COUNTRY_NAME=DK</pre>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p class="ac-alert-text">The administration application of each <a href="../../reference/dataspace/">dataspace</a> is served on the <code>admin.</code> subdomain — for the default setup that is <samp>https://admin.localhost:4443/</samp>. Browsers resolve <samp>*.localhost</samp> automatically and the generated server certificate covers the subdomain, so the local setup works out of the box. On any other host, make sure <samp>admin.&lt;host&gt;</samp> resolves in DNS and is covered by the server's TLS certificate (e.g. a wildcard certificate).</p>
+                <p class="ac-alert-text">The administration dataspace of each <a href="../../reference/dataspace/">dataspace</a> is served on the <code>admin.</code> subdomain — for the default setup that is <samp>https://admin.localhost:4443/</samp>. Browsers resolve <samp>*.localhost</samp> automatically and the generated server certificate covers the subdomain, so the local setup works out of the box. On any other host, make sure <samp>admin.&lt;host&gt;</samp> resolves in DNS and is covered by the server's TLS certificate (e.g. a wildcard certificate).</p>
             </div>
         </div>
         <p>You are now the owner of this LinkedDataHub instance; <samp>ssl/owner/keystore.p12</samp> is your WebID certificate. The password is the value you put in <samp>secrets/owner_cert_password.txt</samp>.</p>

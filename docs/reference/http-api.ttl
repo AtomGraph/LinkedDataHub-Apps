@@ -6,12 +6,12 @@
 
 <> a dh:Item ;
     dct:title "HTTP API" ;
-    dct:description "Read and write RDF data from and to LinkedDataHub applications over HTTP" ;
+    dct:description "Read and write RDF data from and to LinkedDataHub dataspaces over HTTP" ;
     rdf:_1 <#content> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="ldh-body-lg">Read and write RDF data from and to LinkedDataHub applications over HTTP</p>
+    <p class="ldh-body-lg">Read and write RDF data from and to LinkedDataHub dataspaces over HTTP</p>
     <p>LinkedDataHub implements a uniform, generic RESTful Linked Data API as defined by the
         <a href="https://www.w3.org/TR/sparql11-http-rdf-update/" target="_blank">SPARQL 1.1 Graph Store HTTP Protocol</a>. It adds a few conventions of its own, however — such as <a href="#document-metadata">automatic document metadata</a> — as well as some <a href="#constraints">constraints</a>.</p>
     <div>
@@ -109,7 +109,7 @@ ETag: "1e635b4-ntriples"
     </div>
     <div>
         <h2 id="documents">Managing documents</h2>
-        <p>Every document is also a <a href="../dataset/#structure">named graph</a> in the application's RDF dataset. LinkedDataHub supports the SPARQL Graph Store Protocol's <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#direct-graph-identification" target="_blank">direct graph identification</a> as the HTTP CRUD protocol for managing document data.</p>
+        <p>Every document is also a <a href="../dataset/#structure">named graph</a> in the dataspace's RDF dataset. LinkedDataHub supports the SPARQL Graph Store Protocol's <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#direct-graph-identification" target="_blank">direct graph identification</a> as the HTTP CRUD protocol for managing document data.</p>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
@@ -343,9 +343,9 @@ HTTP/1.1 204 No Content</pre>
     </div>
     <div>
         <h2 id="sparql">Executing SPARQL</h2>
-        <p>Every LinkedDataHub application provides a SPARQL endpoint on <code>sparql</code> path (relative to the application's base URI). It supports the
+        <p>Every LinkedDataHub dataspace provides a SPARQL endpoint on <code>sparql</code> path (relative to the dataspace's base URI). It supports the
             <a href="https://www.w3.org/TR/sparql11-protocol/" target="_blank">SPARQL 1.1 Protocol</a> and serves as a proxy for the backend endpoint of the
-            application.</p>
+            dataspace.</p>
         <p>The protocol's dataset parameters can be used to scope a query to a single document's graph: passing <code>default-graph-uri=&lt;document-uri&gt;</code>
             makes that document's named graph the query's default graph. The dataset specified this way overrides any <code>FROM</code>/<code>FROM NAMED</code>
             clauses in the query, and <code>GRAPH</code> patterns match nothing since no named graphs are part of the dataset. This is the read-side counterpart
@@ -377,7 +377,7 @@ HTTP/1.1 204 No Content</pre>
         <pre>&lt;https://supplier.example/#this&gt; a schema:Corporation ;
     schema:legalName "Exotic Liquids" ;
     schema:telephone "(171) 555-2222" .</pre>
-        <p>The proxy only accepts external (non-relative to the current application's base URI) URLs; local URLs have to be dereferenced directly.</p>
+        <p>The proxy only accepts external (non-relative to the current dataspace's base URI) URLs; local URLs have to be dereferenced directly.</p>
         <p>The proxy forwards the origin's <code>ETag</code> and <code>Last-Modified</code> validators and passes conditional request headers
             (<code>If-Match</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, <code>If-Unmodified-Since</code>) through. Preconditioned
             writes against proxied documents are therefore evaluated at the origin. Error statuses from the origin reach the client unchanged.</p>
@@ -386,7 +386,7 @@ HTTP/1.1 204 No Content</pre>
         <h2 id="federation">Federation</h2>
         <p>The Linked Data proxy makes dataspaces interoperable across origins: one dataspace's client can browse, query, and write to another
             origin's dataspace, whether on the same LinkedDataHub instance or a different one.</p>
-        <p>Browsing a UNESCO Thesaurus concept from the Northwind dataspace, for example, the proxy forwards the remote application's hypermedia along
+        <p>Browsing a UNESCO Thesaurus concept from the Northwind dataspace, for example, the proxy forwards the remote dataspace's hypermedia along
             with the RDF:</p>
         <pre>GET /?uri=https%3A%2F%2Funesco-thesaurus.demo.linkeddatahub.com%2Fconcepts%2Fconcept3683%2F HTTP/1.1
 Host: northwind-traders.demo.linkeddatahub.com
@@ -396,7 +396,7 @@ HTTP/1.1 200 OK
 Content-Type: application/rdf+xml
 Link: &lt;https://unesco-thesaurus.demo.linkeddatahub.com/sparql&gt;; rel="http://www.w3.org/ns/sparql-service-description#endpoint"</pre>
         <ul>
-            <li>The remote application's SPARQL endpoint is discovered from the <code>Link</code> headers the proxy forwards, so views and charts over
+            <li>The remote dataspace's SPARQL endpoint is discovered from the <code>Link</code> headers the proxy forwards, so views and charts over
                 remote documents query the <em>remote</em> endpoint</li>
             <li>Writes are graph-scoped SPARQL updates (<code>PATCH</code>) or appends (<code>POST</code>) sent through the proxy under the origin's
                 <code>If-Match</code> precondition</li>
@@ -412,7 +412,7 @@ Link: &lt;https://unesco-thesaurus.demo.linkeddatahub.com/sparql&gt;; rel="http:
     </div>
     <div>
         <h2 id="system-endpoints">System endpoints</h2>
-        <p>Endpoints that LinkedDataHub serves in addition to the document hierarchy. Paths are relative to the application's base URI.</p>
+        <p>Endpoints that LinkedDataHub serves in addition to the document hierarchy. Paths are relative to the dataspace's base URI.</p>
         <table>
             <caption class="ac-vh">System endpoints by path</caption>
             <thead>
@@ -431,7 +431,7 @@ Link: &lt;https://unesco-thesaurus.demo.linkeddatahub.com/sparql&gt;; rel="http:
                 </tr>
                 <tr>
                     <th scope="row"><samp>sitemap.xml</samp></th>
-                    <td>The dataspace's public documents, in the <a href="https://www.sitemaps.org/protocol.html" target="_blank">sitemaps protocol</a>: generated at startup from the public read rules of the dataspace's own admin service, so an origin lists only its own documents. An end-user dataspace with nothing public has none, and neither does an admin application</td>
+                    <td>The dataspace's public documents, in the <a href="https://www.sitemaps.org/protocol.html" target="_blank">sitemaps protocol</a>: generated at startup from the public read rules of the dataspace's own admin service, so an origin lists only its own documents. An end-user dataspace with nothing public has none, and neither does an admin dataspace</td>
                 </tr>
                 <tr>
                     <th scope="row"><samp>robots.txt</samp></th>
@@ -439,7 +439,7 @@ Link: &lt;https://unesco-thesaurus.demo.linkeddatahub.com/sparql&gt;; rel="http:
                 </tr>
                 <tr>
                     <th scope="row"><samp>settings</samp></th>
-                    <td>The application's own description in the dataspace configuration. <code>PATCH</code> with a SPARQL update edits it — this is how <a href="../administration/packages/">packages</a> are installed and uninstalled. Editing is restricted to end-user applications: a <code>PATCH</code> on an admin application's settings answers <samp>422 Unprocessable Entity</samp></td>
+                    <td>The dataspace's own description in the dataspace configuration. <code>PATCH</code> with a SPARQL update edits it — this is how <a href="../administration/packages/">packages</a> are installed and uninstalled. Editing is restricted to end-user dataspaces: a <code>PATCH</code> on an admin dataspace's settings answers <samp>422 Unprocessable Entity</samp></td>
                 </tr>
             </tbody>
             <tbody>

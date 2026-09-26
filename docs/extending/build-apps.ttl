@@ -88,7 +88,7 @@ COPY files/style.css  /usr/local/tomcat/webapps/ROOT/static/com/example/myapp/cs
     &lt;/plugins&gt;
 &lt;/build&gt;</pre>
         <p>After adding a new endpoint, extend LinkedDataHub's JAX-RS application class (<code>com.atomgraph.linkeddatahub.Application</code>) and register your class there. Set the <code>SERVLET_NAME</code> Docker environment variable to the fully-qualified name of your subclass so LinkedDataHub loads it instead of the default application.</p>
-        <p>By convention, static files (e.g. stylesheets, images) are placed in the <samp>src/main/webapp/static/</samp> folder in the codebase, which then becomes <samp>/usr/local/tomcat/webapps/ROOT/static/</samp> within the webapp deployed in the Docker container, and is served at <samp>static/</samp> under the application's base URI.</p>
+        <p>By convention, static files (e.g. stylesheets, images) are placed in the <samp>src/main/webapp/static/</samp> folder in the codebase, which then becomes <samp>/usr/local/tomcat/webapps/ROOT/static/</samp> within the webapp deployed in the Docker container, and is served at <samp>static/</samp> under the dataspace's base URI.</p>
         <p>This means that if you want to deploy static files as part of your LinkedDataHub app, you will have to either mount them into the <samp>/usr/local/tomcat/webapps/ROOT/static/</samp> folder in the container, or copy them into a custom Docker image to the same effect.</p>
         <p>You can allow Java debugger access using <a href="../../reference/configuration/#debug">configuration properties</a>.</p>
     </div>

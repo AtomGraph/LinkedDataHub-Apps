@@ -19,12 +19,12 @@
             <button aria-controls="from-the-command-line-pane" aria-selected="false" class="ac-tab" id="from-the-command-line-tab" role="tab" type="button"><span class="ac-tab-lbl">From the command line</span></button>
         </div>
         <div aria-labelledby="in-the-browser-tab" class="ac-tabpanel" id="in-the-browser-pane" role="tabpanel">
-        <p>Create the authorization with the access control forms in the admin application — see the <a href="../../reference/administration/acl/" target="_blank">ACL reference</a> for
+        <p>Create the authorization with the access control forms in the admin dataspace — see the <a href="../../reference/administration/acl/" target="_blank">ACL reference</a> for
             the authorization model: who (agents, agent classes), what (documents, document classes), and which <code>acl:mode</code>.</p>
         </div>
         <div aria-labelledby="from-the-command-line-tab" class="ac-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
         <pre>ldh admin make-public</pre>
-        <p>The command extends the admin application's <samp>acl/authorizations/public/</samp> document: the built-in <samp>Public access</samp> authorization gains its access grants, and a second
+        <p>The command extends the admin dataspace's <samp>acl/authorizations/public/</samp> document: the built-in <samp>Public access</samp> authorization gains its access grants, and a second
             authorization is added. Authorizations are data, so you can inspect what the command wrote — and delete it to unpublish:</p>
         <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .

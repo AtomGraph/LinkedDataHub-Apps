@@ -28,7 +28,7 @@
                 <div>
                     <h2 id="get-cert">Get certificate</h2>
                     <p>LinkedDataHub uses WebID as the <a href="https://en.wikipedia.org/wiki/Single_sign-on" target="_blank">Single sign-on</a> (SSO)
-                        protocol for distributed applications, which is based on authentication using TLS client certificates. Using WebID, you will be able to authenticate with every LinkedDataHub application.
+                        protocol for distributed applications, which is based on authentication using TLS client certificates. Using WebID, you will be able to authenticate with every LinkedDataHub dataspace.
                         <a href="http://webid.info" target="_blank">Read more about WebID</a>.</p>
                     <p>There are two ways to get a LinkedDataHub WebID: run your own instance or sign up to an existing one.</p>
                     <h3 id="own-instance">Run your own instance</h3>
@@ -72,15 +72,15 @@
                     <h2 id="log-in">Log in</h2>
                     <p>Open the LinkedDataHub instance in the browser you installed the certificate into. Using a local setup, it runs on <a href="https://localhost:4443/" target="_blank">https://localhost:4443/</a> by default.</p>
                     <p>With the certificate installed, there is no login procedure — you are automatically <em>authenticated</em> on all
-                        LinkedDataHub applications. This is known as Single sign-on (SSO).</p>
-                    <p>Applications may make some or all of their documents public; you can browse those without authenticating. To reach
-                        protected (non-public) resources, or the administration application, you have to be authenticated <em>and
+                        LinkedDataHub dataspaces. This is known as Single sign-on (SSO).</p>
+                    <p>Dataspaces may make some or all of their documents public; you can browse those without authenticating. To reach
+                        protected (non-public) resources, or the administration dataspace, you have to be authenticated <em>and
                         authorized</em> (authorizations can be <a href="../../reference/administration/acl/#auth-requests">requested</a>).</p>
                     <div class="ac-alert va-informative" role="status">
                         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
                         <div class="ac-alert-body">
                             <p class="ac-alert-text">Authenticated agents <em>are not guaranteed to have access</em> to all resources. Different access levels for
-                                different agents can be specified by the application administrators.</p>
+                                different agents can be specified by the dataspace administrators.</p>
                         </div>
                     </div>
                 </div>

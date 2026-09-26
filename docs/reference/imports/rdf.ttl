@@ -35,7 +35,7 @@
     </div>
     <p>If the graph is specified, the resulting RDF data is appended to a single document.</p>
     <p>If the transformation query is specified, the resulting data should contain document instances in order to attach to the <a href="../../dataset/#structure">document hierarchy</a>. The documents have to be URI resources. The document graphs have to be <em>explicitly specified</em> using a <code>GRAPH</code> block in the <code>CONSTRUCT</code> template (a
-        <a href="https://jena.apache.org/documentation/query/construct-quad.html" target="_blank">Jena-specific extension</a> of SPARQL 1.1); otherwise the import result ends up in the default graph of the application's RDF dataset, which LinkedDataHub does not serve.</p>
+        <a href="https://jena.apache.org/documentation/query/construct-quad.html" target="_blank">Jena-specific extension</a> of SPARQL 1.1); otherwise the import result ends up in the default graph of the dataspace's RDF dataset, which LinkedDataHub does not serve.</p>
     <p>Imports run in the background — see <a href="../#execution">import execution</a>.</p>
     <p>The resulting RDF is split into documents (named graphs), which are then created one by one and validated against <a href="../../administration/ontologies/#constraints">constraints</a> as they are created.
         Constraint violations, if any, are attached to the import item.</p>

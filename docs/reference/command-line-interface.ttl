@@ -96,7 +96,7 @@ ldh --help</pre>
                 </tr>
                 <tr>
                     <th scope="row"><samp>-b</samp>, <samp>--base</samp></th>
-                    <td>Base URI of the application</td>
+                    <td>Base URI of the dataspace</td>
                 </tr>
                 <tr>
                     <th scope="row"><samp>--proxy</samp></th>
@@ -158,7 +158,7 @@ Usage: ldh add select [--verbose] [-b=BASE_URI] [--description=DESCRIPTION]
                       --title=TITLE [--uri=URI] TARGET_URI
 Adds a SELECT query to a document.
       TARGET_URI            URI of the document
-  -b, --base=BASE_URI       Base URI of the application (env: LDH_BASE)
+  -b, --base=BASE_URI       Base URI of the dataspace (env: LDH_BASE)
       --description=DESCRIPTION
                             Description of the query (optional)
   -f, --cert-file=CERT_FILE .p12 (PKCS12) keystore with the WebID certificate
@@ -330,7 +330,7 @@ Adds a SELECT query to a document.
                     <td><samp>ldh admin create group</samp></td>
                 </tr>
                 <tr>
-                    <td>Make the application publicly readable by any agent</td>
+                    <td>Make the dataspace publicly readable by any agent</td>
                     <td><samp>ldh admin make-public</samp></td>
                 </tr>
             </tbody>
@@ -426,7 +426,7 @@ ldh push --dry-run "$LDH_BASE"                    # print the plan, send nothing
         <p><samp>ldh get</samp> also exposes a <a href="../versioning/">versioned</a> document's TimeMap, TimeGate and historical versions through
             three mutually exclusive options — see the <a href="../versioning/#management">versioning reference</a> for the options and examples.</p>
         <h3 id="packages">Packages</h3>
-        <p><a href="../administration/packages/">Packages</a> are managed with the <samp>packages</samp> group: an application imports a package with a single <code>ldh:import</code> triple, which <samp>ldh packages add</samp> declares and <samp>ldh packages remove</samp> retracts on the application's <samp>settings</samp> document, while <samp>ldh packages list</samp> reads the registry catalog and marks the imported ones. See the <a href="../../user-guide/manage-packages/">package management guide</a>.</p>
+        <p><a href="../administration/packages/">Packages</a> are managed with the <samp>packages</samp> group: a dataspace imports a package with a single <code>ldh:import</code> triple, which <samp>ldh packages add</samp> declares and <samp>ldh packages remove</samp> retracts on the dataspace's <samp>settings</samp> document, while <samp>ldh packages list</samp> reads the registry catalog and marks the imported ones. See the <a href="../../user-guide/manage-packages/">package management guide</a>.</p>
     </div>
     <p class="ldh-body-lg">Find the <a href="https://github.com/AtomGraph/LinkedDataHub/tree/master/cli" target="_blank">CLI on GitHub</a>, or see it in action in the
         <a href="../../tutorial/">tutorial</a> and the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo" target="_blank">demo apps</a>.</p>
