@@ -1,4 +1,3 @@
-PREFIX ns:         <https://copenhagen.demo.linkeddatahub.com/ns#>
 PREFIX schema:     <https://schema.org/>
 PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#>
 PREFIX dh:         <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#>
@@ -18,7 +17,7 @@ CONSTRUCT
             dh:slug ?id ;
             foaf:primaryTopic ?place .
 
-        ?place a ns:Place ;
+        ?place a ?type ;
             geo:lat ?lat ;
             geo:long ?long ;
             dct:identifier ?id ;
@@ -37,6 +36,7 @@ WHERE
       { ?place_row  <#category>  ?category_name }
 
     BIND(uri(concat(str($base), "places/")) AS ?container)
+    BIND(uri(concat(str($base), "ns#Place")) AS ?type)
     BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
     BIND(uri(concat(str(?item), "#this")) AS ?place)
     BIND(xsd:float(?lat_string) AS ?lat)

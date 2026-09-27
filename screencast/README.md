@@ -145,13 +145,14 @@ LinkedDataHub stores uploads content-addressed at `{base}uploads/{sha1}`, and th
 here and not later — hashing a master would address bytes that never ship.
 
 **Referencing them.** A slot is filled by replacing the whole placeholder `div`
-with the element, document-relative with one `../` per path segment of the page
-(`docs/reference/user-interface.ttl` is served at `reference/user-interface/`, so it
-reaches the base with `../../`):
+with the element (`make docs-fill` does this, idempotently). The reference is
+absolute: `uploads/` is a flat namespace anchored at the base URI, outside the
+document hierarchy, so a relative path would encode the referring document's depth
+and break every image in a document that later moves:
 
 ```xml
-<img alt="The document tree with a container expanded" src="../../uploads/f367…"></img>
-<video aria-label="Browsing and navigating data" controls="controls" preload="metadata" src="../../uploads/109f…"></video>
+<img alt="The document tree with a container expanded" src="/uploads/f367…"></img>
+<video aria-label="Browsing and navigating data" controls="controls" preload="metadata" src="/uploads/109f…"></video>
 ```
 
 Attributes alphabetical, explicit end tags, each start tag on one line — these live
@@ -166,8 +167,8 @@ does not, so the failure reads as browser-specific when it is a header doing exa
 its job. A `<video>` is a subresource of the page instead. Images are unaffected for
 the same reason, which is why all 21 stills were fine while all 3 clips were black.
 
-From there the existing machinery carries them, unchanged: `docs/update-folder.sh`
-uploads every non-`.ttl` file in a folder to that folder's container, and the static
+From there the existing machinery carries them, unchanged: `ldh push` (run by
+`docs/install.sh`) uploads every non-RDF file in a folder to that folder's document, and the static
 build rewrites `uploads/{sha1}` to `files/{name}` through `docs/files.xml`,
 terminating on a hash it cannot find — so a clean `make ttl-to-html` is the proof
 that every baked hash resolves.

@@ -12,7 +12,9 @@ cd ../LinkedDataHub/cli && mvn package && export PATH="$PWD/bin:$PATH"
 
 The `bin` shell scripts that `ldh` replaces are deprecated. The certificate and WebID tooling in `bin` (`webid-keygen.sh`, `server-cert-gen.sh` and friends) talks to no API and is not.
 
-__Note that app installation scripts are not idempotent. Subsequent runs might continue adding data but are not guaranteed to succeed.__
+`make install` prompts for the base URL, the owner's keystore, its password and an optional proxy URL, exports them as the `LDH_*` variables the CLI reads, and runs the app's `install.sh` — every installer sources the shared [`lib/ldh-app.sh`](lib/ldh-app.sh). To install unattended, export the variables and run `./install.sh`.
+
+__Re-running an install converges but is not clean: `ldh push` replaces each document and the namespace ontology is reset before re-import, but `make-public`, `create authorization` and every import are POSTs, so each run adds another authorization and another import record.__
 
 ## Apps
 
@@ -29,7 +31,7 @@ __Note that app installation scripts are not idempotent. Subsequent runs might c
     <dd>XHTML document content is rendered from RDF literals</dd>
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
-    <dd>164 lines of installation shell scripts</dd>
+    <dd>19 lines of installation shell script</dd>
 </dl>
 
 #### Screenshots and screen recordings
@@ -52,8 +54,9 @@ to WebP at twice the docs' content width and copying the already-optimised `.mp4
 then prints each published file's SHA-1. That hash is its address: uploads are
 content-addressed at `{base}uploads/{sha1}`, so the bytes have to be final before
 anything references them. The references themselves are plain XHTML in the literal
-bodies — `<img src="../../uploads/{sha1}">` and `<video src="../../uploads/{sha1}">`
-— and `docs/install.sh` uploads the files along with the documents.
+bodies — `<img src="/uploads/{sha1}">` and `<video src="/uploads/{sha1}">`, absolute
+because `uploads/` hangs off the base URI outside the document hierarchy — and
+`docs/install.sh` uploads the files along with the documents.
 
 [More on the recording rig →](screencast/README.md)
 
@@ -76,7 +79,7 @@ bodies — `<img src="../../uploads/{sha1}">` and `<video src="../../uploads/{sh
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
     <dd>681 lines of SPARQL</dd>
-    <dd>951 lines of installation shell scripts</dd>
+    <dd>25 lines of installation shell script</dd>
 </dl>
 
 ### City Graph
@@ -95,7 +98,7 @@ bodies — `<img src="../../uploads/{sha1}">` and `<video src="../../uploads/{sh
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
     <dd>535 lines of SPARQL</dd>
-    <dd>488 lines of installation shell scripts</dd>
+    <dd>25 lines of installation shell script</dd>
 </dl>
 
 ### Unesco Thesaurus
@@ -118,8 +121,8 @@ bodies — `<img src="../../uploads/{sha1}">` and `<video src="../../uploads/{sh
     <dt>Lines of code</dt>
     <dd>0 lines of imperative code</dd>
     <dd>107 lines of SPARQL</dd>
-    <dd>499 lines of installation shell scripts</dd>
-    <dd>60 lines of XSLT stylesheet</dd>
+    <dd>44 lines of installation shell script</dd>
+    <dd>0 lines of XSLT — the stylesheet comes from the <a href="packages/editor/taxonomy/">taxonomy editor package</a></dd>
 </dl>
 
 __You need to request append/write access to be able to create/edit the data.__

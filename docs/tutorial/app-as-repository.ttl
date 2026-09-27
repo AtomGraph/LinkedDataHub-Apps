@@ -22,11 +22,9 @@
 │   └── *.gif
 ├── admin/model/
 │   ├── ns.ttl            # the namespace ontology
-│   ├── patch-ontology.ru # resets it before re-import
-│   └── import-ns.sh
+│   └── patch-ontology.ru # resets it before re-import
 ├── imports.csv           # the CSV import manifest
-├── install.sh            # replays everything against a base URI
-├── import-csv.sh         # replays the import manifest
+├── install.sh            # replays everything against $LDH_BASE
 ├── .ldhignore            # files that are neither documents nor uploads
 └── Makefile</pre>
     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/northwind-traders" target="_blank">demo/northwind-traders</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">northwind-traders.demo.linkeddatahub.com</a></p>
@@ -55,8 +53,9 @@ ldh push "$LDH_BASE"</pre>
     </div>
     <div>
         <h2 id="idempotency">Idempotency</h2>
-        <p>The install is idempotent: re-running it produces the same result instead of duplicating data. <code>PUT</code> replaces each document's description outright, and the one place that appends rather than replaces — the
-            namespace ontology — is first reset by <samp>patch-ontology.ru</samp>, a SPARQL update that clears everything except the ontology document's own description:</p>
+        <p>Re-running the install converges on the same documents instead of duplicating data. <code>PUT</code> replaces each document's description outright, and the one place that appends rather than replaces — the
+            namespace ontology — is first reset by <samp>patch-ontology.ru</samp>, a SPARQL update that clears everything except the ontology document's own description. (The steps that create rather than replace —
+            <samp>make-public</samp> and each CSV import — are <code>POST</code>s, so a re-run records another authorization and another import; the documents the imports write are the same.)</p>
         <pre>PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
 
 DELETE {
@@ -81,8 +80,10 @@ WHERE {
     <div>
         <h2 id="install">Installing</h2>
         <pre>make install</pre>
-        <p><samp>make install</samp> prompts for the base URI, certificate path, certificate password and an optional proxy URL, then runs <samp>install.sh</samp>: <samp>ldh admin make-public</samp>, the namespace ontology
-            install, <samp>ldh push</samp>, and one <samp>ldh import csv</samp> per row of the manifest. The entire tutorial, replayed in one command — against localhost today, against production tomorrow.</p>
+        <p><samp>make install</samp> prompts for the base URI, certificate path, certificate password and an optional proxy URL, exports them as the <samp>LDH_BASE</samp>, <samp>LDH_CERT_FILE</samp>,
+            <samp>LDH_CERT_PASSWORD</samp> and <samp>LDH_PROXY</samp> variables the CLI reads, then runs <samp>install.sh</samp>: <samp>ldh admin make-public</samp>, the namespace ontology
+            install, <samp>ldh push</samp>, and one <samp>ldh import csv</samp> per row of the manifest. The entire tutorial, replayed in one command — against localhost today, against production tomorrow.
+            Export the variables yourself and run <samp>./install.sh</samp> to install without the prompts.</p>
     </div>
     <div>
         <h2 id="result">What you now see</h2>

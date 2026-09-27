@@ -89,11 +89,13 @@ PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
 SELECT ?typeLabel (COUNT(?facility) AS ?count)
 WHERE {
+    # relative to the <ns> endpoint this query runs on, so the app installs under any base URI:
+    # the endpoint resolves <ns#> to the namespace and <sparql> to the dataspace's own data
     ?type a owl:Class ;
         rdfs:label ?typeLabel ;
-        rdfs:isDefinedBy <https://copenhagen.demo.linkeddatahub.com/ns#>
+        rdfs:isDefinedBy <ns#>
 
-    SERVICE <https://copenhagen.demo.linkeddatahub.com/sparql>
+    SERVICE <sparql>
     {
         SELECT DISTINCT ?facility ?type WHERE {
             GRAPH ?graph {

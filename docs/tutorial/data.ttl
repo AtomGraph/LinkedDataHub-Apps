@@ -114,7 +114,7 @@ ldh add csv-import \\
   --query "${LDH_BASE}categories/#categories-query" \\
   --file "$csv_upload_uri" \\
   "${LDH_BASE}categories/"</pre>
-        <p>(The readable <samp>#categories-query</samp> fragment is this tutorial's choice; the demo's <samp>import-csv.sh</samp> mints a UUID fragment per query instead.)</p>
+        <p>(The readable <samp>#categories-query</samp> fragment is this tutorial's choice; the demo's <samp>install.sh</samp> mints a UUID fragment per query instead.)</p>
         <p>Imports run asynchronously. Each import is itself a document that records its status — reload it to see progress, the amount of imported data on success, or the constraint
             violations on failure.</p>
         </div>

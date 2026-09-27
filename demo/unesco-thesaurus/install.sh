@@ -1,49 +1,44 @@
 #!/usr/bin/env bash
-# Installs the app onto a LinkedDataHub instance with the ldh CLI: makes it public, creates its
-# authorizations, pushes the document tree with its files, imports the taxonomy editor package and
-# imports the UNESCO Thesaurus SKOS data. Re-running is safe: PUT replaces each document.
+# Installs the app onto a LinkedDataHub instance with the ldh CLI: makes it public, grants
+# authenticated agents read access to its items, pushes the document tree with its files, imports the
+# taxonomy editor package and imports the UNESCO Thesaurus SKOS data. The ontology, constructors,
+# constraints and stylesheet all come from the package.
+#
+# Reads LDH_BASE, LDH_CERT_FILE, LDH_CERT_PASSWORD and optionally LDH_PROXY; `make install` prompts
+# for them. Re-running converges on the same documents — PUT replaces each one — but make-public,
+# the authorization and the RDF import are POSTs, so each run adds another of each.
 set -euo pipefail
 
-if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
-  echo "Usage:   $0" '$base $cert_file $cert_password [$proxy]' >&2
-  echo "Example: $0" 'https://localhost:4443/ ../../../LinkedDataHub/ssl/owner/keystore.p12 Password [https://localhost:5443/]' >&2
-  echo "Note: special characters such as $ need to be escaped in passwords!" >&2
-  exit 1
-fi
-
-base="$1"
-cert_file=$(realpath "$2")
-cert_password="$3"
-proxy="${4:-$base}"
-
 app_dir="$(cd "$(dirname "$0")" && pwd)"
+. "$app_dir/../../lib/ldh-app.sh"
+ldh_app_require_env
 
-printf "\n### Creating authorization to make the app public\n\n"
+admin_base=$(ldh_app_admin_uri "$LDH_BASE")
+admin_proxy=$(ldh_app_admin_uri "$LDH_PROXY")
 
-ldh admin make-public -b "$base" -f "$cert_file" -p "$cert_password" --proxy "$proxy"
+ldh_app_step "Creating authorization to make the app public"
+ldh admin make-public
 
-printf "\n### Creating authorizations\n\n"
+ldh_app_step "Creating authorization for authenticated agents to read items"
+ldh admin create authorization \
+  -b "$admin_base" \
+  --proxy "$admin_proxy" \
+  --label "Read access to graph items" \
+  --agent-class "http://www.w3.org/ns/auth/acl#AuthenticatedAgent" \
+  --to-all-in "https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Item" \
+  --read
 
-"$app_dir/admin/acl/create-authorizations.sh" "$base" "$cert_file" "$cert_password" "$proxy"
+ldh_app_step "Pushing documents and files"
+ldh push --dir "$app_dir" "$LDH_BASE"
 
-printf "\n### Pushing documents and files\n\n"
+ldh_app_step "Importing taxonomy editor package"
+ldh packages add --package "https://packages.linkeddatahub.com/editor/taxonomy/#this"
 
-ldh push -b "$base" -f "$cert_file" -p "$cert_password" --proxy "$proxy" --dir "$app_dir" "$base"
-
-printf "\n### Importing taxonomy editor package\n\n"
-
-ldh packages add -b "$base" -f "$cert_file" -p "$cert_password" --proxy "$proxy" --package "https://packages.linkeddatahub.com/editor/taxonomy/#this"
-
-printf "\n### Importing SKOS vocabulary\n\n"
-
+ldh_app_step "Importing SKOS vocabulary"
 # into the concept scheme's document, which the push created from concept-schemes/unesco-thesaurus.ttl
 ldh import rdf \
-  -b "$base" \
-  -f "$cert_file" \
-  -p "$cert_password" \
-  --proxy "$proxy" \
   --title "Unesco Thesaurus SKOS" \
   --query-file "$app_dir/concept-schemes/unesco-thesaurus/skos-import.rq" \
   --rdf-file "$app_dir/concept-schemes/unesco-thesaurus/unesco-thesaurus.ttl" \
   --content-type "text/turtle" \
-  "${base}concept-schemes/unesco-thesaurus/"
+  "${LDH_BASE}concept-schemes/unesco-thesaurus/"
