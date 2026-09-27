@@ -705,43 +705,52 @@ export const SHOTS = [
   },
   {
     // Writes, so it writes into the run's own scratch document rather than into the
-    // demo data — which is what the old blocking reason was about, and what the
-    // `writes` flag already solves. The file is one the demo app ships.
+    // demo data. The gesture is a drop: since f226cef26 the overlay takes any file, RDF
+    // imported as data and everything else uploaded, so the clip shows the drop and not
+    // the Create menu's File form, which stays in the text as the alternative.
+    //
+    // Playwright cannot pick a file up off the desktop. What the page sees of a drag is
+    // a DragEvent whose DataTransfer lists Files, and that can be built in the page -
+    // the same two events the platform's own file-drop tests dispatch: dragenter on the
+    // body mounts the overlay, drop lands on it. The pointer is walked to the middle
+    // of the page first so the overlay reads as a response to something arriving.
     doc: 'user-guide/upload-file', n: 1, line: 38, kind: 'clip', writes: true,
-    caption: 'uploading a file',
+    caption: 'dropping a file onto a document',
     at: '/',
-    async act({ page, cursor, type, blocks, marks, scratch, sleep }) {
+    async act({ page, cursor, marks, scratch, sleep }) {
       const url = await scratch.document('upload', 'Uploading a file');
       await page.goto(url, { waitUntil: 'load' });
       await page.waitForTimeout(5000);
       await marks.beat('open');
 
-      await blocks.switchDocumentMode(page, cursor, 'read-mode');
-      await sleep(1500);
-      const made = await constructors.createFromDock(page, cursor, 'File');
-      if (!made.ok) throw new Error(made.why);
-      await sleep(1500);
-      await marks.beat('form');
+      const portrait = new URL('../../demo/northwind-traders/employees/nancy.jpg', import.meta.url);
+      const bytes = [...await fs.readFile(portrait)];
+      const transfer = await page.evaluateHandle(({ name, type, bytes }) => {
+        const t = new DataTransfer();
+        t.items.add(new File([Uint8Array.from(bytes)], name, { type }));
+        return t;
+      }, { name: 'nancy.jpg', type: 'image/jpeg', bytes });
 
-      const form = page.locator('form:visible').filter({ hasText: 'FileName' }).last();
-      const file = form.locator('input[type=file]').first();
-      if (!(await file.count())) throw new Error('no file input on the File form');
-      await file.setInputFiles('../demo/northwind-traders/employees/nancy.jpg');
-      await page.waitForTimeout(2500);
-      await marks.beat('chosen');
+      const { width, height } = page.viewportSize();
+      await cursor.moveTo(width * 0.5, height * 0.55, { duration: 900 });
+      await page.dispatchEvent('body', 'dragenter', { dataTransfer: transfer });
+      await page.locator('#file-drop').waitFor();
+      // The two lanes are the thing to read: RDF imported as data, a file uploaded. The
+      // pointer keeps drifting while they are on screen - a held drag is not a still -
+      // but a dot that small is under the pacer's noise floor, so the hold is long
+      // enough that a third of it still reads.
+      await cursor.moveTo(width * 0.56, height * 0.47, { duration: 7000 });
+      await marks.beat('overlay');
 
-      const title = form.locator('.ldh-prop-group').filter({ hasText: 'Title' }).first()
-        .locator('input[type=text]:visible').first();
-      await type(title, 'Nancy Davolio');
-      await sleep(800);
-      await cursor.click(form.locator('button').filter({ hasText: /Save/ }).last());
+      await page.dispatchEvent('#file-drop', 'drop', { dataTransfer: transfer });
+      // A successful upload reloads the document in Read mode, where the file is one of
+      // its resources and an image is embedded.
+      await page.waitForURL(/ReadMode/, { timeout: 30000 });
       await page.waitForTimeout(6000);
-      await marks.beat('saved');
+      await marks.beat('uploaded');
     },
-    want: async (page) => {
-      const text = await page.locator('.ldh-pane.is-active').innerText().catch(() => '');
-      return /nancy/i.test(text);
-    },
+    want: async (page) =>
+      (await page.locator('.ldh-pane.is-active .ldh-block-row').filter({ hasText: 'nancy.jpg' }).count()) > 0,
   },
   {
     doc: 'user-guide/create-data/create-content', n: 1, line: 16, kind: 'still', writes: true,
