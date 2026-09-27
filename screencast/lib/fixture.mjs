@@ -28,7 +28,7 @@ export async function resetDocument({ ldh, base, certFile, certPassword, certPas
   if (!password) throw new Error('resetDocument needs --cert-password or --cert-password-file');
 
   // The CLI takes its options after the subcommand, not before it.
-  const auth = ['-b', base.endsWith('/') ? base : `${base}/`, '-f', certFile, '-p', password];
+  const auth = ['-b', base.endsWith('/') ? base : `${base}/`, '-c', certFile, '-p', password];
   const url = `${container.replace(/\/$/, '')}/${slug}/`;
   const scrub = (t) => String(t).split(password).join('••••');
 
@@ -57,7 +57,7 @@ export async function resetContainer({ ldh, base, certFile, certPassword, certPa
   if (!password) throw new Error('resetContainer needs --cert-password or --cert-password-file');
 
   const root = base.endsWith('/') ? base : `${base}/`;
-  const auth = ['-b', root, '-f', certFile, '-p', password];
+  const auth = ['-b', root, '-c', certFile, '-p', password];
   const scrub = (t) => String(t).split(password).join('••••');
 
   await run(ldh, ['delete', `${(parent ?? root).replace(/\/$/, '')}/${slug}/`, ...auth.slice(2)]);
@@ -71,7 +71,7 @@ export async function resetContainer({ ldh, base, certFile, certPassword, certPa
 // runner cannot see them otherwise.
 export async function removeAll({ ldh, certFile, certPassword, certPasswordFile, urls }) {
   const password = certPassword ?? (certPasswordFile ? (await fs.readFile(certPasswordFile, 'utf8')).trim() : null);
-  const auth = ['-f', certFile, '-p', password];
+  const auth = ['-c', certFile, '-p', password];
   const gone = [];
   for (const url of urls) {
     const r = await run(ldh, ['delete', url, ...auth]);
@@ -120,6 +120,6 @@ export async function clearBlocks({ ldh, certFile, certPassword, certPasswordFil
   const update = `PREFIX ldh: <https://w3id.org/atomgraph/linkeddatahub#>
 DELETE { <${url}> ?slot ?block . ?block ?p ?o }
 WHERE { <${url}> ?slot ?block . ?block a ?type . FILTER(?type IN (ldh:XHTML, ldh:Object)) FILTER(STRSTARTS(STR(?slot), "http://www.w3.org/1999/02/22-rdf-syntax-ns#_")) ?block ?p ?o }`;
-  const r = await run(ldh, ['patch', url, '-f', certFile, '-p', password], update);
+  const r = await run(ldh, ['patch', url, '-c', certFile, '-p', password], update);
   return { ok: r.code === 0, out: String(r.err || r.out).split(password).join('••••').slice(0, 300) };
 }

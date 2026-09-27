@@ -15,7 +15,7 @@
         It can be used for testing, automation, scheduled execution and similar tasks. Performing actions with the CLI is usually quicker than using the
         <a href="../user-interface/">user interface</a>, and easier to reproduce.</p>
     <p>Some commands correspond to a single request to LinkedDataHub, others combine several into tasks with multiple interdependent requests, such as the CSV import.</p>
-    <p>You will need a <samp>.p12</samp> keystore of your <a href="../../get-started/get-an-account/">WebID certificate</a> as well as its password, among other arguments.</p>
+    <p>You will need your <a href="../../get-started/get-an-account/">WebID certificate</a> — either the <samp>.p12</samp> keystore or a PEM file holding it with its private key — as well as its password, among other arguments.</p>
     <div>
         <h2 id="install">Install</h2>
         <p>Every LinkedDataHub release attaches an <samp>ldh-&lt;version&gt;.tar.gz</samp> archive holding the launcher and the jar. It needs a Java 21 runtime and nothing else:</p>
@@ -50,9 +50,9 @@ ldh --help</pre>
     </div>
     <div>
         <h2 id="authentication">Authentication</h2>
-        <p>Commands authenticate with a WebID client certificate read from a PKCS12 (<samp>.p12</samp>) keystore — the format produced by <samp>bin/webid-keygen.sh</samp> and shipped as <samp>ssl/owner/keystore.p12</samp> for the owner agent:</p>
+        <p>Commands authenticate with a WebID client certificate, read either from a PKCS12 keystore — the format produced by <samp>bin/webid-keygen.sh</samp> and shipped as <samp>ssl/owner/keystore.p12</samp> for the owner agent — or from a PEM file holding the certificate together with its private key, such as <samp>ssl/owner/cert.pem</samp>. The format is recognised from the file's content, not from its extension:</p>
         <pre>ldh get \\
-  -f ./ssl/owner/keystore.p12 \\
+  -c ./ssl/owner/keystore.p12 \\
   -p "$owner_cert_password" \\
   --accept text/turtle \\
   "https://localhost:4443/"</pre>
@@ -87,12 +87,12 @@ ldh --help</pre>
             </thead>
             <tbody>
                 <tr>
-                    <th scope="row"><samp>-f</samp>, <samp>--cert-file</samp></th>
-                    <td><samp>.p12</samp> (PKCS12) keystore with the WebID certificate of the agent</td>
+                    <th scope="row"><samp>-c</samp>, <samp>--cert</samp></th>
+                    <td>PKCS12 keystore, or PEM file with the certificate and its private key, holding the WebID certificate of the agent</td>
                 </tr>
                 <tr>
                     <th scope="row"><samp>-p</samp>, <samp>--cert-password</samp></th>
-                    <td>Password of the WebID certificate</td>
+                    <td>Password of the keystore, or passphrase of an encrypted PEM key. Not needed when the PEM key is unencrypted</td>
                 </tr>
                 <tr>
                     <th scope="row"><samp>-b</samp>, <samp>--base</samp></th>
@@ -118,7 +118,7 @@ ldh --help</pre>
             <tbody>
                 <tr>
                     <td><samp>LDH_CERT_FILE</samp></td>
-                    <td><code>-f</code>, <code>--cert-file</code></td>
+                    <td><code>-c</code>, <code>--cert</code></td>
                 </tr>
                 <tr>
                     <td><samp>LDH_CERT_PASSWORD</samp></td>
@@ -152,27 +152,31 @@ ldh create container --parent "$LDH_BASE" --title "Categories" --slug categories
         <p>A usage message with the parameters of a command is printed when the command is run without required arguments, or with <code>--help</code>. Commands take named parameters and default (positional) parameters; either kind can be optional. For example:</p>
         <pre>$ ldh add select
 Missing required options and parameters: '--title=TITLE', '--query-file=ABS_PATH', 'TARGET_URI'
-Usage: ldh add select [--verbose] [-b=BASE_URI] [--description=DESCRIPTION]
-                      [-f=CERT_FILE] [-p=CERT_PASSWORD] [--proxy=PROXY_URL]
-                      --query-file=ABS_PATH [--service=SERVICE_URI]
-                      --title=TITLE [--uri=URI] TARGET_URI
+Usage: ldh add select [-h] [--verbose] [-b=BASE_URI] [-c=CERT_FILE]
+                      [--description=DESCRIPTION] [-p=PASSWORD]
+                      [--proxy=PROXY_URL] --query-file=ABS_PATH
+                      [--service=SERVICE_URI] --title=TITLE [--uri=URI]
+                      TARGET_URI
 Adds a SELECT query to a document.
-      TARGET_URI            URI of the document
-  -b, --base=BASE_URI       Base URI of the dataspace (env: LDH_BASE)
+      TARGET_URI          URI of the document
+  -b, --base=BASE_URI     Base URI of the application (env: LDH_BASE)
+  -c, --cert=CERT_FILE    PKCS12 keystore or PEM with the WebID certificate and
+                            private key of the agent (env: LDH_CERT_FILE)
       --description=DESCRIPTION
-                            Description of the query (optional)
-  -f, --cert-file=CERT_FILE .p12 (PKCS12) keystore with the WebID certificate
-                              of the agent (env: LDH_CERT_FILE)
-  -p, --cert-password=CERT_PASSWORD
-                            Password of the WebID certificate (env:
-                              LDH_CERT_PASSWORD)
-      --proxy=PROXY_URL     The host this request will be proxied through
-                              (optional) (env: LDH_PROXY)
-      --query-file=ABS_PATH Path to the file with the query string
-      --service=SERVICE_URI URI of the SPARQL service (optional)
-      --title=TITLE         Title of the query
-      --uri=URI             URI of the query (optional, blank node if not set)
-      --verbose             Print stack traces of errors</pre>
+                          Description of the query (optional)
+  -h, --help              Show this help message and exit.
+  -p, --cert-password=PASSWORD
+                          Password of the keystore, or passphrase of an
+                            encrypted PEM key (env: LDH_CERT_PASSWORD)
+      --proxy=PROXY_URL   The host this request will be proxied through
+                            (optional) (env: LDH_PROXY)
+      --query-file=ABS_PATH
+                          Path to the file with the query string
+      --service=SERVICE_URI
+                          URI of the SPARQL service (optional)
+      --title=TITLE       Title of the query
+      --uri=URI           URI of the query (optional, blank node if not set)
+      --verbose           Print stack traces of errors</pre>
         <p>The optional parameters are marked with <samp>(optional)</samp>. In this case the default parameter is the URI of the document the query is appended to.</p>
         <p>An <samp>add select</samp> invocation looks like this (with the <a href="#environment-variables">environment variables</a> supplying the connection parameters):</p>
         <pre>ldh add select \\
