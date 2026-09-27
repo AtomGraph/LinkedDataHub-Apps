@@ -22,7 +22,7 @@
         <h2 id="what-are-packages">Overview</h2>
         <p>Packages enable:</p>
         <ul>
-            <li>Rapid application setup with pre-configured domain vocabularies</li>
+            <li>Rapid dataspace setup with pre-configured domain vocabularies</li>
             <li>Sharing and reusing common vocabulary definitions</li>
             <li>Custom rendering for vocabulary-specific resources</li>
             <li>Modular extension of dataspace functionality</li>

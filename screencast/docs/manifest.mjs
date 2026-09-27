@@ -102,7 +102,7 @@ export const SHOTS = [
   // ── reference/user-interface ───────────────────────────────────────────────
   {
     doc: 'reference/user-interface', n: 1, line: 26, kind: 'still',
-    caption: 'the application layout: navigation bar, action bar, sidebar and content',
+    caption: 'the dataspace layout: navigation bar, action bar, sidebar and content',
     at: '/customers/',
     async act({ page, cursor, nav }) { await nav.openTree(page, cursor); await page.waitForTimeout(1500); },
     want: '.left-sidebar.is-open, .tree-link',
@@ -496,7 +496,7 @@ export const SHOTS = [
     want: async (page) => (await page.locator('button.btn-access-form').count()) >= 1,
   },
   {
-    // Served by the dataspace's ADMIN application, and by an agent who has none — the
+    // Served by the ADMIN dataspace, and by an agent who has none — the
     // form's whole point is that you do not have a WebID yet. Both are declarative here:
     // `admin` moves the shot to the admin origin, `anonymous` withholds the certificate.
     doc: 'get-started/get-an-account', n: 1, line: 41, kind: 'still',
@@ -914,7 +914,7 @@ export const SHOTS = [
     pad: 12,
   },
   {
-    // Needs graph versioning enabled for THIS application (lds:versioningRepository on
+    // Needs graph versioning enabled for THIS dataspace (lds:versioningRepository on
     // the app plus an a:authToken for the repository in secrets/credentials.trig) and a
     // document written more than once after it was enabled — versioning captures writes,
     // not what is already in the store. Give the shoot its own github:pathPrefix so the
@@ -976,7 +976,7 @@ export const SHOTS = [
   },
   {
     // Needs three things on the instance, and all three are set-up rather than gesture:
-    // the taxonomy editor package imported by this application, the categories typed as
+    // the taxonomy editor package imported by this dataspace, the categories typed as
     // skos:Concept, and their skos mapping properties pointing at UNESCO concepts that
     // resolve. On a local stack the package comes from the local registry dataspace, not
     // packages.linkeddatahub.com, and the mappings the demo app ships are written against
@@ -1015,7 +1015,7 @@ export const SHOTS = [
   // identical, which the duplicate check catches. Deploy, shoot, redeploy, shoot.
   {
     // The "before" of the three-shot sequence. It is the platform's own rendering with
-    // no application stylesheet in play, so it has to be taken before the tutorial
+    // no dataspace stylesheet in play, so it has to be taken before the tutorial
     // stylesheet is deployed — the two shots after it need that deploy and stay blocked
     // until then.
     doc: 'extending/change-layout', n: 1, line: 24, kind: 'still',
@@ -1060,7 +1060,7 @@ export const SHOTS = [
   // A 45th placeholder the manifest did not carry — reference/administration/ontologies
   // has one, and nothing was shooting it.
   //
-  // The action lives on the dataspace's ADMIN application, so the shot asks for that
+  // The action lives on the ADMIN dataspace, so the shot asks for that
   // origin; Source opens pre-filled with the current document's URI, the same trap the
   // Save as shot documents, so it is cleared with the keyboard before typing.
   {

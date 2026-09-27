@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository overview
 
-LinkedDataHub-Apps holds applications built on LinkedDataHub. Every app is a tree of RDF documents plus the files they carry, installed with the `ldh` CLI. There is no imperative code: behaviour lives in RDF (Turtle), SPARQL and XSLT, and shell only orchestrates CLI calls.
+LinkedDataHub-Apps holds dataspaces built on LinkedDataHub. Every app is a tree of RDF documents plus the files they carry, installed with the `ldh` CLI. There is no imperative code: behaviour lives in RDF (Turtle), SPARQL and XSLT, and shell only orchestrates CLI calls.
 
 - `docs/` — the LinkedDataHub documentation, itself a LinkedDataHub app, published live at https://docs.linkeddatahub.com/ and as a static site under https://atomgraph.github.io/LinkedDataHub/linkeddatahub/docs/
 - `demo/northwind-traders/` — Northwind Traders as a knowledge graph: faceted search, parallax navigation, CSV import, a 969-line namespace ontology with constructors, constraints and views

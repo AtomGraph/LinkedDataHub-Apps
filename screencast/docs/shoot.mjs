@@ -27,7 +27,7 @@ import * as blocks from '../lib/blocks.mjs';
 import { record as recordTerminal } from '../lib/terminal.mjs';
 import { SHOTS } from './manifest.mjs';
 
-// A shot that belongs to the dataspace's ADMIN application rather than its end-user
+// A shot that belongs to the ADMIN dataspace rather than the end-user one
 // one — the sign-up form is served there. LDH's convention is an `admin.` label on the
 // same origin, so the manifest says `admin: true` and stays free of hostnames.
 const adminOrigin = (base) => {
@@ -232,8 +232,8 @@ for (const shot of wanted) {
     continue;
   }
 
-  // The origin this shot is taken against: the dataspace's admin application when the
-  // shot asks for it, its end-user application otherwise.
+  // The origin this shot is taken against: the admin dataspace when the shot asks for
+  // it, the end-user dataspace otherwise.
   const shotBase = shot.admin ? adminOrigin(opts.base) : opts.base;
   const identity = shot.anonymous ? null : await identityFor({ ...opts, base: shotBase });
   const context = await browser.newContext({

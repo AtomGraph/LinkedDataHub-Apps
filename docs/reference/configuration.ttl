@@ -262,7 +262,7 @@ HOST=ec2-54-235-229-141.compute-1.amazonaws.com</pre>
             <dd>Location of the server's SSL certificate's key. Defaults to <samp>/etc/nginx/ssl/server.key</samp>.</dd>
             <dt><samp>SSL_VERIFY_CLIENT</samp></dt>
             <dd><samp>optional_no_ca</samp> to enable TLS client certificate authentication on the <a href="#compose-variables"><samp>$HTTPS_PORT</samp></a> port; <samp>off</samp> to disable it, which also disables LinkedDataHub's <a href="../../get-started/get-an-account/">WebID-TLS authentication method</a>.</dd>
-            <dd>Disabling can be used to avoid the certificate prompt in the browser in end-user facing applications. The client certificate authentication is still available on port 5443.</dd>
+            <dd>Disabling can be used to avoid the certificate prompt in the browser in end-user facing dataspaces. The client certificate authentication is still available on port 5443.</dd>
             <dt><samp>MAX_BODY_SIZE</samp></dt>
             <dd>Maximum allowed request body size (<samp>linkeddatahub</samp> has a separate setting for this). Defaults to <samp>2097152</samp>.</dd>
         </dl>

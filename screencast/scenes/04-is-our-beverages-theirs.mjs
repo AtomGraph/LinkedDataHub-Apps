@@ -7,7 +7,7 @@
 //
 // A vocabulary-alignment errand. The product categories are Northwind's own words;
 // the UNESCO thesaurus is a published vocabulary. Reaching one from the other needs
-// no export and no integration: the applications menu proxies the whole dataspace
+// no export and no integration: the dataspaces menu proxies the whole dataspace
 // into this one's chrome, so a remote concept browses exactly like a local record.
 //
 // The page ends up carrying both sides of the alignment — our categories and the
@@ -130,7 +130,7 @@ await runScene({
     await sleep(900);
 
     // ── the public side, through the proxy ──────────────────────────────────
-    // The applications menu does not leave this dataspace: it fetches the other one
+    // The dataspaces menu does not leave this dataspace: it fetches the other one
     // through the Linked Data proxy and renders it here, so a remote vocabulary is
     // browsed with the same chrome, the same tree and the same copy control.
     const apps = page.locator('button.btn-apps').first();
@@ -145,7 +145,7 @@ await runScene({
         await marks.beat('thesaurus', `a published vocabulary, rendered here: ${page.url().includes('uri=') ? 'through the proxy' : 'directly'}`);
         await sleep(700);
       } else {
-        await marks.beat('thesaurus', 'no UNESCO entry in the applications menu');
+        await marks.beat('thesaurus', 'no UNESCO entry in the dataspaces menu');
       }
     }
 

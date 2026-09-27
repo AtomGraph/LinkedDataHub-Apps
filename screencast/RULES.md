@@ -92,7 +92,7 @@ That info panel is the way out of the canvas. `rdf:Description` in mode
 `ldh:graph3d-info` emits `<a href="{$node-id}" target="_blank">`, so the node's URI is
 an ordinary link and clicking it opens the document in a new browser tab — the app does
 not intercept it. **The graph is therefore not a dead end**, and a scene that opens on
-it does not have to leave graph mode to prove the canvas is part of the application.
+it does not have to leave graph mode to prove the canvas is part of the dataspace.
 
 Two things about that link, both found the hard way. It appears **only for a node that
 has a description in the loaded graph**: the click handler falls back to rendering the

@@ -35,7 +35,7 @@
     </div>
     <div>
         <h2 id="where-to-next">Where to next</h2>
-        <p>New to LinkedDataHub? The <a href="../tutorial/">tutorial</a> builds a complete application, from an empty dataspace to a published app.
+        <p>New to LinkedDataHub? The <a href="../tutorial/">tutorial</a> builds a complete dataspace, from empty to published.
             The <a href="../user-guide/">user guide</a> covers the everyday tasks in standalone recipes: <a href="../user-guide/create-data/">creating data</a>, <a href="../user-guide/import-data/">importing data</a>, <a href="../user-guide/edit-content/">editing content</a> in place, <a href="../user-guide/manage-dataspaces/">managing dataspaces</a>, <a href="../user-guide/manage-packages/">installing packages</a>, and <a href="../user-guide/version-history/">working with version history</a>. The <a href="../reference/">reference</a> describes every feature in full.</p>
         <p>Note that most management actions can also be performed using the <a href="../reference/command-line-interface/">CLI (Command Line Interface)</a>. Where applicable, the UI and CLI instructions are shown side by side.</p>
     </div>

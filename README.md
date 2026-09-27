@@ -1,6 +1,6 @@
-# LinkedDataHub applications
+# LinkedDataHub dataspaces
 
-System, demo, and user-submitted applications built on LinkedDataHub. Completely data-driven, no code involved (besides the shell scripts).
+System, demo, and user-submitted dataspaces built on LinkedDataHub. Completely data-driven, no code involved (besides the shell scripts).
 
 ## Prerequisites
 
@@ -131,7 +131,7 @@ __You need to request append/write access to be able to create/edit the data.__
 
 **Reusable vocabulary packages that add domain-specific functionality to LinkedDataHub dataspaces.**
 
-Packages provide ontology imports and custom XSLT templates for rendering specific RDF vocabularies. They are **composed at request time** out of a declaration: a single `ldh:import` triple in the application's settings, resolved on the next request.
+Packages provide ontology imports and custom XSLT templates for rendering specific RDF vocabularies. They are **composed at request time** out of a declaration: a single `ldh:import` triple in the dataspace's settings, resolved on the next request.
 
 ### Structure
 
@@ -148,7 +148,7 @@ ldh packages list
 ldh packages add --package https://packages.linkeddatahub.com/editor/taxonomy/#this
 ```
 
-From the next request onwards the server resolves it: the package ontology joins the application's `owl:imports` closure, and its stylesheet is composed into the application stylesheet. No restart, and nothing is copied into the webapp.
+From the next request onwards the server resolves it: the package ontology joins the dataspace's `owl:imports` closure, and its stylesheet is composed into the dataspace stylesheet. No restart, and nothing is copied into the webapp.
 
 ### Available Packages
 

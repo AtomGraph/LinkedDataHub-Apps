@@ -53,7 +53,7 @@
                 <p>Documents like this one compose prose, charts and maps as structured content blocks backed by the graph — the map of <a href="bicycle-parkings/">bicycle parkings</a> is a block like any other.</p>
             </div>
         </div>
-        <p>This application was created on <a href="https://atomgraph.github.io/LinkedDataHub/" target="_blank">LinkedDataHub</a> using the low code paradigm: no programming was required, only scripts that
+        <p>This dataspace was created on <a href="https://atomgraph.github.io/LinkedDataHub/" target="_blank">LinkedDataHub</a> using the low code paradigm: no programming was required, only scripts that
             invoke LinkedDataHub's CLI commands.</p>
     </div>"""^^rdf:XMLLiteral .
 

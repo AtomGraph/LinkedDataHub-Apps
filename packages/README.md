@@ -142,7 +142,7 @@ the `ldh:Combobox` widget and the library in `imports/default.xsl` (keys, params
 
 ## Installing Packages
 
-The declaration *is* the installation. An application imports a package by carrying a single
+The declaration *is* the installation. A dataspace imports a package by carrying a single
 `ldh:import` triple in its settings, and the `packages` CLI group reads the registry and writes that
 triple:
 
@@ -154,14 +154,14 @@ ldh packages remove --package https://packages.linkeddatahub.com/editor/taxonomy
 
 `packages list` prints one tab-separated line per package — state, URI, title. The registry defaults
 to `https://packages.linkeddatahub.com/`; `--registry` overrides it. It is read through the
-application's Linked Data proxy rather than fetched directly, so `list` needs `--base` as much as
+dataspace's Linked Data proxy rather than fetched directly, so `list` needs `--base` as much as
 the other two do.
 
-The application settings modal offers the same thing as a checkbox per package, saved with the rest
+The dataspace settings modal offers the same thing as a checkbox per package, saved with the rest
 of the settings in one `PATCH`.
 
 Both paths go through `PATCH /settings`, which is the live route: the change takes effect on the
-next request, and lives in the running application's context dataset. Declaring the same triple in
+next request, and lives in the running dataspace's context dataset. Declaring the same triple in
 `config/dataspaces.trig` is the permanent one, applied on restart.
 
 ```turtle
@@ -178,20 +178,20 @@ From the next request onwards, the server resolves it:
    `ontologies/` container, named after the package path — `ontologies/editor-taxonomy/` for the
    taxonomy editor. The ontology is copied verbatim, once; the document names it as its
    `foaf:primaryTopic` and is skipped on later requests.
-3. **Adds that document** to the application's ontology imports closure, as an `owl:imports` of the
+3. **Adds that document** to the dataspace's ontology imports closure, as an `owl:imports` of the
    namespace ontology. Its classes, constructors, constraints and views become available on the `ns`
    endpoint and in the UI, and are edited there like the namespace ontology's own.
 4. **Copies the package stylesheet** (`ac:stylesheet`) once under the platform's package root and
-   serves it from the application's own origin under `/static/com/linkeddatahub/packages/`, so what
+   serves it from the dataspace's own origin under `/static/com/linkeddatahub/packages/`, so what
    the instance compiles cannot change under it.
-5. **Composes that copy** into the application stylesheet by inserting an `xsl:import` right after
+5. **Composes that copy** into the dataspace stylesheet by inserting an `xsl:import` right after
    the platform's `hooks.xsl` import, so package templates override the open modes' fallbacks and
    nothing else (see the stylesheet section above). The client-side stylesheet is composed the same
    way and compiled by the `sef-compiler`.
 
 Packages are applied in the order of their URIs. One that declares only an ontology, or only a
 stylesheet, contributes only that; one whose description cannot be resolved is skipped. If the
-composed stylesheet fails to compile — an unreachable stylesheet URL, say — the application falls
+composed stylesheet fails to compile — an unreachable stylesheet URL, say — the dataspace falls
 back to its own.
 
 **Both copies are taken at import and kept.** No restart is needed, but a change to the published
@@ -233,6 +233,6 @@ vocabulary stays in the dataspace, and may not display or validate correctly wit
 - Packages are **declarative only** (RDF + XSLT, no Java code)
 - Package ontologies use `owl:imports` (handled automatically by Jena)
 - Package ontologies are materialized as editable documents under the admin `ontologies/` container, and package stylesheets are copied under `/static/com/linkeddatahub/packages/`, both once at import
-- Package stylesheets are composed into the application stylesheet with `xsl:import` at the `hooks.xsl` marker, per dataspace
+- Package stylesheets are composed into the dataspace stylesheet with `xsl:import` at the `hooks.xsl` marker, per dataspace
 - Property views (`ldh:view`/`ldh:inverseView`) are separate from XSLT overrides
 - Both mechanisms work independently and complement each other
