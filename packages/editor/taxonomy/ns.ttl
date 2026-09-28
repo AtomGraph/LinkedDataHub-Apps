@@ -34,10 +34,12 @@ skos:Concept spin:constructor :ConceptConstructor ;
             $this skos:prefLabel [ a rdf:langString ] ;
                 skos:altLabel [ a rdf:langString ] ;
                 skos:definition [ a rdf:langString ] ;
+                skos:scopeNote [ a rdf:langString ] ;
                 skos:broader [ a skos:Concept ] ;
                 skos:narrower [ a skos:Concept ] ;
                 skos:related [ a skos:Concept ] ;
-                skos:inScheme [ a skos:ConceptScheme ] .
+                skos:inScheme [ a skos:ConceptScheme ] ;
+                skos:topConceptOf [ a skos:ConceptScheme ] .
         }
         WHERE {}""" ;
     rdfs:isDefinedBy : .
@@ -124,11 +126,15 @@ skos:Collection spin:constructor :CollectionConstructor ;
     sp:text """
         PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
         PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
 
         CONSTRUCT {
             $this skos:prefLabel [ a rdf:langString ] ;
+                skos:altLabel [ a rdf:langString ] ;
                 skos:definition [ a rdf:langString ] ;
-                skos:member [ a skos:Concept ] .
+                skos:notation [ a xsd:string ] ;
+                skos:member [ a skos:Concept ] ;
+                skos:inScheme [ a skos:ConceptScheme ] .
         }
         WHERE {}""" ;
     rdfs:isDefinedBy : .

@@ -120,13 +120,17 @@
     dct:title "Product constructor" ;
     sp:text \"\"\"
         PREFIX schema:  &lt;https://schema.org/&gt;
+        PREFIX dct:     &lt;http://purl.org/dc/terms/&gt;
         PREFIX xsd:     &lt;http://www.w3.org/2001/XMLSchema#&gt;
 
         CONSTRUCT {
-            $this schema:name [ a xsd:string ] ;
+            $this dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
                 schema:identifier [ a xsd:string ] ;
+                schema:description [ a xsd:string ] ;
                 schema:category [ a schema:ProductGroup ] ;
-                schema:provider [ a schema:Corporation ] .
+                schema:provider [ a schema:Corporation ] ;
+                schema:offers [ a schema:Offer ] .
         }
         WHERE {}\"\"\" ;
     rdfs:isDefinedBy : .</pre>

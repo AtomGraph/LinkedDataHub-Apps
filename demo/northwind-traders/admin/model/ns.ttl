@@ -92,13 +92,17 @@ schema:Product spin:constructor :ProductConstructor ;
     dct:title "Product constructor" ;
     sp:text """
         PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
         PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
 
         CONSTRUCT {
-            $this schema:name [ a xsd:string ] ;
+            $this dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
                 schema:identifier [ a xsd:string ] ;
+                schema:description [ a xsd:string ] ;
                 schema:category [ a schema:ProductGroup ] ;
-                schema:provider [ a schema:Corporation ] .
+                schema:provider [ a schema:Corporation ] ;
+                schema:offers [ a schema:Offer ] .
         }
         WHERE {}""" ;
     rdfs:isDefinedBy : .
@@ -118,8 +122,8 @@ schema:City spin:constructor :CityConstructor .
             $this dct:title [ a xsd:string ] ;
                 schema:name [ a xsd:string ] ;
                 schema:identifier [ a xsd:string ] ;
-                geo:lat [ a xsd:string ] ;
-                geo:long [ a xsd:string ] ;
+                geo:lat [ a xsd:float ] ;
+                geo:long [ a xsd:float ] ;
                 schema:containedInPlace [ a schema:Place ] .
         }
         WHERE {}""" ;
@@ -133,18 +137,27 @@ schema:Person spin:constructor :PersonConstructor .
     sp:text """
         PREFIX schema:  <https://schema.org/>
         PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
+        PREFIX geo:     <http://www.w3.org/2003/01/geo/wgs84_pos#>
+        PREFIX nfo:     <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#>
         PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
 
         CONSTRUCT {
             $this
                 dct:title [ a xsd:string ] ;
+                schema:identifier [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
                 schema:givenName [ a xsd:string ] ;
                 schema:familyName [ a xsd:string ] ;
                 schema:honorificPrefix [ a xsd:string ] ;
                 schema:jobTitle [ a xsd:string ] ;
                 schema:birthDate [ a xsd:date ] ;
                 schema:telephone [ a xsd:string ] ;
+                schema:faxNumber [ a xsd:string ] ;
                 schema:description [ a xsd:string ] ;
+                foaf:img [ a nfo:FileDataObject ] ;
+                geo:lat [ a xsd:float ] ;
+                geo:long [ a xsd:float ] ;
                 schema:address [ a schema:PostalAddress ] ;
                 schema:sponsor [ a schema:Person ] ;
                 schema:areaServed [ a schema:City ] .
@@ -222,6 +235,8 @@ schema:ProductGroup spin:constructor :ProductGroupConstructor .
     sp:text """
         PREFIX schema:  <https://schema.org/>
         PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
+        PREFIX nfo:     <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#>
         PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
 
         CONSTRUCT {
@@ -229,7 +244,8 @@ schema:ProductGroup spin:constructor :ProductGroupConstructor .
                 dct:title [ a xsd:string ] ;
                 schema:name [ a xsd:string ] ;
                 schema:description [ a xsd:string ] ;
-                schema:identifier [ a xsd:string ] .
+                schema:identifier [ a xsd:string ] ;
+                foaf:depiction [ a nfo:FileDataObject ] .
         }
         WHERE {}""" ;
     rdfs:isDefinedBy : .
@@ -290,10 +306,10 @@ schema:OrderItem spin:constructor :OrderItemConstructor .
         CONSTRUCT {
             $this
                 schema:orderedItem [ a schema:Product ] ;
+                schema:itemOffered [ a schema:Product ] ;
                 schema:orderQuantity [ a xsd:integer ] ;
                 schema:price [ a xsd:float ] ;
                 schema:priceCurrency [ a xsd:string ] ;
-                schema:discount [ a xsd:float ] ;
                 schema:priceSpecification [ a schema:UnitPriceSpecification ] .
         }
         WHERE {}""" ;
@@ -315,8 +331,7 @@ schema:ParcelDelivery spin:constructor :ParcelDeliveryConstructor .
                 schema:provider [ a schema:Corporation ] ;
                 schema:deliveryAddress [ a schema:PostalAddress ] ;
                 schema:expectedArrivalUntil [ a xsd:date ] ;
-                schema:deliveryStatus [ a schema:DeliveryEvent ] ;
-                schema:price [ a xsd:float ] .
+                schema:deliveryStatus [ a schema:DeliveryEvent ] .
         }
         WHERE {}""" ;
     rdfs:isDefinedBy : .

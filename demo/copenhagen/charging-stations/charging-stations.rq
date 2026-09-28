@@ -41,7 +41,7 @@ WHERE
     OPTIONAL 
     { ?charger_row <#address> ?address }
     OPTIONAL 
-    { ?charger_row <#antal_udtag> ?spaces }
+    { ?charger_row <#antal_udtag> ?spaces_string }
     OPTIONAL 
     { ?charger_row <#operator> ?operator }
     OPTIONAL 
@@ -53,4 +53,5 @@ WHERE
     BIND(uri(concat(str(?item), "#this")) AS ?charger)
     BIND(xsd:float(?lat_string) AS ?lat)
     BIND(xsd:float(?long_string) AS ?long)
+    BIND(xsd:integer(?spaces_string) AS ?spaces)
 }

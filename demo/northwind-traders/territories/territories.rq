@@ -2,6 +2,7 @@ PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
 PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#>
 
 CONSTRUCT
 {
@@ -24,11 +25,13 @@ WHERE
     ?territory_row <#territoryID> ?territoryID ;
         <#territoryDescription> ?territoryDescription ;
         <#regionID> ?regionID ;
-        <#latitude> ?latitude ;
-        <#longitude> ?longitude .
+        <#latitude> ?latitudeString ;
+        <#longitude> ?longitudeString .
 
     BIND(uri(concat(str($base), "territories/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?territoryID), "/")) AS ?graph)
     BIND(uri(concat(str(?graph), "#this")) AS ?territory)
     BIND(uri(concat(str($base), "regions/", encode_for_uri(?regionID), "/#this")) AS ?region)
+    BIND(xsd:float(?latitudeString) AS ?latitude)
+    BIND(xsd:float(?longitudeString) AS ?longitude)
 }

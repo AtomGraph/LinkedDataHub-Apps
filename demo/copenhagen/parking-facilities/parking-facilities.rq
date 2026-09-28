@@ -25,7 +25,7 @@ CONSTRUCT
             schema:maximumAttendeeCapacity ?spaces ;
             schema:additionalProperty ?parkingType ;
             schema:comment ?information ;
-            schema:identifier ?id .
+            dct:identifier ?id .
         ?owner a ?ownerType ;
             schema:owns ?parking .
     }

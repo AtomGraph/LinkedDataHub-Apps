@@ -40,7 +40,7 @@ WHERE
     OPTIONAL 
     { ?bicyleParking_row <#vejnavn> ?address }
     OPTIONAL 
-    { ?bicyleParking_row <#antal_pladser> ?spaces }
+    { ?bicyleParking_row <#antal_pladser> ?spaces_string }
 
     BIND(uri(concat(str($base), "bicycle-parkings/")) AS ?container)
     BIND(uri(concat(str($base), "ns#BicycleParking")) AS ?type)
@@ -48,4 +48,5 @@ WHERE
     BIND(uri(concat(str(?item), "#this")) AS ?bicyleParking)
     BIND(xsd:float(?lat_string) AS ?lat)
     BIND(xsd:float(?long_string) AS ?long)
+    BIND(xsd:integer(?spaces_string) AS ?spaces)
 }
