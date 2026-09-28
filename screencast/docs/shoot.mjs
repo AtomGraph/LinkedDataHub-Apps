@@ -149,7 +149,13 @@ const shootSubject = async (page, shot, file, geometry) => {
 const browser = await chromium.launch({ headless: !opts.headed });
 const index = [];
 const onlyParts = only ? only.split(',').map((o) => o.trim()).filter(Boolean) : null;
-const wanted = SHOTS.filter((s) => !onlyParts || onlyParts.some((o) => `${s.doc}/${s.n}`.includes(o)));
+// Shots that write go last, and the scratch container they write into is made only when
+// the first of them comes up: a root listing or a document tree captured before that
+// point cannot show a scratch folder the demo does not have. The shots that write inside it
+// show its name in the breadcrumb and address bar, so it is named like a folder a workspace
+// would have, not after the rig.
+const wanted = SHOTS.filter((s) => !onlyParts || onlyParts.some((o) => `${s.doc}/${s.n}`.includes(o)))
+  .sort((a, b) => Number(Boolean(a.writes)) - Number(Boolean(b.writes)));
 
 console.log(`\n${wanted.length} shot(s) — ${wanted.filter((s) => !s.blocked).length} to take\n`);
 
@@ -157,15 +163,17 @@ console.log(`\n${wanted.length} shot(s) — ${wanted.filter((s) => !s.blocked).l
 // is not it. `writes: true` opts a shot into a scratch container this run provisions and
 // removes — so nothing depends on a document an earlier session happened to leave behind,
 // and nothing is left for somebody to puzzle over later.
-const SCRATCH = 'docs-shots';
+const SCRATCH = 'drafts';
 const creds = {
   ldh: opts.ldh, base: opts.base, certFile: opts.certFile,
   certPassword: opts.certPassword, certPasswordFile: opts.certPasswordFile,
 };
 const made = [];
 let scratch = null;
-if (wanted.some((s) => s.writes && !s.blocked)) {
-  const url = await resetContainer({ ...creds, slug: SCRATCH, title: 'Documentation shots' });
+async function scratchFor(shot) {
+  if (!shot.writes || shot.blocked) return null;
+  if (scratch) return scratch;
+  const url = await resetContainer({ ...creds, slug: SCRATCH, title: 'Drafts' });
   scratch = {
     url,
     async document(slug, title) {
@@ -175,6 +183,7 @@ if (wanted.some((s) => s.writes && !s.blocked)) {
     },
   };
   console.log(`scratch: ${url}`);
+  return scratch;
 }
 
 
@@ -264,7 +273,7 @@ for (const shot of wanted) {
   try {
     await page.goto(shotBase + shot.at, { waitUntil: 'load' });
     await page.waitForTimeout(shot.settle ?? 5000);
-    if (shot.act) await shot.act({ page, cursor, type, typeCode, marks, nav, modes, blocks, sleep, scratch });
+    if (shot.act) await shot.act({ page, cursor, type, typeCode, marks, nav, modes, blocks, sleep, scratch: await scratchFor(shot) });
     await page.waitForTimeout(1200);
 
     // The caption is the contract. Without this the runner only ever proved that
