@@ -171,9 +171,14 @@ export async function dragBlock(page, cursor, from, to, { travel = 900, hold = 9
   await page.mouse.move(tb.x + Math.min(120, tb.width / 2), tb.y + Math.min(60, tb.height / 2), { steps: Math.max(12, Math.round(travel / 40)) });
   await sleep(300);
 
-  // the marker is drawn at the target's bottom edge: bring it into the frame before releasing
-  await to.evaluate((el) => el.scrollIntoView({ block: 'end', behavior: 'smooth' }));
-  await sleep(900);
+  // the marker is drawn at the target's bottom edge: bring it into the frame before releasing,
+  // unless it is already there (a scene that zoomed the page to fit both rows needs no scroll)
+  const viewport = page.viewportSize();
+  const edgeVisible = tb.y + tb.height <= viewport.height - 24;
+  if (!edgeVisible) {
+    await to.evaluate((el) => el.scrollIntoView({ block: 'end', behavior: 'smooth' }));
+    await sleep(900);
+  }
   const tb2 = await target.boundingBox();
   if (tb2) await page.mouse.move(tb2.x + Math.min(120, tb2.width / 2), tb2.y + Math.max(20, tb2.height - 80), { steps: 8 });
   await sleep(hold);

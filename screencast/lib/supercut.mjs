@@ -15,6 +15,26 @@ export async function zoom2x(page) {
   });
 }
 
+// Zoom the document so that a set of rows fits the viewport at once. A block reorder is
+// only legible if both blocks are on screen when they swap, and at 2× a chart block is
+// taller than the frame on its own - so for that beat the page is shown smaller, the
+// way a reader would zoom out to see the whole page. The zoom is set from the rows'
+// combined height, floored at 1 (the natural size), and the page is scrolled to the first
+// row. It is a re-layout, instant on camera, so a scene applies it at a beat boundary
+// where the cut can land - never mid-gesture.
+export async function zoomToFitRows(page, rows, { margin = 160, min = 1, max = 2 } = {}) {
+  const current = Number(await page.evaluate(() => document.documentElement.style.zoom || '1'));
+  const union = await focus(...rows);
+  if (!union.focus) return { ok: false, why: 'no rows to fit' };
+  const viewport = page.viewportSize();
+  const fit = Math.max(min, Math.min(max, current * (viewport.height - margin) / union.focus.h));
+  await page.evaluate((z) => { document.documentElement.style.zoom = String(z); }, fit);
+  await sleep(400);
+  await rows[0].evaluate((el) => el.scrollIntoView({ block: 'start' }));
+  await sleep(400);
+  return { ok: true, zoom: fit, from: current };
+}
+
 // The focus box of a locator (or of several: their union), as beat extra.
 export async function focus(...locators) {
   let box = null;

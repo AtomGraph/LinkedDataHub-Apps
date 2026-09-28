@@ -8,7 +8,7 @@ import { create, typeQuery, fill, save, configureChart } from '../lib/constructo
 import { addProse, addObject, switchDocumentMode, contentModeUrl, revealControls } from '../lib/blocks.mjs';
 import { dragBlock } from '../lib/editing.mjs';
 import { ui } from '../lib/dom.mjs';
-import { GEOMETRY_2X, zoom2x, focus, centre, load, easeScrollTo, easeScrollTop } from '../lib/supercut.mjs';
+import { GEOMETRY_2X, zoom2x, focus, centre, load, easeScrollTo, easeScrollTop, zoomToFitRows } from '../lib/supercut.mjs';
 
 const opts = await resolve('/');
 const { base, identity } = opts;
@@ -131,18 +131,18 @@ await runScene({
     const rows = ui(page).locator('.ldh-block-row').filter({ has: page.locator('span.ldh-bh-drag') });
     const prose = rows.first(), chart = rows.last();
     await easeScrollTop(page, { ms: 1400 }); await sleep(500);
-    await marks.beat('c5-start', 'sentence above, chart below', await focus(prose, chart));
+    // Both blocks on screen for the whole swap: at 2× the chart alone is taller than the
+    // frame, so the page is zoomed out to fit the two rows before the beat opens. It is an
+    // instant re-layout, so it lands here, at the shot boundary, where the cut is.
+    const fitted = await zoomToFitRows(page, [prose, chart]);
+    await marks.beat('c5-start', fitted.ok ? `sentence above, chart below, at ${fitted.zoom.toFixed(2)}×` : fitted.why, await focus(prose, chart));
     // a pointer drag: the app moves the dragged block after the drop target, so the sentence
-    // goes below the chart; the helper scrolls the target's bottom edge into view before the
-    // release, since that is where the drop marker is drawn
+    // goes below the chart, and both stay in the frame while it happens
     const dr = await dragBlock(page, cursor, prose, chart);
     await sleep(1500);
-    await marks.beat('c5-dropped', dr.ok ? 'dropped: the sentence now follows the chart' : dr.why, await focus(rows.first()));
-    // the chart block is taller than the fold: glide down so the bars and the sentence
-    // under them are both on screen, and the swap can be read
-    await easeScrollTo(rows.last(), { ms: 1400, block: 'end', margin: 440 }).catch(() => {});
+    await marks.beat('c5-dropped', dr.ok ? 'dropped: the sentence now follows the chart' : dr.why, await focus(rows.first(), rows.last()));
     await sleep(600);
-    await marks.beat('c5-end', dr.ok ? 'chart above, sentence below' : dr.why, await focus(rows.last()));
+    await marks.beat('c5-end', dr.ok ? 'chart above, sentence below' : dr.why, await focus(rows.first(), rows.last()));
     await sleep(600);
     await marks.beat('end');
   },
