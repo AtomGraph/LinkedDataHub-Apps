@@ -177,7 +177,7 @@ async function scratchFor(shot) {
   scratch = {
     url,
     async document(slug, title) {
-      const d = await resetDocument({ ...creds, container: url.replace(/\/$/, ''), slug, title });
+      const d = await resetDocument({ ...creds, container: url, slug, title });
       made.push(d.url);
       return d.url;
     },

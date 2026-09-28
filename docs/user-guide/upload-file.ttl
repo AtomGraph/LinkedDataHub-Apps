@@ -32,7 +32,7 @@
                             <li>Drag the file over the page. An overlay appears, naming both outcomes: <samp>RDF</samp> imported as data, <samp>File</samp> uploaded to this document</li>
                             <li>Drop it. The document reloads in <samp>Read</samp> mode with the file among its resources; an image is shown inline</li>
                         </ol>
-                        <video aria-label="Dropping a file onto a document" controls="controls" preload="metadata" src="/uploads/0b6e2a96f34475961a5a3db45438a8f5b6cbda56"></video>
+                        <video aria-label="Dropping a file onto a document" controls="controls" preload="metadata" src="/uploads/798343ac386c0c67027a5fda6105547238d4b038"></video>
                         <p>A file larger than the instance's request limit is refused before it reaches the platform, and the page says so without navigating away.</p>
                         <p>Alternatively, upload through a form:</p>
                         <ol>
