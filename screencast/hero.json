@@ -1,0 +1,91 @@
+{
+  "source": "tracks/supercut.mp4",
+  "output": "tracks/hero.mp4",
+  "poster": "tracks/hero.jpg",
+  "posterAt": 3,
+  "width": 1280,
+  "crop": {
+    "top": 56,
+    "bottom": 130
+  },
+  "cuts": [],
+  "crf": 24,
+  "caption": {
+    "size": 34,
+    "weight": 500,
+    "inset": 40,
+    "bottom": 36
+  },
+  "captions": [
+    {
+      "in": 0,
+      "out": 6,
+      "text": "Graph mode. Every node is a page. Every edge is a link."
+    },
+    {
+      "in": 6,
+      "out": 14.033,
+      "text": "Click a node. Its document opens."
+    },
+    {
+      "in": 14.033,
+      "out": 23.867,
+      "text": "Related results: the resources these link to."
+    },
+    {
+      "in": 23.867,
+      "out": 27.267,
+      "text": "A document, with the views its class declares."
+    },
+    {
+      "in": 27.267,
+      "out": 38.633,
+      "text": "A form, generated from the class. It writes the graph."
+    },
+    {
+      "in": 38.633,
+      "out": 44.633,
+      "text": "Back up to the container."
+    },
+    {
+      "in": 44.633,
+      "out": 53.651,
+      "text": "A SPARQL query, saved as a document."
+    },
+    {
+      "in": 53.651,
+      "out": 56.805,
+      "text": "Its results, rendered as a view."
+    },
+    {
+      "in": 56.805,
+      "out": 62.955,
+      "text": "A result set chart, bound to the query."
+    },
+    {
+      "in": 62.955,
+      "out": 66.949,
+      "text": "Content mode. The document is a list of blocks."
+    },
+    {
+      "in": 66.949,
+      "out": 70.949,
+      "text": "An XHTML block."
+    },
+    {
+      "in": 70.949,
+      "out": 78.272,
+      "text": "An object block, embedding the chart."
+    },
+    {
+      "in": 78.272,
+      "out": 80.43,
+      "text": "Blocks reorder by dragging."
+    },
+    {
+      "in": 80.43,
+      "out": 83.499,
+      "text": "The application is data."
+    }
+  ]
+}

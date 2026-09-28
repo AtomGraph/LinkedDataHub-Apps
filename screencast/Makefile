@@ -71,7 +71,7 @@ DOCS_DEST ?= ../docs
 DOCS_WIDTH ?= 2240
 DOCS_QUALITY ?= 90
 
-.PHONY: help deps screencasts screenshots docs-publish docs-fill scene tape probe mp4 mp4-uniform clean
+.PHONY: help deps screencasts screenshots docs-publish docs-fill scene tape probe mp4 mp4-uniform hero supercut clean
 
 help:
 	@echo "make screencasts [BASE=…] [CERT_FILE=…] [CERT_PASSWORD=…] [FLAGS=…]"
@@ -90,6 +90,8 @@ help:
 	@echo "make docs-fill      point the .ttl sources at the published files (idempotent)"
 	@echo "make tape TAPE=get-started-setup [WORKDIR=…]"
 	@echo "                    record one terminal tape to tracks/, without the shoot"
+	@echo "make hero           cut the front page's hero loop from tracks/supercut.mp4 per hero.json"
+	@echo "make supercut       the captioned supercut at full size, per supercut.json"
 	@echo "make probe PATH=/customers/"
 	@echo "                    dump the chrome at a path, so selectors come from the app"
 	@echo "make clean          remove rendered tracks"
@@ -209,6 +211,16 @@ tape: deps
 	  const r = await m.record('tapes/$(TAPE).tape', { output: 'tracks/$(TAPE).mp4', env: { LDH_CLIP_DIR: process.env.LDH_CLIP_DIR } }); \
 	  console.log(r.ok ? 'recorded tracks/$(TAPE).mp4 in ' + r.seconds + 's' : 'failed: ' + r.why); \
 	  process.exit(r.ok ? 0 : 1); })"
+
+# The front page's hero loop: the supercut master with its chrome and old captions
+# cropped away, the stretches hero.json names cut out, and hero.json's captions laid
+# over it in the platform's Geist. Writes tracks/hero.mp4, a poster and a contact sheet.
+hero: deps
+	node render/hero.mjs hero.json
+
+# The same pass at the master's size: the captioned supercut itself, for YouTube and the README.
+supercut: deps
+	node render/hero.mjs supercut.json
 
 probe: deps
 	node scenes/probe.mjs --path $(or $(PATH_),/customers/) $(OPTS) $(FLAGS)

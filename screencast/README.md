@@ -71,6 +71,44 @@ lands 0.3s before it.
 embed an `ldh:Object` inside another one. `--sheet` builds a contact sheet from the
 paced timeline.
 
+## A shot with a camera move
+
+A raw track is the whole viewport at 2x. When a passage needs the window to follow the
+work — tight on the editor while a query is typed, over to the button that submits it,
+out again once the result is on screen — `render/camera.mjs` cuts the shot from the take
+with a keyframed zoom and pan:
+
+```bash
+node render/camera.mjs tracks/supercut-compose.webm tracks/.supercut/q2c.mp4 \
+  --from 9 --to 44.4 --keys camera/q2c.keys.json
+```
+
+The keys are a list of `{ t, z, cx, cy }` on the take's timeline in the take's pixels,
+and each move eases in and out, so the window settles rather than stops. With
+`--pace N` the passage is paced first, at full size, and the keys are remapped through
+the pacer's marks before the camera runs; pacing after the camera would speed a move up
+wherever the page under it happened to be still. Where a recording really does jump
+from one scroll position to the next, `--scroll FILE` replaces the jump with a scroll
+rendered from the take's stitched full-page capture, given the offset the page already
+sits at and how far it moves. Measure first: the compose take's scroll turned out to be
+an eased 1.3 s animation, smooth as recorded, and a splice built on the assumption of a
+jump was what made it lurch. The supercut's query-to-chart passage is one of these
+shots; its keys are committed under `camera/`.
+
+## The hero loop
+
+The front page of linkeddatahub.com runs a muted loop cut from the supercut master.
+`make hero` derives it: `render/hero.mjs` crops the browser chrome off the top and the
+master's own caption strip off the bottom, drops the stretches `hero.json` names in
+`cuts`, and lays `hero.json`'s captions over what is left, each rendered in the browser
+in the platform's Geist and overlaid for its span. Caption times are written on the
+master's timeline, so moving a cut does not mean retiming every line.
+
+The captions name the LinkedDataHub feature on screen at that moment, never the demo's
+subject matter: "A form, generated from the class", not "a territory, opened". The
+output is `tracks/hero.mp4` with a poster and a contact sheet beside it; the site repo
+copies the loop into its root, where `ldh push` uploads it.
+
 ## Documentation media
 
 The scenes above answer a question. The docs shots answer a placeholder: every
