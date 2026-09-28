@@ -102,5 +102,26 @@
       "out": 112.767,
       "text": "The application is data."
     }
-  ]
+  ],
+  "audio": {
+    "file": "audio/supercut.mp3",
+    "fadeOut": 0.4
+  },
+  "slide": {
+    "eyebrow": "Open-source Knowledge Graph platform",
+    "title": "The application is data.",
+    "lede": "Classes, forms, views, charts and access rules are RDF documents. Push a folder of Turtle and the dataspace is live. An agent can write it.",
+    "links": [
+      {
+        "label": "linkeddatahub.com",
+        "primary": true
+      },
+      {
+        "label": "github.com/AtomGraph/LinkedDataHub"
+      }
+    ],
+    "note": "Open source under Apache 2.0",
+    "fade": 1.2,
+    "seconds": 6
+  }
 }
