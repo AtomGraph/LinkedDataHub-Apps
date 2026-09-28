@@ -20,82 +20,82 @@
     {
       "in": 0.0,
       "out": 6.0,
-      "text": "Graph mode. Every node is a page. Every edge is a link."
+      "text": "Graph mode draws documents as nodes and links as edges."
     },
     {
       "in": 6.0,
       "out": 14.333,
-      "text": "Click a node. Its document opens."
+      "text": "Clicking a node opens its document."
     },
     {
       "in": 14.333,
       "out": 24.133,
-      "text": "Related results: the resources these link to."
+      "text": "Related results follows the links out of the orders."
     },
     {
       "in": 24.133,
       "out": 29.733,
-      "text": "A document, with the views its class declares."
+      "text": "The territory's page shows the views its class declares."
     },
     {
       "in": 29.733,
       "out": 41.9,
-      "text": "A form, generated from the class. It writes the graph."
+      "text": "The class generates the form, and Save writes the graph."
     },
     {
       "in": 41.9,
       "out": 54.567,
-      "text": "A file, dropped on the document. It is uploaded."
+      "text": "A file dropped on the document is uploaded into it."
     },
     {
       "in": 54.567,
       "out": 61.667,
-      "text": "The upload, picked as a property value."
+      "text": "The upload is picked as the value of a property."
     },
     {
       "in": 61.667,
       "out": 67.9,
-      "text": "Back on the territory, the view reflects it."
+      "text": "The territory's view picks up the change by itself."
     },
     {
       "in": 67.9,
       "out": 73.9,
-      "text": "Back up to the container."
+      "text": "The breadcrumb leads back up to the container."
     },
     {
       "in": 73.9,
       "out": 82.918,
-      "text": "A SPARQL query, saved as a document."
+      "text": "A SPARQL query is saved as a document."
     },
     {
       "in": 82.918,
       "out": 86.072,
-      "text": "Its results, rendered as a view."
+      "text": "Its results are rendered as a view."
     },
     {
       "in": 86.072,
       "out": 92.222,
-      "text": "A result set chart, bound to the query."
+      "text": "A result set chart is bound to the query."
     },
     {
       "in": 92.222,
       "out": 96.217,
-      "text": "Content mode. The document is a list of blocks."
+      "text": "In Content mode the document is a list of blocks."
     },
     {
       "in": 96.217,
       "out": 100.217,
-      "text": "An XHTML block."
+      "text": "An XHTML block holds the prose."
     },
     {
       "in": 100.217,
       "out": 107.54,
-      "text": "An object block, embedding the chart."
+      "text": "An object block embeds the chart."
     },
     {
       "in": 107.54,
       "out": 109.698,
-      "text": "Blocks reorder by dragging."
+      "text": "Dragging a block reorders the page."
     },
     {
       "in": 109.698,
