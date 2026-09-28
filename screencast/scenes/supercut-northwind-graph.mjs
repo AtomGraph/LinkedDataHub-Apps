@@ -6,7 +6,10 @@
 // a place the viewer arrived at. Recorded on a 2880×1800 viewport at zoom 1 — the
 // canvas fills the pane, so the graph is native-sharp without the document zoom the
 // other takes use (its hit-testing works in unzoomed pixels).
+import fs from 'node:fs/promises';
 import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
+import { editResource, repoint, saveForm } from '../lib/editing.mjs';
+import { ui } from '../lib/dom.mjs';
 import { foreignNode, expand, select, zoomToFit, approach } from '../lib/graph.mjs';
 import { deleteByTitle } from '../lib/fixture.mjs';
 import { GEOMETRY_2X, focus, centre, load } from '../lib/supercut.mjs';
@@ -27,7 +30,7 @@ const OPENS_ON = `${base}/orders/${ORDER}/?mode=${encodeURIComponent('https://w3
 await runScene({
   id: 'supercut-northwind-graph', target: OPENS_ON, warm: OPENS_ON, identity,
   geometry: geometryFrom(opts, GEOMETRY_2X),
-  async body({ page, cursor, marks }) {
+  async body({ page, cursor, type, marks }) {
     await load(page, OPENS_ON, 'canvas', 3000);
     await zoomToFit(page, cursor);
     await sleep(2500);
@@ -157,6 +160,94 @@ await runScene({
     await sleep(1200);
     await marks.beat('4-end', `${await empCount()} serving ${TERRITORY} (was ${before4}, refreshed itself: ${moved})`, await focus(emps()));
     await sleep(1500);
+
+    // ── 5 · her own document: a portrait dropped on it, picked as her image, and back
+    //        to the territory, where the grid re-reads one face richer ──
+    // The hire's card in the grid is the way to her document. Its breadcrumb is
+    // Employees, not Territories, so the way back is her Territory link — which is also
+    // the payoff: the grid on Rockville, re-read, with her face on it.
+    const card = emps().locator('a').filter({ hasText: HIRE }).first();
+    await card.scrollIntoViewIfNeeded();
+    await cursor.moveTo(...(await centre(card)), { duration: 600 });
+    await marks.beat('5-start', 'pointer on the hire\'s card', await focus(emps()));
+    const territoryUrl = page.url().split('?')[0];
+    await cursor.click(card);
+    await page.waitForFunction((b) => location.href.split('?')[0] !== b, territoryUrl, { timeout: 20_000 }).catch(() => {});
+    await page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }).catch(() => {});
+    await sleep(1500);
+    const her = () => ui(page).locator('.ldh-block').filter({ hasText: HIRE }).first();
+    await marks.beat('5-open', `her document: ${page.url().replace(base, '')}`, await focus(her()));
+    await sleep(400);
+
+    // The drop. The file arrives as a DataTransfer the page itself built, so the drag
+    // events carry a real File; dragenter on the body raises the drop overlay, and the
+    // pointer keeps drifting while it is up, because a held drag is not a still.
+    const portrait = new URL('../fixtures/dana.jpg', import.meta.url);
+    // base64 across the bridge: an array of bytes serialises as a 200k-element list and
+    // costs seconds of dead air on the document before the drag begins
+    const b64 = (await fs.readFile(portrait)).toString('base64');
+    const transfer = await page.evaluateHandle(({ name, mime, b64 }) => {
+      const bin = atob(b64); const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      const t = new DataTransfer();
+      t.items.add(new File([bytes], name, { type: mime }));
+      return t;
+    }, { name: 'dana.jpg', mime: 'image/jpeg', b64 });
+    const { width: vw, height: vh } = page.viewportSize();
+    await cursor.moveTo(vw * 0.5, vh * 0.55, { duration: 900 });
+    await marks.beat('5-file', 'the file in hand, over the document');
+    await page.dispatchEvent('body', 'dragenter', { dataTransfer: transfer });
+    await page.locator('#file-drop').waitFor({ timeout: 10_000 });
+    await cursor.moveTo(vw * 0.56, vh * 0.47, { duration: 3200 });
+    await marks.beat('5-drag', 'the file over the document; the drop overlay up');
+    await page.dispatchEvent('#file-drop', 'drop', { dataTransfer: transfer });
+    // a successful upload reloads the document in Read mode, the file one of its resources
+    await page.waitForURL(/ReadMode/, { timeout: 30_000 }).catch(() => {});
+    await page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }).catch(() => {});
+    await sleep(2500);
+    const fileBlock = ui(page).locator('.ldh-block').filter({ hasText: 'dana.jpg' }).first();
+    const uploaded = (await fileBlock.count()) > 0;
+    await marks.beat('5-dropped', uploaded ? 'dropped: uploaded into the document, embedded' : 'dropped, but no dana.jpg block came up', uploaded ? await focus(fileBlock) : undefined);
+    if (!uploaded) throw new Error('the drop did not upload dana.jpg');
+    await sleep(600);
+
+    // Picked as her image: the Image row on her form is the File lookup the constructor
+    // put there; the upload is found by its name.
+    const ed = await editResource(page, cursor, HIRE);
+    if (!ed.ok) throw new Error(ed.why);
+    await marks.beat('5-edit', 'her form; the Image row is a File lookup', await focus(ed.form));
+    const pick = await repoint(page, cursor, type, ed.form, 'Image', 'dana.jpg', { kind: 'File' });
+    if (!pick.ok) throw new Error(pick.why);
+    await sleep(600);
+    await marks.beat('5-picked', 'dana.jpg picked as the image', await focus(ed.form));
+    // a short settle: the block the save renders back is the mislabelled one, and the
+    // load that follows is what the beat waits for
+    const sv = await saveForm(page, cursor, ed.form, { settle: 800 });
+    if (!sv.ok) throw new Error(sv.why);
+    // The block the save renders back labels its rows by local name and shows the
+    // territory link as "this" (measured 2026-09-28); a load of the document has the
+    // ontology's labels. The load sits inside the sped-up shot, before the beat.
+    await page.reload({ waitUntil: 'load' });
+    await page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }).catch(() => {});
+    await her().locator('img').first().waitFor({ state: 'visible', timeout: 10_000 }).catch(() => {});
+    await sleep(1500);
+    await marks.beat('5-linked', 'saved: the record carries the image', await focus(her()));
+    await sleep(800);
+
+    // Back to the territory by her own Territory link.
+    const back = her().locator('a[href*="/territories/"]').first();
+    await back.scrollIntoViewIfNeeded();
+    await cursor.moveTo(...(await centre(back)), { duration: 600 });
+    await marks.beat('5-back-start', `pointer on her ${TERRITORY} link`, await focus(her()));
+    const herUrl = page.url().split('?')[0];
+    await cursor.click(back);
+    await page.waitForFunction((b) => location.href.split('?')[0] !== b, herUrl, { timeout: 20_000 }).catch(() => {});
+    await page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }).catch(() => {});
+    await sleep(2000);
+    await emps().locator('img').first().waitFor({ state: 'visible', timeout: 10_000 }).catch(() => {});
+    await sleep(800);
+    await marks.beat('5-back', `${TERRITORY} again: ${await empCount()} serving, the hire with her face`, await focus(emps()));
+    await sleep(1200);
 
     // ── 1f · up the breadcrumb to Sales territories ──
     const crumb = page.locator('[role="navigation"] a.bc-pill').filter({ hasText: /territories\s*$/i }).first();
