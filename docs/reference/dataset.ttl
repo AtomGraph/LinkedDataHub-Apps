@@ -43,7 +43,7 @@ https://localhost:4443/categories/         # its child container
 https://localhost:4443/categories/1/       # an item in the container
 https://localhost:4443/categories/1/#this  # the category itself — a fragment of its document</pre>
         <p>Uploaded files are an exception to this rule. They are content-addressed in the <samp>uploads/{sha1sum}</samp> namespace, where <samp>sha1sum</samp> is the SHA1 hash of the file content — the Beverages
-            image, for example, lives at <samp>uploads/5e1be0328ca2c694d1de6f5b1b3d3b1ce90cb41f</samp> no matter which document references it.</p>
+            image, for example, lives at <samp>uploads/ec56b79671b30ecb98316d9b766fba198286b3b6</samp> no matter which document references it.</p>
     </div>
     <div>
         <h2 id="default-datasets">Default datasets</h2>

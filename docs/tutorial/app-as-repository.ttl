@@ -19,7 +19,7 @@
 ├── categories/           # ...and a folder for the files it holds
 │   ├── categories.csv
 │   ├── categories.rq
-│   └── *.gif
+│   └── *.jpg
 ├── admin/model/
 │   ├── ns.ttl            # the namespace ontology
 │   └── patch-ontology.ru # resets it before re-import

@@ -13,8 +13,8 @@
     <p class="ldh-body-lg">Import CSV data using SPARQL mappings</p>
     <p>Northwind's data ships as plain CSV files. The first rows of <samp>categories.csv</samp>:</p>
     <pre>categoryID,categoryName,description,pictureHash
-1,Beverages,Soft drinks coffees teas beers and ales,5e1be0328ca2c694d1de6f5b1b3d3b1ce90cb41f
-2,Condiments,Sweet and savory sauces relishes spreads and seasonings,6e5d9df213a6c46b4f75e9ba2e321436f80d8bed</pre>
+1,Beverages,Soft drinks coffees teas beers and ales,ec56b79671b30ecb98316d9b766fba198286b3b6
+2,Condiments,Sweet and savory sauces relishes spreads and seasonings,7e9f535a3bf693ec856702856fffd3be5a3df4f1</pre>
     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/categories.csv" target="_blank">categories/categories.csv</a></p>
     <p>LinkedDataHub <a href="../../reference/imports/csv/" target="_blank">imports CSV</a> by running a SPARQL <code>CONSTRUCT</code> mapping over each
         row: the row's cells are bound as properties of a row resource, and the query builds the RDF you want from them. Each column becomes a predicate named after its header, resolved against the

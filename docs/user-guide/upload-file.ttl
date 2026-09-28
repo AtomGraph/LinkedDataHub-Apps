@@ -63,7 +63,7 @@ ldh add file \\
   --content-type "image/jpeg" \\
   "$doc"</pre>
                         <p>The command prints the content-addressed URI of the upload as its only output:</p>
-                        <pre>https://localhost:4443/uploads/852e9795166501a90dbc2cab853ed8c806c49220</pre>
+                        <pre>https://localhost:4443/uploads/35fd362792e8c4bc3560a6de02f25ee551d68d02</pre>
                         <p>That URI is stable across instances — it is derived from the file content alone — which is what lets the
                             <a href="../../tutorial/media/" target="_blank">Northwind CSVs</a> reference their images by hash before they are even uploaded.
                             <code>--content-type</code> is optional — the media type is detected from the file when it is not given.</p>
