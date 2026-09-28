@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -23,6 +23,6 @@
             source alongside further demo apps and installable packages.</li>
     </ul>
     <p>If you get stuck or build something worth showing, open a thread on <a href="https://github.com/AtomGraph/LinkedDataHub/discussions" target="_blank">GitHub Discussions</a>.</p>
-    <p class="ldh-body-lg">You have built and published a Knowledge Graph application. From here: the <a href="../../user-guide/">user guide</a> for everyday tasks, the
+    <p class="ldh-body-lg">You have built and published a Knowledge Graph dataspace. From here: the <a href="../../user-guide/">user guide</a> for everyday tasks, the
         <a href="../../reference/">reference</a> for the full feature set, and the <a href="../../extending/">Extending section</a> when you outgrow low-code.</p>
 </div>"""^^rdf:XMLLiteral .

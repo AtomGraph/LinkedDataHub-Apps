@@ -1,5 +1,6 @@
 @prefix :	<#> .
 @prefix ldh:	<https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix ac:	<https://w3id.org/atomgraph/client#> .
 @prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl:    <http://www.w3.org/2002/07/owl#> .
 @prefix sp: 	<http://spinrdf.org/sp#> .
@@ -16,9 +17,10 @@
 skos:Concept spin:constructor :ConceptConstructor ;
     spin:constraint :MissingPrefLabel , :MissingInScheme .
 
-# The labels and the definition are declared rdf:langString, not xsd:string: a SKOS label is natural
-# language, and SKOS's own integrity rules assume it carries a tag (a concept may have only one
-# prefLabel PER LANGUAGE, which is not even expressible without one). A constructor declaring
+# Every natural-language value the constructors below construct - the labels, the title, the
+# definitions and the description - is declared rdf:langString, not xsd:string: such a value is
+# natural language, and SKOS's own integrity rules assume it carries a tag (a concept may have only
+# one prefLabel PER LANGUAGE, which is not even expressible without one). A constructor declaring
 # xsd:string produced a form field with a datatype and no language control, so a label added through
 # the form came out untagged beside the tagged ones already in the data - visible as a value with an
 # xsd:string annotation next to one showing en.
@@ -28,16 +30,17 @@ skos:Concept spin:constructor :ConceptConstructor ;
     sp:text """
         PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
         PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
 
         CONSTRUCT {
             $this skos:prefLabel [ a rdf:langString ] ;
                 skos:altLabel [ a rdf:langString ] ;
                 skos:definition [ a rdf:langString ] ;
+                skos:scopeNote [ a rdf:langString ] ;
                 skos:broader [ a skos:Concept ] ;
                 skos:narrower [ a skos:Concept ] ;
                 skos:related [ a skos:Concept ] ;
-                skos:inScheme [ a skos:ConceptScheme ] .
+                skos:inScheme [ a skos:ConceptScheme ] ;
+                skos:topConceptOf [ a skos:ConceptScheme ] .
         }
         WHERE {}""" ;
     rdfs:isDefinedBy : .
@@ -61,6 +64,8 @@ skos:narrower ldh:view :NarrowerConcepts .
 :NarrowerConcepts a ldh:View ;
     dct:title "Narrower concepts" ;
     spin:query :SelectNarrowerConcepts ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 :SelectNarrowerConcepts a sp:Select ;
@@ -90,6 +95,8 @@ skos:broader ldh:view :BroaderConcepts .
 :BroaderConcepts a ldh:View ;
     dct:title "Broader concepts" ;
     spin:query :SelectBroaderConcepts ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 :SelectBroaderConcepts a sp:Select ;
@@ -122,12 +129,16 @@ skos:Collection spin:constructor :CollectionConstructor ;
     dct:title "Collection constructor" ;
     sp:text """
         PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+        PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
 
         CONSTRUCT {
-            $this skos:prefLabel [ a xsd:string ] ;
-                skos:definition [ a xsd:string ] ;
-                skos:member [ a skos:Concept ] .
+            $this skos:prefLabel [ a rdf:langString ] ;
+                skos:altLabel [ a rdf:langString ] ;
+                skos:definition [ a rdf:langString ] ;
+                skos:notation [ a xsd:string ] ;
+                skos:member [ a skos:Concept ] ;
+                skos:inScheme [ a skos:ConceptScheme ] .
         }
         WHERE {}""" ;
     rdfs:isDefinedBy : .
@@ -137,6 +148,8 @@ skos:member ldh:view :CollectionMembers .
 :CollectionMembers a ldh:View ;
     dct:title "Collection members" ;
     spin:query :SelectCollectionMembers ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 :SelectCollectionMembers a sp:Select ;
@@ -166,12 +179,12 @@ skos:ConceptScheme spin:constructor :ConceptSchemeConstructor .
     dct:title "Concept scheme constructor" ;
     sp:text """
         PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
-        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+        PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX dct:     <http://purl.org/dc/terms/>
 
         CONSTRUCT {
-            $this dct:title [ a xsd:string ] ;
-                dct:description [ a xsd:string ] ;
+            $this dct:title [ a rdf:langString ] ;
+                dct:description [ a rdf:langString ] ;
                 skos:hasTopConcept [ a skos:Concept ] .
         }
         WHERE {}""" ;
@@ -182,6 +195,8 @@ skos:hasTopConcept ldh:view :TopConcepts .
 :TopConcepts a ldh:View ;
     dct:title "Top concepts" ;
     spin:query :SelectTopConcepts ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 # the entry level of a taxonomy, and the root of the concept tree. Both directions count as a top
@@ -216,6 +231,8 @@ skos:inScheme ldh:view :ConceptScheme .
 :ConceptScheme a ldh:View ;
     dct:title "Scheme" ;
     spin:query :SelectConceptScheme ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 :SelectConceptScheme a sp:Select ;
@@ -237,6 +254,8 @@ skos:inScheme ldh:inverseView :ConceptsInScheme , :OrphanConcepts .
 :ConceptsInScheme a ldh:View ;
     dct:title "Concepts in scheme" ;
     spin:query :SelectConceptsInScheme ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 :SelectConceptsInScheme a sp:Select ;
@@ -262,6 +281,7 @@ ORDER BY ?prefLabel
 :OrphanConcepts a ldh:View ;
     dct:title "Unplaced concepts" ;
     spin:query :SelectOrphanConcepts ;
+    ac:mode ac:TableMode ;
     ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 

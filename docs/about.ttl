@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -15,17 +15,17 @@
         It can also be used as an RDF-native content management platform.</p>
     <p>LinkedDataHub is an open source project that has its roots in Linked Data publishing. Over time the focus has shifted to Linked Data consumption —
             publishing is a largely solved problem, while user-friendly consumption tools remain in short supply.</p>
-    <p>A single LinkedDataHub instance hosts multiple <a href="../reference/dataspace/" target="_blank">dataspaces</a>, each identified by its own (sub)domain and consisting of a pair of applications: the end-user application and its administration application on the <code>admin.</code> subdomain.</p>
+    <p>A single LinkedDataHub instance hosts multiple <a href="../reference/dataspace/" target="_blank">dataspaces</a>, each identified by its own (sub)domain: an end-user dataspace serves the domain data, and an administration dataspace on the matching <code>admin.</code> subdomain controls its model and access.</p>
     <div>
         <h2 id="platform">Low-code application platform</h2>
-        <p>LinkedDataHub is also a low-code platform for building RDF Knowledge Graph applications. It provides development and management features:</p>
+        <p>LinkedDataHub is also a low-code platform for serving RDF Knowledge Graph dataspaces and building applications on top of them. It provides development and management features:</p>
         <ul>
             <li>rich <a href="../reference/stylesheets/" target="_blank">UI component library</a> that can be customized without writing code</li>
             <li>SPARQL-based templates for instance creation and editing forms (<a href="../reference/administration/ontologies/#constructors" target="_blank">constructors</a>)</li>
             <li>SPIN and SHACL <a href="../reference/administration/ontologies/#constraints" target="_blank">constraints</a> for validation of incoming data</li>
             <li>authentication using WebID and OpenID Connect (Google and ORCID)</li>
             <li><a href="../reference/administration/acl/" target="_blank">access control</a> using WAC authorizations</li>
-            <li>declarative <a href="../reference/administration/packages/" target="_blank">packages</a> that plug vocabulary support and custom UI into an application with a single triple</li>
+            <li>declarative <a href="../reference/administration/packages/" target="_blank">packages</a> that plug vocabulary support and custom UI into a dataspace with a single triple</li>
             <li>Git-backed <a href="../reference/versioning/" target="_blank">document versioning</a> with the standard Memento protocol for accessing the history</li>
             <li>the <a href="../reference/command-line-interface/" target="_blank"><samp>ldh</samp> command line interface</a> that drives the same HTTP API as the UI</li>
         </ul>

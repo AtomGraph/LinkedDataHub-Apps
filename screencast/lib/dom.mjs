@@ -25,7 +25,7 @@ export function ui(page) {
   };
 }
 
-// Some chrome lives outside the panes altogether — the drawer, the applications
+// Some chrome lives outside the panes altogether — the drawer, the dataspaces
 // menu, the action bar — so those keep using the page directly.
 export function chrome(page) {
   return page;

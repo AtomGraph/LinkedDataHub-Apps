@@ -36,21 +36,29 @@ The package is named for what it does; its stylesheet is named for the vocabular
 
 ### 1. Package Metadata
 
-Package metadata resolves as Linked Data from the package URI using standard LinkedDataHub properties:
+Package metadata resolves as Linked Data from the package URI using standard LinkedDataHub properties.
+The descriptor is the `foaf:primaryTopic` of the package's own document, `packages/editor/taxonomy.ttl`,
+which `ldh push` PUTs to `https://packages.linkeddatahub.com/editor/taxonomy/`:
 
 ```turtle
-@prefix lapp: <https://w3id.org/atomgraph/linkeddatahub/apps#> .
-@prefix ldt:  <https://www.w3.org/ns/ldt#> .
+@prefix lds:  <https://w3id.org/atomgraph/linkeddatahub/dataspaces#> .
 @prefix ac:   <https://w3id.org/atomgraph/client#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
 
-<https://packages.linkeddatahub.com/editor/taxonomy/#this> a lapp:Package ;
-    rdfs:label "Taxonomy Editor" ;
-    dct:description "Taxonomy editing on SKOS, with custom templates" ;
-    ldt:ontology <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/ns.ttl#> ;
-    ac:stylesheet <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/skos.xsl> .
+<#this> a lds:Package ;
+    dct:title "Taxonomy Editor" ;
+    dct:description "Turns a dataspace into a taxonomy editor: ..." ;
+    lds:ontology <ns/> ;
+    ac:stylesheet <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/refs/heads/develop/packages/editor/taxonomy/skos.xsl> .
 ```
 
-**Note**: Uses standard `ldt:ontology` and `ac:stylesheet` properties instead of inventing new ones.
+`lds:ontology <ns/>` is registry-relative: the same push PUTs `ns.ttl` as the `ns/` document beside the
+descriptor, so the ontology is served by the registry itself. `ac:stylesheet` is the raw file in this
+repository, on the branch the registry was published from — a branch tip, not a release, so a push to
+that branch changes the rendering of every dataspace that imports the package next time it
+materializes the copy (see [What the Declaration Does](#what-the-declaration-does)).
+
+**Note**: Uses standard `lds:ontology` and `ac:stylesheet` properties instead of inventing new ones.
 
 ### 2. Ontology (`ns.ttl`)
 
@@ -61,7 +69,9 @@ Contains two layers:
 Imports the external vocabulary using `owl:imports`:
 
 ```turtle
-<https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/ns.ttl#> a owl:Ontology ;
+@prefix : <#> .   # resolves against the ns/ document the registry serves it as
+
+: a owl:Ontology ;
     owl:imports <http://www.w3.org/2004/02/skos/core> .
 ```
 
@@ -132,7 +142,7 @@ the `ldh:Combobox` widget and the library in `imports/default.xsl` (keys, params
 
 ## Installing Packages
 
-The declaration *is* the installation. An application imports a package by carrying a single
+The declaration *is* the installation. A dataspace imports a package by carrying a single
 `ldh:import` triple in its settings, and the `packages` CLI group reads the registry and writes that
 triple:
 
@@ -144,14 +154,14 @@ ldh packages remove --package https://packages.linkeddatahub.com/editor/taxonomy
 
 `packages list` prints one tab-separated line per package — state, URI, title. The registry defaults
 to `https://packages.linkeddatahub.com/`; `--registry` overrides it. It is read through the
-application's Linked Data proxy rather than fetched directly, so `list` needs `--base` as much as
+dataspace's Linked Data proxy rather than fetched directly, so `list` needs `--base` as much as
 the other two do.
 
-The application settings modal offers the same thing as a checkbox per package, saved with the rest
+The dataspace settings modal offers the same thing as a checkbox per package, saved with the rest
 of the settings in one `PATCH`.
 
 Both paths go through `PATCH /settings`, which is the live route: the change takes effect on the
-next request, and lives in the running application's context dataset. Declaring the same triple in
+next request, and lives in the running dataspace's context dataset. Declaring the same triple in
 `config/dataspaces.trig` is the permanent one, applied on restart.
 
 ```turtle
@@ -164,26 +174,40 @@ From the next request onwards, the server resolves it:
 
 1. **Resolves the package description** from the package URI. Bundled descriptions and cached graphs
    come from the graph repository; other URIs are dereferenced over HTTP.
-2. **Adds the package ontology** (`ldt:ontology`) to the application's ontology imports closure, as
-   an `owl:imports` of the namespace ontology. Its classes, constructors, constraints and views
-   become available on the `ns` endpoint and in the UI.
-3. **Composes the package stylesheet** (`ac:stylesheet`) into the application stylesheet by
-   inserting an `xsl:import` right after the platform's `hooks.xsl` import, so package templates
-   override the open modes' fallbacks and nothing else (see the stylesheet section above).
+2. **Materializes the package ontology** (`lds:ontology`) as a document under the admin dataspace's
+   `ontologies/` container, named after the package path — `ontologies/editor-taxonomy/` for the
+   taxonomy editor. The ontology is copied verbatim, once; the document names it as its
+   `foaf:primaryTopic` and is skipped on later requests.
+3. **Adds that document** to the dataspace's ontology imports closure, as an `owl:imports` of the
+   namespace ontology. Its classes, constructors, constraints and views become available on the `ns`
+   endpoint and in the UI, and are edited there like the namespace ontology's own.
+4. **Copies the package stylesheet** (`ac:stylesheet`) once under the platform's package root and
+   serves it from the dataspace's own origin under `/static/com/linkeddatahub/packages/`, so what
+   the instance compiles cannot change under it.
+5. **Composes that copy** into the dataspace stylesheet by inserting an `xsl:import` right after
+   the platform's `hooks.xsl` import, so package templates override the open modes' fallbacks and
+   nothing else (see the stylesheet section above). The client-side stylesheet is composed the same
+   way and compiled by the `sef-compiler`.
 
 Packages are applied in the order of their URIs. One that declares only an ontology, or only a
 stylesheet, contributes only that; one whose description cannot be resolved is skipped. If the
-composed stylesheet fails to compile — an unreachable stylesheet URL, say — the application falls
+composed stylesheet fails to compile — an unreachable stylesheet URL, say — the dataspace falls
 back to its own.
 
-**Nothing is copied into the webapp and `/static/` is never modified.** No restart is needed.
+**Both copies are taken at import and kept.** No restart is needed, but a change to the published
+package reaches a dataspace that already imported it only after the materialized ontology document is
+deleted (the next request materializes it again) and the ontology cache is cleared.
 
 Uninstalling is the same in reverse: retract the triple, and from the next request the ontology is
 out of the closure and the stylesheet is no longer composed in. Data created with the package's
 vocabulary stays in the dataspace, and may not display or validate correctly without it.
 ## Available Packages
 
-List of available packages can be found in the [LinkedDataHub-Apps](https://github.com/AtomGraph/LinkedDataHub-Apps/tree/develop/packages) repository.
+| Package | URI | Provides |
+|---|---|---|
+| [`editor/taxonomy`](editor/taxonomy/) | `https://packages.linkeddatahub.com/editor/taxonomy/#this` | SKOS constructors, constraints, hierarchy views and a concept tree. Used by [`demo/unesco-thesaurus`](../demo/unesco-thesaurus/). |
+
+`ldh packages list` prints the registry's current contents.
 
 ## Creating New Packages
 
@@ -191,23 +215,24 @@ List of available packages can be found in the [LinkedDataHub-Apps](https://gith
 2. Write `ns.ttl` with vocabulary and property views (using `ldh:view` or `ldh:inverseView`)
 3. Write the stylesheet with XSLT templates (using system modes like `ac:*`, `ldh:*`, `xhtml:*`, etc.), naming the file for the vocabulary it covers
 4. Publish package metadata as Linked Data at `https://packages.linkeddatahub.com/<path>/#this`
-5. Ensure the metadata contains `ldt:ontology` and `ac:stylesheet` properties pointing to the package resources
+5. Ensure the metadata contains `lds:ontology` and `ac:stylesheet` properties pointing to the package resources
 
 ## Vocabulary Reference
 
-### LAPP Vocabulary (`https://w3id.org/atomgraph/linkeddatahub/apps#`)
+### LAPP Vocabulary (`https://w3id.org/atomgraph/linkeddatahub/dataspaces#`)
 
-- `lapp:Package` - Package class
+- `lds:Package` - Package class
 
 ### Standard Properties (Reused)
 
-- `ldt:ontology` - Points to package ontology URI (from LDT vocabulary)
+- `lds:ontology` - Points to package ontology URI (from LDT vocabulary)
 - `ac:stylesheet` - Points to package stylesheet URI (from AtomGraph Client vocabulary)
 
 ## Notes
 
 - Packages are **declarative only** (RDF + XSLT, no Java code)
 - Package ontologies use `owl:imports` (handled automatically by Jena)
-- Package stylesheets are composed into the application stylesheet with `xsl:import` at the `hooks.xsl` marker, in memory, per dataspace
+- Package ontologies are materialized as editable documents under the admin `ontologies/` container, and package stylesheets are copied under `/static/com/linkeddatahub/packages/`, both once at import
+- Package stylesheets are composed into the dataspace stylesheet with `xsl:import` at the `hooks.xsl` marker, per dataspace
 - Property views (`ldh:view`/`ldh:inverseView`) are separate from XSLT overrides
 - Both mechanisms work independently and complement each other

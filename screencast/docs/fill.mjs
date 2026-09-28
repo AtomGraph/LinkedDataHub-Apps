@@ -63,10 +63,11 @@ for (const shot of index) {
   const ttl = path.join(DOCS, `${shot.doc}.ttl`);
   const text = edits.get(ttl) ?? await fs.readFile(ttl, 'utf8');
   const label = shot.caption.charAt(0).toUpperCase() + shot.caption.slice(1);
-  // One `../` per path segment of the page, so the reference resolves to {base}uploads/
-  // from the document itself — LDH emits no <base href>, and the static build carries
-  // the same prefix through to files/.
-  const src = '../'.repeat(shot.doc.split('/').length) + `uploads/${digest}`;
+  // Absolute from the dataspace root. uploads/ is a flat namespace anchored at the base
+  // URI, outside the document hierarchy, so its depth is fixed and a relative path would
+  // encode the REFERRING document's depth instead — breaking every image in a document
+  // that later moves. The static build relativizes it against each page (ttl-to-html.xsl).
+  const src = `/uploads/${digest}`;
   const element = elementFor(shot.kind, label, src);
 
   // Already filled: rewrite the element carrying this caption, hash and all.
@@ -83,10 +84,17 @@ for (const shot of index) {
   }
 
   // Not filled yet: find the placeholder whose caption this is.
+  //
+  // Compared as TEXT: a caption may carry inline markup — reference/administration
+  // /ontologies names its controls in <samp> — and the manifest's caption is the plain
+  // sentence, which is also what becomes @alt. Comparing the raw content would never
+  // match those, and putting the markup in the manifest would put escaped tags in the
+  // attribute. Captions without markup compare exactly as before.
+  const plain = (x) => x.replace(/<[^>]+>/g, '');
   let hit = null;
   for (const m of text.matchAll(PLACEHOLDER)) {
     const caption = /<p>([\s\S]*?)<\/p>/.exec(m[0]);
-    if (caption && caption[1].split(': ').slice(1).join(': ').trim() === shot.caption) { hit = m; break; }
+    if (caption && plain(caption[1]).split(': ').slice(1).join(': ').trim() === shot.caption) { hit = m; break; }
   }
   if (!hit) {
     report.missing.push(`${shot.doc} #${shot.n} — no placeholder and no element for "${shot.caption.slice(0, 60)}"`);

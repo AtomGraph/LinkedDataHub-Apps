@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Container ;
@@ -18,7 +18,7 @@
         <p>Both import types use a user-defined SPARQL <code>CONSTRUCT</code> query to map the incoming data to the final RDF representation and to connect it to the documents in LinkedDataHub's <a href="../dataset/" target="_blank">dataset</a>. These are the rules that hold for mapping queries:</p>
         <ul>
             <li>The <code>BASE</code> value is automatically set to the imported file's URI. Do not add an explicit <code>BASE</code> to the query.</li>
-            <li>The <code>$base</code> binding is bound to the application's base URI</li>
+            <li>The <code>$base</code> binding is bound to the dataspace's base URI</li>
             <li>use <code>OPTIONAL</code> for optional values (such as optional cell values in CSV)</li>
             <li>use <code>BIND()</code> to introduce new values and/or cast literals to the appropriate result datatype or URI</li>
             <li>when building document URIs, use natural IDs from the input data (or UUIDs if there are no IDs) and URI-encode them with <code>encode_for_uri</code></li>
@@ -50,7 +50,7 @@ WHERE
 
     OPTIONAL { ?row &lt;#description&gt; ?description }  # OPTIONAL for optional values
 
-    # $base is bound to the application's base URI
+    # $base is bound to the dataspace's base URI
     BIND(uri(concat(str($base), "categories/")) AS ?container)
     # URI-encode natural IDs when minting document URIs
     BIND(uri(concat(str(?container), encode_for_uri(?categoryID), "/")) AS ?graph)

@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -11,7 +11,7 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="ldh-body-lg">Requirements and configuration for alternative SPARQL backends</p>
-    <p>LinkedDataHub is designed to work with any SPARQL 1.1-compatible triplestore that supports the required protocols. While Apache Jena Fuseki is the default backend, you can use alternative triplestores by adding them as services in <samp>docker-compose.override.yml</samp> (without modifying the default <samp>docker-compose.yml</samp>).</p>
+    <p>LinkedDataHub is designed to work with any SPARQL 1.1-compatible triplestore that supports the required protocols. While <a href="https://jena.apache.org/documentation/fuseki2/" target="_blank">Apache Jena Fuseki</a> is the default backend, you can use alternative triplestores by adding them as services in <samp>docker-compose.override.yml</samp> (without modifying the default <samp>docker-compose.yml</samp>).</p>
     <div>
         <h2 id="requirements">Requirements</h2>
         <p>For a triplestore to work with LinkedDataHub, it must support the following:</p>
@@ -147,9 +147,8 @@
         <ol>
             <li>
                 <p><strong>Update <samp>config/system.trig</samp></strong> to point to your QLever instance:</p>
-                <pre>@prefix lapp: &lt;https://w3id.org/atomgraph/linkeddatahub/apps#&gt; .
+                <pre>@prefix lds: &lt;https://w3id.org/atomgraph/linkeddatahub/dataspaces#&gt; .
 @prefix a:    &lt;https://w3id.org/atomgraph/core#&gt; .
-@prefix ldt:  &lt;https://www.w3.org/ns/ldt#&gt; .
 @prefix sd:   &lt;http://www.w3.org/ns/sparql-service-description#&gt; .
 @prefix dct:  &lt;http://purl.org/dc/terms/&gt; .
 
@@ -157,8 +156,8 @@
 
 &lt;urn:linkeddatahub:apps/admin&gt;
 {
-    &lt;urn:linkeddatahub:apps/admin&gt; a lapp:AdminApplication ;
-        ldt:service &lt;urn:linkeddatahub:services/admin&gt; .
+    &lt;urn:linkeddatahub:apps/admin&gt; a lds:AdminDataspace ;
+        lds:service &lt;urn:linkeddatahub:services/admin&gt; .
 }
 
 # Admin service: QLever
@@ -177,8 +176,8 @@
 
 &lt;urn:linkeddatahub:apps/end-user&gt;
 {
-    &lt;urn:linkeddatahub:apps/end-user&gt; a lapp:EndUserApplication ;
-        ldt:service &lt;urn:linkeddatahub:services/end-user&gt; .
+    &lt;urn:linkeddatahub:apps/end-user&gt; a lds:EndUserDataspace ;
+        lds:service &lt;urn:linkeddatahub:services/end-user&gt; .
 }
 
 # End-user service: QLever

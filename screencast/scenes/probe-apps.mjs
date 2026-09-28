@@ -1,4 +1,4 @@
-// Not a scene. The applications menu is how one dataspace reaches another; this
+// Not a scene. The dataspaces menu is how one dataspace reaches another; this
 // dumps what it offers and whether switching works.
 import { chromium } from 'playwright';
 import { resolve, sleep } from '../lib/harness.mjs';

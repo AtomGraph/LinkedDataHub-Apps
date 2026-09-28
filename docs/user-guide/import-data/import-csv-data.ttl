@@ -1,16 +1,16 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
     dct:title "Import CSV data" ;
-    dct:description "Step-by-step guide to converting CSV data to RDF and importing it into the end-user application" ;
+    dct:description "Step-by-step guide to converting CSV data to RDF and importing it into the end-user dataspace" ;
     rdf:_1 <#content> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="ldh-body-lg">Step-by-step guide to converting CSV data to RDF and importing it into the end-user application</p>
+    <p class="ldh-body-lg">Step-by-step guide to converting CSV data to RDF and importing it into the end-user dataspace</p>
     <p>A CSV import has three components:</p>
     <dl>
         <dt>CSV file</dt>
@@ -27,10 +27,7 @@
         </div>
         <div aria-labelledby="user-interface-tab" class="ac-tabpanel" id="user-interface-pane" role="tabpanel">
                 <div>
-                    <div class="screenshot-placeholder">
-                        <span aria-hidden="true" class="msi">play_circle</span>
-                        <p>Screen recording: importing CSV data and mapping it to RDF</p>
-                    </div>
+                    <video aria-label="Importing CSV data and mapping it to RDF" controls="controls" preload="metadata" src="/uploads/a1152e7d99c4d59d1cb8a894895be4d85a1aaeca"></video>
                     <p>All the import components can be created from a single dialog, but the steps below create them one at a time:</p>
                     <ol>
                         <li>First, create a container for the data to be imported. This will be the import's <dfn>target container</dfn>.</li>

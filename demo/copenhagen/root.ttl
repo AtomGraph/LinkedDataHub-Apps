@@ -3,7 +3,7 @@
 @prefix ac:     <https://w3id.org/atomgraph/client#> .
 @prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd:	<http://www.w3.org/2001/XMLSchema#> .
-@prefix dh:	<https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:	<https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:	<http://purl.org/dc/terms/> .
 @prefix sioc:	<http://rdfs.org/sioc/ns#> .
 @prefix sd:     <http://www.w3.org/ns/sparql-service-description#> .
@@ -53,7 +53,7 @@
                 <p>Documents like this one compose prose, charts and maps as structured content blocks backed by the graph — the map of <a href="bicycle-parkings/">bicycle parkings</a> is a block like any other.</p>
             </div>
         </div>
-        <p>This application was created on <a href="https://atomgraph.github.io/LinkedDataHub/" target="_blank">LinkedDataHub</a> using the low code paradigm: no programming was required, only scripts that
+        <p>This dataspace was created on <a href="https://atomgraph.github.io/LinkedDataHub/" target="_blank">LinkedDataHub</a> using the low code paradigm: no programming was required, only scripts that
             invoke LinkedDataHub's CLI commands.</p>
     </div>"""^^rdf:XMLLiteral .
 
@@ -89,11 +89,13 @@ PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
 SELECT ?typeLabel (COUNT(?facility) AS ?count)
 WHERE {
+    # relative to the <ns> endpoint this query runs on, so the app installs under any base URI:
+    # the endpoint resolves <ns#> to the namespace and <sparql> to the dataspace's own data
     ?type a owl:Class ;
         rdfs:label ?typeLabel ;
-        rdfs:isDefinedBy <https://copenhagen.demo.linkeddatahub.com/ns#>
+        rdfs:isDefinedBy <ns#>
 
-    SERVICE <https://copenhagen.demo.linkeddatahub.com/sparql>
+    SERVICE <sparql>
     {
         SELECT DISTINCT ?facility ?type WHERE {
             GRAPH ?graph {

@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -51,7 +51,7 @@
     <div>
         <h2 id="agents">Agents</h2>
         <p>An agent is a person or a piece of software, identified by a WebID, that can be authorized to have certain <a href="#access-modes">modes
-            of access</a> to certain applications.</p>
+            of access</a> to certain dataspaces.</p>
     </div>
     <div>
         <h2 id="groups">Groups</h2>
@@ -67,7 +67,7 @@
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p class="ac-alert-text">By default, only members of the owners group have access to the administration application: its built-in
+                <p class="ac-alert-text">By default, only members of the owners group have access to the administration dataspace: its built-in
                     <samp>Full control</samp> authorization grants the <a href="#access-modes">Control</a> mode (along with read and write)
                     to that group. See <a href="#authorizations">Authorizations</a>.</p>
                 <p class="ac-alert-text">Note that an agent being a member of one of the above groups does not automatically provide it with an
@@ -78,10 +78,10 @@
     <div>
         <h2 id="authorizations">Authorizations</h2>
         <p>An authorization explicitly grants access for an <a href="#agents">agent</a> or a <a href="#groups">group</a>
-            of agents to access a specific end-user application document or a <a href="../ontologies/#classes">class</a>
+            of agents to access a specific end-user dataspace document or a <a href="../ontologies/#classes">class</a>
             of its documents.</p>
         <p>An <a href="#agents">agent</a> has to be authorized using the <a href="#access-modes">Control</a> mode to be
-            able to log in to the <a href="../../dataspace/#admin-apps">administration application</a>. By default such an
+            able to log in to the <a href="../../dataspace/#admin">administration dataspace</a>. By default such an
             authorization is granted to the <a href="#groups">owners group</a>.</p>
         <p>The default authorizations for groups and their respective access modes:</p>
         <table>
@@ -148,7 +148,7 @@
         <p>An authorization can also target a whole class of documents with <code>acl:accessToClass</code>. Granting the <samp>readers</samp> group read access to every container:</p>
         <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
-@prefix dh:   &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+@prefix dh:   &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
 
 &lt;#this&gt; a acl:Authorization ;
     rdfs:label "Container read access" ;
@@ -166,7 +166,7 @@
         </div>
         <div>
             <h3 id="auth-requests">Access requests</h3>
-            <p>If access is denied due to missing authorization, the agent can ask for it by issuing a request to the application's
+            <p>If access is denied due to missing authorization, the agent can ask for it by issuing a request to the dataspace's
                 <a href="#groups">owners</a>. The request indicates the request URI and access mode in question.
                 The owners can then accept the request by creating an <a href="#authorizations">authorization</a> with the provided information
                 (possibly extending the requested access to a <a href="#groups">group</a> of agents or a <a href="../ontologies/#classes">class of resources</a>),

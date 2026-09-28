@@ -24,7 +24,17 @@ import { makeTyper } from '../lib/typing.mjs';
 import * as nav from '../lib/nav.mjs';
 import * as modes from '../lib/modes.mjs';
 import * as blocks from '../lib/blocks.mjs';
+import { record as recordTerminal } from '../lib/terminal.mjs';
 import { SHOTS } from './manifest.mjs';
+
+// A shot that belongs to the ADMIN dataspace rather than the end-user one
+// one — the sign-up form is served there. LDH's convention is an `admin.` label on the
+// same origin, so the manifest says `admin: true` and stays free of hostnames.
+const adminOrigin = (base) => {
+  const u = new URL(base);
+  u.hostname = `admin.${u.hostname}`;
+  return u.origin;
+};
 
 const OUT = path.join(ROOT, 'docs', 'out');
 const opts = args();
@@ -182,7 +192,50 @@ for (const shot of wanted) {
   const dir = path.join(OUT, path.dirname(shot.doc));
   await fs.mkdir(dir, { recursive: true });
 
-  const identity = shot.anonymous ? null : await identityFor(opts);
+  // A terminal shot films a shell, not a page, so it takes none of what follows: no
+  // browser, no cursor, no cookie, no certificate. What it shares with a clip is
+  // everything downstream — the same pacer, the same encoding, the same record shape —
+  // so fill.mjs needs no knowledge of it and writes the same <video>.
+  if (shot.kind === 'terminal') {
+    const raw = path.join(dir, `${path.basename(shot.doc)}-${shot.n}.vhs.mp4`);
+    const mp4 = path.join(dir, `${path.basename(shot.doc)}-${shot.n}.mp4`);
+    let taken;
+    try {
+      taken = await recordTerminal(path.join(ROOT, 'tapes', `${shot.tape}.tape`), {
+        output: raw,
+        env: await (shot.prepare ? shot.prepare() : Promise.resolve({})),
+        watchUrl: shot.watch ?? null,
+      });
+    } catch (ex) {
+      console.log(`  ✗ ${slug.padEnd(42)} ${ex.message}`);
+      index.push({ ...record, outcome: 'failed', why: ex.message.split('\n')[0].slice(0, 110) });
+      continue;
+    }
+
+    const paced = taken.ok
+      ? await run('node', [path.join(ROOT, 'render', 'pace.mjs'), raw, mp4, '--dwell', String(shot.dwell ?? 3), '--crf', '20'])
+      : { code: 1 };
+    if (paced.code === 0) await fs.rm(raw, { force: true });
+
+    // The caption is the contract here too. For a setup recording the claim is that the
+    // setup worked, and the honest evidence is the instance answering — which is why the
+    // probe runs alongside the recording rather than after it.
+    const met = !shot.watch || taken.cameUp;
+    record.file = path.relative(ROOT, paced.code === 0 ? mp4 : raw);
+    record.duration = taken.seconds;
+    record.outcome = !taken.ok ? 'failed' : met ? 'ok' : 'missed';
+    if (!taken.ok) record.why = taken.why;
+    else if (!met) record.why = 'the instance the tape built never answered';
+    index.push(record);
+    console.log(`  ${{ ok: '✓', missed: '~', failed: '✗' }[record.outcome]} ${slug.padEnd(42)} ${record.file}${record.why ? ' ' + record.why : ''}`);
+    if (shot.cleanup) await shot.cleanup().catch(() => {});
+    continue;
+  }
+
+  // The origin this shot is taken against: the admin dataspace when the shot asks for
+  // it, the end-user dataspace otherwise.
+  const shotBase = shot.admin ? adminOrigin(opts.base) : opts.base;
+  const identity = shot.anonymous ? null : await identityFor({ ...opts, base: shotBase });
   const context = await browser.newContext({
     ignoreHTTPSErrors: true,
     viewport: { width: GEOMETRY.width, height: GEOMETRY.height },
@@ -194,7 +247,7 @@ for (const shot of wanted) {
       : {}),
   });
   await context.addCookies([
-    { name: 'LinkedDataHub.first-time-message', value: 'true', domain: new URL(opts.base).hostname, path: '/' },
+    { name: 'LinkedDataHub.first-time-message', value: 'true', domain: new URL(shotBase).hostname, path: '/' },
   ]);
   await context.addInitScript(CURSOR_INIT);
 
@@ -209,7 +262,7 @@ for (const shot of wanted) {
 
   let outcome = 'ok', why;
   try {
-    await page.goto(opts.base + shot.at, { waitUntil: 'load' });
+    await page.goto(shotBase + shot.at, { waitUntil: 'load' });
     await page.waitForTimeout(shot.settle ?? 5000);
     if (shot.act) await shot.act({ page, cursor, type, typeCode, marks, nav, modes, blocks, sleep, scratch });
     await page.waitForTimeout(1200);

@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -29,7 +29,7 @@ RUN mvn clean install
 
 # =================
 
-FROM atomgraph/linkeddatahub:5.10.0
+FROM atomgraph/linkeddatahub:6.0.0
 
 WORKDIR $CATALINA_HOME
 
@@ -40,7 +40,7 @@ COPY --from=maven /usr/src/myapp/target/ROOT webapps/ROOT
 COPY files/layout.xsl /usr/local/tomcat/webapps/ROOT/static/com/example/myapp/xsl/layout.xsl
 COPY files/client.xsl /usr/local/tomcat/webapps/ROOT/static/com/example/myapp/xsl/client.xsl
 COPY files/style.css  /usr/local/tomcat/webapps/ROOT/static/com/example/myapp/css/style.css</pre>
-        <p>Replace <samp>5.10.0</samp> with the LinkedDataHub release you are running.</p>
+        <p>Replace <samp>6.0.0</samp> with the LinkedDataHub release you are running.</p>
         <p><code>SERVLET_NAME</code> must be set to the fully-qualified name of your JAX-RS application class (see the <a href="#java">Java section</a> below).</p>
     </div>
     <div>
@@ -51,13 +51,13 @@ COPY files/style.css  /usr/local/tomcat/webapps/ROOT/static/com/example/myapp/cs
     &lt;dependency&gt;
         &lt;groupId&gt;com.atomgraph&lt;/groupId&gt;
         &lt;artifactId&gt;linkeddatahub&lt;/artifactId&gt;
-        &lt;version&gt;5.10.0&lt;/version&gt;
+        &lt;version&gt;6.0.0&lt;/version&gt;
         &lt;classifier&gt;classes&lt;/classifier&gt;
     &lt;/dependency&gt;
     &lt;dependency&gt;
         &lt;groupId&gt;com.atomgraph&lt;/groupId&gt;
         &lt;artifactId&gt;linkeddatahub&lt;/artifactId&gt;
-        &lt;version&gt;5.10.0&lt;/version&gt;
+        &lt;version&gt;6.0.0&lt;/version&gt;
         &lt;type&gt;war&lt;/type&gt;
     &lt;/dependency&gt;
 &lt;/dependencies&gt;
@@ -88,7 +88,7 @@ COPY files/style.css  /usr/local/tomcat/webapps/ROOT/static/com/example/myapp/cs
     &lt;/plugins&gt;
 &lt;/build&gt;</pre>
         <p>After adding a new endpoint, extend LinkedDataHub's JAX-RS application class (<code>com.atomgraph.linkeddatahub.Application</code>) and register your class there. Set the <code>SERVLET_NAME</code> Docker environment variable to the fully-qualified name of your subclass so LinkedDataHub loads it instead of the default application.</p>
-        <p>By convention, static files (e.g. stylesheets, images) are placed in the <samp>src/main/webapp/static/</samp> folder in the codebase, which then becomes <samp>/usr/local/tomcat/webapps/ROOT/static/</samp> within the webapp deployed in the Docker container, and is served at <samp>static/</samp> under the application's base URI.</p>
+        <p>By convention, static files (e.g. stylesheets, images) are placed in the <samp>src/main/webapp/static/</samp> folder in the codebase, which then becomes <samp>/usr/local/tomcat/webapps/ROOT/static/</samp> within the webapp deployed in the Docker container, and is served at <samp>static/</samp> under the dataspace's base URI.</p>
         <p>This means that if you want to deploy static files as part of your LinkedDataHub app, you will have to either mount them into the <samp>/usr/local/tomcat/webapps/ROOT/static/</samp> folder in the container, or copy them into a custom Docker image to the same effect.</p>
         <p>You can allow Java debugger access using <a href="../../reference/configuration/#debug">configuration properties</a>.</p>
     </div>

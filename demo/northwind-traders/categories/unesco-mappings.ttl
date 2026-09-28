@@ -1,8 +1,8 @@
 # Mappings between Northwind product categories and UNESCO Thesaurus concepts.
 # Each category doubles as a skos:Concept, which makes the SKOS mapping relations
 # applicable and lets the SKOS package render the categories as concepts.
-# Import this file with an RDF import (see the documentation) - it is not
-# installed by update-folder.sh (.ldhignore).
+# Import this file with an RDF import (see the documentation) - .ldhignore keeps
+# it out of ldh push, and install.sh does not import it.
 
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 

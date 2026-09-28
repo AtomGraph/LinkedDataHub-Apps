@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -17,32 +17,34 @@
         <h2 id="system-base-uri">System base URI</h2>
         <p>The system base URI is the URI at which the LinkedDataHub service is accessible.</p>
         <p>A common case is changing the system base URI from the default <samp>https://localhost:4443/</samp> to your own.
-            Take <samp>https://ec2-54-235-229-141.compute-1.amazonaws.com/linkeddatahub/</samp> as an example. Split the URI into components and set them in the <samp>.env</samp> file:</p>
+            Take <samp>https://ec2-54-235-229-141.compute-1.amazonaws.com/</samp> as an example. Split the URI into components and set them in the <samp>.env</samp> file:</p>
         <pre>PROTOCOL=https
 HTTP_PORT=80
 HTTPS_PORT=443
-HOST=ec2-54-235-229-141.compute-1.amazonaws.com
-ABS_PATH=/linkeddatahub/</pre>
+HOST=ec2-54-235-229-141.compute-1.amazonaws.com</pre>
+        <p>A dataspace serves its documents from the root of its origin, so the base URI is always the origin followed by <samp>/</samp> — there is no
+            sub-path component to configure. Serving several dataspaces from one instance is a matter of giving each its own subdomain, as described under
+            <a href="../dataspace/">Dataspaces</a>.</p>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p class="ac-alert-text">The <a href="../dataspace/#admin-apps">administration application</a> of each dataspace is served on the <code>admin.</code> subdomain
+                <p class="ac-alert-text">The <a href="../dataspace/#admin">administration dataspace</a> of each dataspace is served on the <code>admin.</code> subdomain
                     of its end-user host (e.g. <samp>admin.ec2-54-235-229-141.compute-1.amazonaws.com</samp>). The subdomain must resolve in DNS and be covered by the
-                    server's TLS certificate, otherwise the admin application will not be reachable.</p>
+                    server's TLS certificate, otherwise the admin dataspace will not be reachable.</p>
             </div>
         </div>
         <p><a href="../../user-guide/manage-dataspaces/">Dataspace URIs</a> need to be relative to the system base URI in order to be reachable — after the change, the
             origins in <samp>config/dataspaces.trig</samp> have to follow. For the Northwind Traders dataspace, deploying from local development to the demo
             host means:</p>
         <pre># before
-&lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt; a lapp:Application ;
-    lapp:origin &lt;https://northwind-traders.demo.localhost:4443&gt; ;
-    ldt:ontology &lt;https://northwind-traders.demo.localhost:4443/ns#&gt; .
+&lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt; a lds:Dataspace ;
+    lds:origin &lt;https://northwind-traders.demo.localhost:4443&gt; ;
+    lds:ontology &lt;https://northwind-traders.demo.localhost:4443/ns#&gt; .
 
 # after
-&lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt; a lapp:Application ;
-    lapp:origin &lt;https://northwind-traders.demo.linkeddatahub.com&gt; ;
-    ldt:ontology &lt;https://northwind-traders.demo.linkeddatahub.com/ns#&gt; .</pre>
+&lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt; a lds:Dataspace ;
+    lds:origin &lt;https://northwind-traders.demo.linkeddatahub.com&gt; ;
+    lds:ontology &lt;https://northwind-traders.demo.linkeddatahub.com/ns#&gt; .</pre>
         <p>Restart the services (<samp>make down</samp>, then <samp>make up</samp>) for the changes to take effect. Note that changing the base URI does not
             rewrite URIs already stored in the dataset — documents minted under the old base URI keep it.</p>
     </div>
@@ -51,11 +53,11 @@ ABS_PATH=/linkeddatahub/</pre>
         <p>LinkedDataHub uses two main RDF configuration files that define dataspaces and services:</p>
         <dl>
             <dt><samp>config/dataspaces.trig</samp></dt>
-            <dd>Contains application metadata for each dataspace, including:</dd>
+            <dd>Contains public metadata for each dataspace, including:</dd>
             <dd>
                 <ul>
-                    <li>Base URIs and application origins</li>
-                    <li>Application titles and descriptions</li>
+                    <li>Base URIs and origins</li>
+                    <li>Dataspace titles and descriptions</li>
                     <li>Associated ontologies</li>
                     <li>Custom stylesheets</li>
                 </ul>
@@ -65,7 +67,7 @@ ABS_PATH=/linkeddatahub/</pre>
             <dd>Contains internal deployment wiring, including:</dd>
             <dd>
                 <ul>
-                    <li>Application-to-service bindings (admin and end-user roles)</li>
+                    <li>Dataspace-to-service bindings (admin and end-user roles)</li>
                     <li>SPARQL endpoint URLs</li>
                     <li>Graph Store Protocol endpoints</li>
                 </ul>
@@ -104,8 +106,6 @@ ABS_PATH=/linkeddatahub/</pre>
             <dd>URI scheme of the system base URI (<samp>http</samp> or <samp>https</samp>)</dd>
             <dt><samp>HOST</samp></dt>
             <dd>Hostname of the system base URI</dd>
-            <dt><samp>ABS_PATH</samp></dt>
-            <dd>Path of the system base URI (<samp>/</samp> unless the instance is served under a sub-path)</dd>
             <dt><samp>HTTP_PORT</samp></dt>
             <dd>Host port mapped to the container's port <samp>8080</samp>, which redirects HTTP to HTTPS</dd>
             <dt><samp>HTTPS_PORT</samp></dt>
@@ -239,13 +239,19 @@ ABS_PATH=/linkeddatahub/</pre>
     </div>
     <div>
         <h2 id="fuseki"><samp>fuseki</samp> service</h2>
-        <p>A single Apache Jena Fuseki server holds a TDB2 dataset for every dataspace role — an <samp>end-user</samp> and an <samp>admin</samp> dataset per dataspace — declared in <samp>config/fuseki/config.ttl</samp> and persisted under the <samp>fuseki/</samp> folder, one sub-folder per dataset. <samp>JAVA_OPTIONS</samp> carries the Java options of the Fuseki process, and is what sizes its heap.</p>
-        <p>Datasets are named after the dataspace origin with the deployment host dropped and the role appended — <samp>northwind-traders.demo.end-user</samp>, <samp>northwind-traders.demo.admin</samp> — so the names hold across development and production; the root dataspace's are plain <samp>end-user</samp> and <samp>admin</samp>. See the <a href="../dataspace/#services">dataspace reference</a> for the service declarations that bind an application to its datasets.</p>
+        <p>A single <a href="https://jena.apache.org/documentation/fuseki2/" target="_blank">Apache Jena Fuseki</a> server holds a TDB2 dataset for every dataspace role — an <samp>end-user</samp> and an <samp>admin</samp> dataset per dataspace — declared in <samp>config/fuseki/config.ttl</samp> and persisted under the <samp>fuseki/</samp> folder, one sub-folder per dataset. <samp>JAVA_OPTIONS</samp> carries the Java options of the Fuseki process, and is what sizes its heap.</p>
+        <p>Datasets are named after the dataspace origin with the deployment host dropped and the role appended — <samp>northwind-traders.demo.end-user</samp>, <samp>northwind-traders.demo.admin</samp> — so the names hold across development and production; the root dataspace's are plain <samp>end-user</samp> and <samp>admin</samp>. See the <a href="../dataspace/#services">dataspace reference</a> for the service declarations that bind a dataspace to its datasets.</p>
     </div>
     <div>
         <h2 id="egress"><samp>egress</samp> service</h2>
         <p>A forward proxy (Squid) that the outbound SPARQL <code>SERVICE</code> and <code>LOAD</code> requests of both Fuseki and the platform pass through. It permits public destinations and refuses loopback, private and link-local ones, resolving each where it connects so redirect hops and DNS answers are checked too. Federation with public endpoints keeps working, while a <code>SERVICE</code> clause cannot reach another dataset, the cache or the platform.</p>
         <p>Fuseki is pointed at it through its <samp>JAVA_TOOL_OPTIONS</samp>; the platform's own in-process queries (imports and PATCH updates) are routed through it when <samp>EGRESS_PROXY</samp> is set to its <samp>host:port</samp>. Without a proxy and without <samp>ALLOW_INTERNAL_URLS</samp>, the platform disables <code>SERVICE</code> in those queries rather than leaving it open.</p>
+    </div>
+    <div>
+        <h2 id="sef-compiler"><samp>sef-compiler</samp> service</h2>
+        <p>Compiles each dataspace's client-side stylesheet together with the stylesheets of its <a href="../administration/packages/">imported packages</a> into a SEF that the browser runs, so a package's rendering reaches the client as well as the server. The platform composes the wrapper and submits it; the compiled SEF is written to the <samp>sef</samp> bind mount (<samp>/var/www/linkeddatahub/sef</samp>, served under <samp>/static/xsl/sef/</samp>) and its URL travels to the page as a <code>Link</code> header. The service is built from the same Dockerfile as the platform, so its copy of the stylesheets is the deployed one.</p>
+        <p><samp>SEF_ROOT</samp> and <samp>SEF_COMPILER</samp> reach the platform through <samp>CATALINA_OPTS</samp> and are optional: without them packages compose server-side only, and the client runs the stock stylesheet. A deployment with its own compose file adds the service, the platform's <samp>depends_on</samp> on it and the bind mount.</p>
+        <p><samp>CLIENT_STYLESHEET</samp> names the client stylesheet the SEF is composed from and defaults to the platform's <samp>client.xsl</samp>. A deployment whose page bootstraps its own client stylesheet sets it to that stylesheet's webapp path - it must import the platform's <samp>client.xsl</samp> directly, by an href that resolves from that path - and its layout prefers <code>ldh:client-stylesheet()</code> over its own SEF; otherwise the site's rules vanish from a package dataspace on the first client-side navigation, while a reload brings them back.</p>
     </div>
     <div>
         <h2 id="nginx"><samp>nginx</samp> service</h2>
@@ -256,7 +262,7 @@ ABS_PATH=/linkeddatahub/</pre>
             <dd>Location of the server's SSL certificate's key. Defaults to <samp>/etc/nginx/ssl/server.key</samp>.</dd>
             <dt><samp>SSL_VERIFY_CLIENT</samp></dt>
             <dd><samp>optional_no_ca</samp> to enable TLS client certificate authentication on the <a href="#compose-variables"><samp>$HTTPS_PORT</samp></a> port; <samp>off</samp> to disable it, which also disables LinkedDataHub's <a href="../../get-started/get-an-account/">WebID-TLS authentication method</a>.</dd>
-            <dd>Disabling can be used to avoid the certificate prompt in the browser in end-user facing applications. The client certificate authentication is still available on port 5443.</dd>
+            <dd>Disabling can be used to avoid the certificate prompt in the browser in end-user facing dataspaces. The client certificate authentication is still available on port 5443.</dd>
             <dt><samp>MAX_BODY_SIZE</samp></dt>
             <dd>Maximum allowed request body size (<samp>linkeddatahub</samp> has a separate setting for this). Defaults to <samp>2097152</samp>.</dd>
         </dl>

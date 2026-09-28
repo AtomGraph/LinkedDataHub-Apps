@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Container ;
@@ -12,8 +12,8 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="ldh-body-lg">Access control and domain model management</p>
-    <p>Each <a href="../dataspace/#end-user-apps">end-user application</a> is paired with a separate administration application.</p>
-    <p>The administration application manages the assets that govern its end-user application: <a href="ontologies/">ontologies</a>,
+    <p>Each <a href="../dataspace/#end-user">end-user dataspace</a> is paired with a separate administration dataspace.</p>
+    <p>The administration dataspace manages the assets that govern its end-user dataspace: <a href="ontologies/">ontologies</a>,
         <a href="acl/">access control</a>, and <a href="packages/">packages</a>. Only dataspace owners have access to it.</p>
 </div>"""^^rdf:XMLLiteral .
 

@@ -107,11 +107,11 @@ await runScene({
 
     // ── the concept, from another dataspace, through the proxy ──────────────
     const apps = page.locator('button.btn-apps').first();
-    if (!(await apps.count())) throw new Error('no applications menu');
+    if (!(await apps.count())) throw new Error('no dataspaces menu');
     await cursor.click(apps);
     await sleep(550);
     const unesco = page.locator('.ac-menu-item:visible, .ac-menu a:visible').filter({ hasText: 'UNESCO' }).first();
-    if (!(await unesco.count())) throw new Error('no UNESCO entry in the applications menu');
+    if (!(await unesco.count())) throw new Error('no UNESCO entry in the dataspaces menu');
     await cursor.click(unesco);
     await page.waitForLoadState('load').catch(() => {});
     await sleep(2700);

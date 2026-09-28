@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -13,8 +13,8 @@
     <p class="ldh-body-lg">Import CSV data using SPARQL mappings</p>
     <p>Northwind's data ships as plain CSV files. The first rows of <samp>categories.csv</samp>:</p>
     <pre>categoryID,categoryName,description,pictureHash
-1,Beverages,Soft drinks coffees teas beers and ales,5e1be0328ca2c694d1de6f5b1b3d3b1ce90cb41f
-2,Condiments,Sweet and savory sauces relishes spreads and seasonings,6e5d9df213a6c46b4f75e9ba2e321436f80d8bed</pre>
+1,Beverages,Soft drinks coffees teas beers and ales,ec56b79671b30ecb98316d9b766fba198286b3b6
+2,Condiments,Sweet and savory sauces relishes spreads and seasonings,7e9f535a3bf693ec856702856fffd3be5a3df4f1</pre>
     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/categories.csv" target="_blank">categories/categories.csv</a></p>
     <p>LinkedDataHub <a href="../../reference/imports/csv/" target="_blank">imports CSV</a> by running a SPARQL <code>CONSTRUCT</code> mapping over each
         row: the row's cells are bound as properties of a row resource, and the query builds the RDF you want from them. Each column becomes a predicate named after its header, resolved against the
@@ -64,7 +64,7 @@ WHERE
         <tbody>
             <tr>
                 <th scope="row"><code>?container</code></th>
-                <td>The target container from the <a href="../structure/">Structure</a> stage, resolved against <code>$base</code>, which LinkedDataHub binds to the application's base URI when the mapping runs</td>
+                <td>The target container from the <a href="../structure/">Structure</a> stage, resolved against <code>$base</code>, which LinkedDataHub binds to the dataspace's base URI when the mapping runs</td>
             </tr>
             <tr>
                 <th scope="row"><code>?graph</code></th>
@@ -114,7 +114,7 @@ ldh add csv-import \\
   --query "${LDH_BASE}categories/#categories-query" \\
   --file "$csv_upload_uri" \\
   "${LDH_BASE}categories/"</pre>
-        <p>(The readable <samp>#categories-query</samp> fragment is this tutorial's choice; the demo's <samp>import-csv.sh</samp> mints a UUID fragment per query instead.)</p>
+        <p>(The readable <samp>#categories-query</samp> fragment is this tutorial's choice; the demo's <samp>install.sh</samp> mints a UUID fragment per query instead.)</p>
         <p>Imports run asynchronously. Each import is itself a document that records its status — reload it to see progress, the amount of imported data on success, or the constraint
             violations on failure.</p>
         </div>
@@ -124,7 +124,7 @@ ldh add csv-import \\
         <p>The Categories container lists eight category documents. Open one: the category renders with its name, description and identifier, typed as a product group — with the labels coming from
             the <a href="../model/">Model</a> stage. Repeat the pattern for the remaining entities and the Knowledge Graph fills in: orders link to products, products to suppliers and
             categories.</p>
-        <img alt="The Categories container listing after the import" src="../../uploads/30fa1346b0d70c6c349d0d1ccfd89a8711f4d700"></img>
+        <img alt="The Categories container listing after the import" src="/uploads/a82ec6b20641ed77016fdec0d0ce56a3afac64aa"></img>
     </div>
     <div>
         <h2 id="how-this-works">How this works</h2>

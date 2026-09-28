@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -14,28 +14,27 @@
     <div>
         <h2 id="configuration-files">Configuration files</h2>
         <p><a href="../../reference/dataspace/" target="_blank">Dataspaces</a> are configured using RDF configuration files in <a href="https://www.w3.org/TR/trig/" target="_blank">TriG</a> syntax:
-            <samp>config/dataspaces.trig</samp> holds the application metadata, <samp>config/system.trig</samp> the internal service wiring, and <samp>secrets/credentials.trig</samp> the optional
+            <samp>config/dataspaces.trig</samp> holds the dataspace metadata, <samp>config/system.trig</samp> the internal service wiring, and <samp>secrets/credentials.trig</samp> the optional
             service credentials. See the <a href="../../reference/configuration/#config-files" target="_blank">configuration reference</a> for details about these files.</p>
-        <p>The configuration uses the <a href="https://w3id.org/atomgraph/linkeddatahub/apps" target="_blank">Application domain ontology</a>. A dataspace consists of an end-user
-            application and an administrative application, both backed by their own SPARQL service. Each application can also specify its own <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>.</p>
+        <p>The configuration uses the <a href="https://w3id.org/atomgraph/linkeddatahub/dataspaces" target="_blank">dataspace domain ontology</a>. Each dataspace — end-user or administration — is backed by its own SPARQL service and can specify its own <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>.</p>
         <p>Dataspace configuration is file-based — there is no <samp>ldh</samp> command for it. The <samp>config/*.trig</samp> files are read at startup, so changes to them require a restart of the LinkedDataHub service.</p>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p class="ac-alert-text">Application base URIs must be relative to the <a href="../../reference/configuration/#system-base-uri" target="_blank">system base URI</a> configured in <samp>.env</samp>. If you change the system base URI, you must update the application base URIs too, or they will not be reachable.</p>
+                <p class="ac-alert-text">Dataspace base URIs must be relative to the <a href="../../reference/configuration/#system-base-uri" target="_blank">system base URI</a> configured in <samp>.env</samp>. If you change the system base URI, you must update the dataspace base URIs too, or they will not be reachable.</p>
             </div>
         </div>
         <div>
             <h3 id="create-dataspace">Create a dataspace</h3>
             <p>To create a new dataspace:</p>
             <ol>
-                <li>Add instances of <code>lapp:EndUserApplication</code> and <code>lapp:AdminApplication</code> to <samp>config/dataspaces.trig</samp>, following the default dataspace as a template</li>
+                <li>Add instances of <code>lds:EndUserDataspace</code> and <code>lds:AdminDataspace</code> to <samp>config/dataspaces.trig</samp>, following the default dataspace as a template</li>
                 <li>Declare an <samp>end-user</samp> and an <samp>admin</samp> dataset for the dataspace in <samp>config/fuseki/config.ttl</samp>, named after its origin (deployment host dropped, role appended)</li>
-                <li>Add corresponding <code>sd:Service</code> instances to <samp>config/system.trig</samp>, each pointing at one of those datasets, and bind the applications to them</li>
+                <li>Add corresponding <code>sd:Service</code> instances to <samp>config/system.trig</samp>, each pointing at one of those datasets, and bind the dataspaces to them</li>
             </ol>
-            <p>The relationship between end-user and admin applications is automatically inferred based on naming conventions — you do not need to specify
-            <code>lapp:endUserApplication</code> or <code>lapp:adminApplication</code> properties manually. Applications whose origin (<code>lapp:origin</code>) uses the
-            <samp>admin.</samp> subdomain are automatically recognized as administration applications, and paired with the end-user application on the corresponding bare host.</p>
+            <p>The relationship between end-user and admin dataspaces is inferred from their origins, and there is nothing to declare. A dataspace whose origin
+            (<code>lds:origin</code>) uses the <samp>admin.</samp> subdomain is recognized as an administration dataspace, and paired with the end-user dataspace on
+            the corresponding bare host.</p>
             <div class="ac-alert va-informative" role="status">
                 <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
                 <div class="ac-alert-body">
@@ -45,15 +44,15 @@
         </div>
         <div>
             <h3 id="change-stylesheet">Change stylesheet</h3>
-            <p>Change the value of <code>ac:stylesheet</code> to the URI of your <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>. Add the property if it is absent. The value has to be an absolute URL on the application's own origin.</p>
+            <p>Change the value of <code>ac:stylesheet</code> to the URI of your <a href="../../reference/stylesheets/" target="_blank">XSLT stylesheet</a>. Add the property if it is absent. The value has to be an absolute URL on the dataspace's own origin.</p>
             <p>The stylesheet can either be <a href="../upload-file/" target="_blank">uploaded as a file</a> or <a href="https://docs.docker.com/storage/bind-mounts/" target="_blank">mounted</a> in <samp>docker-compose.yml</samp>, in the <samp>volumes</samp> section of the <samp>linkeddatahub</samp> service. Mounting is useful while developing.</p>
-            <p>It is rarely necessary to change the stylesheet of an admin application, but the procedure is identical.</p>
+            <p>It is rarely necessary to change the stylesheet of an admin dataspace, but the procedure is identical.</p>
         </div>
     </div>
     <div>
         <h2 id="manage-services">Manage services</h2>
-        <p>The LinkedDataHub service, the single <samp>fuseki</samp> triplestore and the <samp>egress</samp> proxy are defined in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/docker-compose.yml" target="_blank"><samp>docker-compose.yml</samp></a>; each runs as a Docker container. One Fuseki server holds an <samp>end-user</samp> and an <samp>admin</samp> dataset per dataspace, declared in <samp>config/fuseki/config.ttl</samp> — so giving a dataspace its own datasets means adding a dataset pair there and a matching pair of <code>sd:Service</code> instances in <samp>config/system.trig</samp>.</p>
-        <p>While LinkedDataHub uses Apache Jena Fuseki by default, you can configure it to use other SPARQL 1.1-compatible triplestores such as <a href="https://github.com/ad-freiburg/qlever" target="_blank">QLever</a>, <a href="https://github.com/dice-group/tentris" target="_blank">Tentris</a>, or others.</p>
+        <p>The LinkedDataHub service, the single <samp>fuseki</samp> triplestore, the <samp>egress</samp> proxy and the <samp>sef-compiler</samp> are defined in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/docker-compose.yml" target="_blank"><samp>docker-compose.yml</samp></a>; each runs as a Docker container. One Fuseki server holds an <samp>end-user</samp> and an <samp>admin</samp> dataset per dataspace, declared in <samp>config/fuseki/config.ttl</samp> — so giving a dataspace its own datasets means adding a dataset pair there and a matching pair of <code>sd:Service</code> instances in <samp>config/system.trig</samp>.</p>
+        <p>While LinkedDataHub uses <a href="https://jena.apache.org/documentation/fuseki2/" target="_blank">Apache Jena Fuseki</a> by default, you can configure it to use other SPARQL 1.1-compatible triplestores such as <a href="https://github.com/ad-freiburg/qlever" target="_blank">QLever</a>, <a href="https://github.com/dice-group/tentris" target="_blank">Tentris</a>, or others.</p>
         <p>See the <a href="../../reference/triplestores/" target="_blank">triplestores reference</a> for step-by-step configuration examples, including QLever setup and troubleshooting.</p>
     </div>
     <p class="ldh-body-lg">Read more about <a href="../../reference/dataspace/" target="_blank">dataspaces</a> and the <a href="../../reference/configuration/" target="_blank">configuration</a>.</p>

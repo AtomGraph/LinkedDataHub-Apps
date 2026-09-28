@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -19,17 +19,17 @@
             <button aria-controls="from-the-command-line-pane" aria-selected="false" class="ac-tab" id="from-the-command-line-tab" role="tab" type="button"><span class="ac-tab-lbl">From the command line</span></button>
         </div>
         <div aria-labelledby="in-the-browser-tab" class="ac-tabpanel" id="in-the-browser-pane" role="tabpanel">
-        <p>Create the authorization with the access control forms in the admin application — see the <a href="../../reference/administration/acl/" target="_blank">ACL reference</a> for
+        <p>Create the authorization with the access control forms in the admin dataspace — see the <a href="../../reference/administration/acl/" target="_blank">ACL reference</a> for
             the authorization model: who (agents, agent classes), what (documents, document classes), and which <code>acl:mode</code>.</p>
         </div>
         <div aria-labelledby="from-the-command-line-tab" class="ac-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
         <pre>ldh admin make-public</pre>
-        <p>The command extends the admin application's <samp>acl/authorizations/public/</samp> document: the built-in <samp>Public access</samp> authorization gains its access grants, and a second
+        <p>The command extends the admin dataspace's <samp>acl/authorizations/public/</samp> document: the built-in <samp>Public access</samp> authorization gains its access grants, and a second
             authorization is added. Authorizations are data, so you can inspect what the command wrote — and delete it to unpublish:</p>
         <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
 @prefix def:  &lt;https://w3id.org/atomgraph/linkeddatahub/default#&gt; .
-@prefix dh:   &lt;https://www.w3.org/ns/ldt/document-hierarchy#&gt; .
+@prefix dh:   &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
 @prefix nfo:  &lt;http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#&gt; .
 @prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
 
@@ -53,7 +53,7 @@
         <h2 id="result">What you now see</h2>
         <p>Open the base URL in a private browser window, with no certificate: the Northwind Traders app renders, charts and all. It is now a public Linked Data dataset <em>and</em> a public web
             application — the same URLs serve both, negotiated by content type.</p>
-        <img alt="The app in a private window, unauthenticated" src="../../uploads/2a22d48d6d47d12971320417aba1173adbef48d4"></img>
+        <img alt="The app in a private window, unauthenticated" src="/uploads/bb775f1ede1297d97ccaa12bc19a25e7e38c95ff"></img>
     </div>
     <div>
         <h2 id="how-this-works">How this works</h2>

@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -86,8 +86,8 @@
                 <dt>Templates</dt>
                 <dd><a href="#templates">Template rules</a> for XML node processing</dd>
             </dl>
-            <p>One XSLT stylesheet can be specified per application. In order to reuse LinkedDataHub's built-in templates, it should import the <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/src/main/webapp/static/com/atomgraph/linkeddatahub/xsl/layout.xsl" target="_blank">system stylesheet <samp>layout.xsl</samp></a> and only override the necessary templates. That is not a requirement, however; a stylesheet can also use its own independent transformation logic.</p>
-            <p>If there is no stylesheet specified for the application, the system stylesheet is used. It defines the overall layout and imports resource-level and container-specific stylesheets, as well as per-vocabulary stylesheets.</p>
+            <p>One XSLT stylesheet can be specified per dataspace. In order to reuse LinkedDataHub's built-in templates, it should import the <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/src/main/webapp/static/com/atomgraph/linkeddatahub/xsl/layout.xsl" target="_blank">system stylesheet <samp>layout.xsl</samp></a> and only override the necessary templates. That is not a requirement, however; a stylesheet can also use its own independent transformation logic.</p>
+            <p>If there is no stylesheet specified for the dataspace, the system stylesheet is used. It defines the overall layout and imports resource-level and container-specific stylesheets, as well as per-vocabulary stylesheets.</p>
             <p>Note that LinkedDataHub itself imports stylesheets from <a href="https://github.com/AtomGraph/Web-Client" target="_blank">Web-Client</a>, which uses the same template modes but produces a much simpler layout.</p>
             <p>The same XSLT 3.0 stylesheets run in two environments. On the server they are executed by Saxon-HE to produce the initial HTML response. In the browser they are executed by <a href="https://www.saxonica.com/saxon-js/index.xml" target="_blank">Saxon-JS 3</a>, which provides IXSL (<a href="https://www.saxonica.com/saxonjs/documentation3/index.html#!ixsl-extension" target="_blank">Interactive XSLT extensions</a>) for reading and manipulating the browser DOM.</p>
             <p>There is a dedicated <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/src/main/webapp/static/com/atomgraph/linkeddatahub/xsl/client.xsl" target="_blank">client-side stylesheet <samp>client.xsl</samp></a> that drives the browser. After the server-rendered page loads, its <code>main</code> template renders the layout client-side — the left sidebar, navigation, document and tab panes, content blocks, forms and modal dialogs are injected into the DOM using IXSL (e.g. <code>ixsl:append-content</code>). It also handles all subsequent navigation, so following links and switching documents re-renders in place without a full page reload. It imports and reuses the same document-, resource- and property-level templates as the server-side system stylesheet, but avoids loading per-vocabulary stylesheets in order to improve page load time. Templates of the client-side stylesheet can also be overridden.</p>
@@ -142,22 +142,16 @@
                         <td>XHTML namespace, also used for generic (X)HTML templates</td>
                     </tr>
                     <tr>
-                        <td><code>ldt:</code></td>
-                        <td><code>https://www.w3.org/ns/ldt#</code></td>
-                        <td><a href="https://atomgraph.github.io/Linked-Data-Templates/#vocabulary" target="_blank">Linked Data Templates</a></td>
-                        <td>LDT processing-related concepts</td>
-                    </tr>
-                    <tr>
                         <td><code>ac:</code></td>
                         <td><code>https://w3id.org/atomgraph/client#</code></td>
                         <td><a href="https://github.com/AtomGraph/Web-Client" target="_blank">Web-Client</a> vocabulary</td>
                         <td>Client-side concepts</td>
                     </tr>
                     <tr>
-                        <td><code>lapp:</code></td>
-                        <td><code>https://w3id.org/atomgraph/linkeddatahub/apps#</code></td>
-                        <td><a href="../administration/ontologies/#lapp-ont" target="_blank">LinkedDataHub application ontology</a></td>
-                        <td>LinkedDataHub application concepts</td>
+                        <td><code>lds:</code></td>
+                        <td><code>https://w3id.org/atomgraph/linkeddatahub/dataspaces#</code></td>
+                        <td><a href="../administration/ontologies/#lds-ont" target="_blank">LinkedDataHub dataspace ontology</a></td>
+                        <td>LinkedDataHub dataspace concepts</td>
                     </tr>
                     <tr>
                         <td><code>lacl:</code></td>
@@ -290,19 +284,14 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><code>$ldt:base</code></td>
-                        <td><code>xs:anyURI?</code></td>
-                        <td>Base URI of the current application (prefer the <code>ldt:base()</code> function)</td>
-                    </tr>
-                    <tr>
-                        <td><code>$lapp:Context</code></td>
+                        <td><code>$lds:Context</code></td>
                         <td><code>document-node()</code></td>
-                        <td>RDF/XML description of the configured dataspaces; the current application is looked up in it by origin</td>
+                        <td>RDF/XML description of the configured dataspaces; the current dataspace is looked up in it by origin</td>
                     </tr>
                     <tr>
-                        <td><code>$lapp:origin</code></td>
+                        <td><code>$lds:origin</code></td>
                         <td><code>xs:anyURI</code></td>
-                        <td>Origin of the application shell that serves the static assets (the pane-scoped counterpart is the <code>lapp:origin()</code> function)</td>
+                        <td>Origin of the application shell that serves the static assets (the pane-scoped counterpart is the <code>lds:origin()</code> function)</td>
                     </tr>
                     <tr>
                         <td><code>$foaf:Agent</code></td>
@@ -346,8 +335,8 @@
                     </tr>
                 </tbody>
             </table>
-            <p>Former parameters <code>$ac:mode</code>, <code>$acl:mode</code>, <code>$sd:endpoint</code>, <code>$ac:langs</code> and <code>$lapp:Application</code> have been
-                replaced by the functions <code>ac:mode()</code>, <code>acl:mode()</code>, <code>sd:endpoint()</code>, <code>ac:langs()</code> and <code>lapp:application()</code> —
+            <p>Former parameters <code>$ac:mode</code>, <code>$acl:mode</code>, <code>$sd:endpoint</code>, <code>$ac:langs</code> and <code>$lds:Dataspace</code> have been
+                replaced by the functions <code>ac:mode()</code>, <code>acl:mode()</code>, <code>sd:endpoint()</code>, <code>ac:langs()</code> and <code>lds:dataspace()</code> —
                 their values can change per pane or per response, which a global parameter cannot express.</p>
         </div>
         <div>
@@ -390,14 +379,14 @@
                         <td>URI of the external resource being viewed through the <a href="../http-api/#ld-proxy">Linked Data proxy</a>; absent for local documents. Works in both environments, unlike the server-side <code>$ac:uri</code> parameter it wraps</td>
                     </tr>
                     <tr>
-                        <td><code>lapp:origin()</code></td>
+                        <td><code>lds:origin()</code></td>
                         <td><code>xs:anyURI</code></td>
-                        <td>Returns the origin (scheme, host and port) of the current application, e.g. <code>https://localhost:4443/</code>. Used to build absolute URIs for static resources and same-site requests</td>
+                        <td>Returns the origin (scheme, host and port) of the current dataspace, e.g. <code>https://localhost:4443/</code>. Used to build absolute URIs for static resources and same-site requests</td>
                     </tr>
                     <tr>
-                        <td><code>ldt:base()</code></td>
+                        <td><code>lds:base()</code></td>
                         <td><code>xs:anyURI</code></td>
-                        <td>Returns the base URI of the current application. Replaces the former <code>$ldt:base</code> parameter</td>
+                        <td>Returns the base URI of the current dataspace</td>
                     </tr>
                     <tr>
                         <td><code>ldh:request-uri()</code></td>
@@ -557,9 +546,9 @@
                     </tr>
                 </tbody>
             </table>
-            <h4 id="application-and-access-functions">Application and access functions</h4>
+            <h4 id="dataspace-and-access-functions">Dataspace and access functions</h4>
             <table>
-                <caption class="ac-vh">Application and access functions and what they return</caption>
+                <caption class="ac-vh">Dataspace and access functions and what they return</caption>
                 <thead>
                     <tr>
                         <th scope="col">Function</th>
@@ -571,12 +560,12 @@
                     <tr>
                         <td><code>sd:endpoint()</code></td>
                         <td><code>xs:anyURI</code></td>
-                        <td>SPARQL endpoint of the current data pane — the local endpoint, or the remote application's when browsing another dataspace through the <a href="../http-api/#ld-proxy">proxy</a>. Replaces the former <code>$sd:endpoint</code> parameter</td>
+                        <td>SPARQL endpoint of the current data pane — the local endpoint, or the remote dataspace's when browsing another dataspace through the <a href="../http-api/#ld-proxy">proxy</a>. Replaces the former <code>$sd:endpoint</code> parameter</td>
                     </tr>
                     <tr>
-                        <td><code>lapp:application()</code></td>
+                        <td><code>lds:dataspace()</code></td>
                         <td><code>xs:anyURI?</code></td>
-                        <td>URI of the application resource describing the current dataspace. Replaces the former <code>$lapp:Application</code> parameter (its description is looked up in <code>$lapp:Context</code>)</td>
+                        <td>URI of the dataspace resource describing the current dataspace. Replaces the former <code>$lds:Dataspace</code> parameter (its description is looked up in <code>$lds:Context</code>)</td>
                     </tr>
                     <tr>
                         <td><code>acl:mode()</code></td>
@@ -656,7 +645,7 @@
         <h2 id="other-assets">Other assets</h2>
         <div>
             <h3 id="css">CSS</h3>
-            <p>The stylesheet links are emitted by the <code>ac:Stylesheets</code> XSLT template mode. It links the design-system stylesheets (<samp>fonts.css</samp>, <samp>colors_and_type.css</samp>, <samp>app.css</samp>, <samp>retro.css</samp>) together with <samp>ldh.css</samp> and <samp>ldh-bridge.css</samp>, plus feature-specific stylesheets such as <samp>rdfa-editor.css</samp> (rich-text editing) and <samp>yasqe.css</samp> (SPARQL editor). Application stylesheets that import <samp>layout.xsl</samp> can override the <code>ac:Stylesheets</code> template mode to add or replace stylesheets.</p>
+            <p>The stylesheet links are emitted by the <code>ac:Stylesheets</code> XSLT template mode. It links the design-system stylesheets (<samp>fonts.css</samp>, <samp>colors_and_type.css</samp>, <samp>app.css</samp>, <samp>retro.css</samp>) together with <samp>ldh.css</samp> and <samp>ldh-bridge.css</samp>, plus feature-specific stylesheets such as <samp>rdfa-editor.css</samp> (rich-text editing) and <samp>yasqe.css</samp> (SPARQL editor). Dataspace stylesheets that import <samp>layout.xsl</samp> can override the <code>ac:Stylesheets</code> template mode to add or replace stylesheets.</p>
         </div>
         <div>
             <h3 id="javascript">JavaScript</h3>

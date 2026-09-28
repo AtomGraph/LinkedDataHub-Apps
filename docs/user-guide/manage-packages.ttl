@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -14,10 +14,10 @@
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
-            <p class="ac-alert-text">Package management requires write access to the application's <samp>settings</samp> document, which in practice means the owner of the dataspace.</p>
+            <p class="ac-alert-text">Package management requires write access to the dataspace's <samp>settings</samp> document, which in practice means the owner of the dataspace.</p>
         </div>
     </div>
-    <p>Packages were introduced in LinkedDataHub 5.2. Since 5.10 they are installed <em>declaratively</em>: an application imports a package with a single <code>ldh:import</code> triple in its settings. The dedicated install/uninstall endpoints, and the package <samp>Actions</samp> menu that drove them, have been removed.</p>
+    <p>Packages were introduced in LinkedDataHub 5.2. Since 5.10 they are installed <em>declaratively</em>: a dataspace imports a package with a single <code>ldh:import</code> triple in its settings. The dedicated install/uninstall endpoints, and the package <samp>Actions</samp> menu that drove them, have been removed.</p>
     <div>
         <h2 id="install-package">Install a package</h2>
         <p>Installing a package adds new functionality to your dataspace by importing its ontology and stylesheet. Packages are published under <samp>https://packages.linkeddatahub.com/</samp>, with their sources in the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/packages" target="_blank"><samp>packages/</samp></a> directory of the LinkedDataHub-Apps repository.</p>
@@ -29,9 +29,9 @@
             <div aria-labelledby="user-interface-tab" class="ac-tabpanel" id="user-interface-pane" role="tabpanel">
                     <p>Follow these steps to install a package through the web interface:</p>
                     <ol>
-                        <li>Open the end-user application of your dataspace and make sure you are logged in</li>
+                        <li>Open the end-user dataspace of your dataspace and make sure you are logged in</li>
                         <li>Click the settings dropdown button in the right section of the navigation bar</li>
-                        <li>Select <dfn>Application</dfn> from the dropdown menu to open the <dfn>Application settings</dfn> modal</li>
+                        <li>Select <dfn>Dataspace</dfn> from the dropdown menu to open the <dfn>Dataspace settings</dfn> modal</li>
                         <li>Scroll down to the <dfn>Packages</dfn> section, which lists the available packages with their descriptions</li>
                         <li>Tick the <dfn>Installed</dfn> checkbox of the package you want to install</li>
                         <li>Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span></li>
@@ -39,12 +39,12 @@
                     <p>The page reloads with the package applied. The checkboxes are inputs of the settings form, so several packages can be installed and uninstalled in a single <span class="ac-btn in-primary ap-solid sz-sm">Save</span>.</p>
                 </div>
             <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
-                    <p>List what the registry offers, marking the ones this application already imports:</p>
+                    <p>List what the registry offers, marking the ones this dataspace already imports:</p>
                     <pre>ldh packages list</pre>
                     <p>Then install one by its URI:</p>
                     <pre>ldh packages add --package https://packages.linkeddatahub.com/editor/taxonomy/#this</pre>
                     <p>(The base URI, owner certificate and its password come from the <a href="../../reference/command-line-interface/#environment-variables"><samp>LDH_*</samp> environment variables</a>.)</p>
-                    <p>The command writes a single <code>ldh:import</code> triple on the application's <samp>settings</samp> document — that declaration <em>is</em> the installation. It matches the application by type rather than by URI, because the application's URI is an opaque <samp>urn:</samp> declared in <samp>config/system.trig</samp>.</p>
+                    <p>The command writes a single <code>ldh:import</code> triple on the dataspace's <samp>settings</samp> document — that declaration <em>is</em> the installation. It matches the dataspace by type rather than by URI, because the dataspace's URI is an opaque <samp>urn:</samp> declared in <samp>config/system.trig</samp>.</p>
                 </div>
         </div>
     </div>
@@ -59,14 +59,14 @@
             <div aria-labelledby="user-interface-2-tab" class="ac-tabpanel" id="user-interface-2-pane" role="tabpanel">
                     <p>Follow these steps to uninstall a package through the web interface:</p>
                     <ol>
-                        <li>Open the <dfn>Application settings</dfn> modal as described above</li>
+                        <li>Open the <dfn>Dataspace settings</dfn> modal as described above</li>
                         <li>Find the package in the <dfn>Packages</dfn> section</li>
                         <li>Untick its <dfn>Installed</dfn> checkbox</li>
                         <li>Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span></li>
                     </ol>
                 </div>
             <div aria-labelledby="command-line-interface-2-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-2-pane" role="tabpanel">
-                    <p>Uninstalling retracts the same triple, and is idempotent — removing an import the application does not have succeeds and changes nothing:</p>
+                    <p>Uninstalling retracts the same triple, and is idempotent — removing an import the dataspace does not have succeeds and changes nothing:</p>
                     <pre>ldh packages remove --package https://packages.linkeddatahub.com/editor/taxonomy/#this</pre>
                 </div>
         </div>
@@ -76,12 +76,12 @@
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p class="ac-alert-text">Installing or uninstalling a package takes effect on the <strong>next request</strong> — the package ontology joins the application's imports closure and its stylesheet is composed into the application stylesheet. No restart is needed.</p>
+                <p class="ac-alert-text">Installing or uninstalling a package takes effect on the <strong>next request</strong> — the package ontology joins the dataspace's imports closure and its stylesheet is composed into the dataspace stylesheet. No restart is needed.</p>
             </div>
         </div>
         <p>After installing a package, verify that it was applied:</p>
         <ol>
-            <li>Reopen the <dfn>Application settings</dfn> modal and check that the package's <dfn>Installed</dfn> checkbox is ticked</li>
+            <li>Reopen the <dfn>Dataspace settings</dfn> modal and check that the package's <dfn>Installed</dfn> checkbox is ticked</li>
             <li>Check that the <code>ldh:import</code> declaration was stored by fetching the <samp>settings</samp> document:
                 <pre>ldh get \\
   --accept text/turtle \\
@@ -97,9 +97,20 @@
   --data-urlencode 'query=ASK { &lt;http://www.w3.org/2004/02/skos/core#Concept&gt; &lt;http://spinrdf.org/spin#constructor&gt; ?constructor }'</pre>
                 <p>SPARQL queries fall outside the <samp>ldh</samp> command set, so this one uses <samp>curl</samp> with the <a href="../../get-started/get-an-account/">PEM certificate</a>.</p>
             </li>
-            <li>In the end-user application, check that package-specific classes are offered by the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown</li>
+            <li>In the end-user dataspace, check that package-specific classes are offered by the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown</li>
             <li>If the package includes a stylesheet, verify that its custom UI elements are rendering</li>
         </ol>
+    </div>
+    <div>
+        <h2 id="edit-package-ontology">Edit the package ontology</h2>
+        <p>On the first request after the import, the package ontology is copied into a document of your dataspace's admin dataspace, under its
+            <samp>ontologies/</samp> container and named after the package path — for the taxonomy editor, <samp>https://admin.localhost:4443/ontologies/editor-taxonomy/</samp>.
+            That document is the package ontology as far as your dataspace is concerned: its constructors, constraints and views are edited there the same
+            way as those of your own namespace ontology, and a change takes effect after the ontology cache is cleared.</p>
+        <p>The copy is taken once. A newer version of the package does not reach a dataspace that already imported it; to pick it up, delete the
+            <samp>ontologies/</samp> document, clear the ontology cache, and let the next request materialize the package again — edits made to the document are lost with it.</p>
+        <pre>ldh delete "https://admin.localhost:4443/ontologies/editor-taxonomy/"
+ldh admin clear ontology</pre>
     </div>
     <div>
         <h2 id="customize-package-behavior">Customize package behavior</h2>
@@ -115,8 +126,8 @@
         <h3 id="installation-fails">Installation fails</h3>
         <p>If the <span class="ac-btn in-primary ap-solid sz-sm">Save</span> or the <samp>ldh patch</samp> is rejected:</p>
         <ul>
-            <li>Verify you are logged in with an agent that has write access to the application's <samp>settings</samp></li>
-            <li>Verify the package URI is correct and dereferenceable, and that its metadata declares <code>ldt:ontology</code> and <code>ac:stylesheet</code></li>
+            <li>Verify you are logged in with an agent that has write access to the dataspace's <samp>settings</samp></li>
+            <li>Verify the package URI is correct and dereferenceable, and that its metadata declares <code>lds:ontology</code> and <code>ac:stylesheet</code></li>
             <li>Review the error message — a rejected settings update reports the constraint violation that caused it</li>
         </ul>
         <h3 id="functionality-not-visible">Package functionality not visible</h3>

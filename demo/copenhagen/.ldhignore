@@ -1,5 +1,6 @@
 admin/
 Makefile
 imports.csv
-root.ttl
 screenshot.png
+*.csv
+*.sh

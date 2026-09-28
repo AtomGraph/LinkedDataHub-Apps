@@ -1,6 +1,7 @@
 admin/
 Makefile
 imports.csv
-root.ttl
 screenshot.gif
 unesco-mappings.ttl
+*.csv
+*.sh

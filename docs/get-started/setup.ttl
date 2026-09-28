@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -11,10 +11,7 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="ldh-body-lg">Set up LinkedDataHub on your local machine with Docker</p>
-    <div class="screenshot-placeholder">
-        <span aria-hidden="true" class="msi">play_circle</span>
-        <p>Screen recording: setting up LinkedDataHub with Docker</p>
-    </div>
+    <video aria-label="Setting up LinkedDataHub with Docker" controls="controls" preload="metadata" src="/uploads/7caf1576295c948e3639e468c5398ed3c787f6c4"></video>
     <div>
         <h2 id="start-linkeddatahub">Start LinkedDataHub</h2>
         <p>This section assumes you will be running on your local machine, i.e. <samp>localhost</samp>. If you intend to run it on a different host, <a href="../../reference/configuration/#system-base-uri">change the system base URI</a>.</p>
@@ -37,7 +34,6 @@ PROTOCOL=https
 HTTP_PORT=81
 HTTPS_PORT=4443
 HOST=localhost
-ABS_PATH=/
 
 OWNER_MBOX=john@doe.com
 OWNER_GIVEN_NAME=John
@@ -79,7 +75,7 @@ OWNER_COUNTRY_NAME=DK</pre>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <p class="ac-alert-text">The administration application of each <a href="../../reference/dataspace/">dataspace</a> is served on the <code>admin.</code> subdomain — for the default setup that is <samp>https://admin.localhost:4443/</samp>. Browsers resolve <samp>*.localhost</samp> automatically and the generated server certificate covers the subdomain, so the local setup works out of the box. On any other host, make sure <samp>admin.&lt;host&gt;</samp> resolves in DNS and is covered by the server's TLS certificate (e.g. a wildcard certificate).</p>
+                <p class="ac-alert-text">The administration dataspace of each <a href="../../reference/dataspace/">dataspace</a> is served on the <code>admin.</code> subdomain — for the default setup that is <samp>https://admin.localhost:4443/</samp>. Browsers resolve <samp>*.localhost</samp> automatically and the generated server certificate covers the subdomain, so the local setup works out of the box. On any other host, make sure <samp>admin.&lt;host&gt;</samp> resolves in DNS and is covered by the server's TLS certificate (e.g. a wildcard certificate).</p>
             </div>
         </div>
         <p>You are now the owner of this LinkedDataHub instance; <samp>ssl/owner/keystore.p12</samp> is your WebID certificate. The password is the value you put in <samp>secrets/owner_cert_password.txt</samp>.</p>

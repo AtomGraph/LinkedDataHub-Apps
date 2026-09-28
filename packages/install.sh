@@ -1,34 +1,14 @@
 #!/usr/bin/env bash
+# Publishes the package registry onto a LinkedDataHub instance with the ldh CLI: pushes the document
+# tree, whose folders are the package URIs. The registry is public data, so there is no make-public.
+#
+# Reads LDH_BASE, LDH_CERT_FILE, LDH_CERT_PASSWORD and optionally LDH_PROXY; `make install` prompts
+# for them. Re-running converges: PUT replaces each document.
+set -euo pipefail
 
-if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
-  echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy]' >&2
-  echo "Example: $0" 'https://localhost:4443/ ../../LinkedDataHub/ssl/owner/cert.pem Password [https://localhost:5443/]' >&2
-  echo "Note: special characters such as $ need to be escaped in passwords!" >&2
-  exit 1
-fi
+app_dir="$(cd "$(dirname "$0")" && pwd)"
+. "$app_dir/../lib/ldh-app.sh"
+ldh_app_require_env
 
-base="$1"
-cert_pem_file=$(realpath "$2")
-cert_password="$3"
-
-if [ -n "$4" ]; then
-    proxy="$4"
-else
-    proxy="$base"
-fi
-
-pwd="$(realpath "$PWD")"
-
-printf "\n### Updating documents and uploading files\n\n"
-
-if [[ -f "root.ttl" ]]; then
-  printf "\n### Updating %s\n" "$base"
-  cat root.ttl | turtle --base="$base" | put.sh \
-    -f "$cert_pem_file" \
-    -p "$cert_password" \
-    --proxy "$proxy" \
-    -t "application/n-triples" \
-    "$base"
-fi
-
-./update-folder.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "$pwd" "$proxy"
+ldh_app_step "Pushing package descriptors and files"
+ldh push --dir "$app_dir" "$LDH_BASE"

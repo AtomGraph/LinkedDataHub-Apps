@@ -1,6 +1,6 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
@@ -13,7 +13,7 @@
     <p class="ldh-body-lg">Define classes, attach SPIN constructors that drive create forms, and add constraints that validate instances</p>
     <div>
         <p>To manage instances, you first need <a href="../../reference/administration/ontologies/#classes" target="_blank">classes</a> that represent them in your dataspace's <a href="../../reference/administration/ontologies/" target="_blank">model</a>. Not only will they serve as RDF types of the instances, but they will also have <a href="../../reference/administration/ontologies/#constructors" target="_blank">constructors</a> attached that define the default properties and their (data)types for that class.</p>
-        <p>The model is managed in the <a href="../../reference/dataspace/#admin-apps" target="_blank">administration application</a> of a dataspace. Head there by clicking the <span class="ac-iconbtn sz-lg in-neutral ap-ghost"><span aria-hidden="true" class="msi outline sm">settings</span></span> in the <a href="../../reference/user-interface/#nav-bar" target="_blank">navigation bar</a> and then choosing <samp>Administration</samp>.</p>
+        <p>The model is managed in the <a href="../../reference/dataspace/#admin" target="_blank">administration dataspace</a> of a dataspace. Head there by clicking the <span class="ac-iconbtn sz-lg in-neutral ap-ghost"><span aria-hidden="true" class="msi outline sm">settings</span></span> in the <a href="../../reference/user-interface/#nav-bar" target="_blank">navigation bar</a> and then choosing <samp>Administration</samp>.</p>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
@@ -46,7 +46,7 @@ WHERE {}</pre>
             </div>
             <div aria-labelledby="user-interface-tab" class="ac-tabpanel" id="user-interface-pane" role="tabpanel">
                     <div>
-                        <p>In the administration application, follow these steps:</p>
+                        <p>In the administration dataspace, follow these steps:</p>
                         <ol>
                             <li>Click the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown at the bottom of the page</li>
                             <li>Click on <samp>CONSTRUCT</samp> in the dropdown list that appears</li>
@@ -56,7 +56,7 @@ WHERE {}</pre>
                                     <dt>Label</dt>
                                     <dd>Enter <samp>Product constructor</samp></dd>
                                     <dt>IsDefinedBy</dt>
-                                    <dd>Select <samp>Namespace</samp> from the list — the application’s namespace ontology, in which the query is defined</dd>
+                                    <dd>Select <samp>Namespace</samp> from the list — the dataspace’s namespace ontology, in which the query is defined</dd>
                                     <dt>Text</dt>
                                     <dd>Enter the SPARQL <code>CONSTRUCT</code> query string</dd>
                                 </dl>
@@ -77,7 +77,7 @@ ldh admin add constructor \\
   --label "Product constructor" \\
   --query-file queries/construct-product.rq \\
   "${admin_base}ontologies/namespace/"</pre>
-                        <p>The model lives in the administration application, whose origin is the dataspace origin with an <samp>admin.</samp> prefix — so <code>-b</code> (overriding the <samp>LDH_BASE</samp> default) and the target document URL both use <samp>$admin_base</samp>, because admin commands target the admin app's base URI, while the ontology terms being defined keep the end-user origin.</p>
+                        <p>The model lives in the administration dataspace, whose origin is the dataspace origin with an <samp>admin.</samp> prefix — so <code>-b</code> (overriding the <samp>LDH_BASE</samp> default) and the target document URL both use <samp>$admin_base</samp>, because admin commands target the admin app's base URI, while the ontology terms being defined keep the end-user origin.</p>
                     </div>
                 </div>
         </div>
@@ -94,7 +94,7 @@ ldh admin add constructor \\
             </div>
             <div aria-labelledby="user-interface-2-tab" class="ac-tabpanel" id="user-interface-2-pane" role="tabpanel">
                     <div>
-                        <p>In the administration application, follow these steps:</p>
+                        <p>In the administration dataspace, follow these steps:</p>
                         <ol>
                             <li>Click the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown at the bottom of the page</li>
                             <li>Click on <samp>Missing property value</samp> in the dropdown list that appears</li>
@@ -104,7 +104,7 @@ ldh admin add constructor \\
                                     <dd>Enter <samp>Missing schema:name</samp></dd>
                                     <dt>IsDefinedBy</dt>
                                     <dd>Type <samp>Namespace</samp> into the input (which provides autocomplete)</dd>
-                                    <dd>Select <samp>Namespace</samp> from the list — the application’s namespace ontology, in which the query is defined</dd>
+                                    <dd>Select <samp>Namespace</samp> from the list — the dataspace’s namespace ontology, in which the query is defined</dd>
                                     <dt>Arg1</dt>
                                     <dd>Enter <samp>https://schema.org/name</samp></dd>
                                 </dl>
@@ -135,7 +135,7 @@ ldh admin add constructor \\
             </div>
             <div aria-labelledby="user-interface-3-tab" class="ac-tabpanel" id="user-interface-3-pane" role="tabpanel">
                     <div>
-                        <p>In the administration application, follow these steps to create the product class:</p>
+                        <p>In the administration dataspace, follow these steps to create the product class:</p>
                         <ol>
                             <li>Click the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown at the bottom of the page</li>
                             <li>Click on <samp>Class</samp> in the dropdown list that appears</li>
@@ -145,7 +145,7 @@ ldh admin add constructor \\
                                     <dt>Label</dt>
                                     <dd>Enter <samp>Product</samp></dd>
                                     <dt>IsDefinedBy</dt>
-                                    <dd>Select <samp>Namespace</samp> from the list — the application’s namespace ontology, in which the class is defined</dd>
+                                    <dd>Select <samp>Namespace</samp> from the list — the dataspace’s namespace ontology, in which the class is defined</dd>
                                     <dt>Constructor</dt>
                                     <dd>Type <samp>Product constructor</samp> into the input (which provides autocomplete)</dd>
                                     <dd>Select <samp>Product constructor</samp> from the list — this is the query you created beforehand</dd>
@@ -183,12 +183,9 @@ ldh admin add constructor \\
 &lt;https://localhost:4443/ns#MissingName&gt; a ldh:MissingPropertyValue ;
     rdfs:label "Missing schema:name" ;
     sp:arg1 schema:name .</pre>
-        <p>From now on, <samp>Product</samp> appears in the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown of the
-            end-user application, and its form offers name, identifier, category and supplier controls. A submission without a name is rejected with
+        <p>From now on, <samp>Product</samp> can be chosen as the <samp>Type</samp> of a new <samp>Instance</samp> created from the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown of the
+            end-user dataspace, and its form is then generated from the constructor, offering title, name, identifier, description, category, supplier and offer controls. A submission without a name is rejected with
             <samp>422 Unprocessable Entity</samp>, carrying the <a href="../../reference/administration/ontologies/#constraints" target="_blank">constraint violation</a>.</p>
-        <div class="screenshot-placeholder">
-            <span aria-hidden="true" class="msi">image</span>
-            <p>Screenshot: the generated Product create form, with the Missing schema:name violation shown after an empty submit</p>
-        </div>
+        <img alt="The generated Product create form, with the Missing schema:name violation shown after an empty submit" src="/uploads/1dce1edf1ff2994206eadc60087fd1934635768d"></img>
     </div>
 </div>"""^^rdf:XMLLiteral .

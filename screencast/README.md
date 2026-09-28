@@ -129,6 +129,29 @@ only those up, so gestures stay at 1x — and lands as H.264: CRF 20, `yuv420p`,
 `-movflags +faststart`, which puts the `moov` atom ahead of the media so the clip
 starts playing before it finishes downloading.
 
+**Recording a terminal.** A few slots are a shell rather than a page — the Docker setup
+the get-started guide opens with, and, when the long cut is made, its CLI beats and the
+right-hand pane of the split-screen teaser. Those are `kind: 'terminal'`: the shot names
+a tape in `tapes/`, and `lib/terminal.mjs` drives [VHS](https://github.com/charmbracelet/vhs)
+over a real pty (`brew install vhs`). A tape is to a terminal what a scene is to a
+browser — committed, and running the real commands.
+
+The producer owns two things the tape does not. Geometry, so a terminal clip cuts with a
+browser clip: 1440x810 at 25fps, prepended to the tape at run time so tapes carry no
+dimensions. And the readiness check, because the assertion worth making about a setup
+recording is that the setup worked — `watch` names a URL, and any HTTP answer counts,
+since an instance that is up but refuses an anonymous caller replies 403. That probe runs
+*while* the recording does, because a tape that ends with a stack still attached to the
+shell loses it the moment VHS exits.
+
+From there the path is a clip's: the same `render/pace.mjs`, the same encoding, the same
+record, so `fill.mjs` writes the same `<video>` and knows nothing about where it came
+from. `make tape TAPE=<name>` records one on its own while you iterate.
+
+One honest limitation: VHS types at a single fixed speed, which is the tell `lib/typing.mjs`
+exists to avoid. The preamble sets 55ms, that module's base for code, so a command reads
+at the pace a person types one — but without the per-character jitter a scene gets.
+
 **Publishing them.** What the shoot writes are masters, not web assets: 2880px
 lossless PNG, and both a `.webm` and an `.mp4` per clip. `make docs-publish` derives
 the shipping copies into `../docs/`, sibling to the `.ttl` that uses them:
@@ -146,13 +169,14 @@ LinkedDataHub stores uploads content-addressed at `{base}uploads/{sha1}`, and th
 here and not later — hashing a master would address bytes that never ship.
 
 **Referencing them.** A slot is filled by replacing the whole placeholder `div`
-with the element, document-relative with one `../` per path segment of the page
-(`docs/reference/user-interface.ttl` is served at `reference/user-interface/`, so it
-reaches the base with `../../`):
+with the element (`make docs-fill` does this, idempotently). The reference is
+absolute: `uploads/` is a flat namespace anchored at the base URI, outside the
+document hierarchy, so a relative path would encode the referring document's depth
+and break every image in a document that later moves:
 
 ```xml
-<img alt="The document tree with a container expanded" src="../../uploads/f367…"></img>
-<video aria-label="Browsing and navigating data" controls="controls" preload="metadata" src="../../uploads/109f…"></video>
+<img alt="The document tree with a container expanded" src="/uploads/f367…"></img>
+<video aria-label="Browsing and navigating data" controls="controls" preload="metadata" src="/uploads/109f…"></video>
 ```
 
 Attributes alphabetical, explicit end tags, each start tag on one line — these live
@@ -167,8 +191,8 @@ does not, so the failure reads as browser-specific when it is a header doing exa
 its job. A `<video>` is a subresource of the page instead. Images are unaffected for
 the same reason, which is why all 21 stills were fine while all 3 clips were black.
 
-From there the existing machinery carries them, unchanged: `docs/update-folder.sh`
-uploads every non-`.ttl` file in a folder to that folder's container, and the static
+From there the existing machinery carries them, unchanged: `ldh push` (run by
+`docs/install.sh`) uploads every non-RDF file in a folder to that folder's document, and the static
 build rewrites `uploads/{sha1}` to `files/{name}` through `docs/files.xml`,
 terminating on a hash it cannot find — so a clean `make ttl-to-html` is the proof
 that every baked hash resolves.
