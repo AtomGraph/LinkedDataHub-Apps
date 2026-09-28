@@ -2,3 +2,8 @@ node_modules/
 tracks/
 shots/
 docs/out/
+# the vector mock's captures: written by scenes/capture-*.mjs from the running dataspace
+mock/states/
+mock/templates/
+mock/assets/*.png
+mock/assets/*.json

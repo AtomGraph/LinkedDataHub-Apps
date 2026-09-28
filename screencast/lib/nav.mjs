@@ -74,18 +74,27 @@ export async function searchGo(page, cursor, query, { match = query, type = null
   if (!(await box.isVisible().catch(() => false))) return { ok: false, why: 'no search box in the drawer' };
 
   await cursor.click(box);
+  // The drawer keeps the previous search: a second search in one take was typing
+  // its term after the first one's and finding nothing.
+  const mod = process.platform === 'darwin' ? 'Meta' : 'Control';
+  await page.keyboard.press(`${mod}+A`);
+  await page.keyboard.press('Backspace');
   await box.pressSequentially(query, { delay: 70 });
   await sleep(400);
   await page.keyboard.press('Enter');
 
-  const modal = page.locator('.ac-modal').first();
+  // The dialog is the VISIBLE modal, and the last of those: a closed search dialog
+  // from earlier in the take can still be in the DOM, and reading its stale count
+  // is how a second search in one take once reported "no results" for a document
+  // the first search had found.
+  const modal = page.locator('.ac-modal:visible').last();
   if (!(await modal.waitFor({ state: 'visible', timeout }).then(() => true, () => false))) {
     return { ok: false, why: 'the search dialog did not open' };
   }
 
   // The dialog's results are a view, so the count in its toolbar is the ready signal.
   const counted = await page.waitForFunction(
-    () => { const m = document.querySelector('.ac-modal'); return !!m && /Total results\s+\d/.test(m.textContent); },
+    () => { const ms = [...document.querySelectorAll('.ac-modal')].filter((m) => m.offsetParent !== null); const m = ms.at(-1); return !!m && /Total results\s+\d/.test(m.textContent); },
     null, { timeout },
   ).then(() => true, () => false);
   if (!counted) return { ok: false, why: `the dialog never reported a result count for ${query}` };
@@ -199,9 +208,20 @@ export async function crumbGo(page, cursor, label) {
 // tab for a same-dataspace move, and the tree lists it but would not open from graph
 // mode — while the container's own children list shows it at once, on one page. So
 // the way back mirrors the way out: breadcrumb up, then this click down.
-export async function listGo(page, cursor, title, { timeout = 15_000 } = {}) {
+export async function listGo(page, cursor, title, { timeout = 15_000, pages = 4 } = {}) {
+  // The list pages at twenty; a title late in the alphabet is on the next page, and
+  // the pager's Next is how a person gets there.
   const link = ui(page).locator('a').filter({ hasText: title }).first();
-  const shown = await link.waitFor({ state: 'visible', timeout }).then(() => true, () => false);
+  let shown = await link.waitFor({ state: 'visible', timeout }).then(() => true, () => false);
+  for (let i = 1; !shown && i < pages; i++) {
+    // The pager's button reads "Next" plus an icon ligature, so the match is loose.
+    const next = ui(page).locator('button, a').filter({ hasText: /Next/ }).first();
+    if (!(await next.count()) || await next.isDisabled().catch(() => false)) break;
+    await next.scrollIntoViewIfNeeded().catch(() => {});
+    await cursor.click(next);
+    await sleep(1800);
+    shown = await link.waitFor({ state: 'visible', timeout: 6000 }).then(() => true, () => false);
+  }
   if (!shown) return { ok: false, why: `${title} is not listed on this page` };
   await link.scrollIntoViewIfNeeded().catch(() => {});
   await cursor.click(link);

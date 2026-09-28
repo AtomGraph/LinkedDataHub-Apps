@@ -17,9 +17,10 @@
 
 import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
 import { deleteByTitle } from '../lib/fixture.mjs';
-import { crumbGo } from '../lib/nav.mjs';
+import { crumbGo, listGo, searchGo } from '../lib/nav.mjs';
 import { addProse, addObject, pickByLabel, switchDocumentMode } from '../lib/blocks.mjs';
-import { create, createItem, typeQuery, fill, save, field } from '../lib/constructors.mjs';
+import { create, createItem, createFromView, typeQuery, fill, save, field } from '../lib/constructors.mjs';
+import { editResource, addValue, pickAddedValue, saveForm } from '../lib/editing.mjs';
 import { findMarkers, openMarker } from '../lib/map.mjs';
 import { scrollThrough } from '../lib/frame.mjs';
 
@@ -47,6 +48,7 @@ GRAPH ?h {
 }
 ORDER BY ?name`;
 
+const REP = 'Reyes';
 const TITLE = 'Where we have nobody';
 // Last take's write-up document is removed off camera, by title — the document is
 // created ON camera below, so its path is a UUID and there is no slug to reset by.
@@ -56,10 +58,16 @@ const gone = await deleteByTitle({
   title: TITLE,
 });
 console.log(`cleanup: removed ${gone.removed.length} earlier "${TITLE}"`);
+const goneRep = await deleteByTitle({ ldh: opts.ldh, base, certFile: opts.certFile, certPassword: opts.certPassword, certPasswordFile: opts.certPasswordFile, title: REP });
+console.log(`cleanup: removed ${goneRep.removed.length} earlier "${REP}"`);
+// The sequels create territories with nobody on them (Houston, Boise); they are shot
+// after this scene, and they go before it runs, so the hole is the dataset's own four.
+for (const t of ['Houston', 'Boise']) {
+  const g = await deleteByTitle({ ldh: opts.ldh, base, certFile: opts.certFile, certPassword: opts.certPassword, certPasswordFile: opts.certPasswordFile, title: t });
+  console.log(`cleanup: removed ${g.removed.length} earlier "${t}"`);
+}
 // The sequel (09-opening-houston) adds a territory; this scene's fifty-three is only
 // true without it, so it goes too, off camera.
-const houston = await deleteByTitle({ ldh: opts.ldh, base, certFile: opts.certFile, certPassword: opts.certPassword, certPasswordFile: opts.certPasswordFile, title: 'Houston' });
-if (houston.removed.length) console.log('cleanup: removed Houston from the previous sequel take');
 let url = null;
 
 await runScene({
@@ -140,7 +148,7 @@ await runScene({
     await sleep(600);
 
     const p1 = await addProse(page, cursor, type,
-      'The territory map plots all fifty-three places Northwind sells into. Each rep is linked to the territories they serve, and the link runs from the rep. A territory nobody serves has no such link, so no facet and no map will single it out. This page finds them with a query.');
+      'The territory map plots all fifty-three places Northwind sells into. Each rep is linked to the territories they serve, and the link runs from the rep. A territory nobody serves has no such link, so no facet and no map will single it out. This page finds them with a query, and then puts somebody on them.');
     await marks.beat('question', p1.ok ? 'why the map cannot answer this' : p1.why);
     // Held before the mode switcher opens: its popover lands on top of this sentence,
     // and a reader needs the sentence more than the menu.
@@ -200,11 +208,67 @@ await runScene({
     await sleep(700);
 
     const o1 = await addObject(page, cursor, type, null, { label: 'Where we have nobody', kind: 'View', mode: 'Map' });
-    await marks.beat('hole', o1.ok ? 'the four, plotted — the hole itself' : o1.why);
+    const holes = (await page.locator('.ldh-pane.is-active .ldh-block').filter({ hasText: 'Where we have nobody' }).first().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 6000 }).catch(() => '?')).trim();
+    await marks.beat('hole', o1.ok ? `the ${holes}, plotted — the hole itself` : o1.why);
+    await sleep(2400);
+
+    // ── somebody: a hire, made where reps are listed, with the four territories ──
+    // Fuller's page lists the people who report to him and carries a Create button;
+    // the new rep is created there, so "reports to" is already filled in, and the
+    // four territories are picked by name — three of them through the form's own
+    // add-property row, since the shape gives one row for the property.
+    const boss = await searchGo(page, cursor, 'Fuller', { type: 'Person' });
+    await marks.beat('manager', boss.ok ? 'Fuller — and the people who report to him, listed on his page' : boss.why);
+    if (!boss.ok) throw new Error(boss.why);
     await sleep(1400);
+    // The constructor gives one Territory row and the create modal's add-property row
+    // fails for a resource property (FINDINGS.md #13), so the hire is made with Dallas
+    // and the other three go onto her record right after, on her own page — where the
+    // add-property row does work.
+    const hired = await createFromView(page, cursor, {
+      '^Title': REP, '^Given name': 'Ana', '^Family name': REP, '^Job title': 'Sales Representative', '^Territory': ['Dallas', 'Territory'],
+    }, { type, view: 'Direct reports' });
+    await marks.beat('hire', hired.ok
+      ? `${REP} — hired from Fuller's own list, Dallas assigned${hired.unmatched?.length ? '; unfilled: ' + hired.unmatched.join(', ') : ''}`
+      : `${hired.why}${hired.unmatched?.length ? '; fields: ' + hired.unmatched.join(', ') : ''}`);
+    if (!hired.ok) throw new Error(hired.why);
+    await sleep(1800);
+    if (!hired.navigated) {
+      const me = page.locator('.ldh-pane.is-active .ldh-block a').filter({ hasText: REP }).first();
+      if (!(await me.count())) throw new Error(`no link to ${REP} after the hire`);
+      await cursor.click(me);
+      await page.waitForLoadState('load').catch(() => {});
+      await sleep(2000);
+    }
+    const ed = await editResource(page, cursor, /Family name/);
+    if (!ed.ok) throw new Error(ed.why);
+    await sleep(700);
+    for (const t of ['Austin', 'Bentonville', 'Columbia']) {
+      const av = await addValue(page, cursor, ed.form, 'areaServed');
+      if (!av.ok) throw new Error(av.why);
+      const pv = await pickAddedValue(page, cursor, type, ed.form, 'areaServed', t, { kind: 'Territory' });
+      if (!pv.ok) throw new Error(`${t}: ${pv.why}`);
+      await sleep(400);
+    }
+    const sv = await saveForm(page, cursor, ed.form);
+    await marks.beat('territories', sv.ok ? `${REP} — Austin, Bentonville and Columbia added on her record; four in all` : sv.why);
+    if (!sv.ok) throw new Error(sv.why);
+    await sleep(2200);
+
+    // ── the same map, read again ────────────────────────────────────────────
+    const up2 = await crumbGo(page, cursor, 'Root');
+    if (!up2.ok) throw new Error(up2.why);
+    await sleep(600);
+    const back2 = await listGo(page, cursor, TITLE);
+    if (!back2.ok) throw new Error(back2.why);
+    await page.waitForSelector('.ldh-pane.is-active .ldh-block .ldh-view-toolbar .count b', { timeout: 25_000 }).catch(() => {});
+    await sleep(3000);
+    const left = (await page.locator('.ldh-pane.is-active .ldh-block').filter({ hasText: 'Where we have nobody' }).first().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 }).catch(() => '?')).trim();
+    await marks.beat('filled', `the same view, read again — ${left} territories with nobody`);
+    await sleep(2600);
 
     const p2 = await addProse(page, cursor, type,
-      'Four territories have no rep: Austin, Bentonville, Columbia and Dallas. All four are in Southern, which has eight territories in total.');
+      `${holes === '4' ? 'Four' : holes} territories had no rep: Austin, Bentonville, Columbia and Dallas, all in Southern. ${REP} now covers all four, and the map above — the same query, run again — shows ${left === '0' ? 'none' : left}.`);
     await marks.beat('note', p2.ok ? undefined : p2.why);
     await sleep(700);
 

@@ -1,0 +1,78 @@
+<!doctype html>
+<html data-retro="m3" data-theme="dark" lang="en">
+<meta charset="utf-8">
+<title>form → pin</title>
+<link rel="stylesheet" href="states/app.css">
+<style>
+  html, body { margin: 0; background: #0f131a; width: 1440px; height: 900px; overflow: hidden; }
+  #stage { position: relative; width: 1440px; height: 900px; font-family: 'Geist', system-ui, sans-serif; color: #f3f6fc; }
+  .scene { position: absolute; inset: 0; opacity: 0; }
+  #stage * { pointer-events: none; }
+  /* the form, centred; the app's modal is a fixed backdrop, on the stage it sits in flow */
+  #form { display: grid; place-items: center; }
+  #modal { width: 840px; transform-origin: 50% 40%; }
+  #modal .ac-backdrop, #modal.ac-backdrop { position: static; background: none; inset: auto; display: block; }
+  /* the view block, as the app lays it out inside a page: title above, block below */
+  #view { padding: 72px 129px 0; }
+  #view h1 { font: 600 34px 'Geist', system-ui, sans-serif; margin: 0 0 6px; color: #f3f6fc; }
+  #view .lede { color: #9aa3b5; font-size: 15px; margin: 0 0 26px; }
+  .sim-map { position: relative; width: 100%; height: 560px; overflow: hidden; border-radius: 0 0 10px 10px; }
+  .sim-map img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .sim-map svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .pin { fill: #2f6fe0; stroke: #fff; stroke-width: 1.6; }
+  .pin.new { fill: #ffb703; }
+  .caption { position: absolute; left: 96px; bottom: 64px; font: 500 40px 'Geist', system-ui, sans-serif; color: #f3f6fc; opacity: 0; letter-spacing: -.01em; }
+  .caption i { font: 400 40px 'Instrument Serif', Georgia, serif; color: #98ccff; }
+</style>
+<div id="stage">
+  <div class="scene" id="form"><div id="modal"></div></div>
+  <div class="scene" id="view"><h1>Sales territories</h1><p class="lede">The territories reps cover, plotted on the map and grouped into regions.</p><div id="block"></div></div>
+  <div class="caption" id="cap"><i>forms</i> write data</div>
+</div>
+<script type="module">
+  import { ease, at, q, svgEl, template, fillForm } from './lib.js';
+  // ── data: made up, shaped for the frame ────────────────────────────────────
+  const NEW = { label: 'Amarillo', id: '79101', lat: '35.2220', long: '-101.8313' };
+  const all = await (await fetch('assets/pins-us.json')).json();
+  const pins = all.filter((p) => p.label !== NEW.label);
+  const newPin = all.find((p) => p.label === NEW.label);
+  const BASE_COUNT = 53;
+  // ── form: the app's modal, filled ──────────────────────────────────────────
+  const modal = fillForm(await template('form-modal'), { Type: 'Territory', Identifier: NEW.id, Latitude: NEW.lat, Longitude: NEW.long, Name: NEW.label, Region: 'Southern', Title: NEW.label });
+  q('#modal').append(modal);
+  const save = q('#modal button.btn-save');
+  // ── view block: the app's block head + toolbar, with our canvas in the slot ─
+  const block = await template('view-block-head');
+  q('#block').append(block);
+  const countEl = q('.ldh-view-toolbar .count b', block); countEl.textContent = String(BASE_COUNT);
+  const slot = q('[data-slot=canvas]', block);
+  slot.innerHTML = '<div class="sim-map"><img src="assets/basemap-us.png"><svg viewBox="0 0 1182 675" preserveAspectRatio="xMidYMid slice"></svg></div>';
+  const svg = q('svg', slot);
+  const dots = pins.map((p) => svgEl('circle', { class: 'pin', cx: p.x, cy: p.y, r: 0 }));
+  dots.forEach((d) => svg.append(d));
+  const nd = svgEl('circle', { class: 'pin new', cx: newPin.x, cy: newPin.y, r: 0 });
+  const ring = svgEl('circle', { cx: newPin.x, cy: newPin.y, r: 0, fill: 'none', stroke: '#ffb703', 'stroke-width': 2 });
+  const lbl = svgEl('text', { x: newPin.x + 13, y: newPin.y + 5, fill: '#f3f6fc', 'font-size': 13, 'font-family': 'Geist, system-ui, sans-serif', 'font-weight': 600, opacity: 0 }); lbl.textContent = NEW.label;
+  svg.append(nd, ring, lbl);
+  // ── timeline ───────────────────────────────────────────────────────────────
+  const K = { formIn: [0.0, 0.8], press: [1.7, 2.0], formOut: [2.0, 2.6], viewIn: [2.3, 2.9], pinsIn: [2.6, 3.6], drop: [3.7, 4.2], ring: [4.1, 4.9], count: [4.0, 4.6], cap: [4.4, 6.2], end: 6.6 };
+  const xs = pins.map((p) => p.x), minX = Math.min(...xs), maxX = Math.max(...xs);
+  window.render = (s) => {
+    const fi = ease(at(s, K.formIn)), fo = ease(at(s, K.formOut));
+    q('#form').style.opacity = String(Math.min(fi, 1 - fo));
+    q('#modal').style.transform = `translateY(${(1 - fi) * 40 - fo * 30}px) scale(${0.96 + 0.04 * fi - 0.06 * fo})`;
+    const pr = at(s, K.press); const k = pr < 0.5 ? pr * 2 : 2 - pr * 2;
+    if (save) { save.style.transform = `scale(${1 - 0.06 * k})`; save.style.filter = `brightness(${1 + 0.35 * k})`; }
+    const vi = ease(at(s, K.viewIn));
+    q('#view').style.opacity = String(vi); q('#view').style.transform = `translateY(${(1 - vi) * 24}px)`;
+    dots.forEach((c, i) => { const w = (pins[i].x - minX) / (maxX - minX); c.setAttribute('r', 6 * ease(Math.max(0, Math.min(1, (at(s, K.pinsIn) - w * 0.7) / 0.3)))); });
+    const d = at(s, K.drop); nd.setAttribute('r', 7.5 * ease(Math.min(1, d * 1.4))); nd.setAttribute('cy', newPin.y + (1 - ease(d)) * -60);
+    const rg = at(s, K.ring); ring.setAttribute('r', 8 + 42 * ease(rg)); ring.setAttribute('opacity', String((1 - rg) * 0.9));
+    lbl.setAttribute('opacity', String(ease(at(s, [K.drop[1], K.drop[1] + 0.4]))));
+    const cn = at(s, K.count); countEl.textContent = String(cn < 0.5 ? BASE_COUNT : BASE_COUNT + 1); countEl.style.color = cn > 0.4 && cn < 1 ? '#ffb703' : '';
+    const c = at(s, K.cap); q('#cap').style.opacity = String(ease(Math.min(1, c * 3)) * (1 - ease(Math.max(0, Math.min(1, (c - 0.75) * 4)))));
+    q('#cap').style.transform = `translateY(${(1 - ease(Math.min(1, c * 3))) * 14}px)`;
+    return s < K.end;
+  };
+  window.duration = K.end; window.ready = true;
+</script>

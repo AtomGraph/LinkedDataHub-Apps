@@ -82,7 +82,7 @@ await runScene({
     if (!back.ok) throw new Error(back.why);
     const made2 = await createFromView(page, cursor, {
       '^Title': CITY, '^Name': CITY, 'Identifier': '77001', 'Latitude|^Lat\\b': '29.7604', 'Longitude|^Long\\b': '-95.3698',
-    });
+    }, { view: 'Cities in this region' });
     await marks.beat('houston', made2.ok
       ? `${CITY} — created from the region's own list${made2.unmatched?.length ? '; unfilled: ' + made2.unmatched.join(', ') : ''}`
       : `${made2.why}${made2.unmatched?.length ? '; fields: ' + made2.unmatched.join(', ') : ''}`);

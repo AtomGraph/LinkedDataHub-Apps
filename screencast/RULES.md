@@ -144,7 +144,16 @@ same map is read at the close (54). The write is not the point; the second read 
 shows the app answering to what was just put into it. A scene that reads, then writes a
 query or a chart, then reads *that*, has added a lens; the data it opened on is unchanged,
 and the clip is thinner for it. So: open on evidence, write into the data, and end on the
-evidence re-read through the same view, query or chart. Scored as **C** in the rubric.
+evidence re-read through the same view, query or chart.  Scored as **C** in the rubric.
+
+**W is the multiplier, and it has to be used as one.** A scene that changes the data is
+not thereby realistic: "A rep moves to Seattle" moved a pin by typing latitude and
+longitude into a person's record — a loop (C 10) along a real route (R 9) that nobody
+would ever walk — and it scored 74 because W sat at 8, where every scene's W sat.
+The scale: **10** a job someone does this week, in exactly this way; **8** a real job,
+done a plausible way; **6** a real question, but a workflow a demo invents; **4** the
+data changes, but no one would make it change like that; **2** staged. Below 6 the
+scene is not shot, whatever the other columns say.
 
 **Returning from a proxied dataspace is a tab switch, not browser back** — and a tab
 switch does not change the URL.
@@ -408,3 +417,26 @@ exists.
 
 **Verify on the running instance**, not by reading the code — computed styles and
 measured boxes, never "it should".
+
+**The cursor and the control it clicks are visible — by scene design, not by the
+crop.** A crop that frames the block a result appears in while the click lands outside
+it shows an effect with no cause. The fix is in the scene: click the control nearest the
+result (the form's own Save, the view's own Create, the pill in the bar above the
+graph), let the drawn cursor travel inside the framed block, and give the beat a focus
+box that covers both the control and the result. Widening the crop to contain every
+click was tried and reverted — it pushed every shot out to the full frame and flattened
+the pans. And the camera **pans to the action control** before it is clicked: the scene marks a
+beat as the pointer arrives on the control (its focus box is the control), and the
+shot lists that beat in `via`, so the crop glides block → control → result on smooth
+moves (`cropPath` in the cutter) rather than widening. Every beat still records
+`pointer`; the cutter uses it only when a shot sets `keepPointer: true`. On camera a
+control is clicked with the drawn cursor
+(`cursor.click`, or `cursor.moveTo` then the click), never a bare `locator.click()`.
+
+**A camera move between blocks is gradual.** When a supercut shot pans from one block
+to another — the query to the chart made from it, the XHTML block to the Object block,
+any block to any other — the crop travels on a smooth curve over about 1.4 s
+(`move: "pan"`, `moveSeconds` in `render/supercut.json`), timed to the new block's
+arrival, never a jump. The same for a scroll on camera: `behavior: 'smooth'`, never an
+instant `scrollTo`. A jump inside one page reads as an edit; a slow pan reads as the
+viewer's own eye moving down the page.
