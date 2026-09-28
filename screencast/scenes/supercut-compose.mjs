@@ -69,11 +69,12 @@ await runScene({
     await easeScrollTo(row(), { ms: 1400, margin: 40 }); await sleep(600);
     await marks.beat('c1-end', q.ok && s1.ok ? 'four rows' : (q.why ?? s1.why), await focus(row()));
     // ── c2 · a chart from it ───────────────────────────────────────────────────
-    await marks.beat('c2-start', 'the rows; pointer on the controls toggle', await focus(row()));
-    // the chart selects wait behind the card header's toggle, like every block's controls
+    await marks.beat('c2-start', 'the rows; chart type: Table', await focus(row()));
+    // a view block's controls wait behind the card header's toggle; a query block draws its
+    // chart selects open, and the helper says so rather than pressing anything
     const shown = await revealControls(page, cursor, row());
     if (!shown.ok) throw new Error(shown.why ?? 'the chart controls did not open');
-    await marks.beat('c2-controls', 'chart type: Table', await focus(row()));
+    if (!shown.already) await marks.beat('c2-controls', 'the chart controls, opened', await focus(row()));
     const cfg = await configureChart(page, cursor, row(), { type: 'Bar chart', category: 'region', series: ['reps'] });
     await sleep(1200);
     await marks.beat('c2-drawn', cfg.ok ? 'bars in the pane' : cfg.why, await focus(row()));

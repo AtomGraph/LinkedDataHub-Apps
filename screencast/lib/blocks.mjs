@@ -303,7 +303,9 @@ export async function switchDocumentMode(page, cursor, mode = 'content-mode', { 
 // goes on. Idempotent: a toggle already pressed is left alone.
 export async function revealControls(page, cursor, block, { settle = 700 } = {}) {
   const toggle = block.locator('.ldh-block-head button.tb-controls').first();
-  if (!(await toggle.count())) return { ok: false, why: 'no controls toggle in the block head' };
+  // a query block draws its chart selects open and keeps only its editor behind a toggle
+  // (tb-query), so a head without tb-controls is a block with nothing to reveal
+  if (!(await toggle.count())) return { ok: true, already: true, why: 'no controls toggle: the block draws its controls open' };
   if ((await toggle.getAttribute('aria-pressed')) === 'true') return { ok: true, already: true };
   await toggle.scrollIntoViewIfNeeded();
   await cursor.click(toggle);
