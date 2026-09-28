@@ -149,7 +149,12 @@ export async function select(page, cursor, node, { settle = 1800, tries = 3 } = 
     at = node.id ? await approach(page, cursor, node.id, { fallback: at }) : at;
     await cursor.moveTo(at.x, at.y, { duration: 360 });
     await sleep(200);
-    at = await settledNode(page, node.id ?? at.id, at);
+    // approach() hands back a point the canvas itself reported as hovering THIS node,
+    // which may sit a few pixels off the projected centre where a label sprite or a
+    // nearer node takes the hit. Re-projecting threw that proof away: measured on the
+    // graph take 2026-09-28, the projected centre of the customer node put an OrderItem
+    // in the panel three times in a row while the proven point opened the customer.
+    if (!at.proven) at = await settledNode(page, node.id ?? at.id, at);
     await page.mouse.click(at.x, at.y);
     await sleep(settle);
     const href = await link.getAttribute('href', { timeout: 500 }).catch(() => null);

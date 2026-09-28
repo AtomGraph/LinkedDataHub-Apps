@@ -15,7 +15,7 @@ import { revealControls } from '../lib/blocks.mjs';
 const opts = await resolve('/');
 const { base, identity } = opts;
 const ORDER = '10423';
-// The rep hired for Rockville on camera (4). The previous take's hire goes off camera
+// The rep hired on camera (4) for whichever territory 1e opens. The previous take's hire goes off camera
 // first, so the grid reads one face before and two after, every time.
 const HIRE = 'Dana Whitfield';
 const gone = await deleteByTitle({ ldh: opts.ldh, base, certFile: opts.certFile, certPassword: opts.certPassword, certPasswordFile: opts.certPasswordFile, title: HIRE });
@@ -60,7 +60,8 @@ await runScene({
     // the toolbar and the Related results row together, and each pill re-centres the view
     // on the related resources in place.
     const view = () => page.locator('.ldh-pane.is-active .ldh-block').filter({ has: page.locator('.ldh-view-toolbar') }).filter({ hasText: 'Orders from this customer' }).first();
-    const count = async () => (await view().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 }).catch(() => '?')).trim();
+    // The count is in the block's status line, not the toolbar band that waits to be asked.
+    const count = async () => (await view().locator('.count b').first().textContent({ timeout: 4000 }).catch(() => '?')).trim();
     const toggle = view().locator('.ldh-block-head button.tb-controls').first();
     if (!(await toggle.count())) throw new Error('no controls toggle on the orders view');
     await toggle.scrollIntoViewIfNeeded();
@@ -81,17 +82,21 @@ await runScene({
       await cursor.moveTo(...(await centre(pill)), { duration: 500 });
       await marks.beat(`1d-hop${i + 1}-start`, `pointer on the ${(await pill.textContent()).replace(/\s+/g, ' ').trim()} pill`, await focus(view()));
       await pill.click();
-      await page.waitForFunction((b) => { const c = document.querySelector('.ldh-pane.is-active .ldh-view-toolbar .count b'); return c && c.textContent.trim() !== b; }, before, { timeout: 20_000 }).catch(() => {});
+      await page.waitForFunction((b) => { const c = document.querySelector('.ldh-pane.is-active .count b'); return c && c.textContent.trim() !== b; }, before, { timeout: 20_000 }).catch(() => {});
       await sleep(1500);
       await marks.beat(`1d-hop${i + 1}-end`, `${await count()} — ${hop.what}`, await focus(view()));
       await sleep(600);
     }
 
     // ── 1e · one territory, opened from the rows ──
+    // The first row. Which territory that is depends on what the reps cover, and the 31
+    // here are paged 20 at a time in the engine's order — Rockville, first on 2026-09-19,
+    // was not on the page on 2026-09-28. The hire below is written for the one opened.
     const rowLink = view().locator('table tbody tr').first().locator('a').first();
     await rowLink.scrollIntoViewIfNeeded();
     await cursor.moveTo(...(await centre(rowLink)), { duration: 500 });
-    await marks.beat('1e-start', `pointer on ${(await rowLink.textContent()).trim()}`, await focus(view()));
+    const TERRITORY = (await rowLink.textContent()).trim();
+    await marks.beat('1e-start', `pointer on ${TERRITORY}`, await focus(view()));
     const beforeUrl = page.url().split('?')[0];
     await rowLink.click();
     await page.waitForFunction((b) => location.href.split('?')[0] !== b, beforeUrl, { timeout: 20_000 }).catch(() => {});
@@ -103,13 +108,13 @@ await runScene({
     // ── 4 · a rep hired for the territory: Create on "Employees serving this territory",
     //        the Person form the ontology wrote, Save, the grid one face richer ──
     const emps = () => page.locator('.ldh-pane.is-active .ldh-block').filter({ has: page.locator('.ldh-view-toolbar') }).filter({ hasText: 'Employees serving this territory' }).first();
-    const empCount = async () => (await emps().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 }).catch(() => '?')).trim();
+    const empCount = async () => (await emps().locator('.count b').first().textContent({ timeout: 4000 }).catch(() => '?')).trim();
     const cbtn = emps().locator('button.add-instance').first();
     await cbtn.waitFor({ state: 'visible', timeout: 15_000 });
     await cbtn.scrollIntoViewIfNeeded();
     const before4 = await empCount();
     await cursor.moveTo(...(await centre(cbtn)), { duration: 600 });
-    await marks.beat('4-start', `${before4} serving Rockville; pointer on Create`, await focus(emps()));
+    await marks.beat('4-start', `${before4} serving ${TERRITORY}; pointer on Create`, await focus(emps()));
     await cursor.click(cbtn);
     const modal = page.locator('.modal-constructor:visible, .ac-modal:visible').last();
     await modal.waitFor({ state: 'visible', timeout: 15_000 });
@@ -118,7 +123,7 @@ await runScene({
     const labels = async () => (await modal.locator('.ldh-prop-group').allTextContents()).map((t) => t.replace(/\s+/g, ' ').trim().slice(0, 24));
     await marks.beat('4-form', `the Person form the ontology wrote: ${JSON.stringify(await labels())}`, await focus(modal));
     // fields by label, never by position; a label the form lacks is skipped
-    for (const [re, val] of [['^Title', HIRE], ['^Name', HIRE], ['Given name', 'Dana'], ['Family name', 'Whitfield'], ['Job title', 'Sales Representative'], ['^Description', 'Dana joins from a Maryland distributor and takes over the Rockville accounts.'], ['^Identifier', String(Date.now()).slice(-4)]]) {
+    for (const [re, val] of [['^Title', HIRE], ['^Name', HIRE], ['Given name', 'Dana'], ['Family name', 'Whitfield'], ['Job title', 'Sales Representative'], ['^Description', `Dana joins from a regional distributor and takes over the ${TERRITORY} accounts.`], ['^Identifier', String(Date.now()).slice(-4)]]) {
       const groups = modal.locator('.ldh-prop-group'); const c = await groups.count();
       for (let i = 0; i < c; i++) {
         const g = groups.nth(i); const label = ((await g.textContent()) ?? '').replace(/\s+/g, ' ').trim();
@@ -137,9 +142,9 @@ await runScene({
     await page.waitForLoadState('load').catch(() => {});
     await sleep(800);
     await marks.beat('4-saved', 'saved');
-    const moved = await page.waitForFunction((sel, b) => { const c = document.querySelector(sel); return c && c.textContent.trim() !== b; }, ['.ldh-pane.is-active .ldh-view-toolbar .count b', before4], { timeout: 8000 }).then(() => true, () => false).catch(() => false);
+    const moved = await page.waitForFunction(([sel, b]) => { const c = document.querySelector(sel); return c && c.textContent.trim() !== b; }, ['.ldh-pane.is-active .count b', before4], { timeout: 8000 }).then(() => true, () => false).catch(() => false);
     await sleep(1200);
-    await marks.beat('4-end', `${await empCount()} serving Rockville (was ${before4}, refreshed itself: ${moved})`, await focus(emps()));
+    await marks.beat('4-end', `${await empCount()} serving ${TERRITORY} (was ${before4}, refreshed itself: ${moved})`, await focus(emps()));
     await sleep(1500);
 
     // ── 1f · up the breadcrumb to Sales territories ──
