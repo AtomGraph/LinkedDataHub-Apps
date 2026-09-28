@@ -18,73 +18,73 @@
   },
   "captions": [
     {
-      "in": 0,
-      "out": 6,
+      "in": 0.0,
+      "out": 6.0,
       "text": "Graph mode. Every node is a page. Every edge is a link."
     },
     {
-      "in": 6,
-      "out": 14.033,
+      "in": 6.0,
+      "out": 13.833,
       "text": "Click a node. Its document opens."
     },
     {
-      "in": 14.033,
-      "out": 23.867,
+      "in": 13.833,
+      "out": 23.667,
       "text": "Related results: the resources these link to."
     },
     {
-      "in": 23.867,
-      "out": 27.267,
+      "in": 23.667,
+      "out": 27.033,
       "text": "A document, with the views its class declares."
     },
     {
-      "in": 27.267,
-      "out": 38.633,
+      "in": 27.033,
+      "out": 39.067,
       "text": "A form, generated from the class. It writes the graph."
     },
     {
-      "in": 38.633,
-      "out": 44.633,
+      "in": 39.067,
+      "out": 45.033,
       "text": "Back up to the container."
     },
     {
-      "in": 44.633,
-      "out": 53.651,
+      "in": 45.033,
+      "out": 54.051,
       "text": "A SPARQL query, saved as a document."
     },
     {
-      "in": 53.651,
-      "out": 56.805,
+      "in": 54.051,
+      "out": 57.205,
       "text": "Its results, rendered as a view."
     },
     {
-      "in": 56.805,
-      "out": 62.955,
+      "in": 57.205,
+      "out": 63.355,
       "text": "A result set chart, bound to the query."
     },
     {
-      "in": 62.955,
-      "out": 66.949,
+      "in": 63.355,
+      "out": 67.349,
       "text": "Content mode. The document is a list of blocks."
     },
     {
-      "in": 66.949,
-      "out": 70.949,
+      "in": 67.349,
+      "out": 71.349,
       "text": "An XHTML block."
     },
     {
-      "in": 70.949,
-      "out": 78.272,
+      "in": 71.349,
+      "out": 78.672,
       "text": "An object block, embedding the chart."
     },
     {
-      "in": 78.272,
-      "out": 80.43,
+      "in": 78.672,
+      "out": 80.83,
       "text": "Blocks reorder by dragging."
     },
     {
-      "in": 80.43,
-      "out": 83.499,
+      "in": 80.83,
+      "out": 83.899,
       "text": "The application is data."
     }
   ]
