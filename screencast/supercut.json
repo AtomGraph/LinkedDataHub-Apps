@@ -106,7 +106,7 @@
   "slide": {
     "eyebrow": "Open-source Knowledge Graph platform",
     "title": "The application is data.",
-    "lede": "Classes, forms, views, charts and access rules are RDF documents. Push a folder of Turtle and the app is live. An agent can write it.",
+    "lede": "Classes, forms, views, charts and access rules are RDF documents. Push a folder of Turtle and the dataspace is live. An agent can write it.",
     "links": [
       {
         "label": "linkeddatahub.com",
