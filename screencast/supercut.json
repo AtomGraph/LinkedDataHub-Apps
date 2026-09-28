@@ -24,67 +24,67 @@
     },
     {
       "in": 6.0,
-      "out": 13.833,
+      "out": 13.8,
       "text": "Click a node. Its document opens."
     },
     {
-      "in": 13.833,
-      "out": 23.667,
+      "in": 13.8,
+      "out": 23.6,
       "text": "Related results: the resources these link to."
     },
     {
-      "in": 23.667,
-      "out": 27.033,
+      "in": 23.6,
+      "out": 29.233,
       "text": "A document, with the views its class declares."
     },
     {
-      "in": 27.033,
-      "out": 39.067,
+      "in": 29.233,
+      "out": 41.267,
       "text": "A form, generated from the class. It writes the graph."
     },
     {
-      "in": 39.067,
-      "out": 45.033,
+      "in": 41.267,
+      "out": 47.267,
       "text": "Back up to the container."
     },
     {
-      "in": 45.033,
-      "out": 54.051,
+      "in": 47.267,
+      "out": 56.285,
       "text": "A SPARQL query, saved as a document."
     },
     {
-      "in": 54.051,
-      "out": 57.205,
+      "in": 56.285,
+      "out": 59.439,
       "text": "Its results, rendered as a view."
     },
     {
-      "in": 57.205,
-      "out": 63.355,
+      "in": 59.439,
+      "out": 65.589,
       "text": "A result set chart, bound to the query."
     },
     {
-      "in": 63.355,
-      "out": 67.349,
+      "in": 65.589,
+      "out": 69.583,
       "text": "Content mode. The document is a list of blocks."
     },
     {
-      "in": 67.349,
-      "out": 71.349,
+      "in": 69.583,
+      "out": 73.583,
       "text": "An XHTML block."
     },
     {
-      "in": 71.349,
-      "out": 78.672,
+      "in": 73.583,
+      "out": 80.906,
       "text": "An object block, embedding the chart."
     },
     {
-      "in": 78.672,
-      "out": 80.83,
+      "in": 80.906,
+      "out": 83.064,
       "text": "Blocks reorder by dragging."
     },
     {
-      "in": 80.83,
-      "out": 83.899,
+      "in": 83.064,
+      "out": 86.133,
       "text": "The application is data."
     }
   ]
