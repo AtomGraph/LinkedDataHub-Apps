@@ -800,7 +800,16 @@ export const SHOTS = [
       await sleep(900);
       await marks.beat('named');
 
-      await cursor.click(productForm(page).locator('button').filter({ hasText: /Save/ }).last());
+      // The dock's Create button is fixed at the bottom-right corner, which on a page as
+      // short as the scratch document is exactly where the form's Save bar ends up once
+      // the seven-control form has pushed it below the fold. The cursor only glides to a
+      // target that is off screen, and Save is on screen — under the dock. Measured
+      // 2026-09-28: the click opened the Create menu and nothing was saved. Bring Save to
+      // mid-viewport first, so there is nothing fixed on top of it.
+      const save = productForm(page).locator('button').filter({ hasText: /Save/ }).last();
+      await save.evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'smooth' }));
+      await sleep(900);
+      await cursor.click(save);
       await page.waitForTimeout(7000);
       await marks.beat('saved');
     },
