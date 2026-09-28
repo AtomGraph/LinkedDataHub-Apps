@@ -20,6 +20,10 @@
 // the addresses as pills — carrying the site's messaging rather than the demo's subject.
 // It is rendered in the browser like the captions, at the output's exact frame size.
 //
+// An `audio` in the spec lays a soundtrack under the cut: padded with silence or
+// trimmed to the output's length, with a short fade at the very end so a track that
+// stops on its own cut does not click. Without it the output is silent, as the loop is.
+//
 // Writes the loop, a poster frame, and a contact sheet beside it for a once-over.
 
 import fs from 'node:fs/promises';
@@ -181,9 +185,18 @@ if (slidePng) {
 }
 
 const out = at(spec.output);
+const totalLength = loopLength + (slidePng ? slideFade + slideHold : 0);
+const audioInputs = [], audioMaps = ['-an'];
+if (spec.audio) {
+  const idx = captions.length + 1 + (slidePng ? 1 : 0);
+  const tail = Number(spec.audio.fadeOut ?? 0.4);
+  audioInputs.push('-i', at(spec.audio.file));
+  parts.push(`[${idx}:a]apad,atrim=0:${totalLength.toFixed(3)},afade=t=out:st=${(totalLength - tail).toFixed(3)}:d=${tail}[a]`);
+  audioMaps.splice(0, 1, '-map', '[a]', '-c:a', 'aac', '-b:a', String(spec.audio.bitrate ?? '192k'));
+}
 const enc = await run('ffmpeg', [
-  '-v', 'error', '-y', '-i', at(spec.source), ...captions.flatMap((c) => ['-i', c.png]), ...slideInputs,
-  '-filter_complex', parts.join(';'), '-map', `[${prev}]`, '-an',
+  '-v', 'error', '-y', '-i', at(spec.source), ...captions.flatMap((c) => ['-i', c.png]), ...slideInputs, ...audioInputs,
+  '-filter_complex', parts.join(';'), '-map', `[${prev}]`, ...audioMaps,
   '-c:v', 'libx264', '-preset', 'slow', '-crf', String(spec.crf ?? 24), '-pix_fmt', 'yuv420p', '-r', '30',
   '-movflags', '+faststart', out,
 ]);
@@ -194,5 +207,5 @@ await run('ffmpeg', ['-v', 'error', '-y', '-i', out, '-vf', 'fps=1/6,scale=426:-
 
 const made = await probe(out);
 const bytes = (await fs.stat(out)).size;
-console.log(`${path.relative(ROOT, out)}  ${made.width}x${made.height}  ${made.duration.toFixed(1)}s  ${(bytes / 1e6).toFixed(1)} MB  ${captions.length} captions${slidePng ? `, closing slide from ${loopLength.toFixed(1)}s` : ''}`);
+console.log(`${path.relative(ROOT, out)}  ${made.width}x${made.height}  ${made.duration.toFixed(1)}s  ${(bytes / 1e6).toFixed(1)} MB  ${captions.length} captions${slidePng ? `, closing slide from ${loopLength.toFixed(1)}s` : ''}${spec.audio ? `, soundtrack ${path.relative(ROOT, at(spec.audio.file))}` : ''}`);
 for (const c of captions) console.log(`  ${c.from.toFixed(1).padStart(5)}–${c.to.toFixed(1).padEnd(5)} ${c.text}`);
