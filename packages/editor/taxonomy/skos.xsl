@@ -387,6 +387,31 @@ exclude-result-prefixes="#all">
             </xsl:for-each>
         </xsl:for-each>
 
+        <!-- Brings the open concept into view inside the tree, which scrolls on its own (ldh.css caps
+             the card at the viewport and gives .ldh-tree overflow-y: auto): a large scheme reveals its
+             target thousands of pixels down, where nobody would find it. The row is centred rather than
+             put at the top edge, so its parent and siblings stay in view - the context that says where
+             it sits - and only when it is not visible already, so a concept near the top is not moved.
+             The tree's own scrollTop rather than scrollIntoView(), which would scroll the page as well.
+
+             The FIRST occurrence in document order: a polyhierarchical concept is active under each of
+             its parents, and every branch of the descent ends in this function in whatever order its
+             requests return. Re-deciding on each call converges on the same row whichever finishes
+             last. -->
+        <xsl:variable name="row" select="($tree//li[ldh:tree-node-uri(div/a/@href) = $target])[1]/div" as="element()?"/>
+        <xsl:if test="exists($row)">
+            <xsl:variable name="scroll-top" select="ixsl:get($tree, 'scrollTop')" as="xs:double"/>
+            <xsl:variable name="client-height" select="ixsl:get($tree, 'clientHeight')" as="xs:double"/>
+            <xsl:variable name="row-rect" select="ixsl:call($row, 'getBoundingClientRect', [])"/>
+            <xsl:variable name="row-height" select="ixsl:get($row-rect, 'height')" as="xs:double"/>
+            <!-- the row's offset within the tree's scrolled content -->
+            <xsl:variable name="row-top" select="ixsl:get($row-rect, 'top') - ixsl:get(ixsl:call($tree, 'getBoundingClientRect', []), 'top') + $scroll-top" as="xs:double"/>
+
+            <xsl:if test="$row-top lt $scroll-top or $row-top + $row-height gt $scroll-top + $client-height">
+                <ixsl:set-property name="scrollTop" select="$row-top - ($client-height - $row-height) div 2" object="$tree"/>
+            </xsl:if>
+        </xsl:if>
+
         <xsl:sequence select="$context"/>
     </xsl:function>
 
