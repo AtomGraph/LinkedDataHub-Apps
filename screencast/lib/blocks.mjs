@@ -293,3 +293,24 @@ export async function switchDocumentMode(page, cursor, mode = 'content-mode', { 
   }
   return false;
 }
+
+// A block's control bands wait to be asked for. Since 2026-09-24 a view block renders its
+// facet, sort and mode toolbar and its Related results row collapsed, and a chart block its
+// three selects, until the toggle in the card header is pressed - one gesture, one toggle
+// (`button.tb-controls`, aria-pressed). A scene that goes for a pill or a select without
+// pressing it first is reaching for something the reader cannot see, so this is on camera:
+// the pointer travels to the toggle and clicks, and the bands are awaited before the scene
+// goes on. Idempotent: a toggle already pressed is left alone.
+export async function revealControls(page, cursor, block, { settle = 700 } = {}) {
+  const toggle = block.locator('.ldh-block-head button.tb-controls').first();
+  // a query block draws its chart selects open and keeps only its editor behind a toggle
+  // (tb-query), so a head without tb-controls is a block with nothing to reveal
+  if (!(await toggle.count())) return { ok: true, already: true, why: 'no controls toggle: the block draws its controls open' };
+  if ((await toggle.getAttribute('aria-pressed')) === 'true') return { ok: true, already: true };
+  await toggle.scrollIntoViewIfNeeded();
+  await cursor.click(toggle);
+  const bands = block.locator('.ldh-view-toolbar:not(.is-collapsed), .chart-controls:not(.is-collapsed)').first();
+  await bands.waitFor({ state: 'visible', timeout: 8000 }).catch(() => {});
+  await sleep(settle);
+  return { ok: (await toggle.getAttribute('aria-pressed')) === 'true' };
+}

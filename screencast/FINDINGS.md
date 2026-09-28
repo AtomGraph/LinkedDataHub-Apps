@@ -370,6 +370,42 @@ the top; it reads the column instead.
 
 ---
 
+## 13. The create modal's add-property row fails for a resource property
+
+**Where** the add-instance modal (`button.add-instance` on a derived view, e.g. Direct
+reports on `/employees/2/` constructing a `schema:Person`), foot row `.ldh-prop-addrow`.
+
+**What happens** Selecting `areaServed` (a resource property, `rdfs:range schema:City`)
+and pressing Add shows "The form could not be loaded — the page ran into an unexpected
+error" and adds no row. Selecting `type` in the same modal adds a row. The same select and
+Add on the **edit** form of an existing Person (`/employees/7/`) adds an `areaServed` row
+with a lookup combobox as expected.
+
+**Expected** the create modal behaves like the edit form: one more lookup row.
+
+**Cost** a hire with four territories cannot be made in one form; scene 02 assigns one in
+the modal and the other three on the new record's edit form.
+
+---
+
+## 14. Create-from-view ends in two different places, and the view it came from does not refresh
+
+**Where** `button.add-instance` on derived views: Cities in this region (`schema:City`),
+Products in this category (`schema:Product`), Orders from this customer (`schema:Order`).
+
+**What happens** Saving a City navigates to the new document. Saving a Product or an Order
+closes the modal and leaves the page where it was — with the view still showing the old
+count ("Total results 12" after the thirteenth product was created); the new row appears
+only after the page is loaded again.
+
+**Expected** one behaviour for all constructors, and the view that offered the Create
+button re-reading itself after a successful save — that is the loop the button exists for.
+
+**Cost** scenes 11 and 13 re-read their list by clicking the page's own title link; the
+rig waits for either the navigation or the modal closing (`createFromView`).
+
+---
+
 ## Not reproduced / not attributed
 
 - **`Terminated with [object DocumentFragment]`** appears twice on essentially every

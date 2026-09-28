@@ -107,7 +107,9 @@ export function makeCursor(page, { fps = 60 } = {}) {
   // Start off-screen bottom-right, the way a pointer that just entered the frame would.
   let at = { x: 1200, y: 980 };
 
+  const PACE = Number(process.env.CURSOR_PACE ?? 1);
   async function moveTo(x, y, { duration = 650 } = {}) {
+    duration = duration * PACE;
     const frames = Math.max(2, Math.round((duration / 1000) * fps));
     const from = { ...at };
     const frameMs = duration / frames;
@@ -153,6 +155,7 @@ export function makeCursor(page, { fps = 60 } = {}) {
     // A real pointer settles before it presses, and the press is visible for a beat
     // after. Both pauses are what stop playback reading as a macro.
     async click(locator, { duration = 650, settle = 180, after = 260 } = {}) {
+      settle = settle * PACE;
       const { x, y } = await centreOf(locator);
       await moveTo(x, y, { duration });
       await sleep(settle);
@@ -163,6 +166,7 @@ export function makeCursor(page, { fps = 60 } = {}) {
     },
 
     async clickAt(x, y, { duration = 650, settle = 180, after = 260 } = {}) {
+      settle = settle * PACE;
       await moveTo(x, y, { duration });
       await sleep(settle);
       await page.mouse.down();
