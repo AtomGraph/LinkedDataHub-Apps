@@ -71,7 +71,7 @@ DOCS_DEST ?= ../docs
 DOCS_WIDTH ?= 2240
 DOCS_QUALITY ?= 90
 
-.PHONY: help deps screencasts screenshots docs-publish docs-fill scene tape probe mp4 mp4-uniform hero supercut clean
+.PHONY: help deps screencasts screenshots docs-publish docs-fill readme-shots scene tape probe mp4 mp4-uniform hero supercut clean
 
 help:
 	@echo "make screencasts [BASE=…] [CERT_FILE=…] [CERT_PASSWORD=…] [FLAGS=…]"
@@ -88,6 +88,8 @@ help:
 	@echo "make docs-publish [DOCS_WIDTH=2240] [DOCS_QUALITY=90]"
 	@echo "                    optimise docs/out/ into ../docs/, printing sha1 per file"
 	@echo "make docs-fill      point the .ttl sources at the published files (idempotent)"
+	@echo "make readme-shots [README_BASE=…] [README_CERT_FILE=…] [README_CERT_PASSWORD_FILE=…]"
+	@echo "                    re-shoot the demo pictures the repository README shows"
 	@echo "make tape TAPE=get-started-setup [WORKDIR=…]"
 	@echo "                    record one terminal tape to tracks/, without the shoot"
 	@echo "make hero           cut the front page's hero loop from tracks/supercut.mp4 per hero.json"
@@ -123,6 +125,15 @@ screenshots: deps
 # is no longer there. Run it after docs-publish, every time.
 docs-fill:
 	@node docs/fill.mjs
+
+# The repository README's demo pictures: three dataspaces, so the base is a pattern whose
+# {app} is each demo's folder name. The defaults are the linkeddatahub.com stack, which
+# serves all three demos; the pictures are written straight into ../demo/*/.
+README_BASE ?= https://{app}.demo.localhost
+README_CERT_FILE ?= ../../linkeddatahub.com/ssl/owner/keystore.p12
+README_CERT_PASSWORD_FILE ?= ../../linkeddatahub.com/secrets/owner_cert_password.txt
+readme-shots: deps
+	node readme/shoot.mjs --base '$(README_BASE)' --cert-file $(README_CERT_FILE) --cert-password-file $(README_CERT_PASSWORD_FILE) $(FLAGS)
 
 # Publish the docs shots as web assets and print each one's uploads/ address.
 #

@@ -235,6 +235,22 @@ build rewrites `uploads/{sha1}` to `files/{name}` through `docs/files.xml`,
 terminating on a hash it cannot find — so a clean `make ttl-to-html` is the proof
 that every baked hash resolves.
 
+## README pictures
+
+The repository README's demo pictures — the Northwind parallax GIF, the Copenhagen
+school map and the two UNESCO Thesaurus stills — are shot by `readme/shoot.mjs`, with
+the same want-before-capture rule as the docs shoot.
+
+```bash
+make readme-shots   # defaults to https://{app}.demo.localhost on the linkeddatahub.com stack
+```
+
+They span three dataspaces, so the base is a pattern and `{app}` is each demo's folder
+name. Nothing content-addresses these files, so they are written straight into
+`../demo/*/` under the names the README links and each demo's `.ldhignore` skips:
+stills downscaled to 1920px from 2x masters, the GIF at 960px and 12 fps from the
+recorded `.webm`, trimmed to start at the gesture. The masters go to `readme/out/`.
+
 ## Rules the scenes follow
 
 - **Open on the strongest frame the data gives.** A scene begins on a document whose
