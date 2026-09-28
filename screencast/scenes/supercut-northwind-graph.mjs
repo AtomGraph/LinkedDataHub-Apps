@@ -89,10 +89,21 @@ await runScene({
     }
 
     // ── 1e · one territory, opened from the rows ──
-    // The first row. Which territory that is depends on what the reps cover, and the 31
-    // here are paged 20 at a time in the engine's order — Rockville, first on 2026-09-19,
-    // was not on the page on 2026-09-28. The hire below is written for the one opened.
-    const rowLink = view().locator('table tbody tr').first().locator('a').first();
+    // Rockville, by name — the territory the cut has always opened, Peacock's. The 31 the
+    // reps cover are paged 20 at a time in the engine's order, and after the 2026-09-28
+    // reinstall Rockville sat on the second page, so a page that lacks it is turned with
+    // the view's own Next. A territory list without Rockville at all falls back to the
+    // first row; the hire below is written for whichever is opened.
+    const rows = () => view().locator('table tbody tr');
+    const named = () => rows().filter({ hasText: 'Rockville' }).first();
+    for (let turn = 0; turn < 3 && !(await named().count()); turn++) {
+      const next = view().locator('button.pager-next').first();
+      if (!(await next.count()) || (await next.isDisabled().catch(() => false))) break;
+      await next.scrollIntoViewIfNeeded();
+      await cursor.click(next);
+      await sleep(1800);
+    }
+    const rowLink = ((await named().count()) ? named() : rows().first()).locator('a').first();
     await rowLink.scrollIntoViewIfNeeded();
     await cursor.moveTo(...(await centre(rowLink)), { duration: 500 });
     const TERRITORY = (await rowLink.textContent()).trim();
