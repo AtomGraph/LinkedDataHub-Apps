@@ -370,6 +370,45 @@ the top; it reads the column instead.
 
 ---
 
+## 13. A block reorder by drag is refused with 412 and never saved
+
+**Severity** Blocking for authoring — every drag-and-drop reorder in the browser is lost.
+
+**Reproduce**
+1. Open any document with two blocks in Content mode with write access.
+2. Drag the first block's handle onto the second and drop.
+3. The blocks swap on screen; the console shows `PATCH … 412 (Precondition Failed)`;
+   reload and the order is back.
+
+`scenes/probe-drag-native.mjs` does this on a scratch document and replays the app's
+own PATCH under every pairing of ETag and Accept.
+
+**Measured** The document's ETag differs per representation, and the write's
+precondition is checked against the representation the PATCH's *own* `Accept` selects:
+
+| If-Match taken from | Accept on the PATCH | Status |
+|---|---|---|
+| `text/turtle` GET | `text/turtle` | **204** |
+| `text/turtle` GET | `*/*` | 412 |
+| `text/html` GET | `text/turtle` or `*/*` | 412 |
+| `application/rdf+xml` GET | `text/turtle` or `*/*` | 412 |
+| none | any | 428 |
+
+The client sends the ETag of the RDF it fetched with a PATCH whose `Accept` selects a
+different representation, so the two never match.
+
+**Cause** (hypothesis) The conditional-write check derives the expected ETag from
+content negotiation on the write request rather than from the stored graph. A strong
+validator for a write should not depend on which representation the client read.
+
+**Also settled here** A real pointer drag *does* reach the app's handlers on this
+build: `dragover` marks the target row (the dotted drop line renders) and `drop` fires.
+The synthetic DragEvents in `lib/editing.mjs` on the `screencast-supercut` branch were
+a workaround for an older build and are no longer needed; a pointer drag also puts the
+browser's drag image under the pointer, which the synthetic path never could.
+
+---
+
 ## Not reproduced / not attributed
 
 - **`Terminated with [object DocumentFragment]`** appears twice on essentially every
