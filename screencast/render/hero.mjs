@@ -15,6 +15,11 @@
 //
 //   node render/hero.mjs [hero.json]
 //
+// A `slide` in the spec closes the cut: the footage holds its last frame and fades into
+// a title card set in the platform's own type and dark tokens — eyebrow, headline, lede,
+// the addresses as pills — carrying the site's messaging rather than the demo's subject.
+// It is rendered in the browser like the captions, at the output's exact frame size.
+//
 // Writes the loop, a poster frame, and a contact sheet beside it for a once-over.
 
 import fs from 'node:fs/promises';
@@ -94,23 +99,90 @@ for (const [i, c] of captions.entries()) {
   c.png = path.join(capDir, `${String(i).padStart(2, '0')}.png`);
   await page.locator('.cap').screenshot({ path: c.png, omitBackground: true });
 }
+// The closing slide, at the output's frame size: the crop scaled to the spec width, the
+// height rounded to even the way scale=W:-2 rounds it.
+const { top, bottom } = spec.crop;
+const outW = spec.width;
+const outH = Math.round((src.height - top - bottom) * outW / src.width / 2) * 2;
+let slidePng = null;
+if (spec.slide) {
+  const sl = spec.slide;
+  const mono = (await fs.readFile(at('../../LinkedDataHub/src/main/webapp/static/com/atomgraph/linkeddatahub/css/fonts/geist-mono.woff2'))).toString('base64');
+  const esc = (t) => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const k = outW / 1440; // type set for a 1440-wide frame, scaled with the output
+  const px = (n) => `${(n * k).toFixed(2)}px`;
+  const pills = (sl.links ?? []).map((l) => `<span class="pill${l.primary ? ' is-primary' : ''}">${esc(l.label)}</span>`).join('');
+  const slidePage = await browser.newPage({ viewport: { width: outW, height: outH }, deviceScaleFactor: 1 });
+  await slidePage.setContent(`<!doctype html><style>
+    @font-face { font-family: Geist; src: url(data:font/woff2;base64,${font}) format('woff2'); font-weight: 100 900; }
+    @font-face { font-family: 'Geist Mono'; src: url(data:font/woff2;base64,${mono}) format('woff2'); font-weight: 100 900; }
+    /* the platform's dark tokens: surface, on-surface, on-surface-variant, primary, tertiary, outline, aurora, dots */
+    html, body { margin: 0; width: ${outW}px; height: ${outH}px; overflow: hidden; }
+    body { position: relative; display: flex; align-items: center; justify-content: center; text-align: center;
+           font-family: Geist, system-ui, sans-serif; color: #dde3ea; -webkit-font-smoothing: antialiased;
+           background: #0f1419 linear-gradient(135deg, #241d3a 0%, #16263a 50%, #12291f 100%); }
+    body::before { content: ""; position: absolute; inset: 0; opacity: 0.35; pointer-events: none;
+           background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.08) 1px, transparent 1.4px); background-size: ${px(24)} ${px(24)}; }
+    .card { position: relative; max-width: ${px(1060)}; padding: 0 ${px(48)}; display: flex; flex-direction: column; align-items: center; }
+    .wordmark { display: inline-flex; align-items: center; gap: ${px(12)}; font-weight: 600; font-size: ${px(26)}; letter-spacing: -0.015em; color: #fff; margin-bottom: ${px(40)}; }
+    .mark { width: ${px(36)}; height: ${px(36)}; border-radius: ${px(9)}; position: relative;
+            background: linear-gradient(135deg, #4d94f8 0%, #ad7adf 100%); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18); }
+    .mark::before, .mark::after { content: ""; position: absolute; border-radius: 50%; background: rgba(255,255,255,0.9); }
+    .mark::before { width: ${px(9)}; height: ${px(9)}; top: ${px(6)}; left: ${px(6)}; }
+    .mark::after  { width: ${px(6)}; height: ${px(6)}; bottom: ${px(7.5)}; right: ${px(7.5)}; }
+    .eyebrow { font-family: 'Geist Mono', monospace; font-size: ${px(15)}; letter-spacing: 0.04em; text-transform: uppercase; color: #dbb3fd; margin: 0; }
+    h1 { margin: ${px(14)} 0 ${px(22)}; font-size: ${px(76)}; font-weight: 600; line-height: 1.1; letter-spacing: -0.03em; color: #dde3ea; text-wrap: balance; }
+    .lede { margin: 0; font-size: ${px(25)}; line-height: 1.45; color: #bcc8d5; max-width: ${px(880)}; text-wrap: balance; }
+    .actions { display: flex; gap: ${px(14)}; margin-top: ${px(40)}; }
+    .pill { display: inline-flex; align-items: center; height: ${px(54)}; padding: 0 ${px(26)}; border-radius: 999px; font-size: ${px(21)}; font-weight: 500;
+            border: 1px solid #87929e; color: #dde3ea; white-space: nowrap; }
+    .pill.is-primary { background: #98ccff linear-gradient(180deg, rgba(255,255,255,0.22), rgba(0,0,0,0.10)); color: #003259; border-color: transparent; }
+    .note { font-family: 'Geist Mono', monospace; font-size: ${px(14)}; letter-spacing: 0.04em; text-transform: uppercase; color: #87929e; margin: ${px(36)} 0 0; }
+  </style><div class="card">
+    <div class="wordmark"><span class="mark"></span>LinkedDataHub</div>
+    ${sl.eyebrow ? `<p class="eyebrow">${esc(sl.eyebrow)}</p>` : ''}
+    <h1>${esc(sl.title)}</h1>
+    ${sl.lede ? `<p class="lede">${esc(sl.lede)}</p>` : ''}
+    ${pills ? `<div class="actions">${pills}</div>` : ''}
+    ${sl.note ? `<p class="note">${esc(sl.note)}</p>` : ''}
+  </div>`);
+  await slidePage.evaluate(() => document.fonts.ready);
+  slidePng = path.join(capDir, 'slide.png');
+  await slidePage.screenshot({ path: slidePng });
+}
 await browser.close();
 
 // One ffmpeg pass: crop, cut, concat, overlay each caption for its span.
-const { top, bottom } = spec.crop;
 const parts = [`[0]crop=iw:ih-${top + bottom}:0:${top},scale=${spec.width}:-2,split=${keptSpans.length}${keptSpans.map((_, i) => `[s${i}]`).join('')}`];
 keptSpans.forEach(([a, b], i) => parts.push(`[s${i}]trim=${a}:${b},setpts=PTS-STARTPTS[p${i}]`));
 parts.push(`${keptSpans.map((_, i) => `[p${i}]`).join('')}concat=n=${keptSpans.length}:v=1:a=0[v0]`);
 let prev = 'v0';
+// With a closing slide the footage holds its last frame for the fade and the card's
+// hold. The hold goes on before the captions, so a caption's span ends where the
+// footage ends rather than riding the held frame into the fade.
+const loopLength = keptSpans.reduce((s, [a, b]) => s + (b - a), 0);
+const slideFade = Number(spec.slide?.fade ?? 1.2), slideHold = Number(spec.slide?.seconds ?? 6);
+if (slidePng) { parts.push(`[v0]tpad=stop_mode=clone:stop_duration=${(slideFade + slideHold).toFixed(3)}[v0h]`); prev = 'v0h'; }
 captions.forEach((c, i) => {
   const { inset, bottom: rise } = spec.caption;
   parts.push(`[${prev}][${i + 1}]overlay=${inset}:H-h-${rise}:enable='between(t,${c.from.toFixed(3)},${c.to.toFixed(3)})'[v${i + 1}]`);
   prev = `v${i + 1}`;
 });
 
+// The closing slide: the card is a still input looped for the whole tail, its alpha faded
+// in from the moment the footage ends, so nothing of it shows before then.
+const slideInputs = [];
+if (slidePng) {
+  const idx = captions.length + 1;
+  slideInputs.push('-loop', '1', '-framerate', '30', '-t', String(loopLength + slideFade + slideHold), '-i', slidePng);
+  parts.push(`[${idx}]scale=${outW}:${outH},format=rgba,fade=t=in:st=${loopLength.toFixed(3)}:d=${slideFade}:alpha=1[sl]`);
+  parts.push(`[${prev}][sl]overlay=0:0:format=auto[vs]`);
+  prev = 'vs';
+}
+
 const out = at(spec.output);
 const enc = await run('ffmpeg', [
-  '-v', 'error', '-y', '-i', at(spec.source), ...captions.flatMap((c) => ['-i', c.png]),
+  '-v', 'error', '-y', '-i', at(spec.source), ...captions.flatMap((c) => ['-i', c.png]), ...slideInputs,
   '-filter_complex', parts.join(';'), '-map', `[${prev}]`, '-an',
   '-c:v', 'libx264', '-preset', 'slow', '-crf', String(spec.crf ?? 24), '-pix_fmt', 'yuv420p', '-r', '30',
   '-movflags', '+faststart', out,
@@ -122,5 +194,5 @@ await run('ffmpeg', ['-v', 'error', '-y', '-i', out, '-vf', 'fps=1/6,scale=426:-
 
 const made = await probe(out);
 const bytes = (await fs.stat(out)).size;
-console.log(`${path.relative(ROOT, out)}  ${made.width}x${made.height}  ${made.duration.toFixed(1)}s  ${(bytes / 1e6).toFixed(1)} MB  ${captions.length} captions`);
+console.log(`${path.relative(ROOT, out)}  ${made.width}x${made.height}  ${made.duration.toFixed(1)}s  ${(bytes / 1e6).toFixed(1)} MB  ${captions.length} captions${slidePng ? `, closing slide from ${loopLength.toFixed(1)}s` : ''}`);
 for (const c of captions) console.log(`  ${c.from.toFixed(1).padStart(5)}–${c.to.toFixed(1).padEnd(5)} ${c.text}`);
