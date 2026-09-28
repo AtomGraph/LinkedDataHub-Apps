@@ -10,6 +10,7 @@ import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
 import { foreignNode, expand, select, zoomToFit, approach } from '../lib/graph.mjs';
 import { deleteByTitle } from '../lib/fixture.mjs';
 import { GEOMETRY_2X, focus, centre, load } from '../lib/supercut.mjs';
+import { revealControls } from '../lib/blocks.mjs';
 
 const opts = await resolve('/');
 const { base, identity } = opts;
@@ -55,20 +56,23 @@ await runScene({
     await sleep(600);
 
     // ── 1d · Related results: the orders' brokers, then the brokers' territories ──
-    // The pivot bar is a closed <details>: its summary is the "Related results" line,
-    // and each pill re-centres the view on the related resources in place.
+    // The view's control bands wait to be asked for: the toggle in the card header opens
+    // the toolbar and the Related results row together, and each pill re-centres the view
+    // on the related resources in place.
     const view = () => page.locator('.ldh-pane.is-active .ldh-block').filter({ has: page.locator('.ldh-view-toolbar') }).filter({ hasText: 'Orders from this customer' }).first();
     const count = async () => (await view().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 }).catch(() => '?')).trim();
-    const bar = view().locator('details.ldh-pivot-bar').first();
+    const toggle = view().locator('.ldh-block-head button.tb-controls').first();
+    if (!(await toggle.count())) throw new Error('no controls toggle on the orders view');
+    await toggle.scrollIntoViewIfNeeded();
+    await cursor.moveTo(...(await centre(toggle)), { duration: 600 });
+    await marks.beat('1d-start', `${await count()} orders; pointer on the controls toggle`, await focus(view()));
+    const shown = await revealControls(page, cursor, view());
+    if (!shown.ok) throw new Error(shown.why ?? 'the controls did not open');
+    const bar = view().locator('.ldh-pivot-bar').first();
     if (!(await bar.count())) throw new Error('no Related results bar on the orders view');
-    const summary = bar.locator('summary').first();
-    await summary.scrollIntoViewIfNeeded();
-    await cursor.moveTo(...(await centre(summary)), { duration: 600 });
-    await marks.beat('1d-start', `${await count()} orders; pointer on Related results`, await focus(view()));
-    if (!(await bar.evaluate((d) => d.open))) { await cursor.click(summary); await sleep(900); }
+    await marks.beat('1d-open', 'the toolbar and Related results, opened', await focus(view()));
     const ROUTE = [{ pill: /Sales rep/, what: 'the reps who took them' }, { pill: /Territory/, what: 'the territories they cover' }];
     for (const [i, hop] of ROUTE.entries()) {
-      if (!(await bar.evaluate((d) => d.open).catch(() => false))) { await cursor.click(summary); await sleep(900); }
       const pills = view().locator('.ldh-pivot-pill:visible');
       const pill = pills.filter({ hasText: hop.pill }).first();
       if (!(await pill.count())) throw new Error(`hop ${i + 1}: no ${hop.pill} pill among ${JSON.stringify((await pills.allTextContents()).map((t) => t.replace(/\s+/g, ' ').trim()))}`);

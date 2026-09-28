@@ -128,32 +128,57 @@ export async function saveForm(page, cursor, form, { settle = 3500 } = {}) {
   return err ? { ok: false, why: err } : { ok: true };
 }
 
-// Moving a block: the app's own drag events, with the pointer shown travelling for the
-// camera. Playwright's pointer drags never reached the handler (three mechanisms); a
-// DataTransfer carrying the app's block type does. The app moves the dragged block
-// AFTER the block it is dropped on, so dropping on the previous sibling is a no-op:
-// to put B above A, drag A onto B.
-export async function dragBlock(page, cursor, from, to, { travel = 900 } = {}) {
+// Moving a block: a pointer drag, the way a person does it.
+//
+// The app's handlers read their subject off the element under the POINTER - ondragstart
+// resolves the row from the handle, ondragover marks the row the block would land after,
+// ondrop resolves both from wherever the release lands - so the drag is the mouse and not a
+// set of DragEvents dispatched at chosen elements. Chromium delivers the HTML5 events for a
+// real pointer drag; what it needs is a small first move after the press to cross the drag
+// threshold. (The earlier synthetic version was a workaround for a build where pointer drags
+// did not reach the handler; measured 2026-09-28, they do, and the browser then also draws
+// the drag image under the pointer, which no dispatched event ever could.)
+//
+// The drop marker is a dotted line at the BOTTOM edge of the target row, and the target here
+// is the chart block, taller than the fold. Before the release the page is scrolled so that
+// edge is on screen: the marker is what the drag tells the reader, and a marker below the
+// fold reads as no marker at all.
+//
+// The app moves the dragged block AFTER the block it is dropped on, so dropping on the
+// previous sibling is a no-op: to put B above A, drag A onto B.
+export async function dragBlock(page, cursor, from, to, { travel = 900, hold = 900 } = {}) {
   const handle = from.locator('span.ldh-bh-drag').first();
   if (!(await handle.count())) return { ok: false, why: 'no drag handle on the source block' };
   const target = to.locator('.ldh-block').first();
   if (!(await target.count())) return { ok: false, why: 'no block inside the target row' };
-  await from.hover(); await sleep(300);
-  const hb = await handle.boundingBox(), tb = await target.boundingBox();
-  if (!hb || !tb) return { ok: false, why: 'no boxes' };
-  const h = { x: hb.x + hb.width / 2, y: hb.y + hb.height / 2 };
-  const t = { x: tb.x + Math.min(80, tb.width / 2), y: tb.y + Math.min(40, tb.height / 2) };
-  const order = () => page.evaluate(() => JSON.stringify([...document.querySelectorAll('.ldh-pane.is-active .ldh-block-row')].filter((r) => r.querySelector('span.ldh-bh-drag')).map((r) => r.getAttribute('about'))));
+  const order = () => page.evaluate(() => JSON.stringify([...document.querySelectorAll('.ldh-pane.is-active .content-body > .ldh-block-row')].filter((r) => r.querySelector('span.ldh-bh-drag')).map((r) => r.getAttribute('about'))));
   const before = await order();
+
+  await from.hover(); await sleep(300);
+  const hb = await handle.boundingBox();
+  if (!hb) return { ok: false, why: 'no handle box' };
+  const h = { x: hb.x + hb.width / 2, y: hb.y + hb.height / 2 };
   await cursor.moveTo(h.x, h.y, { duration: 500 });
   await sleep(250);
-  await handle.evaluate((el, h) => { window.__dt = new DataTransfer(); el.dispatchEvent(new DragEvent('dragstart', { bubbles: true, cancelable: true, dataTransfer: window.__dt, clientX: h.x, clientY: h.y })); }, h);
-  // travel: the pointer moves, the target lights up as the app marks it
-  await cursor.moveTo(t.x, t.y, { duration: travel });
-  await target.evaluate((el, t) => { for (const type of ['dragenter', 'dragover']) el.dispatchEvent(new DragEvent(type, { bubbles: true, cancelable: true, dataTransfer: window.__dt, clientX: t.x, clientY: t.y })); }, t);
-  await sleep(400);
-  await target.evaluate((el, t) => { el.dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer: window.__dt, clientX: t.x, clientY: t.y })); }, t);
-  await handle.evaluate((el) => el.dispatchEvent(new DragEvent('dragend', { bubbles: true, dataTransfer: window.__dt }))).catch(() => {});
-  const changed = await page.waitForFunction((b) => JSON.stringify([...document.querySelectorAll('.ldh-pane.is-active .ldh-block-row')].filter((r) => r.querySelector('span.ldh-bh-drag')).map((r) => r.getAttribute('about'))) !== b, before, { timeout: 10_000 }).then(() => true, () => false);
+  await page.mouse.down();
+  await page.mouse.move(h.x + 8, h.y + 8);      // cross the drag threshold: the drag starts here
+  await sleep(120);
+
+  // travel: the pointer crosses the page in steps, so the rows under it receive the dragover
+  // stream a real drag produces, and the target lights up as the app marks it
+  const tb = await target.boundingBox();
+  if (!tb) return { ok: false, why: 'no target box' };
+  await page.mouse.move(tb.x + Math.min(120, tb.width / 2), tb.y + Math.min(60, tb.height / 2), { steps: Math.max(12, Math.round(travel / 40)) });
+  await sleep(300);
+
+  // the marker is drawn at the target's bottom edge: bring it into the frame before releasing
+  await to.evaluate((el) => el.scrollIntoView({ block: 'end', behavior: 'smooth' }));
+  await sleep(900);
+  const tb2 = await target.boundingBox();
+  if (tb2) await page.mouse.move(tb2.x + Math.min(120, tb2.width / 2), tb2.y + Math.max(20, tb2.height - 80), { steps: 8 });
+  await sleep(hold);
+  await page.mouse.up();
+
+  const changed = await page.waitForFunction((b) => JSON.stringify([...document.querySelectorAll('.ldh-pane.is-active .content-body > .ldh-block-row')].filter((r) => r.querySelector('span.ldh-bh-drag')).map((r) => r.getAttribute('about'))) !== b, before, { timeout: 10_000 }).then(() => true, () => false);
   return changed ? { ok: true } : { ok: false, why: 'the order did not change' };
 }

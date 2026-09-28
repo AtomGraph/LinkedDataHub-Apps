@@ -5,7 +5,7 @@
 import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
 import { resetDocument } from '../lib/fixture.mjs';
 import { create, typeQuery, fill, save, configureChart } from '../lib/constructors.mjs';
-import { addProse, addObject, switchDocumentMode, contentModeUrl } from '../lib/blocks.mjs';
+import { addProse, addObject, switchDocumentMode, contentModeUrl, revealControls } from '../lib/blocks.mjs';
 import { dragBlock } from '../lib/editing.mjs';
 import { ui } from '../lib/dom.mjs';
 import { GEOMETRY_2X, zoom2x, focus, centre, load, easeScrollTo, easeScrollTop } from '../lib/supercut.mjs';
@@ -69,7 +69,11 @@ await runScene({
     await easeScrollTo(row(), { ms: 1400, margin: 40 }); await sleep(600);
     await marks.beat('c1-end', q.ok && s1.ok ? 'four rows' : (q.why ?? s1.why), await focus(row()));
     // ── c2 · a chart from it ───────────────────────────────────────────────────
-    await marks.beat('c2-start', 'the rows; chart type: Table', await focus(row()));
+    await marks.beat('c2-start', 'the rows; pointer on the controls toggle', await focus(row()));
+    // the chart selects wait behind the card header's toggle, like every block's controls
+    const shown = await revealControls(page, cursor, row());
+    if (!shown.ok) throw new Error(shown.why ?? 'the chart controls did not open');
+    await marks.beat('c2-controls', 'chart type: Table', await focus(row()));
     const cfg = await configureChart(page, cursor, row(), { type: 'Bar chart', category: 'region', series: ['reps'] });
     await sleep(1200);
     await marks.beat('c2-drawn', cfg.ok ? 'bars in the pane' : cfg.why, await focus(row()));
@@ -128,7 +132,9 @@ await runScene({
     const prose = rows.first(), chart = rows.last();
     await easeScrollTop(page, { ms: 1400 }); await sleep(500);
     await marks.beat('c5-start', 'sentence above, chart below', await focus(prose, chart));
-    // the app moves the dragged block after the drop target: the sentence goes below the chart
+    // a pointer drag: the app moves the dragged block after the drop target, so the sentence
+    // goes below the chart; the helper scrolls the target's bottom edge into view before the
+    // release, since that is where the drop marker is drawn
     const dr = await dragBlock(page, cursor, prose, chart);
     await sleep(1500);
     await marks.beat('c5-dropped', dr.ok ? 'dropped: the sentence now follows the chart' : dr.why, await focus(rows.first()));
