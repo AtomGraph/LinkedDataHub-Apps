@@ -645,7 +645,36 @@
         <h2 id="other-assets">Other assets</h2>
         <div>
             <h3 id="css">CSS</h3>
-            <p>The stylesheet links are emitted by the <code>ac:Stylesheets</code> XSLT template mode. It links the design-system stylesheets (<samp>fonts.css</samp>, <samp>colors_and_type.css</samp>, <samp>app.css</samp>, <samp>retro.css</samp>) together with <samp>ldh.css</samp> and <samp>ldh-bridge.css</samp>, plus feature-specific stylesheets such as <samp>rdfa-editor.css</samp> (rich-text editing) and <samp>yasqe.css</samp> (SPARQL editor). Dataspace stylesheets that import <samp>layout.xsl</samp> can override the <code>ac:Stylesheets</code> template mode to add or replace stylesheets.</p>
+            <p>The stylesheet links are emitted by the <code>ac:Stylesheets</code> XSLT template mode, in cascade order: the vendored design-system stylesheets — <samp>fonts.css</samp>, <samp>colors_and_type.css</samp> (tokens), <samp>app.css</samp> (components; it imports <samp>core.css</samp>, which imports <samp>controls.css</samp> and <samp>overlays.css</samp>) and <samp>retro.css</samp> (the skin) — then <samp>ldh.css</samp>, LinkedDataHub's one app layer over the kits, loaded last so it wins the ties it is written to win. Feature-specific stylesheets are linked ahead of them and only when needed: <samp>rdfa-editor.css</samp> for rich-text editing when an agent is authenticated, <samp>yasqe.css</samp> for the SPARQL editor. Dataspace stylesheets that import <samp>layout.xsl</samp> can override the <code>ac:Stylesheets</code> template mode to add or replace stylesheets.</p>
+            <p>Components are named by class rather than by element: <code>ac-*</code> for the design system's own components (<samp>ac-btn</samp>, <samp>ac-alert</samp>, <samp>ac-card</samp>, <samp>ac-badge</samp>) and <code>ldh-*</code> for the ones LinkedDataHub adds over them (<samp>ldh-block</samp>, <samp>ldh-actionbar</samp>, <samp>ldh-address</samp>). A component is varied by stacking one class from each axis onto it, not by a compound name — the action bar's <dfn>Actions</dfn> button is <samp>ac-btn in-neutral ap-outline sz-md</samp>, a form's <dfn>Save</dfn> button <samp>ac-btn in-primary ap-solid sz-md</samp>.</p>
+            <table>
+                <caption class="ac-vh">Class axes that vary a component</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Axis</th>
+                        <th scope="col">Classes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Intent</td>
+                        <td><samp>in-primary</samp>, <samp>in-neutral</samp>, <samp>in-accent</samp>, <samp>in-destructive</samp>, <samp>in-negative</samp>, <samp>in-inverse</samp></td>
+                    </tr>
+                    <tr>
+                        <td>Appearance</td>
+                        <td><samp>ap-solid</samp>, <samp>ap-outline</samp>, <samp>ap-ghost</samp>, <samp>ap-fixed</samp></td>
+                    </tr>
+                    <tr>
+                        <td>Size</td>
+                        <td><samp>sz-xs</samp>, <samp>sz-sm</samp>, <samp>sz-md</samp>, <samp>sz-lg</samp>, <samp>sz-xl</samp></td>
+                    </tr>
+                    <tr>
+                        <td>Variant</td>
+                        <td><samp>va-informative</samp>, <samp>va-positive</samp>, <samp>va-negative</samp>, <samp>va-neutral</samp>, <samp>va-emphasis</samp>, <samp>va-enclosed</samp>, <samp>va-line</samp>, <samp>va-hero</samp>, <samp>va-inverse</samp>, <samp>va-fixed</samp> — carried by components that vary by kind rather than by intent, such as <samp>ac-alert</samp></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>That vocabulary is the contract the templates emit, so restyling is a matter of writing rules against those classes. Changes belong in a stylesheet of the dataspace's own: <samp>ldh.css</samp> is the platform's app layer and is replaced wholesale on upgrade. Override the <code>ac:Stylesheets</code> template mode and call <code>xsl:next-match</code> first, which emits the platform's links and leaves yours last in the cascade, where they win the ties they need to win. Omitting <code>xsl:next-match</code> drops the vendored kits along with <samp>ldh.css</samp> and leaves the components unstyled.</p>
         </div>
         <div>
             <h3 id="javascript">JavaScript</h3>
