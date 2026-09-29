@@ -16,8 +16,8 @@ packages/<package-path>/
 
 The directory path is the package URI: a package under `packages/a/b/` is published at
 `https://packages.linkeddatahub.com/a/b/`, so a path may carry as many segments as the grouping
-needs. The stylesheet filename is not a convention — it is whatever the package's `ac:stylesheet`
-names.
+needs. A package folder holds one `.xsl` file, and `install.sh` makes it the package's `ac:stylesheet`;
+its name is not a convention.
 
 Package metadata is Linked Data that resolves from the package URI (e.g., `https://packages.linkeddatahub.com/editor/taxonomy/#this`).
 
@@ -42,24 +42,32 @@ which `ldh push` PUTs to `https://packages.linkeddatahub.com/editor/taxonomy/`:
 
 ```turtle
 @prefix lds:  <https://w3id.org/atomgraph/linkeddatahub/dataspaces#> .
-@prefix ac:   <https://w3id.org/atomgraph/client#> .
 @prefix dct:  <http://purl.org/dc/terms/> .
 
 <#this> a lds:Package ;
     dct:title "Taxonomy Editor" ;
     dct:description "Turns a dataspace into a taxonomy editor: ..." ;
-    lds:ontology <ns/#> ;
-    ac:stylesheet <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/refs/heads/develop/packages/editor/taxonomy/skos.xsl> .
+    lds:ontology <ns/#> .
 ```
 
 `lds:ontology <ns/#>` is registry-relative: the same push PUTs `ns.ttl` as the `ns/` document beside the
 descriptor, so the ontology is served by the registry itself. It names the ontology IRI that `ns.ttl`
 declares (`<#>` resolved against the `ns/` document), not the document URL: the imports closure keys
 graphs by ontology IRI, and a descriptor naming the document loads it a second time under the IRI,
-which fails with "Another graph with name ... is already in the hierarchy". `ac:stylesheet` is the raw file in this
-repository, on the branch the registry was published from — a branch tip, not a release, so a push to
-that branch changes the rendering of every dataspace that imports the package next time it
-materializes the copy (see [What the Declaration Does](#what-the-declaration-does)).
+which fails with "Another graph with name ... is already in the hierarchy".
+
+The descriptor in this repository has no `ac:stylesheet`. The push uploads the package's `.xsl` file into
+the package document as `text/xsl`, and `install.sh` then adds the reference to that upload, whose URI it
+computes from the same file:
+
+```turtle
+<https://packages.linkeddatahub.com/editor/taxonomy/#this>
+    ac:stylesheet <https://packages.linkeddatahub.com/uploads/01db8c939f6841c397c0e4eda60a863318ca5126> .
+```
+
+An upload's URI is the SHA-1 of its content, so the published reference names exactly the stylesheet
+that was published with it, and a changed stylesheet gets a new URI rather than changing under the
+dataspaces that already copied it (see [What the Declaration Does](#what-the-declaration-does)).
 
 **Note**: Uses standard `lds:ontology` and `ac:stylesheet` properties instead of inventing new ones.
 
@@ -216,10 +224,10 @@ vocabulary stays in the dataspace, and may not display or validate correctly wit
 
 1. Create directory: `packages/<path>/`, naming it for what the package does
 2. Write `ns.ttl` with vocabulary and property views (using `ldh:view` or `ldh:inverseView`)
-3. Write the stylesheet with XSLT templates (using system modes like `ac:*`, `ldh:*`, `xhtml:*`, etc.), naming the file for the vocabulary it covers
-4. Publish package metadata as Linked Data at `https://packages.linkeddatahub.com/<path>/#this`
-5. Ensure the metadata contains `lds:ontology` and `ac:stylesheet` properties pointing to the package resources
-6. List the package in the catalog, `root.ttl`, as an `rdfs:member` of the registry root with the same
+3. Write the stylesheet with XSLT templates (using system modes like `ac:*`, `ldh:*`, `xhtml:*`, etc.), naming the file for the vocabulary it covers; it is the only `.xsl` file in the folder
+4. Describe the package in `packages/<path>.ttl` as `<#this>`, the `foaf:primaryTopic` of the document, with an `lds:ontology`
+   naming the ontology IRI `ns.ttl` declares; leave `ac:stylesheet` out, `install.sh` adds it
+5. List the package in the catalog, `root.ttl`, as an `rdfs:member` of the registry root with the same
    `dct:title` and `dct:description` as its descriptor: the settings modal and `ldh packages list` read
    the catalog, not the descriptors
 
