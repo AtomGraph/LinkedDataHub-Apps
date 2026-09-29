@@ -5,6 +5,9 @@
 @prefix owl:    <http://www.w3.org/2002/07/owl#> .
 @prefix schema: <https://schema.org/> .
 @prefix dct:    <http://purl.org/dc/terms/> .
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix sp:     <http://spinrdf.org/sp#> .
+@prefix spin:   <http://spinrdf.org/spin#> .
 
 <ns#> a owl:Ontology ;
     owl:imports schema: ;
@@ -53,4 +56,245 @@
 :PublicToilet a rdfs:Class, owl:Class ;
     rdfs:label "Toilet" ;
     rdfs:subClassOf schema:PublicToilet ;
+    rdfs:isDefinedBy <ns#> .
+
+# constructors: one per class, carrying the fields its mapping query populates
+
+:BicycleParking spin:constructor :BicycleParkingConstructor .
+
+:BicycleParkingConstructor a ldh:Constructor ;
+    rdfs:label "Bicycle parking constructor" ;
+    dct:title "Bicycle parking constructor" ;
+    sp:text """
+        PREFIX dct:    <http://purl.org/dc/terms/>
+        PREFIX schema: <https://schema.org/>
+        PREFIX geo:    <http://www.w3.org/2003/01/geo/wgs84_pos#>
+        PREFIX dbo:    <http://dbpedia.org/ontology/>
+        PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                dct:identifier [ a xsd:string ] ;
+                geo:lat [ a xsd:float ] ;
+                geo:long [ a xsd:float ] ;
+                dbo:city [ a xsd:string ] ;
+                schema:streetAddress [ a xsd:string ] ;
+                schema:maximumAttendeeCapacity [ a xsd:integer ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy <ns#> .
+
+:ChargingStation spin:constructor :ChargingStationConstructor .
+
+:ChargingStationConstructor a ldh:Constructor ;
+    rdfs:label "Charging station constructor" ;
+    dct:title "Charging station constructor" ;
+    sp:text """
+        PREFIX dct:    <http://purl.org/dc/terms/>
+        PREFIX schema: <https://schema.org/>
+        PREFIX geo:    <http://www.w3.org/2003/01/geo/wgs84_pos#>
+        PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                dct:identifier [ a xsd:string ] ;
+                geo:lat [ a xsd:float ] ;
+                geo:long [ a xsd:float ] ;
+                schema:streetAddress [ a xsd:string ] ;
+                schema:additionalProperty [ a xsd:string ] ;
+                schema:maximumAttendeeCapacity [ a xsd:integer ] ;
+                schema:serviceOperator [ a xsd:string ] ;
+                schema:comment [ a xsd:string ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy <ns#> .
+
+:Library spin:constructor :LibraryConstructor .
+
+:LibraryConstructor a ldh:Constructor ;
+    rdfs:label "Library constructor" ;
+    dct:title "Library constructor" ;
+    sp:text """
+        PREFIX dct:    <http://purl.org/dc/terms/>
+        PREFIX schema: <https://schema.org/>
+        PREFIX geo:    <http://www.w3.org/2003/01/geo/wgs84_pos#>
+        PREFIX dbo:    <http://dbpedia.org/ontology/>
+        PREFIX foaf:   <http://xmlns.com/foaf/0.1/>
+        PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                dct:identifier [ a xsd:string ] ;
+                geo:lat [ a xsd:float ] ;
+                geo:long [ a xsd:float ] ;
+                schema:streetAddress [ a xsd:string ] ;
+                schema:postalCode [ a xsd:string ] ;
+                dbo:district [ a xsd:string ] ;
+                foaf:page [ a rdfs:Resource ] ;
+                foaf:mbox [ a rdfs:Resource ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy <ns#> .
+
+:ParkingFacility spin:constructor :ParkingFacilityConstructor .
+
+:ParkingFacilityConstructor a ldh:Constructor ;
+    rdfs:label "Parking facility constructor" ;
+    dct:title "Parking facility constructor" ;
+    sp:text """
+        PREFIX dct:    <http://purl.org/dc/terms/>
+        PREFIX schema: <https://schema.org/>
+        PREFIX geo:    <http://www.w3.org/2003/01/geo/wgs84_pos#>
+        PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                dct:identifier [ a xsd:string ] ;
+                geo:lat [ a xsd:float ] ;
+                geo:long [ a xsd:float ] ;
+                schema:streetAddress [ a xsd:string ] ;
+                schema:postalCode [ a xsd:string ] ;
+                schema:maximumAttendeeCapacity [ a xsd:integer ] ;
+                schema:additionalProperty [ a xsd:string ] ;
+                schema:comment [ a xsd:string ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy <ns#> .
+
+:Place spin:constructor :PlaceConstructor .
+
+:PlaceConstructor a ldh:Constructor ;
+    rdfs:label "Place constructor" ;
+    dct:title "Place constructor" ;
+    sp:text """
+        PREFIX dct:    <http://purl.org/dc/terms/>
+        PREFIX geo:    <http://www.w3.org/2003/01/geo/wgs84_pos#>
+        PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                dct:identifier [ a xsd:string ] ;
+                geo:lat [ a xsd:float ] ;
+                geo:long [ a xsd:float ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy <ns#> .
+
+:Playground spin:constructor :PlaygroundConstructor .
+
+:PlaygroundConstructor a ldh:Constructor ;
+    rdfs:label "Playground constructor" ;
+    dct:title "Playground constructor" ;
+    sp:text """
+        PREFIX dct:    <http://purl.org/dc/terms/>
+        PREFIX schema: <https://schema.org/>
+        PREFIX geo:    <http://www.w3.org/2003/01/geo/wgs84_pos#>
+        PREFIX foaf:   <http://xmlns.com/foaf/0.1/>
+        PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                dct:identifier [ a xsd:string ] ;
+                geo:lat [ a xsd:float ] ;
+                geo:long [ a xsd:float ] ;
+                schema:streetAddress [ a xsd:string ] ;
+                schema:typicalAgeRange [ a xsd:string ] ;
+                dct:description [ a xsd:string ] ;
+                foaf:page [ a rdfs:Resource ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy <ns#> .
+
+:School spin:constructor :SchoolConstructor .
+
+:SchoolConstructor a ldh:Constructor ;
+    rdfs:label "School constructor" ;
+    dct:title "School constructor" ;
+    sp:text """
+        PREFIX dct:    <http://purl.org/dc/terms/>
+        PREFIX schema: <https://schema.org/>
+        PREFIX geo:    <http://www.w3.org/2003/01/geo/wgs84_pos#>
+        PREFIX dbo:    <http://dbpedia.org/ontology/>
+        PREFIX foaf:   <http://xmlns.com/foaf/0.1/>
+        PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                dct:identifier [ a xsd:string ] ;
+                geo:lat [ a xsd:float ] ;
+                geo:long [ a xsd:float ] ;
+                schema:streetAddress [ a xsd:string ] ;
+                schema:postalCode [ a xsd:string ] ;
+                schema:addressRegion [ a xsd:string ] ;
+                dbo:city [ a xsd:string ] ;
+                dbo:district [ a xsd:string ] ;
+                foaf:page [ a rdfs:Resource ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy <ns#> .
+
+:SportsCenter spin:constructor :SportsCenterConstructor .
+
+:SportsCenterConstructor a ldh:Constructor ;
+    rdfs:label "Sports center constructor" ;
+    dct:title "Sports center constructor" ;
+    sp:text """
+        PREFIX dct:    <http://purl.org/dc/terms/>
+        PREFIX schema: <https://schema.org/>
+        PREFIX geo:    <http://www.w3.org/2003/01/geo/wgs84_pos#>
+        PREFIX foaf:   <http://xmlns.com/foaf/0.1/>
+        PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                dct:identifier [ a xsd:string ] ;
+                geo:lat [ a xsd:float ] ;
+                geo:long [ a xsd:float ] ;
+                schema:streetAddress [ a xsd:string ] ;
+                schema:postalCode [ a xsd:string ] ;
+                foaf:mbox [ a rdfs:Resource ] ;
+                foaf:page [ a rdfs:Resource ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy <ns#> .
+
+:PublicToilet spin:constructor :PublicToiletConstructor .
+
+:PublicToiletConstructor a ldh:Constructor ;
+    rdfs:label "Toilet constructor" ;
+    dct:title "Toilet constructor" ;
+    sp:text """
+        PREFIX dct:    <http://purl.org/dc/terms/>
+        PREFIX schema: <https://schema.org/>
+        PREFIX geo:    <http://www.w3.org/2003/01/geo/wgs84_pos#>
+        PREFIX dbo:    <http://dbpedia.org/ontology/>
+        PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                dct:identifier [ a xsd:string ] ;
+                geo:lat [ a xsd:float ] ;
+                geo:long [ a xsd:float ] ;
+                schema:streetAddress [ a xsd:string ] ;
+                schema:postalCode [ a xsd:string ] ;
+                schema:additionalProperty [ a xsd:string ] ;
+                dbo:isHandicappedAccessible [ a xsd:string ] ;
+                schema:location [ a xsd:string ] ;
+                schema:comment [ a xsd:string ] ;
+                schema:openingHours [ a xsd:string ] .
+        }
+        WHERE {}""" ;
     rdfs:isDefinedBy <ns#> .

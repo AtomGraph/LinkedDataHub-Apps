@@ -7,13 +7,32 @@ CONSTRUCT
 {
     GRAPH ?graph
     {
+        ?graph foaf:topic ?orderItem, ?listPrice .
+
         ?order schema:orderedItem ?orderItem .
 
-        ?orderItem a schema:OrderItem ;
+        # schema:OrderItem carries no price in schema.org - its only properties are
+        # orderedItem, orderQuantity, orderItemNumber, orderItemStatus and orderDelivery.
+        # Prices belong to schema:Offer, so the line is both: the item that was ordered
+        # and the offer that was accepted for it. schema:Offer's own schema:price is the
+        # price of the offer as a whole, i.e. what this line came to.
+        ?orderItem a schema:OrderItem, schema:Offer ;
             schema:orderedItem ?product ;
+            schema:itemOffered ?product ;
             schema:orderQuantity ?quantity ;
-            schema:discount ?discount ;
-            schema:price ?price .
+            schema:price ?lineTotal ;
+            schema:priceCurrency "USD" ;
+            schema:priceSpecification ?listPrice .
+
+        # Northwind's per-line discount rate has no home in schema.org - schema:discount
+        # is an Order-level property. Nothing is lost by dropping it: the undiscounted
+        # unit price below, the quantity above and the line total pin the rate exactly,
+        # and unlike a stored rate they cannot disagree with each other.
+        ?listPrice a schema:UnitPriceSpecification ;
+            dct:title "List price" ;
+            schema:priceType schema:ListPrice ;
+            schema:price ?price ;
+            schema:priceCurrency "USD" .
     }
 }
 WHERE
@@ -27,8 +46,10 @@ WHERE
     BIND(uri(concat(str($base), "orders/", encode_for_uri(?orderID), "/")) AS ?graph)
     BIND(uri(concat(str(?graph), "#this")) AS ?order)
     BIND(uri(concat(str(?graph), "#", STRUUID())) AS ?orderItem)
+    BIND(uri(concat(str(?orderItem), "-list-price")) AS ?listPrice)
     BIND(uri(concat(str($base), "products/", encode_for_uri(?productID), "/#this")) AS ?product)
     BIND (STRDT(?unitPrice, xsd:float) AS ?price)
     BIND (STRDT(?quantityString, xsd:integer) AS ?quantity)
     BIND (STRDT(?discountString, xsd:float) AS ?discount)
+    BIND (STRDT(str(round(?quantity * ?price * (1 - ?discount) * 100) / 100), xsd:float) AS ?lineTotal)
 }

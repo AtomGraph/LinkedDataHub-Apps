@@ -1,0 +1,127 @@
+{
+  "source": "tracks/supercut.mp4",
+  "output": "tracks/supercut-captioned.mp4",
+  "poster": "tracks/supercut-captioned.jpg",
+  "posterAt": 3,
+  "width": 1440,
+  "crop": {
+    "top": 56,
+    "bottom": 130
+  },
+  "cuts": [],
+  "crf": 20,
+  "caption": {
+    "size": 38,
+    "weight": 500,
+    "inset": 44,
+    "bottom": 40
+  },
+  "captions": [
+    {
+      "in": 0.0,
+      "out": 6.0,
+      "text": "Graph mode draws documents as nodes and links as edges."
+    },
+    {
+      "in": 6.0,
+      "out": 14.033,
+      "text": "Clicking a node opens its document."
+    },
+    {
+      "in": 14.033,
+      "out": 23.833,
+      "text": "Related results follows the links out of the orders."
+    },
+    {
+      "in": 23.833,
+      "out": 29.433,
+      "text": "The territory's page shows the views its class declares."
+    },
+    {
+      "in": 29.433,
+      "out": 41.433,
+      "text": "The class generates the form, and Save writes the graph."
+    },
+    {
+      "in": 41.433,
+      "out": 54.033,
+      "text": "A file dropped on the document is uploaded into it."
+    },
+    {
+      "in": 54.033,
+      "out": 61.133,
+      "text": "The upload is picked as the value of a property."
+    },
+    {
+      "in": 61.133,
+      "out": 67.333,
+      "text": "The territory's view picks up the change by itself."
+    },
+    {
+      "in": 67.333,
+      "out": 73.367,
+      "text": "The breadcrumb leads back up to the container."
+    },
+    {
+      "in": 73.367,
+      "out": 81.964,
+      "text": "A SPARQL query is saved as a document."
+    },
+    {
+      "in": 81.964,
+      "out": 84.962,
+      "text": "Its results are rendered as a view."
+    },
+    {
+      "in": 84.962,
+      "out": 90.856,
+      "text": "A result set chart is bound to the query."
+    },
+    {
+      "in": 90.856,
+      "out": 94.3,
+      "text": "In Content mode the document is a list of blocks."
+    },
+    {
+      "in": 94.3,
+      "out": 98.739,
+      "text": "An XHTML block holds the prose."
+    },
+    {
+      "in": 98.739,
+      "out": 106.13,
+      "text": "An object block embeds the chart."
+    },
+    {
+      "in": 106.13,
+      "out": 109.02,
+      "text": "Dragging a block reorders the page."
+    },
+    {
+      "in": 109.02,
+      "out": 112.1,
+      "text": "The application is data."
+    }
+  ],
+  "slide": {
+    "eyebrow": "Open-source Knowledge Graph platform",
+    "title": "The application is data.",
+    "lede": "Classes, forms, views, charts and access rules are RDF documents. Push a folder of Turtle and the dataspace is live. An agent can write it.",
+    "links": [
+      {
+        "label": "linkeddatahub.com",
+        "primary": true
+      },
+      {
+        "label": "github.com/AtomGraph/LinkedDataHub"
+      }
+    ],
+    "note": "Open source under Apache 2.0",
+    "fade": 1.2,
+    "seconds": 6
+  },
+  "audio": {
+    "file": "audio/supercut.mp3",
+    "fadeOut": 0.4
+  }
+}

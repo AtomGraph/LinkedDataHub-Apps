@@ -1,138 +1,190 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
-  
+
 <> a dh:Item ;
     dct:title "Dataspace" ;
-    dct:description "LinkedDataHub dataspaces, applications, and services" ;
+    dct:description "LinkedDataHub dataspaces and services" ;
     rdf:_1 <#content> .
-    
+
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">LinkedDataHub dataspaces, applications, and services</p>
+    <p class="ldh-body-lg">LinkedDataHub dataspaces and services</p>
     <div>
         <h2 id="dataspaces">Dataspaces</h2>
-        <p>The LinkedDataHub URI address space is split into <dfn>dataspaces</dfn>. Every dataspace consists of a pair of LinkedDataHub applications:
-            <a href="#end-user-apps">end-user</a> and <a href="#admin-apps">administration</a>.</p>
-        <p>The end-user app will be available on the given base URI; the admin app will be available on the corresponding
-            <code>admin.</code> subdomain (e.g. the admin app of <samp>https://example.com/</samp> is served at <samp>https://admin.example.com/</samp>). The <a href="../administration/acl/#agents">agent</a> that installed the admin dataset will be the application <dfn>owner</dfn>.</p>
-        <p>The <dfn>secretary</dfn> is a special agent which represents the software application itself. It is distinct from the owner agent and is used to delegate the owner's access.</p>
-        <div>
-            <h3 id="configuring-dataspaces">Configuring dataspaces</h3>
-            <p>Dataspaces are configured using RDF files in <a href="https://www.w3.org/TR/trig/" target="_blank">TriG</a> syntax:</p>
-            <dl>
-                <dt><samp>config/dataspaces.trig</samp></dt>
-                <dd>Application metadata: base URIs, titles, descriptions, ontologies, and stylesheets</dd>
-                <dt><samp>config/system.trig</samp></dt>
-                <dd>Internal service wiring: app-to-service bindings and SPARQL endpoint connection details</dd>
-                <dt><samp>secrets/credentials.trig</samp></dt>
-                <dd>Service authentication credentials (optional, gitignored). See the <a href="../triplestores/#authentication">authentication reference</a> for details.</dd>
-            </dl>
-            <p>See the <a href="../configuration/#config-files">configuration reference</a> for more details about these files.</p>
-            <p>Application relationships (end-user ↔ admin) are automatically inferred based on naming conventions — applications with base URIs containing
-            <code>admin.</code> prefix are recognized as administration applications, and their corresponding end-user applications are automatically determined.
-            You do not need to manually specify these relationships.</p>
-        </div>
-        <p class="lead">See also the <a href="../administration/">administration reference</a>.</p>
-    </div>
-    <div>
-        <h2 id="applications">Applications</h2>
-        <p>All LinkedDataHub applications have the following traits:</p>
+        <p>The LinkedDataHub URI address space is split into <dfn>dataspaces</dfn>. A dataspace is identified by its <dfn>origin</dfn> — scheme, host and port — and
+            every resource it serves is relative to that origin. A single LinkedDataHub instance serves as many dataspaces as are configured, each on its own origin.</p>
+        <p>Every dataspace has the following traits:</p>
         <dl>
             <dt>Base URI</dt>
-            <dd>Base URI is a URI by which an application can be identified. All request URIs processed by an application are relative to one of its base URIs.</dd>
-            <dd>URIs in the <a href="../dataset/">application dataset</a> are usually (but not necessarily) relative to its base URIs.</dd>
+            <dd>The URI that identifies the dataspace. All request URIs it processes are relative to it.</dd>
+            <dd>URIs in the <a href="../dataset/">dataspace's dataset</a> are usually (but not necessarily) relative to its base URI.</dd>
             <dt>Service</dt>
-            <dd><a href="#services">SPARQL service</a></dd>
+            <dd><a href="#services">SPARQL service</a> the dataspace's dataset is stored in</dd>
             <dt>Namespace ontology</dt>
-            <dd><a href="../administration/ontologies/#ontologies">Ontology</a> that defines the terms (classes, properties, constraints etc.) of the application's domain. It can import
-                other ontologies from within the application as well as from external documents.</dd>
-            <dd>Ontologies as <a href="../administration/ontologies/">managed in the administration</a> application.</dd>
-        </dl>
-        <div class="alert alert-info">
-            <p>Base URI must end with a forward slash (<code>/</code>).</p>
-        </div>
-        <p>In addition to that, LinkedDataHub applications have one additional property:</p>
-        <dl>
+            <dd><a href="../administration/ontologies/#ontologies">Ontology</a> that defines the terms (classes, properties, constraints etc.) of the dataspace's domain. It can import
+                other ontologies from within the dataspace as well as from external documents.</dd>
+            <dd>Ontologies are <a href="../administration/ontologies/">managed in the administration dataspace</a>.</dd>
             <dt>Stylesheet</dt>
-            <dd><a href="../stylesheets/" target="_blank">XSLT stylesheet</a> that renders the applications layout</dd>
+            <dd>The <a href="../stylesheets/" target="_blank">XSLT stylesheet</a> that renders the dataspace's layout</dd>
         </dl>
-        <div>
-            <h3 id="end-user-apps">End-user</h3>
-            <p>The base URI of an end-user application is also the base URI of its dataspace.</p>
-            <p>Every end-user application is related to one <a href="#admin-apps">administration application</a>.</p>
-        </div>
-        <div>
-            <h3 id="admin-apps">Administration</h3>
-            <p>Every administration application is related to one <a href="#end-user-apps">end-user application</a>. It cannot exist standalone.</p>
-            <p>The base URI of an administration application is the base URI of its end-user application with the <code>admin.</code> subdomain
-                prefixed to the host (e.g. <samp>https://example.com/</samp> → <samp>https://admin.example.com/</samp>). Because the admin application lives on
-                its own subdomain (origin), it no longer occupies a path within the end-user application.</p>
-            <div class="alert alert-info">
-                <p>Since LinkedDataHub 5.1.0 the administration application is served on the <code>admin.</code> subdomain rather than under an
-                    <code>admin/</code> path. The subdomain must resolve in DNS and be covered by the server's TLS certificate.</p>
-            </div>
-            <p>Administration application provides means to control the <a href="../administration/ontologies/">domain model</a> and the
-                <a href="../administration/acl/">access control</a> of its end-user application. Only dataspace owners have access to its
-                administration application.</p>
-            <div class="alert alert-info">
-                <p>The agent which installs the adminstration application dataset becomes <a href="../administration/acl/#groups">the owner</a> of
-                    its dataspace.</p>
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
+                <p class="ac-alert-text">Base URI must end with a forward slash (<code>/</code>).</p>
             </div>
         </div>
-        <p>LinkedDataHub imports the <a href="../dataset/#default-datasets">default datasets</a> for each application type
-            into its service. The dataset URIs are rebased to be relative to the base URI of the application.</p>
+        <p>The <a href="../administration/acl/#agents">agent</a> that installed the dataspace's dataset is its <dfn>owner</dfn>. The <dfn>secretary</dfn> is a special agent
+            which represents the software itself; it is distinct from the owner agent and is used to delegate the owner's access.</p>
+        <p>LinkedDataHub imports the <a href="../dataset/#default-datasets">default datasets</a> for each kind of dataspace into its service. The dataset URIs are rebased
+            to be relative to the base URI of the dataspace.</p>
+        <p>Each dataspace's data is structured as a hierarchy of containers and items — see the
+            <a href="../data-model/documents/#hierarchy" target="_blank">document hierarchy reference</a> for details and the
+            <a href="../data-model/documents/#management" target="_blank">management actions</a> that can be performed on documents.
+            See also the <a href="../administration/">administration reference</a>.</p>
+        <div>
+            <h3 id="end-user">End-user dataspaces</h3>
+            <p>An end-user dataspace serves the domain data: the document hierarchy, its namespace ontology and whatever an agent is authorized to read or write. It is
+                typed <code>lds:EndUserDataspace</code> and is what a visitor reaches at the dataspace's own origin.</p>
+        </div>
+        <div>
+            <h3 id="admin">Administration dataspaces</h3>
+            <p>An administration dataspace provides the means to control the <a href="../administration/ontologies/">domain model</a> and the
+                <a href="../administration/acl/">access control</a> of the end-user dataspace it administers. It is typed <code>lds:AdminDataspace</code>, and only owners
+                have access to it.</p>
+            <p>The two are associated by origin rather than by declaration: an administration dataspace's origin is its end-user dataspace's origin with the
+                <code>admin.</code> subdomain prefixed to the host (e.g. <samp>https://example.com/</samp> → <samp>https://admin.example.com/</samp>), and LinkedDataHub
+                derives the counterpart from the host in either direction. You do not configure the relationship.</p>
+            <div class="ac-alert va-informative" role="status">
+                <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+                <div class="ac-alert-body">
+                    <p class="ac-alert-text">Since LinkedDataHub 5.1.0 the administration dataspace is served on the <code>admin.</code> subdomain rather than under an
+                        <code>admin/</code> path, so it no longer occupies a path within the end-user dataspace. The subdomain must resolve in DNS and be covered by the
+                        server's TLS certificate.</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h3 id="configuring-dataspaces">Configuring dataspaces</h3>
+            <p>Dataspaces are configured using RDF files in <a href="https://www.w3.org/TR/trig/" target="_blank">TriG</a> syntax — see the
+                <a href="../configuration/#config-files">configuration reference</a> for the files and their roles.</p>
+            <p>A second dataspace added to <samp>config/dataspaces.trig</samp> — one named graph per dataspace, identified with
+                <code>urn:</code> URIs, the end-user and administration dataspaces associated by the <code>admin.</code> origin prefix. This is the template the
+                <a href="../../user-guide/manage-dataspaces/#create-dataspace">create a dataspace</a> guide refers to; the origins follow the
+                <samp>&lt;app&gt;.demo.&lt;host&gt;</samp> shape the demo site uses, so the same declaration works locally on
+                <samp>localhost:4443</samp> and deployed on a public host:</p>
+            <pre>&lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt;
+{
+    &lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt; a lds:Dataspace ;
+        dct:title "Northwind Traders" ;
+        lds:origin &lt;https://northwind-traders.demo.localhost:4443&gt; ;
+        lds:ontology &lt;https://northwind-traders.demo.localhost:4443/ns#&gt; ;
+        ac:stylesheet &lt;https://northwind-traders.demo.localhost:4443/static/xsl/layout.xsl&gt; ;
+        lds:public true .
+}
+
+&lt;urn:linkeddatahub:apps/northwind-traders/admin&gt;
+{
+    &lt;urn:linkeddatahub:apps/northwind-traders/admin&gt; a lds:Dataspace ;
+        dct:title "Northwind Traders admin" ;
+        lds:origin &lt;https://admin.northwind-traders.demo.localhost:4443&gt; ;
+        lds:ontology &lt;https://w3id.org/atomgraph/linkeddatahub/admin#&gt; ;
+        ac:stylesheet &lt;https://admin.northwind-traders.demo.localhost:4443/static/xsl/admin/layout.xsl&gt; .
+}</pre>
+            <p>and its service bindings in <samp>config/system.trig</samp>:</p>
+            <pre>&lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt;
+{
+    &lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt; a lds:EndUserDataspace ;
+        lds:service &lt;urn:linkeddatahub:services/end-user&gt; .
+}
+
+&lt;urn:linkeddatahub:apps/northwind-traders/admin&gt;
+{
+    &lt;urn:linkeddatahub:apps/northwind-traders/admin&gt; a lds:AdminDataspace ;
+        lds:service &lt;urn:linkeddatahub:services/admin&gt; .
+}</pre>
+            <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/config/dataspaces.trig" target="_blank">config/dataspaces.trig</a>, <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/config/system.trig" target="_blank">config/system.trig</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">northwind-traders.demo.linkeddatahub.com</a></p>
+        </div>
     </div>
     <div>
         <h2 id="services">Services</h2>
-        <p>A service is a persistent SPARQL 1.1-compatible store from which the application's <a href="../dataset/">RDF dataset</a> is accessible over HTTP. LinkedDataHub supports
-            generic services as well as triplestore-specific services which support easier configuration and optimized access.</p>
-        <p>Services support two authentication schemes: HTTP Basic authentication and Bearer token authentication.</p>
-        <p>LinkedDataHub works with various SPARQL backends, using Apache Jena Fuseki by default. See the <a href="../triplestores/">triplestores reference</a> for compatibility requirements and configuration examples.</p>
-        <div class="alert alert-info">
-            <p>The end-user application service must be able to federate with the administration application service using the
-            SPARQL <code>SERVICE</code> keyword.</p>
+        <p>A service is a persistent SPARQL 1.1-compatible store from which a dataspace's <a href="../dataset/">RDF dataset</a> is accessible over HTTP. LinkedDataHub provides
+            generic services as well as triplestore-specific ones, which allow simpler configuration and optimized access.</p>
+        <p>LinkedDataHub works with various SPARQL backends, using <a href="https://jena.apache.org/documentation/fuseki2/" target="_blank">Apache Jena Fuseki</a> by default. See the <a href="../triplestores/">triplestores reference</a> for compatibility requirements and configuration examples.</p>
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
+                <p class="ac-alert-text">The end-user and administration services need no federation between them: the platform queries each service on its own, and the
+                stores' outbound <code>SERVICE</code> requests go through the <a href="../configuration/#egress"><samp>egress</samp></a> proxy, which refuses internal destinations —
+                so a query on one dataset cannot reach another.</p>
+            </div>
         </div>
         <div>
             <h3 id="generic-services">Generic services</h3>
             <p>Generic service has the following properties:</p>
-            <dl>
-                <dt>Endpoint</dt>
-                <dd>SPARQL 1.1 Protocol endpoint URI (required)</dd>
-                <dt>Graph Store</dt>
-                <dd>SPARQL 1.1 Graph Store Protocol endpoint URI (required)</dd>
-                <dt>Quad Store</dt>
-                <dd>Endpoint URI for dataset-level RDF CRUD operations (optional)</dd>
-                <dd>If not provided, LinkedDataHub will use graph-scoped Graph Store Protocol as a fallback</dd>
-                <dt>Username</dt>
-                <dd>HTTP Basic username (optional)</dd>
-                <dt>Password</dt>
-                <dd>HTTP Basic password (optional)</dd>
-                <dt>Auth token</dt>
-                <dd>Bearer authentication token (optional, alternative to HTTP Basic)</dd>
-                <dd>Auth tokens are stored in the <a href="../configuration/#secrets"><samp>credentials</samp> secret file</a> using the <code>a:authToken</code> property</dd>
-            </dl>
+            <table>
+                <caption class="ac-vh">Service fields and whether each is required</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Field</th>
+                        <th scope="col">Value</th>
+                        <th scope="col">Required</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Endpoint</th>
+                        <td>SPARQL 1.1 Protocol endpoint URI</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Graph Store</th>
+                        <td>SPARQL 1.1 Graph Store Protocol endpoint URI</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Quad Store</th>
+                        <td>Endpoint URI for dataset-level RDF CRUD operations. Without it, LinkedDataHub falls back to graph-scoped Graph Store Protocol.</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Username</th>
+                        <td>HTTP Basic username</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Password</th>
+                        <td>HTTP Basic password</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Auth token</th>
+                        <td>Bearer authentication token, as an alternative to HTTP Basic. Stored in the <a href="../configuration/#secrets"><samp>credentials</samp> secret file</a> under <code>a:authToken</code>.</td>
+                        <td>No</td>
+                    </tr>
+                </tbody>
+            </table>
             <p>You can use either HTTP Basic authentication (username/password) or Bearer token authentication (auth token), but not both for the same service.</p>
-        </div>
-        <div>
-            <h3 id="custom-services">Custom services</h3>
-            <p>LinkedDataHub has extension points for vendor-specific SPARQL services, which can be used to implement proprietary authentication schemes, for example.</p>
+            <p>Each dataspace has its own end-user and admin service, pointing at its own datasets in the single <a href="../configuration/#fuseki"><samp>fuseki</samp></a> server. A dataset is named after the dataspace origin with the deployment host dropped and the role appended, so the Northwind Traders end-user service reads <samp>northwind-traders.demo.end-user</samp>:</p>
+            <pre>&lt;urn:northwind-traders:services/end-user&gt;
+{
+    &lt;urn:northwind-traders:services/end-user&gt; a sd:Service ;
+        dct:title "Northwind Traders service" ;
+        sd:supportedLanguage sd:SPARQL11Query, sd:SPARQL11Update ;
+        sd:endpoint &lt;http://fuseki:3030/northwind-traders.demo.end-user/&gt; ;
+        a:graphStore &lt;http://fuseki:3030/northwind-traders.demo.end-user/&gt; ;
+        a:quadStore &lt;http://fuseki:3030/northwind-traders.demo.end-user/&gt; .
+}</pre>
+            <p>The root dataspace's services keep the plain <samp>end-user</samp> and <samp>admin</samp> dataset names. Several dataspaces may still share one service where isolation is not required.</p>
+            <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/config/system.trig" target="_blank">config/system.trig</a></p>
+            <div class="ac-alert va-informative" role="status">
+                <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+                <div class="ac-alert-body">
+                    <p class="ac-alert-text">LinkedDataHub has extension points for vendor-specific SPARQL services, which can be used to implement proprietary authentication schemes, for example.</p>
+                </div>
+            </div>
         </div>
     </div>
-    <div>
-        <h2 id="hierarchy">Document hierarchy</h2>
-        <p>The basic structure of resources in an application is analogous to the file system, but built using RDF
-            resources and relationships between them instead. There is a hierarchy of <a href="../data-model/documents/containers/" target="_blank">containers</a>,
-            which are collections of <a href="../data-model/documents/items/" target="_blank">items</a> as well as sub-containers. Both containers
-            and items are <a href="../data-model/documents/" target="_blank">documents</a>. Items cannot contain other documents.</p>
-        <p>The first level of resources in a container is referred to as its <dfn>children</dfn> (of which that container
-            is the <dfn>parent</dfn>), while all levels down the hierarchy are collectively referred to as
-            <dfn>descendants</dfn>.</p>
-        <p>When a user logs in, the application loads its root container (unless a specific URI was requested). From there,
-            users can navigate down the resource hierarchy, starting with children of the <dfn>root container</dfn>. At
-            any moment there is only one <dfn>current document</dfn> per page, on which <a href="#manage">actions</a> can
-            be performed: it can be viewed, edited etc.</p>
-    </div>
-    <p class="lead">If you are ready to create a dataspace, see our step-by-step tutorial on <a href="../../user-guide/manage-dataspaces/">dataspace management</a>.</p>
+    <p class="ldh-body-lg">If you are ready to create a dataspace, see the <a href="../../user-guide/manage-dataspaces/">dataspace management</a> user guide.</p>
 </div>"""^^rdf:XMLLiteral .

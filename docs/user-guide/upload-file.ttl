@@ -1,61 +1,84 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Item ;
     dct:title "Upload file" ;
     dct:description "Learn how to upload files to LinkedDataHub" ;
     rdf:_1 <#content> .
-    
+
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">Learn how to upload files to LinkedDataHub</p>
-    <div class="tabbable">
-        <ul class="nav nav-tabs">
-            <li class="active"><a>User interface</a></li>
-            <li><a>Command line interface</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active">
-                <div>
-                    <ol>
-                        <li>Click the <span class="btn btn-primary create-action">Create <span class="caret"></span></span> dropdown on the bottom of the page</li>
-                        <li>Click on <samp>File</samp> in the drop-down list that appears</li>
-                        <li>Fill out the mandatory <dfn>File</dfn> fields in the form:
-                            <dl>
-                                <dt>FileName</dt>
-                                <dd>Select file from your filesystem</dd>
-                                <dt>Title</dt>
-                                <dd>Enter file title</dd>
-                            </dl>
-                        </li>
-                        <li>Click <span class="btn btn-primary btn-save">Save</span></li>
-                    </ol>
-                    <p>See how below:</p>
-                    <p>
-                        <object data="../../uploads/7db898019986d1aa0bfee7bd1423874d82cb0233" type="video/webm"></object>
-                    </p>
-                </div>
+    <p class="ldh-body-lg">Learn how to upload files to LinkedDataHub</p>
+    <div>
+        <h2 id="upload">Upload a file</h2>
+        <div class="ac-tabs or-horizontal">
+            <div class="ac-tablist sz-md va-line" role="tablist">
+                <button aria-controls="user-interface-pane" aria-selected="true" class="ac-tab is-on" id="user-interface-tab" role="tab" type="button"><span class="ac-tab-lbl">User interface</span></button>
+                <button aria-controls="command-line-interface-pane" aria-selected="false" class="ac-tab" id="command-line-interface-tab" role="tab" type="button"><span class="ac-tab-lbl">Command line interface</span></button>
             </div>
-            <div class="tab-pane">
-                <div>
-                    <p>Replace <samp>owner_cert_password</samp> with its value from the <samp>.env</samp> file and execute the following command:</p>
-                    <pre>add-file.sh \\
--b "https://localhost:4443/" \\
--f ./ssl/owner/cert.pem \\
--p "$owner_cert_password" \\
---title "$title" \\
---file "$filename" \\
---content-type "$content_type"</pre>
+            <div aria-labelledby="user-interface-tab" class="ac-tabpanel" id="user-interface-pane" role="tabpanel">
+                    <div>
+                        <p>Any document you can write to takes files dropped from your desktop. What a drop does is decided per file:</p>
+                        <dl>
+                            <dt>RDF</dt>
+                            <dd>A file in one of the triple syntaxes — <code>.ttl</code>, <code>.nt</code>, <code>.rdf</code>, <code>.owl</code> or <code>.jsonld</code> — is <em>imported as data</em>: its triples are added to the document's graph</dd>
+                            <dt>File</dt>
+                            <dd>Anything else is <em>uploaded to the document</em>: the bytes are stored content-addressed under <code>uploads/</code> and the document describes them as a file, titled after the filename</dd>
+                        </dl>
+                        <ol>
+                            <li>Open the document that should hold the file</li>
+                            <li>Drag the file over the page. An overlay appears, naming both outcomes: <samp>RDF</samp> imported as data, <samp>File</samp> uploaded to this document</li>
+                            <li>Drop it. The document reloads in <samp>Read</samp> mode with the file among its resources; an image is shown inline</li>
+                        </ol>
+                        <video aria-label="Dropping a file onto a document" controls="controls" preload="metadata" src="/uploads/798343ac386c0c67027a5fda6105547238d4b038"></video>
+                        <p>A file larger than the instance's request limit is refused before it reaches the platform, and the page says so without navigating away.</p>
+                        <p>Alternatively, upload through a form:</p>
+                        <ol>
+                            <li>Click the <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown at the bottom of the page</li>
+                            <li>Click on <samp>File</samp> in the dropdown list that appears</li>
+                            <li>Fill out the mandatory <dfn>File</dfn> fields in the form:
+                                <dl>
+                                    <dt>Filename</dt>
+                                    <dd>Select file from your filesystem</dd>
+                                    <dt>Title</dt>
+                                    <dd>Enter file title</dd>
+                                </dl>
+                            </li>
+                            <li>Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span></li>
+                        </ol>
+                    </div>
                 </div>
-            </div>
+            <div aria-labelledby="command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-pane" role="tabpanel">
+                    <div>
+                        <p>A file is uploaded to the document that will hold it, so create that document first. Uploading Nancy Davolio's portrait from the Northwind demo:</p>
+                        <pre>doc=$(ldh create item \\
+  --title "Nancy Davolio" \\
+  --container "${LDH_BASE}employees/")
+
+ldh add file \\
+  --title "Nancy Davolio" \\
+  --file employees/nancy.jpg \\
+  --content-type "image/jpeg" \\
+  "$doc"</pre>
+                        <p>The command prints the content-addressed URI of the upload as its only output:</p>
+                        <pre>https://localhost:4443/uploads/35fd362792e8c4bc3560a6de02f25ee551d68d02</pre>
+                        <p>That URI is stable across instances — it is derived from the file content alone — which is what lets the
+                            <a href="../../tutorial/media/" target="_blank">Northwind CSVs</a> reference their images by hash before they are even uploaded.
+                            <code>--content-type</code> is optional — the media type is detected from the file when it is not given.</p>
+                    </div>
+                </div>
         </div>
     </div>
-    <div class="alert alert-warning">
-        <h4>Note about ontology files</h4>
-        <p>If you upload an ontology file (RDF/OWL), be aware that it will not be automatically loaded via <code>owl:imports</code> declarations.
-        This is a technical limitation to prevent circular dependencies during system initialization.</p>
-        <p>For more information on working with ontologies, see the <a href="../../reference/administration/ontologies/">ontologies reference documentation</a>.</p>
+    <div class="ac-alert va-warning" role="status">
+        <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
+        <div class="ac-alert-body">
+            <span class="ac-alert-title">Note about ontology files</span>
+            <p class="ac-alert-text">If you upload an ontology file (RDF/OWL), be aware that it will not be automatically loaded via <code>owl:imports</code> declarations.
+            This is deliberate: resolving imports at upload time would risk circular dependencies during system initialization.</p>
+            <p class="ac-alert-text">For more information on working with ontologies, see the <a href="../../reference/administration/ontologies/">ontologies reference documentation</a>.</p>
+        </div>
     </div>
+    <p class="ldh-body-lg"><a href="../../reference/dataset/#hierarchical-uris" target="_blank">Read more about the content-addressed uploads namespace.</a></p>
 </div>"""^^rdf:XMLLiteral .

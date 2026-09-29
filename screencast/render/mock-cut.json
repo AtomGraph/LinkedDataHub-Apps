@@ -1,0 +1,54 @@
+{
+  "output": "tracks/mock-cut.mp4",
+  "spineOutput": "tracks/mock-cut-spine.mp4",
+  "width": 1440,
+  "height": 900,
+  "fps": 30,
+  "crf": 20,
+  "leadSeconds": 0.3,
+  "trailSeconds": 0.1,
+  "maxZoom": 2.4,
+  "source": {
+    "width": 2880,
+    "height": 1800
+  },
+  "caption": {
+    "font": "/System/Library/Fonts/Helvetica.ttc",
+    "size": 44
+  },
+  "maxSeconds": 30,
+  "padColor": "black",
+  "vignette": null,
+  "shots": [
+    {
+      "id": "m1",
+      "track": "mock-bloom",
+      "from": 0,
+      "to": 8.0,
+      "hold": 0,
+      "spine": true,
+      "focus": false,
+      "maxSeconds": 30
+    },
+    {
+      "id": "m2",
+      "track": "mock-shapes",
+      "from": 0,
+      "to": 9.6,
+      "hold": 0,
+      "spine": true,
+      "focus": false,
+      "maxSeconds": 30
+    },
+    {
+      "id": "m3",
+      "track": "mock-form-pin",
+      "from": 0,
+      "to": 6.6,
+      "hold": 0,
+      "spine": true,
+      "focus": false,
+      "maxSeconds": 30
+    }
+  ]
+}

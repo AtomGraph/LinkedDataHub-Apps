@@ -1,4 +1,4 @@
-@prefix dh:   <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:   <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix ldh:  <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix dct:  <http://purl.org/dc/terms/> .
 @prefix sp:   <http://spinrdf.org/sp#> .
@@ -9,8 +9,9 @@
 # Main container document
 <> a dh:Container ;
     dct:title "Parking facilities" ;
-    rdf:_1 <#largest-parkings-block> ;
-    rdf:_2 <#select-children> .
+    rdf:_1 <#parking-intro> ;
+    rdf:_2 <#largest-parkings-block> ;
+    rdf:_3 <#select-children> .
 
 # Chart block (wrapped in ldh:Object per ContentMode contract)
 <#largest-parkings-block> a ldh:Object ;
@@ -26,8 +27,7 @@
 # Chart SELECT query
 <#parking-by-spaces-query> a sp:Select ;
     dct:title "Largest parking facilities" ;
-    sp:text """PREFIX ns: <https://copenhagen.demo.linkeddatahub.com/ns#>
-PREFIX schema: <https://schema.org/>
+    sp:text """PREFIX schema: <https://schema.org/>
 PREFIX dct: <http://purl.org/dc/terms/>
 
 SELECT DISTINCT ?name ?spaces
@@ -35,13 +35,26 @@ WHERE
 {
     GRAPH ?g
     {
-        ?parking a ns:ParkingFacility ;
+        ?parking a ?type ;
             dct:title ?name ;
             schema:maximumAttendeeCapacity ?spaces .
-  	}
+        # the class is in this dataspace's namespace, whatever base URI it was installed under;
+        # the data endpoint gives a relative IRI no base, so the class is matched by name instead
+        FILTER(STRENDS(STR(?type), "/ns#ParkingFacility"))
+    }
 }
 ORDER BY DESC(?spaces)
 LIMIT 100""" .
+
+# Intro XHTML
+<#parking-intro> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <div class="ldh-section">
+            <h2>The city's car parks</h2>
+            <p>Eighteen public car parks with their operator, address and capacity. Capacity is what ranks them in
+               the chart below and what the map is worth reading for.</p>
+        </div>
+    </div>"""^^rdf:XMLLiteral .
 
 # Object block
 <#select-children> a ldh:Object ;
@@ -49,5 +62,6 @@ LIMIT 100""" .
 
 # View block with MapMode
 <#select-children-view> a ldh:View ;
+    dct:title "All parking facilities" ;
     spin:query ldh:SelectChildren ;
     ac:mode ac:MapMode .

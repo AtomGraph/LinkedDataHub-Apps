@@ -28,6 +28,26 @@ echo '</map>' >> timestamps.xml
 rm -rf "$OUTPUT_FOLDER"
 mkdir -p "$OUTPUT_FOLDER"
 
+# LinkedDataHub design system assets — copied from a local checkout when present, fetched from GitHub otherwise
+LDH_SRC="${LDH_SRC:-../../LinkedDataHub}"
+LDH_REF="${LDH_REF:-develop}"
+LDH_CSS_PATH="src/main/webapp/static/com/atomgraph/linkeddatahub/css"
+# The pages link fonts.css, colors_and_type.css, app.css, retro.css and ldh.css, in that order.
+# core.css, controls.css, overlays.css and surfaces.css are never linked directly — app.css
+# @imports core.css, which @imports the other three — but they must be copied alongside or the
+# imports 404 and every ac-* primitive loses its styling.
+CSS_FILES="colors_and_type.css core.css controls.css overlays.css surfaces.css app.css retro.css ldh.css fonts.css"
+FONT_FILES="geist.woff2 geist-latin-ext.woff2 geist-mono.woff2 geist-mono-latin-ext.woff2 instrument-serif.woff2 instrument-serif-italic.woff2 instrument-serif-latin-ext.woff2 instrument-serif-italic-latin-ext.woff2 material-symbols-rounded.woff2"
+mkdir -p "$OUTPUT_FOLDER"/static/css/fonts
+if [ -d "$LDH_SRC/$LDH_CSS_PATH" ]; then
+    for f in $CSS_FILES; do cp "$LDH_SRC/$LDH_CSS_PATH/$f" "$OUTPUT_FOLDER"/static/css/; done
+    for f in $FONT_FILES; do cp "$LDH_SRC/$LDH_CSS_PATH/fonts/$f" "$OUTPUT_FOLDER"/static/css/fonts/; done
+else
+    for f in $CSS_FILES; do curl -fsSL "https://raw.githubusercontent.com/AtomGraph/LinkedDataHub/$LDH_REF/$LDH_CSS_PATH/$f" -o "$OUTPUT_FOLDER"/static/css/"$f"; done
+    for f in $FONT_FILES; do curl -fsSL "https://raw.githubusercontent.com/AtomGraph/LinkedDataHub/$LDH_REF/$LDH_CSS_PATH/fonts/$f" -o "$OUTPUT_FOLDER"/static/css/fonts/"$f"; done
+fi
+cp docs.css "$OUTPUT_FOLDER"/static/css/
+
 # Generate files.xml (sha1 hash → relative filename mapping, scans current folder recursively)
 ./sha1map-to-xml.sh . > files.xml
 
@@ -39,7 +59,7 @@ docker run --rm -v "$PWD":"/docs" -v "$RDF_FOLDER":"/rdf" -v "$OUTPUT_FOLDER":"/
     output-folder="/output"
 
 # Copy media files (excluding html output, generated .rdf/.xml, scripts) to html/files/
-rsync -a --exclude=html --exclude=rdf --exclude=node_modules --exclude='*.rdf' --exclude='*.xml' --exclude='*.ttl' --exclude='*.sh' --exclude=Makefile . "$OUTPUT_FOLDER/files/"
+rsync -a --exclude=html --exclude=rdf --exclude=node_modules --exclude='*.rdf' --exclude='*.xml' --exclude='*.ttl' --exclude='*.sh' --exclude='*.xsl' --exclude='*.css' --exclude=Makefile . "$OUTPUT_FOLDER/files/"
 
 # Remove temporary RDF/XML folder
 rm -rf "$RDF_FOLDER"

@@ -1,4 +1,4 @@
-@prefix dh:   <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:   <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix ldh:  <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix dct:  <http://purl.org/dc/terms/> .
 @prefix spin: <http://spinrdf.org/spin#> .
@@ -8,7 +8,18 @@
 # Main container document
 <> a dh:Container ;
     dct:title "Playgrounds" ;
-    rdf:_1 <#select-children> .
+    rdf:_1 <#playgrounds-intro> ;
+    rdf:_2 <#select-children> .
+
+# Intro XHTML
+<#playgrounds-intro> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <div class="ldh-section">
+            <h2>Where the children play</h2>
+            <p>126 playgrounds, each with the age range it was built for, a description and a link to the city's
+               own page for it.</p>
+        </div>
+    </div>"""^^rdf:XMLLiteral .
 
 # Object block
 <#select-children> a ldh:Object ;
@@ -16,5 +27,6 @@
 
 # View block with MapMode
 <#select-children-view> a ldh:View ;
+    dct:title "All playgrounds" ;
     spin:query ldh:SelectChildren ;
     ac:mode ac:MapMode .

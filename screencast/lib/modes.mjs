@@ -1,0 +1,115 @@
+// Switching a view's layout mode — and not switching it when it is already there.
+//
+// A scene that opens the mode menu to select the mode already in force films a menu
+// opening and closing for nothing. Worse, it reads as a script working through a
+// list rather than a person choosing a view. The active mode is on the toggle's own
+// label, so it can be read without opening anything.
+
+import { ui } from './dom.mjs';
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// The label the toggle shows for each mode class.
+const LABELS = {
+  'content-mode': 'Content',
+  'read-mode': 'Properties',
+  'list-mode': 'List',
+  'table-mode': 'Table',
+  'grid-mode': 'Grid',
+  'map-mode': 'Map',
+  'chart-mode': 'Chart',
+  'graph-mode': 'Graph',
+};
+
+const toggleOf = (page) => ui(page).locator('.ldh-view-toolbar .right .ldh-mode button.drop-toggle').first();
+
+export async function currentViewMode(page) {
+  const toggle = toggleOf(page);
+  if (!(await toggle.count())) return null;
+
+  // The toggle reads like "grid_viewGrid": a Material icon ligature running
+  // straight into the label, with no separator. A word-boundary match therefore
+  // never fires — there is no boundary between "grid_view" and "Grid" — which is
+  // why this silently reported "unknown" and every switch went ahead. The label is
+  // the tail of the string, so that is what gets compared.
+  const text = (await toggle.textContent().catch(() => '')).replace(/expand_more/g, '').trim();
+  for (const [cls, label] of Object.entries(LABELS)) {
+    if (text.toLowerCase().endsWith(label.toLowerCase())) return cls;
+  }
+  return null;
+}
+
+// Opens a view block's controls, if they are collapsed. Safe to call when they are
+// already open, and when the block has no such button at all.
+export async function showControls(page, cursor) {
+  const toolbar = ui(page).locator('.ldh-view-toolbar').first();
+  if (!(await toolbar.count())) return false;
+  if (await toolbar.isVisible().catch(() => false)) return 'already';
+
+  const block = toolbar.locator('xpath=ancestor::*[contains(@class,"ldh-block-row")][1]');
+  const btn = (await block.count())
+    ? block.locator('button.tb-controls').first()
+    : ui(page).locator('button.tb-controls').first();
+  if (!(await btn.count())) return false;
+
+  await btn.scrollIntoViewIfNeeded().catch(() => {});
+  await cursor.click(btn);
+  await toolbar.waitFor({ state: 'visible', timeout: 8000 }).catch(() => {});
+  await sleep(600);
+  return await toolbar.isVisible().catch(() => false);
+}
+
+// Returns 'already' when no gesture was needed, true when it switched, false when
+// the mode is not on offer.
+export async function switchViewMode(page, cursor, mode, { settle = 2200, tries = 3 } = {}) {
+  if ((await currentViewMode(page)) === mode) return 'already';
+
+  // The toolbar is collapsed by default — `.ldh-view-toolbar.is-collapsed` is
+  // `display: none`, and the mode toggle inside it is therefore not clickable. The
+  // block head's "Block controls" button (button.tb-controls, the tune glyph) is what
+  // opens it. Without this the switch waits 30s on a control that is in the DOM the
+  // whole time, which is how a clip of the layout modes timed out on a page whose
+  // toolbar simply had not been opened.
+  await showControls(page, cursor);
+
+  const toggle = toggleOf(page);
+  // Scoped to the popover belonging to THIS toolbar: the document-scope switcher
+  // offers the same mode names from its own menu, and picking the wrong one renders
+  // the document instead of the results.
+  const item = ui(page).locator(`.ldh-view-toolbar .ldh-mode .modes-pop.view-mode-list button.mi.${mode}`).first();
+  for (let i = 0; i < tries; i++) {
+    if (!(await toggle.count())) return false;
+
+    // The popover is a drop-up (.ldh-mode.drop-up), so it needs room ABOVE the
+    // toggle. A toolbar scrolled flush to the top of the viewport opens the menu off
+    // screen, where it is invisible and unclickable — and the switch then reports
+    // "not on offer" for a control that is right there.
+    const box = await toggle.boundingBox().catch(() => null);
+    if (box && box.y < 260) {
+      await page.evaluate((dy) => window.scrollBy(0, dy), -(260 - box.y));
+      await sleep(400);
+    }
+
+    await cursor.click(toggle);
+    await sleep(650);
+    if (await item.isVisible().catch(() => false)) {
+      await cursor.click(item);
+      await sleep(settle);
+      return true;
+    }
+  }
+  return false;
+}
+
+// The same reading, for the DOCUMENT-scope switcher in the action bar. Its toggle
+// carries the active mode as its label exactly as the view toolbar's does, so a
+// scene can tell whether a switch is needed before opening a menu for nothing.
+export async function currentDocumentMode(page) {
+  const toggle = ui(page).locator('button.layout-modes.drop-toggle, button[title="Mode"]').first();
+  if (!(await toggle.count())) return null;
+  const text = (await toggle.textContent().catch(() => '')).replace(/expand_more/g, '').trim();
+  for (const [cls, label] of Object.entries(LABELS)) {
+    if (text.toLowerCase().endsWith(label.toLowerCase())) return cls;
+  }
+  return null;
+}

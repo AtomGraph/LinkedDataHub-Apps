@@ -1,28 +1,19 @@
 #!/usr/bin/env bash
+# Installs the documentation onto a LinkedDataHub instance with the ldh CLI: makes it public and
+# pushes the document tree with its media, which lands at the content-addressed {base}uploads/{sha1}
+# the sources reference.
+#
+# Reads LDH_BASE, LDH_CERT_FILE, LDH_CERT_PASSWORD and optionally LDH_PROXY; `make install` prompts
+# for them. Re-running converges: PUT replaces each document. make-public is a POST and adds another
+# authorization per run.
+set -euo pipefail
 
-if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then
-  echo "Usage:   $0" '$base $cert_pem_file $cert_password [$proxy]' >&2
-  echo "Example: $0" 'https://localhost:4443/ ../../LinkedDataHub/ssl/owner/cert.pem Password [https://localhost:5443/]' >&2
-  echo "Note: special characters such as $ need to be escaped in passwords!" >&2
-  exit 1
-fi
+app_dir="$(cd "$(dirname "$0")" && pwd)"
+. "$app_dir/../lib/ldh-app.sh"
+ldh_app_require_env
 
-base="$1"
-cert_pem_file=$(realpath "$2")
-cert_password="$3"
+ldh_app_step "Creating authorization to make the app public"
+ldh admin make-public
 
-if [ -n "$4" ]; then
-    proxy="$4"
-else
-    proxy="$base"
-fi
-
-pwd="$(realpath "$PWD")"
-
-printf "\n### Creating authorization to make the app public\n\n"
-
-make-public.sh -b "$base" -f "$cert_pem_file" -p "$cert_password" --proxy "$proxy"
-
-printf "\n### Updating documents and uploading files (traversing folders recursively)\n\n"
-
-./update-folder.sh "$base" "$cert_pem_file" "$cert_password" "$pwd" "$pwd" "$proxy"
+ldh_app_step "Pushing documents and media"
+ldh push --dir "$app_dir" "$LDH_BASE"

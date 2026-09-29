@@ -1,11 +1,10 @@
-PREFIX ns:         <https://copenhagen.demo.linkeddatahub.com/ns#>
 PREFIX foaf:       <http://xmlns.com/foaf/0.1/>
 PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX dbo:        <http://dbpedia.org/ontology/> 
 PREFIX schema:     <https://schema.org/> 
 PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#> 
 PREFIX xsd:        <http://www.w3.org/2001/XMLSchema#> 
-PREFIX dh:         <https://www.w3.org/ns/ldt/document-hierarchy#>
+PREFIX dh:         <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#>
 PREFIX sioc:       <http://rdfs.org/sioc/ns#>
 
 CONSTRUCT
@@ -18,7 +17,7 @@ CONSTRUCT
             dct:title ?name ;
             foaf:primaryTopic ?library .
 
-        ?library a ns:Library ;
+        ?library a ?type ;
             geo:lat ?lat ;
             geo:long ?long ;
             dct:title ?name ;
@@ -52,6 +51,7 @@ WHERE
     }
 
     BIND(uri(concat(str($base), "libraries/")) AS ?container)
+    BIND(uri(concat(str($base), "ns#Library")) AS ?type)
     BIND(uri(concat(str(?container), encode_for_uri(?id), "/")) AS ?item)
     BIND(uri(concat(str(?item), "#this")) AS ?library)
     BIND(xsd:float(?lat_string) AS ?lat)

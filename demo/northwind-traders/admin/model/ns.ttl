@@ -1,5 +1,6 @@
 @prefix :	    <#> .
 @prefix ldh:	<https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix ac:	    <https://w3id.org/atomgraph/client#> .
 @prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl:    <http://www.w3.org/2002/07/owl#> .
 @prefix sp:	    <http://spinrdf.org/sp#> .
@@ -20,7 +21,7 @@ schema:Order a owl:Class ;
     rdfs:isDefinedBy : .
 
 schema:City a owl:Class ;
-    rdfs:label "City" ;
+    rdfs:label "Territory" ;
     rdfs:isDefinedBy : .
 
 schema:PostalAddress a owl:Class ;
@@ -28,11 +29,11 @@ schema:PostalAddress a owl:Class ;
     rdfs:isDefinedBy : .
 
 schema:ProductGroup a owl:Class ;
-    rdfs:label "Product group" ;
+    rdfs:label "Category" ;
     rdfs:isDefinedBy : .
 
 schema:Corporation a owl:Class ;
-    rdfs:label "Corporation" ;
+    rdfs:label "Company" ;
     rdfs:isDefinedBy : .
 
 schema:ContactPoint a owl:Class ;
@@ -40,7 +41,33 @@ schema:ContactPoint a owl:Class ;
     rdfs:isDefinedBy : .
 
 schema:ParcelDelivery a owl:Class ;
-    rdfs:label "Parcel delivery" ;
+    rdfs:label "Delivery" ;
+    rdfs:isDefinedBy : .
+
+schema:DeliveryEvent a owl:Class ;
+    rdfs:label "Shipment" ;
+    rdfs:isDefinedBy : .
+
+schema:Offer a owl:Class ;
+    rdfs:label "Offer" ;
+    rdfs:isDefinedBy : .
+
+schema:PriceSpecification a owl:Class ;
+    rdfs:label "Price specification" ;
+    rdfs:isDefinedBy : .
+
+schema:DeliveryChargeSpecification a owl:Class ;
+    rdfs:label "Delivery charge" ;
+    rdfs:subClassOf schema:PriceSpecification ;
+    rdfs:isDefinedBy : .
+
+schema:UnitPriceSpecification a owl:Class ;
+    rdfs:label "Unit price" ;
+    rdfs:subClassOf schema:PriceSpecification ;
+    rdfs:isDefinedBy : .
+
+schema:DeliveryMethod a owl:Class ;
+    rdfs:label "Delivery method" ;
     rdfs:isDefinedBy : .
 
 schema:OrderItem a owl:Class ;
@@ -52,19 +79,375 @@ schema:Product a owl:Class ;
     rdfs:isDefinedBy : .
 
 schema:Place a owl:Class ;
-    rdfs:label "Place" ;
+    rdfs:label "Region" ;
+    rdfs:isDefinedBy : .
+
+# constructors and constraints
+
+schema:Product spin:constructor :ProductConstructor ;
+    spin:constraint :MissingName .
+
+:ProductConstructor a ldh:Constructor ;
+    rdfs:label "Product constructor" ;
+    dct:title "Product constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
+                schema:identifier [ a xsd:string ] ;
+                schema:description [ a xsd:string ] ;
+                schema:category [ a schema:ProductGroup ] ;
+                schema:provider [ a schema:Corporation ] ;
+                schema:offers [ a schema:Offer ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:City spin:constructor :CityConstructor .
+
+:CityConstructor a ldh:Constructor ;
+    rdfs:label "Territory constructor" ;
+    dct:title "Territory constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX geo:     <http://www.w3.org/2003/01/geo/wgs84_pos#>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
+                schema:identifier [ a xsd:string ] ;
+                geo:lat [ a xsd:float ] ;
+                geo:long [ a xsd:float ] ;
+                schema:containedInPlace [ a schema:Place ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:Person spin:constructor :PersonConstructor .
+
+:PersonConstructor a ldh:Constructor ;
+    rdfs:label "Person constructor" ;
+    dct:title "Person constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
+        PREFIX geo:     <http://www.w3.org/2003/01/geo/wgs84_pos#>
+        PREFIX nfo:     <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:identifier [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
+                schema:givenName [ a xsd:string ] ;
+                schema:familyName [ a xsd:string ] ;
+                schema:honorificPrefix [ a xsd:string ] ;
+                schema:jobTitle [ a xsd:string ] ;
+                schema:birthDate [ a xsd:date ] ;
+                schema:telephone [ a xsd:string ] ;
+                schema:faxNumber [ a xsd:string ] ;
+                schema:description [ a xsd:string ] ;
+                foaf:img [ a nfo:FileDataObject ] ;
+                geo:lat [ a xsd:float ] ;
+                geo:long [ a xsd:float ] ;
+                schema:address [ a schema:PostalAddress ] ;
+                schema:sponsor [ a schema:Person ] ;
+                schema:areaServed [ a schema:City ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:Corporation spin:constructor :CorporationConstructor .
+
+:CorporationConstructor a ldh:Constructor ;
+    rdfs:label "Company constructor" ;
+    dct:title "Company constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:legalName [ a xsd:string ] ;
+                schema:identifier [ a xsd:string ] ;
+                schema:telephone [ a xsd:string ] ;
+                schema:contactPoint [ a schema:ContactPoint ] ;
+                schema:employee [ a schema:Person ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:ContactPoint spin:constructor :ContactPointConstructor .
+
+:ContactPointConstructor a ldh:Constructor ;
+    rdfs:label "Contact point constructor" ;
+    dct:title "Contact point constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                schema:telephone [ a xsd:string ] ;
+                schema:faxNumber [ a xsd:string ] ;
+                schema:url [ a xsd:string ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:PostalAddress spin:constructor :PostalAddressConstructor .
+
+:PostalAddressConstructor a ldh:Constructor ;
+    rdfs:label "Postal address constructor" ;
+    dct:title "Postal address constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                schema:streetAddress [ a xsd:string ] ;
+                schema:addressLocality [ a xsd:string ] ;
+                schema:addressRegion [ a xsd:string ] ;
+                schema:postalCode [ a xsd:string ] ;
+                schema:addressCountry [ a xsd:string ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:ProductGroup spin:constructor :ProductGroupConstructor .
+
+:ProductGroupConstructor a ldh:Constructor ;
+    rdfs:label "Category constructor" ;
+    dct:title "Category constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
+        PREFIX nfo:     <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
+                schema:description [ a xsd:string ] ;
+                schema:identifier [ a xsd:string ] ;
+                foaf:depiction [ a nfo:FileDataObject ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:Place spin:constructor :PlaceConstructor .
+
+:PlaceConstructor a ldh:Constructor ;
+    rdfs:label "Region constructor" ;
+    dct:title "Region constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
+                schema:identifier [ a xsd:string ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:Order spin:constructor :OrderConstructor .
+
+:OrderConstructor a ldh:Constructor ;
+    rdfs:label "Order constructor" ;
+    dct:title "Order constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:identifier [ a xsd:string ] ;
+                schema:orderDate [ a xsd:date ] ;
+                schema:orderStatus schema:OrderProcessing ;
+                schema:customer [ a schema:Corporation ] ;
+                schema:broker [ a schema:Person ] ;
+                schema:orderedItem [ a schema:OrderItem ] ;
+                schema:orderDelivery [ a schema:ParcelDelivery ] ;
+                schema:acceptedOffer [ a schema:Offer ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:OrderItem spin:constructor :OrderItemConstructor .
+
+:OrderItemConstructor a ldh:Constructor ;
+    rdfs:label "Order item constructor" ;
+    dct:title "Order item constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                schema:orderedItem [ a schema:Product ] ;
+                schema:itemOffered [ a schema:Product ] ;
+                schema:orderQuantity [ a xsd:integer ] ;
+                schema:price [ a xsd:float ] ;
+                schema:priceCurrency [ a xsd:string ] ;
+                schema:priceSpecification [ a schema:UnitPriceSpecification ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:ParcelDelivery spin:constructor :ParcelDeliveryConstructor .
+
+:ParcelDeliveryConstructor a ldh:Constructor ;
+    rdfs:label "Delivery constructor" ;
+    dct:title "Delivery constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                schema:partOfOrder [ a schema:Order ] ;
+                schema:provider [ a schema:Corporation ] ;
+                schema:deliveryAddress [ a schema:PostalAddress ] ;
+                schema:expectedArrivalUntil [ a xsd:date ] ;
+                schema:deliveryStatus [ a schema:DeliveryEvent ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:DeliveryEvent spin:constructor :DeliveryEventConstructor .
+
+:DeliveryEventConstructor a ldh:Constructor ;
+    rdfs:label "Shipment constructor" ;
+    dct:title "Shipment constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:startDate [ a xsd:date ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:Offer spin:constructor :OfferConstructor .
+
+:OfferConstructor a ldh:Constructor ;
+    rdfs:label "Offer constructor" ;
+    dct:title "Offer constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:itemOffered [ a schema:Product ] ;
+                schema:price [ a xsd:float ] ;
+                schema:priceCurrency [ a xsd:string ] ;
+                schema:priceSpecification [ a schema:PriceSpecification ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:PriceSpecification spin:constructor :PriceSpecificationConstructor .
+
+:PriceSpecificationConstructor a ldh:Constructor ;
+    rdfs:label "Price specification constructor" ;
+    dct:title "Price specification constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:price [ a xsd:float ] ;
+                schema:priceCurrency [ a xsd:string ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:UnitPriceSpecification spin:constructor :UnitPriceSpecificationConstructor .
+
+:UnitPriceSpecificationConstructor a ldh:Constructor ;
+    rdfs:label "Unit price constructor" ;
+    dct:title "Unit price constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:price [ a xsd:float ] ;
+                schema:priceCurrency [ a xsd:string ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+schema:DeliveryChargeSpecification spin:constructor :DeliveryChargeSpecificationConstructor .
+
+:DeliveryChargeSpecificationConstructor a ldh:Constructor ;
+    rdfs:label "Delivery charge constructor" ;
+    dct:title "Delivery charge constructor" ;
+    sp:text """
+        PREFIX schema:  <https://schema.org/>
+        PREFIX dct:     <http://purl.org/dc/terms/>
+        PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+
+        CONSTRUCT {
+            $this
+                dct:title [ a xsd:string ] ;
+                schema:price [ a xsd:float ] ;
+                schema:priceCurrency [ a xsd:string ] .
+        }
+        WHERE {}""" ;
+    rdfs:isDefinedBy : .
+
+:MissingName a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:name" ;
+    sp:arg1 schema:name ;
     rdfs:isDefinedBy : .
 
 # properties
 
 schema:broker a owl:ObjectProperty ;
-    rdfs:label "Broker";
+    rdfs:label "Sales rep";
     rdfs:domain schema:Order ;
     rdfs:range schema:Person ;
     rdfs:isDefinedBy : .
 
 schema:areaServed a owl:ObjectProperty ;
-    rdfs:label "Area served";
+    rdfs:label "Territory";
     rdfs:domain schema:Person ;
     rdfs:range schema:City ;
     rdfs:isDefinedBy : .
@@ -94,9 +477,56 @@ schema:customer a owl:ObjectProperty ;
     rdfs:isDefinedBy : .
 
 schema:orderDelivery a owl:ObjectProperty ;
-    rdfs:label "Order delivery" ;
+    rdfs:label "Delivery" ;
     rdfs:domain schema:Order ;
     rdfs:range schema:ParcelDelivery ;
+    rdfs:isDefinedBy : .
+
+schema:acceptedOffer a owl:ObjectProperty ;
+    rdfs:label "Accepted offer" ;
+    rdfs:domain schema:Order ;
+    rdfs:range schema:Offer ;
+    rdfs:isDefinedBy : .
+
+schema:offers a owl:ObjectProperty ;
+    rdfs:label "Offer" ;
+    rdfs:domain schema:Product ;
+    rdfs:range schema:Offer ;
+    rdfs:isDefinedBy : .
+
+schema:priceType a owl:ObjectProperty ;
+    rdfs:label "Price type" ;
+    rdfs:domain schema:UnitPriceSpecification ;
+    rdfs:isDefinedBy : .
+
+schema:itemOffered a owl:ObjectProperty ;
+    rdfs:label "Product" ;
+    rdfs:domain schema:Offer ;
+    rdfs:range schema:Product ;
+    rdfs:isDefinedBy : .
+
+schema:priceSpecification a owl:ObjectProperty ;
+    rdfs:label "Price specification" ;
+    rdfs:domain schema:Offer ;
+    rdfs:range schema:PriceSpecification ;
+    rdfs:isDefinedBy : .
+
+schema:appliesToDeliveryMethod a owl:ObjectProperty ;
+    rdfs:label "Delivery method" ;
+    rdfs:domain schema:DeliveryChargeSpecification ;
+    rdfs:range schema:DeliveryMethod ;
+    rdfs:isDefinedBy : .
+
+schema:deliveryStatus a owl:ObjectProperty ;
+    rdfs:label "Shipment" ;
+    rdfs:domain schema:ParcelDelivery ;
+    rdfs:range schema:DeliveryEvent ;
+    rdfs:isDefinedBy : .
+
+schema:partOfOrder a owl:ObjectProperty ;
+    rdfs:label "Order" ;
+    rdfs:domain schema:ParcelDelivery ;
+    rdfs:range schema:Order ;
     rdfs:isDefinedBy : .
 
 schema:deliveryAddress a owl:ObjectProperty ;
@@ -117,20 +547,24 @@ schema:category a owl:ObjectProperty ;
     rdfs:isDefinedBy : .
 
 schema:containedInPlace a owl:ObjectProperty ;
-    rdfs:label "Contained in place" ;
+    rdfs:label "Region" ;
     rdfs:domain schema:City ;
     rdfs:range schema:Place ;
     rdfs:isDefinedBy : .
 
 schema:sponsor a owl:ObjectProperty ;
-    rdfs:label "Sponsor" ;
+    rdfs:label "Reports to" ;
     rdfs:domain schema:Person ;
     rdfs:range schema:Person ;
     rdfs:isDefinedBy : .
 
 schema:orderedItem a owl:ObjectProperty ;
     rdfs:label "Ordered item" ;
-    rdfs:range schema:Product ;
+    rdfs:isDefinedBy : .
+
+schema:orderStatus a owl:ObjectProperty ;
+    rdfs:label "Order status" ;
+    rdfs:domain schema:Order ;
     rdfs:isDefinedBy : .
 
 schema:name a owl:DatatypeProperty ;
@@ -146,7 +580,7 @@ schema:description a owl:DatatypeProperty ;
     rdfs:isDefinedBy : .
 
 schema:legalName a owl:DatatypeProperty ;
-    rdfs:label "Legal name" ;
+    rdfs:label "Company name" ;
     rdfs:domain schema:Corporation ;
     rdfs:isDefinedBy : .
 
@@ -209,17 +643,23 @@ schema:birthDate a owl:DatatypeProperty ;
     rdfs:isDefinedBy : .
 
 schema:orderQuantity a owl:DatatypeProperty ;
-    rdfs:label "Order quantity" ;
+    rdfs:label "Quantity" ;
     rdfs:domain schema:OrderItem ;
     rdfs:isDefinedBy : .
 
-schema:discount a owl:DatatypeProperty ;
-    rdfs:label "Discount" ;
-    rdfs:domain schema:OrderItem ;
-    rdfs:isDefinedBy : .
-
+# left without an rdfs:domain on purpose: schema:price is carried both by the order
+# lines (as schema:Offer) and by the freight charge (as schema:DeliveryChargeSpecification)
 schema:price a owl:DatatypeProperty ;
     rdfs:label "Price" ;
+    rdfs:isDefinedBy : .
+
+schema:priceCurrency a owl:DatatypeProperty ;
+    rdfs:label "Currency" ;
+    rdfs:isDefinedBy : .
+
+schema:startDate a owl:DatatypeProperty ;
+    rdfs:label "Shipped" ;
+    rdfs:domain schema:DeliveryEvent ;
     rdfs:isDefinedBy : .
 
 schema:orderDate a owl:DatatypeProperty ;
@@ -228,7 +668,7 @@ schema:orderDate a owl:DatatypeProperty ;
     rdfs:isDefinedBy : .
 
 schema:expectedArrivalUntil a owl:DatatypeProperty ;
-    rdfs:label "Expected arrival until" ;
+    rdfs:label "Required by" ;
     rdfs:domain schema:ParcelDelivery ;
     rdfs:isDefinedBy : .
 
@@ -263,6 +703,8 @@ schema:broker ldh:inverseView :OrdersHandledByEmployee .
 :OrdersHandledByEmployee a ldh:View ;
     dct:title "Orders handled by this employee" ;
     spin:query :SelectOrdersHandledByEmployee ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 :SelectOrdersHandledByEmployee a sp:Select ;
@@ -273,9 +715,12 @@ PREFIX schema: <https://schema.org/>
 SELECT DISTINCT ?order
 WHERE
   { GRAPH ?graph
-      { ?order schema:broker $about }
+      { ?order schema:broker $about ;
+               schema:orderDate ?orderDate ;
+               schema:orderStatus ?status
+      }
   }
-ORDER BY DESC(?order)
+ORDER BY DESC(?orderDate)
 """ ;
     rdfs:isDefinedBy : .
 
@@ -288,6 +733,8 @@ schema:customer ldh:inverseView :OrdersFromCustomer .
 :OrdersFromCustomer a ldh:View ;
     dct:title "Orders from this customer" ;
     spin:query :SelectOrdersFromCustomer ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 :SelectOrdersFromCustomer a sp:Select ;
@@ -298,9 +745,12 @@ PREFIX schema: <https://schema.org/>
 SELECT DISTINCT ?order
 WHERE
   { GRAPH ?graph
-      { ?order schema:customer $about }
+      { ?order schema:customer $about ;
+               schema:orderDate ?orderDate ;
+               schema:orderStatus ?status
+      }
   }
-ORDER BY DESC(?order)
+ORDER BY DESC(?orderDate)
 """ ;
     rdfs:isDefinedBy : .
 
@@ -313,6 +763,8 @@ schema:provider ldh:inverseView :ProductsFromSupplier .
 :ProductsFromSupplier a ldh:View ;
     dct:title "Products supplied by this supplier" ;
     spin:query :SelectProductsFromSupplier ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 :SelectProductsFromSupplier a sp:Select ;
@@ -323,9 +775,42 @@ PREFIX schema: <https://schema.org/>
 SELECT DISTINCT ?product
 WHERE
   { GRAPH ?graph
-      { ?product schema:provider $about }
+      { ?product a schema:Product ;
+                 schema:provider $about ;
+                 schema:category ?category ;
+                 schema:offers/schema:price ?price
+      }
   }
 ORDER BY ?product
+""" ;
+    rdfs:isDefinedBy : .
+
+# orders shipped by this shipper
+
+schema:provider ldh:inverseView :OrdersShippedByShipper .
+
+:OrdersShippedByShipper a ldh:View ;
+    dct:title "Orders shipped by this shipper" ;
+    spin:query :SelectOrdersShippedByShipper ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
+    rdfs:isDefinedBy : .
+
+:SelectOrdersShippedByShipper a sp:Select ;
+    rdfs:label "Select orders shipped by shipper" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?order
+WHERE
+  { GRAPH ?graph
+      { ?order schema:orderDelivery ?delivery ;
+               schema:orderDate ?orderDate ;
+               schema:orderStatus ?status .
+        ?delivery schema:provider $about
+      }
+  }
+ORDER BY DESC(?orderDate)
 """ ;
     rdfs:isDefinedBy : .
 
@@ -338,6 +823,8 @@ schema:containedInPlace ldh:inverseView :CitiesInRegion .
 :CitiesInRegion a ldh:View ;
     dct:title "Cities in this region" ;
     spin:query :SelectCitiesInRegion ;
+    ac:mode ac:MapMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 :SelectCitiesInRegion a sp:Select ;
@@ -354,7 +841,119 @@ ORDER BY ?city
 """ ;
     rdfs:isDefinedBy : .
 
+# category
+
+# products in this category
+
+schema:category ldh:inverseView :ProductsInCategory .
+
+:ProductsInCategory a ldh:View ;
+    dct:title "Products in this category" ;
+    spin:query :SelectProductsInCategory ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
+    rdfs:isDefinedBy : .
+
+:SelectProductsInCategory a sp:Select ;
+    rdfs:label "Select products in category" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?product
+WHERE
+  { GRAPH ?graph
+      { ?product a schema:Product ;
+                 schema:category $about }
+  }
+ORDER BY ?product
+""" ;
+    rdfs:isDefinedBy : .
+
+# areaServed
+
+# employees serving this territory
+
+schema:areaServed ldh:inverseView :EmployeesServingTerritory .
+
+:EmployeesServingTerritory a ldh:View ;
+    dct:title "Employees serving this territory" ;
+    spin:query :SelectEmployeesServingTerritory ;
+    ac:mode ac:GridMode ;
+    ldh:showWhenEmpty false ;
+    rdfs:isDefinedBy : .
+
+:SelectEmployeesServingTerritory a sp:Select ;
+    rdfs:label "Select employees serving territory" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?employee
+WHERE
+  { GRAPH ?graph
+      { ?employee a schema:Person ;
+                  schema:areaServed $about }
+  }
+ORDER BY ?employee
+""" ;
+    rdfs:isDefinedBy : .
+
+# sponsor
+
+# employees reporting to this employee
+
+schema:sponsor ldh:inverseView :DirectReports .
+
+:DirectReports a ldh:View ;
+    dct:title "Direct reports" ;
+    spin:query :SelectDirectReports ;
+    ac:mode ac:GridMode ;
+    ldh:showWhenEmpty false ;
+    rdfs:isDefinedBy : .
+
+:SelectDirectReports a sp:Select ;
+    rdfs:label "Select direct reports" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?employee
+WHERE
+  { GRAPH ?graph
+      { ?employee a schema:Person ;
+                  schema:sponsor $about }
+  }
+ORDER BY ?employee
+""" ;
+    rdfs:isDefinedBy : .
+
 # orderedItem
+
+# line items of this order (forward view — the master-detail "detail gallery")
+
+schema:orderedItem ldh:view :OrderLineItems .
+
+:OrderLineItems a ldh:View ;
+    dct:title "Line items" ;
+    spin:query :SelectOrderLineItems ;
+    ac:mode ac:TableMode ;
+    rdfs:isDefinedBy : .
+
+:SelectOrderLineItems a sp:Select ;
+    rdfs:label "Select line items of order" ;
+    sp:text """
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?item
+WHERE
+  { GRAPH ?graph
+      { $about schema:orderedItem ?item .
+        ?item schema:orderedItem ?product ;
+              schema:orderQuantity ?quantity ;
+              schema:price ?lineTotal
+      }
+  }
+ORDER BY ?item
+""" ;
+    rdfs:isDefinedBy : .
 
 # orders containing this product
 
@@ -363,6 +962,8 @@ schema:orderedItem ldh:inverseView :OrdersContainingProduct .
 :OrdersContainingProduct a ldh:View ;
     dct:title "Orders containing this product" ;
     spin:query :SelectOrdersContainingProduct ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false ;
     rdfs:isDefinedBy : .
 
 :SelectOrdersContainingProduct a sp:Select ;
@@ -373,10 +974,12 @@ PREFIX schema: <https://schema.org/>
 SELECT DISTINCT ?order
 WHERE
   { GRAPH ?graph
-      { ?order schema:orderedItem ?orderItem .
+      { ?order schema:orderedItem ?orderItem ;
+               schema:orderDate ?orderDate ;
+               schema:orderStatus ?status .
         ?orderItem schema:orderedItem $about
       }
   }
-ORDER BY DESC(?order)
+ORDER BY DESC(?orderDate)
 """ ;
     rdfs:isDefinedBy : .

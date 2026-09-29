@@ -1,4 +1,4 @@
-@prefix dh:   <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:   <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix ldh:  <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix dct:  <http://purl.org/dc/terms/> .
 @prefix spin: <http://spinrdf.org/spin#> .
@@ -8,7 +8,18 @@
 # Main container document
 <> a dh:Container ;
     dct:title "Charging stations" ;
-    rdf:_1 <#select-children> .
+    rdf:_1 <#charging-intro> ;
+    rdf:_2 <#select-children> .
+
+# Intro XHTML
+<#charging-intro> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+        <div class="ldh-section">
+            <h2>Where the cars charge</h2>
+            <p>248 public charging points, each with the operator that runs it, its street address and how many
+               vehicles it takes at once.</p>
+        </div>
+    </div>"""^^rdf:XMLLiteral .
 
 # Object block
 <#select-children> a ldh:Object ;
@@ -16,5 +27,6 @@
 
 # View block with MapMode
 <#select-children-view> a ldh:View ;
+    dct:title "All charging stations" ;
     spin:query ldh:SelectChildren ;
     ac:mode ac:MapMode .

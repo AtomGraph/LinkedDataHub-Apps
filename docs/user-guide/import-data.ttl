@@ -1,18 +1,28 @@
 @prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dh:     <https://www.w3.org/ns/ldt/document-hierarchy#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
 
 <> a dh:Container ;
     dct:title "Import data" ;
-    dct:description "How to import data into LinkedDataHub" ;
+    dct:description "How to bulk import CSV and RDF data into LinkedDataHub" ;
     rdf:_1 <#content> ;
     rdf:_2 <#select-children> .
-    
+
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="lead">How to bulk import data into LinkedDataHub</p>
+    <p class="ldh-body-lg">How to bulk import CSV and RDF data into LinkedDataHub</p>
     <p>This guide is about bulk data imports running asynchronously, suitable for larger datasets. If you want to simply add RDF data to a document, see the <a href="../add-data/">add data</a> guide.</p>
+    <p>Pick the guide that matches your data:</p>
+    <dl>
+        <dt>CSV file</dt>
+        <dd><a href="import-csv-data/">Import CSV data</a></dd>
+        <dt>Large RDF file</dt>
+        <dd><a href="import-rdf-data/">Import RDF data</a></dd>
+        <dt>Small RDF file or remote Linked Data</dt>
+        <dd><a href="../add-data/">Add data</a></dd>
+    </dl>
+    <p class="ldh-body-lg"><a href="../../reference/imports/">Read more about how imports work.</a></p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Object ;
