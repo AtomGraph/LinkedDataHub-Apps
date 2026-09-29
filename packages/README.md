@@ -219,13 +219,13 @@ vocabulary stays in the dataspace, and may not display or validate correctly wit
 
 ## Vocabulary Reference
 
-### LAPP Vocabulary (`https://w3id.org/atomgraph/linkeddatahub/dataspaces#`)
+### LDS Vocabulary (`https://w3id.org/atomgraph/linkeddatahub/dataspaces#`)
 
 - `lds:Package` - Package class
+- `lds:ontology` - Points to package ontology URI
 
 ### Standard Properties (Reused)
 
-- `lds:ontology` - Points to package ontology URI (from LDT vocabulary)
 - `ac:stylesheet` - Points to package stylesheet URI (from AtomGraph Client vocabulary)
 
 ## Notes
