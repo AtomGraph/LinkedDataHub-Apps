@@ -48,12 +48,15 @@ which `ldh push` PUTs to `https://packages.linkeddatahub.com/editor/taxonomy/`:
 <#this> a lds:Package ;
     dct:title "Taxonomy Editor" ;
     dct:description "Turns a dataspace into a taxonomy editor: ..." ;
-    lds:ontology <ns/> ;
+    lds:ontology <ns/#> ;
     ac:stylesheet <https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/refs/heads/develop/packages/editor/taxonomy/skos.xsl> .
 ```
 
-`lds:ontology <ns/>` is registry-relative: the same push PUTs `ns.ttl` as the `ns/` document beside the
-descriptor, so the ontology is served by the registry itself. `ac:stylesheet` is the raw file in this
+`lds:ontology <ns/#>` is registry-relative: the same push PUTs `ns.ttl` as the `ns/` document beside the
+descriptor, so the ontology is served by the registry itself. It names the ontology IRI that `ns.ttl`
+declares (`<#>` resolved against the `ns/` document), not the document URL: the imports closure keys
+graphs by ontology IRI, and a descriptor naming the document loads it a second time under the IRI,
+which fails with "Another graph with name ... is already in the hierarchy". `ac:stylesheet` is the raw file in this
 repository, on the branch the registry was published from — a branch tip, not a release, so a push to
 that branch changes the rendering of every dataspace that imports the package next time it
 materializes the copy (see [What the Declaration Does](#what-the-declaration-does)).
@@ -172,7 +175,7 @@ next request, and lives in the running dataspace's context dataset. Declaring th
 
 From the next request onwards, the server resolves it:
 
-1. **Resolves the package description** from the package URI. Bundled descriptions and cached graphs
+1. **Resolves the package description** from the package URI. Cached graphs
    come from the graph repository; other URIs are dereferenced over HTTP.
 2. **Materializes the package ontology** (`lds:ontology`) as a document under the admin dataspace's
    `ontologies/` container, named after the package path — `ontologies/editor-taxonomy/` for the
@@ -216,6 +219,9 @@ vocabulary stays in the dataspace, and may not display or validate correctly wit
 3. Write the stylesheet with XSLT templates (using system modes like `ac:*`, `ldh:*`, `xhtml:*`, etc.), naming the file for the vocabulary it covers
 4. Publish package metadata as Linked Data at `https://packages.linkeddatahub.com/<path>/#this`
 5. Ensure the metadata contains `lds:ontology` and `ac:stylesheet` properties pointing to the package resources
+6. List the package in the catalog, `root.ttl`, as an `rdfs:member` of the registry root with the same
+   `dct:title` and `dct:description` as its descriptor: the settings modal and `ldh packages list` read
+   the catalog, not the descriptors
 
 ## Vocabulary Reference
 
