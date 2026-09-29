@@ -1,6 +1,6 @@
 # Mappings between Northwind product categories and UNESCO Thesaurus concepts.
 # Each category doubles as a skos:Concept, which makes the SKOS mapping relations
-# applicable and lets the SKOS package render the categories as concepts.
+# applicable and lets the Taxonomy Editor package render the categories as concepts.
 # Import this file with an RDF import (see the documentation) - .ldhignore keeps
 # it out of ldh push, and install.sh does not import it.
 

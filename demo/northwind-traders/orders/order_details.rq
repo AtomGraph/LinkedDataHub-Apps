@@ -7,7 +7,10 @@ CONSTRUCT
 {
     GRAPH ?graph
     {
-        ?graph foaf:topic ?orderItem, ?listPrice .
+        # the order's title, exactly as orders.rq writes it: the two imports run concurrently, and whichever
+        # reaches an order's document first creates it, which a document without a dct:title cannot be
+        ?graph dct:title ?orderID ;
+            foaf:topic ?orderItem, ?listPrice .
 
         ?order schema:orderedItem ?orderItem .
 
@@ -45,7 +48,9 @@ WHERE
 
     BIND(uri(concat(str($base), "orders/", encode_for_uri(?orderID), "/")) AS ?graph)
     BIND(uri(concat(str(?graph), "#this")) AS ?order)
-    BIND(uri(concat(str(?graph), "#", STRUUID())) AS ?orderItem)
+    # a line is identified by its order and product (an order has at most one line per product), so re-running
+    # the import writes the same resources rather than minting a second copy of every line
+    BIND(uri(concat(str(?graph), "#", sha1(concat(?orderID, "/", ?productID)))) AS ?orderItem)
     BIND(uri(concat(str(?orderItem), "-list-price")) AS ?listPrice)
     BIND(uri(concat(str($base), "products/", encode_for_uri(?productID), "/#this")) AS ?product)
     BIND (STRDT(?unitPrice, xsd:float) AS ?price)

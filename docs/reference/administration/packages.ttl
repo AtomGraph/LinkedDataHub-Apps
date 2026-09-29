@@ -30,8 +30,10 @@
     </div>
     <div>
         <h2 id="package-structure">Package structure</h2>
-        <p>Each package consists of two files:</p>
+        <p>Each package is a descriptor document with two files under it:</p>
         <dl>
+            <dt>Descriptor — the <code>lds:Package</code> resource</dt>
+            <dd>The document the package URI resolves to, describing the package itself. In the LinkedDataHub-Apps repository it is the RDF file beside the package's folder, so <samp>editor/taxonomy.ttl</samp> is the document published at <samp>editor/taxonomy/</samp> — see <a href="#package-metadata">Package metadata</a>.</dd>
             <dt><samp>ns.ttl</samp> — Package ontology</dt>
             <dd>An RDF ontology file that imports the external vocabulary using <code>owl:imports</code> and attaches views to properties using <code>ldh:view</code> (forward relationships) or <code>ldh:inverseView</code> (inverse relationships). Views are typically <code>ldh:View</code> resources with SPARQL queries that render related data for property values.</dd>
             <dt>XSLT stylesheet — named by <code>ac:stylesheet</code></dt>
@@ -39,10 +41,14 @@
         </dl>
         <p>Package files are organized in the LinkedDataHub-Apps repository, where the directory path is the package URI — a package under <samp>packages/a/b/</samp> is published at <samp>https://packages.linkeddatahub.com/a/b/</samp>, so a path carries as many segments as the grouping needs:</p>
         <pre>packages/
-├── editor/
-│   └── taxonomy/
-│       ├── ns.ttl     # Ontology with views
-│       └── skos.xsl   # XSLT stylesheet</pre>
+├── root.ttl           # the registry's own document
+├── editor.ttl         # the "Editors" container document
+└── editor/
+    ├── taxonomy.ttl   # the package descriptor, published at editor/taxonomy/
+    └── taxonomy/
+        ├── ns.ttl     # ontology with views, published at editor/taxonomy/ns/
+        └── skos.xsl   # XSLT stylesheet, uploaded into the package document</pre>
+        <p>The registry is published with <a href="../../command-line-interface/#push"><samp>ldh push</samp></a>, which is what pairs each <samp>name.ttl</samp> with the <samp>name/</samp> folder holding its children — so the ontology's document URL is <samp>ns/</samp>, not <samp>ns.ttl</samp>.</p>
         <p>The ontology is always <samp>ns.ttl</samp>; the stylesheet filename is not a convention, it is whatever the package's <code>ac:stylesheet</code> names. The taxonomy editor is named for what it does and its stylesheet for the vocabulary it speaks.</p>
     </div>
     <div>
@@ -50,33 +56,50 @@
         <p>Package metadata is published as Linked Data that resolves from the package URI (e.g. <code>https://packages.linkeddatahub.com/editor/taxonomy/#this</code>).
             A package descriptor is an instance of the <code>lds:Package</code> class with these properties:</p>
         <dl>
-            <dt><code>rdfs:label</code></dt>
+            <dt><code>dct:title</code></dt>
             <dd>Human-readable package name</dd>
             <dt><code>dct:description</code></dt>
             <dd>Package description and purpose</dd>
+            <dt><code>dct:creator</code></dt>
+            <dd>Who publishes the package (optional)</dd>
             <dt><code>lds:ontology</code></dt>
-            <dd>The package ontology URI (LDT vocabulary)</dd>
+            <dd>The package ontology URI (LinkedDataHub dataspaces vocabulary)</dd>
             <dt><code>ac:stylesheet</code></dt>
-            <dd>The package stylesheet URI (AtomGraph Client vocabulary)</dd>
+            <dd>The package stylesheet URI (AtomGraph Client vocabulary). Not written by hand in the registry: the stylesheet is uploaded when the package is published, and the reference is added afterwards, naming that upload — so a changed stylesheet gets a new URI instead of changing under the dataspaces that already imported it.</dd>
         </dl>
         <p>Example package metadata:</p>
-        <pre>@prefix lds: &lt;https://w3id.org/atomgraph/linkeddatahub/dataspaces#&gt; .
-@prefix ac:   &lt;https://w3id.org/atomgraph/client#&gt; .
-@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+        <pre>@prefix lds:  &lt;https://w3id.org/atomgraph/linkeddatahub/dataspaces#&gt; .
 @prefix dct:  &lt;http://purl.org/dc/terms/&gt; .
+@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+@prefix dh:   &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
 
-&lt;https://packages.linkeddatahub.com/editor/taxonomy/#this&gt; a lds:Package ;
-    rdfs:label "Taxonomy Editor" ;
+&lt;&gt; a dh:Container ;
+    dct:title "Taxonomy" ;
+    foaf:primaryTopic &lt;#this&gt; .
+
+&lt;#this&gt; a lds:Package ;
+    dct:title "Taxonomy Editor" ;
     dct:description "Taxonomy editing on SKOS, with custom templates" ;
-    lds:ontology &lt;https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/ns.ttl#&gt; ;
-    ac:stylesheet &lt;https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/skos.xsl&gt; .</pre>
+    dct:creator &lt;https://atomgraph.com/#company&gt; ;
+    lds:ontology &lt;ns/#&gt; .</pre>
+        <p>The URIs are relative to the descriptor's own document, so the registry serves the ontology it names and the package carries no reference to where its sources are kept.</p>
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
+                <p class="ac-alert-text"><code>lds:ontology</code> is best given as the ontology itself (<samp>ns/#</samp>). Naming the document that carries it (<samp>ns/</samp>) also resolves — the platform imports whichever ontology IRI the resolved graph declares — but the two are different resources, and only the ontology can be imported.</p>
+            </div>
+        </div>
     </div>
     <div>
         <h2 id="package-ontology">Package ontology</h2>
-        <p>The package ontology file contains two parts:</p>
+        <p>The package ontology file describes the document the registry serves it as, and the ontology inside that document in two parts:</p>
         <h3 id="vocabulary-import">Vocabulary import</h3>
         <p>Imports the external vocabulary using <code>owl:imports</code>. See the <a href="../ontologies/">Ontologies reference</a> for ontology management details.</p>
-        <pre>&lt;https://raw.githubusercontent.com/AtomGraph/LinkedDataHub-Apps/master/packages/editor/taxonomy/ns.ttl#&gt; a owl:Ontology ;
+        <pre>&lt;&gt; a dh:Item ;
+    dct:title "Taxonomy Editor ontology" ;
+    foaf:primaryTopic &lt;#&gt; .
+
+&lt;#&gt; a owl:Ontology ;
     owl:imports &lt;http://www.w3.org/2004/02/skos/core&gt; .</pre>
         <h3 id="property-views">Property views</h3>
         <p>SPARQL-based views attached to properties from the imported vocabulary:</p>
@@ -175,8 +198,12 @@ WHERE {}</pre>
         <h2 id="creating-packages">Creating custom packages</h2>
         <p>Developers can create custom packages for their own domain vocabularies. The process has four steps.</p>
         <h3 id="write-ontology">Write package ontology</h3>
-        <p>Create <samp>ns.ttl</samp> with vocabulary import and views:</p>
-        <pre>&lt;https://raw.githubusercontent.com/you/repo/master/packages/schema.org/ns.ttl#&gt; a owl:Ontology ;
+        <p>Create <samp>ns.ttl</samp> describing both the document the registry serves it as and the ontology inside it, with the vocabulary import and the views:</p>
+        <pre>&lt;&gt; a dh:Item ;
+    dct:title "Schema.org ontology" ;
+    foaf:primaryTopic &lt;#&gt; .
+
+&lt;#&gt; a owl:Ontology ;
     owl:imports &lt;https://schema.org/&gt; .
 
 # Attach view to a property
@@ -192,17 +219,31 @@ schema:knows ldh:view :PersonKnows .
     WHERE { GRAPH ?graph { $about schema:knows ?person } }
     ORDER BY ?person
     \"\"\" .</pre>
+        <div class="ac-alert va-warning" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
+            <div class="ac-alert-body">
+                <p class="ac-alert-text">The <code>dct:title</code> on <code>&lt;&gt;</code> is not optional. A write is held to the constraints of the document as it will be written, and a LinkedDataHub document must be titled, so an <samp>ns.ttl</samp> that describes only the ontology is refused <samp>422 Unprocessable Entity</samp> when it is pushed.</p>
+            </div>
+        </div>
         <h3 id="write-stylesheet">Write XSLT stylesheet</h3>
         <p>Create the stylesheet — name the file for the vocabulary it covers — with XSLT templates using system modes like <code>ac:*</code>, <code>ldh:*</code> and <code>xhtml:*</code>. See the <a href="../../stylesheets/">Stylesheets reference</a> for template customization patterns.</p>
         <pre>&lt;xsl:template match="schema:knows" mode="ac:PropertyEditor"/&gt;</pre>
         <h3 id="publish-metadata">Publish package metadata</h3>
-        <p>Publish package metadata as Linked Data at your package URI:</p>
-        <pre>&lt;https://packages.linkeddatahub.com/schema.org/#this&gt; a lds:Package ;
-    rdfs:label "Schema.org Package" ;
+        <p>Publish the descriptor as Linked Data at your package URI, naming the ontology beside it:</p>
+        <pre>&lt;&gt; a dh:Container ;
+    dct:title "Schema.org" ;
+    foaf:primaryTopic &lt;#this&gt; .
+
+&lt;#this&gt; a lds:Package ;
+    dct:title "Schema.org Package" ;
     dct:description "Schema.org vocabulary support" ;
-    lds:ontology &lt;https://raw.githubusercontent.com/you/repo/master/packages/schema.org/ns.ttl#&gt; ;
-    ac:stylesheet &lt;https://raw.githubusercontent.com/you/repo/master/packages/schema.org/schema.xsl&gt; .</pre>
-        <p>Ensure the metadata contains <code>lds:ontology</code> and <code>ac:stylesheet</code> properties pointing to the package resources.</p>
+    lds:ontology &lt;ns/#&gt; .</pre>
+        <p>Then upload the stylesheet into the package document and add <code>ac:stylesheet</code> naming that upload, which is where a registry published with <samp>ldh push</samp> gets it:</p>
+        <pre>package="https://packages.example.com/schema.org/"
+
+upload=$(ldh add file --title schema.xsl --file schema.xsl "$package")
+echo "INSERT { &lt;${package}#this&gt; &lt;https://w3id.org/atomgraph/client#stylesheet&gt; &lt;$upload&gt; } WHERE { }" | ldh patch "$package"</pre>
+        <p>A dataspace importing the package dereferences its descriptor, ontology and stylesheet anonymously, so all three have to be readable without a certificate.</p>
         <h3 id="test-installation">Test installation</h3>
         <p>Declare the <code>ldh:import</code> triple in a test dataspace's <samp>settings</samp> document — see <a href="#management">Management</a> for the command.</p>
     </div>
@@ -210,7 +251,7 @@ schema:knows ldh:view :PersonKnows .
         <h2 id="available-packages">Available packages</h2>
         <p>Published packages resolve from <a href="https://packages.linkeddatahub.com/" target="_blank">packages.linkeddatahub.com</a>; their sources live in the
             <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/packages" target="_blank">LinkedDataHub-Apps repository</a>, where each package directory
-            contains the package ontology (<samp>ns.ttl</samp>) and the stylesheet its <code>ac:stylesheet</code> names.</p>
+            contains the package ontology (<samp>ns.ttl</samp>) and its stylesheet, with the descriptor in the RDF file beside that directory.</p>
         <dl>
             <dt>Taxonomy Editor</dt>
             <dd>Taxonomy editing on SKOS: a concept tree beside the content, hierarchy views in both assertion directions, and constructors and constraints for concepts, schemes and collections. Package URI: <code>https://packages.linkeddatahub.com/editor/taxonomy/#this</code></dd>

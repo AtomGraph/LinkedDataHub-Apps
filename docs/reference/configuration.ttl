@@ -187,6 +187,8 @@ HOST=ec2-54-235-229-141.compute-1.amazonaws.com</pre>
                     Defaults to <samp>true</samp>.</dd>
                 <dt><samp>MAX_CONTENT_LENGTH</samp></dt>
                 <dd>Maximum allowed request body size (<samp>nginx</samp> has a separate setting for this). Defaults to <samp>2097152</samp>.</dd>
+                <dt><samp>HTTP_MAX_THREADS</samp></dt>
+                <dd>Maximum request threads on Tomcat's plain HTTP connector, the one the proxy forwards to. Defaults to Tomcat's own <samp>200</samp>. Beyond capacity it bounds how many server-side renders can be in flight against each other: a render calls back into this same connector through the proxy for the page's labels, so it holds one thread while it waits for another to answer — see the <a href="#http-client-pool">HTTP client pool</a>.</dd>
             </dl>
         </div>
         <div>
@@ -217,11 +219,31 @@ HOST=ec2-54-235-229-141.compute-1.amazonaws.com</pre>
                 <dd>Socket (read) timeout — how long to wait for data on an established connection. Defaults to <samp>120000</samp>.</dd>
                 <dt><samp>CLIENT_CONNECT_TIMEOUT</samp></dt>
                 <dd>Connection timeout — how long to wait to establish a connection. Defaults to <samp>10000</samp>.</dd>
+                <dt><samp>CONNECTION_REQUEST_TIMEOUT</samp></dt>
+                <dd>How long a request waits for a free connection from the pool before it gives up. Defaults to <samp>30000</samp>; left unset the underlying client waits indefinitely, and a thread parked on the pool never comes back on its own.</dd>
+                <dt><samp>CLIENT_SELF_REQUEST_TIMEOUT</samp></dt>
+                <dd>Connect and read timeout for requests the platform makes to its own URLs, such as a server-side render fetching its labels from the dataspace's <samp>/sparql</samp> and <samp>/ns</samp>. Those are answered by the platform's own request threads, so a wait that is too long lets a burst of renders hold every thread waiting on each other; after this bound the render gives up on the label. Defaults to <samp>5000</samp>.</dd>
                 <dt><samp>CLIENT_CONNECTION_TIME_TO_LIVE</samp></dt>
                 <dd>Maximum lifetime of a pooled connection before it is closed. Defaults to <samp>300000</samp>.</dd>
                 <dt><samp>CLIENT_VALIDATE_AFTER_INACTIVITY</samp></dt>
                 <dd>Idle time after which a pooled connection is validated before reuse. Defaults to <samp>10000</samp>.</dd>
             </dl>
+        </div>
+        <div>
+            <h3 id="http-client-pool">HTTP client pool</h3>
+            <p>The size of the connection pool those clients share. Both are passed as servlet parameters rather than as <samp>CATALINA_OPTS</samp> system properties.</p>
+            <dl>
+                <dt><samp>MAX_CONN_PER_ROUTE</samp></dt>
+                <dd>Maximum pooled connections per host. Defaults to <samp>200</samp>.</dd>
+                <dt><samp>MAX_TOTAL_CONN</samp></dt>
+                <dd>Maximum pooled connections in total. Defaults to <samp>400</samp>.</dd>
+            </dl>
+            <div class="ac-alert va-warning" role="status">
+                <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
+                <div class="ac-alert-body">
+                    <p class="ac-alert-text">Keep <samp>MAX_CONN_PER_ROUTE</samp> at least as large as <samp>HTTP_MAX_THREADS</samp>. A request the platform makes to its own URL holds a pooled connection for as long as it waits for one of the same Tomcat's threads to answer it, so a pool smaller than the connector queues those calls behind each other and a burst of renders drains one bounded wait at a time. The image's defaults are sized to each other; changing one means changing the other.</p>
+                </div>
+            </div>
         </div>
     </div>
     <div>
