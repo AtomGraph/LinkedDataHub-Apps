@@ -1,15 +1,22 @@
+PREFIX dct:        <http://purl.org/dc/terms/>
 PREFIX schema:     <https://schema.org/>
 
 CONSTRUCT
 {
     GRAPH ?graph
     {
+        # the employee's title, exactly as employees.rq writes it (the CSV carries the last name for that
+        # alone): the two imports run concurrently, and whichever reaches an employee's document first
+        # creates it, which a document without a dct:title cannot be
+        ?graph dct:title ?lastName .
+
         ?employee schema:areaServed ?territory
     }
 }
 WHERE
 {
     ?employee_territory <#employeeID> ?employeeID ;
+        <#lastName> ?lastName ;
         <#territoryID> ?territoryID .
 
     BIND(uri(concat(str($base), "employees/")) AS ?container)
