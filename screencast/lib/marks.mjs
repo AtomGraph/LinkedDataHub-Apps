@@ -9,6 +9,12 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
+// A step reported as { ok, why } that did not happen, thrown with its name.
+export function must(result, what) {
+  if (!result?.ok) throw new Error(`${what}: ${result?.why ?? 'did not happen'}`);
+  return result;
+}
+
 export class Marks {
   #t0;
   #shoot;
@@ -51,6 +57,16 @@ export class Marks {
       if (file) this.entries.at(-1).shot = file;
     }
     return at;
+  }
+
+  // A beat for a step that has to have happened. The helpers report a step as
+  // { ok, why }, and scenes used to write `r.ok ? note : r.why` into the beat — so a
+  // step that failed became a note in the sidecar and the take filmed on, over a page
+  // that never reached the state the next step assumed. Now it fails the take.
+  // `note` may be a function of the result, for notes that quote what the step found.
+  async step(id, result, note, extra = null) {
+    must(result, id);
+    return this.beat(id, typeof note === 'function' ? note(result) : note, extra);
   }
 
   async save(dir, trackName) {

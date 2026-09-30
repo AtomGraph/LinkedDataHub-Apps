@@ -142,7 +142,7 @@ export async function addProse(page, cursor, type, text, { settle = 1800, headin
       const want = labels.find((l) => /heading\s*2|^h2$/i.test(l.trim()))
         ?? labels.find((l) => /heading/i.test(l.trim()));
       if (want) {
-        await kind.selectOption({ label: want.trim() }).catch(() => {});
+        await kind.selectOption({ label: want.trim() });
         await sleep(700);
       }
     }
@@ -274,14 +274,15 @@ export async function copyUri(page, cursor, within, { match = null } = {}) {
 // Returns 'already' when no gesture was needed — same contract as switchViewMode, and
 // for the same reason: a fresh document opens in Properties, so asking for Properties
 // films a menu opening and closing for nothing, which reads as a script working
-// through a list rather than a person choosing a view.
+// through a list rather than a person choosing a view. Unlike switchViewMode, a mode
+// it cannot reach throws.
 export async function switchDocumentMode(page, cursor, mode = 'content-mode', { settle = 3000 } = {}) {
   if ((await currentDocumentMode(page)) === mode) return 'already';
 
   const toggle = ui(page).locator('button.layout-modes.drop-toggle, button[title="Mode"]').first();
   const item = ui(page).locator(`.modes-pop a.mi.${mode}`).first();
   for (let i = 0; i < 3; i++) {
-    if (!(await toggle.count())) return false;
+    if (!(await toggle.count())) break;
     await cursor.click(toggle);
     await sleep(700);
     if (await item.isVisible().catch(() => false)) {
@@ -291,7 +292,9 @@ export async function switchDocumentMode(page, cursor, mode = 'content-mode', { 
       return true;
     }
   }
-  return false;
+  // Not a false for the caller to weigh: every scene that switched modes discarded
+  // it, and filmed the mode it was already in.
+  throw new Error(`document mode ${mode} not offered by the action bar's switcher`);
 }
 
 // A block's control bands wait to be asked for. Since 2026-09-24 a view block renders its

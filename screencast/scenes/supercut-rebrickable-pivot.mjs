@@ -1,13 +1,13 @@
 // One gesture on Rebrickable: the 2×4 brick's Colors view — the same brick photographed
 // in 78 colours — then its Color pivot pill, and the results become the colours
 // themselves. Dark, 2×, the view framed whole; the result lingers.
-import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
+import { runScene, resolve, geometryFrom, sleep, until } from '../lib/harness.mjs';
 import { ui } from '../lib/dom.mjs';
 import { GEOMETRY_2X, zoom2x, focus, centre, load } from '../lib/supercut.mjs';
 
 const opts = await resolve('/parts/3001/');
 const { identity } = opts;
-const count = (scope) => scope.locator('.ldh-view-toolbar .count b').first().textContent().then((t) => t.trim()).catch(() => '');
+const count = (scope) => scope.locator('.ldh-view-toolbar .count b').first().textContent().then((t) => t.trim());
 
 await runScene({
   id: 'supercut-rebrickable-pivot', target: opts.target, warm: opts.target, identity,
@@ -16,7 +16,7 @@ await runScene({
     await zoom2x(page);
     await load(page, opts.target, '.ldh-pane.is-active .ldh-view-toolbar', 5000);
     const view = ui(page).locator('.ldh-block').filter({ has: page.locator('.ldh-view-toolbar') }).filter({ hasText: 'Colors' }).last();
-    await view.locator('img').first().waitFor({ state: 'visible', timeout: 30_000 }).catch(() => {});
+    await until(view.locator('img').first().waitFor({ state: 'visible', timeout: 30_000 }), 'the Colors photographs');
     await view.evaluate((el) => el.scrollIntoView({ block: 'start' })); await sleep(2500);
     const bar = view.locator('details.ldh-pivot-bar').first();
     const before = await count(view);
@@ -27,7 +27,7 @@ await runScene({
     await cursor.moveTo(...(await centre(pill)), { duration: 700 });
     await sleep(300);
     await cursor.click(pill);
-    await page.waitForFunction(() => { const c = document.querySelector('.ldh-pane.is-active .ldh-block:last-of-type .ldh-view-toolbar .count b, .ldh-pane.is-active .ldh-view-toolbar .count b'); return !!c; }, null, { timeout: 20_000 }).catch(() => {});
+    await until(page.waitForFunction(() => { const c = document.querySelector('.ldh-pane.is-active .ldh-block:last-of-type .ldh-view-toolbar .count b, .ldh-pane.is-active .ldh-view-toolbar .count b'); return !!c; }, null, { timeout: 20_000 }), 'the pivoted results count');
     await sleep(2200);
     await marks.beat('p-end', 'the colours themselves', await focus(view));
     // the recording stops at context close and loses its last second or two: pad the tail

@@ -2,10 +2,10 @@
 // saved, a chart made from it, a sentence typed in Content mode, the chart embedded
 // beside it, the chart dragged above the sentence. Dark, 2×, the pointer at a person's
 // pace. The page is reset off camera; everything on camera is the app.
-import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
+import { runScene, resolve, geometryFrom, sleep, must, until } from '../lib/harness.mjs';
 import { resetDocument } from '../lib/fixture.mjs';
 import { create, typeQuery, fill, save, configureChart } from '../lib/constructors.mjs';
-import { addProse, addObject, switchDocumentMode, contentModeUrl, revealControls } from '../lib/blocks.mjs';
+import { addProse, addObject, revealControls } from '../lib/blocks.mjs';
 import { dragBlock } from '../lib/editing.mjs';
 import { ui } from '../lib/dom.mjs';
 import { GEOMETRY_2X, zoom2x, focus, centre, load, easeScrollTo, easeScrollTop, zoomToFitRows } from '../lib/supercut.mjs';
@@ -49,7 +49,7 @@ await runScene({
       onAttempt: async (n) => marks.beat('c1-start', `an empty query form (attempt ${n})`, await focus(form)),
       onTyped: async () => marks.beat('c1-typed', 'the last character in', await focus(form)),
     });
-    await marks.beat('c1-verified', q.ok ? 'the query, read back' : q.why, await focus(form));
+    await marks.step('c1-verified', q, 'the query, read back', await focus(form));
     // The form is taller than the viewport: glide it up so that Save sits at the bottom and
     // the Title field is in view, rather than letting the Title click jump the page. The
     // camera can then ride the page's own scroll from the editor down to Save.
@@ -57,17 +57,16 @@ await runScene({
     await easeScrollTo(saveBtn, { ms: 2000, block: 'end', margin: 0 }).catch(() => {});
     await sleep(300);
     await marks.beat('c1-scrolled', 'the form\'s foot in view: Title, Save', await focus(saveBtn));
-    await fill(page, cursor, 'Title', TITLE);
+    must(await fill(page, cursor, 'Title', TITLE), 'c1 title');
     await cursor.moveTo(...(await centre(saveBtn)), { duration: 600 });
     await marks.beat('c1-save', 'pointer on Save', await focus(saveBtn));
     await cursor.click(saveBtn);
-    const s1 = { ok: true };
     await marks.beat('c1-saved', 'saved');
     const row = () => ui(page).locator('.ldh-block-row').filter({ hasText: TITLE }).first();
-    await row().locator('table tbody tr').first().waitFor({ state: 'visible', timeout: 30_000 }).catch(() => {});
+    await until(row().locator('table tbody tr').first().waitFor({ state: 'visible', timeout: 30_000 }), 'the saved query\'s rows');
     // the form was taller than the viewport; the block it became is above — scroll to it
     await easeScrollTo(row(), { ms: 1400, margin: 40 }); await sleep(600);
-    await marks.beat('c1-end', q.ok && s1.ok ? 'four rows' : (q.why ?? s1.why), await focus(row()));
+    await marks.beat('c1-end', 'four rows', await focus(row()));
     // ── c2 · a chart from it ───────────────────────────────────────────────────
     await marks.beat('c2-start', 'the rows; chart type: Table', await focus(row()));
     // a view block's controls wait behind the card header's toggle; a query block draws its
@@ -77,19 +76,20 @@ await runScene({
     if (!shown.already) await marks.beat('c2-controls', 'the chart controls, opened', await focus(row()));
     const cfg = await configureChart(page, cursor, row(), { type: 'Bar chart', category: 'region', series: ['reps'] });
     await sleep(1200);
-    await marks.beat('c2-drawn', cfg.ok ? 'bars in the pane' : cfg.why, await focus(row()));
+    await marks.step('c2-drawn', cfg, 'bars in the pane', await focus(row()));
     const createChart = row().locator('button.ac-btn.in-primary').filter({ hasText: /^Create$/ }).first();
     // the pane's Create sits where the page's floating "+ Create" menu floats: bring it to mid-viewport first
     await createChart.evaluate((el) => el.scrollIntoView({ block: 'center' })); await sleep(500);
     await cursor.click(createChart); await sleep(2000);
-    await fill(page, cursor, 'Title', TITLE);
+    must(await fill(page, cursor, 'Title', TITLE), 'c2 title');
     const s2 = await save(page, cursor);
     await sleep(600);
     await easeScrollTo(ui(page).locator('.ldh-block-row').filter({ hasText: TITLE }).last(), { ms: 1400, margin: 40 }).catch(() => {}); await sleep(600);
-    await marks.beat('c2-end', cfg.ok && s2.ok ? 'bars, saved as a chart' : (cfg.why ?? s2.why), await focus(ui(page).locator('.ldh-block-row').filter({ hasText: TITLE }).last()));
+    await marks.step('c2-end', s2, 'bars, saved as a chart', await focus(ui(page).locator('.ldh-block-row').filter({ hasText: TITLE }).last()));
     // ── c3 · Content: a sentence, typed ────────────────────────────────────────
-    // the menu item has been seen highlighted without the mode changing: check for the
-    // Content-mode buttons, try once more, and fall back to the mode URL — all off camera
+    // the menu item has been seen highlighted without the mode changing. The take used to
+    // record that as its c3t shot and recover afterwards; a shot of the mode not changing
+    // is the failure, so it fails the take instead.
     const xhtml = () => ui(page).locator('button.create-action.add-constructor').filter({ hasText: 'XHTML' }).first();
     // the document-level mode toggle, with room below it for its menu
     const toggle = ui(page).locator('button.layout-modes.drop-toggle, button[title="Mode"]').first();
@@ -101,33 +101,22 @@ await runScene({
     // renders — the helper's settle after it would be dead air on camera
     const item = ui(page).locator('.modes-pop a.mi.content-mode').first();
     for (let i = 0; i < 3 && !(await item.isVisible().catch(() => false)); i++) { await cursor.click(toggle); await sleep(700); }
-    if (await item.isVisible().catch(() => false)) {
-      await cursor.click(item);
-      await xhtml().waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
-      await sleep(500);
-    }
-    await marks.beat('c3t-end', (await xhtml().isVisible().catch(() => false)) ? 'Content mode' : 'the menu did not switch the mode', menuBox);
-    for (let i = 0; i < 2 && !(await xhtml().isVisible().catch(() => false)); i++) {
-      await page.keyboard.press('Escape').catch(() => {});
-      await switchDocumentMode(page, cursor, 'content-mode');
-      await sleep(1500);
-    }
-    if (!(await xhtml().isVisible().catch(() => false))) {
-      console.log('  mode menu did not switch; loading the Content-mode URL');
-      await load(page, contentModeUrl(doc.url), 'button', 2500);
-      await xhtml().waitFor({ state: 'visible', timeout: 30_000 }).catch(() => {});
-    }
+    if (!(await item.isVisible().catch(() => false))) throw new Error('c3t-end: the mode menu did not open');
+    await cursor.click(item);
+    await until(xhtml().waitFor({ state: 'visible', timeout: 20_000 }), 'Content mode (the XHTML button)');
+    await sleep(500);
+    await marks.beat('c3t-end', 'Content mode', menuBox);
     await sleep(800);
     await marks.beat('c3-start', 'Content mode, an empty page', await focus(xhtml()));
     const p1 = await addProse(page, cursor, type, 'Eastern has four reps on nineteen territories. Southern has two on eight.');
     await sleep(800);
-    await marks.beat('c3-end', p1.ok ? 'the sentence, on the page' : p1.why, await focus(ui(page).locator('.ldh-block-row').first()));
+    await marks.step('c3-end', p1, 'the sentence, on the page', await focus(ui(page).locator('.ldh-block-row').first()));
     // ── c4 · the chart, embedded beside it ─────────────────────────────────────
     await marks.beat('c4-start', 'pointer on + Object', await focus(ui(page).locator('button.create-action.add-constructor').filter({ hasText: 'Object' }).first()));
     const o1 = await addObject(page, cursor, type, null, { label: TITLE, kind: 'Result set chart' });
-    await ui(page).locator('.ldh-block-row svg').first().waitFor({ state: 'visible', timeout: 15_000 }).catch(() => {});
+    await until(ui(page).locator('.ldh-block-row svg').first().waitFor({ state: 'visible', timeout: 15_000 }), 'the embedded chart');
     await sleep(1200);
-    await marks.beat('c4-end', o1.ok ? 'the chart, inside the page' : o1.why, await focus(ui(page).locator('.ldh-block-row').filter({ has: page.locator('svg') }).first()));
+    await marks.step('c4-end', o1, 'the chart, inside the page', await focus(ui(page).locator('.ldh-block-row').filter({ has: page.locator('svg') }).first()));
     // ── c5 · the chart dragged above the sentence ──────────────────────────────
     const rows = ui(page).locator('.ldh-block-row').filter({ has: page.locator('span.ldh-bh-drag') });
     const prose = rows.first(), chart = rows.last();
@@ -136,14 +125,14 @@ await runScene({
     // frame, so the page is zoomed out to fit the two rows before the beat opens. It is an
     // instant re-layout, so it lands here, at the shot boundary, where the cut is.
     const fitted = await zoomToFitRows(page, [prose, chart]);
-    await marks.beat('c5-start', fitted.ok ? `sentence above, chart below, at ${fitted.zoom.toFixed(2)}×` : fitted.why, await focus(prose, chart));
+    await marks.step('c5-start', fitted, (f) => `sentence above, chart below, at ${f.zoom.toFixed(2)}×`, await focus(prose, chart));
     // a pointer drag: the app moves the dragged block after the drop target, so the sentence
     // goes below the chart, and both stay in the frame while it happens
     const dr = await dragBlock(page, cursor, prose, chart);
     await sleep(1500);
-    await marks.beat('c5-dropped', dr.ok ? 'dropped: the sentence now follows the chart' : dr.why, await focus(rows.first(), rows.last()));
+    await marks.step('c5-dropped', dr, 'dropped: the sentence now follows the chart', await focus(rows.first(), rows.last()));
     await sleep(600);
-    await marks.beat('c5-end', dr.ok ? 'chart above, sentence below' : dr.why, await focus(rows.first(), rows.last()));
+    await marks.step('c5-end', dr, 'chart above, sentence below', await focus(rows.first(), rows.last()));
     await sleep(600);
     await marks.beat('end');
   },

@@ -23,6 +23,7 @@ import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { selectWord } from '../lib/annotate.mjs';
 import * as constructors from '../lib/constructors.mjs';
+import * as modes from '../lib/modes.mjs';
 
 // A block by its heading — the only stable handle on content that is authored data
 // rather than chrome.
@@ -150,17 +151,29 @@ export const SHOTS = [
   },
   {
     doc: 'reference/user-interface', n: 6, line: 111, kind: 'clip',
-    caption: 'the Northwind orders container in each layout mode: content, properties, map (territories), chart, graph',
-    at: '/territories/',
-    async act({ page, cursor, marks, modes }) {
+    caption: 'a Northwind territory document in each layout mode: properties, map, chart, graph',
+    // The DOCUMENT's layout modes, from the action bar's switcher — not the view block's
+    // own table/map/chart/graph toolbar. That toolbar was what this clip used to drive,
+    // with every miss swallowed and a want of ".ldh-view-toolbar" that the page met
+    // before anything happened, so it passed as two minutes of an unchanged Content page.
+    // switchDocumentMode throws on a mode it cannot reach.
+    //
+    // A territory ITEM, not the container: document modes render the resources in the
+    // document itself, and a container's are its blocks and views — Map plotted an empty
+    // basemap and Chart a table of URIs. Boston's document carries its own coordinates.
+    // It has no content blocks, so it opens in Properties and Content is not on offer.
+    at: '/territories/02116/',
+    async act({ page, cursor, marks, blocks }) {
+      // the first beat is the painted page, not the loading shell the video opens on
+      await page.locator('.ldh-pane.is-active .ldh-block-row').first().waitFor({ state: 'visible', timeout: 20_000 });
       await marks.beat('open');
-      for (const mode of ['table-mode', 'map-mode', 'chart-mode', 'graph-mode']) {
-        const r = await modes.switchViewMode(page, cursor, mode).catch(() => false);
+      for (const mode of ['read-mode', 'map-mode', 'chart-mode', 'graph-mode']) {
+        const r = await blocks.switchDocumentMode(page, cursor, mode);
         await marks.beat(mode.replace('-mode', ''), r === 'already' ? 'already' : undefined);
         await page.waitForTimeout(3500);
       }
     },
-    want: '.ldh-view-toolbar',
+    want: async (page) => (await modes.currentDocumentMode(page)) === 'graph-mode',
   },
   {
     doc: 'reference/user-interface', n: 7, line: 146, kind: 'still',
@@ -279,10 +292,11 @@ export const SHOTS = [
       await marks.beat('open');
       for (const m of ['list-mode', 'grid-mode', 'table-mode']) {
         const r = await modes.switchViewMode(page, cursor, m);
+        if (!r) throw new Error(`${m} not offered by the view toolbar`);
         await marks.beat(m.replace('-mode', ''), r === 'already' ? 'already' : undefined);
       }
     },
-    want: '.ldh-view-toolbar',
+    want: async (page) => (await modes.currentViewMode(page)) === 'table-mode',
   },
   {
     doc: 'user-guide/browse-data', n: 2, line: 35, kind: 'still',
@@ -399,13 +413,14 @@ export const SHOTS = [
     caption: 'the Categories container with charts and grid view',
     at: '/categories/', fullPage: true,
     async act({ page, cursor, modes }) {
-      await modes.switchViewMode(page, cursor, 'grid-mode').catch(() => {});
+      if (!(await modes.switchViewMode(page, cursor, 'grid-mode'))) throw new Error('grid-mode not offered by the view toolbar');
       await page.waitForTimeout(4000);
       await scrollTo(page, 'Revenue by category', 3000);
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.waitForTimeout(1500);
     },
-    want: async (page) => (await page.locator('.ldh-pane.is-active svg').count()) >= 1,
+    want: async (page) => (await modes.currentViewMode(page)) === 'grid-mode'
+      && (await page.locator('.ldh-pane.is-active svg').count()) >= 1,
   },
   {
     doc: 'tutorial/media', n: 1, line: 51, kind: 'still',

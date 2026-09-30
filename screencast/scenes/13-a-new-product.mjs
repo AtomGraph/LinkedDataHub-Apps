@@ -7,7 +7,7 @@
 //
 //   make scene SCENE=13-a-new-product BASE=… CERT_FILE=… CERT_PASSWORD_FILE=… LDH_BIN=…
 
-import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
+import { runScene, resolve, geometryFrom, sleep, must, until } from '../lib/harness.mjs';
 import { deleteByTitle } from '../lib/fixture.mjs';
 import { crumbGo, searchGo, listGo } from '../lib/nav.mjs';
 import { addProse, addObject, switchDocumentMode } from '../lib/blocks.mjs';
@@ -35,13 +35,13 @@ await runScene({
 
   async body({ page, cursor, type, marks }) {
     const list = () => page.locator('.ldh-pane.is-active .ldh-block[data-for-class]').filter({ hasText: 'Products in this category' }).first();
-    const count = async () => (await list().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 }).catch(() => '?')).trim();
+    const count = async () => (await list().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 })).trim();
 
     await page.goto(OPENS_ON, { waitUntil: 'load' });
-    await page.waitForFunction(
+    await until(page.waitForFunction(
       () => [...document.querySelectorAll('.ldh-block-body img[src*="/uploads/"]')].filter((i) => i.complete && i.naturalWidth > 0).length >= 8,
       { timeout: 30_000 },
-    ).catch(() => {});
+    ), 'eight painted category photographs');
     await marks.beat('grid', 'eight categories, photographed');
     await sleep(2200);
 
@@ -49,38 +49,34 @@ await runScene({
     if (!(await tile.count())) throw new Error(`no ${CATEGORY} tile`);
     await cursor.click(tile);
     await page.waitForLoadState('load').catch(() => {});
-    await list().waitFor({ state: 'visible', timeout: 25_000 }).catch(() => {});
+    await until(list().waitFor({ state: 'visible', timeout: 25_000 }), 'the Products in this category list');
     await sleep(2200);
     const before = await count();
     await marks.beat('category', `${CATEGORY} — its ${before} products, listed on its own page, with a Create button`);
     await sleep(2600);
 
     // ── say why, before the work ────────────────────────────────────────────
-    await crumbGo(page, cursor, 'Root');
+    must(await crumbGo(page, cursor, 'Root'), 'up to Root');
     await sleep(800);
     const made = await createItem(page, cursor, TITLE);
-    await marks.beat('create', made.ok ? `a new page, ${TITLE}` : made.why);
-    if (!made.ok) throw new Error(made.why);
+    await marks.step('create', made, `a new page, ${TITLE}`);
     url = made.url;
     await sleep(700);
     await switchDocumentMode(page, cursor, 'content-mode');
     await sleep(600);
     const p1 = await addProse(page, cursor, type,
       `${SUPPLIER}, who supply Chai and Chang, have added a ginger beer. ${CATEGORY} lists its products on its own page and carries a Create button, so the product is created where it will be listed, with the category already filled in.`);
-    await marks.beat('question', p1.ok ? 'the job, written down' : p1.why);
+    await marks.step('question', p1, 'the job, written down');
     await sleep(3200);
 
     // ── back to the category, and the product created from its own list ────
     const back = await searchGo(page, cursor, CATEGORY, { type: 'Category' });
-    await marks.beat('back-to-category', back.ok ? `${CATEGORY}, found by name` : back.why);
-    if (!back.ok) throw new Error(back.why);
+    await marks.step('back-to-category', back, `${CATEGORY}, found by name`);
     const made2 = await createFromView(page, cursor, {
       '^Title': PRODUCT, '^Name': PRODUCT, '^Identifier': '78', '^Description': '24 - 355 ml bottles', '^Provider': [SUPPLIER, 'Company'],
     }, { type, view: 'Products in this category' });
-    await marks.beat('product', made2.ok
-      ? `${PRODUCT} — created from the category's own list${made2.unmatched?.length ? '; unfilled: ' + made2.unmatched.join(', ') : ''}`
-      : `${made2.why}${made2.unmatched?.length ? '; fields: ' + made2.unmatched.join(', ') : ''}`);
-    if (!made2.ok) throw new Error(made2.why);
+    must(made2, `product${made2.unmatched?.length ? ' (fields: ' + made2.unmatched.join(', ') + ')' : ''}`);
+    await marks.beat('product', `${PRODUCT} — created from the category's own list${made2.unmatched?.length ? '; unfilled: ' + made2.unmatched.join(', ') : ''}`);
     await sleep(2400);
 
     // ── the same list, read again ───────────────────────────────────────────
@@ -88,7 +84,7 @@ await runScene({
     if (!(await link.count())) throw new Error('the product page does not link its category');
     await cursor.click(link);
     await page.waitForLoadState('load').catch(() => {});
-    await list().waitFor({ state: 'visible', timeout: 25_000 }).catch(() => {});
+    await until(list().waitFor({ state: 'visible', timeout: 25_000 }), 'the Products in this category list, again');
     await sleep(2500);
     await marks.beat('category-again', `${CATEGORY} — the same list, read again: ${await count()} products`);
     await sleep(2600);
@@ -102,11 +98,11 @@ await runScene({
     await switchDocumentMode(page, cursor, 'content-mode');
     await sleep(600);
     const o1 = await addObject(page, cursor, type, null, { label: PRODUCT, kind: 'Product', mode: 'Properties' });
-    await marks.beat('embed', o1.ok ? 'the product, embedded' : o1.why);
+    await marks.step('embed', o1, 'the product, embedded');
     await sleep(1400);
     const p2 = await addProse(page, cursor, type,
       `${PRODUCT}: ${CATEGORY}'s thirteenth product, from ${SUPPLIER}. The category listed ${before} when this page was opened; it lists one more now.`);
-    await marks.beat('note', p2.ok ? undefined : p2.why);
+    await marks.step('note', p2);
     await sleep(700);
     const scrolled = await scrollThrough(page, { duration: 5600 });
     await marks.beat('page', `read back over ${Math.round(scrolled)}px`);

@@ -10,7 +10,7 @@
 //
 //   make scene SCENE=10-the-dearest-thing BASE=… CERT_FILE=… CERT_PASSWORD_FILE=… LDH_BIN=…
 
-import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
+import { runScene, resolve, geometryFrom, sleep, until } from '../lib/harness.mjs';
 import { clearBlocks } from '../lib/fixture.mjs';
 import { select as sparql } from '../lib/sparql.mjs';
 import { addProse, addObject, switchDocumentMode } from '../lib/blocks.mjs';
@@ -37,7 +37,8 @@ const PAGE = top.product.replace(/#.*$/, '');
 console.log(`dearest: ${PRODUCT} $${PRICE}, ${BUYERS} buyers — ${PAGE}`);
 
 const cleared = await clearBlocks({ ldh: opts.ldh, certFile: opts.certFile, certPassword: opts.certPassword, certPasswordFile: opts.certPasswordFile, url: PAGE });
-console.log(`cleanup: blocks stripped from ${PAGE}: ${cleared.ok ? 'ok' : cleared.out}`);
+if (!cleared.ok) throw new Error(`cleanup: blocks not stripped from ${PAGE}: ${cleared.out}`);
+console.log(`cleanup: blocks stripped from ${PAGE}: ok`);
 
 await runScene({
   id: '10-the-dearest-thing',
@@ -56,10 +57,10 @@ await runScene({
 
     // ── the photographs, already painted ────────────────────────────────────
     await page.goto(OPENS_ON, { waitUntil: 'load' });
-    await page.waitForFunction(
+    await until(page.waitForFunction(
       () => [...document.querySelectorAll('.ldh-block-body img[src*="/uploads/"]')].filter((i) => i.complete && i.naturalWidth > 0).length >= 8,
       { timeout: 30_000 },
-    ).catch(() => {});
+    ), 'eight painted category photographs');
     await marks.beat('grid', 'eight categories, photographed');
     await sleep(2200);
 
@@ -70,9 +71,9 @@ await runScene({
     await cursor.click(tile);
     await page.waitForLoadState('load').catch(() => {});
     const list = page.locator('.ldh-pane.is-active .ldh-block[data-for-class]').filter({ hasText: 'Products in this category' }).first();
-    await list.waitFor({ state: 'visible', timeout: 25_000 }).catch(() => {});
+    await until(list.waitFor({ state: 'visible', timeout: 25_000 }), 'the Products in this category list');
     await sleep(2200);
-    const n = (await list.locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 }).catch(() => '?')).trim();
+    const n = (await list.locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 })).trim();
     await marks.beat('category', `${CATEGORY} — its ${n} products, listed on its own page`);
     await sleep(1600);
 
@@ -92,7 +93,7 @@ await runScene({
     const row = dear.locator('a').filter({ hasText: PRODUCT }).first();
     await cursor.click(row);
     await page.waitForLoadState('load').catch(() => {});
-    await page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 25_000 }).catch(() => {});
+    await until(page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 25_000 }), `${PRODUCT}'s page`);
     await sleep(3000);
     await marks.beat('bare', `${PRODUCT} — ${BUYERS} buyers, and a page that says the price and the supplier`);
     await sleep(2600);
@@ -102,7 +103,7 @@ await runScene({
     await sleep(600);
     const p1 = await addProse(page, cursor, type,
       `${PRODUCT} is the dearest thing in the catalogue at $${PRICE} a bottle, and ${BUYERS} customers buy it. The page carries its price, its supplier and its orders, and nothing about the wine. What follows is what is published about it: the thesaurus's concept, and a video from its appellation.`);
-    await marks.beat('question', p1.ok ? 'the gap, written on the page itself' : p1.why);
+    await marks.step('question', p1, 'the gap, written on the page itself');
     await sleep(3200);
 
     // ── the concept, from another dataspace, through the proxy ──────────────
@@ -114,30 +115,30 @@ await runScene({
     if (!(await unesco.count())) throw new Error('no UNESCO entry in the dataspaces menu');
     await cursor.click(unesco);
     await page.waitForLoadState('load').catch(() => {});
+    await until(page.waitForFunction(() => /UNESCO/.test(document.querySelector('.ldh-pane.is-active')?.textContent ?? ''), null, { timeout: 30_000 }), 'the UNESCO thesaurus');
     await sleep(2700);
     await marks.beat('thesaurus', `a published vocabulary, rendered here: ${page.url().includes('uri=') ? 'through the proxy' : 'directly'}`);
     await sleep(700);
     const found = await searchGo(page, cursor, CONCEPT, { type: 'Concept' });
-    await marks.beat('search', found.ok ? `${found.total} matches for ${CONCEPT} — the thesaurus's own concept` : found.why);
-    if (!found.ok) throw new Error(found.why);
+    await marks.step('search', found, `${found.total} matches for ${CONCEPT} — the thesaurus's own concept`);
     await sleep(1800);
 
     const home = await backTo(PAGE, PRODUCT);
     await sleep(550);
-    await marks.beat('return', home ? `back to ${PRODUCT}, in Content` : `lost — still on ${await activeDocument(page)}`);
-    if (!home) throw new Error(`refusing to write: the active pane is ${await activeDocument(page)}, not ${PAGE}`);
+    if (!home) throw new Error(`return: refusing to write — the active pane is ${await activeDocument(page)}, not ${PAGE}`);
+    await marks.beat('return', `back to ${PRODUCT}, in Content`);
     const o1 = await addObject(page, cursor, type, null, { label: CONCEPT, kind: 'Concept', mode: 'Properties' });
-    await marks.beat('embed-concept', o1.ok ? 'the concept, embedded on the product page' : o1.why);
+    await marks.step('embed-concept', o1, 'the concept, embedded on the product page');
     await sleep(1400);
 
     // ── the video: a link pasted in, dereferenced into a resource ───────────
     const o2 = await addObject(page, cursor, type, VIDEO, { settle: 6000 });
-    await marks.beat('embed-video', o2.ok ? 'a YouTube link, typed in — and rendered as a resource: the video, its channel, its thumbnail' : o2.why);
+    await marks.step('embed-video', o2, 'a YouTube link, typed in — and rendered as a resource: the video, its channel, its thumbnail');
     await sleep(2600);
 
     const p2 = await addProse(page, cursor, type,
       `Two things this page did not have: the concept, from a thesaurus in another dataspace, and a video from the Blaye appellation, fetched from a pasted link. Both are resources on the page, and both stay linked to where they came from.`);
-    await marks.beat('note', p2.ok ? undefined : p2.why);
+    await marks.step('note', p2);
     await sleep(700);
     const scrolled = await scrollThrough(page, { duration: 6000 });
     await marks.beat('page', `read back over ${Math.round(scrolled)}px`);

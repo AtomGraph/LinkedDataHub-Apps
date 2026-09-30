@@ -216,7 +216,7 @@ export async function configureChart(page, cursor, row, { type, category = null,
   const typeSelect = singles.first();
   if (await typeSelect.count()) {
     await typeSelect.scrollIntoViewIfNeeded();
-    await typeSelect.selectOption({ label: type }).catch(() => {});
+    await typeSelect.selectOption({ label: type });
     await sleep(900);
   }
 
@@ -228,7 +228,7 @@ export async function configureChart(page, cursor, row, { type, category = null,
       const opts = await sel.evaluate((el) => [...el.options].map((o) => o.value)).catch(() => []);
       if (opts.includes(category)) {
         await sel.scrollIntoViewIfNeeded();
-        await sel.selectOption(category).catch(() => {});
+        await sel.selectOption(category);
         await sleep(600);
         break;
       }
@@ -414,7 +414,10 @@ export async function createFromView(page, cursor, values, { type = null, extra 
   // Some constructors navigate to the new document (a City), some close the modal and
   // leave the page where it was (a Product, an Order) — so the wait is for either,
   // not twenty seconds for a navigation that may never come.
-  await page.waitForFunction((b) => location.href !== b || ![...document.querySelectorAll('.modal-constructor, .ac-modal')].some((m) => m.offsetParent !== null), before, { timeout: 20_000 }).catch(() => {});
+  // A Save the server refused leaves the modal up and the page where it was: that is a
+  // failed create, not one that "stayed on the page".
+  const done = await page.waitForFunction((b) => location.href !== b || ![...document.querySelectorAll('.modal-constructor, .ac-modal')].some((m) => m.offsetParent !== null), before, { timeout: 20_000 }).then(() => true, () => false);
+  if (!done) return { ok: false, why: 'Save neither navigated nor closed the constructor', filled, unmatched };
   await page.waitForLoadState('load').catch(() => {});
   await settled(page, 3500);
   const url = page.url().split('?')[0];

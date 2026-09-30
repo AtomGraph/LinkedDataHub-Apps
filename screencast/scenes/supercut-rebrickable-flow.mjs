@@ -3,7 +3,7 @@
 // photographed in 78 colours (v); the Color pivot pill turns the results into the
 // colours themselves (p). The graph part runs at zoom 1 (canvas hit-testing works in
 // unzoomed pixels); the record page loads at 2× like the other takes.
-import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
+import { runScene, resolve, geometryFrom, sleep, until } from '../lib/harness.mjs';
 import { foreignNode, select, zoomToFit, expand, approach } from '../lib/graph.mjs';
 import { ui } from '../lib/dom.mjs';
 import { GEOMETRY_2X, zoom2x, focus, centre, load, easeScrollTo } from '../lib/supercut.mjs';
@@ -11,7 +11,7 @@ import { GEOMETRY_2X, zoom2x, focus, centre, load, easeScrollTo } from '../lib/s
 const opts = await resolve('/parts/3001pr0045/');
 const { base, identity } = opts;
 const G = `${opts.target}?mode=${encodeURIComponent('https://w3id.org/atomgraph/client#GraphMode')}`;
-const count = (scope) => scope.locator('.ldh-view-toolbar .count b').first().textContent().then((t) => t.trim()).catch(() => '');
+const count = (scope) => scope.locator('.ldh-view-toolbar .count b').first().textContent().then((t) => t.trim());
 
 await runScene({
   id: 'supercut-rebrickable-flow', target: G, warm: G, identity,
@@ -20,7 +20,7 @@ await runScene({
     await load(page, G, 'canvas', 4000, { timeout: 120_000 });
     // the graph registers itself after the canvas appears; on this heavy page that
     // can take a while — wait for a live instance with nodes before touching it
-    await page.waitForFunction(() => { const gs = window.LinkedDataHub?.graphs ?? {}; return Object.values(gs).some((g) => { try { return (g.instance ?? g).graphData().nodes.length > 0; } catch { return false; } }); }, null, { timeout: 90_000 }).catch(() => console.log('  graph instance not seen in 90 s'));
+    await until(page.waitForFunction(() => { const gs = window.LinkedDataHub?.graphs ?? {}; return Object.values(gs).some((g) => { try { return (g.instance ?? g).graphData().nodes.length > 0; } catch { return false; } }); }, null, { timeout: 90_000 }), 'the brick\'s graph instance');
     await zoomToFit(page, cursor); await sleep(2500);
     // ── 1 · the base brick's node blooms with its own document: 78 colours ──────
     const node = await foreignNode(page, opts.target, { prefer: /\/parts\/3001\/#this/ });
@@ -30,7 +30,7 @@ await runScene({
     await marks.beat('1-start', 'eleven nodes; the pointer on the base brick', around(at, 520));
     const r = await expand(page, cursor, node, { settle: 6000 });
     const at2 = await approach(page, cursor, node.id, { fallback: at });
-    await marks.beat('1-end', r.ok ? `+${r.gained} nodes from the brick's own document` : r.why ?? 'no bloom', around(at2, 900));
+    await marks.step('1-end', r, (x) => `+${x.gained} nodes from the brick's own document`, around(at2, 900));
     await sleep(700);
     await zoomToFit(page, cursor);
     await sleep(1500);
@@ -42,10 +42,10 @@ await runScene({
     await zoom2x(page); // the page it opens loads at 2×
     const before = page.url().split('?')[0];
     if (picked.point) await cursor.clickAt(picked.point.x, picked.point.y, { duration: 500, settle: 150, after: 200 }); else await picked.link.click();
-    await page.waitForFunction((b) => location.href.split('?')[0] !== b, before, { timeout: 60_000 }).catch(() => {});
-    await page.waitForSelector('.ldh-pane.is-active .ldh-view-toolbar', { timeout: 120_000 }).catch(() => {});
+    await until(page.waitForFunction((b) => location.href.split('?')[0] !== b, before, { timeout: 60_000 }), 'the base brick\'s page');
+    await until(page.waitForSelector('.ldh-pane.is-active .ldh-view-toolbar', { timeout: 120_000 }), 'the base brick\'s views');
     const view = ui(page).locator('.ldh-block').filter({ has: page.locator('.ldh-view-toolbar') }).filter({ hasText: 'Colors' }).last();
-    await view.locator('img').first().waitFor({ state: 'visible', timeout: 60_000 }).catch(() => {});
+    await until(view.locator('img').first().waitFor({ state: 'visible', timeout: 60_000 }), 'the Colors photographs');
     await sleep(1500);
     await marks.beat('1b-end', `the record: ${page.url().replace(base, '')}`);
     // ── v · down the page to the Colors view ───────────────────────────────────
@@ -66,7 +66,7 @@ await runScene({
     await cursor.click(pill);
     // the pivot renders its results as a new view (a new toolbar, a new count) — the
     // old view's count stays — so wait for the set of counts to change
-    await page.waitForFunction((b) => [...document.querySelectorAll('.ldh-pane.is-active .ldh-view-toolbar .count')].map((c) => c.textContent.trim()).join('|') !== b, snapshot, { timeout: 30_000 }).catch(() => {});
+    await until(page.waitForFunction((b) => [...document.querySelectorAll('.ldh-pane.is-active .ldh-view-toolbar .count')].map((c) => c.textContent.trim()).join('|') !== b, snapshot, { timeout: 30_000 }), 'the pivoted results');
     await sleep(2200);
     // the results now under the pointer's column: the block below the pill
     const resBox = await page.evaluate(({ x, y }) => { const el = document.elementFromPoint(x, y + 260)?.closest('.ldh-block'); if (!el) return null; const r = el.getBoundingClientRect(); return { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) }; }, { x: pillAt[0], y: pillAt[1] }).catch(() => null);

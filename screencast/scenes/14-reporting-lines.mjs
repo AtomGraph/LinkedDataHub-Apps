@@ -7,7 +7,7 @@
 //
 //   make scene SCENE=14-reporting-lines BASE=… CERT_FILE=… CERT_PASSWORD_FILE=… LDH_BIN=…
 
-import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
+import { runScene, resolve, geometryFrom, sleep, must, until } from '../lib/harness.mjs';
 import { deleteByTitle, patchDocument } from '../lib/fixture.mjs';
 import { select as sparql } from '../lib/sparql.mjs';
 import { crumbGo, searchGo, listGo } from '../lib/nav.mjs';
@@ -29,7 +29,8 @@ if (!who || !from || !to) throw new Error('rep not found');
 const reset = await patchDocument({ ldh: opts.ldh, certFile: opts.certFile, certPassword: opts.certPassword, certPasswordFile: opts.certPasswordFile,
   url: who.replace(/#.*$/, ''),
   update: `PREFIX schema: <https://schema.org/>\nDELETE { <${who}> schema:sponsor <${to}> }\nINSERT { <${who}> schema:sponsor <${from}> }\nWHERE {}` });
-console.log(`reset: ${WHO} reports to ${FROM}: ${reset.ok ? 'ok' : reset.out}`);
+if (!reset.ok) throw new Error(`reset: ${WHO} reports to ${FROM}: ${reset.out}`);
+console.log(`reset: ${WHO} reports to ${FROM}: ok`);
 const gone = await deleteByTitle({ ldh: opts.ldh, base, certFile: opts.certFile, certPassword: opts.certPassword, certPasswordFile: opts.certPasswordFile, title: TITLE });
 console.log(`cleanup: removed ${gone.removed.length} earlier "${TITLE}"`);
 let url = null;
@@ -41,13 +42,14 @@ await runScene({
 
   async body({ page, cursor, type, marks }) {
     const reports = () => page.locator('.ldh-pane.is-active .ldh-block[data-for-class]').filter({ hasText: 'Direct reports' }).first();
-    const count = async () => (await reports().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 }).catch(() => '?')).trim();
+    // No fallback: the count is typed into the page, and a '?' became "NaN now".
+    const count = async () => (await reports().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 })).trim();
 
     await page.goto(OPENS_ON, { waitUntil: 'load' });
-    await page.waitForFunction(
+    await until(page.waitForFunction(
       () => [...document.querySelectorAll('.ldh-block-body img[src*="/uploads/"]')].filter((i) => i.complete && i.naturalWidth > 0).length >= 9,
       { timeout: 30_000 },
-    ).catch(() => {});
+    ), 'nine painted team photographs');
     await marks.beat('team', 'nine people, with their photographs');
     await sleep(2200);
 
@@ -55,39 +57,36 @@ await runScene({
     if (!(await tile.count())) throw new Error(`no ${TO} tile`);
     await cursor.click(tile);
     await page.waitForLoadState('load').catch(() => {});
-    await reports().waitFor({ state: 'visible', timeout: 25_000 }).catch(() => {});
+    await until(reports().waitFor({ state: 'visible', timeout: 25_000 }), 'the Direct reports list');
     await sleep(2200);
     const before = await count();
     await marks.beat('manager', `${TO} — ${before} direct reports, listed on his page`);
     await sleep(2600);
 
     // ── say why, before the work ────────────────────────────────────────────
-    await crumbGo(page, cursor, 'Root');
+    must(await crumbGo(page, cursor, 'Root'), 'up to Root');
     await sleep(800);
     const made = await createItem(page, cursor, TITLE);
-    await marks.beat('create', made.ok ? `a new page, ${TITLE}` : made.why);
-    if (!made.ok) throw new Error(made.why);
+    await marks.step('create', made, `a new page, ${TITLE}`);
     url = made.url;
     await sleep(700);
     await switchDocumentMode(page, cursor, 'content-mode');
     await sleep(600);
     const p1 = await addProse(page, cursor, type,
       `${TO} has ${before} people reporting to him; ${FROM}, one of them, has three of his own. ${WHO} moves from ${FROM} to ${TO}. The reporting line is one link on ${WHO}'s record, and both managers' pages list who points at them.`);
-    await marks.beat('question', p1.ok ? 'the change, written down' : p1.why);
+    await marks.step('question', p1, 'the change, written down');
     await sleep(3200);
 
     // ── the link, re-pointed on the record ──────────────────────────────────
     const k = await searchGo(page, cursor, WHO, { type: 'Person' });
     if (!k.ok) throw new Error(k.why);
     const ed = await editResource(page, cursor, /Family name/);
-    await marks.beat('edit', ed.ok ? `${WHO} — reports to ${FROM}; open for editing` : ed.why);
-    if (!ed.ok) throw new Error(ed.why);
+    await marks.step('edit', ed, `${WHO} — reports to ${FROM}; open for editing`);
     await sleep(900);
     const rp = await repoint(page, cursor, type, ed.form, 'Reports to', TO, { kind: 'Person' });
     if (!rp.ok) throw new Error(rp.why);
     const sv = await saveForm(page, cursor, ed.form);
-    await marks.beat('repoint', sv.ok ? `reports to ${TO} — picked by name, saved` : sv.why);
-    if (!sv.ok) throw new Error(sv.why);
+    await marks.step('repoint', sv, `reports to ${TO} — picked by name, saved`);
     await sleep(1400);
 
     // ── the same list, read again ───────────────────────────────────────────
@@ -95,7 +94,7 @@ await runScene({
     // right after the save (the pre-edit block lingers), and search is one gesture.
     const f = await searchGo(page, cursor, TO, { type: 'Person' });
     if (!f.ok) throw new Error(f.why);
-    await reports().waitFor({ state: 'visible', timeout: 25_000 }).catch(() => {});
+    await until(reports().waitFor({ state: 'visible', timeout: 25_000 }), 'the Direct reports list, again');
     await sleep(2500);
     await marks.beat('manager-again', `${TO} — the same list, read again: ${await count()} direct reports`);
     await sleep(2600);
@@ -109,7 +108,7 @@ await runScene({
     await sleep(600);
     const p2 = await addProse(page, cursor, type,
       `${WHO} now reports to ${TO}: ${before} direct reports when this page was opened, ${Number(before) + 1} now, and ${FROM} has two. One link changed; two pages read differently.`);
-    await marks.beat('note', p2.ok ? undefined : p2.why);
+    await marks.step('note', p2);
     await sleep(700);
     const scrolled = await scrollThrough(page, { duration: 4200 });
     await marks.beat('page', `read back over ${Math.round(scrolled)}px`);

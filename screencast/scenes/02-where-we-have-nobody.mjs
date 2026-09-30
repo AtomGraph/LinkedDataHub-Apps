@@ -15,7 +15,7 @@
 //
 //   make scene SCENE=02-where-we-have-nobody BASE=… CERT_FILE=… CERT_PASSWORD_FILE=… LDH_BIN=…
 
-import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
+import { runScene, resolve, geometryFrom, sleep, must, until } from '../lib/harness.mjs';
 import { deleteByTitle } from '../lib/fixture.mjs';
 import { crumbGo, listGo, searchGo } from '../lib/nav.mjs';
 import { addProse, addObject, pickByLabel, switchDocumentMode } from '../lib/blocks.mjs';
@@ -82,10 +82,9 @@ await runScene({
     // The beat fires the moment the map has painted, not after a dwell — that is what
     // makes the head trim a measurement rather than a guess.
     await page.goto(OPENS_ON, { waitUntil: 'load' });
-    await page.waitForSelector('.ldh-view-toolbar .right .count b', { timeout: 25_000 }).catch(() => {});
-    await page.waitForSelector('.ol-viewport canvas', { timeout: 25_000 }).catch(() => {});
-    const total = (await page.locator('.ldh-view-toolbar .right .count b').first()
-      .textContent().catch(() => '53')).trim();
+    await until(page.waitForSelector('.ldh-view-toolbar .right .count b', { timeout: 25_000 }), 'the territories count');
+    await until(page.waitForSelector('.ol-viewport canvas', { timeout: 25_000 }), 'the territories map');
+    const total = (await page.locator('.ldh-view-toolbar .right .count b').first().textContent()).trim();
     await marks.beat('map', `every territory Northwind covers: ${total}`);
     await sleep(2400);
 
@@ -102,7 +101,8 @@ await runScene({
     // discovering the obvious.
     const pinName = await page.locator('.ol-overlay-container a[title*="/territories/"]').first()
       .textContent({ timeout: 4000 }).catch(() => null);
-    await marks.beat('one', pinName ? `${pinName.trim()} — one of the fifty-three` : (found.error ?? 'no marker opened'));
+    if (!pinName) throw new Error(`one: ${found.error ?? 'no marker opened'}`);
+    await marks.beat('one', `${pinName.trim()} — one of the fifty-three`);
     await sleep(1500);
 
     // ── and out again, into its region ──────────────────────────────────────
@@ -112,20 +112,16 @@ await runScene({
     // — because the rep→territory link is schema:areaServed and points the other way,
     // which is the same asymmetry that makes the gap unfacetable a moment later.
     const regionLink = page.locator('.ol-overlay-container a[title*="/regions/"]').first();
-    const hasRegion = (await regionLink.count()) > 0;
-    let region = null;
-    if (hasRegion) {
-      await cursor.click(regionLink);
-      await page.waitForLoadState('load').catch(() => {});
-      await sleep(3600);
-      // The document title, not a heading: it is set from dct:title and reading it
-      // costs nothing, where guessing at the heading element costs a timeout.
-      region = (await page.title().catch(() => ''))
-        .replace(/\s*[|–-]\s*Northwind Traders\s*$/i, '').trim() || null;
-    }
-    await marks.beat('region', region
-      ? `${region} — and territories are grouped into four of these`
-      : hasRegion ? 'followed the region link, could not read the title' : 'the popup carried no region link');
+    if (!(await regionLink.count())) throw new Error('region: the popup carried no region link');
+    await cursor.click(regionLink);
+    await page.waitForLoadState('load').catch(() => {});
+    await sleep(3600);
+    // The document title, not a heading: it is set from dct:title and reading it
+    // costs nothing, where guessing at the heading element costs a timeout.
+    const region = (await page.title())
+      .replace(/\s*[|–-]\s*Northwind Traders\s*$/i, '').trim();
+    if (!region) throw new Error('region: followed the region link, could not read the title');
+    await marks.beat('region', `${region} — and territories are grouped into four of these`);
     await sleep(1400);
 
     // ── the question a facet cannot answer ──────────────────────────────────
@@ -140,8 +136,7 @@ await runScene({
     await crumbGo(page, cursor, 'Root');
     await sleep(800);
     const made = await createItem(page, cursor, TITLE);
-    await marks.beat('create', made.ok ? `a new page, ${TITLE}` : made.why);
-    if (!made.ok) throw new Error(made.why);
+    await marks.step('create', made, `a new page, ${TITLE}`);
     url = made.url;
     await sleep(700);
     await switchDocumentMode(page, cursor, 'content-mode');
@@ -149,7 +144,7 @@ await runScene({
 
     const p1 = await addProse(page, cursor, type,
       'The territory map plots all fifty-three places Northwind sells into. Each rep is linked to the territories they serve, and the link runs from the rep. A territory nobody serves has no such link, so no facet and no map will single it out. This page finds them with a query, and then puts somebody on them.');
-    await marks.beat('question', p1.ok ? 'why the map cannot answer this' : p1.why);
+    await marks.step('question', p1, 'why the map cannot answer this');
     // Held before the mode switcher opens: its popover lands on top of this sentence,
     // and a reader needs the sentence more than the menu.
     await sleep(3200);
@@ -158,19 +153,17 @@ await runScene({
     await sleep(600);
 
     const cs = await create(page, cursor, 'SELECT');
-    await marks.beat('new-select', cs.ok ? 'a SELECT, created on this document' : cs.why);
+    await marks.step('new-select', cs, 'a SELECT, created on this document');
     await sleep(400);
 
-    if (cs.ok) {
-      const q = await typeQuery(page, cursor, QUERY);
-      await marks.beat('query', q.ok ? `the absence, as SPARQL — ${q.lines} lines${q.verified ? ', read back and matching' : ''}` : q.why);
-      await sleep(700);
-      const t = await fill(page, cursor, 'Title', 'Uncovered territories');
-      await marks.beat('title', t.ok ? 'Uncovered territories' : t.why);
-      const s = await save(page, cursor);
-      await marks.beat('save-select', s.ok ? 'saved — four rows' : s.why);
-      await sleep(1000);
-    }
+    const q = await typeQuery(page, cursor, QUERY);
+    await marks.step('query', q, `the absence, as SPARQL — ${q.lines} lines${q.verified ? ', read back and matching' : ''}`);
+    await sleep(700);
+    const t = await fill(page, cursor, 'Title', 'Uncovered territories');
+    await marks.step('title', t, 'Uncovered territories');
+    const s = await save(page, cursor);
+    await marks.step('save-select', s, 'saved — four rows');
+    await sleep(1000);
 
     // ── the same four, as a map ─────────────────────────────────────────────
     // These rows ARE resources — the query selects the territory itself — so this is
@@ -178,38 +171,34 @@ await runScene({
     // Map plots what the results point at, which turns the answer into a picture of
     // the hole.
     const cv = await create(page, cursor, 'View');
-    await marks.beat('new-view', cv.ok ? 'a View over that query' : cv.why);
+    await marks.step('new-view', cv, 'a View over that query');
     await sleep(500);
 
-    let viewSaved = false;
-    if (cv.ok) {
-      // By property name, never by position: the first control on this form is the
-      // query combobox, and a title typed there lands inside a URI.
-      const queryField = field(page, 'Query', 'input:not([type=hidden]):visible');
-      const picked = await pickByLabel(page, cursor, type, queryField, 'Uncovered territories', { kind: 'SELECT' });
-      await marks.beat('bind', picked.ok ? 'bound to the query by name' : picked.why);
-      await sleep(500);
+    // By property name, never by position: the first control on this form is the
+    // query combobox, and a title typed there lands inside a URI.
+    const queryField = field(page, 'Query', 'input:not([type=hidden]):visible');
+    const picked = await pickByLabel(page, cursor, type, queryField, 'Uncovered territories', { kind: 'SELECT' });
+    await marks.step('bind', picked, 'bound to the query by name');
+    await sleep(500);
 
-      const modeSelect = field(page, 'Layout mode', 'select:visible');
-      if (await modeSelect.count()) {
-        await modeSelect.scrollIntoViewIfNeeded();
-        await modeSelect.selectOption({ label: 'Map' }).catch(() => {});
-        await sleep(700);
-      }
-      await fill(page, cursor, 'Title', 'Where we have nobody');
-      const s2 = await save(page, cursor);
-      viewSaved = s2.ok;
-      await marks.beat('save-view', s2.ok ? 'saved — rendered as a map' : s2.why);
-      await sleep(1600);
-    }
+    // Map is what the next beat plots, so a form without the select fails here rather
+    // than saving a view in its default mode.
+    const modeSelect = field(page, 'Layout mode', 'select:visible');
+    await modeSelect.scrollIntoViewIfNeeded();
+    await modeSelect.selectOption({ label: 'Map' });
+    await sleep(700);
+    must(await fill(page, cursor, 'Title', 'Where we have nobody'), 'view title');
+    const s2 = await save(page, cursor);
+    await marks.step('save-view', s2, 'saved — rendered as a map');
+    await sleep(1600);
 
     // ── write it up ─────────────────────────────────────────────────────────
     await switchDocumentMode(page, cursor, 'content-mode');
     await sleep(700);
 
     const o1 = await addObject(page, cursor, type, null, { label: 'Where we have nobody', kind: 'View', mode: 'Map' });
-    const holes = (await page.locator('.ldh-pane.is-active .ldh-block').filter({ hasText: 'Where we have nobody' }).first().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 6000 }).catch(() => '?')).trim();
-    await marks.beat('hole', o1.ok ? `the ${holes}, plotted — the hole itself` : o1.why);
+    const holes = (await page.locator('.ldh-pane.is-active .ldh-block').filter({ hasText: 'Where we have nobody' }).first().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 6000 })).trim();
+    await marks.step('hole', o1, `the ${holes}, plotted — the hole itself`);
     await sleep(2400);
 
     // ── somebody: a hire, made where reps are listed, with the four territories ──
@@ -218,8 +207,7 @@ await runScene({
     // four territories are picked by name — three of them through the form's own
     // add-property row, since the shape gives one row for the property.
     const boss = await searchGo(page, cursor, 'Fuller', { type: 'Person' });
-    await marks.beat('manager', boss.ok ? 'Fuller — and the people who report to him, listed on his page' : boss.why);
-    if (!boss.ok) throw new Error(boss.why);
+    await marks.step('manager', boss, 'Fuller — and the people who report to him, listed on his page');
     await sleep(1400);
     // The constructor gives one Territory row and the create modal's add-property row
     // fails for a resource property (FINDINGS.md #13), so the hire is made with Dallas
@@ -228,10 +216,8 @@ await runScene({
     const hired = await createFromView(page, cursor, {
       '^Title': REP, '^Given name': 'Ana', '^Family name': REP, '^Job title': 'Sales Representative', '^Territory': ['Dallas', 'Territory'],
     }, { type, view: 'Direct reports' });
-    await marks.beat('hire', hired.ok
-      ? `${REP} — hired from Fuller's own list, Dallas assigned${hired.unmatched?.length ? '; unfilled: ' + hired.unmatched.join(', ') : ''}`
-      : `${hired.why}${hired.unmatched?.length ? '; fields: ' + hired.unmatched.join(', ') : ''}`);
-    if (!hired.ok) throw new Error(hired.why);
+    must(hired, `hire${hired.unmatched?.length ? ' (fields: ' + hired.unmatched.join(', ') + ')' : ''}`);
+    await marks.beat('hire', `${REP} — hired from Fuller's own list, Dallas assigned${hired.unmatched?.length ? '; unfilled: ' + hired.unmatched.join(', ') : ''}`);
     await sleep(1800);
     if (!hired.navigated) {
       const me = page.locator('.ldh-pane.is-active .ldh-block a').filter({ hasText: REP }).first();
@@ -251,8 +237,7 @@ await runScene({
       await sleep(400);
     }
     const sv = await saveForm(page, cursor, ed.form);
-    await marks.beat('territories', sv.ok ? `${REP} — Austin, Bentonville and Columbia added on her record; four in all` : sv.why);
-    if (!sv.ok) throw new Error(sv.why);
+    await marks.step('territories', sv, `${REP} — Austin, Bentonville and Columbia added on her record; four in all`);
     await sleep(2200);
 
     // ── the same map, read again ────────────────────────────────────────────
@@ -261,15 +246,15 @@ await runScene({
     await sleep(600);
     const back2 = await listGo(page, cursor, TITLE);
     if (!back2.ok) throw new Error(back2.why);
-    await page.waitForSelector('.ldh-pane.is-active .ldh-block .ldh-view-toolbar .count b', { timeout: 25_000 }).catch(() => {});
+    await until(page.waitForSelector('.ldh-pane.is-active .ldh-block .ldh-view-toolbar .count b', { timeout: 25_000 }), 'the view count, read again');
     await sleep(3000);
-    const left = (await page.locator('.ldh-pane.is-active .ldh-block').filter({ hasText: 'Where we have nobody' }).first().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 }).catch(() => '?')).trim();
+    const left = (await page.locator('.ldh-pane.is-active .ldh-block').filter({ hasText: 'Where we have nobody' }).first().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 })).trim();
     await marks.beat('filled', `the same view, read again — ${left} territories with nobody`);
     await sleep(2600);
 
     const p2 = await addProse(page, cursor, type,
       `${holes === '4' ? 'Four' : holes} territories had no rep: Austin, Bentonville, Columbia and Dallas, all in Southern. ${REP} now covers all four, and the map above — the same query, run again — shows ${left === '0' ? 'none' : left}.`);
-    await marks.beat('note', p2.ok ? undefined : p2.why);
+    await marks.step('note', p2);
     await sleep(700);
 
     const scrolled = await scrollThrough(page, { duration: 5600 });

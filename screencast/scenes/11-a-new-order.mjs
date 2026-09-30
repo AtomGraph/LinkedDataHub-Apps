@@ -8,7 +8,7 @@
 //
 //   make scene SCENE=11-a-new-order BASE=… CERT_FILE=… CERT_PASSWORD_FILE=… LDH_BIN=…
 
-import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
+import { runScene, resolve, geometryFrom, sleep, must, until } from '../lib/harness.mjs';
 import { deleteByTitle, removeAll } from '../lib/fixture.mjs';
 import { select as sparql } from '../lib/sparql.mjs';
 import { crumbGo, searchGo, listGo } from '../lib/nav.mjs';
@@ -29,7 +29,10 @@ const stale = await sparql(base, `PREFIX schema: <https://schema.org/>
 SELECT ?doc WHERE { GRAPH ?doc { ?o a schema:Order ; schema:orderDate ?d FILTER(STR(?d) = "${TODAY}") } }`);
 if (stale.length) {
   const gone = await removeAll({ ldh: opts.ldh, certFile: opts.certFile, certPassword: opts.certPassword, certPasswordFile: opts.certPasswordFile, urls: stale.map((r) => r.doc) });
-  console.log(`cleanup: removed ${gone.filter(([, ok]) => ok).length} order(s) dated today`);
+  // A survivor would be counted into c.orders below, and the closing sentence with it.
+  const kept = gone.filter(([, ok]) => !ok).map(([u]) => u);
+  if (kept.length) throw new Error(`cleanup: could not remove order(s) dated today: ${kept.join(', ')}`);
+  console.log(`cleanup: removed ${gone.length} order(s) dated today`);
 }
 
 const [c] = await sparql(base, `PREFIX schema: <https://schema.org/>
@@ -57,40 +60,36 @@ await runScene({
 
   async body({ page, cursor, type, marks }) {
     const ordersView = () => page.locator('.ldh-pane.is-active .ldh-block[data-for-class]').filter({ hasText: 'Orders from this customer' }).first();
-    const count = async () => (await ordersView().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 }).catch(() => '?')).trim();
+    const count = async () => (await ordersView().locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 })).trim();
 
     await page.goto(OPENS_ON, { waitUntil: 'load' });
-    await ordersView().locator('.ldh-view-toolbar .count b').first().waitFor({ state: 'visible', timeout: 25_000 }).catch(() => {});
+    await until(ordersView().locator('.ldh-view-toolbar .count b').first().waitFor({ state: 'visible', timeout: 25_000 }), "the customer's orders count");
     await sleep(800);
     await marks.beat('customer', `${CUSTOMER} — ${await count()} orders, listed on their own page`);
     await sleep(2600);
 
     // ── say why, before the work ────────────────────────────────────────────
-    await crumbGo(page, cursor, 'Root');
+    must(await crumbGo(page, cursor, 'Root'), 'up to Root');
     await sleep(800);
     const made = await createItem(page, cursor, TITLE);
-    await marks.beat('create', made.ok ? `a new page, ${TITLE}` : made.why);
-    if (!made.ok) throw new Error(made.why);
+    await marks.step('create', made, `a new page, ${TITLE}`);
     url = made.url;
     await sleep(700);
     await switchDocumentMode(page, cursor, 'content-mode');
     await sleep(600);
     const p1 = await addProse(page, cursor, type,
       `${CUSTOMER} phoned in an order. Their page lists every order they have placed, and the list carries a Create button, so the order is booked where it will be listed, with the customer already filled in.`);
-    await marks.beat('question', p1.ok ? 'the job, written down' : p1.why);
+    await marks.step('question', p1, 'the job, written down');
     await sleep(3200);
 
     // ── back to the customer, and the order booked from their own list ──────
     const back = await searchGo(page, cursor, CUSTOMER, { type: 'Company' });
-    await marks.beat('back-to-customer', back.ok ? `${CUSTOMER}, found by name` : back.why);
-    if (!back.ok) throw new Error(back.why);
+    await marks.step('back-to-customer', back, `${CUSTOMER}, found by name`);
     const booked = await createFromView(page, cursor, {
       '^Title': ORDER_ID, '^Identifier': ORDER_ID, '^Order date': TODAY, '^Sales rep': [REP, 'Person'],
     }, { type, view: 'Orders from this customer' });
-    await marks.beat('order', booked.ok
-      ? `order ${ORDER_ID} — ${TODAY}, ${REP}, customer prefilled${booked.unmatched?.length ? '; unfilled: ' + booked.unmatched.join(', ') : ''}`
-      : `${booked.why}${booked.unmatched?.length ? '; fields: ' + booked.unmatched.join(', ') : ''}`);
-    if (!booked.ok) throw new Error(booked.why);
+    must(booked, `order${booked.unmatched?.length ? ' (fields: ' + booked.unmatched.join(', ') + ')' : ''}`);
+    await marks.beat('order', `order ${ORDER_ID} — ${TODAY}, ${REP}, customer prefilled${booked.unmatched?.length ? '; unfilled: ' + booked.unmatched.join(', ') : ''}`);
     await sleep(2400);
 
     // ── the same list, read again ───────────────────────────────────────────
@@ -98,7 +97,7 @@ await runScene({
     if (!(await link.count())) throw new Error('the order page does not link its customer');
     await cursor.click(link);
     await page.waitForLoadState('load').catch(() => {});
-    await ordersView().locator('.ldh-view-toolbar .count b').first().waitFor({ state: 'visible', timeout: 25_000 }).catch(() => {});
+    await until(ordersView().locator('.ldh-view-toolbar .count b').first().waitFor({ state: 'visible', timeout: 25_000 }), "the customer's orders count, read again");
     await sleep(2500);
     await marks.beat('customer-again', `${CUSTOMER} — the same list, read again: ${await count()} orders`);
     await sleep(2600);
@@ -112,11 +111,11 @@ await runScene({
     await switchDocumentMode(page, cursor, 'content-mode');
     await sleep(600);
     const o1 = await addObject(page, cursor, type, null, { label: ORDER_ID, kind: 'Order', mode: 'Properties' });
-    await marks.beat('embed', o1.ok ? 'the order, embedded' : o1.why);
+    await marks.step('embed', o1, 'the order, embedded');
     await sleep(1400);
     const p2 = await addProse(page, cursor, type,
       `Order ${ORDER_ID}, booked on ${TODAY} for ${CUSTOMER} by ${REP}. Their page listed ${c.orders} orders when this page was opened; it lists ${Number(c.orders) + 1} now.`);
-    await marks.beat('note', p2.ok ? undefined : p2.why);
+    await marks.step('note', p2);
     await sleep(700);
     const scrolled = await scrollThrough(page, { duration: 5600 });
     await marks.beat('page', `read back over ${Math.round(scrolled)}px`);

@@ -1,7 +1,7 @@
 // Supercut takes on Northwind at 2×: create-from-view (4), cross-dataspace (8), the
 // ontology's form (9), RDFa annotation (12), parallax pivot (15). Each beat carries
 // its focus box. Test run: nothing is reset.
-import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
+import { runScene, resolve, geometryFrom, sleep, until } from '../lib/harness.mjs';
 import { select as sparql } from '../lib/sparql.mjs';
 import { createFromView } from '../lib/constructors.mjs';
 import { copyUri, contentModeUrl } from '../lib/blocks.mjs';
@@ -16,7 +16,7 @@ const want = (id) => !ONLY.length || ONLY.includes(id);
 const doc = async (title) => (await sparql(base, `PREFIX dct: <http://purl.org/dc/terms/> SELECT ?doc WHERE { GRAPH ?doc { ?doc dct:title "${title}" } } LIMIT 1`))[0]?.doc;
 const ALIGN = await doc('Category alignment');
 if (!ALIGN) throw new Error('no Category alignment page');
-const count = async (within) => (await within.locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 }).catch(() => '?')).trim();
+const count = async (within) => (await within.locator('.ldh-view-toolbar .count b').first().textContent({ timeout: 4000 })).trim();
 
 await runScene({
   id: 'supercut-northwind', target: `${base}/regions/4/`, warm: `${base}/regions/4/`, identity,
@@ -45,7 +45,7 @@ await runScene({
     const before4 = await count(ui(page));
     await marks.beat('4-start', `the Territory form, filled — pointer on Save (${before4} cities)`, await focus(modal));
     await cursor.click(save);
-    await page.waitForFunction(() => ![...document.querySelectorAll('.modal-constructor, .ac-modal')].some((m) => m.offsetParent !== null), null, { timeout: 20_000 }).catch(() => {});
+    await until(page.waitForFunction(() => ![...document.querySelectorAll('.modal-constructor, .ac-modal')].some((m) => m.offsetParent !== null), null, { timeout: 20_000 }), 'the Territory form closing on Save');
     await page.waitForLoadState('load').catch(() => {});
     await sleep(800);
     await marks.beat('4-saved', 'saved');
@@ -56,11 +56,11 @@ await runScene({
     const moved = await page.waitForFunction((b) => { const c = document.querySelector('.ldh-pane.is-active .ldh-view-toolbar .count b'); return c && c.textContent.trim() !== b; }, before4, { timeout: 8000 }).then(() => true, () => false);
     if (!moved) {
       const crumb = ui(page).locator('.ldh-bc a').filter({ hasText: 'Southern' }).first();
-      if (await crumb.count()) { await cursor.click(crumb); await page.waitForLoadState('load').catch(() => {}); await page.waitForSelector('.ldh-pane.is-active .ol-viewport canvas', { timeout: 30_000 }).catch(() => {}); await sleep(2000); }
-      else console.log('  no Southern breadcrumb; the map may show the old count');
+      if (!(await crumb.count())) throw new Error('4-end: no Southern breadcrumb, and the map still shows the old count');
+      await cursor.click(crumb); await page.waitForLoadState('load').catch(() => {}); await until(page.waitForSelector('.ldh-pane.is-active .ol-viewport canvas', { timeout: 30_000 }), 'the region map, reloaded'); await sleep(2000);
     }
     const mapBlock = ui(page).locator('.ldh-block').filter({ has: page.locator('.ol-viewport') }).first();
-    await mapBlock.locator('.ol-viewport canvas').first().waitFor({ state: 'visible', timeout: 30_000 }).catch(() => {});
+    await until(mapBlock.locator('.ol-viewport canvas').first().waitFor({ state: 'visible', timeout: 30_000 }), 'the region map');
     await easeScrollTo(mapBlock, { ms: 1400, margin: 24 }).catch(() => {});
     await sleep(1200);
     await marks.beat('4-end', `${await count(ui(page))} cities on the region's map (was ${before4}, refreshed itself: ${moved})`, await focus(mapBlock));
@@ -78,7 +78,7 @@ await runScene({
     await cbtn.click();
     const pm = page.locator('.modal-constructor:visible, .ac-modal:visible').last();
     await pm.waitFor({ state: 'visible', timeout: 15_000 });
-    await pm.locator('.ldh-prop-group').nth(6).waitFor({ state: 'visible', timeout: 10_000 }).catch(() => {});
+    await until(pm.locator('.ldh-prop-group').nth(6).waitFor({ state: 'visible', timeout: 10_000 }), 'the Person form\'s fields');
     await sleep(1400);
     await marks.beat('9-end', 'the Person form the ontology wrote', await focus(pm));
     await sleep(900);
@@ -99,7 +99,7 @@ await runScene({
     await cursor.moveTo(...(await centre(pill)), { duration: 400 });
     await marks.beat('15-start', 'nine employees; pointer on the Territory pill', await focus(view));
     await pill.click();
-    await page.waitForFunction((b) => { const c = document.querySelector('.ldh-pane.is-active .ldh-view-toolbar .count b'); return c && c.textContent.trim() !== b; }, before15, { timeout: 20_000 }).catch(() => {});
+    await until(page.waitForFunction((b) => { const c = document.querySelector('.ldh-pane.is-active .ldh-view-toolbar .count b'); return c && c.textContent.trim() !== b; }, before15, { timeout: 20_000 }), 'the pivoted count');
     await sleep(1500);
     await marks.beat('15-end', `${await count(ui(page))} territories`, await focus(view));
     await sleep(800);
@@ -118,7 +118,7 @@ await runScene({
     await marks.beat('12-start', 'the sentence, open for editing', await focus(prose));
     const a = await annotate(page, cursor, type, { word: 'Beverages', property: 'exact' });
     await sleep(1200);
-    await marks.beat('12-end', a.ok ? 'skos:exactMatch — the word is a link into the thesaurus' : a.why, await focus(prose));
+    await marks.step('12-end', a, 'skos:exactMatch — the word is a link into the thesaurus', await focus(prose));
     await sleep(800);
     }
 
@@ -131,7 +131,7 @@ await runScene({
     await cursor.moveTo(...(await centre(unesco)), { duration: 350 });
     await marks.beat('8-start', 'the applications menu, UNESCO under the pointer');
     await unesco.click();
-    await page.waitForFunction(() => { const p = document.querySelector('.ldh-pane.is-active'); return p && /UNESCO/.test(p.textContent) && [...p.querySelectorAll('img')].some((i) => i.complete && i.naturalWidth > 0); }, null, { timeout: 30_000 }).catch(() => {});
+    await until(page.waitForFunction(() => { const p = document.querySelector('.ldh-pane.is-active'); return p && /UNESCO/.test(p.textContent) && [...p.querySelectorAll('img')].some((i) => i.complete && i.naturalWidth > 0); }, null, { timeout: 30_000 }), 'the UNESCO dataspace, painted');
     await sleep(1500);
     await marks.beat('8-end', 'another dataspace, same chrome');
     await sleep(600);
