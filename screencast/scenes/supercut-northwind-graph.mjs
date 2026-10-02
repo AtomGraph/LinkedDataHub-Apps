@@ -7,7 +7,7 @@
 // canvas fills the pane, so the graph is native-sharp without the document zoom the
 // other takes use (its hit-testing works in unzoomed pixels).
 import fs from 'node:fs/promises';
-import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
+import { runScene, resolve, geometryFrom, sleep, until } from '../lib/harness.mjs';
 import { editResource, repoint, saveForm } from '../lib/editing.mjs';
 import { ui } from '../lib/dom.mjs';
 import { foreignNode, expand, select, zoomToFit, approach } from '../lib/graph.mjs';
@@ -41,7 +41,7 @@ await runScene({
     await marks.beat('1-start', 'the pointer on the customer node', around(at, 520));
     const r = await expand(page, cursor, node, { settle: 3500 });
     const at2 = await approach(page, cursor, node.id, { fallback: at });
-    await marks.beat('1-end', r.ok ? `+${r.gained} nodes from the customer's own document` : r.why ?? 'no bloom', around(at2, 760));
+    await marks.step('1-end', r, (x) => `+${x.gained} nodes from the customer's own document`, around(at2, 760));
     await sleep(700);
 
     await zoomToFit(page, cursor);
@@ -52,8 +52,8 @@ await runScene({
     await marks.beat('1b-start', 'the node selected; its link in the panel', await focus(panel));
     const before = page.url().split('?')[0];
     if (picked.point) await cursor.clickAt(picked.point.x, picked.point.y, { duration: 500, settle: 150, after: 200 }); else await picked.link.click();
-    await page.waitForFunction((b) => location.href.split('?')[0] !== b, before, { timeout: 20_000 }).catch(() => {});
-    await page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }).catch(() => {});
+    await until(page.waitForFunction((b) => location.href.split('?')[0] !== b, before, { timeout: 20_000 }), 'the customer\'s record');
+    await until(page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }), 'the customer\'s record, rendered');
     await sleep(1500);
     await marks.beat('1b-end', `the record: ${page.url().replace(base, '')}`);
     await sleep(600);
@@ -64,7 +64,7 @@ await runScene({
     // on the related resources in place.
     const view = () => page.locator('.ldh-pane.is-active .ldh-block').filter({ has: page.locator('.ldh-view-toolbar') }).filter({ hasText: 'Orders from this customer' }).first();
     // The count is in the block's status line, not the toolbar band that waits to be asked.
-    const count = async () => (await view().locator('.count b').first().textContent({ timeout: 4000 }).catch(() => '?')).trim();
+    const count = async () => (await view().locator('.count b').first().textContent({ timeout: 4000 })).trim();
     const toggle = view().locator('.ldh-block-head button.tb-controls').first();
     if (!(await toggle.count())) throw new Error('no controls toggle on the orders view');
     await toggle.scrollIntoViewIfNeeded();
@@ -85,7 +85,7 @@ await runScene({
       await cursor.moveTo(...(await centre(pill)), { duration: 500 });
       await marks.beat(`1d-hop${i + 1}-start`, `pointer on the ${(await pill.textContent()).replace(/\s+/g, ' ').trim()} pill`, await focus(view()));
       await pill.click();
-      await page.waitForFunction((b) => { const c = document.querySelector('.ldh-pane.is-active .count b'); return c && c.textContent.trim() !== b; }, before, { timeout: 20_000 }).catch(() => {});
+      await until(page.waitForFunction((b) => { const c = document.querySelector('.ldh-pane.is-active .count b'); return c && c.textContent.trim() !== b; }, before, { timeout: 20_000 }), `hop ${i + 1}: the related results`);
       await sleep(1500);
       await marks.beat(`1d-hop${i + 1}-end`, `${await count()} — ${hop.what}`, await focus(view()));
       await sleep(600);
@@ -113,8 +113,8 @@ await runScene({
     await marks.beat('1e-start', `pointer on ${TERRITORY}`, await focus(view()));
     const beforeUrl = page.url().split('?')[0];
     await rowLink.click();
-    await page.waitForFunction((b) => location.href.split('?')[0] !== b, beforeUrl, { timeout: 20_000 }).catch(() => {});
-    await page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }).catch(() => {});
+    await until(page.waitForFunction((b) => location.href.split('?')[0] !== b, beforeUrl, { timeout: 20_000 }), `the ${TERRITORY} page`);
+    await until(page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }), `the ${TERRITORY} page, rendered`);
     await sleep(1500);
     await marks.beat('1e-end', `the territory: ${page.url().replace(base, '')}`);
     await sleep(600);
@@ -122,7 +122,7 @@ await runScene({
     // ── 4 · a rep hired for the territory: Create on "Employees serving this territory",
     //        the Person form the ontology wrote, Save, the grid one face richer ──
     const emps = () => page.locator('.ldh-pane.is-active .ldh-block').filter({ has: page.locator('.ldh-view-toolbar') }).filter({ hasText: 'Employees serving this territory' }).first();
-    const empCount = async () => (await emps().locator('.count b').first().textContent({ timeout: 4000 }).catch(() => '?')).trim();
+    const empCount = async () => (await emps().locator('.count b').first().textContent({ timeout: 4000 })).trim();
     const cbtn = emps().locator('button.add-instance').first();
     await cbtn.waitFor({ state: 'visible', timeout: 15_000 });
     await cbtn.scrollIntoViewIfNeeded();
@@ -132,7 +132,7 @@ await runScene({
     await cursor.click(cbtn);
     const modal = page.locator('.modal-constructor:visible, .ac-modal:visible').last();
     await modal.waitFor({ state: 'visible', timeout: 15_000 });
-    await modal.locator('.ldh-prop-group').nth(3).waitFor({ state: 'visible', timeout: 10_000 }).catch(() => {});
+    await until(modal.locator('.ldh-prop-group').nth(3).waitFor({ state: 'visible', timeout: 10_000 }), 'the Person form\'s fields');
     await sleep(1000);
     const labels = async () => (await modal.locator('.ldh-prop-group').allTextContents()).map((t) => t.replace(/\s+/g, ' ').trim().slice(0, 24));
     await marks.beat('4-form', `the Person form the ontology wrote: ${JSON.stringify(await labels())}`, await focus(modal));
@@ -152,13 +152,15 @@ await runScene({
     await cursor.moveTo(...(await centre(save4)), { duration: 500 });
     await marks.beat('4-filled', 'the form filled; pointer on Save', await focus(modal));
     await cursor.click(save4);
-    await page.waitForFunction(() => ![...document.querySelectorAll('.modal-constructor, .ac-modal')].some((m) => m.offsetParent !== null), null, { timeout: 20_000 }).catch(() => {});
+    await until(page.waitForFunction(() => ![...document.querySelectorAll('.modal-constructor, .ac-modal')].some((m) => m.offsetParent !== null), null, { timeout: 20_000 }), 'the Person form closing on Save');
     await page.waitForLoadState('load').catch(() => {});
     await sleep(800);
     await marks.beat('4-saved', 'saved');
-    const moved = await page.waitForFunction(([sel, b]) => { const c = document.querySelector(sel); return c && c.textContent.trim() !== b; }, ['.ldh-pane.is-active .count b', before4], { timeout: 8000 }).then(() => true, () => false).catch(() => false);
+    // The shot is the grid one face richer: a view that has not re-read itself fails the
+    // take, where the note used to report `refreshed itself: false` over the old grid.
+    await until(page.waitForFunction(([sel, b]) => { const c = document.querySelector(sel); return c && c.textContent.trim() !== b; }, ['.ldh-pane.is-active .count b', before4], { timeout: 8000 }), 'the employees view re-reading itself');
     await sleep(1200);
-    await marks.beat('4-end', `${await empCount()} serving ${TERRITORY} (was ${before4}, refreshed itself: ${moved})`, await focus(emps()));
+    await marks.beat('4-end', `${await empCount()} serving ${TERRITORY} (was ${before4})`, await focus(emps()));
     await sleep(1500);
 
     // ── 5 · her own document: a portrait dropped on it, picked as her image, and back
@@ -172,8 +174,8 @@ await runScene({
     await marks.beat('5-start', 'pointer on the hire\'s card', await focus(emps()));
     const territoryUrl = page.url().split('?')[0];
     await cursor.click(card);
-    await page.waitForFunction((b) => location.href.split('?')[0] !== b, territoryUrl, { timeout: 20_000 }).catch(() => {});
-    await page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }).catch(() => {});
+    await until(page.waitForFunction((b) => location.href.split('?')[0] !== b, territoryUrl, { timeout: 20_000 }), 'the hire\'s document');
+    await until(page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }), 'the hire\'s document, rendered');
     await sleep(1500);
     const her = () => ui(page).locator('.ldh-block').filter({ hasText: HIRE }).first();
     await marks.beat('5-open', `her document: ${page.url().replace(base, '')}`, await focus(her()));
@@ -202,13 +204,12 @@ await runScene({
     await marks.beat('5-drag', 'the file over the document; the drop overlay up');
     await page.dispatchEvent('#file-drop', 'drop', { dataTransfer: transfer });
     // a successful upload reloads the document in Read mode, the file one of its resources
-    await page.waitForURL(/ReadMode/, { timeout: 30_000 }).catch(() => {});
-    await page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }).catch(() => {});
+    await until(page.waitForURL(/ReadMode/, { timeout: 30_000 }), 'the document reloading after the upload');
+    await until(page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }), 'the document, rendered after the upload');
     await sleep(2500);
     const fileBlock = ui(page).locator('.ldh-block').filter({ hasText: 'dana.jpg' }).first();
-    const uploaded = (await fileBlock.count()) > 0;
-    await marks.beat('5-dropped', uploaded ? 'dropped: uploaded into the document, embedded' : 'dropped, but no dana.jpg block came up', uploaded ? await focus(fileBlock) : undefined);
-    if (!uploaded) throw new Error('the drop did not upload dana.jpg');
+    if (!(await fileBlock.count())) throw new Error('5-dropped: the drop did not upload dana.jpg');
+    await marks.beat('5-dropped', 'dropped: uploaded into the document, embedded', await focus(fileBlock));
     await sleep(600);
 
     // Picked as her image: the Image row on her form is the File lookup the constructor
@@ -228,8 +229,8 @@ await runScene({
     // territory link as "this" (measured 2026-09-28); a load of the document has the
     // ontology's labels. The load sits inside the sped-up shot, before the beat.
     await page.reload({ waitUntil: 'load' });
-    await page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }).catch(() => {});
-    await her().locator('img').first().waitFor({ state: 'visible', timeout: 10_000 }).catch(() => {});
+    await until(page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }), 'her document, reloaded');
+    await until(her().locator('img').first().waitFor({ state: 'visible', timeout: 10_000 }), 'her image on the record');
     await sleep(1500);
     await marks.beat('5-linked', 'saved: the record carries the image', await focus(her()));
     await sleep(800);
@@ -241,10 +242,10 @@ await runScene({
     await marks.beat('5-back-start', `pointer on her ${TERRITORY} link`, await focus(her()));
     const herUrl = page.url().split('?')[0];
     await cursor.click(back);
-    await page.waitForFunction((b) => location.href.split('?')[0] !== b, herUrl, { timeout: 20_000 }).catch(() => {});
-    await page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }).catch(() => {});
+    await until(page.waitForFunction((b) => location.href.split('?')[0] !== b, herUrl, { timeout: 20_000 }), `the ${TERRITORY} page, again`);
+    await until(page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 20_000 }), `the ${TERRITORY} page, rendered again`);
     await sleep(2000);
-    await emps().locator('img').first().waitFor({ state: 'visible', timeout: 10_000 }).catch(() => {});
+    await until(emps().locator('img').first().waitFor({ state: 'visible', timeout: 10_000 }), 'the faces in the employees grid');
     await sleep(800);
     await marks.beat('5-back', `${TERRITORY} again: ${await empCount()} serving, the hire with her face`, await focus(emps()));
     await sleep(1200);
@@ -256,8 +257,8 @@ await runScene({
     await marks.beat('1f-start', `pointer on the ${(await crumb.textContent()).replace(/\s+/g, ' ').trim()} breadcrumb`);
     const beforeCrumb = page.url().split('?')[0];
     await cursor.click(crumb);
-    await page.waitForFunction((b) => location.href.split('?')[0] !== b, beforeCrumb, { timeout: 20_000 }).catch(() => {});
-    await page.waitForSelector('.ldh-pane.is-active .ol-viewport', { timeout: 30_000 }).catch(() => {});
+    await until(page.waitForFunction((b) => location.href.split('?')[0] !== b, beforeCrumb, { timeout: 20_000 }), 'Sales territories');
+    await until(page.waitForSelector('.ldh-pane.is-active .ol-viewport', { timeout: 30_000 }), 'the Sales territories map');
     await sleep(1500);
     await marks.beat('1f-end', `Sales territories: ${page.url().replace(base, '')}`);
     await sleep(800);

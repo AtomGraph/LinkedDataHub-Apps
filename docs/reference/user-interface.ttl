@@ -91,7 +91,7 @@
     </div>
     <div>
         <h2 id="layout-modes">Layout modes</h2>
-        <video aria-label="The Northwind orders container in each layout mode: content, properties, map (territories), chart, graph" controls="controls" preload="metadata" src="/uploads/71d2882b14b3ca6dec3335a89bcc156fda840d5f"></video>
+        <video aria-label="A Northwind territory document in each layout mode: properties, map, chart, graph" controls="controls" preload="metadata" src="/uploads/e358766789504d44d5ef02cbd075fad66dd43c57"></video>
         <p>The active document <dfn>layout mode</dfn> is displayed in, and can be changed using, the mode selector in the <a href="#action-bar">action bar</a>.</p>
         <p>Currently supported document layout modes:</p>
         <dl>

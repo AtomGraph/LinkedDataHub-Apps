@@ -2,7 +2,7 @@
 // derived views (10), SPARQL editor (11), image on a record (14, if the form offers a
 // file), search (19), edit in place (20). 2× footage; each beat carries its focus box.
 // Test run: nothing is reset; the write-up page is created on camera and left.
-import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
+import { runScene, resolve, geometryFrom, sleep, must, until } from '../lib/harness.mjs';
 import { openTree } from '../lib/nav.mjs';
 import { addObject, switchDocumentMode, contentModeUrl, pickByLabel, copyUri } from '../lib/blocks.mjs';
 import { create, createItem, typeQuery, fill, save, field } from '../lib/constructors.mjs';
@@ -60,7 +60,7 @@ await runScene({
       await file.setInputFiles('/private/tmp/claude-501/-Users-martynas-WebRoot-LinkedDataHub/5542c912-918c-4be9-8864-ed41b61b33fa/scratchpad/sc/zoom2x.png');
       await sleep(800);
       await cursor.click(saveBtn());
-      await ui(page).locator('.ldh-block img[src*="/uploads/"]').first().waitFor({ state: 'visible', timeout: 25_000 }).catch(() => {});
+      await until(ui(page).locator('.ldh-block img[src*="/uploads/"]').first().waitFor({ state: 'visible', timeout: 25_000 }), 'the uploaded image on the record');
       await sleep(1200);
       await marks.beat('14-end', 'the image, on the record', await focus(ui(page).locator('.ldh-block').filter({ hasText: /Number of parts/ }).first()));
     } else {
@@ -85,7 +85,7 @@ await runScene({
     await marks.beat('3-start', 'a YouTube URL in the Value field — pointer on Save', await focus(ui(page).locator('form').filter({ has: page.locator('button.btn-save') }).last()));
     await sv.click();
     const card = ui(page).locator('iframe[src*="youtube"], img[src*="ytimg"]').first();
-    await card.waitFor({ state: 'visible', timeout: 30_000 }).catch(() => {});
+    await until(card.waitFor({ state: 'visible', timeout: 30_000 }), 'the video, rendered');
     await sleep(1500);
     await marks.beat('3-end', 'the video, rendered as a resource', await focus(card.locator('xpath=ancestor::div[contains(@class,"ldh-block-row")][1]')));
     await sleep(800);
@@ -117,13 +117,13 @@ await runScene({
     await sleep(1500);
     const suggestion = ui(page).locator('.ac-cb-panel[role="listbox"] li.ac-cb-item').first();
     if (await suggestion.isVisible().catch(() => false)) { await cursor.click(suggestion); await sleep(600); }
-    const modeSelect = field(page, 'Layout mode', 'select:visible');
-    if (await modeSelect.count()) await modeSelect.selectOption({ label: 'Grid' }).catch(() => {});
+    // Grid is what 7-end films, so a form without the select fails here
+    await field(page, 'Layout mode', 'select:visible').selectOption({ label: 'Grid' });
     const sv = saveBtn();
     await cursor.moveTo(...(await centre(sv)), { duration: 400 });
     await marks.beat('7-start', 'an Object block bound to a view — pointer on Save', await focus(ui(page).locator('form').filter({ has: page.locator('button.btn-save') }).last()));
     await sv.click();
-    await page.waitForFunction(() => [...document.querySelectorAll('.ldh-pane.is-active .ldh-block-row img')].filter((i) => i.complete && i.naturalWidth > 0).length >= 6, null, { timeout: 40_000 }).catch(() => {});
+    await until(page.waitForFunction(() => [...document.querySelectorAll('.ldh-pane.is-active .ldh-block-row img')].filter((i) => i.complete && i.naturalWidth > 0).length >= 6, null, { timeout: 40_000 }), 'six set photographs in the grid');
     await sleep(1500);
     await marks.beat('7-end', 'a grid of sets inside the page', await focus(ui(page).locator('.ldh-block-row').filter({ has: page.locator('img') }).first()));
     await sleep(800);
@@ -139,12 +139,12 @@ await runScene({
     await marks.beat('11-start', 'an empty query editor', await focus(editor));
     const q = await typeQuery(page, cursor, QUERY);
     await sleep(400);
-    await fill(page, cursor, 'Title', 'Sets over five thousand parts');
+    must(await fill(page, cursor, 'Title', 'Sets over five thousand parts'), '11 title');
     const s = await save(page, cursor);
-    await marks.beat('11-typed', q.ok ? 'typed and saved' : q.why);
-    await ui(page).locator('.ldh-block-row').filter({ hasText: 'Sets over five thousand parts' }).first().locator('table tbody tr').first().waitFor({ state: 'visible', timeout: 30_000 }).catch(() => {});
+    await marks.step('11-typed', q, 'typed and saved');
+    await until(ui(page).locator('.ldh-block-row').filter({ hasText: 'Sets over five thousand parts' }).first().locator('table tbody tr').first().waitFor({ state: 'visible', timeout: 30_000 }), 'the query\'s result rows');
     await sleep(1500);
-    await marks.beat('11-end', s.ok ? 'the result rows' : s.why, await focus(ui(page).locator('.ldh-block-row').filter({ hasText: 'Sets over five thousand parts' }).first()));
+    await marks.step('11-end', s, 'the result rows', await focus(ui(page).locator('.ldh-block-row').filter({ hasText: 'Sets over five thousand parts' }).first()));
     await sleep(800);
     }
 
@@ -161,7 +161,7 @@ await runScene({
     await marks.beat('6-start', 'chart type: Line chart', await focus(row));
     const rects = await row.locator('svg rect').count();
     await typeSel.selectOption({ label: 'Bar chart' });
-    await page.waitForFunction(([n]) => { const r = [...document.querySelectorAll('.ldh-pane.is-active .ldh-block-row')].find((x) => x.querySelector('select.chart-type') && x.textContent.includes('Sets over five thousand parts')); return r && r.querySelectorAll('svg rect').length > n + 4; }, [rects], { timeout: 20_000 }).catch(() => {});
+    await until(page.waitForFunction(([n]) => { const r = [...document.querySelectorAll('.ldh-pane.is-active .ldh-block-row')].find((x) => x.querySelector('select.chart-type') && x.textContent.includes('Sets over five thousand parts')); return r && r.querySelectorAll('svg rect').length > n + 4; }, [rects], { timeout: 20_000 }), 'the bars');
     await sleep(1500);
     await marks.beat('6-end', `bars (${await row.locator('svg rect').count()} rects)`, await focus(row));
     await sleep(800);
@@ -191,8 +191,8 @@ await runScene({
     await marks.beat('19-start', 'a name typed in the drawer', await focus(box));
     await page.keyboard.press('Enter');
     const dialog = page.locator('.ac-modal:visible').last();
-    await dialog.waitFor({ state: 'visible', timeout: 40_000 }).catch(() => {});
-    await page.waitForFunction(() => { const ms = [...document.querySelectorAll('.ac-modal')].filter((m) => m.offsetParent !== null); return ms.length && /Total results\s+\d/.test(ms.at(-1).textContent); }, null, { timeout: 60_000 }).catch(() => {});
+    await until(dialog.waitFor({ state: 'visible', timeout: 40_000 }), 'the search dialog');
+    await until(page.waitForFunction(() => { const ms = [...document.querySelectorAll('.ac-modal')].filter((m) => m.offsetParent !== null); return ms.length && /Total results\s+\d/.test(ms.at(-1).textContent); }, null, { timeout: 60_000 }), 'the search results');
     await sleep(2000);
     await marks.beat('19-end', 'results, with their photographs and types', await focus(dialog));
     await sleep(800);

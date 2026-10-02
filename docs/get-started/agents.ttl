@@ -1,0 +1,80 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "Connect an agent" ;
+    dct:description "Give an AI agent such as Claude Code or Cursor access to a LinkedDataHub instance over MCP, using Web-Algebra" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="ldh-body-lg">Give an AI agent such as Claude Code or Cursor access to a LinkedDataHub instance over MCP, using Web-Algebra</p>
+    <p>Agents use the same HTTP API as the browser and the <a href="../../reference/command-line-interface/">CLI</a>. The bridge is
+        <a href="https://github.com/AtomGraph/Web-Algebra" target="_blank">Web-Algebra</a>, which exposes LinkedDataHub operations as
+        <a href="https://modelcontextprotocol.io/" target="_blank">Model Context Protocol</a> (MCP) tools: creating containers and items, adding views,
+        queries and charts, reading and writing RDF, and running SPARQL. An agent connected this way can build a working application in a dataspace —
+        its classes, containers, views and charts are documents like any other.</p>
+    <p>The conventions agents should follow when writing to LinkedDataHub are in
+        <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/AGENTS.md" target="_blank">AGENTS.md</a>.</p>
+    <div>
+        <h2 id="prerequisites">Prerequisites</h2>
+        <ul>
+            <li>A running LinkedDataHub instance. The examples below assume the default <a href="../setup/">local setup</a> at <samp>https://localhost:4443/</samp>.</li>
+            <li>The WebID certificate the agent will act as. For your own instance that is the owner certificate, <samp>ssl/owner/cert.pem</samp>, with the password from
+                <samp>secrets/owner_cert_password.txt</samp>. The agent can do whatever that WebID is authorized to do.</li>
+            <li><a href="https://docs.astral.sh/uv/getting-started/installation/" target="_blank">uv</a>, which runs Web-Algebra without a separate install step.</li>
+        </ul>
+    </div>
+    <div>
+        <h2 id="claude-code">Claude Code</h2>
+        <p>Register Web-Algebra as an MCP server, run from the LinkedDataHub directory:</p>
+        <pre>claude mcp add web-algebra \\
+  --env CERT_PEM_PATH="$PWD/ssl/owner/cert.pem" \\
+  --env CERT_PASSWORD="$(cat secrets/owner_cert_password.txt)" \\
+  -- uv run --with web-algebra python -m web_algebra</pre>
+        <p>Start <samp>claude</samp> and check that <samp>/mcp</samp> lists <samp>web-algebra</samp> as connected.</p>
+    </div>
+    <div>
+        <h2 id="cursor-and-claude-desktop">Cursor and Claude Desktop</h2>
+        <p>Both read an <samp>mcpServers</samp> entry: <samp>~/.cursor/mcp.json</samp> for Cursor, <samp>claude_desktop_config.json</samp> for Claude Desktop.
+            Use absolute paths and the literal password, since these files are not run by a shell.</p>
+        <pre>{
+  "mcpServers": {
+    "web-algebra": {
+      "command": "uv",
+      "args": ["run", "--with", "web-algebra", "python", "-m", "web_algebra"],
+      "env": {
+        "CERT_PEM_PATH": "/path/to/LinkedDataHub/ssl/owner/cert.pem",
+        "CERT_PASSWORD": "your-owner-cert-password"
+      }
+    }
+  }
+}</pre>
+        <p>If the client cannot find <samp>uv</samp>, replace <samp>"uv"</samp> with its absolute path, as printed by <samp>which uv</samp>.</p>
+    </div>
+    <div>
+        <h2 id="http-transport">Streamable HTTP transport</h2>
+        <p>Clients that connect to an MCP URL instead of launching a process can use Web-Algebra's HTTP server:</p>
+        <pre>CERT_PEM_PATH="$PWD/ssl/owner/cert.pem" \\
+CERT_PASSWORD="$(cat secrets/owner_cert_password.txt)" \\
+uv run --with web-algebra uvicorn web_algebra.server:app</pre>
+        <p>The MCP URL is <samp>http://127.0.0.1:8000/mcp</samp>. For Claude Code:
+            <code>claude mcp add --transport http web-algebra http://127.0.0.1:8000/mcp</code>.</p>
+        <div class="ac-alert va-warning" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
+            <div class="ac-alert-body">
+                <p class="ac-alert-text">The HTTP server does not authenticate its callers, and it holds your WebID certificate. Anyone who can reach the port acts as you.
+                    Keep it bound to <samp>127.0.0.1</samp>, which is the default, and do not expose it on a network.</p>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h2 id="try-it">Try it</h2>
+        <p>Ask the agent for something small that it has to declare rather than code, for example:</p>
+        <blockquote><p>Create a container for books in my dataspace, add three books with authors, and add a chart of books per author.</p></blockquote>
+        <p>Then open <samp>https://localhost:4443/</samp> in the browser. The container, the items and the chart are there, and you can keep editing them by hand —
+            the agent and you work on the same documents.</p>
+    </div>
+</div>"""^^rdf:XMLLiteral .

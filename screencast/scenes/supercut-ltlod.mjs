@@ -1,6 +1,6 @@
 // Supercut takes on LTLOD: one view through the layout modes (2) and a map popup (5),
 // on a county's constituent units. 2× footage; each beat carries its focus box.
-import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
+import { runScene, resolve, geometryFrom, sleep, until } from '../lib/harness.mjs';
 import { select as sparql } from '../lib/sparql.mjs';
 import { switchViewMode, currentViewMode } from '../lib/modes.mjs';
 import { findMarkers, openMarker } from '../lib/map.mjs';
@@ -37,7 +37,8 @@ await runScene({
     await marks.beat('2-start', `${await currentViewMode(page)} — ${top.n} constituent units`, await focus(view));
     for (const [mode, ready] of [['grid-mode', '.ldh-grid-block, .card'], ['table-mode', 'table tbody tr'], ['chart-mode', 'svg rect, svg path, .chart'], ['graph-mode', 'canvas'], ['map-mode', '.ol-viewport canvas']]) {
       const r = await switchViewMode(page, cursor, mode, { settle: 600 });
-      await view.locator(ready).first().waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
+      if (!r) throw new Error(`2-${mode}: not offered by the view toolbar`);
+      await until(view.locator(ready).first().waitFor({ state: 'visible', timeout: 20_000 }), `the ${mode} rendering`);
       await sleep(1400);
       await marks.beat(`2-${mode}`, r === 'already' ? 'already' : mode, await focus(view));
     }
@@ -49,8 +50,9 @@ await runScene({
     await marks.beat('5-start', 'the map', await focus(view));
     const found = await findMarkers(page);
     const label = found.markers ? await openMarker(page, cursor, found.markers, { after: 1500 }) : null;
+    if (!label) throw new Error(`5-end: ${found.error ?? 'no popup'}`);
     const popup = ui(page).locator('.ol-overlay-container').first();
-    await marks.beat('5-end', label ? `popup: ${label}` : (found.error ?? 'no popup'), await focus(popup.or(view)));
+    await marks.beat('5-end', `popup: ${label}`, await focus(popup.or(view)));
     await sleep(800);
     await marks.beat('end');
   },

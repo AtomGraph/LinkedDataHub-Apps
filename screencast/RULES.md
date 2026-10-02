@@ -413,7 +413,18 @@ unmodified recording shows a UI operating itself with nothing touching it.
 than filming its dismissal; its backdrop swallows every click on a fresh profile.
 
 **Fixtures reset off camera**, through the `ldh` CLI, before the browser context
-exists.
+exists. A reset that fails stops the scene before filming starts; logging the failure
+and carrying on films the previous take's state.
+
+**A step that did not happen fails the take.** A step the scene depends on — a helper
+that reports `{ ok, why }`, a mode switch, a wait for the state the next step assumes —
+either succeeds or throws. It never ends up as a beat's note (`r.ok ? note : r.why`),
+a swallowed timeout (`.catch(() => {})`), or a stand-in value (`.catch(() => '53')`).
+Each of those shipped a clip that ran on after its step had failed: two minutes of a
+Territories page that never left Content mode passed as the layout-mode clip. Use
+`marks.step(id, result, note)`, and `must(result, what)` and `until(wait, what)` from
+`lib/harness.mjs`. Only cosmetic calls may swallow a failure: a scroll, an Escape, a
+cleanup.
 
 **Verify on the running instance**, not by reading the code — computed styles and
 measured boxes, never "it should".

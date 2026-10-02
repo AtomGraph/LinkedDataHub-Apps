@@ -24,6 +24,16 @@ export const DEFAULT_BASE = 'https://localhost:4443';
 
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+export { must } from './marks.mjs';
+
+// A wait for a state the scene goes on to depend on. Swallowing its timeout — the
+// `.catch(() => {})` it replaces — let a take film on over a page that never got
+// there, which is how a clip of the layout modes shipped two minutes of one mode.
+// Playwright's own message for a waitForFunction timeout names no condition, so
+// `what` says which state never arrived.
+export const until = (wait, what) =>
+  wait.catch((e) => { throw new Error(`${what} never arrived — ${String(e.message).split('\n')[0]}`); });
+
 // Nothing here knows where any repository lives. Paths and origins arrive as
 // arguments or environment; the Makefile carries the local defaults, where they
 // can be overridden without touching code.

@@ -15,7 +15,7 @@
 //
 //   make scene SCENE=04-is-our-beverages-theirs BASE=… CERT_FILE=… CERT_PASSWORD_FILE=… LDH_BIN=…
 
-import { runScene, resolve, geometryFrom, sleep } from '../lib/harness.mjs';
+import { runScene, resolve, geometryFrom, sleep, until } from '../lib/harness.mjs';
 import { deleteByTitle } from '../lib/fixture.mjs';
 import { createItem } from '../lib/constructors.mjs';
 import { addProse, addObject, copyUri, switchDocumentMode } from '../lib/blocks.mjs';
@@ -87,11 +87,11 @@ await runScene({
     // The photographs have to have PAINTED, not merely be in the DOM: the <img>
     // elements exist a beat before they decode, which is how a take opened on a grid
     // of white boxes. Eight tiles, eight content-addressed uploads.
-    await page.waitForFunction(
+    await until(page.waitForFunction(
       () => [...document.querySelectorAll('.ldh-block-body img[src*="/uploads/"]')]
         .filter((i) => i.complete && i.naturalWidth > 0).length >= 8,
       { timeout: 30_000 },
-    ).catch(() => {});
+    ), 'eight painted category photographs');
     await marks.beat('ours', 'our eight categories, as we label them');
     await sleep(2400);
 
@@ -104,13 +104,12 @@ await runScene({
     await crumbGo(page, cursor, 'Root');
     await sleep(800);
     const made = await createItem(page, cursor, TITLE);
-    await marks.beat('create', made.ok ? `a new page, ${TITLE}` : made.why);
-    if (!made.ok) throw new Error(made.why);
+    await marks.step('create', made, `a new page, ${TITLE}`);
     url = made.url;
     await sleep(700);
 
-    const inContent = await switchDocumentMode(page, cursor, 'content-mode');
-    await marks.beat('content-mode', inContent ? 'switched to Content' : 'mode switcher would not open');
+    await switchDocumentMode(page, cursor, 'content-mode');
+    await marks.beat('content-mode', 'switched to Content');
     await sleep(500);
 
     // The question leads. What follows is a trip into another dataspace and an RDFa
@@ -119,14 +118,14 @@ await runScene({
     // the term in it.
     const p1 = await addProse(page, cursor, type,
       'The eight tiles are the catalogue\u2019s own segments, and the words on them are Northwind\u2019s. Beverages is a label typed here, not a term another organisation would recognise. This page checks whether a published vocabulary has a concept for it, and whether that concept means the same thing.');
-    await marks.beat('question', p1.ok ? 'the question, written down' : p1.why);
+    await marks.step('question', p1, 'the question, written down');
     await sleep(650);
 
     // Our own categories go in by name. There is no errand to fetch the URI, and
     // asking for the View rather than the Object it is wrapped in keeps the embed
     // from doubling its header.
     const o1 = await addObject(page, cursor, type, null, { label: 'All categories', kind: 'View', mode: 'Grid' });
-    await marks.beat('embed-ours', o1.ok ? 'our categories, embedded as the evidence' : o1.why);
+    await marks.step('embed-ours', o1, 'our categories, embedded as the evidence');
     await sleep(900);
 
     // ── the public side, through the proxy ──────────────────────────────────
@@ -134,20 +133,16 @@ await runScene({
     // through the Linked Data proxy and renders it here, so a remote vocabulary is
     // browsed with the same chrome, the same tree and the same copy control.
     const apps = page.locator('button.btn-apps').first();
-    if (await apps.count()) {
-      await cursor.click(apps);
-      await sleep(550);
-      const unesco = page.locator('.ac-menu-item:visible, .ac-menu a:visible').filter({ hasText: 'UNESCO' }).first();
-      if (await unesco.count()) {
-        await cursor.click(unesco);
-        await page.waitForLoadState('load').catch(() => {});
-        await sleep(2700);
-        await marks.beat('thesaurus', `a published vocabulary, rendered here: ${page.url().includes('uri=') ? 'through the proxy' : 'directly'}`);
-        await sleep(700);
-      } else {
-        await marks.beat('thesaurus', 'no UNESCO entry in the dataspaces menu');
-      }
-    }
+    if (!(await apps.count())) throw new Error('thesaurus: no dataspaces menu');
+    await cursor.click(apps);
+    await sleep(550);
+    const unesco = page.locator('.ac-menu-item:visible, .ac-menu a:visible').filter({ hasText: 'UNESCO' }).first();
+    if (!(await unesco.count())) throw new Error('thesaurus: no UNESCO entry in the dataspaces menu');
+    await cursor.click(unesco);
+    await page.waitForLoadState('load').catch(() => {});
+    await sleep(2700);
+    await marks.beat('thesaurus', `a published vocabulary, rendered here: ${page.url().includes('uri=') ? 'through the proxy' : 'directly'}`);
+    await sleep(700);
 
     // 4,489 concepts, alphabetical, and Beverages is 368 in, so it is neither paged
     // to nor faceted to: a facet on the preferred label is a label facet, and those
@@ -156,16 +151,12 @@ await runScene({
     // wants is a Concept in THIS dataspace, because the store is shared and
     // Northwind's own Beverages category answers to the same name.
     const found = await searchGo(page, cursor, TERM, { type: 'Concept' });
-    await marks.beat('search', found.ok
-      ? `${found.total} matches for ${TERM} — the thesaurus's own concept`
-      : found.why);
+    await marks.step('search', found, `${found.total} matches for ${TERM} — the thesaurus's own concept`);
     await sleep(1100); // a proxied resource finishes rendering after load fires
 
-    if (found.ok) {
-      const label = (found.label || '').split('\n').find((l) => l.trim()) || TERM;
-      await marks.beat('concept', label.slice(0, 36));
-      await sleep(700);
-    }
+    const label = (found.label || '').split('\n').find((l) => l.trim()) || TERM;
+    await marks.beat('concept', label.slice(0, 36));
+    await sleep(700);
 
     // ── bring it home ───────────────────────────────────────────────────────
     const home = await backTo(url, 'Category alignment');
@@ -175,17 +166,15 @@ await runScene({
     // switching back needs no mode change — switchViewMode-style, do not re-assert
     // what is already true.
     await sleep(550);
-    await marks.beat('return', home
-      ? 'back to the alignment page, in Content'
-      : `lost — still on ${await activeDocument(page)}`);
-    if (!home) throw new Error(`refusing to write: the active pane is ${await activeDocument(page)}, not ${url}`);
+    if (!home) throw new Error(`return: refusing to write — the active pane is ${await activeDocument(page)}, not ${url}`);
+    await marks.beat('return', 'back to the alignment page, in Content');
 
     // The concept was visited because that is the scenario — a remote resource
     // browsing like a local one — not because its URI had to be collected. Bringing
     // it home is a lookup by the name we just read off it, and the store is shared
     // across dataspaces, so the thesaurus's own concept answers from here.
     const o2 = await addObject(page, cursor, type, null, { label: TERM, kind: 'Concept', mode: 'Properties' });
-    await marks.beat('embed-public', o2.ok ? 'the public concept, embedded beside ours' : o2.why);
+    await marks.step('embed-public', o2, 'the public concept, embedded beside ours');
     await sleep(1000);
 
     // ── record the alignment ────────────────────────────────────────────────
@@ -203,7 +192,7 @@ await runScene({
     const conceptBlock = page.locator('.ldh-pane.is-active .ldh-block-row')
       .filter({ has: page.locator(`a[href*="unesco-thesaurus"]`) }).first();
     const copied = await copyUri(page, cursor, conceptBlock, { match: 'concept' });
-    await marks.beat('copy-concept', copied.ok ? (copied.value ?? 'the concept URI, copied') : copied.why);
+    await marks.step('copy-concept', copied, (copied.value ?? 'the concept URI, copied'));
     await sleep(700);
 
     // The word can only be selected inside an open editor, so the prose block goes
@@ -222,14 +211,12 @@ await runScene({
     await marks.beat('edit-prose', 'the sentence, open for editing');
 
     const a = await annotate(page, cursor, type, { word: TERM, property: 'exact' });
-    await marks.beat('align', a.ok
-      ? `skos:exactMatch — our ${TERM} IS UNESCO's, recorded on the page`
-      : a.why);
+    await marks.step('align', a, `skos:exactMatch — our ${TERM} IS UNESCO's, recorded on the page`);
     await sleep(1100);
 
     const p2 = await addProse(page, cursor, type,
       `UNESCO's ${TERM} means the same thing as ours. It was never imported. It lives in another dataspace and is fetched when the page is rendered.`);
-    await marks.beat('note', p2.ok ? undefined : p2.why);
+    await marks.step('note', p2);
     await sleep(650);
 
     const scrolled = await scrollThrough(page, { duration: 6500 });

@@ -4,7 +4,7 @@
 // the document zoomed 200 % — every helper still drives, because element boxes and
 // pointer coordinates are both in the zoomed space. Each shot's beats carry the box of
 // the component the gesture lands on, so the cutter can push the frame into it.
-import { sleep } from './harness.mjs';
+import { sleep, until } from './harness.mjs';
 
 export const GEOMETRY_2X = { width: 2880, height: 1800, deviceScaleFactor: 1 };
 
@@ -54,7 +54,7 @@ export const centre = async (l) => { const b = await l.boundingBox(); return [b.
 // takes longer than Playwright's 30 s default — then for `ready`, then settles.
 export const load = async (page, url, ready, settle = 2500, { timeout = 120_000 } = {}) => {
   await page.goto(url, { waitUntil: 'load', timeout });
-  if (ready) await page.waitForSelector(ready, { timeout: 40_000 }).catch(() => {});
+  if (ready) await until(page.waitForSelector(ready, { timeout: 40_000 }), `${ready} on ${url}`);
   await sleep(settle);
 };
 
