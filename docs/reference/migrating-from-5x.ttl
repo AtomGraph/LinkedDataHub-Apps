@@ -186,6 +186,10 @@
         <p>A client that wrote unconditionally now reads the tag first, as the <a href="../command-line-interface/"><samp>ldh</samp> CLI</a> does for you. An entity tag
             identifies a negotiated variant, so the read supplying the validator must send the same <code>Accept</code> as the write quoting it, or the write is refused
             <code>412</code>. The <a href="../http-api/">HTTP API</a> page has the request shapes.</p>
+        <p>Every write is validated against the <a href="../administration/ontologies/#constraints">constraints</a> as the document it leaves, which
+            <code>PATCH</code> already was in 5.10. A <code>POST</code> used to be checked on its body alone and is now checked merged with the document, so
+            appending to a document that violates a constraint is refused <code>422</code> until the violation is repaired. A <code>PUT</code> whose body does
+            not type the document is checked as the <code>dh:Item</code> the server makes it, so it needs a <code>dct:title</code>.</p>
         <p>The access control query fails closed on a typeless resource, so a request for a URL that does not exist is answered <code>403</code> rather than
             <code>404</code> unless the agent is the owner.</p>
         <p><code>ldh:container</code> leaves the ontology, the <code>ldh:ViewConstructor</code> form and the view query. A view's <dfn>Create</dfn> button determines the
