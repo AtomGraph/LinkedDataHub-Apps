@@ -153,8 +153,11 @@ WHERE {}</pre>
         </div>
         <div>
             <h3 id="constraints">Constraints</h3>
-            <p>Constraints are SPARQL queries or <a href="https://spinrdf.org/spin.html#spin-templates" target="_blank">SPIN command templates</a> that validate submitted
-                RDF data during document creation and editing. A constraint applies to instances of the class it is declared on and reports violations —
+            <p>Constraints validate a document as a write leaves it. Two kinds are supported, and both are checked on every write:
+                <a href="https://spinrdf.org/spin.html#spin-constraints" target="_blank">SPIN constraints</a> — SPARQL queries or
+                <a href="https://spinrdf.org/spin.html#spin-templates" target="_blank">SPIN command templates</a> attached to a class with
+                <code>spin:constraint</code> — and <a href="https://www.w3.org/TR/shacl/" target="_blank">SHACL</a> shapes. A SPIN constraint applies to
+                instances of the class it is declared on and reports violations —
                 missing mandatory properties, malformed values and so on. For example, an instance of
                 <code>dh:Item</code> without <code>dct:title</code> will fail validation because titles are mandatory for LinkedDataHub documents.</p>
             <p>The most common constraint shape is the missing-property check. The Northwind demo requires every Product to have a name:</p>
@@ -168,10 +171,18 @@ WHERE {}</pre>
     rdfs:label "Missing schema:name" ;
     spin:violationRoot &lt;#this&gt; ;
     spin:violationPath schema:name ] .</pre>
-            <p>LinkedDataHub reuses <a href="http://spinrdf.org/spin.html#spin-constraints" target="_blank">SPIN constraints</a>. Classes inherit constraints from superclasses.</p>
-            <p><a href="https://www.w3.org/TR/shacl/" target="_blank">SHACL</a> constraint validation is supported as well: SHACL shapes declared in the ontology
-                (or in any ontology of its imports closure) are validated with <a href="https://jena.apache.org/documentation/shacl/" target="_blank">Jena SHACL</a>
+            <p>Classes inherit SPIN constraints from superclasses. SHACL shapes declared in the ontology (or in any ontology of its imports closure) are validated with <a href="https://jena.apache.org/documentation/shacl/" target="_blank">Jena SHACL</a>
                 alongside the SPIN constraints, and a violation is likewise rejected with <samp>422 Unprocessable Entity</samp>.</p>
+            <p>What is validated is the document as it will be written, not the request body alone. A <code>PUT</code> carries the whole document, a
+                <code>POST</code> is checked merged with the triples the document already holds, and a <code>PATCH</code> is checked on the graph its update
+                produces. A <code>PATCH</code> that adds a <code>schema:description</code> to a Product therefore passes without repeating its name, and one that
+                deletes the name is rejected. A <code>PATCH</code> cannot remove a resource's <code>rdf:type</code> either, since that would take the resource
+                out of its class's constraints. <a href="../../imports/">Imports</a> write through the same methods and are held to the same check.</p>
+            <p>A write is rejected whenever the resulting document violates a constraint, including a violation that was there before the write. A document
+                left invalid by a later change to the ontology accepts only a write that repairs every violation it has. The <samp>422</samp> body describes
+                the violating resources alone, not the whole document, so it names what has to be repaired.</p>
+            <p>Constraints are evaluated over the written document's own graph. A constraint cannot look into other documents, and writing another document
+                never re-validates this one.</p>
         </div>
     </div>
     <div>
