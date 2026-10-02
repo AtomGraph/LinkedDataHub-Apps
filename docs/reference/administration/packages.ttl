@@ -113,7 +113,7 @@ ns:SelectNarrowerConcepts a sp:Select ;
     sp:text \"\"\"SELECT DISTINCT ?narrower
     WHERE { GRAPH ?graph { $about skos:narrower ?narrower } }
     ORDER BY ?narrower\"\"\" .</pre>
-        <p>Views are rendered when displaying resources that have the specified property. Use <code>ldh:view</code> for forward relationships (the resource carries the property) or <code>ldh:inverseView</code> for inverse relationships (other resources point at this resource through the property).</p>
+        <p>A view attached with <code>ldh:view</code> is rendered on every resource typed with the property's <code>rdfs:domain</code>, one attached with <code>ldh:inverseView</code> on every resource typed with its <code>rdfs:range</code> — whether or not the resource has the property, so a property without a domain or range renders no view. <code>$about</code> in the query is the resource the view is rendered on. A package's views work like the ones a dataspace declares in its own ontology — see <a href="../ontologies/#views">Views</a> in the ontologies reference.</p>
     </div>
     <div>
         <h2 id="package-stylesheet">Package stylesheet</h2>

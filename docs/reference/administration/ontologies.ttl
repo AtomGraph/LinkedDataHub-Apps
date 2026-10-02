@@ -189,7 +189,8 @@ WHERE {}</pre>
         <h2 id="properties">Properties</h2>
         <p>You can define new properties. Like classes, properties are declared in the dataspace's namespace ontology.
             The expected values of a property on a class are described either with a SPIN <a href="#constraints">property constraint</a> (a mandatory-property check)
-            or with an OWL <a href="#restrictions">restriction</a>, both of which the creation and editing forms enforce.</p>
+            or with an OWL <a href="#restrictions">restriction</a>, both of which the creation and editing forms enforce. A property can also carry a
+            <a href="#views">view</a> that lists the resources it relates.</p>
         <div>
             <h3 id="restrictions">Restrictions</h3>
             <p>An <code>owl:Restriction</code> pins the cardinality of a property. The Northwind model, for example, declares its properties with
@@ -206,6 +207,43 @@ WHERE {}</pre>
     owl:maxCardinality 1 ;
     rdfs:isDefinedBy : .</pre>
             <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/admin/model/ns.ttl" target="_blank">admin/model/ns.ttl</a></p>
+        </div>
+        <div>
+            <h3 id="views">Views</h3>
+            <p>A property can carry a <a href="../../data-model/resources/#views">view</a> that lists the resources it relates: <code>ldh:view</code> attaches
+                the view in the property's forward direction, <code>ldh:inverseView</code> in its inverse. The view is stored in no document. LinkedDataHub
+                derives it whenever it renders a resource, and appends it to that resource's row.</p>
+            <p>Which resources get the view is decided by the property's declaration, not by the data. An <code>ldh:view</code> renders on every resource
+                typed with the property's <code>rdfs:domain</code>, an <code>ldh:inverseView</code> on every resource typed with its <code>rdfs:range</code>,
+                and a domain or range inherited through <code>rdfs:subPropertyOf</code> counts as well. The resource does not have to carry the property, and a
+                property with no domain or range never renders its view. In the view's query, <code>$about</code> is bound to the resource the view is
+                rendered on.</p>
+            <p>The Northwind model lists a customer's orders on the customer, through the inverse of <code>schema:customer</code>, whose range is
+                <code>schema:Corporation</code>:</p>
+            <pre>schema:customer a owl:ObjectProperty ;
+    rdfs:domain schema:Order ;
+    rdfs:range schema:Corporation .
+
+schema:customer ldh:inverseView :OrdersFromCustomer .
+
+:OrdersFromCustomer a ldh:View ;
+    dct:title "Orders from this customer" ;
+    spin:query :SelectOrdersFromCustomer ;
+    ac:mode ac:TableMode ;
+    ldh:showWhenEmpty false .
+
+:SelectOrdersFromCustomer a sp:Select ;
+    sp:text \"\"\"
+    SELECT DISTINCT ?order
+    WHERE { GRAPH ?graph { ?order schema:customer $about ; schema:orderDate ?orderDate } }
+    ORDER BY DESC(?orderDate)\"\"\" .</pre>
+            <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/admin/model/ns.ttl" target="_blank">admin/model/ns.ttl</a></p>
+            <p>Since the view renders on every customer, <code>ldh:showWhenEmpty false</code> hides it on a customer that has placed no orders. The view's
+                <code>ac:mode</code> fixes its layout mode, and the view renders a <span class="ac-btn in-primary ap-solid sz-md">Create</span> button for
+                <a href="../../data-model/resources/#inline-creation">inline creation</a> of the class at the property's other end.</p>
+            <p>The attachments are read from the namespace ontology and its imports closure, so a view declared in <samp>ns.ttl</samp> and one declared in
+                a <a href="../packages/#property-views">package ontology</a> behave the same. A derived view has no edit or drag controls: it is changed by
+                editing its declaration in the ontology.</p>
         </div>
     </div>
     <div>
