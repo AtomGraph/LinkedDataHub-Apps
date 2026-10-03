@@ -131,13 +131,17 @@ export async function runScene({
 
   const context = await browser.newContext({
     ignoreHTTPSErrors: true,
+    // English chrome in embedded players and date pickers, whatever the machine's locale.
+    locale: 'en-US',
     viewport: { width: geometry.width, height: geometry.height },
     // SCHEME=dark records the page in the dark colour scheme (the page follows
     // prefers-color-scheme; nothing pins it).
     ...(process.env.SCHEME ? { colorScheme: process.env.SCHEME } : {}),
     deviceScaleFactor: geometry.deviceScaleFactor ?? 2,
     ...(opts.video
-      ? { recordVideo: { dir: TRACKS, size: { width: geometry.width, height: geometry.height } } }
+      // A take can record at a size other than its viewport — a phone-width page at 2×
+      // keeps a 390 px layout and its media queries while the frames are 780 wide.
+      ? { recordVideo: { dir: TRACKS, size: geometry.record ?? { width: geometry.width, height: geometry.height } } }
       : {}),
     ...(identity ? { clientCertificates: identity } : {}),
     // A scene copies a resource's URI from the app rather than knowing it, so the

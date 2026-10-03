@@ -1,0 +1,448 @@
+{
+  "output": "tracks/overview.mp4",
+  "width": 1920,
+  "height": 1080,
+  "fps": 25,
+  "crf": 20,
+  "source": {
+    "width": 2880,
+    "height": 1800
+  },
+  "viewport": {
+    "width": 2880,
+    "height": 1620
+  },
+  "terminal": {
+    "width": 1440,
+    "height": 810
+  },
+  "maxZoom": 1.7,
+  "minZoom": 1.15,
+  "leadSeconds": 0.3,
+  "trailSeconds": 0.1,
+  "lineOffset": 0.5,
+  "linePad": 1.0,
+  "card": {
+    "seconds": 3.4,
+    "fade": 0.5
+  },
+  "voice": "tracks/overview/voice.json",
+  "music": {
+    "file": "tracks/overview/music.mp3",
+    "gain": -22,
+    "duck": -14,
+    "fadeOut": 2.0
+  },
+  "slide": {
+    "eyebrow": "Open-source Knowledge Graph platform",
+    "title": "The application is data.",
+    "lede": "Classes, forms, views, charts and access rules are RDF resources. Push a folder of Turtle and the dataspace is live. An agent can write it.",
+    "links": [
+      {
+        "label": "linkeddatahub.com",
+        "primary": true
+      },
+      {
+        "label": "github.com/AtomGraph/LinkedDataHub"
+      }
+    ],
+    "note": "Open source under Apache 2.0",
+    "fade": 1.2,
+    "seconds": 6
+  },
+  "shots": [
+    {
+      "id": "0.1",
+      "line": "0.1",
+      "track": "overview-0-graph",
+      "from": "0.1-start",
+      "to": "0.1-end",
+      "move": "static",
+      "focus": false,
+      "scale": 1
+    },
+    {
+      "card": "Knowledge management",
+      "eyebrow": "Chapter 1"
+    },
+    {
+      "id": "A1",
+      "line": "A1",
+      "track": "overview-a-browse",
+      "from": "A1-start",
+      "to": "A1-end",
+      "move": "zoom",
+      "via": [
+        "A1-tree",
+        "A1-expanded"
+      ],
+      "minZoom": 1.0
+    },
+    {
+      "id": "A2",
+      "line": "A2",
+      "track": "overview-a-browse",
+      "from": "A2-start",
+      "to": "A2-end",
+      "move": "static",
+      "minZoom": 1.0
+    },
+    {
+      "id": "A3",
+      "line": "A3",
+      "track": "overview-a-graph",
+      "from": "A3-start",
+      "to": "A3-end",
+      "move": "static",
+      "focus": false,
+      "scale": 1,
+      "speed": 1.4
+    },
+    {
+      "id": "A4",
+      "line": "A4",
+      "track": "overview-a-graph",
+      "from": "A4-start",
+      "to": "A4-end",
+      "move": "zoom",
+      "scale": 1,
+      "maxZoom": 2.0,
+      "minZoom": 1.4,
+      "via": [
+        "A4-open",
+        "A4-values",
+        "A4-filtered",
+        "A4-pill"
+      ],
+      "speed": 1.2
+    },
+    {
+      "id": "A5",
+      "line": "A5",
+      "track": "overview-a-browse",
+      "from": "A5-start",
+      "to": "A5-end",
+      "move": "static",
+      "focus": false
+    },
+    {
+      "id": "A6",
+      "line": "A6",
+      "track": "overview-a-browse",
+      "from": "A6-start",
+      "to": "A6-end",
+      "move": "zoom",
+      "via": [
+        "A6-typed",
+        "A6-rendered",
+        "A6-link"
+      ],
+      "minZoom": 1.0,
+      "speed": 1.3
+    },
+    {
+      "id": "B1",
+      "line": "B1",
+      "track": "overview-b-author",
+      "from": "B1-start",
+      "to": "B1-end",
+      "move": "zoom",
+      "via": [
+        "B1-typed",
+        "B1-scrolled",
+        "B1-save"
+      ],
+      "speed": 1.2
+    },
+    {
+      "id": "B2",
+      "line": "B2",
+      "track": "overview-b-author",
+      "from": "B2-start",
+      "to": "B2-end",
+      "move": "zoom",
+      "via": [
+        "B2-drawn"
+      ],
+      "speed": 1.3
+    },
+    {
+      "id": "B3",
+      "line": "B3",
+      "track": "overview-b-author",
+      "from": "B3-start",
+      "to": "B3-end",
+      "move": "zoom",
+      "via": [
+        "B3-content",
+        "B3-editor"
+      ]
+    },
+    {
+      "id": "B4",
+      "line": "B4",
+      "track": "overview-b-author",
+      "from": "B4-start",
+      "to": "B4-end",
+      "move": "zoom",
+      "speed": 1.6
+    },
+    {
+      "id": "B5",
+      "line": "B5",
+      "track": "overview-b-author",
+      "from": "B5-start",
+      "to": "B5-end",
+      "move": "zoom",
+      "via": [
+        "B5-embedded",
+        "B5-fitted",
+        "B5-dropped"
+      ],
+      "speed": 1.3,
+      "minZoom": 1.0
+    },
+    {
+      "id": "B5b",
+      "line": "B5b",
+      "track": "overview-b-author",
+      "from": "B5b-start",
+      "to": "B5b-end",
+      "move": "zoom",
+      "via": [
+        "B5b-typed"
+      ],
+      "minZoom": 1.0,
+      "speed": 1.3
+    },
+    {
+      "id": "C1",
+      "line": "C1",
+      "track": "overview-c-data",
+      "from": "C1-start",
+      "to": "C1-end",
+      "move": "zoom",
+      "via": [
+        "C1-form",
+        "C1-source"
+      ],
+      "speed": 1.6
+    },
+    {
+      "id": "C2",
+      "line": "C2",
+      "track": "overview-c-data",
+      "from": "C2-start",
+      "to": "C2-end",
+      "move": "zoom",
+      "via": [
+        "C2-form",
+        "C2-file",
+        "C2-query"
+      ],
+      "speed": 1.6
+    },
+    {
+      "id": "C3",
+      "line": "C3",
+      "track": "overview-c-data",
+      "from": "C3-start",
+      "to": "C3-end",
+      "move": "static",
+      "focus": false,
+      "speed": 1.3
+    },
+    {
+      "id": "D1",
+      "line": "D1",
+      "track": "overview-d-versions",
+      "from": "D1-start",
+      "to": "D1-end",
+      "move": "zoom",
+      "minZoom": 1.0
+    },
+    {
+      "id": "D2",
+      "line": "D2",
+      "track": "overview-d-versions",
+      "from": "D2-start",
+      "to": "D2-end",
+      "move": "zoom",
+      "via": [
+        "D2-picked",
+        "D2-diff",
+        "D2-current",
+        "D2-restore"
+      ],
+      "speed": 1.5,
+      "minZoom": 1.0
+    },
+    {
+      "card": "Low-code platform",
+      "eyebrow": "Chapter 2"
+    },
+    {
+      "id": "E1",
+      "line": "E1",
+      "track": "overview-e-model",
+      "from": "E1-start",
+      "to": "E1-end",
+      "move": "zoom"
+    },
+    {
+      "id": "E2",
+      "line": "E2",
+      "track": "overview-e-model",
+      "from": "E2-start",
+      "to": "E2-end",
+      "move": "zoom",
+      "via": [
+        "E2-save"
+      ]
+    },
+    {
+      "id": "E3",
+      "line": "E3",
+      "track": "overview-e-model",
+      "from": "E3-start",
+      "to": "E3-end",
+      "move": "zoom",
+      "via": [
+        "E3-filled"
+      ]
+    },
+    {
+      "id": "E3b",
+      "line": "E3b",
+      "track": "overview-e-model",
+      "from": "E3b-form",
+      "to": "E3b-end",
+      "move": "zoom",
+      "via": [
+        "E3b-filled"
+      ],
+      "minZoom": 1.0,
+      "speed": 1.3,
+      "fromOffset": -3.5
+    },
+    {
+      "id": "E4",
+      "line": "E4",
+      "track": "overview-e-model",
+      "from": "E4-start",
+      "to": "E4-end",
+      "move": "static",
+      "focus": false
+    },
+    {
+      "id": "E4p",
+      "track": "overview-e-phone",
+      "from": "E4-phone-start",
+      "to": "E4-phone-end",
+      "kind": "phone"
+    },
+    {
+      "id": "F1",
+      "line": "F1",
+      "track": "overview-f-push-terminal",
+      "from": 0,
+      "to": 22,
+      "kind": "terminal"
+    },
+    {
+      "id": "F2",
+      "line": "F2",
+      "track": "overview-f-cli",
+      "from": "F2-start",
+      "to": "F2-end",
+      "move": "static",
+      "focus": false
+    },
+    {
+      "id": "F3",
+      "line": "F3",
+      "track": "overview-f-public-terminal",
+      "from": 0,
+      "to": 10.5,
+      "kind": "terminal"
+    },
+    {
+      "id": "F3a",
+      "track": "overview-f-anon",
+      "from": "F3-anon-start",
+      "to": "F3-anon-end",
+      "move": "static",
+      "focus": false
+    },
+    {
+      "id": "F3b",
+      "line": "F3b",
+      "track": "overview-f-curl-terminal",
+      "from": 0,
+      "to": 9,
+      "kind": "terminal"
+    },
+    {
+      "card": "Packages",
+      "eyebrow": "Chapter 3"
+    },
+    {
+      "id": "G1",
+      "line": "G1",
+      "track": "overview-g-packages",
+      "from": "G1-start",
+      "to": "G1-end",
+      "move": "static",
+      "focus": false
+    },
+    {
+      "id": "G2",
+      "line": "G2",
+      "track": "overview-g-packages-terminal",
+      "from": 1,
+      "to": 24,
+      "kind": "terminal",
+      "speed": 1.3
+    },
+    {
+      "id": "G3",
+      "line": "G3",
+      "track": "overview-g-packages",
+      "from": "G3-start",
+      "to": "G3-end",
+      "move": "zoom",
+      "via": [
+        "G3-tree"
+      ],
+      "minZoom": 1.0
+    },
+    {
+      "id": "G4",
+      "line": "G4",
+      "track": "overview-g-packages",
+      "from": "G4-start",
+      "to": "G4-end",
+      "move": "zoom",
+      "via": [
+        "G4-doc"
+      ],
+      "minZoom": 1.0
+    },
+    {
+      "id": "Z1",
+      "line": "Z1",
+      "track": "overview-0-graph",
+      "from": "0.1-start",
+      "to": "0.1-start",
+      "hold": 3,
+      "move": "static",
+      "focus": false,
+      "scale": 1,
+      "kind": "close"
+    }
+  ],
+  "tone": {
+    "file": "tracks/overview/tone.mp3",
+    "gain": -8
+  }
+}

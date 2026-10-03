@@ -18,7 +18,11 @@ export async function editResource(page, cursor, hasText, { settle = 3000 } = {}
   if (!(await block.count())) return { ok: false, why: `no block matching ${hasText}` };
   const btn = block.locator('button').filter({ hasText: /^\s*edit\s*$/ }).first();
   if (!(await btn.count())) return { ok: false, why: 'the block has no edit control' };
-  await btn.scrollIntoViewIfNeeded();
+  // Centred, not merely in view: scrolled to the viewport's edge the control sits under
+  // the sticky action bar, and the pointer's click opens the Actions menu instead
+  // (measured on a product page, 2026-10-03).
+  await btn.evaluate((el) => el.scrollIntoView({ block: 'center' }));
+  await sleep(500);
   await cursor.click(btn);
   const form = formOf(page);
   const shown = await form.waitFor({ state: 'visible', timeout: 15_000 }).then(() => true, () => false);
