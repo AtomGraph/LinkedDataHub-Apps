@@ -72,7 +72,6 @@ WHERE {}</pre>
 admin_base="https://admin.localhost:4443/"
 
 ldh admin add constructor \\
-  -b "$admin_base" \\
   --uri "${base}ns#ProductConstructor" \\
   --label "Product constructor" \\
   --query-file queries/construct-product.rq \\
@@ -116,7 +115,6 @@ ldh admin add constructor \\
             <div aria-labelledby="command-line-interface-2-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-2-pane" role="tabpanel">
                     <div>
                         <pre>ldh admin add property-constraint \\
-  -b "$admin_base" \\
   --uri "${base}ns#MissingName" \\
   --label "Missing schema:name" \\
   --property "https://schema.org/name" \\
@@ -158,7 +156,6 @@ ldh admin add constructor \\
             <div aria-labelledby="command-line-interface-3-tab" class="ac-tabpanel" hidden="hidden" id="command-line-interface-3-pane" role="tabpanel">
                     <div>
                         <pre>ldh admin add class \\
-  -b "$admin_base" \\
   --uri "https://schema.org/Product" \\
   --label "Product" \\
   --constructor "${base}ns#ProductConstructor" \\
