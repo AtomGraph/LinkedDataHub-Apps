@@ -222,6 +222,8 @@ ORDER BY DESC(?revenue)''' .
         The UI renders the descriptions of the resources selected by the result set, rather than the tabular result itself.
         That is achieved by on-the-fly SPARQL query rewriting: the <code>SELECT</code> is wrapped into
         a <code>DESCRIBE</code> query; <code>DESCRIBE</code> reuses the same variables from the <code>SELECT</code> projection.
+        The first projected variable, plain or aliased as in <code>(?s AS ?resource)</code>, names the resources the view lists. When it binds
+        values rather than resources, as in <code>(YEAR(NOW()) AS ?year)</code>, there is nothing to describe and the block says the query lists no resources.
         <em>This will not work for all <code>SELECT</code> queries.</em></p>
         <p>To render paginated lists of resources, traditional applications would normally have a dedicated API endpoint that
         supports pagination, ordering etc. In LinkedDataHub, views achieve the same functionality by simply building the
