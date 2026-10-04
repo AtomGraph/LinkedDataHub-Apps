@@ -62,7 +62,7 @@ export function args() {
   };
 
   // --origin is accepted as an alias so the flag reads naturally in a scene, but
-  // --base is the name the ldh CLI uses and the one the env var follows.
+  // --base is the canonical name, the one the LDH_BASE env var follows.
   const base = value('base', value('origin', process.env.LDH_BASE ?? DEFAULT_BASE)).replace(/\/$/, '');
 
   return {

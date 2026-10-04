@@ -24,7 +24,7 @@ const ADMIN = base.replace('://', '://admin.');
 const ONTOLOGY_DOC = `${ADMIN}/ontologies/editor-taxonomy/`;
 
 const run = (args) => new Promise((res) => { const p = spawn(ldh, args); let out = '', err = ''; p.stdout.on('data', (d) => (out += d)); p.stderr.on('data', (d) => (err += d)); p.on('close', (code) => res({ code, out: out.trim(), err: err.trim().split(password).join('••••') })); });
-const auth = ['-b', `${base}/`, '-c', certFile, '-p', password];
+const auth = [`${base}/`, '-c', certFile, '-p', password];
 const removed = await run(['packages', 'remove', ...auth, '--package', PACKAGE]);
 if (removed.code !== 0) throw new Error(`reset: could not remove the package: ${removed.err.slice(0, 200)}`);
 console.log('  reset: package removed');

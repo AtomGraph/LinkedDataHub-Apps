@@ -21,12 +21,12 @@ ldh admin make-public
 
 ldh_app_step "Creating authorization for authenticated agents to read items"
 ldh admin create authorization \
-  -b "$admin_base" \
   --proxy "$admin_proxy" \
   --label "Read access to graph items" \
   --agent-class "http://www.w3.org/ns/auth/acl#AuthenticatedAgent" \
   --to-all-in "https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Item" \
-  --read
+  --read \
+  "$admin_base"
 
 ldh_app_step "Pushing documents and files"
 ldh push --dir "$app_dir" "$LDH_BASE"

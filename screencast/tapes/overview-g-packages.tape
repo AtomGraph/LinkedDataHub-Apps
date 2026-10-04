@@ -6,7 +6,8 @@
 #
 # The CLI's credentials arrive in the environment (LDH_CERT_FILE, LDH_CERT_PASSWORD), the
 # way the Makefile hands them to every ldh call, so the commands typed are the ones a
-# person would type. $LDH_BASE is the dataspace. Geometry, framerate and typing speed come
+# person would type. LDH_BASE names the dataspace, the
+# default of the base URI the packages commands take as their positional. Geometry, framerate and typing speed come
 # from lib/terminal.mjs, which prepends them.
 
 Require ldh
@@ -17,11 +18,11 @@ Sleep 1s
 Show
 
 Sleep 1s
-Type "ldh packages list -b $LDH_BASE" Enter
+Type "ldh packages list" Enter
 Sleep 6s
 
-Type "ldh packages add -b $LDH_BASE --package https://packages.linkeddatahub.com/editor/taxonomy/#this" Enter
+Type "ldh packages add --package https://packages.linkeddatahub.com/editor/taxonomy/#this" Enter
 Sleep 6s
 
-Type "ldh packages list -b $LDH_BASE" Enter
+Type "ldh packages list" Enter
 Sleep 6s

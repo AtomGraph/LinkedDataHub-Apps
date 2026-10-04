@@ -15,5 +15,5 @@ Sleep 1s
 Show
 
 Sleep 1s
-Type "ldh admin make-public -b $LDH_BASE" Enter
+Type "ldh admin make-public" Enter
 Sleep 8s
