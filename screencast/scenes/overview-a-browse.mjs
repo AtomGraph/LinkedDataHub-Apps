@@ -83,10 +83,11 @@ await runScene({
     await page.keyboard.press(process.platform === 'darwin' ? 'Meta+A' : 'Control+A');
     await page.keyboard.press('Backspace');
     await sleep(300);
-    await marks.beat('A6-start', 'the address bar, cleared');
+    // framed on the bar: the line says the URL goes there, so the cut has to keep it in view
+    await marks.beat('A6-start', 'the address bar, cleared', await focus(box));
     await box.pressSequentially(FILM, { delay: 18 });
     await sleep(600);
-    await marks.beat('A6-typed', 'a film\'s page on a review site, typed');
+    await marks.beat('A6-typed', 'a film\'s page on a review site, typed', await focus(box));
     await page.keyboard.press('Enter');
     await until(page.waitForFunction(() => /Star Wars/.test(document.querySelector('.ldh-pane.is-active')?.innerText ?? ''), null, { timeout: 60_000 }), 'the film, rendered through the proxy');
     await sleep(3500);

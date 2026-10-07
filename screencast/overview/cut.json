@@ -62,6 +62,16 @@
       "scale": 1
     },
     {
+      "id": "0.2",
+      "line": "0.2",
+      "track": "overview-0-graph",
+      "from": "0.1-end",
+      "to": "0.2-end",
+      "move": "static",
+      "focus": false,
+      "scale": 1
+    },
+    {
       "card": "Knowledge management",
       "eyebrow": "Chapter 1"
     },
@@ -133,12 +143,12 @@
       "to": "A6-end",
       "move": "zoom",
       "via": [
+        "A6-start",
         "A6-typed",
         "A6-rendered",
         "A6-link"
       ],
-      "minZoom": 1.0,
-      "speed": 1.3
+      "minZoom": 1.0
     },
     {
       "id": "B1",
@@ -363,8 +373,9 @@
       "line": "F3",
       "track": "overview-f-public-terminal",
       "from": 0,
-      "to": 10.5,
-      "kind": "terminal"
+      "to": 32.5,
+      "kind": "terminal",
+      "speed": 2
     },
     {
       "id": "F3a",
@@ -377,10 +388,112 @@
     {
       "id": "F3b",
       "line": "F3b",
-      "track": "overview-f-curl-terminal",
+      "track": "overview-f-get-terminal",
       "from": 0,
-      "to": 9,
+      "to": 9.5,
       "kind": "terminal"
+    },
+    {
+      "id": "H1a",
+      "track": "overview-h-assistant",
+      "from": "H1-start",
+      "to": "H1-asked",
+      "move": "zoom",
+      "minZoom": 1.0,
+      "speed": 1.6
+    },
+    {
+      "id": "H1",
+      "line": "H1",
+      "track": "overview-h-assistant",
+      "from": "H1-running",
+      "to": "H1-end",
+      "move": "zoom",
+      "minZoom": 1.0
+    },
+    {
+      "id": "H2",
+      "line": "H2",
+      "track": "overview-h-assistant",
+      "from": "H2-start",
+      "to": "H2-end",
+      "move": "zoom",
+      "via": [
+        "H2-chart"
+      ],
+      "minZoom": 1.0
+    },
+    {
+      "id": "H3a",
+      "track": "overview-h-assistant",
+      "from": "H3-start",
+      "to": "H3-asked",
+      "move": "zoom",
+      "minZoom": 1.0,
+      "speed": 1.3
+    },
+    {
+      "id": "H3",
+      "line": "H3",
+      "track": "overview-h-assistant",
+      "from": "H3-plan",
+      "to": "H3-end",
+      "move": "zoom",
+      "via": [
+        "H3-execute",
+        "H3-written"
+      ],
+      "minZoom": 1.0
+    },
+    {
+      "id": "H4",
+      "line": "H4",
+      "track": "overview-h-assistant",
+      "from": "H4-start",
+      "to": "H4-end",
+      "move": "zoom",
+      "via": [
+        "H4-chat"
+      ],
+      "minZoom": 1.0
+    },
+    {
+      "id": "H5",
+      "line": "H5",
+      "track": "overview-h-agent-terminal",
+      "from": 1,
+      "to": 31,
+      "kind": "terminal",
+      "speed": 1.7
+    },
+    {
+      "id": "H6",
+      "line": "H6",
+      "track": "overview-h-agent-terminal",
+      "from": 31,
+      "to": 45,
+      "kind": "terminal",
+      "speed": 1.6
+    },
+    {
+      "id": "H6b",
+      "track": "overview-h-agent-terminal",
+      "from": 45,
+      "to": 98,
+      "kind": "terminal",
+      "speed": 4.5
+    },
+    {
+      "id": "H7",
+      "line": "H7",
+      "track": "overview-h-agent",
+      "from": "H7-start",
+      "to": "H7-end",
+      "move": "zoom",
+      "via": [
+        "H7-chart"
+      ],
+      "minZoom": 1.0
     },
     {
       "card": "Packages",

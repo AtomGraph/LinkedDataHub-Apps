@@ -15,7 +15,7 @@ import { spawn } from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { runScene, resolve, geometryFrom, sleep, until, TRACKS, ROOT } from '../lib/harness.mjs';
-import { record, trustedCurlEnv } from '../lib/terminal.mjs';
+import { record } from '../lib/terminal.mjs';
 import { ui } from '../lib/dom.mjs';
 import { GEOMETRY_2X, zoom2x, focus, load } from '../lib/supercut.mjs';
 import { scrollThrough } from '../lib/frame.mjs';
@@ -65,7 +65,16 @@ const anon = await status(root);
 console.log(`  reset: anonymous GET ${root} → ${anon}`);
 if (anon !== '403') throw new Error(`reset: the dataspace is still readable anonymously (${anon}); nothing for make-public to do`);
 
-const env = { LDH_BASE: root, LDH_CERT_FILE: path.resolve(certFile), LDH_CERT_PASSWORD: password, LDH_CLIP_DIR: APP_DIR };
+// F3 creates an Editors group and an authorization for it: last take's go first, so the commands
+// on camera create rather than collide. The group's member is the owner, whose WebID is the root
+// document's creator
+const ADMIN_ROOT = `${ADMIN}/`;
+for (const d of ['acl/groups/editors/', 'acl/authorizations/editors-user-guide/']) await run(['delete', `${ADMIN_ROOT}${d}`, ...auth]);
+const WEBID = ((await run(['get', '--accept', 'text/turtle', root, ...auth])).out.match(/<(https:\/\/[^>]+\/acl\/agents\/[^>]+#this)>/) ?? [])[1];
+if (!WEBID) throw new Error('reset: no owner WebID on the root document');
+console.log(`  reset: Editors group and authorization removed; member ${WEBID}`);
+
+const env = { LDH_BASE: root, LDH_ADMIN_BASE: ADMIN_ROOT, WEBID, LDH_CERT_FILE: path.resolve(certFile), LDH_CERT_PASSWORD: password, LDH_CLIP_DIR: APP_DIR };
 
 await runScene({
   id: 'overview-f-cli', target: root, identity,
@@ -99,17 +108,16 @@ await runScene({
     console.log(`  after make-public: anonymous GET ${root} → ${anonAfter}`);
     if (anonAfter !== '200') throw new Error(`F3: the dataspace is not public after make-public (${anonAfter})`);
 
-    // ── F3b · the same document as Turtle, for anyone who asks ─────────────────
-    // The tape's request, made here first, so an empty answer fails the take instead of
-    // being filmed: `curl -s` prints nothing at all when verification fails. The command
-    // on camera carries no -k, so on a stack whose certificate curl cannot verify (the
-    // dev stack's names only localhost) the recording shell trusts it through a .curlrc
-    // of its own instead, exactly as the browser take ignores HTTPS errors.
-    const curlEnv = await trustedCurlEnv(root, env);
-    await marks.beat('F3b-terminal-start', 'the curl take begins');
-    const neg = await record(path.join(ROOT, 'tapes', 'overview-f-curl.tape'), { output: path.join(TRACKS, 'overview-f-curl-terminal.mp4'), env: curlEnv });
+    for (const d of ['acl/groups/editors/', 'acl/authorizations/editors-user-guide/']) {
+      const got = await run(['get', '--head', '--accept', 'text/turtle', `${ADMIN_ROOT}${d}`, ...auth]);
+      if (got.code !== 0) throw new Error(`F3: ${d} was not created`);
+    }
+
+    // ── F3b · the same document as Turtle ──────────────────────────────────────
+    await marks.beat('F3b-terminal-start', 'the ldh get take begins');
+    const neg = await record(path.join(ROOT, 'tapes', 'overview-f-get.tape'), { output: path.join(TRACKS, 'overview-f-get-terminal.mp4'), env });
     if (!neg.ok) throw new Error(`F3b: ${neg.why}`);
-    await marks.beat('F3b-terminal-end', `the curl take: ${neg.seconds}s`);
+    await marks.beat('F3b-terminal-end', `the ldh get take: ${neg.seconds}s`);
     await marks.beat('end');
   },
 });

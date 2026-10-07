@@ -58,7 +58,7 @@ for (const raw of md.split('\n')) {
     }
     continue;
   }
-  if (c.length === 3 && /^(0\.1|[A-Z]\d[a-z]?)$/.test(c[0])) lines.push({ id: c[0], screen: c[1], text: c[2] });
+  if (c.length === 3 && /^(0\.\d|[A-Z]\d[a-z]?)$/.test(c[0])) lines.push({ id: c[0], screen: c[1], text: c[2] });
 }
 if (lines.length === 0) throw new Error(`no narration rows found in ${SCRIPT}`);
 
