@@ -30,7 +30,7 @@ chapter titles are burned in.
 
 | # | On screen | Narration |
 |---|---|---|
-| A1 | The drawer opens on the document tree; a container is opened | The left sidebar shows the document tree and the classes in the data. Every document is a named graph with its own URL. Here we open the Territories container. |
+| A1 | The drawer opens on the document tree; a container is opened | The left sidebar shows the document tree and the classes in the data. Every document is also a named graph in the backend triplestore. Here we open the Territories container. |
 | A2 | The container's child listing cycled: list, table, grid, map | Containers are like folders: they hold items and other containers. Here, the Territories container's children are shown as a list, a table, a grid and a map. |
 | A3 | Graph mode; a node double-clicked, the graph grows; a node opened | Graph mode renders resources as an interactive 3D network. Double-clicking the order's customer loads the customer's own document into the graph, and the node opens as a page. |
 | A4 | On the opened document, a facet filters the orders to the delivered ones; then the pivot bar re-centres the results on a related class | A view renders a paginated SPARQL query projection. Facets narrow these orders to delivered ones, and parallax navigation jumps to the sales reps who took them. |
@@ -43,7 +43,7 @@ chapter titles are burned in.
 |---|---|---|
 | B1 | A SELECT typed into a new query document and saved; its results render | Queries, views and charts are resources like any other, stored in documents and placed on pages as blocks. This query counts the sales reps per region, with its results below. |
 | B2 | A chart bound to the query from its action bar; the bars draw | A chart is bound to a query by choosing the chart type, the category and the series. Here, a bar chart of the reps per region. |
-| B3 | Content mode on the document; a sentence written in a prose block | In Content mode, a document is a list of blocks: XHTML, and objects transcluded from other resources. Text is edited in place, like this sentence about the Eastern region. |
+| B3 | Content mode on the document; a sentence written in a prose block | Content mode renders a list of blocks: XHTML, and objects transcluded from other resources. Text is edited in place, like this sentence about the Eastern region. |
 | B4 | A word selected; the annotation dialog; the word linked to a resource | Select a word and annotate it with RDFa to link it to a resource. Here, the word chart is linked to the chart we just made. |
 | B5 | The chart embedded as an object block; the block dragged above the prose | An object block embeds any resource by its URI: a query, a chart, a view, or Linked Data from elsewhere. Here it embeds the chart, and dragging reorders the page. |
 | B5b | + Object; a YouTube link typed as the value; Save; the video card | A video link embeds the same way: its metadata is read as RDF, and Tim Berners-Lee's TED talk plays on the page. |
@@ -73,7 +73,9 @@ chapter titles are burned in.
 | E2 | A required field left empty; Save; the violation on the field | Every write is validated against the model's constraints. Leave the product's name empty, and the form shows the violation on that field. |
 | E3 | The field filled; Save; the same view picks up the record | With the name filled in, Save writes the product. Views are SPARQL queries, so Beverages now lists thirteen products instead of twelve. |
 | E3b | The new record opened; the pencil; a description typed; Save; the page re-reads | To edit a resource, open its form with the pencil button. Here, a description is added to the new product. |
-| E4 | The page switches dark to light, then narrows to phone width | The interface follows the system's light or dark scheme and adapts to small screens. A dataspace can override any of it with its own XSLT stylesheet. |
+| E3c | The record's form again; Edit constructors; the Product constructor dialog, its properties and their types; Cancel | Edit constructors opens the Product constructor: the properties every new product starts with, each a typed literal or a resource of some class. Change it, and the forms change too. |
+| E4 | The page switches dark to light and back | The interface follows the reader's light or dark colour scheme, and switches with it, without a reload. |
+| E4p | The same page at phone width, scrolled | The layout is responsive: on a phone the same page reflows to a single column. A dataspace can also override any part of it with its own XSLT stylesheet. |
 
 ### Flow F — The CLI and access (push → live → make-public → private window)
 

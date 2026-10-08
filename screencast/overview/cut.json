@@ -336,6 +336,18 @@
       "fromOffset": -3.5
     },
     {
+      "id": "E3c",
+      "line": "E3c",
+      "track": "overview-e-model",
+      "from": "E3c-start",
+      "to": "E3c-end",
+      "move": "zoom",
+      "via": [
+        "E3c-dialog"
+      ],
+      "minZoom": 1.0
+    },
+    {
       "id": "E4",
       "line": "E4",
       "track": "overview-e-model",
@@ -349,7 +361,8 @@
       "track": "overview-e-phone",
       "from": "E4-phone-start",
       "to": "E4-phone-end",
-      "kind": "phone"
+      "kind": "phone",
+      "line": "E4p"
     },
     {
       "id": "F1",

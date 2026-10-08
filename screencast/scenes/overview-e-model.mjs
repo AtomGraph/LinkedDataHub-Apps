@@ -159,6 +159,34 @@ await runScene({
     await marks.beat('E3b-end', 'saved: the page re-read with the description', await focus(ui(page).locator('.ldh-block').first()));
     await sleep(800);
 
+    // ── E3c · the form behind the form: the class's constructor ────────────────
+    // The record's form again, and its Edit constructors: a dialog listing the properties a new
+    // Product starts with, each a literal of a datatype or a resource of a class. Looked at and
+    // cancelled, so the model is as it was.
+    const ed2 = await editResource(page, cursor, PRODUCT);
+    if (!ed2.ok) throw new Error(`E3c: ${ed2.why}`);
+    const ctorBtn = page.locator('button.btn-edit-constructors:visible').first();
+    await until(ctorBtn.waitFor({ state: 'visible', timeout: 20_000 }), 'Edit constructors, once write access to the constructor is known');
+    await ctorBtn.evaluate((el) => el.scrollIntoView({ block: 'center' }));
+    await sleep(500);
+    await cursor.moveTo(...(await centre(ctorBtn)), { duration: 600 });
+    await marks.beat('E3c-start', 'pointer on Edit constructors', await focus(ed2.form));
+    await cursor.click(ctorBtn);
+    const ctorDialog = page.locator('[role=dialog]:visible, .modal:visible, dialog[open]').filter({ hasText: /constructor/i }).last();
+    await until(ctorDialog.waitFor({ state: 'visible', timeout: 20_000 }), 'the constructor dialog');
+    await sleep(2500);
+    const ctorRows = await ctorDialog.locator('button, a').filter({ hasText: /\S/ }).allTextContents();
+    await marks.beat('E3c-dialog', `the Product constructor: ${ctorRows.map((t) => t.replace(/\s+/g, ' ').trim()).filter(Boolean).slice(0, 12).join(', ')}`, await focus(ctorDialog));
+    await sleep(4000);
+    const ctorCancel = ctorDialog.locator('button').filter({ hasText: /^\s*Cancel\s*$/ }).first();
+    await cursor.moveTo(...(await centre(ctorCancel)), { duration: 600 });
+    await cursor.click(ctorCancel);
+    await ctorDialog.waitFor({ state: 'hidden', timeout: 10_000 }).catch(() => {});
+    await page.keyboard.press('Escape');
+    await sleep(800);
+    await marks.beat('E3c-end', 'cancelled: the model unchanged');
+    await sleep(600);
+
     // ── E4 · the reader's colour scheme ────────────────────────────────────────
     await marks.beat('E4-start', 'dark, as the reader\'s system is set');
     await page.emulateMedia({ colorScheme: 'light' });

@@ -20,9 +20,9 @@ Sleep 1s
 Show
 
 Sleep 1s
-Type `ldh admin create group --name Editors --slug editors --uri '#this' --member "$WEBID" $LDH_ADMIN_BASE` Enter
+Type `ldh admin create group --name Editors --slug editors --uri '#this' --member "$WEBID" "$LDH_ADMIN_BASE"` Enter
 Sleep 4s
-Type `ldh admin create authorization --label "Editors write the user guide" --slug editors-user-guide --agent-group ${LDH_ADMIN_BASE}acl/groups/editors/#this --to ${LDH_BASE}user-guide/ --read --write $LDH_ADMIN_BASE` Enter
+Type `ldh admin create authorization --label "Editors write the user guide" --slug editors-user-guide --agent-group "${LDH_ADMIN_BASE}acl/groups/editors/#this" --to "${LDH_BASE}user-guide/" --read --write "$LDH_ADMIN_BASE"` Enter
 Sleep 4s
 Type "ldh admin make-public" Enter
 Sleep 6s

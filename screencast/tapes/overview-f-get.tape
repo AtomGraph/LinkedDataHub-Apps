@@ -13,5 +13,5 @@ Sleep 1s
 Show
 
 Sleep 1s
-Type "ldh get --accept text/turtle $LDH_BASE" Enter
+Type `ldh get --accept text/turtle "$LDH_BASE"` Enter
 Sleep 7s

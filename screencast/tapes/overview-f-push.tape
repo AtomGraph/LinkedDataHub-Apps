@@ -21,7 +21,7 @@ Sleep 1s
 Type "ls" Enter
 Sleep 3s
 
-Type "ldh push --dir . $LDH_BASE" Enter
+Type `ldh push --dir . "$LDH_BASE"` Enter
 # the push itself: measured at about twenty seconds for the docs app's 59 documents and
 # 44 uploads, and the streaming URLs are not frozen, so this plays at 1x
 Sleep 40s
