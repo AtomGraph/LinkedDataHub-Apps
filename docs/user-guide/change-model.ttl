@@ -76,11 +76,14 @@ ldh admin add constructor \\
   --label "Product constructor" \\
   --query-file queries/construct-product.rq \\
   "${admin_base}ontologies/namespace/"</pre>
-                        <p>The model lives in the administration dataspace, whose origin is the dataspace origin with an <samp>admin.</samp> prefix — so <code>-b</code> (overriding the <samp>LDH_BASE</samp> default) and the target document URL both use <samp>$admin_base</samp>, because admin commands target the admin app's base URI, while the ontology terms being defined keep the end-user origin.</p>
+                        <p>The model lives in the administration dataspace, whose origin is the dataspace origin with an <samp>admin.</samp> prefix — so the target document URL uses <samp>$admin_base</samp>, while the ontology terms being defined keep the end-user origin.</p>
                     </div>
                 </div>
         </div>
         <p>Follow the same steps for <samp>Category</samp> (<samp>schema:ProductGroup</samp>) if you want its instances to be creatable too.</p>
+        <h3 id="edit-constructor-from-form">Edit a constructor from a form</h3>
+        <p>A constructor can also be changed from the form of any instance of its class. Open the resource's form with the <span aria-hidden="true" class="msi">edit</span> button and click <samp>Edit constructors</samp> at the bottom of the form. A dialog lists the properties the class's constructor gives a new instance: each row is a property, switched between <samp>Resource</samp> and <samp>Literal</samp>, with the class of the resource or the datatype of the literal. Change a row, remove one with <span aria-hidden="true" class="msi">remove</span>, or add one with <samp>Property</samp>, then click <samp>Save</samp>: the create forms of the class follow.</p>
+        <p>For a resource of several classes the button becomes a menu with an entry per class. It appears once LinkedDataHub has checked that you can write the class's constructor, which in practice means membership of the owners group. A class that has no constructor yet is offered too, so its first property can be added this way.</p>
         <p class="ldh-body-lg"><a href="../../reference/administration/ontologies/#constructors" target="_blank">Read more about constructors.</a></p>
     </div>
     <div>
