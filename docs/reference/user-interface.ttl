@@ -21,7 +21,7 @@
                 actions such as creating or editing documents are only available to users with the corresponding write access.</p>
         </div>
     </div>
-    <img alt="The dataspace layout: navigation bar, action bar, sidebar and content" src="/uploads/ab78fd76f9d92b39742362c081c0ec82769901bd"></img>
+    <img alt="The dataspace layout: navigation bar, action bar, sidebar and content" src="/uploads/c9837af7cdd4294db6863a47aba65b99daf7b3f1"></img>
     <div>
         <h2 id="nav-bar">Navigation bar</h2>
         <img alt="The navigation bar with the address bar and menus" src="/uploads/ce4349baeb1aaa37e26d164b78098ec0d2b75d54"></img>
