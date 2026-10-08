@@ -671,7 +671,7 @@ export const SHOTS = [
     // proxy from the public UNESCO Thesaurus dataspace; the target is this run's scratch
     // document, so nothing is forked into the demo data.
     doc: 'user-guide/add-data', n: 1, line: 31, kind: 'clip', writes: true,
-    caption: 'forking a remote RDF document into the dataspace',
+    caption: 'copying a remote RDF document into the dataspace',
     at: '/',
     async act({ page, cursor, type, marks, scratch, sleep }) {
       const url = await scratch.document('fork', 'Forking a remote document');
