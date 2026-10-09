@@ -349,6 +349,7 @@
                     <tr>
                         <th scope="col">Function</th>
                         <th scope="col">Returns</th>
+                        <th scope="col">Runs on</th>
                         <th scope="col">Description</th>
                     </tr>
                 </thead>
@@ -356,76 +357,91 @@
                     <tr>
                         <td><code>ac:absolute-path($href as xs:anyURI)</code></td>
                         <td><code>xs:anyURI</code></td>
+                        <td>Both</td>
                         <td>Strips query string and fragment from a URI, returning the path-only form</td>
                     </tr>
                     <tr>
-                        <td><code>ac:build-uri(<br></br>  $path as xs:anyURI?,<br></br>  $params as map(xs:string, xs:string*)<br></br>)</code></td>
+                        <td><code>ac:build-uri(<br></br>  $absolute-path as xs:anyURI?,<br></br>  $query-params as map(xs:string, xs:string*)<br></br>)</code></td>
                         <td><code>xs:anyURI?</code></td>
-                        <td>Appends a percent-encoded query string built from the parameter map to <code>$path</code></td>
+                        <td>Both</td>
+                        <td>Appends a percent-encoded query string built from <code>$query-params</code> to <code>$absolute-path</code></td>
                     </tr>
                     <tr>
                         <td><code>ac:document-uri($uri as item())</code></td>
                         <td><code>xs:anyURI</code></td>
+                        <td>Both</td>
                         <td>Strips the fragment identifier from a URI, making it suitable for use with <code>document()</code></td>
                     </tr>
                     <tr>
                         <td><code>ac:fragment-id($uri as xs:anyURI)</code></td>
                         <td><code>xs:string?</code></td>
+                        <td>Both</td>
                         <td>Extracts the fragment identifier (the part after <code>#</code>)</td>
                     </tr>
                     <tr>
                         <td><code>ac:uri()</code></td>
                         <td><code>xs:anyURI?</code></td>
-                        <td>URI of the external resource being viewed through the <a href="../http-api/#ld-proxy">Linked Data proxy</a>; absent for local documents. Works in both environments, unlike the server-side <code>$ac:uri</code> parameter it wraps</td>
+                        <td>Both</td>
+                        <td>URI of the external resource being viewed through the <a href="../http-api/#ld-proxy">Linked Data proxy</a>; absent for local documents. The server reads it from the <code>$ac:uri</code> parameter, the browser from the <code>uri</code> query parameter</td>
                     </tr>
                     <tr>
                         <td><code>lds:origin()</code></td>
                         <td><code>xs:anyURI</code></td>
+                        <td>Both</td>
                         <td>Returns the origin (scheme, host and port) of the current dataspace, e.g. <code>https://localhost:4443/</code>. Used to build absolute URIs for static resources and same-site requests</td>
                     </tr>
                     <tr>
                         <td><code>lds:base()</code></td>
                         <td><code>xs:anyURI</code></td>
+                        <td>Both</td>
                         <td>Returns the base URI of the current dataspace</td>
                     </tr>
                     <tr>
                         <td><code>ldh:request-uri()</code></td>
                         <td><code>xs:anyURI</code></td>
-                        <td>Returns the full request URI including query string (server-side only)</td>
+                        <td>Both</td>
+                        <td>Returns the full request URI including query string</td>
                     </tr>
                     <tr>
-                        <td><code>ldh:base-uri($node as node())</code></td>
+                        <td><code>ldh:base-uri($arg as node())</code></td>
                         <td><code>xs:anyURI</code></td>
+                        <td>Both</td>
                         <td>Returns the base URI of an XML node; wraps the built-in <code>base-uri()</code></td>
                     </tr>
                     <tr>
                         <td><code>ldh:href($uri as xs:anyURI?)</code></td>
                         <td><code>xs:anyURI</code></td>
+                        <td>Both</td>
                         <td>Resolves a URI to a local href, proxying external URIs through the LinkedDataHub proxy. Overloads accept <code>$query-params as map(xs:string, xs:string*)</code> and <code>$fragment as xs:string?</code></td>
                     </tr>
                     <tr>
                         <td><code>ldh:parse-href($href as xs:anyURI)</code></td>
                         <td><code>map(xs:string, item()?)</code></td>
+                        <td>Both</td>
                         <td>Inverse of <code>ldh:href()</code> — parses a local href back into its target URI, query parameters and fragment. Shared by the client-side navigation handlers</td>
                     </tr>
                     <tr>
                         <td><code>ldh:query-params()</code></td>
                         <td><code>map(xs:string, xs:string*)</code></td>
+                        <td>Both</td>
                         <td>Parses the current request URI's query string into a map of parameter names to values</td>
                     </tr>
                     <tr>
                         <td><code>ldh:build-query($mode as xs:anyURI*)</code></td>
                         <td><code>map(xs:string, xs:string*)</code></td>
+                        <td>Both</td>
                         <td>Builds the <code>mode</code> query parameter map that selects the given <a href="../user-interface/#layout-modes">layout mode(s)</a></td>
                     </tr>
                     <tr>
                         <td><code>ldh:parse-query-params($query-string as xs:string)</code></td>
                         <td><code>map(xs:string, xs:string*)</code></td>
+                        <td>Both</td>
                         <td>Parses a URL query string into a map of key to value(s)</td>
                     </tr>
                     <tr>
                         <td><code>ldh:url-decode($encoded-string as xs:string)</code></td>
                         <td><code>xs:string</code></td>
+                        <td>Both</td>
                         <td>Percent-decodes a URL-encoded string</td>
                     </tr>
                 </tbody>
@@ -437,6 +453,7 @@
                     <tr>
                         <th scope="col">Function</th>
                         <th scope="col">Returns</th>
+                        <th scope="col">Runs on</th>
                         <th scope="col">Description</th>
                     </tr>
                 </thead>
@@ -444,66 +461,79 @@
                     <tr>
                         <td><code>ac:label($resource as element())</code></td>
                         <td><code>xs:string?</code></td>
+                        <td>Both</td>
                         <td>Extracts a human-readable label from an RDF resource description, trying multiple vocabulary properties</td>
                     </tr>
                     <tr>
                         <td><code>ac:description($resource as element())</code></td>
                         <td><code>xs:string?</code></td>
+                        <td>Both</td>
                         <td>Extracts a human-readable description from an RDF resource description</td>
                     </tr>
                     <tr>
                         <td><code>ac:image($resource as element())</code></td>
                         <td><code>attribute()*</code></td>
+                        <td>Both</td>
                         <td>Extracts image references (e.g. <code>foaf:depiction</code>, <code>foaf:img</code>) from a resource description</td>
                     </tr>
                     <tr>
                         <td><code>ac:property-label($property as element())</code></td>
                         <td><code>xs:string?</code></td>
+                        <td>Both</td>
                         <td>Label of a predicate element, capitalized — resolved by the <code>ac:property-label</code> mode templates. An overload accepts <code>$property-metadata as document-node()</code>, the property descriptions loaded for the current document</td>
                     </tr>
                     <tr>
                         <td><code>ac:object-label($object as node())</code></td>
                         <td><code>xs:string?</code></td>
+                        <td>Both</td>
                         <td>Label of a property's object: a resource-valued object is looked up in the current graph, the loaded metadata or its dereferenced document, falling back to the URI's fragment or last path segment; a literal yields its lexical value. An overload accepts <code>$object-metadata as document-node()</code></td>
                     </tr>
                     <tr>
                         <td><code>ac:mode($doc as document-node())</code></td>
                         <td><code>xs:anyURI</code></td>
+                        <td>Both</td>
                         <td>The active <a href="../user-interface/#layout-modes">layout mode</a> of the given document. Replaces the former <code>$ac:mode</code> parameter</td>
                     </tr>
                     <tr>
                         <td><code>ac:langs()</code></td>
                         <td><code>xs:string*</code></td>
+                        <td>Both</td>
                         <td>The reader's accepted languages, deduplicated to primary subtags and always ending with <samp>en</samp> as a fallback — negotiated server-side, read from <code>navigator.languages</code> in the browser</td>
                     </tr>
                     <tr>
                         <td><code>ac:lang-rank($value as element())</code></td>
                         <td><code>xs:integer</code></td>
+                        <td>Both</td>
                         <td>Ranks a property value's language against <code>ac:langs()</code>, so values sort by the reader's preference</td>
                     </tr>
                     <tr>
                         <td><code>ldh:date-time($value as xs:string?)</code></td>
                         <td><code>xs:dateTime?</code></td>
+                        <td>Both</td>
                         <td>Parses a lexical value into a <code>xs:dateTime</code> where possible</td>
                     </tr>
                     <tr>
                         <td><code>ldh:datatype-family($datatype as xs:anyURI?)</code></td>
                         <td><code>xs:string</code></td>
+                        <td>Both</td>
                         <td>Groups an XSD datatype into a family (numeric, dateTime, string etc.) — drives table column sorting</td>
                     </tr>
                     <tr>
                         <td><code>ldh:sort-key($key as xs:string?, $datatype as xs:anyURI?)</code></td>
                         <td><code>xs:anyAtomicType?</code></td>
+                        <td>Browser</td>
                         <td>Converts a lexical value into a typed sort key for its datatype family</td>
                     </tr>
                     <tr>
                         <td><code>ldh:sort-key-lexical($resource as element(), $predicates as xs:anyURI*)</code></td>
                         <td><code>xs:string?</code></td>
+                        <td>Browser</td>
                         <td>The lexical sort key of a resource: coalesces across <code>$predicates</code> in order, preferring values whose language matches the reader's first accepted language. Feeds <code>ldh:sort-key()</code></td>
                     </tr>
                     <tr>
                         <td><code>ldh:sort-datatype($resources as element()*, $predicates as xs:anyURI*)</code></td>
                         <td><code>xs:anyURI?</code></td>
+                        <td>Browser</td>
                         <td>The datatype shared by a sort column's literals; absent when the column mixes datatypes or carries plain literals or resources. Keys the typed re-sort that keeps a view block's client-side order agreeing with its SPARQL <code>ORDER BY</code></td>
                     </tr>
                 </tbody>
@@ -515,33 +545,33 @@
                     <tr>
                         <th scope="col">Function</th>
                         <th scope="col">Returns</th>
+                        <th scope="col">Runs on</th>
                         <th scope="col">Description</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td><code>ldh:query-result($endpoint as xs:anyURI, $query as xs:string)</code></td>
-                        <td><code>document-node()</code></td>
-                        <td>Executes a SPARQL query against the given endpoint and returns the result document (cached)</td>
-                    </tr>
-                    <tr>
-                        <td><code>ldh:send-request(<br></br>  $href as xs:anyURI,<br></br>  $method as xs:string,<br></br>  $media-type as xs:string?,<br></br>  $body as item()?,<br></br>  $headers as map(xs:string, xs:string)<br></br>)</code></td>
                         <td><code>document-node()?</code></td>
-                        <td>Makes an HTTP request and returns the response as a document (server-side extension function)</td>
+                        <td>Both</td>
+                        <td>Runs <code>$query</code> against <code>$endpoint</code> over the SPARQL Protocol and returns the response: RDF/XML for <code>CONSTRUCT</code> and <code>DESCRIBE</code>, SPARQL Results XML for <code>SELECT</code> and <code>ASK</code>. Call it from any stylesheet: each engine has its own implementation. Server-side, it <code>POST</code>s the query as <code>application/sparql-query</code> through <code>ldh:send-request()</code>, so a long query does not hit a URL length limit; the result is empty when the response has no body. Client-side, it sends a <code>GET</code> and loads the response with <code>document()</code>. An endpoint on another origin is fetched through the Linked Data proxy (<code>?uri=</code>). <code>document()</code> is synchronous, so the page waits for the response. SaxonJS also keeps the document for the rest of the page session, so a repeated query does not reach the network. A failed request raises a dynamic error, so wrap the call in <code>xsl:try</code> when the endpoint may be unavailable. Example: <code>ldh:query-result(sd:endpoint(), 'DESCRIBE &lt;' || @rdf:about || '&gt;')</code></td>
                     </tr>
                     <tr>
-                        <td><code>ldh:link-targets($link-header as xs:string?, $marker as xs:string)</code></td>
+                        <td><code>ldh:send-request(<br></br>  $href as xs:anyURI,<br></br>  $method as xs:string,<br></br>  $media-type as xs:string?,<br></br>  $body as item()?,<br></br>  $headers as map(xs:string, xs:string*)<br></br>)</code></td>
+                        <td><code>document-node()?</code></td>
+                        <td>Server</td>
+                        <td>Sends an HTTP request with any <code>$method</code> and parses the response body as XML; returns an empty sequence when the response has no body. A body is sent only when both <code>$media-type</code> and <code>$body</code> are given, and <code>$body</code> is sent as its string value, so serialize a node before passing it. <code>$headers</code> maps a header name to its value, of which only the first is sent; pass <code>map{}</code> for none. A response status outside 2xx, a timeout or an unparseable body raises a dynamic error that <code>xsl:try</code> can catch. Server-side only: it is the <code>SendHTTPRequest</code> Java extension function and has no browser declaration, so calling it from a stylesheet that also runs in the browser fails to compile. Guard such a call with <code>use-when="system-property('xsl:product-name') = 'SAXON'"</code>; for a SPARQL query, call <code>ldh:query-result()</code> instead, which works on both sides. In the browser, <code>ixsl:http-request()</code> is the asynchronous counterpart. Example: <code>ldh:send-request($href, 'GET', (), (), map{ 'Accept': 'application/rdf+xml' })</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>ldh:link-targets($link-headers as xs:string*, $marker as xs:string)</code></td>
                         <td><code>xs:anyURI*</code></td>
-                        <td>Extracts the target URIs of the <code>Link</code> response header entries whose parameters contain <code>$marker</code> (e.g. a <code>rel</code> value) — the parser behind <code>acl:mode()</code>, <code>sd:endpoint()</code> and <code>ldh:timemap()</code> (client-side)</td>
-                    </tr>
-                    <tr>
-                        <td><code>ldh:parse-html($string as xs:string, $mime-type as xs:string)</code></td>
-                        <td><code>document-node()</code></td>
-                        <td>Parses a markup string into a document</td>
+                        <td>Both</td>
+                        <td>Extracts the target URIs of the <code>Link</code> response header entries, across all <code>Link</code> header values, whose parameters contain <code>$marker</code> (e.g. a <code>rel</code> value) — on the server, <code>acl:mode()</code> and <code>ldh:timemap()</code> read the response's <code>Link</code> header through it; in the browser, it reads each response's <code>Link</code> header into the values that <code>acl:mode()</code>, <code>sd:endpoint()</code> and <code>ldh:timemap()</code> return</td>
                     </tr>
                     <tr>
                         <td><code>ldh:reserialize($doc as document-node())</code></td>
                         <td><code>document-node()</code></td>
+                        <td>Both</td>
                         <td>Round-trips a document through serialization, normalizing it</td>
                     </tr>
                 </tbody>
@@ -553,6 +583,7 @@
                     <tr>
                         <th scope="col">Function</th>
                         <th scope="col">Returns</th>
+                        <th scope="col">Runs on</th>
                         <th scope="col">Description</th>
                     </tr>
                 </thead>
@@ -560,16 +591,19 @@
                     <tr>
                         <td><code>sd:endpoint()</code></td>
                         <td><code>xs:anyURI</code></td>
+                        <td>Both</td>
                         <td>SPARQL endpoint of the current data pane — the local endpoint, or the remote dataspace's when browsing another dataspace through the <a href="../http-api/#ld-proxy">proxy</a>. Replaces the former <code>$sd:endpoint</code> parameter</td>
                     </tr>
                     <tr>
                         <td><code>lds:dataspace()</code></td>
                         <td><code>xs:anyURI?</code></td>
+                        <td>Browser</td>
                         <td>URI of the dataspace resource describing the current dataspace. Replaces the former <code>$lds:Dataspace</code> parameter (its description is looked up in <code>$lds:Context</code>)</td>
                     </tr>
                     <tr>
                         <td><code>acl:mode()</code></td>
                         <td><code>xs:anyURI*</code></td>
+                        <td>Both</td>
                         <td>Access modes granted on the current document, read from the response's <code>Link</code> headers. Replaces the former <code>$acl:mode</code> parameter</td>
                     </tr>
                 </tbody>
@@ -581,6 +615,7 @@
                     <tr>
                         <th scope="col">Function</th>
                         <th scope="col">Returns</th>
+                        <th scope="col">Runs on</th>
                         <th scope="col">Description</th>
                     </tr>
                 </thead>
@@ -588,17 +623,14 @@
                     <tr>
                         <td><code>ldh:memento-datetime()</code></td>
                         <td><code>xs:string?</code></td>
+                        <td>Both</td>
                         <td>The <code>Memento-Datetime</code> of the currently viewed <a href="../versioning/#snapshots">historical version</a>, absent on the live document</td>
                     </tr>
                     <tr>
                         <td><code>ldh:timemap()</code></td>
                         <td><code>xs:anyURI?</code></td>
+                        <td>Both</td>
                         <td>The document's <a href="../versioning/#timemap">TimeMap</a> URI from the <code>Link</code> response header; absent when the document is not versioned</td>
-                    </tr>
-                    <tr>
-                        <td><code>ldh:snapshot-params($query-params as map(xs:string, xs:string*))</code></td>
-                        <td><code>map(xs:string, xs:string*)</code></td>
-                        <td>Filters a query parameter map down to the snapshot parameters (<code>version</code>, <code>timemap</code>), so they survive URL rebuilds</td>
                     </tr>
                 </tbody>
             </table>
@@ -609,6 +641,7 @@
                     <tr>
                         <th scope="col">Function</th>
                         <th scope="col">Returns</th>
+                        <th scope="col">Runs on</th>
                         <th scope="col">Description</th>
                     </tr>
                 </thead>
@@ -616,22 +649,14 @@
                     <tr>
                         <td><code>ac:uuid()</code></td>
                         <td><code>xs:string</code></td>
+                        <td>Both</td>
                         <td>Generates a random UUID</td>
                     </tr>
                     <tr>
                         <td><code>ldh:hash-code($string as xs:string)</code></td>
                         <td><code>xs:integer</code></td>
-                        <td>Deterministic 32-bit djb2 hash of a string's codepoints — the counterpart to <code>ac:uuid()</code> for identifiers that must survive a reload because they are re-derived rather than stored (client-side)</td>
-                    </tr>
-                    <tr>
-                        <td><code>ac:value-intersect($arg1 as xs:anyAtomicType*, $arg2 as xs:anyAtomicType*)</code></td>
-                        <td><code>xs:anyAtomicType*</code></td>
-                        <td>Distinct values present in both sequences</td>
-                    </tr>
-                    <tr>
-                        <td><code>ac:value-except($arg1 as xs:anyAtomicType*, $arg2 as xs:anyAtomicType*)</code></td>
-                        <td><code>xs:anyAtomicType*</code></td>
-                        <td>Distinct values of <code>$arg1</code> that are not present in <code>$arg2</code></td>
+                        <td>Browser</td>
+                        <td>Deterministic 32-bit djb2 hash of a string's codepoints — the counterpart to <code>ac:uuid()</code> for identifiers that must survive a reload because they are re-derived rather than stored</td>
                     </tr>
                 </tbody>
             </table>

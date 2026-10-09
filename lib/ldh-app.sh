@@ -52,9 +52,9 @@ ldh_app_import_ns() {
 
     printf "Clearing ontology from memory: %sns#\n" "$LDH_BASE"
     ldh admin clear ontology \
-        -b "$admin_base" \
         --proxy "$admin_proxy" \
-        --ontology "${LDH_BASE}ns#"
+        --ontology "${LDH_BASE}ns#" \
+        "$admin_base"
 }
 
 # Runs one ldh import csv per row of the manifest $2 — query_filename,csv_filename,target,title, paths

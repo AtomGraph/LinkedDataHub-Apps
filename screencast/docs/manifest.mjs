@@ -669,12 +669,12 @@ export const SHOTS = [
     // Actions ▸ Save as: Source is the remote document, Graph the local one it lands in.
     // The source is the concept the page itself names, fetched through the Linked Data
     // proxy from the public UNESCO Thesaurus dataspace; the target is this run's scratch
-    // document, so nothing is forked into the demo data.
+    // document, so nothing is copied into the demo data.
     doc: 'user-guide/add-data', n: 1, line: 31, kind: 'clip', writes: true,
-    caption: 'forking a remote RDF document into the dataspace',
+    caption: 'copying a remote RDF document into the dataspace',
     at: '/',
     async act({ page, cursor, type, marks, scratch, sleep }) {
-      const url = await scratch.document('fork', 'Forking a remote document');
+      const url = await scratch.document('copy', 'Copying a remote document');
       await page.goto(url, { waitUntil: 'load' });
       await page.waitForTimeout(5000);
       await marks.beat('open');
@@ -707,12 +707,12 @@ export const SHOTS = [
       await cursor.click(modal.locator('button').filter({ hasText: /Save/ }).last());
       await page.waitForTimeout(9000);
       // The copy lands in the graph behind the page, which does not re-render on its
-      // own; the clip ends on the forked document as the reader would next see it.
+      // own; the clip ends on the copy as the reader would next see it.
       await page.goto(url, { waitUntil: 'load' });
       await page.waitForTimeout(6000);
-      await marks.beat('forked');
+      await marks.beat('copied');
     },
-    // The fork succeeded when the local document describes what the remote one did.
+    // The copy succeeded when the local document describes what the remote one did.
     want: async (page) => {
       const text = await page.locator('.ldh-pane.is-active').innerText().catch(() => '');
       return /beverage|boisson|concept|skos/i.test(text);

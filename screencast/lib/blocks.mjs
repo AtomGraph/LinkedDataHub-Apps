@@ -111,7 +111,7 @@ export async function pickByLabel(page, cursor, type, input, label, { kind = nul
 
 // Prose. The editor autosaves when focus leaves it, so the beat is: open, type,
 // look away — no Save to hunt for.
-export async function addProse(page, cursor, type, text, { settle = 1800, heading = false } = {}) {
+export async function addProse(page, cursor, type, text, { settle = 1800, heading = false, onOpen = null } = {}) {
   const btn = addButton(page, 'XHTML');
   if (!(await btn.count())) return { ok: false, why: 'no + XHTML button — is the document in ContentMode?' };
 
@@ -125,6 +125,8 @@ export async function addProse(page, cursor, type, text, { settle = 1800, headin
     opened = await editable.waitFor({ state: 'visible', timeout: 8000 }).then(() => true, () => false);
   }
   if (!opened) return { ok: false, why: 'editor did not open after three presses' };
+  // A scene may mark the opened editor here, so a cut can frame it before the typing.
+  if (onOpen) await onOpen(editable);
 
   await cursor.click(editable);
   await sleep(300);

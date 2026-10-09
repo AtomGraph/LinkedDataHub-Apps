@@ -95,16 +95,12 @@ ldh --help</pre>
                     <td>Password of the keystore, or passphrase of an encrypted PEM key. Not needed when the PEM key is unencrypted</td>
                 </tr>
                 <tr>
-                    <th scope="row"><samp>-b</samp>, <samp>--base</samp></th>
-                    <td>Base URI of the dataspace</td>
-                </tr>
-                <tr>
                     <th scope="row"><samp>--proxy</samp></th>
                     <td>The host the request is proxied through (optional). Use it with port 5443, on which client certificate authentication is always enabled — for example <samp>--proxy https://localhost:5443/</samp>.</td>
                 </tr>
             </tbody>
         </table>
-        <p>Other parameters are command-specific. Most commands take the URI of the document they act on as a default (positional) parameter.</p>
+        <p>Other parameters are command-specific. Most commands take the URI of the document they act on as a default (positional) parameter. The commands that act on the dataspace as a whole rather than on one of its documents — <samp>packages</samp>, <samp>admin clear ontology</samp>, <samp>admin create ontology</samp>, <samp>admin create group</samp>, <samp>admin create authorization</samp>, <samp>admin import ontology</samp> and <samp>admin make-public</samp> — take its base URI in that position instead.</p>
         <h3 id="environment-variables">Environment variables</h3>
         <p>The repeated parameters can be set once in the environment instead of being passed to every command:</p>
         <table>
@@ -126,7 +122,7 @@ ldh --help</pre>
                 </tr>
                 <tr>
                     <td><samp>LDH_BASE</samp></td>
-                    <td><code>-b</code>, <code>--base</code></td>
+                    <td><code>BASE_URI</code>, the default parameter of the commands that act on the dataspace</td>
                 </tr>
                 <tr>
                     <td><samp>LDH_PROXY</samp></td>
@@ -152,14 +148,13 @@ ldh create container --parent "$LDH_BASE" --title "Categories" --slug categories
         <p>A usage message with the parameters of a command is printed when the command is run without required arguments, or with <code>--help</code>. Commands take named parameters and default (positional) parameters; either kind can be optional. For example:</p>
         <pre>$ ldh add select
 Missing required options and parameters: '--title=TITLE', '--query-file=ABS_PATH', 'TARGET_URI'
-Usage: ldh add select [-h] [--verbose] [-b=BASE_URI] [-c=CERT_FILE]
+Usage: ldh add select [-h] [--verbose] [-c=CERT_FILE]
                       [--description=DESCRIPTION] [-p=PASSWORD]
                       [--proxy=PROXY_URL] --query-file=ABS_PATH
                       [--service=SERVICE_URI] --title=TITLE [--uri=URI]
                       TARGET_URI
 Adds a SELECT query to a document.
       TARGET_URI          URI of the document
-  -b, --base=BASE_URI     Base URI of the application (env: LDH_BASE)
   -c, --cert=CERT_FILE    PKCS12 keystore or PEM with the WebID certificate and
                             private key of the agent (env: LDH_CERT_FILE)
       --description=DESCRIPTION

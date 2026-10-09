@@ -165,7 +165,7 @@ ldh packages remove --package https://packages.linkeddatahub.com/editor/taxonomy
 
 `packages list` prints one tab-separated line per package — state, URI, title. The registry defaults
 to `https://packages.linkeddatahub.com/`; `--registry` overrides it. It is read through the
-dataspace's Linked Data proxy rather than fetched directly, so `list` needs `--base` as much as
+dataspace's Linked Data proxy rather than fetched directly, so `list` needs the dataspace URI as much as
 the other two do.
 
 The dataspace settings modal offers the same thing as a checkbox per package, saved with the rest

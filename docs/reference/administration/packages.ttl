@@ -265,10 +265,13 @@ ldh packages add --package https://packages.linkeddatahub.com/editor/taxonomy/#t
 ldh packages remove --package https://packages.linkeddatahub.com/editor/taxonomy/#this</pre>
         <p><samp>packages list</samp> prints one tab-separated line per package — state, URI, title — so the listing greps and cuts. The registry
             defaults to <samp>https://packages.linkeddatahub.com/</samp> and <samp>--registry</samp> overrides it; it is read through the
-            dataspace's Linked Data proxy rather than fetched directly, so <samp>list</samp> needs <samp>--base</samp> as much as the other two do.</p>
+            dataspace's Linked Data proxy rather than fetched directly, so <samp>list</samp> needs the dataspace URI as much as the other two do.</p>
         <p>All three go through <code>PATCH</code> on the <samp>settings</samp> document, which is the live path: the change takes effect on the
-            next request with no restart, but lives in the running dataspace's context dataset. Declaring the same <code>ldh:import</code> triple
-            in <samp>config/dataspaces.trig</samp> is the permanent one, applied on restart. <samp>packages remove</samp> is idempotent.</p>
+            next request with no restart. The platform records it in <samp>settings/dataspaces.ru</samp> as a change to the configuration, the
+            statements it removed and the ones it added, and applies that change over <samp>config/dataspaces.trig</samp> and
+            <samp>config/system.trig</samp> on every restart. A package removed at runtime therefore stays removed, and a later edit to the
+            configuration files still takes effect. Declaring the same <code>ldh:import</code> triple in <samp>config/dataspaces.trig</samp>
+            is the alternative that lives with the rest of the configuration. <samp>packages remove</samp> is idempotent.</p>
     </div>
     <p class="ldh-body-lg">To install and manage packages step by step, follow the <a href="../../../user-guide/manage-packages/">Manage packages</a> guide.</p>
 </div>"""^^rdf:XMLLiteral .

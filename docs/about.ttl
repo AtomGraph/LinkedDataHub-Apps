@@ -41,7 +41,7 @@
             <li><a href="../user-guide/create-data/create-content/" target="_blank">creating structured content</a> from Linked Data and SPARQL resources</li>
             <li><a href="../user-guide/create-data/create-documents/" target="_blank">creating RDF documents (graphs)</a></li>
             <li><a href="../user-guide/browse-data/" target="_blank">browsing Linked Data</a></li>
-            <li><a href="../user-guide/add-data/" target="_blank">forking RDF resources</a> to the local dataspace</li>
+            <li><a href="../user-guide/add-data/" target="_blank">copying RDF resources</a> into the local dataspace</li>
             <li><a href="../user-guide/browse-data/#text-search" target="_blank">searching</a> and <a href="../user-guide/query-data/" target="_blank">querying</a> SPARQL endpoints</li>
             <li><a href="../reference/data-model/resources/#views" target="_blank">creating collections from SPARQL queries</a></li>
             <li><a href="../user-guide/edit-content/" target="_blank">editing content</a> in place, with RDFa annotations linking text to resources</li>

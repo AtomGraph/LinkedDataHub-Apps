@@ -58,8 +58,8 @@ schema:Order a owl:Class ;
     "${admin_base}ontologies/namespace/"</pre>
         <p>The ontology is cached in memory, so tell the dataspace to reload it:</p>
         <pre>ldh admin clear ontology \\
-    -b "$admin_base" \\
-    --ontology "${LDH_BASE}ns#"</pre>
+    --ontology "${LDH_BASE}ns#" \\
+    "$admin_base"</pre>
         </div>
     </div>
     <div>
