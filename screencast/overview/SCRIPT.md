@@ -43,16 +43,18 @@ chapter titles are burned in.
 |---|---|---|
 | B1 | A SELECT typed into a new query document and saved; its results render | Queries, views and charts are resources like any other, stored in documents and placed on pages as blocks. This query counts the sales reps per region, with its results below. |
 | B2 | A chart bound to the query from its action bar; the bars draw | A chart is bound to a query by choosing the chart type, the category and the series. Here, a bar chart of the reps per region. |
-| B3 | Content mode on the document; a sentence written in a prose block | Content mode renders a list of blocks: XHTML, and objects transcluded from other resources. Text is edited in place, like this sentence about the Eastern region. |
+| B3a | The document back in Properties mode: the chart above the query it was made from; the pointer to the mode menu | Properties mode shows all of the document's resources, in no particular order: here, the chart and the query we just made. |
+| B3 | Content mode on the document; a sentence written in a prose block | Content mode renders a list of blocks: XHTML blocks, and object blocks that transclude Linked Data resources. Text is edited in place, like this sentence about the Eastern region. |
 | B4 | A word selected; the annotation dialog; the word linked to a resource | Select a word and annotate it with RDFa to link it to a resource. Here, the word chart is linked to the chart we just made. |
-| B5 | The chart embedded as an object block; the block dragged above the prose | An object block embeds any resource by its URI: a query, a chart, a view, or Linked Data from elsewhere. Here it embeds the chart, and dragging reorders the page. |
+| B5 | + Object; the chart's URI as the value; the chart embedded in the page | An object block embeds any resource by its URI: a query, a chart, a view, or Linked Data from elsewhere. Here it embeds the chart. |
+| B5d | The chart's block dragged by its handle above the sentence | Dragging a block by its handle moves it to a new place: the chart now comes before the sentence. |
 | B5b | + Object; a YouTube link typed as the value; Save; the video card | A video link embeds the same way: its metadata is read as RDF, and Tim Berners-Lee's TED talk plays on the page. |
 
 ### Flow C — Bringing data in (fork → CSV import → drop a file → drop RDF)
 
 | # | On screen | Narration |
 |---|---|---|
-| C1 | A remote RDF document opened through the proxy, then forked into the dataspace | Forking copies a Linked Data document into a named graph in your dataspace. Here, the Beverages concept from the UNESCO Thesaurus is copied into Northwind. |
+| C1 | A remote RDF document opened through the proxy, then copied into the dataspace with Save as | Linked Data documents can be copied into your own dataspace. Here, the Beverages concept from the UNESCO Thesaurus is copied into a Northwind document. |
 | C2 | The CSV import form: file, mapping query; the imported container | A CSV import maps each row to RDF with a SPARQL CONSTRUCT query. Here, the products file, and the query that maps a row to a product. |
 | C3 | A photo dropped on a document; then a Turtle file dropped on another | Drop a file on a document to upload it, like this employee photo. Drop an RDF file, and its triples are added to the document's graph. |
 
@@ -60,7 +62,7 @@ chapter titles are burned in.
 
 | # | On screen | Narration |
 |---|---|---|
-| D1 | The History dialog on a document that has been edited twice | With versioning enabled, every write becomes a version, with its datetime and the agent who made it. The Rockville territory has been edited several times. |
+| D1 | The History dialog on a document that has been edited twice | With versioning enabled, every write to a document is a commit in a GitHub repository, with its datetime and the agent who made it. Here, the Rockville territory. |
 | D2 | A version diff; then a restore; the page re-reads | Select two versions to see the diff: the description changed. Restore writes an old version back as a new one, and the versions in between stay. |
 
 ## Chapter 2 — Low-code platform
@@ -75,7 +77,7 @@ chapter titles are burned in.
 | E3b | The new record opened; the pencil; a description typed; Save; the page re-reads | To edit a resource, open its form with the pencil button. Here, a description is added to the new product. |
 | E3c | The record's form again; Edit constructors; the Product constructor dialog, its properties and their types; Cancel | Edit constructors opens the Product constructor: the properties every new product starts with, each a typed literal or a resource of some class. Change it, and the forms change too. |
 | E4 | The page switches dark to light and back | The interface follows the reader's light or dark colour scheme, and switches with it, without a reload. |
-| E4p | The same page at phone width, scrolled | The layout is responsive: on a phone the same page reflows to a single column. A dataspace can also override any part of it with its own XSLT stylesheet. |
+| E4p | The same page at phone width, scrolled | The layout is responsive: on a phone the same page reflows to a single column. A dataspace can also customize any part of its UI by overriding the default templates in a custom XSLT stylesheet. |
 
 ### Flow F — The CLI and access (push → live → make-public → private window)
 

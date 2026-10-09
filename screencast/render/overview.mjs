@@ -173,7 +173,7 @@ async function cutCard(entry, i) {
   return { id, kind: 'card', file: out, len, line: null };
 }
 
-async function cutShot(shot) {
+async function cutShot(shot, prev) {
   const kept = path.join(TMP, `${shot.id}.mp4`);
   if (reuse && !reuse.has(shot.id) && await fs.access(kept).then(() => true, () => false)) {
     const len = await duration(kept);
@@ -184,9 +184,13 @@ async function cutShot(shot) {
   if (!(await fs.access(src).then(() => true, () => false))) src = path.join(TRACKS, `${shot.track}.mp4`);
   const bFrom = await beat(shot.track, shot.from), bTo = await beat(shot.track, shot.to);
   const same = shot.from === shot.to;
+  // A shot that picks the take up where the one before it put it down (same track, starting
+  // on the beat that one ended on) starts on that one's last frame: it has no gesture of its
+  // own to lead into, and a lead would replay the frames the previous shot already showed.
+  const continues = prev && prev.track === shot.track && prev.to === shot.from;
   // `fromOffset` / `toOffset` shift a shot's ends in seconds, for a beat marked after the
   // gesture it names (a form marked once open; the shot starts a moment before).
-  const from = Math.max(0, bFrom.at - (same ? 0 : cfg.leadSeconds) + (shot.fromOffset ?? 0));
+  const from = Math.max(0, bFrom.at - (same ? 0 : continues ? cfg.trailSeconds : cfg.leadSeconds) + (shot.fromOffset ?? 0));
   const to = same ? from : bTo.at - cfg.trailSeconds + (shot.toOffset ?? 0);
   const speed = shot.speed ?? 1;
   const gesture = (to - from) / speed;
@@ -226,7 +230,14 @@ async function cutShot(shot) {
     };
     const box = shot.focus === false ? null : (shot.focus ?? bTo.focus ?? bFrom.focus ?? null);
     const B = key(Math.max(0.01, gesture), box);
-    const keys = [shot.move === 'static' ? { ...B, t: 0 } : key(0, null)];
+    // a continuing shot opens on the framing the previous one closed on, so the camera carries
+    // through the join instead of snapping back to the whole frame
+    let start = key(0, null);
+    if (continues) {
+      const prevBox = prev.focus === false ? null : (prev.focus ?? bFrom.focus ?? (await beat(prev.track, prev.from)).focus ?? null);
+      start = key(0, prevBox, { maxZoom: prev.maxZoom ?? cfg.maxZoom, minZoom: prev.minZoom ?? cfg.minZoom, pad: prev.pad ?? 0.12 });
+    }
+    const keys = [shot.move === 'static' ? { ...B, t: 0 } : start];
     if (Array.isArray(shot.via)) {
       for (const name of shot.via) {
         const b = await beat(shot.track, name).catch(() => null);
@@ -264,7 +275,8 @@ const clips = [];
 for (const [i, entry] of cfg.shots.entries()) {
   if (entry.card) { if (!only) clips.push(await cutCard(entry, i)); continue; }
   if (only && !only.has(entry.id)) continue;
-  clips.push(await cutShot(entry));
+  const prev = cfg.shots[i - 1];
+  clips.push(await cutShot(entry, prev && !prev.card ? prev : null));
 }
 if (browser) await browser.close();
 

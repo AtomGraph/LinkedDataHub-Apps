@@ -10,7 +10,7 @@
 // scratch document is reset off camera. The waits for the model (10-30 s for each plan) are cut:
 // H1-asked and H3-asked mark where each begins, H1-running and H3-plan where it ends.
 import { runScene, resolve, geometryFrom, sleep, until } from '../lib/harness.mjs';
-import { resetDocument } from '../lib/fixture.mjs';
+import { resetDocument, removeAll } from '../lib/fixture.mjs';
 import { ui } from '../lib/dom.mjs';
 import { GEOMETRY_2X, zoom2x, focus, centre, load, easeScrollTo } from '../lib/supercut.mjs';
 
@@ -124,3 +124,8 @@ await runScene({
     await marks.beat('end');
   },
 });
+
+// The scratch document goes once the take is recorded, so the other takes' document tree shows
+// the demo's own documents only.
+await removeAll({ ...opts, urls: [doc.url] });
+console.log(`  removed: ${doc.url}`);

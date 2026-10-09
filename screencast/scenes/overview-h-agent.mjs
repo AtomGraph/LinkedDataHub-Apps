@@ -102,3 +102,9 @@ await runScene({
     await marks.beat('end');
   },
 });
+
+// The books documents go once the takes are recorded, so the other takes' document tree shows
+// the demo's own documents only.
+const left = (await underBooks()).sort((a, b) => b.length - a.length);
+await removeAll({ ...opts, urls: left });
+console.log(`  removed: ${left.length} books documents`);

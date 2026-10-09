@@ -18,7 +18,7 @@ import { chromium } from 'playwright';
 import { resolve, TRACKS, sleep } from '../lib/harness.mjs';
 
 const ID = 'overview-e-phone';
-const FPS = 25, SECONDS = 11, SCROLL = 900;
+const FPS = 25, SECONDS = 18, SCROLL = 900;
 const opts = await resolve('/territories/');
 const { target, identity } = opts;
 const frames = path.join(TRACKS, `.${ID}`);
@@ -40,7 +40,8 @@ await sleep(4000);
 // run reads as a glide whatever a screenshot costs.
 const ease = (u) => (u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2);
 const n = FPS * SECONDS;
-const holdIn = FPS * 1.5, glide = FPS * 7;
+// a slow glide: the line over it runs about seventeen seconds
+const holdIn = FPS * 1.5, glide = FPS * 15;
 const beats = [{ beat: 'E4-phone-start', at: 0, note: 'the territories page at phone width' }];
 for (let i = 0; i < n; i++) {
   const u = Math.min(1, Math.max(0, (i - holdIn) / glide));
