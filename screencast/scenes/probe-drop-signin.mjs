@@ -22,7 +22,7 @@ const { url } = await resetDocument({ ...opts, container: `${base}/`, slug, titl
 
 const ttl = `@prefix schema: <https://schema.org/> .
 @prefix dct: <http://purl.org/dc/terms/> .
-<#this> a schema:Place ; dct:title "Rockville" ; schema:name "Rockville" ; schema:description "A territory dropped in as Turtle." .
+<#this> a schema:Place ; schema:name "Rockville" ; schema:description "A territory dropped in as Turtle." .
 `;
 
 await runScene({

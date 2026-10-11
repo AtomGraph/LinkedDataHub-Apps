@@ -126,7 +126,7 @@ await runScene({
 
     await load(page, read(turtle.url), '.ldh-pane.is-active .ldh-block, .ldh-pane.is-active button', 2500);
     await marks.beat('C3-turtle-start', 'an empty document for a Turtle file');
-    const ttl = `@prefix schema: <https://schema.org/> .\n@prefix dct: <http://purl.org/dc/terms/> .\n<#this> a schema:City ; dct:title "Rockville" ; schema:name "Rockville" ; schema:description "A territory dropped in as Turtle." .\n`;
+    const ttl = `@prefix schema: <https://schema.org/> .\n<#this> a schema:City ; schema:name "Rockville" ; schema:description "A territory dropped in as Turtle." .\n`;
     const rdf = await transferOf(page, { name: 'rockville.ttl', mime: 'text/turtle', bytes: Buffer.from(ttl) });
     await drop(page, cursor, marks, 'C3-turtle', rdf, 'the Turtle file');
     await until(page.waitForFunction(() => /Rockville/.test(document.querySelector('.ldh-pane.is-active')?.innerText ?? ''), null, { timeout: 30_000 }), 'the dropped data on the page');

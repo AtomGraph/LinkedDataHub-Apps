@@ -45,7 +45,7 @@ const doc = (description) => `@prefix dh: <https://w3id.org/atomgraph/linkeddata
 @prefix schema: <https://schema.org/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 <${url}> a dh:Item ; dct:title "Rockville" ; sioc:has_container <${root}> ; foaf:primaryTopic <${url}#this> .
-<${url}#this> a schema:City ; schema:name "Rockville" ; dct:title "Rockville" ; schema:description ${JSON.stringify(description)} .
+<${url}#this> a schema:City ; schema:name "Rockville" ; schema:description ${JSON.stringify(description)} .
 `;
 for (const d of DESCRIPTIONS) {
   const put = await run(['put', '-t', 'text/turtle', url, ...auth], doc(d));
