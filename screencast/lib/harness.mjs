@@ -241,15 +241,19 @@ export async function runScene({
   const video = page.video();
   await context.close(); // video is only written here — there is no way to stop it early
 
+  // A failed run is kept beside the take, never over it: tracks/ is not in git, so a take
+  // replaced by a few seconds of a run that failed is gone for good.
+  const savedName = failure ? `${trackName}.failed` : trackName;
+
   // saveAs needs the browser alive, so it has to happen between the two closes.
   let trackPath = null;
   if (video) {
-    trackPath = path.join(TRACKS, `${trackName}.webm`);
+    trackPath = path.join(TRACKS, `${savedName}.webm`);
     await video.saveAs(trackPath);
     await video.delete();
   }
   await browser.close();
-  const marksPath = await marks.save(TRACKS, trackName);
+  const marksPath = await marks.save(TRACKS, savedName);
 
   console.log(`\n  track  ${trackPath}`);
   console.log(`  marks  ${marksPath}`);
