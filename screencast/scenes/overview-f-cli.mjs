@@ -17,7 +17,7 @@ import path from 'node:path';
 import { runScene, resolve, geometryFrom, sleep, until, TRACKS, ROOT } from '../lib/harness.mjs';
 import { record } from '../lib/terminal.mjs';
 import { ui } from '../lib/dom.mjs';
-import { GEOMETRY_2X, zoom2x, focus, load } from '../lib/supercut.mjs';
+import { GEOMETRY_2X, zoom2x, focus, load, easeScrollTo } from '../lib/supercut.mjs';
 import { scrollThrough } from '../lib/frame.mjs';
 
 const opts = await resolve('/');
@@ -94,8 +94,13 @@ await runScene({
     await load(page, root, '.ldh-pane.is-active .ldh-block', 3000);
     await cursor.moveTo(2600, 1500, { duration: 500 });
     await marks.beat('F2-start', 'the pushed dataspace: its home page');
-    await scrollThrough(page, { duration: 5000, settle: 800 });
-    await marks.beat('F2-end', 'scrolled through the home page', await focus(ui(page).locator('.ldh-block').first()));
+    // The page scrolls inside its pane, not the document, so the glide is to the last block, at the
+    // pace of the line over it (about nine seconds)
+    const blocks = ui(page).locator('.ldh-block');
+    await sleep(1200);
+    await easeScrollTo(blocks.last(), { ms: 8000, block: 'end' });
+    await sleep(800);
+    await marks.beat('F2-end', 'scrolled through the home page', await focus(blocks.last()));
     await sleep(800);
 
     // ── F3 · make-public, in the terminal ──────────────────────────────────────

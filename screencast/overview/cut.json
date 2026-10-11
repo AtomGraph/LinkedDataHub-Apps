@@ -198,7 +198,9 @@
       "via": [
         "B3-content",
         "B3-editor"
-      ]
+      ],
+      "toOffset": 1.5,
+      "speed": 0.75
     },
     {
       "id": "B4",
@@ -234,7 +236,8 @@
       "via": [
         "B5-dropped"
       ],
-      "minZoom": 1.0
+      "minZoom": 1.0,
+      "toOffset": 2.0
     },
     {
       "id": "B5b",
@@ -287,31 +290,6 @@
       "speed": 1.3
     },
     {
-      "id": "D1",
-      "line": "D1",
-      "track": "overview-d-versions",
-      "from": "D1-start",
-      "to": "D1-end",
-      "move": "zoom",
-      "minZoom": 1.0
-    },
-    {
-      "id": "D2",
-      "line": "D2",
-      "track": "overview-d-versions",
-      "from": "D2-start",
-      "to": "D2-end",
-      "move": "zoom",
-      "via": [
-        "D2-picked",
-        "D2-diff",
-        "D2-current",
-        "D2-restore"
-      ],
-      "speed": 1.5,
-      "minZoom": 1.0
-    },
-    {
       "card": "Low-code platform",
       "eyebrow": "Chapter 2"
     },
@@ -321,7 +299,8 @@
       "track": "overview-e-model",
       "from": "E1-start",
       "to": "E1-end",
-      "move": "zoom"
+      "move": "zoom",
+      "fromOffset": -6.0
     },
     {
       "id": "E2",
@@ -369,6 +348,31 @@
       "via": [
         "E3c-dialog"
       ],
+      "minZoom": 1.0
+    },
+    {
+      "id": "D1",
+      "line": "D1",
+      "track": "overview-d-versions",
+      "from": "D1-start",
+      "to": "D1-end",
+      "move": "zoom",
+      "minZoom": 1.0
+    },
+    {
+      "id": "D2",
+      "line": "D2",
+      "track": "overview-d-versions",
+      "from": "D2-start",
+      "to": "D2-end",
+      "move": "zoom",
+      "via": [
+        "D2-picked",
+        "D2-diff",
+        "D2-current",
+        "D2-restore"
+      ],
+      "speed": 1.5,
       "minZoom": 1.0
     },
     {

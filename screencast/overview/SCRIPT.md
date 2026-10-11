@@ -22,7 +22,7 @@ chapter titles are burned in.
 | # | On screen | Narration |
 |---|---|---|
 | 0.1 | Graph mode on an order, maximised, the camera orbiting while the layout settles | LinkedDataHub is an open-source Knowledge Graph application platform. It serves federated Linked Data dataspaces from a SPARQL-compliant triplestore, and works with any RDF Knowledge Graph out of the box. |
-| 0.2 | The orbit continues, closing in | It works as a thin proxy layer on top of the triplestore, providing the user interface, authentication, authorization, and the other enterprise-grade features this video shows. |
+| 0.2 | The orbit continues, closing in | It works as a thin proxy layer on top of the triplestore, providing the user interface, authentication, authorization, versioning, and the other enterprise-grade features this video shows. |
 
 ## Chapter 1 — Knowledge management
 
@@ -44,7 +44,7 @@ chapter titles are burned in.
 | B1 | A SELECT typed into a new query document and saved; its results render | Queries, views and charts are resources like any other, stored in documents and placed on pages as blocks. This query counts the sales reps per region, with its results below. |
 | B2 | A chart bound to the query from its action bar; the bars draw | A chart is bound to a query by choosing the chart type, the category and the series. Here, a bar chart of the reps per region. |
 | B3a | The document back in Properties mode: the chart above the query it was made from; the pointer to the mode menu | Properties mode shows all of the document's resources, in no particular order: here, the chart and the query we just made. |
-| B3 | Content mode on the document; a sentence written in a prose block | Content mode renders a list of blocks: XHTML blocks, and object blocks that transclude Linked Data resources. Text is edited in place, like this sentence about the Eastern region. |
+| B3 | Content mode on the document; a sentence written in a prose block | Content mode renders a list of blocks: XHTML text, and objects transcluded from Linked Data resources, such as views, charts or assistant conversations. Text is edited in place, like this sentence about the Eastern region. |
 | B4 | A word selected; the annotation dialog; the word linked to a resource | Select a word and annotate it with RDFa to link it to a resource. Here, the word chart is linked to the chart we just made. |
 | B5 | + Object; the chart's URI as the value; the chart embedded in the page | An object block embeds any resource by its URI: a query, a chart, a view, or Linked Data from elsewhere. Here it embeds the chart. |
 | B5d | The chart's block dragged by its handle above the sentence | Dragging a block by its handle moves it to a new place: the chart now comes before the sentence. |
@@ -58,16 +58,9 @@ chapter titles are burned in.
 | C2 | The CSV import form: file, mapping query; the imported container | A CSV import maps each row to RDF with a SPARQL CONSTRUCT query. Here, the products file, and the query that maps a row to a product. |
 | C3 | A photo dropped on a document; then a Turtle file dropped on another | Drop a file on a document to upload it, like this employee photo. Drop an RDF file, and its triples are added to the document's graph. |
 
-### Flow D — Versions (history → diff → restore)
-
-| # | On screen | Narration |
-|---|---|---|
-| D1 | The History dialog on a document that has been edited twice | With versioning enabled, every write to a document is a commit in a GitHub repository, with its datetime and the agent who made it. Here, the Rockville territory. |
-| D2 | A version diff; then a restore; the page re-reads | Select two versions to see the diff: the description changed. Restore writes an old version back as a new one, and the versions in between stay. |
-
 ## Chapter 2 — Low-code platform
 
-### Flow E — The model builds the interface (create → violation → save → view → scheme → width)
+### Flow E — The model builds the interface (create → violation → save → view → edit → constructor)
 
 | # | On screen | Narration |
 |---|---|---|
@@ -75,18 +68,30 @@ chapter titles are burned in.
 | E2 | A required field left empty; Save; the violation on the field | Every write is validated against the model's constraints. Leave the product's name empty, and the form shows the violation on that field. |
 | E3 | The field filled; Save; the same view picks up the record | With the name filled in, Save writes the product. Views are SPARQL queries, so Beverages now lists thirteen products instead of twelve. |
 | E3b | The new record opened; the pencil; a description typed; Save; the page re-reads | To edit a resource, open its form with the pencil button. Here, a description is added to the new product. |
-| E3c | The record's form again; Edit constructors; the Product constructor dialog, its properties and their types; Cancel | Edit constructors opens the Product constructor: the properties every new product starts with, each a typed literal or a resource of some class. Change it, and the forms change too. |
+| E3c | The record's form again; Edit constructors; the Product constructor dialog, its properties and their types; Cancel | Edit constructors opens the Product constructor: the properties every new product starts with, each a typed literal or a resource of some class. |
+
+### Flow D — Versions (history → diff → restore)
+
+| # | On screen | Narration |
+|---|---|---|
+| D1 | The History dialog on a document that has been edited twice | With versioning enabled, every write to a document is a commit in a GitHub repository, with its datetime and the agent who made it. Here, the Rockville territory. |
+| D2 | A version diff; then a restore; the page re-reads | Select two versions to see the diff: the description changed. Restore writes an old version back as a new one, and the versions in between stay. |
+
+### The interface (colour scheme → phone width)
+
+| # | On screen | Narration |
+|---|---|---|
 | E4 | The page switches dark to light and back | The interface follows the reader's light or dark colour scheme, and switches with it, without a reload. |
-| E4p | The same page at phone width, scrolled | The layout is responsive: on a phone the same page reflows to a single column. A dataspace can also customize any part of its UI by overriding the default templates in a custom XSLT stylesheet. |
+| E4p | The same page at phone width, scrolled | The layout is responsive: on a phone the same page reflows to a single column. A dataspace can also customize any part of its UI by overriding the default templates in a custom stylesheet. |
 
 ### Flow F — The CLI and access (push → live → make-public → private window)
 
 | # | On screen | Narration |
 |---|---|---|
-| F1 | Terminal: `ldh push` a folder of Turtle; the plan prints, the URLs stream | The ldh command line drives the same HTTP API as the user interface. Here, ldh push uploads the LinkedDataHub documentation, a folder of Turtle files. |
-| F2 | The browser: the pushed dataspace, rendered | And the documentation is live as a dataspace. Scripts and agents use the same HTTP API as the browser does. |
+| F1 | Terminal: `ldh push` a folder of Turtle; the plan prints, the URLs stream | The ldh command line drives the same HTTP API as the user interface. Here, ldh push uploads LinkedDataHub's own documentation, which is itself a dataspace. Recursively, each Turtle file becomes a document, and every other file an upload. |
+| F2 | The browser: the pushed dataspace, rendered | And the documentation is live. Scripts and agents use the same HTTP API as the browser does. |
 | F3 | Terminal: `ldh admin create group`, `ldh admin create authorization`, `ldh admin make-public`; then the page in a private window, signed out | Access control uses W3C ACL authorizations, which are RDF too. Here the CLI creates an Editors group, lets it write the user guide, and makes the dataspace public. |
-| F3b | Terminal: `ldh get --accept text/turtle` on the home page just made public; its Turtle on screen | Every document has both an HTML and an RDF representation. Ask the home page for Turtle, and you get Turtle. |
+| F3b | Terminal: `ldh get --accept text/turtle` on the home page just made public; its Turtle on screen | Every document has both an HTML and an RDF representation. Here, the home page is fetched as Turtle. |
 | F4 | The sign-in screen: WebID, Google, ORCID — **deferred**: the dev stack has no Google or ORCID configured and shows only Sign up; shot later on a stack that has them, as a standalone anonymous take | You can log in with a WebID certificate, or with Google or ORCID. |
 
 ### Flow H — Agents (ask → plan → execute → the chat stays → an agent over MCP)
@@ -106,12 +111,12 @@ web-algebra`, resolved to that build through `UV_FIND_LINKS` off camera.
 | # | On screen | Narration |
 |---|---|---|
 | H1 | A Northwind document; the create bar's Assistant button; "Chart the five customers who ordered the most" typed; the steps report as the plan runs | The assistant takes a question in plain words and writes a Web-Algebra plan. A plan that only reads runs right away, like this one about Northwind's best customers. |
-| H2 | The answer's sentence; the rows drawn as a bar chart; the trace unfolded, its three steps | The answer comes back in words, with the results drawn as a table, a grid or a chart. Here, five customers by number of orders. |
+| H2 | The answer's sentence; the rows drawn as a bar chart; the trace unfolded, its three steps | The assistant answers in a sentence and shows the results as a table, a grid or a chart. Here, the five customers with the most orders. |
 | H3 | A follow-up: "Add the chart to this page"; the plan card waits, AddSelect, AddResultSetChart and AddObjectBlock listed; Execute; the page catches up with the new chart block | A plan that writes waits until you press Execute. This one adds the chart to the page as a block. |
 | H4 | The page reloaded; the chat block with both turns, the composer under them | The conversation is a block in the document, stored as RDF, so it is still there after a reload. |
 | H5 | Terminal: `claude mcp add web-algebra …`, then `claude`, `/mcp` listing it as connected | Web-Algebra is a separate open-source project: composable operations for loading, querying and writing Linked Data. Its MCP server gives agents like Claude Code these operations as tools. |
 | H6 | Terminal: the prompt from the docs page, aimed at the Northwind dataspace; Claude Code's tool calls going by, then its summary | Ask for something to build rather than code. Here: a container for books, three books with authors, and a chart of books per author. |
-| H7 | The browser: the books container, the three items, the chart | The container, the books and the chart are there, and you can keep editing them by hand. The agent and you work on the same documents. |
+| H7 | The browser: the books container, the three items, the chart | The container, the books and the chart are there, and you can keep editing them by hand. |
 
 ## Chapter 3 — Packages
 
@@ -128,7 +133,7 @@ web-algebra`, resolved to that build through `UV_FIND_LINKS` off camera.
 
 | # | On screen | Narration |
 |---|---|---|
-| Z1 | The footage fades into the title card | Classes, forms, views, charts and access rules are all RDF resources. LinkedDataHub is open source, under the Apache 2.0 licence. |
+| Z1 | The footage fades into the title card | LinkedDataHub is open source, under the Apache 2.0 licence. |
 
 Forty lines: about 6 minutes of speech, 9½–10 minutes with the pauses and the gestures that
 run under no narration (the cut of 2026-10-05 is 9.7 minutes).

@@ -68,6 +68,8 @@ await runScene({
     const before = await count();
     await cursor.moveTo(...(await centre(cbtn)), { duration: 700 });
     await marks.beat('E1-start', `${before} products in Beverages; pointer on the view's Create`, await focus(view()));
+    // a beat on the view before Create: the line explains where the view comes from
+    await sleep(3500);
     await cursor.click(cbtn);
     if (!(await modal().waitFor({ state: 'visible', timeout: 10_000 }).then(() => true, () => false))) {
       console.log('  E1: the pointer click opened no form; clicking the control itself');
