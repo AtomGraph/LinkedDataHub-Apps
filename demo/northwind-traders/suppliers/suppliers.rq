@@ -14,7 +14,7 @@ CONSTRUCT
 
         ?supplier a schema:Corporation ;
             schema:identifier ?supplierID ;
-            dct:title ?companyName ;
+            schema:name ?companyName ;
             schema:legalName ?companyName ;
             schema:contactPoint ?contactPoint ;
             schema:employee ?employee .
@@ -28,7 +28,6 @@ CONSTRUCT
         ?employee a schema:Person ;
             foaf:page ?graph ;
             schema:name ?contactName ;
-            dct:title ?contactName ;
             schema:jobTitle ?contactTitle ;
             schema:telephone ?phone ;
             schema:faxNumber ?fax ;

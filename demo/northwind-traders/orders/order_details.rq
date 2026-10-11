@@ -32,7 +32,7 @@ CONSTRUCT
         # unit price below, the quantity above and the line total pin the rate exactly,
         # and unlike a stored rate they cannot disagree with each other.
         ?listPrice a schema:UnitPriceSpecification ;
-            dct:title "List price" ;
+            schema:name "List price" ;
             schema:priceType schema:ListPrice ;
             schema:price ?price ;
             schema:priceCurrency "USD" .

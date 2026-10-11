@@ -96,8 +96,7 @@ schema:Product spin:constructor :ProductConstructor ;
         PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
 
         CONSTRUCT {
-            $this dct:title [ a xsd:string ] ;
-                schema:name [ a xsd:string ] ;
+            $this schema:name [ a xsd:string ] ;
                 schema:identifier [ a xsd:string ] ;
                 schema:description [ a xsd:string ] ;
                 schema:category [ a schema:ProductGroup ] ;
@@ -119,8 +118,7 @@ schema:City spin:constructor :CityConstructor .
         PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
 
         CONSTRUCT {
-            $this dct:title [ a xsd:string ] ;
-                schema:name [ a xsd:string ] ;
+            $this schema:name [ a xsd:string ] ;
                 schema:identifier [ a xsd:string ] ;
                 geo:lat [ a xsd:float ] ;
                 geo:long [ a xsd:float ] ;
@@ -144,7 +142,6 @@ schema:Person spin:constructor :PersonConstructor .
 
         CONSTRUCT {
             $this
-                dct:title [ a xsd:string ] ;
                 schema:identifier [ a xsd:string ] ;
                 schema:name [ a xsd:string ] ;
                 schema:givenName [ a xsd:string ] ;
@@ -177,7 +174,7 @@ schema:Corporation spin:constructor :CorporationConstructor .
 
         CONSTRUCT {
             $this
-                dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
                 schema:legalName [ a xsd:string ] ;
                 schema:identifier [ a xsd:string ] ;
                 schema:telephone [ a xsd:string ] ;
@@ -241,7 +238,6 @@ schema:ProductGroup spin:constructor :ProductGroupConstructor .
 
         CONSTRUCT {
             $this
-                dct:title [ a xsd:string ] ;
                 schema:name [ a xsd:string ] ;
                 schema:description [ a xsd:string ] ;
                 schema:identifier [ a xsd:string ] ;
@@ -262,7 +258,6 @@ schema:Place spin:constructor :PlaceConstructor .
 
         CONSTRUCT {
             $this
-                dct:title [ a xsd:string ] ;
                 schema:name [ a xsd:string ] ;
                 schema:identifier [ a xsd:string ] .
         }
@@ -281,7 +276,7 @@ schema:Order spin:constructor :OrderConstructor .
 
         CONSTRUCT {
             $this
-                dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
                 schema:identifier [ a xsd:string ] ;
                 schema:orderDate [ a xsd:date ] ;
                 schema:orderStatus schema:OrderProcessing ;
@@ -349,7 +344,7 @@ schema:DeliveryEvent spin:constructor :DeliveryEventConstructor .
 
         CONSTRUCT {
             $this
-                dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
                 schema:startDate [ a xsd:date ] .
         }
         WHERE {}""" ;
@@ -367,7 +362,7 @@ schema:Offer spin:constructor :OfferConstructor .
 
         CONSTRUCT {
             $this
-                dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
                 schema:itemOffered [ a schema:Product ] ;
                 schema:price [ a xsd:float ] ;
                 schema:priceCurrency [ a xsd:string ] ;
@@ -388,7 +383,7 @@ schema:PriceSpecification spin:constructor :PriceSpecificationConstructor .
 
         CONSTRUCT {
             $this
-                dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
                 schema:price [ a xsd:float ] ;
                 schema:priceCurrency [ a xsd:string ] .
         }
@@ -407,7 +402,7 @@ schema:UnitPriceSpecification spin:constructor :UnitPriceSpecificationConstructo
 
         CONSTRUCT {
             $this
-                dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
                 schema:price [ a xsd:float ] ;
                 schema:priceCurrency [ a xsd:string ] .
         }
@@ -426,7 +421,7 @@ schema:DeliveryChargeSpecification spin:constructor :DeliveryChargeSpecification
 
         CONSTRUCT {
             $this
-                dct:title [ a xsd:string ] ;
+                schema:name [ a xsd:string ] ;
                 schema:price [ a xsd:float ] ;
                 schema:priceCurrency [ a xsd:string ] .
         }

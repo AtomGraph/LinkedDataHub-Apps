@@ -14,7 +14,7 @@ CONSTRUCT
 
         ?order a schema:Order ;
             schema:identifier ?orderID ;
-            dct:title ?orderID ;
+            schema:name ?orderID ;
             schema:customer ?customer ;
             schema:broker ?employee ;
             schema:orderDate ?orderDate ;
@@ -36,12 +36,12 @@ CONSTRUCT
         # accepted is spelled out as exactly that.
         ?shippingOffer a schema:Offer ;
             foaf:page ?graph ;
-            dct:title "Shipping" ;
+            schema:name "Shipping" ;
             schema:priceSpecification ?freightCharge .
 
         ?freightCharge a schema:DeliveryChargeSpecification ;
             foaf:page ?graph ;
-            dct:title "Freight" ;
+            schema:name "Freight" ;
             schema:price ?freight ;
             schema:priceCurrency "USD" ;
             schema:appliesToDeliveryMethod schema:ParcelService .
@@ -51,7 +51,7 @@ CONSTRUCT
         # off schema:deliveryStatus; Northwind knows exactly one leg, the dispatch.
         ?shipment a schema:DeliveryEvent ;
             foaf:page ?graph ;
-            dct:title ?shipmentTitle ;
+            schema:name ?shipmentName ;
             schema:startDate ?shippedDate .
 
         ?deliveryAddress a schema:PostalAddress ;
@@ -87,7 +87,7 @@ WHERE
             <#shippedDate> ?shippedDateString .
         BIND(strdt(?shippedDateString, xsd:date) AS ?shippedDate)
         BIND(uri(concat(str($base), "orders/", encode_for_uri(?orderID), "/#shipment")) AS ?shipment)
-        BIND(concat("Shipped ", ?shippedDateString) AS ?shipmentTitle)
+        BIND(concat("Shipped ", ?shippedDateString) AS ?shipmentName)
     }
     OPTIONAL {
         ?order_row <#shipRegion> ?shipRegion

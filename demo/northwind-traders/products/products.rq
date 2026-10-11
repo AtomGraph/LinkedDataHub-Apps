@@ -13,7 +13,6 @@ CONSTRUCT
 
         ?product a schema:Product ;
             schema:identifier ?productID ;
-            dct:title ?productName ;
             schema:name ?productName ;
             schema:provider ?supplier ;
             schema:category ?category ;
@@ -29,7 +28,7 @@ CONSTRUCT
         # what a given order line was actually billed at lives on that line's own offer.
         ?offer a schema:Offer ;
             foaf:page ?graph ;
-            dct:title "List price" ;
+            schema:name "List price" ;
             schema:itemOffered ?product ;
             schema:price ?unitPrice ;
             schema:priceCurrency "USD" .

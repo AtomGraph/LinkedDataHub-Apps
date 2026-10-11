@@ -10,7 +10,7 @@ CONSTRUCT
             foaf:primaryTopic ?shipper .
 
         ?shipper a schema:Corporation ;
-            dct:title ?companyName ;
+            schema:name ?companyName ;
             schema:legalName ?companyName ;
             schema:identifier ?shipperID ;
             schema:telephone ?phone .
