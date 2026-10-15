@@ -7,6 +7,8 @@
 @prefix spin:	<http://spinrdf.org/spin#> .
 @prefix dct:	<http://purl.org/dc/terms/> .
 @prefix schema: <https://schema.org/> .
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+@prefix geo:    <http://www.w3.org/2003/01/geo/wgs84_pos#> .
 
 : a owl:Ontology .
 
@@ -85,7 +87,7 @@ schema:Place a owl:Class ;
 # constructors and constraints
 
 schema:Product spin:constructor :ProductConstructor ;
-    spin:constraint :MissingName .
+    spin:constraint :MissingName, :MissingIdentifier, :MissingDescription, :MissingCategory, :MissingProvider .
 
 :ProductConstructor a ldh:Constructor ;
     rdfs:label "Product constructor" ;
@@ -106,7 +108,8 @@ schema:Product spin:constructor :ProductConstructor ;
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
-schema:City spin:constructor :CityConstructor .
+schema:City spin:constructor :CityConstructor ;
+    spin:constraint :MissingName, :MissingIdentifier, :MissingContainedInPlace, :MissingLatitude, :MissingLongitude .
 
 :CityConstructor a ldh:Constructor ;
     rdfs:label "Territory constructor" ;
@@ -127,7 +130,8 @@ schema:City spin:constructor :CityConstructor .
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
-schema:Person spin:constructor :PersonConstructor .
+schema:Person spin:constructor :PersonConstructor ;
+    spin:constraint :MissingName, :MissingJobTitle, :MissingTelephone, :MissingAddress .
 
 :PersonConstructor a ldh:Constructor ;
     rdfs:label "Person constructor" ;
@@ -162,7 +166,8 @@ schema:Person spin:constructor :PersonConstructor .
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
-schema:Corporation spin:constructor :CorporationConstructor .
+schema:Corporation spin:constructor :CorporationConstructor ;
+    spin:constraint :MissingName, :MissingIdentifier, :MissingLegalName .
 
 :CorporationConstructor a ldh:Constructor ;
     rdfs:label "Company constructor" ;
@@ -184,7 +189,8 @@ schema:Corporation spin:constructor :CorporationConstructor .
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
-schema:ContactPoint spin:constructor :ContactPointConstructor .
+schema:ContactPoint spin:constructor :ContactPointConstructor ;
+    spin:constraint :MissingTelephone .
 
 :ContactPointConstructor a ldh:Constructor ;
     rdfs:label "Contact point constructor" ;
@@ -203,7 +209,8 @@ schema:ContactPoint spin:constructor :ContactPointConstructor .
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
-schema:PostalAddress spin:constructor :PostalAddressConstructor .
+schema:PostalAddress spin:constructor :PostalAddressConstructor ;
+    spin:constraint :MissingStreetAddress, :MissingAddressLocality, :MissingAddressCountry .
 
 :PostalAddressConstructor a ldh:Constructor ;
     rdfs:label "Postal address constructor" ;
@@ -224,7 +231,8 @@ schema:PostalAddress spin:constructor :PostalAddressConstructor .
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
-schema:ProductGroup spin:constructor :ProductGroupConstructor .
+schema:ProductGroup spin:constructor :ProductGroupConstructor ;
+    spin:constraint :MissingName, :MissingIdentifier, :MissingDescription, :MissingDepiction .
 
 :ProductGroupConstructor a ldh:Constructor ;
     rdfs:label "Category constructor" ;
@@ -246,7 +254,8 @@ schema:ProductGroup spin:constructor :ProductGroupConstructor .
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
-schema:Place spin:constructor :PlaceConstructor .
+schema:Place spin:constructor :PlaceConstructor ;
+    spin:constraint :MissingName, :MissingIdentifier .
 
 :PlaceConstructor a ldh:Constructor ;
     rdfs:label "Region constructor" ;
@@ -264,7 +273,8 @@ schema:Place spin:constructor :PlaceConstructor .
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
-schema:Order spin:constructor :OrderConstructor .
+schema:Order spin:constructor :OrderConstructor ;
+    spin:constraint :MissingName, :MissingIdentifier, :MissingOrderDate, :MissingCustomer, :MissingBroker, :MissingAcceptedOffer, :MissingOrderDelivery, :MissingOrderStatus .
 
 :OrderConstructor a ldh:Constructor ;
     rdfs:label "Order constructor" ;
@@ -289,7 +299,8 @@ schema:Order spin:constructor :OrderConstructor .
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
-schema:OrderItem spin:constructor :OrderItemConstructor .
+schema:OrderItem spin:constructor :OrderItemConstructor ;
+    spin:constraint :MissingOrderedItem, :MissingOrderQuantity .
 
 :OrderItemConstructor a ldh:Constructor ;
     rdfs:label "Order item constructor" ;
@@ -311,7 +322,8 @@ schema:OrderItem spin:constructor :OrderItemConstructor .
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
-schema:ParcelDelivery spin:constructor :ParcelDeliveryConstructor .
+schema:ParcelDelivery spin:constructor :ParcelDeliveryConstructor ;
+    spin:constraint :MissingPartOfOrder, :MissingProvider, :MissingDeliveryAddress, :MissingExpectedArrivalUntil .
 
 :ParcelDeliveryConstructor a ldh:Constructor ;
     rdfs:label "Delivery constructor" ;
@@ -332,7 +344,8 @@ schema:ParcelDelivery spin:constructor :ParcelDeliveryConstructor .
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
-schema:DeliveryEvent spin:constructor :DeliveryEventConstructor .
+schema:DeliveryEvent spin:constructor :DeliveryEventConstructor ;
+    spin:constraint :MissingName, :MissingStartDate .
 
 :DeliveryEventConstructor a ldh:Constructor ;
     rdfs:label "Shipment constructor" ;
@@ -390,7 +403,8 @@ schema:PriceSpecification spin:constructor :PriceSpecificationConstructor .
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
-schema:UnitPriceSpecification spin:constructor :UnitPriceSpecificationConstructor .
+schema:UnitPriceSpecification spin:constructor :UnitPriceSpecificationConstructor ;
+    spin:constraint :MissingName, :MissingPrice, :MissingPriceCurrency, :MissingPriceType .
 
 :UnitPriceSpecificationConstructor a ldh:Constructor ;
     rdfs:label "Unit price constructor" ;
@@ -404,12 +418,14 @@ schema:UnitPriceSpecification spin:constructor :UnitPriceSpecificationConstructo
             $this
                 schema:name [ a xsd:string ] ;
                 schema:price [ a xsd:float ] ;
-                schema:priceCurrency [ a xsd:string ] .
+                schema:priceCurrency [ a xsd:string ] ;
+                schema:priceType schema:ListPrice .
         }
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
-schema:DeliveryChargeSpecification spin:constructor :DeliveryChargeSpecificationConstructor .
+schema:DeliveryChargeSpecification spin:constructor :DeliveryChargeSpecificationConstructor ;
+    spin:constraint :MissingName, :MissingPrice, :MissingPriceCurrency, :MissingAppliesToDeliveryMethod .
 
 :DeliveryChargeSpecificationConstructor a ldh:Constructor ;
     rdfs:label "Delivery charge constructor" ;
@@ -423,14 +439,180 @@ schema:DeliveryChargeSpecification spin:constructor :DeliveryChargeSpecification
             $this
                 schema:name [ a xsd:string ] ;
                 schema:price [ a xsd:float ] ;
-                schema:priceCurrency [ a xsd:string ] .
+                schema:priceCurrency [ a xsd:string ] ;
+                schema:appliesToDeliveryMethod schema:ParcelService .
         }
         WHERE {}""" ;
     rdfs:isDefinedBy : .
 
+# A property is required of a class when every import query that types an instance of that
+# class binds it on every row, in the same row graph: the imports write through the same
+# validating API as the forms, so a constraint the CSV cannot meet would reject the row.
+# Every required property is in its class's constructor, so the create form can always be
+# completed: schema:orderStatus, schema:priceType and schema:appliesToDeliveryMethod take
+# schema.org enumeration members the dataspace does not hold, so their constructors fill in
+# the value the data always uses rather than offering a lookup that would find nothing.
+# schema:offers is on every imported product but is not required: the form can only link an
+# existing Offer, and every Offer belongs to another product, so a new product is priced after.
+
 :MissingName a ldh:MissingPropertyValue ;
     rdfs:label "Missing schema:name" ;
     sp:arg1 schema:name ;
+    rdfs:isDefinedBy : .
+
+:MissingAcceptedOffer a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:acceptedOffer" ;
+    sp:arg1 schema:acceptedOffer ;
+    rdfs:isDefinedBy : .
+
+:MissingAddress a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:address" ;
+    sp:arg1 schema:address ;
+    rdfs:isDefinedBy : .
+
+:MissingAddressCountry a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:addressCountry" ;
+    sp:arg1 schema:addressCountry ;
+    rdfs:isDefinedBy : .
+
+:MissingAddressLocality a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:addressLocality" ;
+    sp:arg1 schema:addressLocality ;
+    rdfs:isDefinedBy : .
+
+:MissingBroker a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:broker" ;
+    sp:arg1 schema:broker ;
+    rdfs:isDefinedBy : .
+
+:MissingCategory a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:category" ;
+    sp:arg1 schema:category ;
+    rdfs:isDefinedBy : .
+
+:MissingContainedInPlace a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:containedInPlace" ;
+    sp:arg1 schema:containedInPlace ;
+    rdfs:isDefinedBy : .
+
+:MissingCustomer a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:customer" ;
+    sp:arg1 schema:customer ;
+    rdfs:isDefinedBy : .
+
+:MissingDeliveryAddress a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:deliveryAddress" ;
+    sp:arg1 schema:deliveryAddress ;
+    rdfs:isDefinedBy : .
+
+:MissingDepiction a ldh:MissingPropertyValue ;
+    rdfs:label "Missing foaf:depiction" ;
+    sp:arg1 foaf:depiction ;
+    rdfs:isDefinedBy : .
+
+:MissingDescription a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:description" ;
+    sp:arg1 schema:description ;
+    rdfs:isDefinedBy : .
+
+:MissingExpectedArrivalUntil a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:expectedArrivalUntil" ;
+    sp:arg1 schema:expectedArrivalUntil ;
+    rdfs:isDefinedBy : .
+
+:MissingIdentifier a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:identifier" ;
+    sp:arg1 schema:identifier ;
+    rdfs:isDefinedBy : .
+
+:MissingJobTitle a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:jobTitle" ;
+    sp:arg1 schema:jobTitle ;
+    rdfs:isDefinedBy : .
+
+:MissingLatitude a ldh:MissingPropertyValue ;
+    rdfs:label "Missing geo:lat" ;
+    sp:arg1 geo:lat ;
+    rdfs:isDefinedBy : .
+
+:MissingLegalName a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:legalName" ;
+    sp:arg1 schema:legalName ;
+    rdfs:isDefinedBy : .
+
+:MissingLongitude a ldh:MissingPropertyValue ;
+    rdfs:label "Missing geo:long" ;
+    sp:arg1 geo:long ;
+    rdfs:isDefinedBy : .
+
+:MissingOrderDate a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:orderDate" ;
+    sp:arg1 schema:orderDate ;
+    rdfs:isDefinedBy : .
+
+:MissingOrderDelivery a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:orderDelivery" ;
+    sp:arg1 schema:orderDelivery ;
+    rdfs:isDefinedBy : .
+
+:MissingOrderQuantity a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:orderQuantity" ;
+    sp:arg1 schema:orderQuantity ;
+    rdfs:isDefinedBy : .
+
+:MissingOrderedItem a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:orderedItem" ;
+    sp:arg1 schema:orderedItem ;
+    rdfs:isDefinedBy : .
+
+:MissingPartOfOrder a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:partOfOrder" ;
+    sp:arg1 schema:partOfOrder ;
+    rdfs:isDefinedBy : .
+
+:MissingOrderStatus a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:orderStatus" ;
+    sp:arg1 schema:orderStatus ;
+    rdfs:isDefinedBy : .
+
+:MissingPriceType a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:priceType" ;
+    sp:arg1 schema:priceType ;
+    rdfs:isDefinedBy : .
+
+:MissingAppliesToDeliveryMethod a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:appliesToDeliveryMethod" ;
+    sp:arg1 schema:appliesToDeliveryMethod ;
+    rdfs:isDefinedBy : .
+
+:MissingPrice a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:price" ;
+    sp:arg1 schema:price ;
+    rdfs:isDefinedBy : .
+
+:MissingPriceCurrency a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:priceCurrency" ;
+    sp:arg1 schema:priceCurrency ;
+    rdfs:isDefinedBy : .
+
+:MissingProvider a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:provider" ;
+    sp:arg1 schema:provider ;
+    rdfs:isDefinedBy : .
+
+:MissingStartDate a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:startDate" ;
+    sp:arg1 schema:startDate ;
+    rdfs:isDefinedBy : .
+
+:MissingStreetAddress a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:streetAddress" ;
+    sp:arg1 schema:streetAddress ;
+    rdfs:isDefinedBy : .
+
+:MissingTelephone a ldh:MissingPropertyValue ;
+    rdfs:label "Missing schema:telephone" ;
+    sp:arg1 schema:telephone ;
     rdfs:isDefinedBy : .
 
 # properties
