@@ -57,7 +57,8 @@ await runScene({
     });
     await marks.step('B1-verified', q, 'the query, read back', await focus(form));
     const saveBtn = form.locator('button.btn-save, button[class*="btn-save"]').filter({ visible: true }).last();
-    await easeScrollTo(saveBtn, { ms: 2000, block: 'end', margin: 0 }).catch(() => {});
+    // the create bar is sticky at the window's foot: Save is brought to rest above it, not under it
+    await easeScrollTo(saveBtn, { ms: 2000, block: 'end', margin: 260 }).catch(() => {});
     await sleep(300);
     await marks.beat('B1-scrolled', 'the form\'s foot in view: Title, Save', await focus(saveBtn));
     must(await fill(page, cursor, 'Title', TITLE), 'B1 title');
@@ -168,17 +169,29 @@ await runScene({
     await marks.step('B5-end', dr, 'chart above, sentence below', await focus(rows.first(), rows.last()));
     await sleep(800);
 
+    // ldh.css sizes the page column at min-height: 100vh so a short page parks the create bar and the
+    // footer at the window's foot. Under the rig's CSS zoom that is two windows tall, and the bar sits a
+    // screen below the content. Halved from here on, it is one window at 2×, as a reader sees it; only
+    // from here, since the takes before it were framed on the page as it was
+    await page.addStyleTag({ content: '#visible-body { min-height: 50vh !important; }' });
     // ── B5b · a video, embedded: its metadata read as RDF on the fly ───────────
     const VIDEO = 'https://www.youtube.com/watch?v=OM6XIICm_qo'; // Tim Berners-Lee: The next Web of open, linked data (TED)
+    // Back at 2× (a re-layout, instant, at the beat boundary the cut lands on). The create bar is
+    // under the sentence and on screen already, so the page only moves if it is not
     await page.evaluate(() => { document.documentElement.style.zoom = '2'; }); await sleep(400);
     const objBtn = ui(page).locator('button.create-action.add-constructor').filter({ hasText: 'Object' }).first();
-    await objBtn.scrollIntoViewIfNeeded();
+    const offScreen = (loc) => loc.evaluate((el) => { const r = el.getBoundingClientRect(); return r.top < 300 || r.bottom > window.innerHeight - 40; });
+    if (await offScreen(objBtn)) { await easeScrollTo(objBtn, { ms: 1400, block: 'end', margin: 160 }); await sleep(400); }
     await cursor.moveTo(...(await centre(objBtn)), { duration: 600 });
     await marks.beat('B5b-start', 'pointer on + Object', await focus(objBtn));
     await cursor.click(objBtn);
     const vform = page.locator('form:visible').filter({ hasText: /Value/ }).last();
     await until(vform.waitFor({ state: 'visible', timeout: 15_000 }), 'the object block form');
-    await sleep(1200);
+    await sleep(400);
+    // the form opens where the create bar was; if it runs off screen the page eases it into view, with
+    // the sentence still above it, so the video drawn in its place after Save needs no scroll of its own
+    if (await offScreen(vform)) { await easeScrollTo(vform, { ms: 1200, margin: 420 }); }
+    await sleep(600);
     const vinput = vform.locator('.ldh-prop-group').filter({ hasText: 'Value' }).first().locator('input:not([type=hidden]):visible').first();
     await cursor.click(vinput);
     await page.keyboard.type(VIDEO, { delay: 18 });
@@ -191,7 +204,8 @@ await runScene({
     await until(ui(page).locator('iframe').first().waitFor({ state: 'visible', timeout: 30_000 }), 'the video card');
     await sleep(3000);
     const vrow = ui(page).locator('.ldh-block-row').filter({ has: page.locator('iframe') }).first();
-    await vrow.scrollIntoViewIfNeeded();
+    if (await offScreen(vrow)) await easeScrollTo(vrow, { ms: 1400, margin: 300 });
+    await sleep(1200);
     await marks.beat('B5b-end', 'the video, a VideoObject with its title, on the page', await focus(vrow));
     await sleep(800);
     await marks.beat('end');

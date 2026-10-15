@@ -158,7 +158,7 @@
     {
       "id": "B1",
       "line": "B1",
-      "track": "overview-b-author",
+      "track": "overview-b-author-take7",
       "from": "B1-start",
       "to": "B1-end",
       "move": "zoom",
@@ -172,7 +172,7 @@
     {
       "id": "B2",
       "line": "B2",
-      "track": "overview-b-author",
+      "track": "overview-b-author-take7",
       "from": "B2-start",
       "to": "B2-end",
       "move": "zoom",
@@ -184,7 +184,7 @@
     {
       "id": "B3a",
       "line": "B3a",
-      "track": "overview-b-author",
+      "track": "overview-b-author-take7",
       "from": "B3-start",
       "fromOffset": -6,
       "to": "B3-content",
@@ -194,7 +194,7 @@
     {
       "id": "B3",
       "line": "B3",
-      "track": "overview-b-author",
+      "track": "overview-b-author-take7",
       "from": "B3-content",
       "to": "B3-end",
       "move": "zoom",
@@ -208,7 +208,7 @@
     {
       "id": "B4",
       "line": "B4",
-      "track": "overview-b-author",
+      "track": "overview-b-author-take7",
       "from": "B4-start",
       "to": "B4-end",
       "move": "zoom",
@@ -217,7 +217,7 @@
     {
       "id": "B5",
       "line": "B5",
-      "track": "overview-b-author",
+      "track": "overview-b-author-take7",
       "from": "B5-start",
       "to": "B5-fitted",
       "toOffset": 1.3,
@@ -231,7 +231,7 @@
     {
       "id": "B5d",
       "line": "B5d",
-      "track": "overview-b-author",
+      "track": "overview-b-author-take7",
       "from": "B5-fitted",
       "fromOffset": 1.3,
       "to": "B5-end",
@@ -240,21 +240,19 @@
         "B5-dropped"
       ],
       "minZoom": 1.0,
-      "toOffset": 2.0,
-      "speed": 0.68
+      "toOffset": 0.9,
+      "speed": 0.58
     },
     {
       "id": "B5b",
       "line": "B5b",
-      "track": "overview-b-author",
-      "from": "B5b-start",
+      "track": "overview-b-author-take7",
+      "from": "B5-end",
       "to": "B5b-end",
-      "move": "zoom",
-      "via": [
-        "B5b-typed"
-      ],
-      "minZoom": 1.0,
-      "speed": 1.3
+      "move": "static",
+      "speed": 1.3,
+      "fromOffset": 0.9,
+      "focus": false
     },
     {
       "id": "C1",
@@ -307,7 +305,7 @@
     {
       "id": "E1",
       "line": "E1",
-      "track": "overview-e-model-take3",
+      "track": "overview-e-model-take7",
       "from": "E1-start",
       "to": "E1-end",
       "move": "zoom",
@@ -316,7 +314,7 @@
     {
       "id": "E2",
       "line": "E2",
-      "track": "overview-e-model-take3",
+      "track": "overview-e-model-take7",
       "from": "E2-start",
       "to": "E2-end",
       "move": "zoom",
@@ -328,7 +326,7 @@
     {
       "id": "E3",
       "line": "E3",
-      "track": "overview-e-model-take3",
+      "track": "overview-e-model-take7",
       "from": "E3-start",
       "to": "E3-end",
       "move": "zoom",
@@ -340,7 +338,7 @@
     {
       "id": "E3b",
       "line": "E3b",
-      "track": "overview-e-model-take3",
+      "track": "overview-e-model-take7",
       "from": "E3b-form",
       "to": "E3c-start",
       "move": "zoom",
@@ -348,18 +346,19 @@
         "E3b-filled"
       ],
       "minZoom": 1.0,
-      "speed": 1.3,
+      "speed": 1.0,
       "fromOffset": -3.5
     },
     {
       "id": "E3c",
       "line": "E3c",
-      "track": "overview-e-model-take3",
+      "track": "overview-e-model-take7",
       "from": "E3c-start",
       "to": "E3c-end",
       "move": "zoom",
       "via": [
-        "E3c-dialog"
+        "E3c-dialog",
+        "E3c-cancelled"
       ],
       "minZoom": 1.0
     },
@@ -392,7 +391,7 @@
     {
       "id": "E4",
       "line": "E4",
-      "track": "overview-e-model-take3",
+      "track": "overview-e-model-take7",
       "from": "E4-start",
       "to": "E4-end",
       "move": "static",

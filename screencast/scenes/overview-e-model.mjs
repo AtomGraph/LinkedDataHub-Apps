@@ -166,25 +166,15 @@ await runScene({
     if (!lit.ok) throw new Error(`E3b: ${lit.why}`);
     await sleep(600);
     await marks.beat('E3b-filled', 'the description rewritten', await focus(ed.form));
-    const sv = await saveForm(page, cursor, ed.form, { settle: 1500 });
-    if (!sv.ok) throw new Error(`E3b: ${sv.why}`);
-    await until(page.waitForFunction((t) => (document.querySelector('.ldh-pane.is-active')?.innerText ?? '').includes(t), DESCRIPTION, { timeout: 30_000 }), 'the description on the page');
-    await sleep(2000);
-    await marks.beat('E3b-end', 'saved: the page re-read with the description', await focus(ui(page).locator('.ldh-block').first()));
-    await sleep(800);
-
     // ── E3c · the form behind the form: the class's constructor ────────────────
-    // The record's form again, and its Edit constructors: a dialog listing the properties a new
-    // Product starts with, each a literal of a datatype or a resource of a class. Looked at and
-    // cancelled, so the model is as it was.
-    const ed2 = await editResource(page, cursor, PRODUCT);
-    if (!ed2.ok) throw new Error(`E3c: ${ed2.why}`);
+    // From the same form, before it is saved: its Edit constructors opens a dialog listing the
+    // properties a new Product starts with, each a literal of a datatype or a resource of a class.
+    // Looked at and cancelled, so the model is as it was; then the form is saved.
     const ctorBtn = page.locator('button.btn-edit-constructors:visible').first();
     await until(ctorBtn.waitFor({ state: 'visible', timeout: 20_000 }), 'Edit constructors, once write access to the constructor is known');
-    await ctorBtn.evaluate((el) => el.scrollIntoView({ block: 'center' }));
-    await sleep(500);
+    await easeScrollTo(ctorBtn, { ms: 1000, block: 'center' }); await sleep(400);
     await cursor.moveTo(...(await centre(ctorBtn)), { duration: 600 });
-    await marks.beat('E3c-start', 'pointer on Edit constructors', await focus(ed2.form));
+    await marks.beat('E3c-start', 'pointer on Edit constructors', await focus(ed.form));
     await cursor.click(ctorBtn);
     const ctorDialog = page.locator('[role=dialog]:visible, .modal:visible, dialog[open]').filter({ hasText: /constructor/i }).last();
     await until(ctorDialog.waitFor({ state: 'visible', timeout: 20_000 }), 'the constructor dialog');
@@ -196,9 +186,20 @@ await runScene({
     await cursor.moveTo(...(await centre(ctorCancel)), { duration: 600 });
     await cursor.click(ctorCancel);
     await ctorDialog.waitFor({ state: 'hidden', timeout: 10_000 }).catch(() => {});
-    await page.keyboard.press('Escape');
     await sleep(800);
-    await marks.beat('E3c-end', 'cancelled: the model unchanged');
+    if (!(await ed.form.isVisible().catch(() => false))) throw new Error('E3c: the record\'s form closed with the constructor dialog');
+    await marks.beat('E3c-cancelled', 'cancelled: the model unchanged, the record\'s form still open');
+    // ldh.css sizes the page column at min-height: 100vh, which the rig's CSS zoom makes two windows
+    // tall: once the form closes, the page would hold an empty screen where it was. Halved here, just
+    // before the save and not earlier, so every shot before it is framed on the page as it was
+    await page.addStyleTag({ content: '#visible-body { min-height: 50vh !important; }' });
+    const sv = await saveForm(page, cursor, ed.form, { settle: 1500 });
+    if (!sv.ok) throw new Error(`E3c: ${sv.why}`);
+    await until(page.waitForFunction((t) => (document.querySelector('.ldh-pane.is-active')?.innerText ?? '').includes(t), DESCRIPTION, { timeout: 30_000 }), 'the description on the page');
+    // the form left the page scrolled to its foot; the camera eases back up to the record it saved
+    await easeScrollTo(ui(page).locator('.ldh-block').first(), { ms: 1200, margin: 200 });
+    await sleep(2000);
+    await marks.beat('E3c-end', 'saved: the page re-read with the description', await focus(ui(page).locator('.ldh-block').first()));
     await sleep(600);
 
     // ── E4 · the reader's colour scheme ────────────────────────────────────────
