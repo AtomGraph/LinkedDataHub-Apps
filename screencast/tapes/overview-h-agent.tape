@@ -9,6 +9,9 @@
 # Off camera, set up by scenes/overview-h-agent.mjs through the environment:
 #   TAKE_WHEELS    a find-links directory holding the Web-Algebra wheel the take runs, so the
 #                  docs' `uv run --with web-algebra` resolves to it rather than to PyPI
+#   TAKE_EXCLUDE_NEWER  the date the rest of its dependencies resolve as of: pydantic releases
+#                  after 2026-10-05 drop an internal the resolved mcp imports, and the server
+#                  then dies on start ("Connection closed" in /mcp)
 #   TAKE_SETTINGS  a settings file for this session only: the web-algebra tools allowed, Bash,
 #                  Write and Edit denied (so no permission prompt can stall the take), and the
 #                  Figma plugin off; with ENABLE_CLAUDEAI_MCP_SERVERS=false, `/mcp` then lists
@@ -19,7 +22,7 @@ Require claude
 Require uv
 
 Hide
-Type `cd "$TAKE_DIR" && export UV_FIND_LINKS="$TAKE_WHEELS" ENABLE_CLAUDEAI_MCP_SERVERS=false && alias claude='claude --settings "$TAKE_SETTINGS"' && export PS1='$ ' && clear` Enter
+Type `cd "$TAKE_DIR" && export UV_FIND_LINKS="$TAKE_WHEELS" UV_EXCLUDE_NEWER="$TAKE_EXCLUDE_NEWER" ENABLE_CLAUDEAI_MCP_SERVERS=false && alias claude='claude --settings "$TAKE_SETTINGS"' && export PS1='$ ' && clear` Enter
 Sleep 1s
 Show
 
@@ -38,10 +41,10 @@ Sleep 5s
 Escape
 Sleep 2s
 
-Type "Create a container for books in my dataspace https://northwind-traders.demo.localhost/, add three books with authors, and add a chart of books per author."
+Type "Create a container for new offers in my dataspace https://northwind-traders.demo.localhost/, add a 20% discount offer for three Beverages products, and add a chart of the offer prices."
 Sleep 1s
 Enter
-Sleep 110s
+Sleep 240s
 
 Hide
 Type "/exit" Enter

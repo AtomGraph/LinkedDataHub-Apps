@@ -69,8 +69,26 @@ await runScene({
     await page.reload({ waitUntil: 'load' });
     await until(aside().waitFor({ state: 'visible', timeout: 60_000 }), 'the concept tree in the content column');
     await until(page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 30_000 }), 'the concept, rendered');
-    await sleep(3000);
-    await marks.beat('G3-tree', 'the concept tree, opened down to the concept', await focus(aside()));
+    await until(aside().locator('li.is-active').first().waitFor({ state: 'attached', timeout: 30_000 }), 'the concept marked in the tree');
+    await sleep(1500);
+    // The tree centres the concept it reveals (skos.xsl ldh:conceptree-activate), but under the
+    // rig's CSS zoom its sums are off: getBoundingClientRect() is zoomed while scrollTop is not,
+    // and the tree's viewport-high cap doubles, so the card runs past the frame and the concept
+    // is scrolled out of sight. A reader's browser zoom scales both alike. The camera puts the
+    // first marked row in the middle of the tree's on-screen part, eased, in the tree's own units.
+    await page.evaluate((ms) => new Promise((done) => {
+      const tree = document.querySelector('.ldh-content-aside .ldh-tree') ?? document.querySelector('.ldh-content-aside');
+      const row = tree.querySelector('li.is-active > div');
+      const tr = tree.getBoundingClientRect(), rr = row.getBoundingClientRect();
+      const z = tr.height / tree.offsetHeight;
+      const shown = (Math.min(tr.bottom, window.innerHeight) - tr.top) / z;
+      const to = tree.scrollTop + (rr.top - tr.top) / z - (shown - rr.height / z) / 2;
+      const from = tree.scrollTop, t0 = performance.now();
+      const step = (t) => { const k = Math.min(1, (t - t0) / ms), e = k < 0.5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2; tree.scrollTop = from + (to - from) * e; if (k < 1) requestAnimationFrame(step); else done(); };
+      requestAnimationFrame(step);
+    }), 1400);
+    await sleep(1500);
+    await marks.beat('G3-tree', 'the concept tree, opened down to the concept', await focus(aside().locator('li.is-active').first()));
     const views = ui(page).locator('.ldh-block').filter({ has: page.locator('.ldh-view-toolbar') });
     const names = (await views.locator('.ldh-block-head').allTextContents().catch(() => [])).map((t) => t.replace(/\s+/g, ' ').trim().slice(0, 30));
     if (await views.count()) { await easeScrollTo(views.first(), { ms: 1600, margin: 260 }); await sleep(1500); }

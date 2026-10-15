@@ -70,6 +70,15 @@ const written = new RegExp(pronunciation.map((p) => escape(p.written)).join('|')
 const spokenFor = new Map(pronunciation.map((p) => [p.written, p.spoken]));
 const respell = (text) => text.replace(written, (m) => spokenFor.get(m));
 
+// A command in backticks (`ldh packages add`) is said as one phrase, set apart from the
+// sentence around it by a short pause on either side; the subtitles show it without the
+// backticks. The break tags are part of the spoken text, and the alignment covers them
+// character for character, so the cues still line up with it.
+const COMMAND = /`([^`]+)`/g;
+const BREAK = '<break time="0.4s" />';
+const speak = (text) => respell(text.replace(COMMAND, (_, cmd) => `${BREAK}${cmd}${BREAK}`));
+const plain = (text) => text.replace(COMMAND, '$1');
+
 // ── the voice ───────────────────────────────────────────────────────────────────
 
 const takeFor = (spoken) => createHash('sha1').update(`${VOICE}\n${MODEL}\n${spoken}`).digest('hex');
@@ -99,7 +108,7 @@ let billed = 0;
 const out = [];
 
 for (const line of lines) {
-  const spoken = respell(line.text);
+  const spoken = speak(line.text);
   const take = takeFor(spoken);
   const mp3 = path.join(CACHE, `${take}.mp3`);
   const json = path.join(CACHE, `${take}.json`);
@@ -108,7 +117,7 @@ for (const line of lines) {
     alignment = JSON.parse(await fs.readFile(json, 'utf8'));
   } catch {
     if (dryRun) {
-      out.push({ ...line, spoken, file: null, seconds: null });
+      out.push({ ...line, text: plain(line.text), spoken, file: null, seconds: null });
       continue;
     }
     apiKey ??= (await fs.readFile(keyFile, 'utf8')).trim();
@@ -118,7 +127,7 @@ for (const line of lines) {
     alignment = a;
     billed += spoken.length;
   }
-  out.push({ ...line, spoken, file: path.relative(TRACKS, mp3), seconds: secondsOf(alignment) });
+  out.push({ ...line, text: plain(line.text), spoken, file: path.relative(TRACKS, mp3), seconds: secondsOf(alignment) });
 }
 
 await fs.writeFile(path.join(OUT, 'voice.json'), JSON.stringify(out, null, 2));

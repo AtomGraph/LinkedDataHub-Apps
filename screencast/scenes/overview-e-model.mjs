@@ -15,6 +15,7 @@ import { runScene, resolve, geometryFrom, sleep, until } from '../lib/harness.mj
 import { deleteByTitle } from '../lib/fixture.mjs';
 import { editResource, setLiteral, saveForm } from '../lib/editing.mjs';
 import { ui } from '../lib/dom.mjs';
+import { pickByLabel } from '../lib/blocks.mjs';
 import { GEOMETRY_2X, zoom2x, focus, centre, load, easeScrollTo } from '../lib/supercut.mjs';
 
 const opts = await resolve('/');
@@ -83,9 +84,19 @@ await runScene({
     await sleep(600);
 
     // ── E2 · the name left empty; Save; the violation on the field ─────────────
+    // every other property the model requires of a Product (ns.ttl: identifier, description,
+    // category, provider), so the one violation is the name's
     await marks.beat('E2-start', 'filling in everything but the name');
     if (await fieldOf('^Title')) await typeInto('^Title', PRODUCT);
     await typeInto('^Identifier', String(Date.now()).slice(-4));
+    await typeInto('^Description', 'Red tea');
+    for (const [label, pick] of [['Category', 'Beverages'], ['Provider', 'Exotic Liquids']]) {
+      const input = groups().filter({ hasText: new RegExp(`^\\s*${label}`) }).first().locator('input.resource-combobox').first();
+      await input.scrollIntoViewIfNeeded();
+      const picked = await pickByLabel(page, cursor, type, input, pick);
+      if (!picked.ok) throw new Error(`E2: ${label} — ${picked.why ?? 'not picked'}`);
+      await sleep(500);
+    }
     await saveBtn().scrollIntoViewIfNeeded();
     await cursor.moveTo(...(await centre(saveBtn())), { duration: 600 });
     await marks.beat('E2-save', 'Name still empty; pointer on Save', await focus(modal()));
@@ -149,11 +160,12 @@ await runScene({
     const ed = await editResource(page, cursor, PRODUCT);
     if (!ed.ok) throw new Error(`E3b: ${ed.why}`);
     await marks.beat('E3b-form', 'its form, opened with the pencil', await focus(ed.form));
+    // the description was required at creation ('Red tea'); here it is rewritten
     const DESCRIPTION = 'A caffeine-free red tea from South Africa, served hot or iced.';
     const lit = await setLiteral(page, cursor, type, ed.form, 'Description', DESCRIPTION);
     if (!lit.ok) throw new Error(`E3b: ${lit.why}`);
     await sleep(600);
-    await marks.beat('E3b-filled', 'a description typed', await focus(ed.form));
+    await marks.beat('E3b-filled', 'the description rewritten', await focus(ed.form));
     const sv = await saveForm(page, cursor, ed.form, { settle: 1500 });
     if (!sv.ok) throw new Error(`E3b: ${sv.why}`);
     await until(page.waitForFunction((t) => (document.querySelector('.ldh-pane.is-active')?.innerText ?? '').includes(t), DESCRIPTION, { timeout: 30_000 }), 'the description on the page');

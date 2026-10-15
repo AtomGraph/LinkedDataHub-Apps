@@ -196,8 +196,9 @@ async function cutShot(shot, prev) {
   const gesture = (to - from) / speed;
   const line = shot.line ? voice.get(shot.line) : null;
   if (shot.line && !line) throw new Error(`${shot.id}: no voice line ${shot.line}`);
-  // The shot holds for its line plus the pause; the last frame is cloned for the rest.
-  const want = Math.max(gesture, line ? line.seconds + cfg.lineOffset + cfg.linePad : 0, shot.hold ?? 0);
+  // The shot holds for its line plus the pause; the last frame is cloned for the rest. A shot's
+  // own `lineOffset` starts its line later than the default, as the closing card's does.
+  const want = Math.max(gesture, line ? line.seconds + (shot.lineOffset ?? cfg.lineOffset) + cfg.linePad : 0, shot.hold ?? 0);
   const hold = Math.max(0, want - gesture);
   const total = gesture + hold;
   const filters = [];
@@ -282,14 +283,14 @@ if (browser) await browser.close();
 
 // ── the timeline ────────────────────────────────────────────────────────────────
 let t = 0; const timeline = [];
-for (const c of clips) { timeline.push({ id: c.id, in: Number(t.toFixed(3)), out: Number((t + c.len).toFixed(3)), line: c.line ?? null, lineAt: c.lineTake ? Number((t + cfg.lineOffset).toFixed(3)) : null }); t += c.len; }
+for (const c of clips) { timeline.push({ id: c.id, in: Number(t.toFixed(3)), out: Number((t + c.len).toFixed(3)), line: c.line ?? null, lineAt: c.lineTake ? Number((t + (c.lineOffset ?? cfg.lineOffset)).toFixed(3)) : null, ...(c.caption ? { caption: c.caption } : {}) }); t += c.len; }
 const total = t;
 const list = path.join(TMP, 'concat.txt');
 await fs.writeFile(list, clips.map((c) => `file '${path.resolve(c.file)}'`).join('\n') + '\n');
 const silent = path.join(TMP, 'video.mp4');
 await run('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', silent]);
 
-// The closing card: faded in over the last shot's hold, after its line's first sentence.
+// The closing card: faded in over the last shot's hold (slide.at seconds into it), before its line.
 let video = silent;
 if (cfg.slide && !only) {
   const close = timeline.findLast((x) => x.id === 'Z1');
@@ -336,7 +337,7 @@ if (noAudio || !lines.length) {
   } else {
     parts.push(`[key]anullsink`);
   }
-  parts.push(`${mixIn}loudnorm=I=-14:TP=-1.5:LRA=11,afade=t=out:st=${(total - 1).toFixed(3)}:d=1[a]`);
+  parts.push(`${mixIn}loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000,afade=t=out:st=${(total - 1).toFixed(3)}:d=1[a]`);
   await run('ffmpeg', ['-y', '-loglevel', 'error', ...inputs, '-filter_complex', parts.join(';'), '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', out]);
   console.log(`  sound: ${lines.length} lines${hasMusic ? ', music ducked under them' : ', no music file yet'}, loudness −14 LUFS`);
 }
@@ -360,6 +361,10 @@ for (const l of lines) {
     pos = end + 1; while (pos < chars.length && chars[pos] === ' ') pos++;
   });
 }
+// A shot's `caption` is a subtitle with no voice behind it — what the picture cannot show,
+// such as a step done off camera. It holds over the shot, inside the pause at either end.
+for (const c of timeline.filter((x) => x.caption)) cues.push({ from: c.in + cfg.lineOffset, to: c.out - cfg.linePad / 2, text: c.caption });
+cues.sort((a, b) => a.from - b.from);
 await fs.writeFile(out.replace(/\.mp4$/, '.srt'), cues.map((c, i) => `${i + 1}\n${srtTime(c.from)} --> ${srtTime(c.to)}\n${c.text}\n`).join('\n'));
 await fs.writeFile(out.replace(/\.mp4$/, '.marks.json'), JSON.stringify({ output: out, duration: Number(total.toFixed(3)), shots: timeline }, null, 2));
 await run('ffmpeg', ['-v', 'error', '-y', '-i', out, '-vf', 'fps=1/8,scale=384:-2,tile=6x8', '-frames:v', '1', '-update', '1', out.replace(/\.mp4$/, '-sheet.jpg')]);

@@ -65,9 +65,9 @@ chapter titles are burned in.
 | # | On screen | Narration |
 |---|---|---|
 | E1 | Create in a property view's header; the generated form | Views can also be attached to a property in the ontology, and render on every resource of its domain or range. Here, Create opens a form built by the Product constructor. |
-| E2 | A required field left empty; Save; the violation on the field | Every write is validated against the model's constraints. Leave the product's name empty, and the form shows the violation on that field. |
-| E3 | The field filled; Save; the same view picks up the record | With the name filled in, Save writes the product. Views are SPARQL queries, so Beverages now lists thirteen products instead of twelve. |
-| E3b | The new record opened; the pencil; a description typed; Save; the page re-reads | To edit a resource, open its form with the pencil button. Here, a description is added to the new product. |
+| E2 | Every other required field filled (identifier, description, category, provider), the name left empty; Save; the violation on the field | Every write is validated against the model's constraints. Leave the product's name empty, and the form shows the violation on that field. |
+| E3 | The field filled; Save; the same view picks up the record | With the name filled in, Save writes the product. Views are backed by SPARQL queries, so Beverages now lists thirteen products instead of twelve. |
+| E3b | The new record opened; the pencil; the description rewritten; Save; the page re-reads | To edit a resource, open its form with the pencil button. Here, the new product's description is rewritten. |
 | E3c | The record's form again; Edit constructors; the Product constructor dialog, its properties and their types; Cancel | Edit constructors opens the Product constructor: the properties every new product starts with, each a typed literal or a resource of some class. |
 
 ### Flow D — Versions (history → diff → restore)
@@ -88,11 +88,12 @@ chapter titles are burned in.
 
 | # | On screen | Narration |
 |---|---|---|
-| F1 | Terminal: `ldh push` a folder of Turtle; the plan prints, the URLs stream | The ldh command line drives the same HTTP API as the user interface. Here, ldh push uploads LinkedDataHub's own documentation, which is itself a dataspace. Recursively, each Turtle file becomes a document, and every other file an upload. |
+| F1 | Terminal: `ldh push` a folder of Turtle; the plan prints, the URLs stream | The ldh command line drives the same HTTP API as the user interface. Here, `ldh push` uploads LinkedDataHub's own documentation, which is itself a dataspace. Recursively, each Turtle file becomes a document, and every other file an upload. |
 | F2 | The browser: the pushed dataspace, rendered | And the documentation is live. Scripts and agents use the same HTTP API as the browser does. |
 | F3 | Terminal: `ldh admin create group`, `ldh admin create authorization`, `ldh admin make-public`; then the page in a private window, signed out | Access control uses W3C ACL authorizations, which are RDF too. Here the CLI creates an Editors group, lets it write the user guide, and makes the dataspace public. |
 | F3b | Terminal: `ldh get --accept text/turtle` on the home page just made public; its Turtle on screen | Every document has both an HTML and an RDF representation. Here, the home page is fetched as Turtle. |
-| F4 | The sign-in screen: WebID, Google, ORCID — **deferred**: the dev stack has no Google or ORCID configured and shows only Sign up; shot later on a stack that has them, as a standalone anonymous take | You can log in with a WebID certificate, or with Google or ORCID. |
+| F4a | Signed out: Sign up, the WebID sign-up form | Signing up creates a WebID profile and issues a client certificate. In this video, the certificate is already installed in the browser, which presents it to log you in. |
+| F4 | The Login menu: Login with Google, Login with ORCID | You can also log in with Google or ORCID. |
 
 ### Flow H — Agents (ask → plan → execute → the chat stays → an agent over MCP)
 
@@ -111,12 +112,12 @@ web-algebra`, resolved to that build through `UV_FIND_LINKS` off camera.
 | # | On screen | Narration |
 |---|---|---|
 | H1 | A Northwind document; the create bar's Assistant button; "Chart the five customers who ordered the most" typed; the steps report as the plan runs | The assistant takes a question in plain words and writes a Web-Algebra plan. A plan that only reads runs right away, like this one about Northwind's best customers. |
-| H2 | The answer's sentence; the rows drawn as a bar chart; the trace unfolded, its three steps | The assistant answers in a sentence and shows the results as a table, a grid or a chart. Here, the five customers with the most orders. |
+| H2 | The answer's sentence; the rows drawn as a bar chart; the trace unfolded, its three steps | The assistant answers in a sentence and draws the results in any of the layout modes. Here, the five customers with the most orders. |
 | H3 | A follow-up: "Add the chart to this page"; the plan card waits, AddSelect, AddResultSetChart and AddObjectBlock listed; Execute; the page catches up with the new chart block | A plan that writes waits until you press Execute. This one adds the chart to the page as a block. |
 | H4 | The page reloaded; the chat block with both turns, the composer under them | The conversation is a block in the document, stored as RDF, so it is still there after a reload. |
 | H5 | Terminal: `claude mcp add web-algebra …`, then `claude`, `/mcp` listing it as connected | Web-Algebra is a separate open-source project: composable operations for loading, querying and writing Linked Data. Its MCP server gives agents like Claude Code these operations as tools. |
-| H6 | Terminal: the prompt from the docs page, aimed at the Northwind dataspace; Claude Code's tool calls going by, then its summary | Ask for something to build rather than code. Here: a container for books, three books with authors, and a chart of books per author. |
-| H7 | The browser: the books container, the three items, the chart | The container, the books and the chart are there, and you can keep editing them by hand. |
+| H6 | Terminal: the prompt from the docs page, aimed at the Northwind dataspace; Claude Code's tool calls going by, then its summary | Ask for something to build rather than code. Here: new offers, a twenty percent discount on three Beverages products, and a chart of their prices. |
+| H7 | The browser: the offers container, the three offers, the chart | The container, the offers and the chart are there, and you can keep editing them by hand. |
 
 ## Chapter 3 — Packages
 
@@ -125,7 +126,7 @@ web-algebra`, resolved to that build through `UV_FIND_LINKS` off camera.
 | # | On screen | Narration |
 |---|---|---|
 | G1 | A SKOS concept rendered as a plain resource, no tree | A package adds support for an RDF vocabulary. Without one, this SKOS concept, Denmark, renders as a plain resource. |
-| G2 | Terminal: `ldh packages list`, then `ldh packages add …/editor/taxonomy/#this` | Installing a package takes a single triple, and ldh packages add writes it. |
+| G2 | Terminal: `ldh packages list`, then `ldh packages add …/editor/taxonomy/#this` | Installing a package takes a single triple, and `ldh packages add` writes it. |
 | G3 | The same concept: the tree in the content column, broader and narrower views | With the taxonomy editor package installed, Denmark gets a concept tree, and views of its broader and narrower concepts. |
 | G4 | The package ontology under `admin/ontologies/`, opened for editing | The package's ontology is copied into the administration dataspace, where you can edit it like your own. |
 
@@ -151,27 +152,29 @@ zoomed 200 %), the supercut's recipe; the graph takes at 1×, where the canvas i
 | `overview-a-browse` | A1, A2, A5 | the tree, the modes, search |
 | `overview-a-graph` | A3, A4 | the order graph expanded and opened; Related results; 1× |
 | `overview-b-author` | B1–B5 | scratch document `overview-compose`; the chart's URI is copied from its block after a reload (the just-saved render's copy control writes an empty string) |
-| `overview-c-data` | C1–C3 | three scratch documents; the CSV form is not saved |
-| `overview-d-versions` | D1, D2 | a fresh scratch slug per run, three PUTs through ldh; Compare from the first described version; Restore from the current version (FINDINGS #16) |
-| `overview-e-model` | E1–E4 | Product on Beverages' products view: the title filled, the name empty, refused by `:MissingName`; then the scheme switch |
+| `overview-c-data` | C1–C3 | three scratch documents; the CSV form is not saved. C1, C1b and C2 are cut from take 4 (2026-10-14, `overview-c-data-take4`): after Save the copy renders in place, so the scene no longer waits a fixed 9 s and reloads (which held the copy's document block ~13 s and showed the breadcrumb reloading); it scrolls to the copied Concept block and holds it, and the cut plays that part (C1b, from `C1-saved`) at 1× while C1 runs at 1.3×. C2 leaves the delimiter the constructor fills (the first take typed a second comma over it, `,,`); C3 is cut from take 5 (`overview-c-data-take5`): the dropped Turtle is a whole territory (identifier, region, latitude, longitude), as the model now requires of a `schema:City` |
+| `overview-d-versions` | D1, D2 | a fresh scratch slug per run, three PUTs through ldh; Compare from the first described version; Restore from the current version (FINDINGS #16). Cut from take 2 (2026-10-14, `overview-d-versions-take2`): the fixture writes a whole territory (identifier, region, latitude, longitude), as the model now requires of a `schema:City`, and Rockville carries schema:name alone (the first take, lost on 2026-10-09 and kept only as cut clips in `tracks/overview-d{1,2}-kept.mp4`, also showed a Title row) |
+| `overview-e-model` | E1–E4 | Product on Beverages' products view; cut from take 3 (2026-10-14, `overview-e-model-take3`, after LinkedDataHub's fix for a saved row losing its objects' labels), shot after the Northwind model gained constraints aligned with the imports: every other required field filled (identifier, description "Red tea", category Beverages, provider Exotic Liquids), the name empty, refused by `:MissingName` alone; E3b rewrites the description; then the scheme switch. E2 plays at 2.2× |
 | `overview-e-phone` | E4 (phone) | 390×844 at device scale 2, recorded at 780×1688, light; composited beside the desktop frame |
 | `overview-f-cli` | F1–F3b | docs.localhost emptied, its public authorization reseeded, and the previous take's Editors group and authorization removed off camera; three terminal takes recorded inside the browser take (`tapes/overview-f-push.tape`; `tapes/overview-f-public.tape`: create group, create authorization, make-public, the first two taking the administration base URI as their positional; `tapes/overview-f-get.tape`: `ldh get --accept text/turtle`) |
-| `overview-f-anon` | F3 (anonymous) | run with `--anonymous` after the CLI take |
-| `overview-h-assistant` | H1–H4 | recorded clean 2026-10-05 (94 s, 15 beats). The scratch document `overview-assistant` ("Our best customers") reset off camera; a live model (`gpt-5.5`), so the plan and the answer's wording differ per take — the beats assert the card's states, not its text. The question runs on arrival (~20 s to the steps, cut); "Add the chart to this page" plans as Sequence(AddSelect, AddResultSetChart, AddObjectBlock), which needed REST-VKG's `ldh-operations.md` to say a view or chart is placed by `AddObjectBlock`; "as a view" fails, since a follow-up builds on the rows as seen (names, not customer URIs). Bar charts start at zero and a chart block's Save goes with its controls since LinkedDataHub's fix of the same day. The plan card's summary prints the document URL, `localhost` in frame until the public re-shoot |
-| `overview-h-agent` | H5–H7 | recorded clean 2026-10-05: the terminal take (`tapes/overview-h-agent.tape`, 149 s; the agent's run 55 s, cut at 4.5×) from the linkeddatahub.com deployment's directory, then the books container in the browser. Off camera: the previous take's `books/` documents removed, the Web-Algebra wheel built, `CLAUDE*` variables cleared (an inherited one puts a warning in Claude Code's footer), claude.ai connectors and the Figma plugin hidden from `/mcp`, the MCP server removed after. The agent's titles and authors differ per take. `localhost` in frame until the public re-shoot |
+| `overview-f-anon` | F3 (anonymous) | run with `--anonymous` after the CLI take. Not in the cut since 2026-10-14: the 16:9 crop removed the top bar, its only difference from F2, and the take's bar shows Sign up alone (no Google or ORCID yet); F4 shows the signed-out page instead |
+| `overview-f-login` | F4 | recorded clean 2026-10-14 on docs.localhost with `--anonymous`, once the dev stack had the Google and ORCID clients (the menu lists only configured providers). The menu first (`F4-menu-*`), then Sign up on the administration host (`F4-webid-*`); cut in the narration's order, the form before the menu. The sign-up form's empty text inputs draw no border in the dark scheme, so only Based near reads as a field |
+| `overview-h-assistant` | H1–H4 | recorded clean 2026-10-05 (94 s, 15 beats). The scratch document `overview-assistant` ("Our best customers") reset off camera; a live model (`gpt-5.5`), so the plan and the answer's wording differ per take — the beats assert the card's states, not its text. The question runs on arrival (~20 s to the steps, cut); "Add the chart to this page" plans as Sequence(AddSelect, AddResultSetChart, AddObjectBlock), which needed REST-VKG's `ldh-operations.md` to say a view or chart is placed by `AddObjectBlock`; "as a view" fails, since a follow-up builds on the rows as seen (names, not customer URIs). Bar charts start at zero and a chart block's Save goes with its controls since LinkedDataHub's fix of the same day. The plan card's summary prints the document URL, `localhost` in frame until the public re-shoot Cut from take 2 (2026-10-15, `overview-h-assistant-take2`): the scene holds the chat's own scrollIntoView while filming and eases each question to the top, so it stays in view while its card grows; the model's waits are kept and played fast (H1w at 6×, H3w at 7×) instead of cut. Shot on an image without LinkedDataHub ca3e3f427, whose post-write reload left the page blank |
+| `overview-h-agent` | H5–H7 | recorded clean 2026-10-05: the terminal take (`tapes/overview-h-agent.tape`, 149 s; the agent's run 55 s, cut at 4.5×) from the linkeddatahub.com deployment's directory, then the books container in the browser (the docs' old books prompt; re-shot 2026-10-15 with the Northwind offers prompt). Off camera: the previous take's `offers/` documents removed, the Web-Algebra wheel built, `CLAUDE*` variables cleared (an inherited one puts a warning in Claude Code's footer), claude.ai connectors and the Figma plugin hidden from `/mcp`, the MCP server removed after. The agent's titles and authors differ per take. `localhost` in frame until the public re-shoot |
 | `overview-g-packages` | G1–G4 | the package removed off camera; the terminal take (`tapes/overview-g-packages.tape`) recorded between G1 and G3 |
 
 ## Pronunciation
 
 ElevenLabs reads acronyms unpredictably; these are respelled in the text sent to the API,
-never in this script or the subtitles:
+never in this script or the subtitles. A command in the narration is written in backticks
+(`` `ldh push` ``): it is said as one phrase, with a short pause on either side, and the
+subtitles show it without them.
 
 | Written | Spoken |
 |---|---|
 | LinkedDataHub | Linked Data Hub |
 | SPARQL | sparkle |
 | SKOS | skos (rhymes with "boss") |
-| WebID | web I D |
 | ORCID | orkid |
 | `ldh` | L D H |
 | CSV | C S V |

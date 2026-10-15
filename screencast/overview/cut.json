@@ -48,7 +48,8 @@
     ],
     "note": "Open source under Apache 2.0",
     "fade": 1.2,
-    "seconds": 6
+    "seconds": 6,
+    "at": 1.0
   },
   "shots": [
     {
@@ -88,7 +89,8 @@
         "A1-tree",
         "A1-expanded"
       ],
-      "minZoom": 1.0
+      "minZoom": 1.0,
+      "speed": 0.86
     },
     {
       "id": "A2",
@@ -126,7 +128,7 @@
         "A4-filtered",
         "A4-pill"
       ],
-      "speed": 1.2
+      "speed": 1.02
     },
     {
       "id": "A5",
@@ -150,7 +152,8 @@
         "A6-rendered",
         "A6-link"
       ],
-      "minZoom": 1.0
+      "minZoom": 1.0,
+      "speed": 0.94
     },
     {
       "id": "B1",
@@ -200,7 +203,7 @@
         "B3-editor"
       ],
       "toOffset": 1.5,
-      "speed": 0.75
+      "speed": 0.67
     },
     {
       "id": "B4",
@@ -237,7 +240,8 @@
         "B5-dropped"
       ],
       "minZoom": 1.0,
-      "toOffset": 2.0
+      "toOffset": 2.0,
+      "speed": 0.68
     },
     {
       "id": "B5b",
@@ -255,20 +259,27 @@
     {
       "id": "C1",
       "line": "C1",
-      "track": "overview-c-data",
+      "track": "overview-c-data-take4",
       "from": "C1-start",
-      "to": "C1-end",
+      "to": "C1-saved",
       "move": "zoom",
       "via": [
         "C1-form",
         "C1-source"
       ],
-      "speed": 1.6
+      "speed": 1.3
+    },
+    {
+      "id": "C1b",
+      "track": "overview-c-data-take4",
+      "from": "C1-saved",
+      "to": "C1-end",
+      "move": "zoom"
     },
     {
       "id": "C2",
       "line": "C2",
-      "track": "overview-c-data",
+      "track": "overview-c-data-take4",
       "from": "C2-start",
       "to": "C2-end",
       "move": "zoom",
@@ -282,7 +293,7 @@
     {
       "id": "C3",
       "line": "C3",
-      "track": "overview-c-data",
+      "track": "overview-c-data-take5",
       "from": "C3-start",
       "to": "C3-end",
       "move": "static",
@@ -296,7 +307,7 @@
     {
       "id": "E1",
       "line": "E1",
-      "track": "overview-e-model",
+      "track": "overview-e-model-take3",
       "from": "E1-start",
       "to": "E1-end",
       "move": "zoom",
@@ -305,31 +316,33 @@
     {
       "id": "E2",
       "line": "E2",
-      "track": "overview-e-model",
+      "track": "overview-e-model-take3",
       "from": "E2-start",
       "to": "E2-end",
       "move": "zoom",
       "via": [
         "E2-save"
-      ]
+      ],
+      "speed": 2.2
     },
     {
       "id": "E3",
       "line": "E3",
-      "track": "overview-e-model",
+      "track": "overview-e-model-take3",
       "from": "E3-start",
       "to": "E3-end",
       "move": "zoom",
       "via": [
         "E3-filled"
-      ]
+      ],
+      "speed": 0.82
     },
     {
       "id": "E3b",
       "line": "E3b",
-      "track": "overview-e-model",
+      "track": "overview-e-model-take3",
       "from": "E3b-form",
-      "to": "E3b-end",
+      "to": "E3c-start",
       "move": "zoom",
       "via": [
         "E3b-filled"
@@ -341,7 +354,7 @@
     {
       "id": "E3c",
       "line": "E3c",
-      "track": "overview-e-model",
+      "track": "overview-e-model-take3",
       "from": "E3c-start",
       "to": "E3c-end",
       "move": "zoom",
@@ -353,16 +366,17 @@
     {
       "id": "D1",
       "line": "D1",
-      "track": "overview-d-versions",
+      "track": "overview-d-versions-take2",
       "from": "D1-start",
       "to": "D1-end",
       "move": "zoom",
-      "minZoom": 1.0
+      "minZoom": 1.0,
+      "speed": 0.39
     },
     {
       "id": "D2",
       "line": "D2",
-      "track": "overview-d-versions",
+      "track": "overview-d-versions-take2",
       "from": "D2-start",
       "to": "D2-end",
       "move": "zoom",
@@ -378,7 +392,7 @@
     {
       "id": "E4",
       "line": "E4",
-      "track": "overview-e-model",
+      "track": "overview-e-model-take3",
       "from": "E4-start",
       "to": "E4-end",
       "move": "static",
@@ -419,14 +433,6 @@
       "speed": 2
     },
     {
-      "id": "F3a",
-      "track": "overview-f-anon",
-      "from": "F3-anon-start",
-      "to": "F3-anon-end",
-      "move": "static",
-      "focus": false
-    },
-    {
       "id": "F3b",
       "line": "F3b",
       "track": "overview-f-get-terminal",
@@ -435,27 +441,61 @@
       "kind": "terminal"
     },
     {
+      "id": "F4a",
+      "line": "F4a",
+      "track": "overview-f-login",
+      "from": "F4-webid-start",
+      "to": "F4-webid-end",
+      "move": "static",
+      "focus": false,
+      "speed": 0.39
+    },
+    {
+      "id": "F4",
+      "line": "F4",
+      "track": "overview-f-login",
+      "from": "F4-menu-start",
+      "to": "F4-menu-end",
+      "move": "static",
+      "focus": {
+        "x": 1500,
+        "y": 0,
+        "w": 1380,
+        "h": 780
+      }
+    },
+    {
       "id": "H1a",
-      "track": "overview-h-assistant",
-      "from": "H1-start",
+      "track": "overview-h-assistant-take2",
+      "from": 8.6,
       "to": "H1-asked",
       "move": "zoom",
       "minZoom": 1.0,
       "speed": 1.6
     },
     {
+      "id": "H1w",
+      "track": "overview-h-assistant-take2",
+      "from": "H1-asked",
+      "to": "H1-running",
+      "move": "zoom",
+      "minZoom": 1.0,
+      "speed": 6
+    },
+    {
       "id": "H1",
       "line": "H1",
-      "track": "overview-h-assistant",
+      "track": "overview-h-assistant-take2",
       "from": "H1-running",
       "to": "H1-end",
       "move": "zoom",
-      "minZoom": 1.0
+      "minZoom": 1.0,
+      "speed": 0.71
     },
     {
       "id": "H2",
       "line": "H2",
-      "track": "overview-h-assistant",
+      "track": "overview-h-assistant-take2",
       "from": "H2-start",
       "to": "H2-end",
       "move": "zoom",
@@ -466,7 +506,7 @@
     },
     {
       "id": "H3a",
-      "track": "overview-h-assistant",
+      "track": "overview-h-assistant-take2",
       "from": "H3-start",
       "to": "H3-asked",
       "move": "zoom",
@@ -474,9 +514,18 @@
       "speed": 1.3
     },
     {
+      "id": "H3w",
+      "track": "overview-h-assistant-take2",
+      "from": "H3-asked",
+      "to": "H3-plan",
+      "move": "zoom",
+      "minZoom": 1.0,
+      "speed": 7
+    },
+    {
       "id": "H3",
       "line": "H3",
-      "track": "overview-h-assistant",
+      "track": "overview-h-assistant-take2",
       "from": "H3-plan",
       "to": "H3-end",
       "move": "zoom",
@@ -489,7 +538,7 @@
     {
       "id": "H4",
       "line": "H4",
-      "track": "overview-h-assistant",
+      "track": "overview-h-assistant-take2",
       "from": "H4-start",
       "to": "H4-end",
       "move": "zoom",
@@ -514,15 +563,22 @@
       "from": 31,
       "to": 45,
       "kind": "terminal",
-      "speed": 1.6
+      "speed": 1.14
     },
     {
       "id": "H6b",
       "track": "overview-h-agent-terminal",
       "from": 45,
-      "to": 98,
+      "to": 128.5,
       "kind": "terminal",
-      "speed": 4.5
+      "speed": 6
+    },
+    {
+      "id": "H6c",
+      "track": "overview-h-agent-terminal",
+      "from": 128.5,
+      "to": 133.5,
+      "kind": "terminal"
     },
     {
       "id": "H7",
@@ -547,7 +603,8 @@
       "from": "G1-start",
       "to": "G1-end",
       "move": "static",
-      "focus": false
+      "focus": false,
+      "speed": 0.42
     },
     {
       "id": "G2",
@@ -562,7 +619,7 @@
       "id": "G3",
       "line": "G3",
       "track": "overview-g-packages",
-      "from": "G3-start",
+      "from": 40.4,
       "to": "G3-end",
       "move": "zoom",
       "via": [
@@ -588,11 +645,12 @@
       "track": "overview-0-graph",
       "from": "0.1-start",
       "to": "0.1-start",
-      "hold": 3,
+      "hold": 11.2,
       "move": "static",
       "focus": false,
       "scale": 1,
-      "kind": "close"
+      "kind": "close",
+      "lineOffset": 2.6
     }
   ],
   "tone": {

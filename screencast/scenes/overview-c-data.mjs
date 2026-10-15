@@ -12,7 +12,7 @@ import { resetDocument, removeAll } from '../lib/fixture.mjs';
 import { createFromDock } from '../lib/constructors.mjs';
 import { pickByLabel, switchDocumentMode } from '../lib/blocks.mjs';
 import { ui } from '../lib/dom.mjs';
-import { GEOMETRY_2X, zoom2x, focus, centre, load } from '../lib/supercut.mjs';
+import { GEOMETRY_2X, zoom2x, focus, centre, load, easeScrollTo } from '../lib/supercut.mjs';
 
 const opts = await resolve('/');
 const { base, identity } = opts;
@@ -75,13 +75,19 @@ await runScene({
     await sleep(1200);
     await marks.beat('C1-source', 'the remote document as Source', await focus(modal));
     await cursor.click(modal.locator('button').filter({ hasText: /Save/ }).last());
-    await page.waitForTimeout(9000);
-    await page.goto(read(fork.url), { waitUntil: 'load' });
-    await until(page.waitForSelector('.ldh-pane.is-active .ldh-block', { timeout: 30_000 }), 'the forked document');
-    await sleep(3000);
+    // the copy renders in place within a second of Save: no fixed wait and no reload, which
+    // held the document's own block on screen for ~13 s and showed the breadcrumb reloading.
+    // The copy's first block is that document (creator, container, primary topic); the
+    // concept it was made for is the block below it, typed Concept, so the shot ends there.
+    const concept = ui(page).locator('.ldh-block').filter({ has: page.locator('.ldh-type-chip', { hasText: 'Concept' }) }).first();
+    await until(concept.waitFor({ state: 'visible', timeout: 30_000 }), 'the copied Concept block');
     const text = await page.locator('.ldh-pane.is-active').first().innerText().catch(() => '');
     if (!/beverage|boisson|concept|skos/i.test(text)) throw new Error('C1: the local document does not describe the remote concept');
-    await marks.beat('C1-end', 'the copy: the concept, described locally', await focus(ui(page).locator('.ldh-block').first()));
+    await sleep(1200);
+    await marks.beat('C1-saved', 'the copy, rendered in place');
+    await easeScrollTo(concept, { ms: 1400, margin: 200 });
+    await sleep(4000);
+    await marks.beat('C1-end', 'the copy: the concept, described locally', await focus(concept));
     await sleep(800);
 
     // ── C2 · the CSV import form ───────────────────────────────────────────────
@@ -95,8 +101,9 @@ await runScene({
     const form = page.locator('form:visible').filter({ hasText: 'Delimiter' }).last();
     const group = (label) => form.locator('.ldh-prop-group').filter({ hasText: label }).first();
     await marks.beat('C2-form', 'the CSV import form', await focus(form));
-    await type(group('Delimiter').locator('input[type=text]:visible').first(), ',');
-    await sleep(600);
+    // the constructor fills the delimiter (ldh:delimiter "," in ldh.ttl); typing one more made it ",,"
+    const delimiter = await group('Delimiter').locator('input[type=text]:visible').first().inputValue();
+    if (delimiter !== ',') throw new Error(`C2: the delimiter is ${JSON.stringify(delimiter)}, not ","`);
     const filePick = await pickByLabel(page, cursor, type, group('File').locator('input[type=text]:visible').first(), 'Products', { kind: 'File' });
     if (!filePick.ok) throw new Error(filePick.why ?? 'C2: the CSV file was not offered');
     await sleep(900);
@@ -126,7 +133,9 @@ await runScene({
 
     await load(page, read(turtle.url), '.ldh-pane.is-active .ldh-block, .ldh-pane.is-active button', 2500);
     await marks.beat('C3-turtle-start', 'an empty document for a Turtle file');
-    const ttl = `@prefix schema: <https://schema.org/> .\n<#this> a schema:City ; schema:name "Rockville" ; schema:description "A territory dropped in as Turtle." .\n`;
+    // a whole territory, as the model requires of a schema:City (ns.ttl: name, identifier, region,
+    // latitude, longitude) — Rockville's own row from territories.csv; a partial one is refused
+    const ttl = `@prefix schema: <https://schema.org/> .\n@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n<#this> a schema:City ; schema:name "Rockville" ; schema:identifier "20852" ; schema:description "A territory dropped in as Turtle." ;\n    schema:containedInPlace <${base}/regions/1/#this> ; geo:lat "39.0496"^^xsd:float ; geo:long "-77.1204"^^xsd:float .\n`;
     const rdf = await transferOf(page, { name: 'rockville.ttl', mime: 'text/turtle', bytes: Buffer.from(ttl) });
     await drop(page, cursor, marks, 'C3-turtle', rdf, 'the Turtle file');
     await until(page.waitForFunction(() => /Rockville/.test(document.querySelector('.ldh-pane.is-active')?.innerText ?? ''), null, { timeout: 30_000 }), 'the dropped data on the page');

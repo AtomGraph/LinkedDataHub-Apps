@@ -7,8 +7,9 @@
 //
 // A live model answers, so the plan and the answer's wording differ from take to take: the beats
 // assert the card's states - ran, answered, drawn, waiting, written - and never its text. The
-// scratch document is reset off camera. The waits for the model (10-30 s for each plan) are cut:
-// H1-asked and H3-asked mark where each begins, H1-running and H3-plan where it ends.
+// scratch document is reset off camera. The waits for the model (10-30 s for each plan) are kept
+// and played fast in the cut: H1-asked and H3-asked mark where each begins, H1-running and H3-plan
+// where it ends.
 import { runScene, resolve, geometryFrom, sleep, until } from '../lib/harness.mjs';
 import { resetDocument, removeAll } from '../lib/fixture.mjs';
 import { ui } from '../lib/dom.mjs';
@@ -37,13 +38,26 @@ await runScene({
     const chat = () => page.locator(`.ldh-chat[data-chat="${chatUri}"]`);
     const composer = () => chat().locator('> form.ldh-chat-composer textarea');
     const card = () => chat().locator('.ldh-chat-log > .ldh-chat-plan').last();
-    // the beat after Enter is where the cut leaves for the model's wait
+    // The chat scrolls its newest card into view ('nearest') on every update (chat.xsl
+    // ldh:chat-scroll), so a card growing under the question pushes the question off the top.
+    // The camera is the scene's: those calls are held while it films, and after Enter the page
+    // eases to the question, which stays at the top while the card grows beneath it.
+    const holdChatScroll = () => page.evaluate(() => {
+      if (Element.prototype.__siv) return;
+      Element.prototype.__siv = Element.prototype.scrollIntoView;
+      Element.prototype.scrollIntoView = function (o) { if (this.closest && this.closest('.ldh-chat')) return; return this.__siv(o); };
+    });
+    // the beat after Enter is where the model's wait begins; the cut plays the wait fast
     const ask = async (text, beat) => {
+      await holdChatScroll();
       await cursor.moveTo(...(await centre(composer())), { duration: 600 });
       await type(composer(), text);
       await sleep(400);
       await page.keyboard.press('Enter');
-      await sleep(1200);
+      const turn = chat().locator('.ldh-chat-turn').filter({ hasText: text }).last();
+      await until(turn.waitFor({ state: 'visible', timeout: 10_000 }), 'the question in the log');
+      await easeScrollTo(turn, { ms: 1000, margin: 220 });
+      await sleep(400);
       await marks.beat(beat, `asked: ${text}`, await focus(chat()));
     };
 
@@ -56,9 +70,6 @@ await runScene({
     await sleep(600);
     await ask(QUESTION, 'H1-asked');
     await until(card().locator('.ldh-chat-step').first().waitFor({ state: 'visible', timeout: MODEL }), 'the plan\'s steps');
-    // the card grows as the steps arrive and the page follows the composer, which takes the
-    // question off the top; bring the card's head back
-    await card().evaluate((el) => el.closest('.ldh-chat').querySelector('.ldh-chat-turn')?.scrollIntoView({ block: 'start', behavior: 'smooth' }));
     await sleep(500);
     await marks.beat('H1-running', 'the plan arrived and runs: its steps report', await focus(card()));
     await until(card().locator('.ldh-chat-answer').filter({ hasText: /\S/ }).waitFor({ timeout: MODEL }), 'the answer');
@@ -92,7 +103,8 @@ await runScene({
     await until(execute().waitFor({ state: 'visible', timeout: MODEL }), 'the write plan, waiting for Execute');
     const ops = await card().locator('.ldh-chat-step .op').allTextContents();
     if (!ops.some((o) => /AddObjectBlock/.test(o))) throw new Error(`H3: the plan does not place the chart: ${ops.join(' ')}`);
-    await easeScrollTo(card(), { ms: 1200, margin: 200 }); await sleep(1500);
+    // the follow-up stays in view above the plan it got
+    await easeScrollTo(chat().locator('.ldh-chat-turn').filter({ hasText: FOLLOW_UP }).last(), { ms: 1200, margin: 220 }); await sleep(1500);
     await marks.beat('H3-plan', `waiting for Execute: ${ops.map((o) => o.trim()).join(', ')}`, await focus(card()));
     await sleep(2500);
     await cursor.moveTo(...(await centre(execute())), { duration: 700 });

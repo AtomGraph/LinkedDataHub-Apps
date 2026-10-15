@@ -3,8 +3,8 @@
 // diff marked on the document, and an earlier version restored, the page re-reading
 // with it (D2).
 //
-// The document is a scratch item with real properties — a city with a name and a
-// description — written through ldh off camera: once on creation, then twice more with
+// The document is a scratch item with real properties — a whole territory, as the model
+// requires of a schema:City (Rockville's row from territories.csv) — written through ldh off camera: once on creation, then twice more with
 // the description changed, so the diff has a row to mark and the restore something to
 // bring back. Versioning on the dataspace is the prerequisite (see FINDINGS #16 for why
 // the restore is pressed from the current version, never from inside a comparison).
@@ -44,8 +44,12 @@ const doc = (description) => `@prefix dh: <https://w3id.org/atomgraph/linkeddata
 @prefix sioc: <http://rdfs.org/sioc/ns#> .
 @prefix schema: <https://schema.org/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 <${url}> a dh:Item ; dct:title "Rockville" ; sioc:has_container <${root}> ; foaf:primaryTopic <${url}#this> .
-<${url}#this> a schema:City ; schema:name "Rockville" ; schema:description ${JSON.stringify(description)} .
+<${url}#this> a schema:City ; schema:name "Rockville" ; schema:description ${JSON.stringify(description)} ;
+    schema:identifier "20852" ; schema:containedInPlace <${root}regions/1/#this> ;
+    geo:lat "39.0496"^^xsd:float ; geo:long "-77.1204"^^xsd:float .
 `;
 for (const d of DESCRIPTIONS) {
   const put = await run(['put', '-t', 'text/turtle', url, ...auth], doc(d));
