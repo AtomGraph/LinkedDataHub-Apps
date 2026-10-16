@@ -107,13 +107,13 @@
             <pre>&lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt;
 {
     &lt;urn:linkeddatahub:apps/northwind-traders/end-user&gt; a lds:EndUserDataspace ;
-        lds:service &lt;urn:linkeddatahub:services/end-user&gt; .
+        lds:service &lt;urn:linkeddatahub:services/northwind-traders/end-user&gt; .
 }
 
 &lt;urn:linkeddatahub:apps/northwind-traders/admin&gt;
 {
     &lt;urn:linkeddatahub:apps/northwind-traders/admin&gt; a lds:AdminDataspace ;
-        lds:service &lt;urn:linkeddatahub:services/admin&gt; .
+        lds:service &lt;urn:linkeddatahub:services/northwind-traders/admin&gt; .
 }</pre>
             <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/config/dataspaces.trig" target="_blank">config/dataspaces.trig</a>, <a href="https://github.com/AtomGraph/LinkedDataHub/blob/develop/config/system.trig" target="_blank">config/system.trig</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">northwind-traders.demo.linkeddatahub.com</a></p>
         </div>
