@@ -106,14 +106,18 @@ Link: &lt;https://localhost:4443/orders/10248/&gt;; rel="original"</pre>
     prov:wasRevisionOf &lt;https://localhost:4443/orders/10248/?version=4d1e7aa&gt; .</pre>
         <p>and the same TimeMap as <code>application/link-format</code>:</p>
         <pre>&lt;https://localhost:4443/orders/10248/&gt;;rel="original",
-&lt;https://localhost:4443/orders/10248/?timemap&gt;;rel="self";type="application/link-format",
-&lt;https://localhost:4443/orders/10248/?version=4d1e7aa&gt;;rel="memento";datetime="Sun, 30 Aug 2026 10:12:04 GMT",
-&lt;https://localhost:4443/orders/10248/?version=8c9f2b1&gt;;rel="memento";datetime="Tue, 01 Sep 2026 14:03:59 GMT"</pre>
-        <p>A TimeMap of a document with no versions answers <code>404 Not Found</code>. A non-versioned document answers <code>406 Not Acceptable</code>
+&lt;https://localhost:4443/orders/10248/?timemap&gt;;rel="self";type="application/link-format";from="Sun, 30 Aug 2026 10:12:04 GMT";until="Tue, 01 Sep 2026 14:03:59 GMT",
+&lt;https://localhost:4443/orders/10248/?timegate&gt;;rel="timegate",
+&lt;https://localhost:4443/orders/10248/?version=4d1e7aa&gt;;rel="first memento";datetime="Sun, 30 Aug 2026 10:12:04 GMT",
+&lt;https://localhost:4443/orders/10248/?version=8c9f2b1&gt;;rel="last memento";datetime="Tue, 01 Sep 2026 14:03:59 GMT"</pre>
+        <p>A document of a versioned dataspace that no write has reached yet, such as imported data or a document that predates versioning being
+            enabled, has no versions: its TimeMap lists the Original Resource, the TimeMap itself without a <code>from</code>/<code>until</code>
+            range and the TimeGate, and no Mementos. Its next write makes the first version. A non-versioned document answers <code>406 Not Acceptable</code>
             when <code>application/link-format</code> is requested.</p>
         <p>The Memento hypermedia uses IANA-registered relation types: the document advertises its <code>timemap</code> and <code>timegate</code> in
-            <code>Link</code> headers, a historical version links back to the document with <code>rel=original</code>, and the TimeMap identifies itself with
-            <code>rel=self</code>.</p>
+            <code>Link</code> headers, a historical version links back to the document with <code>rel="original"</code>, and the TimeMap identifies itself with
+            <code>rel="self"</code>. Relation types are always quoted, as RFC 8288 requires of a URI relation type such as
+            <code>rel="http://www.w3.org/ns/auth/acl#mode"</code>.</p>
     </div>
     <div>
         <h2 id="timegate">TimeGate</h2>

@@ -126,3 +126,38 @@ function run(cmd, args, { env, quiet = false } = {}) {
     child.on('close', resolve);
   });
 }
+
+/**
+ * The environment for a tape that runs curl against the stack, with the stack trusted.
+ *
+ * A tape's curl carries no -k: the command on camera is the one a viewer would type
+ * against a public instance. On a stack whose certificate curl cannot verify — the dev
+ * stack's names only localhost, so docs.localhost fails on the name even with the
+ * certificate as CA — the recording shell trusts it through a .curlrc of its own
+ * instead, the way the browser takes ignore HTTPS errors. Only verification is excused:
+ * the request is made here first, exactly as the tape makes it, and a stack that
+ * answers with anything but 200 is a failed take before anything is filmed, since
+ * `curl -s` would film an empty answer.
+ *
+ * @param url  the document the tape asks for
+ * @param env  the tape's variables
+ * @returns    env, plus CURL_HOME when the stack had to be trusted
+ */
+export async function trustedCurlEnv(url, env = {}) {
+  const probe = (extra) => new Promise((resolve) => {
+    const p = spawn('curl', ['-s', '-o', '/dev/null', '-m', '20', '-H', 'Accept: text/turtle', '-w', '%{http_code}', url], { env: { ...process.env, ...env, ...extra } });
+    let out = '';
+    p.stdout.on('data', (d) => (out += d));
+    p.on('close', (code) => resolve({ code, status: out.trim() }));
+  });
+  let r = await probe({});
+  let trusted = {};
+  if (r.code === 60 || r.code === 35) {
+    const home = await fs.mkdtemp(path.join(os.tmpdir(), 'ldh-curl-'));
+    await fs.writeFile(path.join(home, '.curlrc'), 'insecure\n');
+    trusted = { CURL_HOME: home };
+    r = await probe(trusted);
+  }
+  if (r.code !== 0 || r.status !== '200') throw new Error(`${url} answers ${r.status || `curl exit ${r.code}`} to a GET for Turtle; the tape would film nothing`);
+  return { ...env, ...trusted };
+}

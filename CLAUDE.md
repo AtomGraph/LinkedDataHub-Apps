@@ -36,9 +36,9 @@ make install    # prompts for base URL, keystore path, keystore password and opt
 Each `install.sh` sources `lib/ldh-app.sh` and is the app's own sequence of steps:
 
 - `ldh admin make-public` — an authorization that makes the app readable by anyone
-- `ldh_app_import_ns admin/model` — resets the namespace ontology document with `patch-ontology.ru`, appends `ns.ttl` under `@base <{base}ns>`, clears the ontology cache
+- `ldh_app_import_ns admin/model` — `ldh admin import ontology --file admin/model/ns.ttl`: installs `ns.ttl` as the namespace ontology, replacing the document and clearing the ontology cache
 - `ldh push --dir . "$LDH_BASE"` — PUTs every RDF file to the document its path spells and uploads every other file into its folder's document
-- `ldh_app_import_csv . imports.csv` — one `ldh import csv` per manifest row (`query_filename,csv_filename,target,title`)
+- `ldh_app_import_csv . imports.csv` — one `ldh import csv --wait` per manifest row (`query_filename,csv_filename,target,title`)
 - app-specific steps: `ldh admin create authorization`, `ldh packages add`, `ldh import rdf`
 
 **Re-runs converge but are not clean.** `ldh push` PUTs and the ontology is reset before re-import, so documents and the model end up the same. `make-public`, `create authorization` and every import are POSTs, so each run adds another authorization and another import record. Nothing probes for an earlier install.

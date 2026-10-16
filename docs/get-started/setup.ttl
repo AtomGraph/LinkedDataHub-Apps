@@ -66,6 +66,7 @@ OWNER_COUNTRY_NAME=DK</pre>
 ├── config/     # dataspace and service configuration (dataspaces.trig, system.trig)
 ├── datasets/   # owner and secretary agent metadata
 ├── fuseki/     # the triplestore's persisted RDF data, one TDB2 directory per dataset
+├── settings/   # dataspace settings changed at runtime, applied over config/ on restart
 ├── ssl/
 │   ├── owner/      # your WebID certificate (keystore.p12)
 │   └── secretary/  # the service agent's certificate

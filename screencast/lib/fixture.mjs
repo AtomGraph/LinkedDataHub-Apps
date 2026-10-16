@@ -23,12 +23,12 @@ function run(cmd, args, input = null) {
   });
 }
 
-export async function resetDocument({ ldh, base, certFile, certPassword, certPasswordFile, container, slug, title }) {
+export async function resetDocument({ ldh, certFile, certPassword, certPasswordFile, container, slug, title }) {
   const password = certPassword ?? (certPasswordFile ? (await fs.readFile(certPasswordFile, 'utf8')).trim() : null);
   if (!password) throw new Error('resetDocument needs --cert-password or --cert-password-file');
 
   // The CLI takes its options after the subcommand, not before it.
-  const auth = ['-b', base.endsWith('/') ? base : `${base}/`, '-c', certFile, '-p', password];
+  const auth = ['-c', certFile, '-p', password];
   const url = `${container.replace(/\/$/, '')}/${slug}/`;
   const scrub = (t) => String(t).split(password).join('••••');
 
@@ -57,10 +57,10 @@ export async function resetContainer({ ldh, base, certFile, certPassword, certPa
   if (!password) throw new Error('resetContainer needs --cert-password or --cert-password-file');
 
   const root = base.endsWith('/') ? base : `${base}/`;
-  const auth = ['-b', root, '-c', certFile, '-p', password];
+  const auth = ['-c', certFile, '-p', password];
   const scrub = (t) => String(t).split(password).join('••••');
 
-  await run(ldh, ['delete', `${(parent ?? root).replace(/\/$/, '')}/${slug}/`, ...auth.slice(2)]);
+  await run(ldh, ['delete', `${(parent ?? root).replace(/\/$/, '')}/${slug}/`, ...auth]);
   const made = await run(ldh, ['create', 'container', ...auth, '--parent', parent ?? root, '--title', title, '--slug', slug]);
   if (made.code !== 0) throw new Error(`could not create container ${slug}: ${scrub(made.err || made.out).slice(0, 400)}`);
   return made.out || `${root}${slug}/`;

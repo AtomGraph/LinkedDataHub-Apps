@@ -135,6 +135,7 @@ HOST=ec2-54-235-229-141.compute-1.amazonaws.com</pre>
                 <dt><samp>orcid_client_id</samp></dt>
                 <dd><a href="https://info.orcid.org/documentation/integration-guide/registering-a-public-api-client/">ORCID OpenID Connect client ID</a></dd>
                 <dd><a href="../../get-started/get-an-account/">Login with ORCID</a> authentication is enabled when this value is provided</dd>
+                <dd>The client is expected to be registered on production ORCID (<samp>https://orcid.org</samp>). For a client registered on ORCID's sandbox, set the <samp>ORCID_ISSUER</samp> environment variable to <samp>https://sandbox.orcid.org</samp>: the authorization, token and key endpoints derive from it, and only ID tokens from that issuer are accepted</dd>
                 <dt><samp>orcid_client_secret</samp></dt>
                 <dd><a href="https://info.orcid.org/documentation/integration-guide/registering-a-public-api-client/">ORCID OpenID Connect client secret</a></dd>
                 <dt><samp>credentials</samp></dt>
@@ -231,12 +232,14 @@ HOST=ec2-54-235-229-141.compute-1.amazonaws.com</pre>
         </div>
         <div>
             <h3 id="http-client-pool">HTTP client pool</h3>
-            <p>The size of the connection pool those clients share. Both are passed as servlet parameters rather than as <samp>CATALINA_OPTS</samp> system properties.</p>
+            <p>The size of the connection pool those clients share, and how often they retry. The entrypoint passes them to the platform as <samp>CATALINA_OPTS</samp> system properties, like the timeouts above.</p>
             <dl>
                 <dt><samp>MAX_CONN_PER_ROUTE</samp></dt>
                 <dd>Maximum pooled connections per host. Defaults to <samp>200</samp>.</dd>
                 <dt><samp>MAX_TOTAL_CONN</samp></dt>
                 <dd>Maximum pooled connections in total. Defaults to <samp>400</samp>.</dd>
+                <dt><samp>MAX_REQUEST_RETRIES</samp></dt>
+                <dd>Maximum number of times a failed request is retried. Defaults to the HTTP client's own retry policy.</dd>
             </dl>
             <div class="ac-alert va-warning" role="status">
                 <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>

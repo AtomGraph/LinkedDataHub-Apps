@@ -62,7 +62,7 @@ export function args() {
   };
 
   // --origin is accepted as an alias so the flag reads naturally in a scene, but
-  // --base is the name the ldh CLI uses and the one the env var follows.
+  // --base is the canonical name, the one the LDH_BASE env var follows.
   const base = value('base', value('origin', process.env.LDH_BASE ?? DEFAULT_BASE)).replace(/\/$/, '');
 
   return {
@@ -131,13 +131,17 @@ export async function runScene({
 
   const context = await browser.newContext({
     ignoreHTTPSErrors: true,
+    // English chrome in embedded players and date pickers, whatever the machine's locale.
+    locale: 'en-US',
     viewport: { width: geometry.width, height: geometry.height },
     // SCHEME=dark records the page in the dark colour scheme (the page follows
     // prefers-color-scheme; nothing pins it).
     ...(process.env.SCHEME ? { colorScheme: process.env.SCHEME } : {}),
     deviceScaleFactor: geometry.deviceScaleFactor ?? 2,
     ...(opts.video
-      ? { recordVideo: { dir: TRACKS, size: { width: geometry.width, height: geometry.height } } }
+      // A take can record at a size other than its viewport — a phone-width page at 2×
+      // keeps a 390 px layout and its media queries while the frames are 780 wide.
+      ? { recordVideo: { dir: TRACKS, size: geometry.record ?? { width: geometry.width, height: geometry.height } } }
       : {}),
     ...(identity ? { clientCertificates: identity } : {}),
     // A scene copies a resource's URI from the app rather than knowing it, so the
@@ -237,15 +241,19 @@ export async function runScene({
   const video = page.video();
   await context.close(); // video is only written here — there is no way to stop it early
 
+  // A failed run is kept beside the take, never over it: tracks/ is not in git, so a take
+  // replaced by a few seconds of a run that failed is gone for good.
+  const savedName = failure ? `${trackName}.failed` : trackName;
+
   // saveAs needs the browser alive, so it has to happen between the two closes.
   let trackPath = null;
   if (video) {
-    trackPath = path.join(TRACKS, `${trackName}.webm`);
+    trackPath = path.join(TRACKS, `${savedName}.webm`);
     await video.saveAs(trackPath);
     await video.delete();
   }
   await browser.close();
-  const marksPath = await marks.save(TRACKS, trackName);
+  const marksPath = await marks.save(TRACKS, savedName);
 
   console.log(`\n  track  ${trackPath}`);
   console.log(`  marks  ${marksPath}`);

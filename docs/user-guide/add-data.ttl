@@ -11,7 +11,7 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="ldh-body-lg">Copy RDF data from Linked Data resources and file uploads into your dataspace</p>
-    <p>Forking copies the contents of any RDF document into a named graph in your dataspace. Two sources of RDF are supported: RDF resources on the web (Linked Data) and RDF file uploads.</p>
+    <p>You can copy the contents of any RDF document into a named graph in your dataspace. Two sources of RDF are supported: RDF resources on the web (Linked Data) and RDF file uploads.</p>
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
@@ -26,7 +26,7 @@
             <button aria-controls="from-a-file-pane" aria-selected="false" class="ac-tab" id="from-a-file-tab" role="tab" type="button"><span class="ac-tab-lbl">From a file</span></button>
         </div>
         <div aria-labelledby="from-linked-data-tab" class="ac-tabpanel" id="from-linked-data-pane" role="tabpanel">
-        <video aria-label="Forking a remote RDF document into the dataspace" controls="controls" preload="metadata" src="/uploads/77a0696a5eb9a84bf2f1255dc1ac9947b4a1fbac"></video>
+        <video aria-label="Copying a remote RDF document into the dataspace" controls="controls" preload="metadata" src="/uploads/08ebfd9ed8fa60a805d5bdff240eb8d36807da7a"></video>
         <p>To copy the contents of the current RDF document (local or remote) into a local document, follow these steps:</p>
         <ol>
             <li>Choose <samp>Save as</samp> in the <a href="../../reference/user-interface/#action-bar" target="_blank">action bar</a>'s <span class="ac-btn in-neutral ap-outline sz-md">Actions</span> dropdown.
@@ -38,17 +38,17 @@
                     <dd>The target document. The source data is appended to the target document's existing content, replacing nothing. You can start typing to find the document by its label, or paste its URI here.</dd>
                 </dl>
             </li>
-            <li>Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span> to perform the fork operation.</li>
+            <li>Click <span class="ac-btn in-primary ap-solid sz-sm">Save</span> to copy the data.</li>
         </ol>
         <p>For example, the Northwind Beverages category <a href="../../reference/imports/rdf/">maps to</a> the UNESCO Thesaurus concept
             <a href="https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3683/" target="_blank"><samp>Beverages</samp></a>. Open it in the
-            <a href="../browse-data/">Linked Data browser</a> and fork it into your own dataspace.</p>
+            <a href="../browse-data/">Linked Data browser</a> and copy it into your own dataspace.</p>
         <p>The target document does not have to be local: you can also add data to a document in <em>another</em> dataspace by pasting its URI. The
             append is performed with your identity, so the target dataspace's <a href="../../reference/administration/acl/">access control</a> decides
             whether it is allowed — a refusal surfaces as a form error.</p>
         </div>
         <div aria-labelledby="from-the-command-line-tab" class="ac-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
-        <p>The same fork is a pipe — <samp>ldh get</samp> the source, <samp>ldh post</samp> it into the target document:</p>
+        <p>The same copy is a pipe — <samp>ldh get</samp> the source, <samp>ldh post</samp> it into the target document:</p>
         <pre>ldh get --accept text/turtle \\
     "https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3683/" \\
   | ldh post -t text/turtle "${LDH_BASE}categories/1/"</pre>
@@ -90,5 +90,5 @@
         </table>
         </div>
     </div>
-    <p class="ldh-body-lg"><a href="../browse-data/">Browse data</a> to find resources worth forking, or <a href="../import-data/import-rdf-data/">import RDF data</a> for larger datasets.</p>
+    <p class="ldh-body-lg"><a href="../browse-data/">Browse data</a> to find resources worth copying, or <a href="../import-data/import-rdf-data/">import RDF data</a> for larger datasets.</p>
 </div>"""^^rdf:XMLLiteral .

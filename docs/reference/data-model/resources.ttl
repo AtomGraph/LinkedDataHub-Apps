@@ -222,11 +222,19 @@ ORDER BY DESC(?revenue)''' .
         The UI renders the descriptions of the resources selected by the result set, rather than the tabular result itself.
         That is achieved by on-the-fly SPARQL query rewriting: the <code>SELECT</code> is wrapped into
         a <code>DESCRIBE</code> query; <code>DESCRIBE</code> reuses the same variables from the <code>SELECT</code> projection.
+        The first projected variable, plain or aliased as in <code>(?s AS ?resource)</code>, names the resources the view lists. When it binds
+        values rather than resources, as in <code>(YEAR(NOW()) AS ?year)</code>, there is nothing to describe and the block says the query lists no resources.
         <em>This will not work for all <code>SELECT</code> queries.</em></p>
         <p>To render paginated lists of resources, traditional applications would normally have a dedicated API endpoint that
         supports pagination, ordering etc. In LinkedDataHub, views achieve the same functionality by simply building the
         SPARQL query string on the client-side. A view is therefore a client-side counterpart of a container: it produces a
         listing without a server-side endpoint.</p>
+        <p>A view is defined in one of two ways. A standalone view is a resource like a <a href="#queries">query</a> or a <a href="#charts">chart</a>:
+        it is stored in a document and placed on a page by an <a href="../blocks/#object-blocks">object block</a> whose value is its URI.
+        A property-attached view is declared in the dataspace's ontology with <code>ldh:view</code> or <code>ldh:inverseView</code>. It is stored
+        in no document and is rendered on every resource of the property's domain or range, as the
+        <a href="../../administration/ontologies/#views">ontologies reference</a> describes. Both kinds offer the same pagination,
+        <a href="#faceted-search">faceted search</a> and <a href="#parallax">parallax navigation</a>.</p>
         <p>A view references its <a href="#queries">query</a> and optionally fixes a layout mode:</p>
         <pre>&lt;#select-categories-view&gt; a ldh:View ;
     spin:query &lt;#select-categories-query&gt; ;

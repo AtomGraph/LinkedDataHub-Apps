@@ -13,16 +13,11 @@ app_dir="$(cd "$(dirname "$0")" && pwd)"
 . "$app_dir/../../lib/ldh-app.sh"
 ldh_app_require_env
 
-admin_base=$(ldh_app_admin_uri "$LDH_BASE")
-admin_proxy=$(ldh_app_admin_uri "$LDH_PROXY")
-
 ldh_app_step "Creating authorization to make the app public"
 ldh admin make-public
 
 ldh_app_step "Creating authorization for authenticated agents to read items"
 ldh admin create authorization \
-  -b "$admin_base" \
-  --proxy "$admin_proxy" \
   --label "Read access to graph items" \
   --agent-class "http://www.w3.org/ns/auth/acl#AuthenticatedAgent" \
   --to-all-in "https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Item" \
@@ -41,4 +36,5 @@ ldh import rdf \
   --query-file "$app_dir/concept-schemes/unesco-thesaurus/skos-import.rq" \
   --rdf-file "$app_dir/concept-schemes/unesco-thesaurus/unesco-thesaurus.ttl" \
   --content-type "text/turtle" \
+  --wait \
   "${LDH_BASE}concept-schemes/unesco-thesaurus/"

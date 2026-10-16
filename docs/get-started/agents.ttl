@@ -72,8 +72,8 @@ uv run --with web-algebra uvicorn web_algebra.server:app</pre>
     </div>
     <div>
         <h2 id="try-it">Try it</h2>
-        <p>Ask the agent for something small that it has to declare rather than code, for example:</p>
-        <blockquote><p>Create a container for books in my dataspace, add three books with authors, and add a chart of books per author.</p></blockquote>
+        <p>Ask the agent for something small that it has to declare rather than code. With the <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/tree/master/demo/northwind-traders" target="_blank">Northwind Traders</a> demo installed, for example:</p>
+        <blockquote><p>Create a container for new offers in my dataspace, add a 20% discount offer for three Beverages products, and add a chart of the offer prices.</p></blockquote>
         <p>Then open <samp>https://localhost:4443/</samp> in the browser. The container, the items and the chart are there, and you can keep editing them by hand —
             the agent and you work on the same documents.</p>
     </div>

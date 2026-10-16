@@ -339,7 +339,7 @@ category, territory and employee pages list what points at them.
 
 ## 11. A stack restart drops the dataspace's package imports
 
-**Where** `linkeddatahub.com` compose stack; `ldh packages list -b https://northwind-traders…`.
+**Where** `linkeddatahub.com` compose stack; `ldh packages list https://northwind-traders…`.
 
 **What happens** After `docker compose restart` the Taxonomy Editor package reads
 `available` again, and a `packages add` issued while the entrypoint is still initialising is
@@ -442,6 +442,30 @@ build: `dragover` marks the target row (the dotted drop line renders) and `drop`
 The synthetic DragEvents in `lib/editing.mjs` on the `screencast-supercut` branch were
 a workaround for an older build and are no longer needed; a pointer drag also puts the
 browser's drag image under the pointer, which the synthetic path never could.
+
+---
+
+## 16. Restore is offered on a historical version, and fails there with 412
+
+**Severity** Confusing — the button is there, says "This version could not be
+restored", and the user has no way to tell why.
+
+**Reproduce**
+1. Open a versioned document, open History, pick From and To, Compare. The page now
+   shows a historical version ("You are viewing a read-only historical version").
+2. Open History again and press Restore on any version. Confirm.
+3. "This version could not be restored — The request did not complete"; the console
+   shows the `PUT … 412 (Precondition Failed)`.
+
+`scenes/probe-versions.mjs` does this on a scratch document; `scenes/probe-restore.mjs`
+shows the same Restore succeeding (`PUT 200` with `If-Match`) when pressed from the
+current version of the document.
+
+**Cause** (hypothesis) The restore quotes the entity tag of the page it was pressed
+from. A historical version's ETag is its commit SHA, which never matches the current
+document, so the conditional write is refused. Either the dialog should not offer
+Restore while a historical version is displayed, or it should quote the current
+version's tag.
 
 ---
 

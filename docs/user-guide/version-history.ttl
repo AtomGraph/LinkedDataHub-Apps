@@ -27,7 +27,8 @@
         <h2 id="open-history">Open the history</h2>
         <img alt="The History dialog on a Northwind order, versions with agent attribution" src="/uploads/e631baa8a512cf8eec9ad43806bf44d06d5354c0"></img>
         <p>Click the document's last-modified timestamp in the <a href="../../reference/user-interface/#action-bar">action bar</a>. The
-            <dfn>History</dfn> dialog opens with the document's versions listed newest first, each showing its datetime and the agent who authored it.
+            <dfn>History</dfn> dialog opens with the document's versions listed newest first, each showing its datetime and the agent who authored it. A document no write has reached since versioning was enabled, such as imported data,
+            has no versions yet: the dialog says so, and the document's next change makes the first one.
             The version you are currently viewing is marked.</p>
         <p>Click a version to view the document as it was at that point. A notice banner reminds you that you are viewing a historical version and
             links back to the current one. Historical versions are read-only.</p>

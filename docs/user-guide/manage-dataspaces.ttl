@@ -28,9 +28,9 @@
             <h3 id="create-dataspace">Create a dataspace</h3>
             <p>To create a new dataspace:</p>
             <ol>
-                <li>Add instances of <code>lds:EndUserDataspace</code> and <code>lds:AdminDataspace</code> to <samp>config/dataspaces.trig</samp>, following the default dataspace as a template</li>
+                <li>Add an <code>lds:Dataspace</code> for the end-user dataspace and one for its administration dataspace to <samp>config/dataspaces.trig</samp>, each with its origin, ontology and stylesheet, following the default dataspace as a template</li>
                 <li>Declare an <samp>end-user</samp> and an <samp>admin</samp> dataset for the dataspace in <samp>config/fuseki/config.ttl</samp>, named after its origin (deployment host dropped, role appended)</li>
-                <li>Add corresponding <code>sd:Service</code> instances to <samp>config/system.trig</samp>, each pointing at one of those datasets, and bind the dataspaces to them</li>
+                <li>In <samp>config/system.trig</samp>, type the two dataspaces <code>lds:EndUserDataspace</code> and <code>lds:AdminDataspace</code>, add corresponding <code>sd:Service</code> instances, each pointing at one of those datasets, and bind the dataspaces to them</li>
             </ol>
             <p>The relationship between end-user and admin dataspaces is inferred from their origins, and there is nothing to declare. A dataspace whose origin
             (<code>lds:origin</code>) uses the <samp>admin.</samp> subdomain is recognized as an administration dataspace, and paired with the end-user dataspace on

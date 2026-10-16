@@ -14,8 +14,7 @@ CONSTRUCT
 
         ?employee a schema:Person ;
             schema:identifier ?employeeID ;
-            dct:title ?lastName ;
-            dct:description ?title ;
+            schema:name ?employeeName ;
             schema:givenName ?firstName ;
             schema:familyName ?lastName ;
             schema:jobTitle ?title ;
@@ -71,6 +70,7 @@ WHERE
     BIND(uri(concat(str($base), "employees/")) AS ?container)
     BIND(uri(concat(str(?container), encode_for_uri(?employeeID), "/")) AS ?graph)
     BIND(uri(concat(str(?graph), "#this")) AS ?employee)
+    BIND(concat(?firstName, " ", ?lastName) AS ?employeeName)
     BIND(uri(concat(str(?graph), "#address")) AS ?postalAddress)
     BIND(xsd:float(?lat_string) AS ?lat)
     BIND(xsd:float(?long_string) AS ?long)
