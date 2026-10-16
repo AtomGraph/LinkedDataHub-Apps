@@ -56,6 +56,9 @@
             <p>The two are associated by origin rather than by declaration: an administration dataspace's origin is its end-user dataspace's origin with the
                 <code>admin.</code> subdomain prefixed to the host (e.g. <samp>https://example.com/</samp> → <samp>https://admin.example.com/</samp>), and LinkedDataHub
                 derives the counterpart from the host in either direction. You do not configure the relationship.</p>
+            <p>LinkedDataHub publishes the pairing so that clients never derive it themselves. Responses from an end-user dataspace carry a
+                <code>Link</code> header with the <code>https://w3id.org/atomgraph/linkeddatahub/dataspaces#admin</code> relation, whose target is the administration
+                dataspace's base URI. The <a href="../command-line-interface/">CLI</a>'s <samp>admin</samp> commands follow it, so they take the end-user base URI.</p>
             <div class="ac-alert va-informative" role="status">
                 <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
                 <div class="ac-alert-body">
@@ -64,6 +67,14 @@
                         server's TLS certificate.</p>
                 </div>
             </div>
+        </div>
+        <div>
+            <h3 id="context">Dataspace context</h3>
+            <p>Every dataspace serves the public description of all the instance's dataspaces at <samp>/context</samp>, e.g. <samp>https://localhost:4443/context</samp>.
+                It lists each dataspace's type, title, description, origin, ontology and stylesheet, and the <code>lds:admin</code> base URI of each end-user
+                dataspace. It is readable by anyone, and it never contains the service endpoints or credentials of the configuration. The client-side stylesheet
+                preloads it, and stylesheets read it through the <code>lds:context()</code> function.</p>
+            <pre>curl -k -H "Accept: text/turtle" https://localhost:4443/context</pre>
         </div>
         <div>
             <h3 id="configuring-dataspaces">Configuring dataspaces</h3>
