@@ -96,11 +96,12 @@ ldh --help</pre>
                 </tr>
                 <tr>
                     <th scope="row"><samp>--proxy</samp></th>
-                    <td>The host the request is proxied through (optional). Use it with port 5443, on which client certificate authentication is always enabled — for example <samp>--proxy https://localhost:5443/</samp>.</td>
+                    <td>The host the request is proxied through (optional): the connection goes to the proxy, while the request keeps the target's <code>Host</code>, so the dataspace is still routed by its origin. Use it with port 5443, on which client certificate authentication is always enabled — for example <samp>--proxy https://localhost:5443/</samp>.</td>
                 </tr>
             </tbody>
         </table>
-        <p>Other parameters are command-specific. Most commands take the URI of the document they act on as a default (positional) parameter. The commands that act on the dataspace as a whole rather than on one of its documents — <samp>packages</samp>, <samp>admin clear ontology</samp>, <samp>admin create ontology</samp>, <samp>admin create group</samp>, <samp>admin create authorization</samp>, <samp>admin import ontology</samp> and <samp>admin make-public</samp> — take its base URI in that position instead.</p>
+        <p>Other parameters are command-specific. Most commands take the URI of the document they act on as a default (positional) parameter. The commands that act on the dataspace as a whole rather than on one of its documents — <samp>packages</samp>, <samp>admin clear ontology</samp>, <samp>admin create ontology</samp>, <samp>admin create group</samp>, <samp>admin create authorization</samp>, <samp>admin import ontology</samp> and <samp>admin make-public</samp> — take its base URI in that position instead. The <samp>admin</samp> commands take the end-user base too: they find the admin dataspace from the <samp>lds:admin</samp> link it advertises.</p>
+        <p><samp>ldh admin import ontology --file ns.ttl</samp> installs a local file as the dataspace's namespace ontology in one step, replacing the ontology document and reloading the cached ontology.</p>
         <h3 id="environment-variables">Environment variables</h3>
         <p>The repeated parameters can be set once in the environment instead of being passed to every command:</p>
         <table>
@@ -138,7 +139,7 @@ ldh create container --parent "$LDH_BASE" --title "Categories" --slug categories
     </div>
     <div>
         <h2 id="output">Output</h2>
-        <p>Commands that create or append to a document print its URL as the only line on standard output, so they compose in shell pipelines. All diagnostics go to standard error.</p>
+        <p>Commands that create or append to a document print its URL as the only line on standard output, so they compose in shell pipelines. <samp>ldh import csv</samp> and <samp>ldh import rdf</samp> print the URI of the import they create, a fragment of the target document; the import runs in the background, and <code>--wait</code> returns only once it has ended. All diagnostics go to standard error.</p>
         <pre>item=$(ldh create item --container "$LDH_BASE" --title "Example" --slug example)</pre>
         <p><samp>ldh push</samp> writes many documents in one run and prints one line per written document URL or upload URI, in write order; progress and skipped entries go to standard error, and the first failed request stops the run.</p>
         <p>Exit codes are <samp>0</samp> on success, <samp>1</samp> on an HTTP error status or runtime failure (the message goes to standard error; add <code>--verbose</code> for a stack trace), and <samp>2</samp> on a usage error.</p>

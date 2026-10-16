@@ -49,17 +49,11 @@ schema:Order a owl:Class ;
             shows how to add SPIN constructors to classes — the templates that drive the create-instance forms in the UI.</p>
         </div>
         <div aria-labelledby="from-the-command-line-tab" class="ac-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
-        <p>Append the class definitions from <samp>ns.ttl</samp> to the namespace ontology document with <code>POST</code>. The prepended <code>@base</code> makes the <code>:</code> prefix resolve to
-            <samp>${LDH_BASE}ns#</samp> — the terms belong to the end-user namespace even though the ontology document lives in the admin app:</p>
-        <pre>admin_base="https://admin.localhost:4443/"   # $LDH_BASE with the admin. subdomain prefix
-
-{ echo "@base &lt;${LDH_BASE}ns&gt; ."; cat ns.ttl; } | ldh post \\
-    -t text/turtle \\
-    "${admin_base}ontologies/namespace/"</pre>
-        <p>The ontology is cached in memory, so tell the dataspace to reload it:</p>
-        <pre>ldh admin clear ontology \\
-    --ontology "${LDH_BASE}ns#" \\
-    "$admin_base"</pre>
+        <p>Install <samp>ns.ttl</samp> as the namespace ontology with one command. <samp>ldh</samp> finds the admin dataspace and the ontology IRI from the links
+            <samp>$LDH_BASE</samp> advertises, resolves the file against <samp>${LDH_BASE}ns#</samp> so the <code>:</code> prefix names the end-user namespace, replaces the
+            ontology document and reloads the cached ontology:</p>
+        <pre>ldh admin import ontology --file ns.ttl</pre>
+        <p>Re-running it converges: a class removed from <samp>ns.ttl</samp> is removed from the ontology too.</p>
         </div>
     </div>
     <div>
