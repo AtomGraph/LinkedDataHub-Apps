@@ -6,7 +6,12 @@
 <> a dh:Item ;
     dct:title "About LinkedDataHub" ;
     dct:description "An RDF-native Knowledge Graph application platform" ;
-    rdf:_1 <#content> .
+    rdf:_1 <#overview-video> ;
+    rdf:_2 <#content> .
+
+<#overview-video> a ldh:Object ;
+    dct:title "LinkedDataHub 6 overview" ;
+    rdf:value <https://www.youtube.com/watch?v=g3i-yH95WZA> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
