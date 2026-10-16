@@ -120,6 +120,8 @@
             <dt>Properties</dt>
             <dd>The <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown creates a new resource of the selected type</dd>
         </dl>
+        <p>For a signed-in agent, the bar also holds the <span class="ac-btn in-neutral ap-outline sz-md">Assistant</span> button, which opens a conversation with the
+            <a href="../assistant/">assistant</a> above the bar. See <a href="../../user-guide/use-the-assistant/">using the assistant</a>.</p>
     </div>
     <div>
         <h2 id="document-tabs">Document tabs</h2>

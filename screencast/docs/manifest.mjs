@@ -1117,4 +1117,46 @@ export const SHOTS = [
     },
     of: '.ac-modal:visible',
   },
+  // ── user-guide/use-the-assistant ──────────────────────────────────────────
+  // Both need the web-algebra service with an OpenAI key (reference/assistant#setup), and
+  // both write: the first question stores a chat block in /customers/. Delete those blocks
+  // after the shoot, or later shots of /customers/ show them.
+  {
+    // A read-only plan runs on arrival while "Execute by default" is on, and the card
+    // never shows Execute. The checkbox goes off first so the plan waits.
+    doc: 'user-guide/use-the-assistant', n: 1, line: 44, kind: 'still',
+    caption: 'a plan card in the assistant, with its summary, its operations and the Execute button',
+    at: '/customers/',
+    async act({ page, cursor, type, sleep }) {
+      await cursor.click(page.locator('button.ldh-chat-open').first());
+      const chat = page.locator('.ldh-chat').last();
+      await chat.waitFor({ state: 'visible', timeout: 10000 });
+      const run = chat.locator('.ldh-chat-run input[name="run"]');
+      if (await run.isChecked()) await cursor.click(chat.locator('.ldh-chat-run'));
+      await sleep(400);
+      await type(chat.locator('textarea[name="question"]'), 'Which five customers ordered the most in 1997?', { base: 22, spread: 8 });
+      await page.keyboard.press('Enter');
+      await chat.locator('.ldh-chat-plan button.ldh-chat-execute').last().waitFor({ state: 'visible', timeout: 90000 });
+      await sleep(800);
+    },
+    want: '.ldh-chat .ldh-chat-plan button.ldh-chat-execute',
+    of: '.ldh-chat .ldh-chat-plan:last-of-type',
+  },
+  {
+    doc: 'user-guide/use-the-assistant', n: 2, line: 53, kind: 'still',
+    caption: 'an answered card, with the sentence summing up the result, the result as a table and the steps folded under their count',
+    at: '/customers/',
+    async act({ page, cursor, type }) {
+      await cursor.click(page.locator('button.ldh-chat-open').first());
+      const chat = page.locator('.ldh-chat').last();
+      await chat.waitFor({ state: 'visible', timeout: 10000 });
+      await type(chat.locator('textarea[name="question"]'), 'Which five customers ordered the most in 1997?', { base: 22, spread: 8 });
+      await page.keyboard.press('Enter');
+      await chat.locator('.ldh-chat-plan p.ldh-chat-answer').last().waitFor({ state: 'visible', timeout: 180000 });
+      await page.waitForTimeout(2000);
+    },
+    want: async (page) => (await page.locator('.ldh-chat .ldh-chat-plan p.ldh-chat-answer').count()) >= 1
+      && (await page.locator('.ldh-chat .ldh-chat-plan details.ldh-chat-trace:not([open])').count()) >= 1,
+    of: '.ldh-chat .ldh-chat-plan:last-of-type',
+  },
 ];

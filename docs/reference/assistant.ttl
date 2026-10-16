@@ -1,0 +1,144 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "Assistant" ;
+    dct:description "The built-in assistant: how questions become Web-Algebra plans, how it is set up, and how conversations are stored" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="ldh-body-lg">The built-in assistant: how questions become Web-Algebra plans, how it is set up, and how conversations are stored</p>
+    <p>The assistant turns a question into a <a href="https://github.com/AtomGraph/Web-Algebra" target="_blank">Web-Algebra</a> plan, shows the plan, and runs
+        it when the reader says so. It runs in the browser as part of the client stylesheet and talks to a <samp>web-algebra</samp> service beside the platform.
+        The <a href="../../user-guide/use-the-assistant/">user guide</a> covers using it. To work with LinkedDataHub from an agent of your own instead, see
+        <a href="../../get-started/agents/">Connect an agent</a>.</p>
+    <div>
+        <h2 id="architecture">How it works</h2>
+        <ol>
+            <li>The client sends the question to <samp>/webalgebra/plans</samp> on the dataspace's own origin, with the current document, the dataspace's
+                SPARQL endpoint and ontology, and the last three turns of the conversation that ran, each with its plan, its outcome and up to a hundred
+                of the rows it returned.</li>
+            <li>nginx forwards <samp>/webalgebra</samp> to the <samp>web-algebra</samp> service together with the client certificate of the connection. A
+                request without a client certificate is answered with <samp>401</samp>, since the service has nobody to act for.</li>
+            <li>The service asks the model for a plan, checks it against its executor, and answers with the plan, a one-sentence summary and the operations
+                it uses. The client shows them as a card.</li>
+            <li>On Execute, the client submits the plan to <samp>/webalgebra</samp>. The service answers <samp>202</samp> with an execution id, and the
+                client polls <samp>/webalgebra/{id}/result</samp> once a second, showing each step as the executor reports it.</li>
+            <li>When the plan has run, the client sends the result to <samp>/webalgebra/answers</samp> for a sentence that sums it up, then
+                <a href="#data-model">stores the turn</a> in the conversation's document and reloads the documents the plan wrote.</li>
+        </ol>
+        <p>A plan that only reads may run as soon as it arrives. One that writes always waits for the reader to press Execute.</p>
+    </div>
+    <div>
+        <h2 id="access-control">Access control</h2>
+        <p>The service runs every plan as the reader who asked. It presents the secretary's WebID certificate to the platform, with an
+            <code>On-Behalf-Of</code> header naming the reader's WebID. The platform honours it because every agent's WebID document that the platform creates,
+            at <a href="../../get-started/get-an-account/">sign-up</a> or at the first Google or ORCID login, states that the secretary delegates that agent
+            (<code>&lt;secretary&gt; acl:delegates &lt;agent&gt;</code>). Plans are therefore subject to the reader's own
+            <a href="../administration/acl/">authorizations</a>: a plan can read and write what the reader can, and nothing else.</p>
+        <p>nginx clears any <code>On-Behalf-Of</code> and <code>Client-Cert</code> headers arriving from outside, so identity comes only from the TLS
+            connection. The <samp>web-algebra</samp> service is reachable only through nginx.</p>
+        <p>The <span class="ac-btn in-neutral ap-outline sz-md">Assistant</span> button appears for a signed-in agent with append access to the document,
+            and a conversation accepts new questions under the same condition.</p>
+    </div>
+    <div>
+        <h2 id="setup">Setup</h2>
+        <p><samp>docker-compose.yml</samp> includes the <samp>web-algebra</samp> service and the nginx route to it, so the assistant can run plans out of the
+            box. Writing plans from questions needs an <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI API key</a>:</p>
+        <ol>
+            <li>Put the key in <samp>secrets/openai_api_key.txt</samp></li>
+            <li>Declare the secret and hand it to the service in <samp>docker-compose.override.yml</samp>:
+                <pre>secrets:
+  openai_api_key:
+    file: ./secrets/openai_api_key.txt
+services:
+  web-algebra:
+    environment:
+      - OPENAI_API_KEY_FILE=/run/secrets/openai_api_key
+    secrets:
+      - secretary_cert_password
+      - openai_api_key</pre>
+            </li>
+            <li>Recreate the service: <samp>docker compose up -d web-algebra</samp></li>
+        </ol>
+        <p>Without a key the service still runs plans, but declines to write them: a question is answered with a message saying so, shown in the card.
+            The sentence that sums up a result also comes from the model; without it, the card shows the rows alone.</p>
+        <p>The service's variables are listed in the <a href="../configuration/#web-algebra">configuration reference</a>.</p>
+        <div>
+            <h3 id="without-service">Running without the service</h3>
+            <p>A deployment that does not want the assistant can leave the <samp>web-algebra</samp> service out, for example with a Compose
+                <a href="https://docs.docker.com/compose/how-tos/profiles/" target="_blank">profile</a>. nginx's <samp>depends_on</samp> and its
+                <samp>/webalgebra</samp> location refer to the service, so both need adjusting too. The Assistant button does not check whether the service
+                exists, so on such a deployment a question fails with an error in its card.</p>
+        </div>
+    </div>
+    <div>
+        <h2 id="data-model">Data model</h2>
+        <p>A conversation is an <code>ldh:Chat</code> resource, placed in a document by an <a href="../data-model/blocks/#object-blocks">object block</a>
+            like a view or a chart. Its turns are <code>ldh:ChatTurn</code> resources in the same document, and the chat's <code>rdf:_1</code>,
+            <code>rdf:_2</code>, … members in the order they were asked. The first question writes the chat, the object block and the document's next
+            <code>rdf:_N</code> for the block in one request; the chat and its block share a fragment suffix, and the chat's title is the first question, cut near
+            80 characters. Each turn is written when its answer has landed, or has failed to.</p>
+        <table>
+            <caption class="ac-vh">Properties of an assistant turn</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Property</th>
+                    <th scope="col">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><code>ldh:question</code></th>
+                    <td>What the reader asked</td>
+                </tr>
+                <tr>
+                    <th scope="row"><code>ldh:answer</code></th>
+                    <td>The sentence summing up what the plan did, when the model gave one</td>
+                </tr>
+                <tr>
+                    <th scope="row"><code>ldh:plan</code></th>
+                    <td>The Web-Algebra plan as an <code>rdf:XMLLiteral</code>: its summary, its operations and the plan itself</td>
+                </tr>
+                <tr>
+                    <th scope="row"><code>ldh:execution</code></th>
+                    <td>What running the plan reported, as an <code>rdf:XMLLiteral</code>: the steps, the documents written, and the first hundred rows or resources of the result</td>
+                </tr>
+                <tr>
+                    <th scope="row"><code>ldh:outcome</code></th>
+                    <td>How the turn went, in one line: rows or resources returned, documents written, no results, the failure's message, or <samp>declined</samp> when the service answered in words instead of with a plan</td>
+                </tr>
+                <tr>
+                    <th scope="row"><code>dct:created</code></th>
+                    <td>When the turn was stored</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>A stored conversation is drawn from these resources when the document is rendered again, so it shows the result as it was when the turn ran;
+            nothing is run again. Since the chat is an ordinary resource, its object block can also be placed in another document, and questions asked
+            there are stored in the chat's own document.</p>
+        <pre>@prefix ldh: &lt;https://w3id.org/atomgraph/linkeddatahub#&gt; .
+@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix dct: &lt;http://purl.org/dc/terms/&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+
+&lt;https://localhost:4443/customers/&gt; rdf:_3 &lt;https://localhost:4443/customers/#block-91c0…&gt; .
+
+&lt;https://localhost:4443/customers/#block-91c0…&gt; a ldh:Object ;
+    rdf:value &lt;https://localhost:4443/customers/#chat-91c0…&gt; .
+
+&lt;https://localhost:4443/customers/#chat-91c0…&gt; a ldh:Chat ;
+    dct:title "Which five customers ordered the most in 1997?" ;
+    rdf:_1 &lt;https://localhost:4443/customers/#turn-5d7e…&gt; .
+
+&lt;https://localhost:4443/customers/#turn-5d7e…&gt; a ldh:ChatTurn ;
+    ldh:question "Which five customers ordered the most in 1997?" ;
+    ldh:plan "&lt;wa:plan …&gt;…&lt;/wa:plan&gt;"^^rdf:XMLLiteral ;
+    ldh:execution "&lt;wa:execution …&gt;…&lt;/wa:execution&gt;"^^rdf:XMLLiteral ;
+    ldh:outcome "5 rows" ;
+    dct:created "2026-10-17T09:12:44Z"^^xsd:dateTime .</pre>
+    </div>
+</div>"""^^rdf:XMLLiteral .
