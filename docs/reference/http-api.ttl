@@ -492,11 +492,11 @@ Link: &lt;https://unesco-thesaurus.demo.linkeddatahub.com/sparql&gt;; rel="http:
                 </tr>
                 <tr>
                     <th scope="row"><samp>sitemap.xml</samp></th>
-                    <td>The dataspace's public documents, in the <a href="https://www.sitemaps.org/protocol.html" target="_blank">sitemaps protocol</a>: generated at startup from the public read rules of the dataspace's own admin service, so an origin lists only its own documents. An end-user dataspace with nothing public has none, and neither does an admin dataspace</td>
+                    <td>The dataspace's public documents, in the <a href="https://www.sitemaps.org/protocol.html" target="_blank">sitemaps protocol</a>: queried on request from the public read rules of the dataspace's own admin service, so an origin lists only its own documents. Past 50,000 documents it is a sitemap index over <samp>sitemap.xml?bucket=…</samp> pages, which group the documents by the MD5 prefix of their URI. Served only when <a href="../configuration/#sitemap"><samp>ENABLE_SITEMAP</samp></a> is on; an end-user dataspace with nothing public has none, and neither does an admin dataspace</td>
                 </tr>
                 <tr>
                     <th scope="row"><samp>robots.txt</samp></th>
-                    <td>Allows crawling and names the sitemap when the dataspace has one; disallows everything when it has none</td>
+                    <td>Allows crawling and names the sitemap when the sitemap is enabled and the dataspace has a public read rule; disallows everything otherwise</td>
                 </tr>
                 <tr>
                     <th scope="row"><samp>context</samp></th>

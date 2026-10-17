@@ -185,6 +185,10 @@ HOST=ec2-54-235-229-141.compute-1.amazonaws.com</pre>
             <p><samp>COMPOSE_PROFILES</samp>, the Compose variable, is passed to the platform too. When it includes <samp>assistant</samp>, which also starts the <a href="#web-algebra"><samp>web-algebra</samp> service</a>, the platform offers the <a href="../assistant/">assistant</a>: it publishes <code>lds:assistant true</code> for every dataspace in its <samp>/context</samp>, and documents show the Assistant button. The assistant is disabled by default.</p>
         </div>
         <div>
+            <h3 id="sitemap">Sitemap</h3>
+            <p><samp>ENABLE_SITEMAP</samp> takes <samp>true</samp> to serve the <a href="../http-api/#system-endpoints"><samp>sitemap.xml</samp></a> of every end-user dataspace, which is disabled by default: its queries walk every public document of the dataspace. Without it, every <samp>robots.txt</samp> disallows crawling.</p>
+        </div>
+        <div>
             <h3 id="http">HTTP(S)</h3>
             <dl>
                 <dt><samp>SELF_SIGNED_CERT</samp></dt>
