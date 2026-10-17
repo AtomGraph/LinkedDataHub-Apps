@@ -16,7 +16,7 @@
         <p>The default LinkedDataHub dataset structure follows these conventions:</p>
         <ol>
             <li>The default graph is not used.</li>
-            <li>Each document's description is stored in an RDF named graph whose name is the same as the document URI. The graph can be managed using the <a href="../http-api/" target="_blank">Graph Store Protocol</a>.</li>
+            <li>Each document's description is stored in an RDF named graph whose name is the same as the document URI. The graph can be managed using the <a href="../http-api/documents/" target="_blank">Graph Store Protocol</a>.</li>
             <li>Documents form a <a href="../data-model/documents/#hierarchy">parent/child hierarchy</a>. There are two types of documents: containers, which can have other documents as children, and items, which cannot.</li>
         </ol>
         <p>The default dataset is installed into a dataspace service during <a href="../../get-started/setup/">setup</a>.</p>
@@ -50,7 +50,7 @@ https://localhost:4443/categories/1/#this  # the category itself — a fragment 
         <p>The default datasets of administration and end-user dataspaces can be found in <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/platform/datasets/admin.trig" target="_blank"><samp>platform/datasets/admin.trig</samp></a> and
             <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/platform/datasets/end-user.trig" target="_blank"><samp>platform/datasets/end-user.trig</samp></a>, respectively.</p>
         <p>The end-user dataset contains the root container document and descriptions of the public DBpedia and Wikidata SPARQL services. The administration dataset contains the root container,
-            the sign-up and ontology-clearing <a href="../http-api/#system-endpoints">endpoint</a> documents, the <samp>acl/</samp> document tree — containers for agents, public keys, users, groups,
+            the sign-up and ontology-clearing <a href="../http-api/system-endpoints/">endpoint</a> documents, the <samp>acl/</samp> document tree — containers for agents, public keys, users, groups,
             authorization requests and authorizations, the default authorizations, and the owners, writers and readers groups — as well as the <samp>ontologies/</samp> container.</p>
         <p>RDF terms (classes, properties etc.) used in the default datasets come from the well-known FOAF and SIOC vocabularies (with additional LinkedDataHub-specific assertions) as well as <a href="../administration/ontologies/">system ontologies</a>.</p>
     </div>

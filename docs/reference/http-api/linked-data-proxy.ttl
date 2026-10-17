@@ -1,0 +1,70 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "Linked Data proxy" ;
+    dct:description "Browse, query and write to external Linked Data and other dataspaces" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="ldh-body-lg">Browse, query and write to external Linked Data and other dataspaces</p>
+    <div>
+        <h2 id="ld-proxy">Linked Data proxy</h2>
+        <p>LinkedDataHub works as a <dfn>Linked Data proxy</dfn> (from the end-user perspective, as a <dfn>Linked Data browser</dfn>) when a URL is provided using the <code>uri</code> query parameter.
+            All HTTP methods are supported.</p>
+        <p>If the URL dereferences successfully as RDF, LinkedDataHub forwards its response body (re-serializing it to enable content negotiation).
+            During a write request, the request body is forwarded to the provided URL.</p>
+        <p>If the URL returns an HTML document, LinkedDataHub extracts every embedded <a href="https://json-ld.org/" target="_blank">JSON-LD</a> script
+            (<code>&lt;script type="application/ld+json"&gt;</code>) and parses it as RDF using JSON-LD 1.1. Pages annotated with <a href="https://schema.org/" target="_blank">schema.org</a> markup
+            can therefore be browsed as Linked Data. The schema.org JSON-LD context is bundled with LinkedDataHub and served locally, so no external network request is made to resolve it. A supplier's homepage carrying this markup:</p>
+        <pre>&lt;script type="application/ld+json"&gt;
+{
+    "@context": "https://schema.org/",
+    "@type": "Corporation",
+    "@id": "#this",
+    "legalName": "Exotic Liquids",
+    "telephone": "(171) 555-2222"
+}
+&lt;/script&gt;</pre>
+        <p>browses as these triples:</p>
+        <pre>&lt;https://supplier.example/#this&gt; a schema:Corporation ;
+    schema:legalName "Exotic Liquids" ;
+    schema:telephone "(171) 555-2222" .</pre>
+        <p>The proxy only accepts external (non-relative to the current dataspace's base URI) URLs; local URLs have to be dereferenced directly.</p>
+        <p>The proxy forwards the origin's <code>ETag</code> and <code>Last-Modified</code> validators and passes conditional request headers
+            (<code>If-Match</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, <code>If-Unmodified-Since</code>) through. Preconditioned
+            writes against proxied documents are therefore evaluated at the origin. Error statuses from the origin reach the client unchanged.</p>
+    </div>
+    <div>
+        <h2 id="federation">Federation</h2>
+        <p>The Linked Data proxy makes dataspaces interoperable across origins: one dataspace's client can browse, query, and write to another
+            origin's dataspace, whether on the same LinkedDataHub instance or a different one.</p>
+        <p>Browsing a UNESCO Thesaurus concept from the Northwind dataspace, for example, the proxy forwards the remote dataspace's hypermedia along
+            with the RDF:</p>
+        <pre>GET /?uri=https%3A%2F%2Funesco-thesaurus.demo.linkeddatahub.com%2Fconcepts%2Fconcept3683%2F HTTP/1.1
+Host: northwind-traders.demo.linkeddatahub.com
+Accept: application/rdf+xml
+
+HTTP/1.1 200 OK
+Content-Type: application/rdf+xml
+Link: &lt;https://unesco-thesaurus.demo.linkeddatahub.com/sparql&gt;; rel="http://www.w3.org/ns/sparql-service-description#endpoint"</pre>
+        <ul>
+            <li>The remote dataspace's SPARQL endpoint is discovered from the <code>Link</code> headers the proxy forwards, so views and charts over
+                remote documents query the <em>remote</em> endpoint</li>
+            <li>Writes are graph-scoped SPARQL updates (<code>PATCH</code>) or appends (<code>POST</code>) sent through the proxy under the origin's
+                <code>If-Match</code> precondition</li>
+            <li>Requests carry the delegated identity of the requesting agent, so the remote dataspace's <a href="../../administration/acl/">access control</a>
+                arbitrates every operation</li>
+        </ul>
+        <p>In the user interface this means you can <a href="../../../user-guide/browse-data/">browse</a> a remote dataspace and
+            <a href="../../../user-guide/add-data/">add data</a> to its documents the same way as to local ones, provided the remote access control allows it.</p>
+        <p>The example above uses the public demo hosts because they are reachable without any setup, but nothing about federation requires a second
+            instance: two <a href="../../dataspace/#dataspaces">dataspaces</a> on one LinkedDataHub are distinct origins, so the same exchange happens between
+            <samp>northwind-traders.demo.localhost:4443</samp> and <samp>unesco-thesaurus.demo.localhost:4443</samp> once both are
+            <a href="../../../user-guide/manage-dataspaces/#create-dataspace">declared</a>.</p>
+    </div>
+</div>"""^^rdf:XMLLiteral .

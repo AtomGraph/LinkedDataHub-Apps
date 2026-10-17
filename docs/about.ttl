@@ -55,7 +55,7 @@
             <li><a href="../user-guide/browse-data/" target="_blank">browsing Linked Data</a></li>
             <li><a href="../user-guide/add-data/" target="_blank">copying RDF resources</a> into the local dataspace</li>
             <li><a href="../user-guide/browse-data/#text-search" target="_blank">searching</a> and <a href="../user-guide/query-data/" target="_blank">querying</a> SPARQL endpoints</li>
-            <li><a href="../reference/data-model/resources/#views" target="_blank">creating collections from SPARQL queries</a></li>
+            <li><a href="../reference/data-model/views/" target="_blank">creating collections from SPARQL queries</a></li>
             <li><a href="../user-guide/edit-content/" target="_blank">editing content</a> in place, with RDFa annotations linking text to resources</li>
             <li><a href="../user-guide/import-data/import-csv-data/" target="_blank">importing CSV data</a> by mapping it to RDF using SPARQL</li>
             <li><a href="../reference/data-model/resources/#charts" target="_blank">visualizing query results as graphs, charts etc.</a></li>

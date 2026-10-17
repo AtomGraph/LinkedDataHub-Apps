@@ -25,7 +25,7 @@
         <dt>Transformation query (optional)</dt>
         <dd>A user-defined <code>CONSTRUCT</code> query that transforms the input RDF into a different RDF representation (<code>spin:query</code>)</dd>
         <dt>Graph (optional)</dt>
-        <dd>The target graph (document) to which converted items are appended with <a href="../../http-api/#ld-post"><code>POST</code></a> (<code>sd:name</code>)</dd>
+        <dd>The target graph (document) to which converted items are appended with <a href="../../http-api/documents/#ld-post"><code>POST</code></a> (<code>sd:name</code>)</dd>
     </dl>
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
@@ -104,8 +104,8 @@ WHERE
 &lt;https://localhost:4443/categories/1/#this&gt; a skos:Concept ;
     skos:closeMatch &lt;https://unesco-thesaurus.demo.linkeddatahub.com/concepts/concept3683/#this&gt; .</pre>
             <p>The mapped concept URIs stay remote on purpose: following one leads into the UNESCO Thesaurus dataspace through the
-                <a href="../../http-api/#ld-proxy">Linked Data proxy</a>, and queries can join the two dataspaces over their
-                <a href="../../http-api/#federation">federated</a> SPARQL endpoints.</p>
+                <a href="../../http-api/linked-data-proxy/#ld-proxy">Linked Data proxy</a>, and queries can join the two dataspaces over their
+                <a href="../../http-api/linked-data-proxy/#federation">federated</a> SPARQL endpoints.</p>
         </div>
     </div>
     <div>
