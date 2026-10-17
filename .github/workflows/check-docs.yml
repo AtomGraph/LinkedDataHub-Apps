@@ -36,23 +36,3 @@ jobs:
 
       - name: Check links
         run: ./check-links.sh
-
-  # A master push that passes the checks goes live: linkeddatahub.com's sync-dataspaces workflow
-  # holds the deployment's credentials and maps the changed paths onto its dataspaces
-  dispatch:
-    name: Sync linkeddatahub.com
-    needs: check-docs
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Dispatch the commit range
-        env:
-          GH_TOKEN: ${{ secrets.SITE_DISPATCH_TOKEN }} # fine-grained, contents: write on AtomGraph/linkeddatahub.com only
-          BEFORE: ${{ github.event.before }}
-          AFTER: ${{ github.sha }}
-        run: |
-          gh api repos/AtomGraph/linkeddatahub.com/dispatches \
-            -f event_type=apps-pushed \
-            -f "client_payload[before]=$BEFORE" \
-            -f "client_payload[after]=$AFTER"

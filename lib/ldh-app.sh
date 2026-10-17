@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Shared by every install.sh in this repository. Sourced, not run.
+# Shared by every install.sh and sync.sh in this repository. Sourced, not run.
 #
 # The ldh CLI reads its connection from the environment — LDH_BASE, LDH_CERT_FILE, LDH_CERT_PASSWORD
 # and LDH_PROXY — so the installers put no credential on any command line: nothing to escape, nothing
@@ -46,7 +46,7 @@ ldh_app_import_csv() {
         [ -n "$query_filename" ] || continue
         ldh_app_changed "$query_filename" "$csv_filename" || continue
         printf "Importing %s into %s\n" "$csv_filename" "${LDH_BASE}${target_path}"
-        ldh_app_track_import "${LDH_BASE}${target_path}" ldh import csv \
+        ldh import csv \
             --title "$title" \
             --query-file "$app_dir/$query_filename" \
             --csv-file "$app_dir/$csv_filename" \
@@ -58,10 +58,10 @@ ldh_app_import_csv() {
 # --- sync -------------------------------------------------------------------------------------------
 #
 # A sync.sh redoes only what the changed files require, so it can run on every commit; install.sh
-# stays the one-off. Two variables describe the commit, both optional:
+# stays the one-off (authorizations, packages). Two variables describe the commit, both optional:
 #
 #   LDH_CHANGED        newline-separated paths, relative to the app folder, added or modified by it.
-#                      Unset means everything changed: a manual `make sync` is a full sync.
+#                      Unset means everything changed: `make sync` with neither set is a full sync.
 #   LDH_PREVIOUS_TREE  the app folder as it was before the commit. When set, documents its files
 #                      mapped to and the current files no longer do are deleted.
 
@@ -87,20 +87,23 @@ ldh_app_push_plan() {
 }
 
 # Pushes app folder $1 when a changed file is part of its push plan: a document it PUTs or a file it
-# uploads. Files the push ignores (.ldhignore) never trigger it.
+# uploads. Files the push ignores (.ldhignore) never trigger it. The push PUTs every document, not only
+# the changed ones, so LDH_APP_PUSHED is set to 1 for whatever a sync must add back afterwards.
+LDH_APP_PUSHED=0
 ldh_app_push_changed() {
     local app_dir="$1" method uri arrow relative
-    if [ -z "${LDH_CHANGED+set}" ]; then
-        ldh push --dir "$app_dir" "$LDH_BASE"
-        return
-    fi
-    while read -r method uri arrow relative; do
-        if ldh_app_changed "$relative"; then
-            ldh push --dir "$app_dir" "$LDH_BASE" < /dev/null
-            return
+    if [ -n "${LDH_CHANGED+set}" ]; then
+        while read -r method uri arrow relative; do
+            ldh_app_changed "$relative" && break
+            relative=""
+        done < <(ldh_app_push_plan "$app_dir")
+        if [ -z "$relative" ]; then
+            echo "No pushed document or file changed"
+            return 0
         fi
-    done < <(ldh_app_push_plan "$app_dir")
-    echo "No pushed document or file changed"
+    fi
+    ldh push --dir "$app_dir" "$LDH_BASE" < /dev/null
+    LDH_APP_PUSHED=1
 }
 
 # Deletes the documents app folder $1 no longer maps to: those in the push plan of LDH_PREVIOUS_TREE
@@ -108,8 +111,7 @@ ldh_app_push_changed() {
 # documents may still link them, and so are documents an import wrote, which no plan contains.
 ldh_app_delete_removed() {
     local app_dir="$1" uri
-    [ -n "${LDH_PREVIOUS_TREE:-}" ] || return 0
-    [ -d "$LDH_PREVIOUS_TREE" ] || return 0
+    [ -n "${LDH_PREVIOUS_TREE:-}" ] && [ -d "$LDH_PREVIOUS_TREE" ] || return 0
     while IFS= read -r uri; do
         [ -n "$uri" ] || continue
         printf "Deleting %s\n" "$uri"
@@ -120,55 +122,25 @@ ldh_app_delete_removed() {
         | sort -r)
 }
 
-# The ldh:CSVImport and ldh:RDFImport resources in document $1.
-ldh_app_import_uris() {
-    ldh get --accept application/n-triples "$1" |
-        grep -E ' <http://www\.w3\.org/1999/02/22-rdf-syntax-ns#type> <https://w3id\.org/atomgraph/linkeddatahub#(CSV|RDF)Import> ' |
-        awk '{ print $1 }' | tr -d '<>' | sort -u || true
-}
+# The sync of an app made of what the lib covers: the namespace ontology in admin/model/ns.ttl if the
+# model changed, the document tree, the documents whose sources are gone, and the rows of imports.csv
+# whose files changed. An app with other steps calls the parts itself.
+ldh_app_sync() {
+    local app_dir="$1"
 
-# Runs the import command "${@:2}" into document $1 and records the import it creates in
-# LDH_APP_IMPORTS, for ldh_app_await_imports.
-LDH_APP_IMPORTS=()
-ldh_app_track_import() {
-    local doc="$1" before uri
-    shift
-    before=$(ldh_app_import_uris "$doc")
-    "$@"
-    while IFS= read -r uri; do
-        [ -n "$uri" ] && LDH_APP_IMPORTS+=("$uri")
-    done < <(comm -13 <(echo "$before") <(ldh_app_import_uris "$doc"))
-}
+    if [ -f "$app_dir/admin/model/ns.ttl" ] && ldh_app_changed 'admin/model/*'; then
+        ldh_app_step "Importing namespace ontology"
+        ldh_app_import_ns "$app_dir/admin/model"
+    fi
 
-# Waits until every import in LDH_APP_IMPORTS carries prov:endedAtTime, which the platform adds to the
-# import's own document when it finishes. Fails when one of them reports an error (a prov:Entity with
-# a dct:description) or when LDH_IMPORT_TIMEOUT seconds (default 1200) pass first.
-ldh_app_await_imports() {
-    [ "${#LDH_APP_IMPORTS[@]}" -gt 0 ] || return 0
-    local deadline=$(( $(date +%s) + ${LDH_IMPORT_TIMEOUT:-1200} ))
-    local uri doc triples errors failed=0
-    for uri in "${LDH_APP_IMPORTS[@]}"; do
-        doc="${uri%%#*}"
-        printf "Waiting for %s\n" "$uri"
-        while :; do
-            triples=$(ldh get --accept application/n-triples "$doc")
-            grep -qF "<$uri> <http://www.w3.org/ns/prov#endedAtTime> " <<< "$triples" && break
-            if [ "$(date +%s)" -ge "$deadline" ]; then
-                echo "Timed out waiting for $uri" >&2
-                return 1
-            fi
-            sleep 10
-        done
-        # the error entities point at the import with prov:wasGeneratedBy
-        errors=$(grep -F " <http://www.w3.org/ns/prov#wasGeneratedBy> <$uri> " <<< "$triples" | awk '{ print $1 }' |
-            while IFS= read -r entity; do
-                grep -F "$entity <http://purl.org/dc/terms/description> " <<< "$triples" || true
-            done)
-        if [ -n "$errors" ]; then
-            echo "Import failed: $uri" >&2
-            echo "$errors" >&2
-            failed=1
-        fi
-    done
-    return "$failed"
+    ldh_app_step "Pushing changed documents and files"
+    ldh_app_push_changed "$app_dir"
+
+    ldh_app_step "Deleting removed documents"
+    ldh_app_delete_removed "$app_dir"
+
+    if [ -f "$app_dir/imports.csv" ]; then
+        ldh_app_step "Importing changed CSV data"
+        ldh_app_import_csv "$app_dir" "$app_dir/imports.csv"
+    fi
 }
