@@ -38,7 +38,7 @@
                 </tr>
                 <tr>
                     <th scope="row"><samp>robots.txt</samp></th>
-                    <td>Allows crawling and names the sitemap when the sitemap is enabled and the dataspace has a public read rule; disallows everything otherwise</td>
+                    <td>Allows crawling and names the sitemap when the sitemap is enabled and the dataspace has at least one public document; disallows everything otherwise</td>
                 </tr>
                 <tr>
                     <th scope="row"><samp>context</samp></th>

@@ -34,6 +34,8 @@
         <pre>&lt;https://supplier.example/#this&gt; a schema:Corporation ;
     schema:legalName "Exotic Liquids" ;
     schema:telephone "(171) 555-2222" .</pre>
+        <p>An HTML page with no JSON-LD has no RDF representation, so the proxy answers <code>406 Not Acceptable</code>. The user interface then opens the
+            page in a new browser tab, as an ordinary external link would.</p>
         <p>The proxy only accepts external (non-relative to the current dataspace's base URI) URLs; local URLs have to be dereferenced directly.</p>
         <p>The proxy forwards the origin's <code>ETag</code> and <code>Last-Modified</code> validators and passes conditional request headers
             (<code>If-Match</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, <code>If-Unmodified-Since</code>) through. Preconditioned
