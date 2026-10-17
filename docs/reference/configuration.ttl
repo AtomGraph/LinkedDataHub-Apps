@@ -181,6 +181,10 @@ HOST=ec2-54-235-229-141.compute-1.amazonaws.com</pre>
             <p><samp>ENABLE_LINKED_DATA_PROXY</samp> takes <samp>false</samp> to disable the <a href="../http-api/#ld-proxy">Linked Data proxy</a>, which is enabled by default.</p>
         </div>
         <div>
+            <h3 id="sitemap">Sitemap</h3>
+            <p><samp>ENABLE_SITEMAP</samp> takes <samp>true</samp> to serve the <a href="../http-api/#system-endpoints"><samp>sitemap.xml</samp></a> of every end-user dataspace, which is disabled by default: its queries walk every public document of the dataspace. Without it, every <samp>robots.txt</samp> disallows crawling.</p>
+        </div>
+        <div>
             <h3 id="http">HTTP(S)</h3>
             <dl>
                 <dt><samp>SELF_SIGNED_CERT</samp></dt>
