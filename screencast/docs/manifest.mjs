@@ -1118,16 +1118,18 @@ export const SHOTS = [
     of: '.ac-modal:visible',
   },
   // ── user-guide/use-the-assistant ──────────────────────────────────────────
-  // Both need the web-algebra service with an OpenAI key (reference/assistant#setup), and
-  // both write: the first question stores a chat block in /customers/. Delete those blocks
-  // after the shoot, or later shots of /customers/ show them.
+  // Both need the web-algebra service with an OpenAI key (reference/assistant#setup). The
+  // first question stores the chat in the document it is asked on, so each asks on a
+  // scratch document; the frame is the card alone, so the scratch name is never shown.
   {
     // A read-only plan runs on arrival while "Execute by default" is on, and the card
     // never shows Execute. The checkbox goes off first so the plan waits.
-    doc: 'user-guide/use-the-assistant', n: 1, line: 44, kind: 'still',
+    doc: 'user-guide/use-the-assistant', n: 1, line: 44, kind: 'still', writes: true,
     caption: 'a plan card in the assistant, with its summary, its operations and the Execute button',
-    at: '/customers/',
-    async act({ page, cursor, type, sleep }) {
+    at: '/',
+    async act({ page, cursor, type, sleep, scratch }) {
+      await page.goto(await scratch.document('plan', 'Top customers'), { waitUntil: 'load' });
+      await page.waitForTimeout(4000);
       await cursor.click(page.locator('button.ldh-chat-open').first());
       const chat = page.locator('.ldh-chat').last();
       await chat.waitFor({ state: 'visible', timeout: 10000 });
@@ -1143,19 +1145,21 @@ export const SHOTS = [
     of: '.ldh-chat .ldh-chat-plan:last-of-type',
   },
   {
-    doc: 'user-guide/use-the-assistant', n: 2, line: 53, kind: 'still',
+    doc: 'user-guide/use-the-assistant', n: 2, line: 53, kind: 'still', writes: true,
     caption: 'an answered card, with the sentence summing up the result, the result as a table and the steps folded under their count',
-    at: '/customers/',
-    async act({ page, cursor, type }) {
+    at: '/',
+    async act({ page, cursor, type, scratch }) {
+      await page.goto(await scratch.document('answer', 'Top customers'), { waitUntil: 'load' });
+      await page.waitForTimeout(4000);
       await cursor.click(page.locator('button.ldh-chat-open').first());
       const chat = page.locator('.ldh-chat').last();
       await chat.waitFor({ state: 'visible', timeout: 10000 });
       await type(chat.locator('textarea[name="question"]'), 'Which five customers ordered the most in 1997?', { base: 22, spread: 8 });
       await page.keyboard.press('Enter');
-      await chat.locator('.ldh-chat-plan p.ldh-chat-answer').last().waitFor({ state: 'visible', timeout: 180000 });
+      await chat.locator('.ldh-chat-plan .ldh-chat-answer').last().waitFor({ state: 'visible', timeout: 180000 });
       await page.waitForTimeout(2000);
     },
-    want: async (page) => (await page.locator('.ldh-chat .ldh-chat-plan p.ldh-chat-answer').count()) >= 1
+    want: async (page) => (await page.locator('.ldh-chat .ldh-chat-plan .ldh-chat-answer').count()) >= 1
       && (await page.locator('.ldh-chat .ldh-chat-plan details.ldh-chat-trace:not([open])').count()) >= 1,
     of: '.ldh-chat .ldh-chat-plan:last-of-type',
   },

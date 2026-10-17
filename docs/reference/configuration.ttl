@@ -181,6 +181,10 @@ HOST=ec2-54-235-229-141.compute-1.amazonaws.com</pre>
             <p><samp>ENABLE_LINKED_DATA_PROXY</samp> takes <samp>false</samp> to disable the <a href="../http-api/#ld-proxy">Linked Data proxy</a>, which is enabled by default.</p>
         </div>
         <div>
+            <h3 id="assistant">Assistant</h3>
+            <p><samp>COMPOSE_PROFILES</samp>, the Compose variable, is passed to the platform too. When it includes <samp>assistant</samp>, which also starts the <a href="#web-algebra"><samp>web-algebra</samp> service</a>, the platform offers the <a href="../assistant/">assistant</a>: it publishes <code>lds:assistant true</code> for every dataspace in its <samp>/context</samp>, and documents show the Assistant button. The assistant is disabled by default.</p>
+        </div>
+        <div>
             <h3 id="http">HTTP(S)</h3>
             <dl>
                 <dt><samp>SELF_SIGNED_CERT</samp></dt>
@@ -285,6 +289,7 @@ HOST=ec2-54-235-229-141.compute-1.amazonaws.com</pre>
             the caller by presenting the secretary's certificate with an <code>On-Behalf-Of</code> header, and reaches the instance through nginx's client
             certificate port. Its outbound requests to public destinations, such as the model's API or a SPARQL endpoint a plan names, go through
             <a href="#egress"><samp>egress</samp></a>.</p>
+        <p>The service is opt-in: it belongs to the <samp>assistant</samp> Compose profile and starts only with <samp>COMPOSE_PROFILES=assistant</samp> in <samp>.env</samp>, which <a href="#assistant">the platform reads</a> as well. Its image, <samp>ghcr.io/atomgraph/webalgebra-server-ldh</samp>, is proprietary: AtomGraph publishes the image but not its source, and LinkedDataHub's license does not cover it.</p>
         <div>
             <h3 id="web-algebra-secrets">Secrets</h3>
             <dl>

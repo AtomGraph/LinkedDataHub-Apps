@@ -14,7 +14,7 @@
     <div class="ac-alert va-informative" role="status">
         <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
         <div class="ac-alert-body">
-            <p class="ac-alert-text">The assistant is available on instances that run the <samp>web-algebra</samp> service with a model key — see the <a href="../../reference/assistant/#setup">setup instructions</a>.</p>
+            <p class="ac-alert-text">The assistant is optional and off by default. It is available on instances that enable the <samp>web-algebra</samp> service and give it a model key — see the <a href="../../reference/assistant/#setup">setup instructions</a>.</p>
         </div>
     </div>
     <p>The assistant turns a question or an instruction into a <a href="https://github.com/AtomGraph/Web-Algebra" target="_blank">Web-Algebra</a> plan: the queries
