@@ -1,0 +1,259 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "Documents" ;
+    dct:description "Create, read, update and delete documents using the Graph Store Protocol" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="ldh-body-lg">Create, read, update and delete documents using the Graph Store Protocol</p>
+    <p>Every document is also a <a href="../../dataset/#structure">named graph</a> in the dataspace's RDF dataset. LinkedDataHub supports the SPARQL Graph Store Protocol's <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#direct-graph-identification" target="_blank">direct graph identification</a> as the HTTP CRUD protocol for managing document data.</p>
+    <div class="ac-alert va-informative" role="status">
+        <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+        <div class="ac-alert-body">
+            <p class="ac-alert-text">GSP <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#indirect-graph-identification" target="_blank">indirect graph identification</a> is not supported starting with LinkedDataHub version 5.x.</p>
+        </div>
+    </div>
+    <div>
+        <h2 id="methods">Methods</h2>
+        <p>The API also supports the <code>PATCH</code> HTTP method which is <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#http-patch">optional in GSP</a>. It accepts graph-scoped SPARQL updates that will modify the requested document. Only the <code>INSERT/WHERE</code> and <code>DELETE WHERE</code> forms are supported; <code>GRAPH</code> patterns are not allowed.</p>
+        <p>Trailing slashes in document URIs are enforced using <code>308 Permanent Redirect</code> responses.</p>
+        <table>
+            <caption class="ac-vh">HTTP methods and the responses they return</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Method</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Success</th>
+                    <th scope="col">Failure</th>
+                    <th scope="col">Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th rowspan="2" scope="row"><code id="ld-get">GET</code></th>
+                    <td rowspan="2">Returns the data of a document</td>
+                    <td rowspan="2"><code>200 OK</code></td>
+                    <td><code>404 Not Found</code></td>
+                    <td>Document with request URI not found</td>
+                </tr>
+                <tr>
+                    <td><code>406 Not Acceptable</code></td>
+                    <td><a href="../#con-neg">Media type</a> not supported</td>
+                </tr>
+                <tr>
+                    <th rowspan="5" scope="row"><code id="ld-post">POST</code></th>
+                    <td rowspan="5">Appends data to a document</td>
+                    <td rowspan="5"><code>204 No Content</code></td>
+                    <td><code>400 Bad Request</code></td>
+                    <td>RDF syntax error</td>
+                </tr>
+                <tr>
+                    <td><code>404 Not Found</code></td>
+                    <td>Document with request URI not found</td>
+                </tr>
+                <tr>
+                    <td><code>413 Payload Too Large</code></td>
+                    <td>Request body too large</td>
+                </tr>
+                <tr>
+                    <td><code>415 Unsupported Media Type</code></td>
+                    <td><a href="../#con-neg">Media type</a> not supported</td>
+                </tr>
+                <tr>
+                    <td><code>422 Unprocessable Entity</code></td>
+                    <td><a href="../../administration/ontologies/#constraints">Constraint</a> violation in the resulting document</td>
+                </tr>
+                <tr>
+                    <th rowspan="5" scope="row"><code id="ld-put">PUT</code></th>
+                    <td rowspan="5">Upserts a document</td>
+                    <td rowspan="5"><code>200 OK</code><br></br><code>201 Created</code><br></br><code>308 Permanent Redirect</code></td>
+                    <td rowspan="2"><code>400 Bad Request</code></td>
+                    <td>RDF syntax error</td>
+                </tr>
+                <tr>
+                    <td>Malformed document URI</td>
+                </tr>
+                <tr>
+                    <td><code>413 Payload Too Large</code></td>
+                    <td>Request body too large</td>
+                </tr>
+                <tr>
+                    <td><code>415 Unsupported Media Type</code></td>
+                    <td><a href="../#con-neg">Media type</a> not supported</td>
+                </tr>
+                <tr>
+                    <td><code>422 Unprocessable Entity</code></td>
+                    <td><a href="../../administration/ontologies/#constraints">Constraint</a> violation in the resulting document</td>
+                </tr>
+                <tr>
+                    <th rowspan="2" scope="row"><code id="ld-delete">DELETE</code></th>
+                    <td rowspan="2">Removes the requested document</td>
+                    <td rowspan="2"><code>204 No Content</code></td>
+                    <td><code>404 Not Found</code></td>
+                    <td>Document with request URI not found</td>
+                </tr>
+                <tr>
+                    <td><code>405 Method Not Allowed</code></td>
+                    <td>Deleting root, owner, or secretary documents is not allowed</td>
+                </tr>
+                <tr>
+                    <th rowspan="2" scope="row"><code id="ld-patch">PATCH</code></th>
+                    <td rowspan="2">Modifies a document using SPARQL Update</td>
+                    <td rowspan="2"><code>204 No Content</code></td>
+                    <td rowspan="2"><code>422 Unprocessable Entity</code></td>
+                    <td>SPARQL update is not a single graph-scoped <code>INSERT</code>/<code>DELETE</code> operation, or removes an <code>rdf:type</code></td>
+                </tr>
+                <tr>
+                    <td><a href="../../administration/ontologies/#constraints">Constraint</a> violation in the updated document</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Any method may additionally answer <code>403 Forbidden</code> — see <a href="../#acl">Access control</a>. Any method that writes may answer <code>428 Precondition Required</code> when the request carries no precondition, or <code>412 Precondition Failed</code> when the one it carries is out of date — see <a href="#preconditions">Conditional writes</a>.</p>
+    </div>
+    <div>
+        <h2 id="document-metadata">Document metadata</h2>
+        <p>Since LinkedDataHub 5, the <a href="../../data-model/documents/#hierarchy">document hierarchy</a> is managed automatically.</p>
+        <p>By default, LinkedDataHub treats an RDF document as an item by giving it the <code>dh:Item</code> type and attaching it to the parent container using <code>sioc:has_container</code>. If the client wants to create a container instead, it has to explicitly add the <code>dh:Container</code> type on the document resource; the new container will be attached to its parent using <code>sioc:has_parent</code>. In either case, the URI of the new document will be relative to its parent's.</p>
+        <p>LinkedDataHub will also manage additional document metadata, such as its owner and creation/modification timestamps.</p>
+        <p>For example, this HTTP request creating the Northwind regions container (Turtle syntax):</p>
+        <pre>PUT /regions/ HTTP/1.1
+Host: localhost:4443
+Content-Type: text/turtle
+
+@prefix dh:     &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
+@prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
+
+&lt;&gt; a dh:Container ;
+    dct:title "Regions" .</pre>
+        <p>will produce the following document triples:</p>
+        <pre>@prefix dh:     &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
+@prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
+@prefix xsd:    &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+@prefix sioc:   &lt;http://rdfs.org/sioc/ns#&gt; .
+@prefix acl:    &lt;http://www.w3.org/ns/auth/acl#&gt; .
+
+&lt;https://localhost:4443/regions/&gt;
+    a dh:Container ;
+    dct:created "2025-03-31T21:46:21.984Z"^^xsd:dateTime ;
+    dct:creator &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; ;
+    dct:title "Regions" ;
+    sioc:has_parent &lt;https://localhost:4443/&gt; ;
+    acl:owner &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .</pre>
+        <p>The HTTP request to produce a new item can be empty:</p>
+        <pre>PUT /regions/1/ HTTP/1.1
+Host: localhost:4443
+Content-Type: text/turtle</pre>
+        <p>It will create an item document with the following triples:</p>
+        <pre>@prefix dh:     &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
+@prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
+@prefix xsd:    &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+@prefix sioc:   &lt;http://rdfs.org/sioc/ns#&gt; .
+@prefix acl:    &lt;http://www.w3.org/ns/auth/acl#&gt; .
+
+&lt;https://localhost:4443/regions/1/&gt;
+    a dh:Item ;
+    dct:created "2025-03-31T20:45:42.802Z"^^xsd:dateTime ;
+    dct:creator &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; ;
+    sioc:has_container &lt;https://localhost:4443/regions/&gt; ;
+    acl:owner &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .</pre>
+    </div>
+    <div>
+        <h2 id="patch-example">Graph-scoped updates</h2>
+        <p>A <code>PATCH</code> applies a SPARQL update scoped to the requested document's graph. The request body must contain a single update operation, in one of two forms: <code>DELETE</code>/<code>INSERT</code> with a <code>WHERE</code> clause (either template can be omitted, giving plain <code>INSERT { } WHERE { }</code> or <code>DELETE { } WHERE { }</code>), or the <code>DELETE WHERE</code> shorthand. Every other form is rejected with <samp>422 Unprocessable Entity</samp>, as is a body with more than one operation. Appending a description to the Chai product:</p>
+        <pre>PATCH /products/1/ HTTP/1.1
+Host: localhost:4443
+Content-Type: application/sparql-update
+
+PREFIX schema: &lt;https://schema.org/&gt;
+
+INSERT
+{
+    &lt;https://localhost:4443/products/1/#this&gt; schema:description "A delicate black tea blend" .
+}
+WHERE {}</pre>
+        <p>The update executes against that one graph, so <code>GRAPH</code> patterns are not allowed — this request is rejected with
+            <samp>422 Unprocessable Entity</samp>:</p>
+        <pre>PATCH /products/1/ HTTP/1.1
+Host: localhost:4443
+Content-Type: application/sparql-update
+
+PREFIX schema: &lt;https://schema.org/&gt;
+
+INSERT
+{
+    GRAPH &lt;https://localhost:4443/products/1/&gt;    # GRAPH is implied by the request URI — not allowed here
+    {
+        &lt;https://localhost:4443/products/1/#this&gt; schema:description "A delicate black tea blend" .
+    }
+}
+WHERE {}</pre>
+    </div>
+    <div>
+        <h2 id="constraints">Built-in constraints</h2>
+        <p>LinkedDataHub has a few built-in constraints that are not found in the standard Graph Store Protocol:</p>
+        <ul>
+            <li>It is not possible to delete the root document (returns <code>405 Method Not Allowed</code>)</li>
+            <li>It is not possible to modify or delete the documents of the owner agent and the secretary agent (returns <code>405 Method Not Allowed</code>)</li>
+            <li>A document can only be created with a URL relative to an existing container (i.e. resolving <samp>..</samp> against the new document's URL must identify an existing container)</li>
+        </ul>
+        <p>The built-in constraints are similar to, but separate from the <a href="../../administration/ontologies/#constraints">ontology constraints</a> —
+            <a href="https://spinrdf.org/spin.html#spin-constraints" target="_blank">SPIN constraints</a> and
+            <a href="https://www.w3.org/TR/shacl/" target="_blank">SHACL</a> shapes declared in the dataspace's ontology. Those are checked against the
+            document as the write leaves it, not the request body alone, so a <code>POST</code> or <code>PATCH</code> need not repeat the properties the
+            document already holds, and one that leaves the document invalid is answered <code>422 Unprocessable Entity</code>.</p>
+    </div>
+    <div>
+        <h2 id="preconditions">Conditional writes</h2>
+        <p>A write to a document that already exists must say which state it was written against. Every write reads the document's graph, changes it in memory and writes the whole graph back, so two writers that name no precondition overwrite each other with nothing to show that anything was lost.</p>
+        <p>Such a write is answered <code>428 Precondition Required</code>. To make it conditional, send either:</p>
+        <ul>
+            <li><code>If-Match</code> with the document's current <code>ETag</code>, to modify what you read</li>
+            <li><code>If-None-Match: *</code>, to create a document only if it does not exist yet</li>
+        </ul>
+        <p>Creating a document needs no precondition — there is no prior state to have been written against — so a <code>PUT</code> to a URL that does not exist is accepted as it always was.</p>
+        <p>If the document changed since you read it, the write is refused <code>412 Precondition Failed</code>, and that response carries the document's current <code>ETag</code> so you can re-read, reapply your change and retry without an extra request. <code>If-None-Match: *</code> against a document that already exists is likewise refused <code>412</code>, which is how a client can create-or-append in two steps.</p>
+        <div class="ac-alert va-informative" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+            <div class="ac-alert-body">
+                <p class="ac-alert-text">An <code>ETag</code> identifies a <em>negotiated representation</em>, not the graph alone: the same document answers a different tag as RDF/XML than as Turtle. Read the validator with the same <code>Accept</code> the write will send, or the write is refused <code>412</code>.</p>
+            </div>
+        </div>
+        <pre>HEAD /my/document/ HTTP/1.1
+Accept: application/n-triples
+
+HTTP/1.1 200 OK
+ETag: "f731c06f5ac4fec6490dff1399bd5440"
+
+PATCH /my/document/ HTTP/1.1
+Accept: application/n-triples
+Content-Type: application/sparql-update
+If-Match: "f731c06f5ac4fec6490dff1399bd5440"
+
+HTTP/1.1 204 No Content</pre>
+        <p><code>HEAD</code> is answered for any access mode the agent holds, not <code>acl:Read</code> alone, so an agent granted <code>acl:Write</code> or <code>acl:Append</code> can read the validator its writes have to quote without being able to read the document. <code>GET</code> still requires <code>acl:Read</code>.</p>
+        <p>The <a href="../../command-line-interface/">command line interface</a> does this for you: every <samp>ldh</samp> command that writes reads the document's validator first and sends it.</p>
+    </div>
+    <div>
+        <h2 id="versioned-documents">Versioned documents</h2>
+        <p>In dataspaces with <a href="../../versioning/">versioning</a> enabled, document URLs accept additional query parameters that expose the version
+            history through the standard <a href="https://datatracker.ietf.org/doc/html/rfc7089" target="_blank">Memento (RFC 7089)</a> protocol:</p>
+        <dl>
+            <dt><code>?version=&lt;commit-sha&gt;</code></dt>
+            <dd>A historical version of the document, served with a <code>Memento-Datetime</code> header and an immutable <code>Cache-Control</code>. Snapshots are read-only: write methods answer <code>405 Method Not Allowed</code></dd>
+            <dt><code>?timemap</code></dt>
+            <dd>The document's version history — a TimeMap described with PROV-O in RDF formats, or in <code>application/link-format</code> as RFC 7089 requires</dd>
+            <dt><code>?timegate</code></dt>
+            <dd>Datetime negotiation: a request with an <code>Accept-Datetime</code> header answers <code>302 Found</code> with the closest version in <code>Location</code></dd>
+        </dl>
+        <p>See the <a href="../../versioning/">versioning reference</a> for details.</p>
+    </div>
+</div>"""^^rdf:XMLLiteral ;
+        rdfs:seeAlso <https://www.w3.org/TR/sparql11-http-rdf-update/> .
+
+    <https://www.w3.org/TR/sparql11-http-rdf-update/> dct:title "SPARQL 1.1 Graph Store HTTP Protocol" .

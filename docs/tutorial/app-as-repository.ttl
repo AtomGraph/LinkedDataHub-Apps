@@ -74,7 +74,7 @@ ldh push "$LDH_BASE"</pre>
         <h2 id="how-this-works">How this works</h2>
         <ul>
             <li><a href="../../reference/command-line-interface/" target="_blank">Command line interface</a> — one command per HTTP API operation, scriptable and replayable</li>
-            <li><a href="../../reference/http-api/" target="_blank">HTTP API</a> — the <code>PUT</code> semantics that make the replay idempotent</li>
+            <li><a href="../../reference/http-api/documents/" target="_blank">HTTP API</a> — the <code>PUT</code> semantics that make the replay idempotent</li>
         </ul>
     </div>
     <p class="ldh-body-lg">Next: <a href="../beyond-low-code/">Beyond low-code</a></p>

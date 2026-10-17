@@ -196,56 +196,8 @@ WHERE {}</pre>
     </div>
     <div>
         <h2 id="creating-packages">Creating custom packages</h2>
-        <p>Developers can create custom packages for their own domain vocabularies. The process has four steps.</p>
-        <h3 id="write-ontology">Write package ontology</h3>
-        <p>Create <samp>ns.ttl</samp> describing both the document the registry serves it as and the ontology inside it, with the vocabulary import and the views:</p>
-        <pre>&lt;&gt; a dh:Item ;
-    dct:title "Schema.org ontology" ;
-    foaf:primaryTopic &lt;#&gt; .
-
-&lt;#&gt; a owl:Ontology ;
-    owl:imports &lt;https://schema.org/&gt; .
-
-# Attach view to a property
-schema:knows ldh:view :PersonKnows .
-
-:PersonKnows a ldh:View ;
-    dct:title "Knows" ;
-    spin:query :SelectPersonKnows .
-
-:SelectPersonKnows a sp:Select ;
-    sp:text \"\"\"
-    SELECT DISTINCT ?person
-    WHERE { GRAPH ?graph { $about schema:knows ?person } }
-    ORDER BY ?person
-    \"\"\" .</pre>
-        <div class="ac-alert va-warning" role="status">
-            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
-            <div class="ac-alert-body">
-                <p class="ac-alert-text">The <code>dct:title</code> on <code>&lt;&gt;</code> is not optional. A write is held to the constraints of the document as it will be written, and a LinkedDataHub document must be titled, so an <samp>ns.ttl</samp> that describes only the ontology is refused <samp>422 Unprocessable Entity</samp> when it is pushed.</p>
-            </div>
-        </div>
-        <h3 id="write-stylesheet">Write XSLT stylesheet</h3>
-        <p>Create the stylesheet — name the file for the vocabulary it covers — with XSLT templates using system modes like <code>ac:*</code>, <code>ldh:*</code> and <code>xhtml:*</code>. See the <a href="../../stylesheets/">Stylesheets reference</a> for template customization patterns.</p>
-        <pre>&lt;xsl:template match="schema:knows" mode="ac:PropertyEditor"/&gt;</pre>
-        <h3 id="publish-metadata">Publish package metadata</h3>
-        <p>Publish the descriptor as Linked Data at your package URI, naming the ontology beside it:</p>
-        <pre>&lt;&gt; a dh:Container ;
-    dct:title "Schema.org" ;
-    foaf:primaryTopic &lt;#this&gt; .
-
-&lt;#this&gt; a lds:Package ;
-    dct:title "Schema.org Package" ;
-    dct:description "Schema.org vocabulary support" ;
-    lds:ontology &lt;ns/#&gt; .</pre>
-        <p>Then upload the stylesheet into the package document and add <code>ac:stylesheet</code> naming that upload, which is where a registry published with <samp>ldh push</samp> gets it:</p>
-        <pre>package="https://packages.example.com/schema.org/"
-
-upload=$(ldh add file --title schema.xsl --file schema.xsl "$package")
-echo "INSERT { &lt;${package}#this&gt; &lt;https://w3id.org/atomgraph/client#stylesheet&gt; &lt;$upload&gt; } WHERE { }" | ldh patch "$package"</pre>
-        <p>A dataspace importing the package dereferences its descriptor, ontology and stylesheet anonymously, so all three have to be readable without a certificate.</p>
-        <h3 id="test-installation">Test installation</h3>
-        <p>Declare the <code>ldh:import</code> triple in a test dataspace's <samp>settings</samp> document — see <a href="#management">Management</a> for the command.</p>
+        <p>Developers can create custom packages for their own domain vocabularies: write the package ontology and stylesheet, publish the package
+            metadata and test the installation. The <a href="../../../extending/create-packages/">Create packages</a> guide walks through the steps.</p>
     </div>
     <div>
         <h2 id="available-packages">Available packages</h2>

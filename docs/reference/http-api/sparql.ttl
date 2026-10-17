@@ -1,0 +1,37 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "SPARQL endpoint" ;
+    dct:description "Query the dataspace using the SPARQL 1.1 Protocol" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="ldh-body-lg">Query the dataspace using the SPARQL 1.1 Protocol</p>
+    <div>
+        <h2 id="sparql">Executing SPARQL</h2>
+        <p>Every LinkedDataHub dataspace provides a SPARQL endpoint on <code>sparql</code> path (relative to the dataspace's base URI). It supports the
+            <a href="https://www.w3.org/TR/sparql11-protocol/" target="_blank">SPARQL 1.1 Protocol</a> and serves as a proxy for the backend endpoint of the
+            dataspace.</p>
+        <p>A <code>GET</code> on the endpoint without a <code>query</code> parameter returns its
+            <a href="https://www.w3.org/TR/sparql11-service-description/" target="_blank">SPARQL 1.1 Service Description</a>, which advertises queries only:
+            documents are written through the <a href="../documents/">Graph Store Protocol</a>, not SPARQL Update.</p>
+        <p>External clients are limited in how many queries they may have in flight and how often they may send them; a query beyond the
+            <a href="../../configuration/#sparql-limits">limits</a> is answered with <code>429 Too Many Requests</code>.</p>
+        <p>The protocol's dataset parameters can be used to scope a query to a single document's graph: passing <code>default-graph-uri=&lt;document-uri&gt;</code>
+            makes that document's named graph the query's default graph. The dataset specified this way overrides any <code>FROM</code>/<code>FROM NAMED</code>
+            clauses in the query, and <code>GRAPH</code> patterns match nothing since no named graphs are part of the dataset. This is the read-side counterpart
+            of the graph-scoped <code>PATCH</code> method. Reading the Chai product's name out of its document alone:</p>
+        <pre>curl -k -G "https://localhost:4443/sparql" \\
+  -H "Accept: application/sparql-results+json" \\
+  --data-urlencode 'query=PREFIX schema: &lt;https://schema.org/&gt; SELECT ?name WHERE { ?product a schema:Product ; schema:name ?name }' \\
+  --data-urlencode 'default-graph-uri=https://localhost:4443/products/1/'</pre>
+    </div>
+</div>"""^^rdf:XMLLiteral ;
+        rdfs:seeAlso <https://www.w3.org/TR/sparql11-protocol/> .
+
+    <https://www.w3.org/TR/sparql11-protocol/> dct:title "SPARQL 1.1 Protocol" .

@@ -14,7 +14,7 @@
     <p>LinkedDataHub access control is based on the W3C <a href="https://www.w3.org/wiki/WebAccessControl" target="_blank">ACL ontology</a>.</p>
     <div>
         <h2 id="access-modes">Access modes</h2>
-        <p>There are four access modes (classes of operation) that map to <a href="../../http-api/">HTTP methods</a>:</p>
+        <p>There are four access modes (classes of operation) that map to <a href="../../http-api/documents/#methods">HTTP methods</a>:</p>
         <table>
             <caption class="ac-vh">Access modes and the HTTP methods they permit</caption>
             <thead>

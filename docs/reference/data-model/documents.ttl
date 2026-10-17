@@ -37,7 +37,7 @@
         <h2 id="containers">Containers</h2>
         <div>
             <h3 id="container-rdf-serialization">RDF serialization</h3>
-            <p>Document properties such as <code>sioc:has_parent</code>, <code>dct:created</code>, <code>dct:modified</code>, <code>acl:owner</code> are <a href="../../http-api/#document-metadata">automatically managed</a> by LinkedDataHub.</p>
+            <p>Document properties such as <code>sioc:has_parent</code>, <code>dct:created</code>, <code>dct:modified</code>, <code>acl:owner</code> are <a href="../../http-api/documents/#document-metadata">automatically managed</a> by LinkedDataHub.</p>
             <pre>@prefix dh: &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
 @prefix ldh: &lt;https://w3id.org/atomgraph/linkeddatahub#&gt; .
 @prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
@@ -66,7 +66,7 @@
         <h2 id="items">Items</h2>
         <div>
             <h3 id="item-rdf-serialization">RDF serialization</h3>
-            <p>Document properties such as <code>sioc:has_container</code>, <code>dct:created</code>, <code>dct:modified</code>, <code>acl:owner</code> are <a href="../../http-api/#document-metadata">automatically managed</a> by LinkedDataHub.</p>
+            <p>Document properties such as <code>sioc:has_container</code>, <code>dct:created</code>, <code>dct:modified</code>, <code>acl:owner</code> are <a href="../../http-api/documents/#document-metadata">automatically managed</a> by LinkedDataHub.</p>
             <pre>@prefix dh: &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
 @prefix dct: &lt;http://purl.org/dc/terms/&gt; .
 @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .

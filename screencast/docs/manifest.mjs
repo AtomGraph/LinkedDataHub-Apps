@@ -234,14 +234,14 @@ export const SHOTS = [
     of: (page) => subject(page, 'Revenue by category'),
   },
   {
-    doc: 'reference/data-model/resources', n: 3, line: 228, kind: 'still',
+    doc: 'reference/data-model/views', n: 1, line: 14, kind: 'still',
     caption: 'a view block with paginated results',
     at: '/orders/',
     want: '.ldh-view-toolbar',
     of: (page) => subject(page, 'All orders'),
   },
   {
-    doc: 'reference/data-model/resources', n: 4, line: 299, kind: 'still',
+    doc: 'reference/data-model/views', n: 2, line: 96, kind: 'still',
     caption: 'parallax navigation jumping from a result set to a related one',
     at: '/products/',
     // The pivot bar is no longer a <details> with a <summary>: it is a div that the
@@ -440,8 +440,6 @@ export const SHOTS = [
     want: '.ldh-block-row, h1',
   },
 
-  // ── blocked ────────────────────────────────────────────────────────────────
-  { doc: 'about', n: 1, line: 37, kind: 'clip', caption: 'LinkedDataHub overview', blocked: 'the flagship film — its own project' },
   {
     // The one slot that is a shell rather than a page. It runs the page's procedure end
     // to end in a throwaway clone — see tapes/get-started-setup.tape for why two values
@@ -1116,5 +1114,51 @@ export const SHOTS = [
       return /Source/.test(text) && /Graph/.test(text);
     },
     of: '.ac-modal:visible',
+  },
+  // ── user-guide/use-the-assistant ──────────────────────────────────────────
+  // Both need the web-algebra service with an OpenAI key (reference/assistant#setup). The
+  // first question stores the chat in the document it is asked on, so each asks on a
+  // scratch document; the frame is the card alone, so the scratch name is never shown.
+  {
+    // A read-only plan runs on arrival while "Execute by default" is on, and the card
+    // never shows Execute. The checkbox goes off first so the plan waits.
+    doc: 'user-guide/use-the-assistant', n: 1, line: 44, kind: 'still', writes: true,
+    caption: 'a plan card in the assistant, with its summary, its operations and the Execute button',
+    at: '/',
+    async act({ page, cursor, type, sleep, scratch }) {
+      await page.goto(await scratch.document('plan', 'Top customers'), { waitUntil: 'load' });
+      await page.waitForTimeout(4000);
+      await cursor.click(page.locator('button.ldh-chat-open').first());
+      const chat = page.locator('.ldh-chat').last();
+      await chat.waitFor({ state: 'visible', timeout: 10000 });
+      const run = chat.locator('.ldh-chat-run input[name="run"]');
+      if (await run.isChecked()) await cursor.click(chat.locator('.ldh-chat-run'));
+      await sleep(400);
+      await type(chat.locator('textarea[name="question"]'), 'Which five customers ordered the most in 1997?', { base: 22, spread: 8 });
+      await page.keyboard.press('Enter');
+      await chat.locator('.ldh-chat-plan button.ldh-chat-execute').last().waitFor({ state: 'visible', timeout: 90000 });
+      await sleep(800);
+    },
+    want: '.ldh-chat .ldh-chat-plan button.ldh-chat-execute',
+    of: '.ldh-chat .ldh-chat-plan:last-of-type',
+  },
+  {
+    doc: 'user-guide/use-the-assistant', n: 2, line: 53, kind: 'still', writes: true,
+    caption: 'an answered card, with the answer summing up the result, the result as a table and the steps folded under their count',
+    at: '/',
+    async act({ page, cursor, type, scratch }) {
+      await page.goto(await scratch.document('answer', 'Top customers'), { waitUntil: 'load' });
+      await page.waitForTimeout(4000);
+      await cursor.click(page.locator('button.ldh-chat-open').first());
+      const chat = page.locator('.ldh-chat').last();
+      await chat.waitFor({ state: 'visible', timeout: 10000 });
+      await type(chat.locator('textarea[name="question"]'), 'Which five customers ordered the most in 1997?', { base: 22, spread: 8 });
+      await page.keyboard.press('Enter');
+      await chat.locator('.ldh-chat-plan .ldh-chat-answer').last().waitFor({ state: 'visible', timeout: 180000 });
+      await page.waitForTimeout(2000);
+    },
+    want: async (page) => (await page.locator('.ldh-chat .ldh-chat-plan .ldh-chat-answer').count()) >= 1
+      && (await page.locator('.ldh-chat .ldh-chat-plan details.ldh-chat-trace:not([open])').count()) >= 1,
+    of: '.ldh-chat .ldh-chat-plan:last-of-type',
   },
 ];

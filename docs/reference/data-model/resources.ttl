@@ -95,7 +95,7 @@
                     <tr>
                         <td><samp>View</samp></td>
                         <td><code>ldh:View</code></td>
-                        <td><a href="#views">View based on <code>SELECT</code> query results</a></td>
+                        <td><a href="../views/">View based on <code>SELECT</code> query results</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -131,7 +131,7 @@ ORDER BY ?categoryName''' .</pre>
             <li>tabular <code>SELECT</code> results (<code>ldh:ResultSetChart</code>)</li>
             <li>graph results of <code>DESCRIBE</code> and <code>CONSTRUCT</code> (<code>ldh:GraphChart</code>)</li>
         </ul>
-        <p>A chart resource is easily confused with the chart layout mode in <a href="#views">views</a>. The layout mode renders
+        <p>A chart resource is easily confused with the chart layout mode in <a href="../views/">views</a>. The layout mode renders
         view results as a chart on the fly, while a chart resource additionally stores the chart type as well as the category and
         series information: variable names in the case of tabular results, and property URIs in the case of graph results.</p>
         <div>
@@ -217,95 +217,8 @@ ORDER BY DESC(?revenue)''' .
     </div>
     <div>
         <h2 id="views">Views</h2>
-        <img alt="A view block with paginated results" src="/uploads/83d04d55088908b1932e777348ef5cd01f160148"></img>
-        <p>A view renders the results of a SPARQL <code>SELECT</code> query as an interactive, paginated and optionally ordered list.
-        The UI renders the descriptions of the resources selected by the result set, rather than the tabular result itself.
-        That is achieved by on-the-fly SPARQL query rewriting: the <code>SELECT</code> is wrapped into
-        a <code>DESCRIBE</code> query; <code>DESCRIBE</code> reuses the same variables from the <code>SELECT</code> projection.
-        The first projected variable, plain or aliased as in <code>(?s AS ?resource)</code>, names the resources the view lists. When it binds
-        values rather than resources, as in <code>(YEAR(NOW()) AS ?year)</code>, there is nothing to describe and the block says the query lists no resources.
-        <em>This will not work for all <code>SELECT</code> queries.</em></p>
-        <p>To render paginated lists of resources, traditional applications would normally have a dedicated API endpoint that
-        supports pagination, ordering etc. In LinkedDataHub, views achieve the same functionality by simply building the
-        SPARQL query string on the client-side. A view is therefore a client-side counterpart of a container: it produces a
-        listing without a server-side endpoint.</p>
-        <p>A view is defined in one of two ways. A standalone view is a resource like a <a href="#queries">query</a> or a <a href="#charts">chart</a>:
-        it is stored in a document and placed on a page by an <a href="../blocks/#object-blocks">object block</a> whose value is its URI.
-        A property-attached view is declared in the dataspace's ontology with <code>ldh:view</code> or <code>ldh:inverseView</code>. It is stored
-        in no document and is rendered on every resource of the property's domain or range, as the
-        <a href="../../administration/ontologies/#views">ontologies reference</a> describes. Both kinds offer the same pagination,
-        <a href="#faceted-search">faceted search</a> and <a href="#parallax">parallax navigation</a>.</p>
-        <p>A view references its <a href="#queries">query</a> and optionally fixes a layout mode:</p>
-        <pre>&lt;#select-categories-view&gt; a ldh:View ;
-    spin:query &lt;#select-categories-query&gt; ;
-    ac:mode &lt;https://w3id.org/atomgraph/client#GridMode&gt; .</pre>
-        <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories.ttl" target="_blank">categories.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/" target="_blank">/categories/</a></p>
-        <p>Views can be rendered in multiple layout modes: properties, list, grid, table, map, chart, and graph. They also show
-        the total number of results and allow result ordering by property. In the table mode, columns can be sorted by clicking
-        their headers; the sort order follows each column's datatype.</p>
-        <div>
-            <h3 id="projecting-variables">Projecting variables</h3>
-            <p>Because the <code>SELECT</code> is rewritten into a <code>DESCRIBE</code> over its projected variables, a view can only render terms that the triplestore is able to describe:</p>
-            <ul>
-                <li>Project <em>resources</em> (IRIs) that exist in the dataset — their labels, images and links are resolved from each resource's own description. Projecting <em>literals</em> (a <code>?label</code>, a <code>?date</code>, or any computed value) describes nothing, so the view renders empty.</li>
-                <li>Project IRIs that are stored <em>locally</em>. An IRI that only occurs as an object but is not itself described in the dataset — for example an external image URL — contributes no triples.</li>
-                <li>Project a <em>single</em> entity type. Projecting several resource variables of different types blends their descriptions into one result set, which rarely renders coherently; select the one type you want to list and reach the related resources through their properties instead.</li>
-            </ul>
-            <p>The query that drives the categories grid above projects the category resource, so the view renders the category documents:</p>
-            <pre>SELECT DISTINCT ?category
-WHERE {
-    GRAPH ?doc {
-        ?category
-            a schema:ProductGroup ;
-            schema:name ?categoryName
-    }
-}</pre>
-            <p>This query <em>looks</em> equivalent, but it projects the name literal instead of the category resource — so it describes nothing and renders an empty view:</p>
-            <pre>SELECT DISTINCT ?categoryName
-WHERE {
-    GRAPH ?doc {
-        ?category
-            a schema:ProductGroup ;
-            schema:name ?categoryName
-    }
-}</pre>
-        </div>
-        <div>
-            <h3 id="view-layout-modes">Layout modes</h3>
-            <p>View results are rendered in the view's own set of layout modes — properties, list, grid, table, map, chart, and graph — a larger set than the <a href="../../user-interface/#layout-modes">document layout modes</a>.</p>
-        </div>
-        <div>
-            <h3 id="inline-creation">Inline creation</h3>
-            <p>A view <a href="../../administration/ontologies/#views">attached to a property</a> in the dataspace's ontology renders a <span class="ac-btn in-primary ap-solid sz-md">Create</span> button in its header, so a view can double as an entry point for the data it lists. The class to construct is inferred from the attaching property: its <code>rdfs:range</code> for a forward <code>ldh:view</code>, its <code>rdfs:domain</code> for an inverse <code>ldh:inverseView</code>. A property whose range is not a named class — an <code>owl:unionOf</code> list, say — gets no button, because there is nothing to construct.</p>
-            <p>Where the new instance is stored is not declared anywhere. LinkedDataHub works it out from the view's own results: a second query, derived from the view's <code>SELECT</code> pattern with <code>LIMIT</code>, <code>OFFSET</code> and <code>ORDER BY</code> removed, asks which containers hold the documents that describe the existing solutions. A view is a projection and its rows are its solutions, so creating a row means making a new solution appear in that projection — and the existing solutions already say where their descriptions live.</p>
-            <ul>
-                <li><em>Exactly one container</em> — the button renders and targets it.</li>
-                <li><em>No container</em>, because the result set is empty — no button. There is nothing to generalise from, so the first instance of a kind is created through its container the usual way.</li>
-                <li><em>More than one container</em>, because the results span several — no button. Nothing in the data says where a new row belongs, and deciding by majority would be placement nobody stated.</li>
-            </ul>
-            <p>The question is put to the whole result set rather than to the page on screen, so the destination cannot depend on which page the reader happens to be looking at. The determined container is then checked for <code>acl:Write</code> access, which is why the button appears a moment after the rest of the view header; a forward view also writes the linking triple into the current document, so it needs write access there as well.</p>
-            <p>A view with <code>ldh:showWhenEmpty</code> set to <code>false</code> is hidden while its query returns no results — the
-                <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/admin/model/ns.ttl" target="_blank">demo's property-attached views</a>
-                use it so "Orders from this customer" only appears on customers that have orders.</p>
-            <pre>&lt;#select-products-view&gt; a ldh:View ;
-    spin:query &lt;#select-products-query&gt; ;
-    ac:mode &lt;https://w3id.org/atomgraph/client#TableMode&gt; ;
-    ldh:showWhenEmpty false .</pre>
-        </div>
-        <div>
-            <h3 id="faceted-search">Faceted search</h3>
-            <p>Views provide faceted search in the toolbar at the top of the view, filtering the result set. The toolbar renders one dropdown pill per facetable property; opening a pill loads that property's values together with their result counts, and checking a value filters the results. Applying or removing a filter restarts paging from the first page.</p>
-            <p>By default the facets are generic and inferred from the triple patterns of the SPARQL <code>SELECT</code> query used by the view. They can be <a href="../../stylesheets/#overriding-templates">customized using XSLT</a>.</p>
-        </div>
-        <div>
-            <h3 id="parallax">Parallax navigation</h3>
-            <img alt="Parallax navigation jumping from a result set to a related one" src="/uploads/f1082691b9775720f8fc01142edc7e24fa7b778d"></img>
-            <p>Parallax is an unusual navigation approach that suits graph data particularly well. It allows jumping from a result set to a related result set by following an RDF property. The available pivots render as a row of chips directly under the view toolbar, one chip per property linking the result set to the rest of the graph; the row stays hidden while there are no pivots. Parallax navigates in both directions: a chip with a forward arrow follows a property of the results onto its objects, a chip with a backward arrow follows a property pointing at the results onto its subjects. The pivots are discovered by querying the whole result set, so they cover results beyond the current page.</p>
-            <p>Clicking a chip pivots the view onto the related result set and restarts paging from the first page. The applied steps appear in the toolbar next to the facets as removable chips reading <samp>via</samp> (forward) or <samp>linked by</samp> (backward); removing one rewinds the view to that step. Parallax works in
-                combination with faceted search which can be used to filter the initial result set.</p>
-            <p>For example, facets can be used to filter a set of products that belong to a certain category, and then parallax can be used to jump to a set of companies that provide those products, and then further on to
-                a set of representatives of those companies.</p>
-        </div>
+        <p>A view renders the results of a SPARQL <code>SELECT</code> query as an interactive, paginated list of the resources the query selects,
+            with faceted search and parallax navigation. Views have their own page: <a href="../views/">Views</a>.</p>
     </div>
 </div>"""^^rdf:XMLLiteral .
 

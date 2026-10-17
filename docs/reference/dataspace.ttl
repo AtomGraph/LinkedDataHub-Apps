@@ -58,7 +58,7 @@
                 derives the counterpart from the host in either direction. You do not configure the relationship.</p>
             <p>LinkedDataHub publishes the pairing so that clients never derive it themselves. Responses from an end-user dataspace carry a
                 <code>Link</code> header with the <code>https://w3id.org/atomgraph/linkeddatahub/dataspaces#admin</code> relation, whose target is the administration
-                dataspace's base URI. The <a href="../command-line-interface/">CLI</a>'s <samp>admin</samp> commands follow it, so they take the end-user base URI.</p>
+                dataspace's base URI; responses from an administration dataspace carry the same relation with their own base URI. The <a href="../command-line-interface/">CLI</a>'s <samp>admin</samp> commands follow it, so they take either base URI.</p>
             <div class="ac-alert va-informative" role="status">
                 <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
                 <div class="ac-alert-body">
