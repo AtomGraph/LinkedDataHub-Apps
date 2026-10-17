@@ -110,7 +110,7 @@ services:
                 </tr>
                 <tr>
                     <th scope="row"><code>ldh:answer</code></th>
-                    <td>The sentence summing up what the plan did, when the model gave one</td>
+                    <td>What the plan did, read by the model, as an <code>rdf:XMLLiteral</code>: an XHTML <code>div</code> of paragraphs, lists, emphasis, code and links to what the plan returned, when the model gave one. Other markup is dropped, and so are links that are not http(s). Turns stored before answers were XHTML hold a plain string</td>
                 </tr>
                 <tr>
                     <th scope="row"><code>ldh:plan</code></th>
@@ -149,6 +149,7 @@ services:
 
 &lt;https://localhost:4443/customers/#turn-5d7e…&gt; a ldh:ChatTurn ;
     ldh:question "Which five customers ordered the most in 1997?" ;
+    ldh:answer "&lt;div xmlns=\"http://www.w3.org/1999/xhtml\"&gt;&lt;p&gt;The five customers with the most orders in 1997 were:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;a href=\"…\"&gt;Save-a-lot Markets&lt;/a&gt;: 17 orders&lt;/li&gt;…&lt;/ol&gt;&lt;/div&gt;"^^rdf:XMLLiteral ;
     ldh:plan "&lt;wa:plan …&gt;…&lt;/wa:plan&gt;"^^rdf:XMLLiteral ;
     ldh:execution "&lt;wa:execution …&gt;…&lt;/wa:execution&gt;"^^rdf:XMLLiteral ;
     ldh:outcome "5 rows" ;

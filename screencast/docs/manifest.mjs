@@ -1144,7 +1144,7 @@ export const SHOTS = [
   },
   {
     doc: 'user-guide/use-the-assistant', n: 2, line: 53, kind: 'still', writes: true,
-    caption: 'an answered card, with the sentence summing up the result, the result as a table and the steps folded under their count',
+    caption: 'an answered card, with the answer summing up the result, the result as a table and the steps folded under their count',
     at: '/',
     async act({ page, cursor, type, scratch }) {
       await page.goto(await scratch.document('answer', 'Top customers'), { waitUntil: 'load' });

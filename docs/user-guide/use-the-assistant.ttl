@@ -50,7 +50,7 @@
             it changed. A sentence summing up the result appears at the top of the card, and the rows fold under it.</p>
         <div class="screenshot-placeholder">
             <span aria-hidden="true" class="msi">image</span>
-            <p>Screenshot: an answered card, with the sentence summing up the result, the result as a table and the steps folded under their count</p>
+            <p>Screenshot: an answered card, with the answer summing up the result, the result as a table and the steps folded under their count</p>
         </div>
         <p>Two options above the question field change when plans run:</p>
         <dl>
