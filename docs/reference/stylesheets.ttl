@@ -335,7 +335,7 @@
                     <tr>
                         <td><code>$ac:uri</code></td>
                         <td><code>xs:anyURI?</code></td>
-                        <td>URI of the external resource when the request goes through the <a href="../http-api/#ld-proxy">Linked Data proxy</a>; absent for local documents (prefer the <code>ac:uri()</code> function)</td>
+                        <td>URI of the external resource when the request goes through the <a href="../http-api/linked-data-proxy/#ld-proxy">Linked Data proxy</a>; absent for local documents (prefer the <code>ac:uri()</code> function)</td>
                     </tr>
                 </tbody>
             </table>
@@ -386,7 +386,7 @@
                         <td><code>ac:uri()</code></td>
                         <td><code>xs:anyURI?</code></td>
                         <td>Both</td>
-                        <td>URI of the external resource being viewed through the <a href="../http-api/#ld-proxy">Linked Data proxy</a>; absent for local documents. The server reads it from the <code>$ac:uri</code> parameter, the browser from the <code>uri</code> query parameter</td>
+                        <td>URI of the external resource being viewed through the <a href="../http-api/linked-data-proxy/#ld-proxy">Linked Data proxy</a>; absent for local documents. The server reads it from the <code>$ac:uri</code> parameter, the browser from the <code>uri</code> query parameter</td>
                     </tr>
                     <tr>
                         <td><code>lds:origin()</code></td>
@@ -596,7 +596,7 @@
                         <td><code>sd:endpoint()</code></td>
                         <td><code>xs:anyURI</code></td>
                         <td>Both</td>
-                        <td>SPARQL endpoint of the current data pane — the local endpoint, or the remote dataspace's when browsing another dataspace through the <a href="../http-api/#ld-proxy">proxy</a>. Replaces the former <code>$sd:endpoint</code> parameter</td>
+                        <td>SPARQL endpoint of the current data pane — the local endpoint, or the remote dataspace's when browsing another dataspace through the <a href="../http-api/linked-data-proxy/#ld-proxy">proxy</a>. Replaces the former <code>$sd:endpoint</code> parameter</td>
                     </tr>
                     <tr>
                         <td><code>lds:dataspace()</code></td>

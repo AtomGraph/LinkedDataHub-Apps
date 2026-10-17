@@ -234,14 +234,14 @@ export const SHOTS = [
     of: (page) => subject(page, 'Revenue by category'),
   },
   {
-    doc: 'reference/data-model/resources', n: 3, line: 228, kind: 'still',
+    doc: 'reference/data-model/views', n: 1, line: 14, kind: 'still',
     caption: 'a view block with paginated results',
     at: '/orders/',
     want: '.ldh-view-toolbar',
     of: (page) => subject(page, 'All orders'),
   },
   {
-    doc: 'reference/data-model/resources', n: 4, line: 299, kind: 'still',
+    doc: 'reference/data-model/views', n: 2, line: 96, kind: 'still',
     caption: 'parallax navigation jumping from a result set to a related one',
     at: '/products/',
     // The pivot bar is no longer a <details> with a <summary>: it is a div that the

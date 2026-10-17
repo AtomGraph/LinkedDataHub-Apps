@@ -1,0 +1,91 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "System endpoints" ;
+    dct:description "Endpoints served in addition to the document hierarchy" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="ldh-body-lg">Endpoints served in addition to the document hierarchy</p>
+    <div>
+        <h2 id="system-endpoints">System endpoints</h2>
+        <p>Endpoints that LinkedDataHub serves in addition to the document hierarchy. Paths are relative to the dataspace's base URI; the admin app's
+            are relative to the <a href="../../dataspace/#admin">administration dataspace</a>'s base, e.g. <samp>https://admin.localhost:4443/clear</samp>.</p>
+        <table>
+            <caption class="ac-vh">System endpoints by path</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Path</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th colspan="2" id="app-endpoints" scope="rowgroup">Admin and end-user apps</th>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>ns</samp></th>
+                    <td>In-memory namespace ontology as well as its SPARQL endpoint</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>sitemap.xml</samp></th>
+                    <td>The dataspace's public documents, in the <a href="https://www.sitemaps.org/protocol.html" target="_blank">sitemaps protocol</a>: queried on request from the public read rules of the dataspace's own admin service, so an origin lists only its own documents. Past 50,000 documents it is a sitemap index over <samp>sitemap.xml?bucket=…</samp> pages, which group the documents by the MD5 prefix of their URI. Served only when <a href="../../configuration/#sitemap"><samp>ENABLE_SITEMAP</samp></a> is on; an end-user dataspace with nothing public has none, and neither does an admin dataspace</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>robots.txt</samp></th>
+                    <td>Allows crawling and names the sitemap when the sitemap is enabled and the dataspace has a public read rule; disallows everything otherwise</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>context</samp></th>
+                    <td>The public description of every dataspace of the instance: its type, title, origin, ontology and stylesheet, and the <code>lds:admin</code> base URI of each end-user dataspace (see <a href="../../dataspace/#context">dataspace context</a>). Readable by anyone; it never contains service endpoints or credentials</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>settings</samp></th>
+                    <td>The dataspace's own description in the dataspace configuration. <code>PATCH</code> with a SPARQL update edits it — this is how <a href="../../administration/packages/">packages</a> are installed and uninstalled. Editing is restricted to end-user dataspaces: a <code>PATCH</code> on an admin dataspace's settings answers <samp>422 Unprocessable Entity</samp></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <th colspan="2" id="admin-endpoints" scope="rowgroup">Admin app only</th>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>access</samp></th>
+                    <td>Access metadata (for the authenticated agent)</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>access/request</samp></th>
+                    <td>Access request (for the authenticated agent)</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>sign%20up</samp></th>
+                    <td>WebID-TLS agent signup</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>oauth2/login/google</samp></th>
+                    <td>OpenID Connect with Google login</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>oauth2/login/orcid</samp></th>
+                    <td>OpenID Connect with ORCID login</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>oauth2/authorize/google</samp></th>
+                    <td>OpenID Connect with Google callback</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>oauth2/authorize/orcid</samp></th>
+                    <td>OpenID Connect with ORCID callback</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>clear</samp></th>
+                    <td>Clears every cached ontology graph and imports closure from memory. With an optional <code>uri</code> form parameter, also purges that ontology's proxy caches and reloads its closure from the admin SPARQL endpoint</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>"""^^rdf:XMLLiteral .

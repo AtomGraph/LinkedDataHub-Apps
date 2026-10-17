@@ -210,7 +210,7 @@ WHERE {}</pre>
         </div>
         <div>
             <h3 id="views">Views</h3>
-            <p>A property can carry a <a href="../../data-model/resources/#views">view</a> that lists the resources it relates: <code>ldh:view</code> attaches
+            <p>A property can carry a <a href="../../data-model/views/">view</a> that lists the resources it relates: <code>ldh:view</code> attaches
                 the view in the property's forward direction, <code>ldh:inverseView</code> in its inverse. The view is stored in no document. LinkedDataHub
                 derives it whenever it renders a resource, and appends it to that resource's row.</p>
             <p>Which resources get the view is decided by the property's declaration, not by the data. An <code>ldh:view</code> renders on every resource
@@ -240,7 +240,7 @@ schema:customer ldh:inverseView :OrdersFromCustomer .
             <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/admin/model/ns.ttl" target="_blank">admin/model/ns.ttl</a></p>
             <p>Since the view renders on every customer, <code>ldh:showWhenEmpty false</code> hides it on a customer that has placed no orders. The view's
                 <code>ac:mode</code> fixes its layout mode, and the view renders a <span class="ac-btn in-primary ap-solid sz-md">Create</span> button for
-                <a href="../../data-model/resources/#inline-creation">inline creation</a> of the class at the property's other end.</p>
+                <a href="../../data-model/views/#inline-creation">inline creation</a> of the class at the property's other end.</p>
             <p>The attachments are read from the namespace ontology and its imports closure, so a view declared in <samp>ns.ttl</samp> and one declared in
                 a <a href="../packages/#property-views">package ontology</a> behave the same. A derived view has no edit or drag controls: it is changed by
                 editing its declaration in the ontology.</p>

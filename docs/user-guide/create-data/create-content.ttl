@@ -117,7 +117,7 @@
     --uri "#top-manager" \\
     --value "${LDH_BASE}employees/2/#this" \\
     "$LDH_BASE"</pre>
-                        <p>A <a href="../../../reference/data-model/resources/#charts">chart</a> or a <a href="../../../reference/data-model/resources/#views">view</a> is embedded the same way — its URI as the
+                        <p>A <a href="../../../reference/data-model/resources/#charts">chart</a> or a <a href="../../../reference/data-model/views/">view</a> is embedded the same way — its URI as the
                             <code>--value</code>, like the demo dashboard's <samp>#sales-trend</samp> chart.</p>
                         <p>An external resource described in one of the dataspace's own documents is embedded from that description with <code>--graph</code>, which names the document:</p>
                         <pre>ldh add object-block \\
