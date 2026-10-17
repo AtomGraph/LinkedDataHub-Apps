@@ -11,7 +11,7 @@ LinkedDataHub-Apps holds dataspaces built on LinkedDataHub. Every dataspace is a
 - `demo/copenhagen/` — Copenhagen open data on a map, imported from CSV
 - `demo/unesco-thesaurus/` — the UNESCO Thesaurus as a SKOS editor; its model and stylesheet come from the taxonomy editor package
 - `packages/` — the package registry published at https://packages.linkeddatahub.com/; one package so far, `editor/taxonomy`
-- `lib/` — the shared installer: `install.mk` (the interactive `make install`) and `ldh-app.sh` (functions every `install.sh` sources)
+- `lib/` — the shared installer: `install.mk` (the interactive `make install` and `make sync`) and `ldh-app.sh` (functions every `install.sh` and `sync.sh` sources)
 - `screencast/` — the Playwright rig that produces the docs' screenshots and clips, and the Northwind screencast tracks
 - `check-links.sh`, `check-xmlliterals.sh` — repository-wide validators, run by CI
 
@@ -42,6 +42,10 @@ Each `install.sh` sources `lib/ldh-app.sh` and is the app's own sequence of step
 - app-specific steps: `ldh admin create authorization`, `ldh packages add`, `ldh import rdf`
 
 **Re-runs converge but are not clean.** `ldh push` PUTs and the ontology is reset before re-import, so documents and the model end up the same. `make-public`, `create authorization` and every import are POSTs, so each run adds another authorization and another import record. Nothing probes for an earlier install.
+
+### Syncing an app
+
+`sync.sh`, beside each `install.sh`, brings an installed app up to date and is safe to run on every commit. It skips the one-off steps (authorizations, `packages add`), re-imports the namespace ontology only when `admin/model/` changed, pushes only when a file in the push plan changed (`ldh push --dry-run`, so `.ldhignore` holds), re-runs only the import rows whose query or CSV changed, each with `--wait`, and deletes the documents whose sources are gone. Two optional variables describe the commit: `LDH_CHANGED`, the added or modified paths relative to the app folder, and `LDH_PREVIOUS_TREE`, the app folder as it was before. With neither, `make sync` is a full sync. Mapping commit ranges onto apps is the deployment's job; linkeddatahub.com does it in its own repository.
 
 ### App layout
 
