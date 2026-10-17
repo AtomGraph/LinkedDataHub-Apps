@@ -56,6 +56,14 @@
                 The object can equally be a <a href="../resources/#queries">query</a>, a <a href="../resources/#charts">chart</a>, a
                 <a href="../resources/#views">view</a>, or an external Linked Data URI, and an optional <code>ac:mode</code> on the block picks the
                 <a href="../../user-interface/#layout-modes">layout mode</a> it renders in.</p>
+            <p>The block reads the object's description from the object's own document, which for an external URI means through the Linked Data proxy. An optional <code>ldh:graph</code> on the block names a document to read it from instead, so a dataspace can show an external resource it describes in one of its own documents: one whose URI serves no RDF, one the proxy cannot reach or is disabled for, or one whose remote description is not the one the dataspace keeps. Editing the embedded resource writes to that document too. The About page of these docs embeds its YouTube video this way, with the video's <code>schema:VideoObject</code> description in the page itself:</p>
+            <pre>&lt;#overview-video&gt; a ldh:Object ;
+    dct:title "LinkedDataHub 6 overview" ;
+    rdf:value &lt;https://www.youtube.com/watch?v=g3i-yH95WZA&gt; ;
+    ldh:graph &lt;&gt; .
+
+&lt;https://www.youtube.com/watch?v=g3i-yH95WZA&gt; a schema:VideoObject ;
+    schema:name "LinkedDataHub 6 overview" .</pre>
             <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/root.ttl" target="_blank">root.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">the dashboard</a></p>
         </div>
     </div>

@@ -2,6 +2,7 @@
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
+@prefix schema: <https://schema.org/> .
 
 <> a dh:Item ;
     dct:title "About LinkedDataHub" ;
@@ -11,7 +12,13 @@
 
 <#overview-video> a ldh:Object ;
     dct:title "LinkedDataHub 6 overview" ;
-    rdf:value <https://www.youtube.com/watch?v=g3i-yH95WZA> .
+    rdf:value <https://www.youtube.com/watch?v=g3i-yH95WZA> ;
+    ldh:graph <> .
+
+<https://www.youtube.com/watch?v=g3i-yH95WZA> a schema:VideoObject ;
+    schema:name "LinkedDataHub 6 overview" ;
+    schema:url <https://www.youtube.com/watch?v=g3i-yH95WZA> ;
+    schema:thumbnailUrl <https://i.ytimg.com/vi/g3i-yH95WZA/hqdefault.jpg> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
