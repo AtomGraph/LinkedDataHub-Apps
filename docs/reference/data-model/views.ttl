@@ -31,8 +31,8 @@
     <a href="#faceted-search">faceted search</a> and <a href="#parallax">parallax navigation</a>.</p>
     <p>A view references its <a href="../resources/#queries">query</a> and optionally fixes a layout mode:</p>
     <pre>&lt;#select-categories-view&gt; a ldh:View ;
-spin:query &lt;#select-categories-query&gt; ;
-ac:mode &lt;https://w3id.org/atomgraph/client#GridMode&gt; .</pre>
+    spin:query &lt;#select-categories-query&gt; ;
+    ac:mode &lt;https://w3id.org/atomgraph/client#GridMode&gt; .</pre>
     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories.ttl" target="_blank">categories.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/" target="_blank">/categories/</a></p>
     <p>Views can be rendered in multiple layout modes: properties, list, grid, table, map, chart, and graph. They also show
     the total number of results and allow result ordering by property. In the table mode, columns can be sorted by clicking
@@ -48,20 +48,20 @@ ac:mode &lt;https://w3id.org/atomgraph/client#GridMode&gt; .</pre>
         <p>The query that drives the categories grid above projects the category resource, so the view renders the category documents:</p>
         <pre>SELECT DISTINCT ?category
 WHERE {
-GRAPH ?doc {
-    ?category
-        a schema:ProductGroup ;
-        schema:name ?categoryName
-}
+    GRAPH ?doc {
+        ?category
+            a schema:ProductGroup ;
+            schema:name ?categoryName
+    }
 }</pre>
         <p>This query <em>looks</em> equivalent, but it projects the name literal instead of the category resource — so it describes nothing and renders an empty view:</p>
         <pre>SELECT DISTINCT ?categoryName
 WHERE {
-GRAPH ?doc {
-    ?category
-        a schema:ProductGroup ;
-        schema:name ?categoryName
-}
+    GRAPH ?doc {
+        ?category
+            a schema:ProductGroup ;
+            schema:name ?categoryName
+    }
 }</pre>
     </div>
     <div>
@@ -82,9 +82,9 @@ GRAPH ?doc {
             <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/admin/model/ns.ttl" target="_blank">demo's property-attached views</a>
             use it so "Orders from this customer" only appears on customers that have orders.</p>
         <pre>&lt;#select-products-view&gt; a ldh:View ;
-spin:query &lt;#select-products-query&gt; ;
-ac:mode &lt;https://w3id.org/atomgraph/client#TableMode&gt; ;
-ldh:showWhenEmpty false .</pre>
+    spin:query &lt;#select-products-query&gt; ;
+    ac:mode &lt;https://w3id.org/atomgraph/client#TableMode&gt; ;
+    ldh:showWhenEmpty false .</pre>
     </div>
     <div>
         <h2 id="faceted-search">Faceted search</h2>

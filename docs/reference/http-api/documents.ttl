@@ -130,7 +130,7 @@ Content-Type: text/turtle
 @prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
 
 &lt;&gt; a dh:Container ;
-dct:title "Regions" .</pre>
+    dct:title "Regions" .</pre>
         <p>will produce the following document triples:</p>
         <pre>@prefix dh:     &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
 @prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
@@ -139,12 +139,12 @@ dct:title "Regions" .</pre>
 @prefix acl:    &lt;http://www.w3.org/ns/auth/acl#&gt; .
 
 &lt;https://localhost:4443/regions/&gt;
-a dh:Container ;
-dct:created "2025-03-31T21:46:21.984Z"^^xsd:dateTime ;
-dct:creator &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; ;
-dct:title "Regions" ;
-sioc:has_parent &lt;https://localhost:4443/&gt; ;
-acl:owner &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .</pre>
+    a dh:Container ;
+    dct:created "2025-03-31T21:46:21.984Z"^^xsd:dateTime ;
+    dct:creator &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; ;
+    dct:title "Regions" ;
+    sioc:has_parent &lt;https://localhost:4443/&gt; ;
+    acl:owner &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .</pre>
         <p>The HTTP request to produce a new item can be empty:</p>
         <pre>PUT /regions/1/ HTTP/1.1
 Host: localhost:4443
@@ -157,11 +157,11 @@ Content-Type: text/turtle</pre>
 @prefix acl:    &lt;http://www.w3.org/ns/auth/acl#&gt; .
 
 &lt;https://localhost:4443/regions/1/&gt;
-a dh:Item ;
-dct:created "2025-03-31T20:45:42.802Z"^^xsd:dateTime ;
-dct:creator &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; ;
-sioc:has_container &lt;https://localhost:4443/regions/&gt; ;
-acl:owner &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .</pre>
+    a dh:Item ;
+    dct:created "2025-03-31T20:45:42.802Z"^^xsd:dateTime ;
+    dct:creator &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; ;
+    sioc:has_container &lt;https://localhost:4443/regions/&gt; ;
+    acl:owner &lt;https://admin.localhost:4443/acl/agents/865c2431-8436-4ae8-b300-2a531a013cd0/#this&gt; .</pre>
     </div>
     <div>
         <h2 id="patch-example">Graph-scoped updates</h2>
@@ -174,7 +174,7 @@ PREFIX schema: &lt;https://schema.org/&gt;
 
 INSERT
 {
-&lt;https://localhost:4443/products/1/#this&gt; schema:description "A delicate black tea blend" .
+    &lt;https://localhost:4443/products/1/#this&gt; schema:description "A delicate black tea blend" .
 }
 WHERE {}</pre>
         <p>The update executes against that one graph, so <code>GRAPH</code> patterns are not allowed — this request is rejected with
@@ -187,10 +187,10 @@ PREFIX schema: &lt;https://schema.org/&gt;
 
 INSERT
 {
-GRAPH &lt;https://localhost:4443/products/1/&gt;    # GRAPH is implied by the request URI — not allowed here
-{
-    &lt;https://localhost:4443/products/1/#this&gt; schema:description "A delicate black tea blend" .
-}
+    GRAPH &lt;https://localhost:4443/products/1/&gt;    # GRAPH is implied by the request URI — not allowed here
+    {
+        &lt;https://localhost:4443/products/1/#this&gt; schema:description "A delicate black tea blend" .
+    }
 }
 WHERE {}</pre>
     </div>
