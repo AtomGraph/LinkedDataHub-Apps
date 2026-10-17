@@ -440,8 +440,6 @@ export const SHOTS = [
     want: '.ldh-block-row, h1',
   },
 
-  // ── blocked ────────────────────────────────────────────────────────────────
-  { doc: 'about', n: 1, line: 37, kind: 'clip', caption: 'LinkedDataHub overview', blocked: 'the flagship film — its own project' },
   {
     // The one slot that is a shell rather than a page. It runs the page's procedure end
     // to end in a throwaway clone — see tapes/get-started-setup.tape for why two values
