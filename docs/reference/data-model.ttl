@@ -12,7 +12,7 @@
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
     <p class="ldh-body-lg">Document and content structure, and the actions that can be performed on documents, blocks and resources</p>
-    <p>Start with the <a href="documents/">Documents</a> page, then read <a href="blocks/">Content blocks</a> and <a href="resources/">Resources</a>.</p>
+    <p>Start with the <a href="documents/">Documents</a> page, then read <a href="blocks/">Content blocks</a>, <a href="resources/">Resources</a> and <a href="views/">Views</a>.</p>
 </div>"""^^rdf:XMLLiteral .
 
 <#select-children> a ldh:Object ;

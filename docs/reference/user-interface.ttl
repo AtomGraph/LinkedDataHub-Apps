@@ -26,7 +26,7 @@
         <h2 id="nav-bar">Navigation bar</h2>
         <img alt="The navigation bar with the address bar and menus" src="/uploads/ce4349baeb1aaa37e26d164b78098ec0d2b75d54"></img>
         <p>The dataspace title or logo in the top-left always links to the root container of the current dataspace.</p>
-        <p>The <dfn>address bar</dfn> in the middle accepts the URI of a resource to navigate to. Entering an external <code>http://</code> or <code>https://</code> URL loads it through the <a href="../http-api/#ld-proxy">Linked Data proxy</a> so that it can be browsed within LinkedDataHub.</p>
+        <p>The <dfn>address bar</dfn> in the middle accepts the URI of a resource to navigate to. Entering an external <code>http://</code> or <code>https://</code> URL loads it through the <a href="../http-api/linked-data-proxy/#ld-proxy">Linked Data proxy</a> so that it can be browsed within LinkedDataHub.</p>
         <p>On the right, dropdown menus provide access to the list of dataspaces, to the settings, and to your user account. For authenticated users, the settings menu opens the dataspace settings form and links to the <a href="../administration/">administration</a> dataspace and to the dataspace's namespace ontology.</p>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
@@ -87,7 +87,7 @@
         <img alt="The links popover open on a Northwind order block, backlink rows visible" src="/uploads/d3de5142c74874340aa39f889bdd2e8d5d6dd42a"></img>
         <p>Backlinks list the resources that link <em>to</em> a resource — that is, resources that have a property whose value is that resource. They complement the outgoing properties shown in the resource's own description.</p>
         <p>Backlinks are per block: every block whose resource has a URI carries its own links button and popover, so in <a href="#layout-modes">Properties mode</a> each resource in the document offers the backlinks of that resource. The button sits among the block header's actions; XHTML blocks anchor it in the card's top-right corner, and views place it in the view toolbar. The backlink rows are loaded when the popover is first opened, and opening one popover closes the others.</p>
-        <p>For <a href="../data-model/resources/#views">view</a> result sets, <a href="../data-model/resources/#parallax">parallax</a> navigation plays the complementary role: it lets you jump from the current results to a related set by following a property in either direction (for example, from a set of products to the companies that supply them). It works together with the view's faceted search.</p>
+        <p>For <a href="../data-model/views/">view</a> result sets, <a href="../data-model/views/#parallax">parallax</a> navigation plays the complementary role: it lets you jump from the current results to a related set by following a property in either direction (for example, from a set of products to the companies that supply them). It works together with the view's faceted search.</p>
     </div>
     <div>
         <h2 id="layout-modes">Layout modes</h2>
@@ -108,7 +108,7 @@
             force-directed layout. Clicking a node shows its details, double-clicking loads the resource, and right-clicking a URI node loads its backlinks (resources pointing at it).
             The canvas can be toggled to fullscreen (press <kbd>Esc</kbd> to exit), and the graph state is preserved across search and filter re-renders.</dd>
         </dl>
-        <p><a href="../data-model/resources/#views">Views</a> have their own, larger set of <a href="../data-model/resources/#view-layout-modes">layout modes</a>.</p>
+        <p><a href="../data-model/views/">Views</a> have their own, larger set of <a href="../data-model/views/#view-layout-modes">layout modes</a>.</p>
     </div>
     <div>
         <h2 id="creation-bar">Creation bar</h2>
@@ -120,12 +120,14 @@
             <dt>Properties</dt>
             <dd>The <span class="ac-btn in-primary ap-solid sz-md">Create <span aria-hidden="true" class="msi caret">expand_more</span></span> dropdown creates a new resource of the selected type</dd>
         </dl>
+        <p>For a signed-in agent, the bar also holds the <span class="ac-btn in-neutral ap-outline sz-md">Assistant</span> button, which opens a conversation with the
+            <a href="../assistant/">assistant</a> above the bar. See <a href="../../user-guide/use-the-assistant/">using the assistant</a>.</p>
     </div>
     <div>
         <h2 id="document-tabs">Document tabs</h2>
         <img alt="The tab bar with a UNESCO Thesaurus concept open in a second tab next to the Northwind dashboard" src="/uploads/4d0ea1e2b5c25083d30c55ad510d2f4d5ce0f23c"></img>
         <p>LinkedDataHub navigates within a single page. When you follow a link to an external document (for example a resource fetched through the
-            <a href="../http-api/#ld-proxy">Linked Data proxy</a>), it opens in its own tab so that several documents can be kept open side by side.
+            <a href="../http-api/linked-data-proxy/#ld-proxy">Linked Data proxy</a>), it opens in its own tab so that several documents can be kept open side by side.
             A sticky tab bar appears at the top of the page once the first external tab is opened.</p>
         <p>Each tab keeps its own content pane, and modal dialogs (such as creation and edit forms) are scoped to the active tab pane. Switching between tabs is cached, so
             returning to a previously opened tab does not re-fetch it. Closing a tab removes its pane and falls back to the base document's tab.</p>

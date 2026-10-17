@@ -2,6 +2,7 @@
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
 @prefix dct:    <http://purl.org/dc/terms/> .
+@prefix schema: <https://schema.org/> .
 
 <> a dh:Item ;
     dct:title "About LinkedDataHub" ;
@@ -11,7 +12,13 @@
 
 <#overview-video> a ldh:Object ;
     dct:title "LinkedDataHub 6 overview" ;
-    rdf:value <https://www.youtube.com/watch?v=g3i-yH95WZA> .
+    rdf:value <https://www.youtube.com/watch?v=g3i-yH95WZA> ;
+    ldh:graph <> .
+
+<https://www.youtube.com/watch?v=g3i-yH95WZA> a schema:VideoObject ;
+    schema:name "LinkedDataHub 6 overview" ;
+    schema:url <https://www.youtube.com/watch?v=g3i-yH95WZA> ;
+    schema:thumbnailUrl <https://i.ytimg.com/vi/g3i-yH95WZA/hqdefault.jpg> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
@@ -37,10 +44,6 @@
     </div>
     <div>
         <h2 id="kms">Knowledge management and collaboration</h2>
-        <div class="screenshot-placeholder">
-            <span aria-hidden="true" class="msi">play_circle</span>
-            <p>Screen recording: LinkedDataHub overview</p>
-        </div>
         <p>As an RDF-native CMS, LinkedDataHub provides these end-user features:</p>
         <ul>
             <li><a href="../user-guide/create-data/create-content/" target="_blank">creating structured content</a> from Linked Data and SPARQL resources</li>
@@ -48,7 +51,7 @@
             <li><a href="../user-guide/browse-data/" target="_blank">browsing Linked Data</a></li>
             <li><a href="../user-guide/add-data/" target="_blank">copying RDF resources</a> into the local dataspace</li>
             <li><a href="../user-guide/browse-data/#text-search" target="_blank">searching</a> and <a href="../user-guide/query-data/" target="_blank">querying</a> SPARQL endpoints</li>
-            <li><a href="../reference/data-model/resources/#views" target="_blank">creating collections from SPARQL queries</a></li>
+            <li><a href="../reference/data-model/views/" target="_blank">creating collections from SPARQL queries</a></li>
             <li><a href="../user-guide/edit-content/" target="_blank">editing content</a> in place, with RDFa annotations linking text to resources</li>
             <li><a href="../user-guide/import-data/import-csv-data/" target="_blank">importing CSV data</a> by mapping it to RDF using SPARQL</li>
             <li><a href="../reference/data-model/resources/#charts" target="_blank">visualizing query results as graphs, charts etc.</a></li>

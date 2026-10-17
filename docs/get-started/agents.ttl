@@ -5,21 +5,66 @@
 
 <> a dh:Item ;
     dct:title "Connect an agent" ;
-    dct:description "Give an AI agent such as Claude Code or Cursor access to a LinkedDataHub instance over MCP, using Web-Algebra" ;
+    dct:description "Give an AI agent such as Claude Code or Cursor access to a LinkedDataHub instance, with the ldh Claude Code plugin or over MCP with Web-Algebra" ;
     rdf:_1 <#content> .
 
 <#content> a ldh:XHTML ;
     rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
-    <p class="ldh-body-lg">Give an AI agent such as Claude Code or Cursor access to a LinkedDataHub instance over MCP, using Web-Algebra</p>
-    <p>Agents use the same HTTP API as the browser and the <a href="../../reference/command-line-interface/">CLI</a>. The bridge is
-        <a href="https://github.com/AtomGraph/Web-Algebra" target="_blank">Web-Algebra</a>, which exposes LinkedDataHub operations as
-        <a href="https://modelcontextprotocol.io/" target="_blank">Model Context Protocol</a> (MCP) tools: creating containers and items, adding views,
-        queries and charts, reading and writing RDF, and running SPARQL. An agent connected this way can build a working application in a dataspace —
+    <p class="ldh-body-lg">Give an AI agent such as Claude Code or Cursor access to a LinkedDataHub instance, with the ldh Claude Code plugin or over MCP with Web-Algebra</p>
+    <p>Agents use the same HTTP API as the browser and the <a href="../../reference/command-line-interface/">CLI</a>, and act as a WebID: an agent can read and
+        write only what its WebID is authorized to. There are two ways to connect one. The <a href="#claude-code-plugin">Claude Code plugin</a> gives Claude Code
+        skills for building on LinkedDataHub with the <samp>ldh</samp> CLI. <a href="#mcp">Web-Algebra</a> exposes LinkedDataHub operations to any
+        <a href="https://modelcontextprotocol.io/" target="_blank">Model Context Protocol</a> (MCP) client as tools: creating containers and items, adding views,
+        queries and charts, reading and writing RDF, and running SPARQL. Either way, an agent can build a working application in a dataspace:
         its classes, containers, views and charts are documents like any other.</p>
     <p>The conventions agents should follow when writing to LinkedDataHub are in
-        <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/AGENTS.md" target="_blank">AGENTS.md</a>.</p>
+        <a href="https://github.com/AtomGraph/LinkedDataHub/blob/master/AGENTS.md" target="_blank">AGENTS.md</a>. To ask questions about the data in a document
+        from the browser instead, use the <a href="../../user-guide/use-the-assistant/">assistant</a>.</p>
     <div>
-        <h2 id="prerequisites">Prerequisites</h2>
+        <h2 id="claude-code-plugin">Claude Code plugin</h2>
+        <p>The <a href="https://github.com/AtomGraph/LinkedDataHub/tree/master/plugins/ldh" target="_blank"><samp>ldh</samp> plugin</a> ships with LinkedDataHub.
+            Its marketplace is the LinkedDataHub repository, so Claude Code is told about it once and then installs the plugin from it. In Claude Code:</p>
+        <pre>/plugin marketplace add AtomGraph/LinkedDataHub
+/plugin install ldh@linkeddatahub</pre>
+        <p>The skills drive the <samp>ldh</samp> CLI, so they need a LinkedDataHub instance, the owner's WebID certificate and the CLI on the <samp>PATH</samp>
+            (see <a href="../../reference/command-line-interface/#install">installing the CLI</a>). Claude loads a skill by itself when a request matches what it
+            covers. To call one explicitly, type <samp>/ldh:</samp> followed by its name.</p>
+        <table>
+            <caption class="ac-vh">Skills of the ldh plugin</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Skill</th>
+                    <th scope="col">Covers</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><samp>ldh:dataspace</samp></th>
+                    <td>Provisioning a new dataspace on a self-hosted instance: the configuration files, the restart, and checking that it is up</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>ldh:dataset</samp></th>
+                    <td>The namespace ontology and its install, CSV and RDF imports, federation with remote SPARQL endpoints, and building a large dataset standalone and bulk-loading it</td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>ldh:app</samp></th>
+                    <td>Documents, blocks, views and charts, and an app kept as a directory and installed with <samp>ldh push</samp></td>
+                </tr>
+                <tr>
+                    <th scope="row"><samp>ldh:package</samp></th>
+                    <td>A reusable <a href="../../reference/administration/packages/">package</a>: an ontology and an XSLT stylesheet, published to a registry and imported with <samp>ldh packages add</samp></td>
+                </tr>
+            </tbody>
+        </table>
+        <p>A request can span several skills, and Claude uses them in turn:</p>
+        <blockquote><p>Here are products.csv and categories.csv. Model them with schema.org, import them into the inventory dataspace, and make each category's page list its products.</p></blockquote>
+    </div>
+    <div>
+        <h2 id="mcp">Web-Algebra over MCP</h2>
+        <p><a href="https://github.com/AtomGraph/Web-Algebra" target="_blank">Web-Algebra</a> expresses LinkedDataHub operations, SPARQL queries and Linked Data
+            reads as plans that run as one unit, and its MCP server offers them as tools. Any MCP client can use it.</p>
+    <div>
+        <h3 id="prerequisites">Prerequisites</h3>
         <ul>
             <li>A running LinkedDataHub instance. The examples below assume the default <a href="../setup/">local setup</a> at <samp>https://localhost:4443/</samp>.</li>
             <li>The WebID certificate the agent will act as. For your own instance that is the owner certificate, <samp>ssl/owner/cert.pem</samp>, with the password from
@@ -28,7 +73,7 @@
         </ul>
     </div>
     <div>
-        <h2 id="claude-code">Claude Code</h2>
+        <h3 id="claude-code">Claude Code</h3>
         <p>Register Web-Algebra as an MCP server, run from the LinkedDataHub directory:</p>
         <pre>claude mcp add web-algebra \\
   --env CERT_PEM_PATH="$PWD/ssl/owner/cert.pem" \\
@@ -37,7 +82,7 @@
         <p>Start <samp>claude</samp> and check that <samp>/mcp</samp> lists <samp>web-algebra</samp> as connected.</p>
     </div>
     <div>
-        <h2 id="cursor-and-claude-desktop">Cursor and Claude Desktop</h2>
+        <h3 id="cursor-and-claude-desktop">Cursor and Claude Desktop</h3>
         <p>Both read an <samp>mcpServers</samp> entry: <samp>~/.cursor/mcp.json</samp> for Cursor, <samp>claude_desktop_config.json</samp> for Claude Desktop.
             Use absolute paths and the literal password, since these files are not run by a shell.</p>
         <pre>{
@@ -55,7 +100,7 @@
         <p>If the client cannot find <samp>uv</samp>, replace <samp>"uv"</samp> with its absolute path, as printed by <samp>which uv</samp>.</p>
     </div>
     <div>
-        <h2 id="http-transport">Streamable HTTP transport</h2>
+        <h3 id="http-transport">Streamable HTTP transport</h3>
         <p>Clients that connect to an MCP URL instead of launching a process can use Web-Algebra's HTTP server:</p>
         <pre>CERT_PEM_PATH="$PWD/ssl/owner/cert.pem" \\
 CERT_PASSWORD="$(cat secrets/owner_cert_password.txt)" \\
@@ -69,6 +114,7 @@ uv run --with web-algebra uvicorn web_algebra.server:app</pre>
                     Keep it bound to <samp>127.0.0.1</samp>, which is the default, and do not expose it on a network.</p>
             </div>
         </div>
+    </div>
     </div>
     <div>
         <h2 id="try-it">Try it</h2>
