@@ -445,7 +445,7 @@ Link: &lt;https://unesco-thesaurus.demo.linkeddatahub.com/sparql&gt;; rel="http:
                 </tr>
                 <tr>
                     <th scope="row"><code>https://w3id.org/atomgraph/linkeddatahub/dataspaces#admin</code></th>
-                    <td>On end-user dataspace responses only: the base URI of its <a href="../dataspace/#admin">administration dataspace</a></td>
+                    <td>The base URI of the <a href="../dataspace/#admin">administration dataspace</a>: on end-user dataspace responses its pair, on administration dataspace responses its own</td>
                 </tr>
                 <tr>
                     <th scope="row"><code>https://w3id.org/atomgraph/client#stylesheet</code></th>
