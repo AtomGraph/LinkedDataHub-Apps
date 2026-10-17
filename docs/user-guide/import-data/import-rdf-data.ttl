@@ -120,6 +120,7 @@ ldh import rdf \\
     "$doc"</pre>
                         <p>Pass either <code>--graph</code> with the target document's URI or <code>--query-file</code> with the path to a transformation query, but not both.
                             In the Northwind demo, the <a href="../../../reference/imports/rdf/#transformation-example">transformation query</a> routes each mapping into its category's own document.</p>
+                        <p>The command prints the URI of the import it created, a fragment of <samp>$doc</samp>. The import runs in the background; add <code>--wait</code> to return only once it has ended, with exit code <samp>1</samp> and the error if it failed.</p>
                         <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/unesco-mappings.ttl" target="_blank">categories/unesco-mappings.ttl</a> — the mapping file that connects Northwind categories to UNESCO Thesaurus concepts, shown in full in the <a href="../../../reference/imports/rdf/">RDF imports reference</a></p>
                     </div>
                 </div>

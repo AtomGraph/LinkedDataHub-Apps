@@ -97,6 +97,7 @@ ldh import csv \\
     "$doc"</pre>
                     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/categories.rq" target="_blank">categories.rq</a>, <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories/categories.csv" target="_blank">categories.csv</a> — the mapping and the data are walked through in the <a href="../../../reference/imports/csv/">CSV imports reference</a> and the <a href="../../../tutorial/data/">tutorial's Data stage</a></p>
                     <p><code>--delimiter</code> defaults to <samp>,</samp> and can be set to another character.</p>
+                    <p>The command prints the URI of the import it created, a fragment of <samp>$doc</samp>. The import runs in the background; add <code>--wait</code> to return only once it has ended, with exit code <samp>1</samp> and the error if it failed.</p>
                 </div>
             </div>
     </div>

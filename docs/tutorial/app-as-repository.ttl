@@ -21,8 +21,7 @@
 │   ├── categories.rq
 │   └── *.jpg
 ├── admin/model/
-│   ├── ns.ttl            # the namespace ontology
-│   └── patch-ontology.ru # resets it before re-import
+│   └── ns.ttl            # the namespace ontology
 ├── imports.csv           # the CSV import manifest
 ├── install.sh            # replays everything against $LDH_BASE
 ├── .ldhignore            # files that are neither documents nor uploads
@@ -53,36 +52,16 @@ ldh push "$LDH_BASE"</pre>
     </div>
     <div>
         <h2 id="idempotency">Idempotency</h2>
-        <p>Re-running the install converges on the same documents instead of duplicating data. <code>PUT</code> replaces each document's description outright, and the one place that appends rather than replaces — the
-            namespace ontology — is first reset by <samp>patch-ontology.ru</samp>, a SPARQL update that clears everything except the ontology document's own description. (The steps that create rather than replace —
+        <p>Re-running the install converges on the same documents instead of duplicating data. <code>PUT</code> replaces each document's description outright, and so does
+            <samp>ldh admin import ontology --file</samp> for the namespace ontology, keeping only the ontology document's own description. (The steps that create rather than replace —
             <samp>make-public</samp> and each CSV import — are <code>POST</code>s, so a re-run records another authorization and another import; the documents the imports write are the same.)</p>
-        <pre>PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
-
-DELETE {
-  ?s ?p ?o
-}
-WHERE {
-  ?s ?p ?o
-  # Exclude triples about the main resource itself
-  MINUS {
-    &lt;&gt; ?p ?o
-    BIND(&lt;&gt; AS ?s)
-  }
-  # Exclude triples about the foaf:primaryTopic resource
-  MINUS {
-    &lt;&gt; foaf:primaryTopic ?primaryTopic .
-    ?primaryTopic ?p ?o
-    BIND(?primaryTopic AS ?s)
-  }
-}</pre>
-        <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/admin/model/patch-ontology.ru" target="_blank">admin/model/patch-ontology.ru</a></p>
     </div>
     <div>
         <h2 id="install">Installing</h2>
         <pre>make install</pre>
         <p><samp>make install</samp> prompts for the base URI, certificate path, certificate password and an optional proxy URL, exports them as the <samp>LDH_BASE</samp>, <samp>LDH_CERT_FILE</samp>,
             <samp>LDH_CERT_PASSWORD</samp> and <samp>LDH_PROXY</samp> variables the CLI reads, then runs <samp>install.sh</samp>: <samp>ldh admin make-public</samp>, the namespace ontology
-            install, <samp>ldh push</samp>, and one <samp>ldh import csv</samp> per row of the manifest. The entire tutorial, replayed in one command — against localhost today, against production tomorrow.
+            install, <samp>ldh push</samp>, and one <samp>ldh import csv --wait</samp> per row of the manifest, each waiting until its data is in. The entire tutorial, replayed in one command — against localhost today, against production tomorrow.
             Export the variables yourself and run <samp>./install.sh</samp> to install without the prompts.</p>
     </div>
     <div>
@@ -95,7 +74,7 @@ WHERE {
         <h2 id="how-this-works">How this works</h2>
         <ul>
             <li><a href="../../reference/command-line-interface/" target="_blank">Command line interface</a> — one command per HTTP API operation, scriptable and replayable</li>
-            <li><a href="../../reference/http-api/" target="_blank">HTTP API</a> — the <code>PUT</code> semantics that make the replay idempotent</li>
+            <li><a href="../../reference/http-api/documents/" target="_blank">HTTP API</a> — the <code>PUT</code> semantics that make the replay idempotent</li>
         </ul>
     </div>
     <p class="ldh-body-lg">Next: <a href="../beyond-low-code/">Beyond low-code</a></p>

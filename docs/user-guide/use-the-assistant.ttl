@@ -1,0 +1,84 @@
+@prefix ldh:    <https://w3id.org/atomgraph/linkeddatahub#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dh:     <https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+
+<> a dh:Item ;
+    dct:title "Use the assistant" ;
+    dct:description "Ask about the data in words, check the plan the assistant proposes, and run it" ;
+    rdf:_1 <#content> .
+
+<#content> a ldh:XHTML ;
+    rdf:value """<div xmlns="http://www.w3.org/1999/xhtml">
+    <p class="ldh-body-lg">Ask about the data in words, check the plan the assistant proposes, and run it</p>
+    <div class="ac-alert va-informative" role="status">
+        <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
+        <div class="ac-alert-body">
+            <p class="ac-alert-text">The assistant is optional and off by default. It is available on instances that enable the <samp>web-algebra</samp> service and give it a model key — see the <a href="../../reference/assistant/#setup">setup instructions</a>.</p>
+        </div>
+    </div>
+    <p>The assistant turns a question or an instruction into a <a href="https://github.com/AtomGraph/Web-Algebra" target="_blank">Web-Algebra</a> plan: the queries
+        and writes that answer it, in the order they run. You see the plan before anything runs, and the plan runs as you, so it can read and change only
+        what you can.</p>
+    <div>
+        <h2 id="open-assistant">Open the assistant</h2>
+        <p>Sign in with your WebID certificate and open a document you have append access to. Click
+            <span class="ac-btn in-neutral ap-outline sz-md">Assistant</span> in the <a href="../../reference/user-interface/#creation-bar">creation bar</a>.
+            A conversation block opens above the bar, with a field to type into. Each click opens another conversation, and a conversation you have not asked
+            anything in is closed with its <span aria-hidden="true" class="msi">close</span> button or with <kbd>Escape</kbd>.</p>
+    </div>
+    <div>
+        <h2 id="ask">Ask a question</h2>
+        <p>Type a question about the data, or say what to change, and press <kbd>Enter</kbd> (<kbd>Shift</kbd>+<kbd>Enter</kbd> starts a new line). For example,
+            on the <a href="https://northwind-traders.demo.linkeddatahub.com/" target="_blank">Northwind Traders</a> dashboard:</p>
+        <blockquote><p>Which five customers ordered the most in 1997?</p></blockquote>
+        <p>The assistant knows which document you are on, its dataspace's SPARQL endpoint and the dataspace's ontology, so a question can say "this
+            order" or "these products". It also knows the last few questions in the same conversation and what they returned, so a follow-up such as
+            "chart them by country" refers to the earlier rows.</p>
+        <p>The first question saves the conversation in the document as a block. A conversation where nothing was asked leaves nothing behind.</p>
+    </div>
+    <div>
+        <h2 id="run-plan">Check and run the plan</h2>
+        <div class="screenshot-placeholder">
+            <span aria-hidden="true" class="msi">image</span>
+            <p>Screenshot: a plan card in the assistant, with its summary, its operations and the Execute button</p>
+        </div>
+        <p>The answer comes back as a card holding the plan: a sentence saying what it does, and its operations as rows, each marked as reading,
+            writing, or able to remove content. Each row folds out the plan's XML, so you can read exactly what will run.</p>
+        <p>Click <span class="ac-btn in-primary ap-solid sz-md">Execute</span> to run the plan. The rows report as each operation runs, and when the plan
+            is done the card shows what it returned (as a table, a chart or a map, when the plan says which suits the result) and links to the documents
+            it changed. A sentence summing up the result appears at the top of the card, and the rows fold under it.</p>
+        <div class="screenshot-placeholder">
+            <span aria-hidden="true" class="msi">image</span>
+            <p>Screenshot: an answered card, with the sentence summing up the result, the result as a table and the steps folded under their count</p>
+        </div>
+        <p>Two options above the question field change when plans run:</p>
+        <dl>
+            <dt>Execute by default</dt>
+            <dd>On by default. A plan that only reads runs as soon as it arrives. A plan that writes always waits for you to click Execute, whatever this
+                option says, because a write cannot be undone from the card.</dd>
+            <dt>Retry on empty result</dt>
+            <dd>Off by default. When a plan returns nothing or fails, the assistant asks again by itself, telling the plan service what did not work, up to
+                three times. Every attempt is its own card, and turning the option off stops it.</dd>
+        </dl>
+    </div>
+    <div>
+        <h2 id="no-results">When a plan returns nothing</h2>
+        <p>A query that matches nothing usually means the plan guessed a class or a property wrong. The card offers two ways on:</p>
+        <ul>
+            <li><span class="ac-btn in-primary ap-solid sz-md">Revise</span> asks the same question again, telling the plan service that this plan returned
+                nothing, so it does not propose it again.</li>
+            <li><span class="ac-btn in-neutral ap-outline sz-md">Retry</span> runs the same plan once more, which helps when the failure was temporary.</li>
+        </ul>
+        <p>Rephrasing the question with the names the data uses (the class and property labels shown in the document) also helps.</p>
+    </div>
+    <div>
+        <h2 id="come-back">Come back to a conversation</h2>
+        <p>Every question is saved when its answer has landed, with the plan, what running it reported (the first hundred rows or resources of the result)
+            and how it went. When you open the document again, the conversation is there as you left it, and you can keep asking. Readers who are not
+            signed in, or who do not have append access, see the conversation without a question field.</p>
+        <p>A conversation is a block like any other: it is deleted the way any block is, and it can be placed in another document as an object block,
+            where it continues in the document it is stored in.</p>
+    </div>
+    <p class="ldh-body-lg"><a href="../../reference/assistant/">Read more about how the assistant works and how to set it up.</a></p>
+</div>"""^^rdf:XMLLiteral .

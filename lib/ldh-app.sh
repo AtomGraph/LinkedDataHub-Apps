@@ -23,44 +23,22 @@ ldh_app_step() {
     printf "\n### %s\n\n" "$1"
 }
 
-# The admin dataspace of a URI: the same host with the admin. subdomain prefix.
-ldh_app_admin_uri() {
-    echo "$1" | sed 's|://|://admin.|'
-}
-
-# Installs $1/ns.ttl into the admin app's ontologies/namespace/ document, which LinkedDataHub serves
-# at ${LDH_BASE}ns: resets the document with $1/patch-ontology.ru (everything but its own description),
-# appends ns.ttl with @base <${LDH_BASE}ns> so its : prefix resolves to the end-user namespace, and
-# clears the ontology from memory so it reloads. Re-running converges.
+# Installs $1/ns.ttl as the dataspace's namespace ontology, which LinkedDataHub serves at ${LDH_BASE}ns:
+# ldh resolves the file against the ontology IRI the base advertises, replaces the admin app's
+# ontologies/namespace/ document keeping its own description and the ontology's header, and clears the
+# ontology cache. Re-running converges: a class or property removed from ns.ttl is gone.
 ldh_app_import_ns() {
     local model_dir="$1"
-    local admin_base admin_proxy ontology_doc
-    admin_base=$(ldh_app_admin_uri "$LDH_BASE")
-    admin_proxy=$(ldh_app_admin_uri "$LDH_PROXY")
-    ontology_doc="${admin_base}ontologies/namespace/"
 
-    printf "Resetting namespace ontology document: %s\n" "$ontology_doc"
-    { echo "BASE <${ontology_doc}>"; cat "$model_dir/patch-ontology.ru"; } | ldh patch \
-        --proxy "$admin_proxy" \
-        "$ontology_doc"
-
-    printf "Appending ns.ttl to the namespace ontology\n"
-    { echo "@base <${LDH_BASE}ns> ."; cat "$model_dir/ns.ttl"; } | ldh post \
-        --proxy "$admin_proxy" \
-        -t text/turtle \
-        "$ontology_doc"
-
-    printf "Clearing ontology from memory: %sns#\n" "$LDH_BASE"
-    ldh admin clear ontology \
-        --proxy "$admin_proxy" \
-        --ontology "${LDH_BASE}ns#" \
-        "$admin_base"
+    printf "Installing the namespace ontology from %s\n" "$model_dir/ns.ttl"
+    ldh admin import ontology --file "$model_dir/ns.ttl"
 }
 
 # Runs one ldh import csv per row of the manifest $2 — query_filename,csv_filename,target,title, paths
 # relative to $1: it adds the CONSTRUCT query, uploads the CSV into the target document and creates
-# the import that maps one into the other. Every run creates a new import; the documents the imports
-# write are the same, so the data converges. A sync runs only the rows whose query or CSV changed.
+# the import that maps one into the other, then waits for the import to end and fails if it did. Every
+# run creates a new import; the documents the imports write are the same, so the data converges. A sync
+# runs only the rows whose query or CSV changed.
 ldh_app_import_csv() {
     local app_dir="$1" manifest="$2"
     local query_filename csv_filename target_path title
@@ -72,6 +50,7 @@ ldh_app_import_csv() {
             --title "$title" \
             --query-file "$app_dir/$query_filename" \
             --csv-file "$app_dir/$csv_filename" \
+            --wait \
             "${LDH_BASE}${target_path}" < /dev/null
     done < <(tail -n +2 "$manifest")
 }
