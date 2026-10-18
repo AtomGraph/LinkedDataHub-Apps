@@ -67,7 +67,7 @@
                 </thead>
                 <tbody>
                     <tr><td><code>$lapp:origin</code></td><td><code>$lds:origin</code></td></tr>
-                    <tr><td><code>$lapp:Context</code></td><td><code>$lds:Context</code></td></tr>
+                    <tr><td><code>$lapp:Context</code></td><td><code>$lds:Context</code>, removed in 6.2.0: use <code>lds:context()</code></td></tr>
                     <tr><td><code>lapp:origin()</code></td><td><code>lds:origin()</code></td></tr>
                     <tr><td><code>lapp:base()</code></td><td><code>lds:base()</code></td></tr>
                     <tr><td><code>lapp:application-description()</code></td><td><code>lds:dataspace-description()</code></td></tr>
