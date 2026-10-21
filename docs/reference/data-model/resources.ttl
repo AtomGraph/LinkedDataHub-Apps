@@ -131,6 +131,8 @@ ORDER BY ?categoryName''' .</pre>
             <li>tabular <code>SELECT</code> results (<code>ldh:ResultSetChart</code>)</li>
             <li>graph results of <code>DESCRIBE</code> and <code>CONSTRUCT</code> (<code>ldh:GraphChart</code>)</li>
         </ul>
+        <p>A chart plots the results of its query wherever the query runs, so a chart over a query that names an external
+        <a href="#queries">service</a> with <code>ldh:service</code> plots that endpoint's data.</p>
         <p>A chart resource is easily confused with the chart layout mode in <a href="../views/">views</a>. The layout mode renders
         view results as a chart on the fly, while a chart resource additionally stores the chart type as well as the category and
         series information: variable names in the case of tabular results, and property URIs in the case of graph results.</p>

@@ -34,6 +34,9 @@
     spin:query &lt;#select-categories-query&gt; ;
     ac:mode &lt;https://w3id.org/atomgraph/client#GridMode&gt; .</pre>
     <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories.ttl" target="_blank">categories.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/" target="_blank">/categories/</a></p>
+    <p>The view runs its query wherever the query runs: against the dataspace's own SPARQL service, or against the
+    <a href="../resources/#queries">service the query names</a> with <code>ldh:service</code>. A view over a query that names an
+    external endpoint therefore lists that endpoint's resources on the page.</p>
     <p>Views can be rendered in multiple layout modes: properties, list, grid, table, map, chart, and graph. They also show
     the total number of results and allow result ordering by property. In the table mode, columns can be sorted by clicking
     their headers; the sort order follows each column's datatype.</p>
