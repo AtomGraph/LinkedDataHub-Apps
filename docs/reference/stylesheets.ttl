@@ -288,11 +288,6 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><code>$lds:Context</code></td>
-                        <td><code>document-node()</code></td>
-                        <td>RDF/XML description of the configured dataspaces; the current dataspace is looked up in it by origin</td>
-                    </tr>
-                    <tr>
                         <td><code>$lds:origin</code></td>
                         <td><code>xs:anyURI</code></td>
                         <td>Origin of the application shell that serves the static assets (the pane-scoped counterpart is the <code>lds:origin()</code> function)</td>
@@ -599,10 +594,22 @@
                         <td>SPARQL endpoint of the current data pane — the local endpoint, or the remote dataspace's when browsing another dataspace through the <a href="../http-api/linked-data-proxy/#ld-proxy">proxy</a>. Replaces the former <code>$sd:endpoint</code> parameter</td>
                     </tr>
                     <tr>
+                        <td><code>lds:context()</code></td>
+                        <td><code>document-node()?</code></td>
+                        <td>Both</td>
+                        <td>RDF/XML description of the instance's dataspaces, read from the <a href="../dataspace/#context">dataspace context</a>; absent if it cannot be loaded. Replaces the former <code>$lds:Context</code> parameter</td>
+                    </tr>
+                    <tr>
+                        <td><code>lds:dataspace-description()</code></td>
+                        <td><code>element()*</code></td>
+                        <td>Both</td>
+                        <td>Description of the current dataspace, looked up in <code>lds:context()</code> by origin</td>
+                    </tr>
+                    <tr>
                         <td><code>lds:dataspace()</code></td>
                         <td><code>xs:anyURI?</code></td>
                         <td>Browser</td>
-                        <td>URI of the dataspace resource describing the current dataspace. Replaces the former <code>$lds:Dataspace</code> parameter (its description is looked up in <code>$lds:Context</code>)</td>
+                        <td>URI of the dataspace resource describing the current dataspace. Replaces the former <code>$lds:Dataspace</code> parameter (its description is returned by <code>lds:dataspace-description()</code>)</td>
                     </tr>
                     <tr>
                         <td><code>acl:mode()</code></td>
