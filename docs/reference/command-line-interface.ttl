@@ -39,12 +39,12 @@ ldh --help</pre>
                 <p class="ac-alert-text">The CLI talks to the HTTP API directly and embeds <a href="https://jena.apache.org/" target="_blank">Apache Jena</a>. Unlike the shell scripts it replaces, it needs no <samp>curl</samp>, <samp>python</samp> or Jena command line tools on <code>$PATH</code>.</p>
             </div>
         </div>
-        <div class="ac-alert va-warning" id="deprecated-scripts" role="status">
-            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
+        <div class="ac-alert va-informative" id="removed-scripts" role="status">
+            <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
-                <span class="ac-alert-title">Deprecated shell scripts</span>
-                <p class="ac-alert-text">The HTTP API shell scripts in the <samp>bin</samp> folder that <samp>ldh</samp> replaces are <strong>deprecated</strong>. The certificate and WebID tooling (<samp>webid-keygen.sh</samp>, <samp>webid-keygen-pem.sh</samp>, <samp>webid-uri.sh</samp>, <samp>webid-modulus.sh</samp>, <samp>server-cert-gen.sh</samp>) talks to no API and is not deprecated.</p>
-                <p class="ac-alert-text">Migrating from a script to its command means dropping the <samp>.sh</samp> suffix, prefixing the invocation with <samp>ldh</samp> (the hyphenated name becomes a verb-object pair, e.g. <samp>admin/acl/create-group.sh</samp> becomes <samp>ldh admin create group</samp>), and passing the <samp>.p12</samp> keystore to <code>-f</code> instead of the <samp>.pem</samp> certificate.</p>
+                <span class="ac-alert-title">Removed shell scripts</span>
+                <p class="ac-alert-text">The HTTP API shell scripts that used to live in the <samp>bin</samp> folder have been <strong>removed</strong>; <samp>ldh</samp> replaces them. The certificate and WebID tooling (<samp>webid-keygen.sh</samp>, <samp>webid-keygen-pem.sh</samp>, <samp>webid-uri.sh</samp>, <samp>webid-modulus.sh</samp>, <samp>server-cert-gen.sh</samp>) talks to no API and stays in <samp>bin</samp>.</p>
+                <p class="ac-alert-text">Migrating from a script to its command means dropping the <samp>.sh</samp> suffix, prefixing the invocation with <samp>ldh</samp> (the hyphenated name becomes a verb-object pair, e.g. <samp>admin/acl/create-group.sh</samp> becomes <samp>ldh admin create group</samp>), and passing the certificate to <code>-c</code> instead of <code>-f</code>: either the <samp>.p12</samp> keystore or the <samp>.pem</samp> file.</p>
             </div>
         </div>
     </div>
