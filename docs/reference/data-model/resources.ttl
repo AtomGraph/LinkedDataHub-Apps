@@ -211,7 +211,7 @@ ORDER BY DESC(?revenue)''' .
     dct:title "Revenue by category" ;
     rdf:value &lt;#category-revenue&gt; .</pre>
         <p class="exhibit-links">Source: <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories.ttl" target="_blank">categories.ttl</a> · Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/" target="_blank">/categories/</a></p>
-        <p>Multiple <code>ldh:seriesVarName</code> values plot one series per named result variable — see the
+        <p>Multiple <code>ldh:seriesVarName</code> values (<samp>ldh add result-set-chart</samp> takes <code>--series-var-name</code> once per series) plot one series per named result variable, in the order the query's <code>SELECT</code> projects them — see the
             <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/orders.ttl" target="_blank">demo's revenue-by-carrier chart</a>,
             which pivots three carriers into three series with conditional aggregation.</p>
     </div>

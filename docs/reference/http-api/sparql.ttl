@@ -22,6 +22,10 @@
             documents are written through the <a href="../documents/">Graph Store Protocol</a>, not SPARQL Update.</p>
         <p>External clients are limited in how many queries they may have in flight and how often they may send them; a query beyond the
             <a href="../../configuration/#sparql-limits">limits</a> is answered with <code>429 Too Many Requests</code>.</p>
+        <p>A query result is bounded by <a href="../../configuration/#http"><samp>MAX_QUERY_RESPONSE_LENGTH</samp></a> (5 MiB by default). A longer one is refused, not truncated:
+            the response is <code>502 Bad Gateway</code> with a body typed <code>ldh:ResponseTooLarge</code>, and a client that needs the whole result pages through it with
+            <code>LIMIT</code>/<code>OFFSET</code>. Behind the platform, the triplestore abandons such a query once its result outgrows the
+            <a href="../../configuration/#varnish">Varnish store kept for SPARQL results</a>.</p>
         <p>The protocol's dataset parameters can be used to scope a query to a single document's graph: passing <code>default-graph-uri=&lt;document-uri&gt;</code>
             makes that document's named graph the query's default graph. The dataset specified this way overrides any <code>FROM</code>/<code>FROM NAMED</code>
             clauses in the query, and <code>GRAPH</code> patterns match nothing since no named graphs are part of the dataset. This is the read-side counterpart
@@ -30,6 +34,13 @@
   -H "Accept: application/sparql-results+json" \\
   --data-urlencode 'query=PREFIX schema: &lt;https://schema.org/&gt; SELECT ?name WHERE { ?product a schema:Product ; schema:name ?name }' \\
   --data-urlencode 'default-graph-uri=https://localhost:4443/products/1/'</pre>
+    </div>
+    <div>
+        <h2 id="caching">Caching</h2>
+        <p>An anonymous query — one sent without a WebID certificate or an authenticated session — is cached by the front Varnish on its body as well as its URL, whether it arrives as
+            <code>GET</code> or as the protocol's <code>POST</code> forms, so the views of a public dataspace reach the platform once per query rather than once per visitor.
+            A result is kept for an hour at most, and any write through the platform drops every cached result. Authenticated queries are not cached, since their results
+            depend on the agent's access.</p>
     </div>
 </div>"""^^rdf:XMLLiteral ;
         rdfs:seeAlso <https://www.w3.org/TR/sparql11-protocol/> .
