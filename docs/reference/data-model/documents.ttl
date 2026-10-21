@@ -58,7 +58,7 @@
 &lt;https://localhost:4443/categories/#select-children&gt;
     a       ldh:Object ;
     rdf:value ldh:ChildrenView .</pre>
-            <p>The <code>&lt;#select-children&gt;</code> resource is an <code>ldh:Object</code> <a href="../blocks/">content block</a> whose <code>rdf:value</code> <code>ldh:ChildrenView</code> renders the container's children listing.</p>
+            <p>The <code>&lt;#select-children&gt;</code> resource is an <code>ldh:Object</code> <a href="../blocks/">content block</a> whose <code>rdf:value</code> <code>ldh:ChildrenView</code> renders the container's children listing. The container constructor and <samp>ldh create container</samp> write it as the first block; the command's <code>--no-children-view</code> <a href="../../command-line-interface/#children-view">leaves it out</a>.</p>
             <p class="exhibit-links">Live: <a href="https://northwind-traders.demo.linkeddatahub.com/categories/" target="_blank">/categories/</a> (the demo's version composes <a href="https://github.com/AtomGraph/LinkedDataHub-Apps/blob/master/demo/northwind-traders/categories.ttl" target="_blank">further blocks</a> on top of this shape)</p>
         </div>
     </div>

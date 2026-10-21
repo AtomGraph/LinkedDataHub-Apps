@@ -196,6 +196,8 @@ HOST=ec2-54-235-229-141.compute-1.amazonaws.com</pre>
                     Defaults to <samp>true</samp>.</dd>
                 <dt><samp>MAX_CONTENT_LENGTH</samp></dt>
                 <dd>Maximum allowed request body size (<samp>nginx</samp> has a separate setting for this). Defaults to <samp>2097152</samp>.</dd>
+                <dt><samp>MAX_QUERY_RESPONSE_LENGTH</samp></dt>
+                <dd>The longest query result, in bytes, that the <a href="../http-api/sparql/"><samp>/sparql</samp> endpoint</a> answers a query with; a longer one is refused with <samp>502 Bad Gateway</samp>. Counted on the triplestore's response to the platform, not on what the caller receives. Defaults to <samp>5242880</samp> (5 MiB).</dd>
                 <dt><samp>HTTP_MAX_THREADS</samp></dt>
                 <dd>Maximum request threads on Tomcat's plain HTTP connector, the one the proxy forwards to. Defaults to Tomcat's own <samp>200</samp>. Beyond capacity it bounds how many server-side renders can be in flight against each other: a render calls back into this same connector through the proxy for the page's labels, so it holds one thread while it waits for another to answer — see the <a href="#http-client-pool">HTTP client pool</a>.</dd>
             </dl>
@@ -269,6 +271,12 @@ HOST=ec2-54-235-229-141.compute-1.amazonaws.com</pre>
             <dt><samp>VARNISH_END_USER_BACKEND_PORT</samp></dt>
             <dd>Port for end-user Varnish backend. Defaults to <samp>3030</samp>.</dd>
         </dl>
+        <p>The <samp>varnish-admin</samp> and <samp>varnish-end-user</samp> services keep SPARQL results in a store of their own, apart from the main one:</p>
+        <dl>
+            <dt><samp>VARNISH_SPARQL_STORAGE</samp></dt>
+            <dd>Size of the store SPARQL results are kept in, in Varnish's size syntax. A result too large for it ends the fetch, and the triplestore abandons the query, so it also bounds what one runaway query costs. Defaults to <samp>64M</samp>.</dd>
+        </dl>
+        <p><samp>varnish-frontend</samp> also <a href="../http-api/sparql/#caching">caches anonymous SPARQL queries</a> on their body, so the same query from different visitors reaches the platform once.</p>
     </div>
     <div>
         <h2 id="fuseki"><samp>fuseki</samp> service</h2>

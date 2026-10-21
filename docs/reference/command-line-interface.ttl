@@ -408,6 +408,22 @@ ldh add file \\
   --title "Masala Chai" \\
   --slug 78 \\
   --primary-topic '#this'</pre>
+        <h3 id="children-view">A container's children view</h3>
+        <p>A container's first content block shows its children, as the <code>dh:Container</code> <a href="../administration/ontologies/#constructors">constructor</a> makes it. <code>--no-children-view</code> leaves it out, and the content is then appended like any other document's: a container whose children are laid out in another mode embeds a view of its own.</p>
+        <pre>container=$(ldh create container \\
+  --parent "$LDH_BASE" \\
+  --title "Products" \\
+  --slug products \\
+  --no-children-view)
+
+ldh add view \\
+  --uri '#children' \\
+  --query https://w3id.org/atomgraph/linkeddatahub#SelectChildren \\
+  --mode https://w3id.org/atomgraph/client#GridMode \\
+  --title "Products" \\
+  "$container"
+
+ldh add object-block --value "${container}#children" "$container"</pre>
         <h3 id="push">Pushing a directory</h3>
         <p><samp>ldh push</samp> replays a directory into the document tree it maps to — the <a href="../../tutorial/app-as-repository/">app as a repository</a> convention: one RDF file per document, a folder beside it for the files that document holds, and subfolders for its children.</p>
         <pre>ldh push "$LDH_BASE"                              # the current directory

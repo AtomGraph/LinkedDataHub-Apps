@@ -166,7 +166,8 @@ ETag: "1e635b4-ntriples"
     <div>
         <h2 id="caching">Caching</h2>
         <p><code>GET</code> and <code>HEAD</code> RDF responses from the backend triplestores (<em>not LinkedDataHub responses</em>) are cached automatically by LinkedDataHub using <a href="https://varnish-cache.org" target="_blank">Varnish</a>
-            as an HTTP proxy cache. You can check the age of the response by inspecting the <code>Age</code> response header (the value is in seconds).</p>
+            as an HTTP proxy cache. You can check the age of the response by inspecting the <code>Age</code> response header (the value is in seconds).
+            Anonymous <a href="sparql/#caching">SPARQL queries</a> are cached too, on their body.</p>
         <p>LinkedDataHub sends <code>ETag</code> response headers derived from a digest of the document's URL and its RDF content. Every representation (HTML, RDF/XML, Turtle, etc.) gets a distinct <code>ETag</code> value, and language-negotiated HTML representations factor the accepted languages into the tag. Treat the value as opaque: it is a validator to quote back in a <a href="documents/#preconditions">conditional request</a>, and nothing about the document can be read from it.</p>
         <p>HTML responses carry a <code>Content-Language</code> negotiated against the languages the UI ships with, and advertise <code>Vary: Accept-Language</code> so shared caches keep the renderings apart.</p>
         <p>Caching of LinkedDataHub responses can be enabled on the nginx HTTP proxy server by uncommenting the <code>add_header Cache-Control</code> directives in the <samp>platform/nginx.conf.template</samp> file.
