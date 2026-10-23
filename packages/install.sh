@@ -10,7 +10,7 @@
 #
 # Reads LDH_BASE, LDH_CERT_FILE, LDH_CERT_PASSWORD and optionally LDH_PROXY; `make install` prompts
 # for them. Re-running converges: PUT replaces each document and the stylesheet reference is added back
-# to it. make-public is a POST and adds another authorization per run.
+# to it. make-public writes the same grants again.
 set -euo pipefail
 
 app_dir="$(cd "$(dirname "$0")" && pwd)"

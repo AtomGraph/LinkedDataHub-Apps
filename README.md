@@ -12,7 +12,7 @@ cd ../LinkedDataHub/cli && mvn package && export PATH="$PWD/bin:$PATH"
 
 `make install` prompts for the base URL, the owner's keystore, its password and an optional proxy URL, exports them as the `LDH_*` variables the CLI reads, and runs the app's `install.sh` — every installer sources the shared [`lib/ldh-app.sh`](lib/ldh-app.sh). To install unattended, export the variables and run `./install.sh`.
 
-__Re-running an install converges but is not clean: `ldh push` replaces each document and the namespace ontology is reset before re-import, but `make-public`, `create authorization` and every import are POSTs, so each run adds another authorization and another import record.__
+__Re-running an install converges but is not clean: `ldh push` replaces each document and the namespace ontology is reset before re-import, and `make-public` writes the same grants again, but `create authorization` and every import are POSTs, so each run adds another authorization and another import record.__
 
 ## Apps
 

@@ -4,8 +4,8 @@
 #
 # Reads LDH_BASE, LDH_CERT_FILE, LDH_CERT_PASSWORD and optionally LDH_PROXY; `make install` prompts
 # for them. Re-running converges on the same documents — PUT replaces each one and the ontology is
-# reset before re-import — but make-public and every CSV import are POSTs, so each run adds another
-# authorization and another import record.
+# reset before re-import, and make-public writes the same grants again — but every CSV import is a
+# POST, so each run adds another import record.
 set -euo pipefail
 
 app_dir="$(cd "$(dirname "$0")" && pwd)"

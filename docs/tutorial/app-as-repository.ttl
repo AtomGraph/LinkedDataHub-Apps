@@ -53,8 +53,8 @@ ldh push "$LDH_BASE"</pre>
     <div>
         <h2 id="idempotency">Idempotency</h2>
         <p>Re-running the install converges on the same documents instead of duplicating data. <code>PUT</code> replaces each document's description outright, and so does
-            <samp>ldh admin import ontology --file</samp> for the namespace ontology, keeping only the ontology document's own description. (The steps that create rather than replace —
-            <samp>make-public</samp> and each CSV import — are <code>POST</code>s, so a re-run records another authorization and another import; the documents the imports write are the same.)</p>
+            <samp>ldh admin import ontology --file</samp> for the namespace ontology, keeping only the ontology document's own description. <samp>make-public</samp> writes the same grants again. (The CSV imports create rather than replace —
+            they are <code>POST</code>s, so a re-run records another import; the documents the imports write are the same.)</p>
     </div>
     <div>
         <h2 id="install">Installing</h2>

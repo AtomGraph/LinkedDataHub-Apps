@@ -161,6 +161,23 @@
                 (<samp>PACKAGE_ROOT</samp>), where copies of imported package stylesheets survive a redeploy.</p>
         </div>
         <div>
+            <h3 id="access-control">Access control</h3>
+            <p>Authorizations follow plain <a href="../administration/acl/">WAC</a>, the same in both dataspaces:</p>
+            <ul>
+                <li><code>acl:Control</code> grants nothing. The owners' admin role is read, append and write on the administration root and everything below it.</li>
+                <li>Documents are granted through the hierarchy, with <code>acl:default</code> on a container. <code>acl:accessToClass</code> refuses the document
+                    classes and the classes above them.</li>
+                <li>Document owners are matched by the <code>lacl:OwnerAgent</code> agent class, granted by a seeded <samp>Owner access</samp> authorization.</li>
+                <li>An authorization counts only in the document whose <code>foaf:primaryTopic</code> it is, and a group's members only in the group's own document.</li>
+                <li><samp>ldh admin create authorization</samp> gains <samp>--default</samp> and loses <samp>--control</samp>. <samp>ldh admin make-public</samp> grants
+                    the root and everything below it, and puts its SPARQL <code>POST</code> grant in <samp>acl/authorizations/public-sparql/</samp>.</li>
+            </ul>
+            <p>An existing deployment migrates its stores with the two SPARQL updates in the platform's <samp>migrations/</samp> directory, which the entrypoint does not
+                run. <samp>6.0-hierarchy.ru.template</samp> completes the seeded hierarchy, once per store of each dataspace. <samp>6.0-acl.ru.template</samp> rewrites
+                the authorizations, once per admin store. Both are idempotent, and their headers show how to run them. A grant on <code>dh:Container</code> or
+                <code>dh:Item</code> alone has no 6.0 equivalent and is dropped: recreate it with <code>acl:default</code> on the container it was meant for.</p>
+        </div>
+        <div>
             <h3 id="oauth-grants">OAuth grants</h3>
             <p>The <samp>oauth2-login</samp> and <samp>oauth2-authorize</samp> grants move from the administration store to the end-user application's
                 <samp>namespace-ontology.trig.template</samp>, as <code>acl:accessTo</code> on the login and callback URLs. An existing deployment re-seeds or migrates
@@ -190,8 +207,11 @@
             <code>PATCH</code> already was in 5.10. A <code>POST</code> used to be checked on its body alone and is now checked merged with the document, so
             appending to a document that violates a constraint is refused <code>422</code> until the violation is repaired. A <code>PUT</code> whose body does
             not type the document is checked as the <code>dh:Item</code> the server makes it, so it needs a <code>dct:title</code>.</p>
-        <p>The access control query fails closed on a typeless resource, so a request for a URL that does not exist is answered <code>403</code> rather than
-            <code>404</code> unless the agent is the owner.</p>
+        <p>Access to a URL that does not exist matches no authorization, so the request is answered <code>403</code> rather than <code>404</code>, in both
+            dataspaces and for owners too.</p>
+        <p>Containment is server-managed. <code>DELETE</code> of a container that still has documents is refused <code>409 Conflict</code>: delete its children
+            first. A <code>POST</code> drops <code>sioc:has_parent</code>/<code>sioc:has_container</code> of the document from its body, a <code>PATCH</code> that
+            changes them is refused <code>422</code>, and so is any write that states the containment of another resource.</p>
         <p><code>ldh:container</code> leaves the ontology, the <code>ldh:ViewConstructor</code> form and the view query. A view's <dfn>Create</dfn> button determines the
             container from the view's own solutions.</p>
     </div>

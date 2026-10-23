@@ -47,9 +47,9 @@
                     <td><a href="../#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <th rowspan="5" scope="row"><code id="ld-post">POST</code></th>
-                    <td rowspan="5">Appends data to a document</td>
-                    <td rowspan="5"><code>204 No Content</code></td>
+                    <th rowspan="6" scope="row"><code id="ld-post">POST</code></th>
+                    <td rowspan="6">Appends data to a document</td>
+                    <td rowspan="6"><code>204 No Content</code></td>
                     <td><code>400 Bad Request</code></td>
                     <td>RDF syntax error</td>
                 </tr>
@@ -66,18 +66,25 @@
                     <td><a href="../#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <td><code>422 Unprocessable Entity</code></td>
+                    <td rowspan="2"><code>422 Unprocessable Entity</code></td>
                     <td><a href="../../administration/ontologies/#constraints">Constraint</a> violation in the resulting document</td>
                 </tr>
                 <tr>
-                    <th rowspan="5" scope="row"><code id="ld-put">PUT</code></th>
-                    <td rowspan="5">Upserts a document</td>
-                    <td rowspan="5"><code>200 OK</code><br></br><code>201 Created</code><br></br><code>308 Permanent Redirect</code></td>
+                    <td>Body states the <code>sioc:has_parent</code>/<code>sioc:has_container</code> of a resource other than the document</td>
+                </tr>
+                <tr>
+                    <th rowspan="7" scope="row"><code id="ld-put">PUT</code></th>
+                    <td rowspan="7">Upserts a document</td>
+                    <td rowspan="7"><code>200 OK</code><br></br><code>201 Created</code><br></br><code>308 Permanent Redirect</code></td>
                     <td rowspan="2"><code>400 Bad Request</code></td>
                     <td>RDF syntax error</td>
                 </tr>
                 <tr>
                     <td>Malformed document URI</td>
+                </tr>
+                <tr>
+                    <td><code>409 Conflict</code></td>
+                    <td>The parent of a document being created does not exist</td>
                 </tr>
                 <tr>
                     <td><code>413 Payload Too Large</code></td>
@@ -88,13 +95,16 @@
                     <td><a href="../#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <td><code>422 Unprocessable Entity</code></td>
+                    <td rowspan="2"><code>422 Unprocessable Entity</code></td>
                     <td><a href="../../administration/ontologies/#constraints">Constraint</a> violation in the resulting document</td>
                 </tr>
                 <tr>
-                    <th rowspan="2" scope="row"><code id="ld-delete">DELETE</code></th>
-                    <td rowspan="2">Removes the requested document</td>
-                    <td rowspan="2"><code>204 No Content</code></td>
+                    <td>Body states the <code>sioc:has_parent</code>/<code>sioc:has_container</code> of a resource other than the document</td>
+                </tr>
+                <tr>
+                    <th rowspan="3" scope="row"><code id="ld-delete">DELETE</code></th>
+                    <td rowspan="3">Removes the requested document</td>
+                    <td rowspan="3"><code>204 No Content</code></td>
                     <td><code>404 Not Found</code></td>
                     <td>Document with request URI not found</td>
                 </tr>
@@ -103,14 +113,21 @@
                     <td>Deleting root, owner, or secretary documents is not allowed</td>
                 </tr>
                 <tr>
-                    <th rowspan="2" scope="row"><code id="ld-patch">PATCH</code></th>
-                    <td rowspan="2">Modifies a document using SPARQL Update</td>
-                    <td rowspan="2"><code>204 No Content</code></td>
-                    <td rowspan="2"><code>422 Unprocessable Entity</code></td>
+                    <td><code>409 Conflict</code></td>
+                    <td>The container still has documents: delete them first</td>
+                </tr>
+                <tr>
+                    <th rowspan="3" scope="row"><code id="ld-patch">PATCH</code></th>
+                    <td rowspan="3">Modifies a document using SPARQL Update</td>
+                    <td rowspan="3"><code>204 No Content</code></td>
+                    <td rowspan="3"><code>422 Unprocessable Entity</code></td>
                     <td>SPARQL update is not a single graph-scoped <code>INSERT</code>/<code>DELETE</code> operation, or removes an <code>rdf:type</code></td>
                 </tr>
                 <tr>
                     <td><a href="../../administration/ontologies/#constraints">Constraint</a> violation in the updated document</td>
+                </tr>
+                <tr>
+                    <td>Update changes the document's <code>sioc:has_parent</code>/<code>sioc:has_container</code>, or adds one of another resource</td>
                 </tr>
             </tbody>
         </table>
@@ -120,6 +137,9 @@
         <h2 id="document-metadata">Document metadata</h2>
         <p>Since LinkedDataHub 5, the <a href="../../data-model/documents/#hierarchy">document hierarchy</a> is managed automatically.</p>
         <p>By default, LinkedDataHub treats an RDF document as an item by giving it the <code>dh:Item</code> type and attaching it to the parent container using <code>sioc:has_container</code>. If the client wants to create a container instead, it has to explicitly add the <code>dh:Container</code> type on the document resource; the new container will be attached to its parent using <code>sioc:has_parent</code>. In either case, the URI of the new document will be relative to its parent's.</p>
+        <p>Containment is server-managed: a <code>POST</code> drops the document's <code>sioc:has_parent</code>/<code>sioc:has_container</code> from its body,
+            a <code>PATCH</code> cannot change them, and no write may state the containment of another resource. <a href="../../administration/acl/#authorizations"><code>acl:default</code></a>
+            grants rely on it.</p>
         <p>LinkedDataHub will also manage additional document metadata, such as its owner and creation/modification timestamps.</p>
         <p>For example, this HTTP request creating the Northwind regions container (Turtle syntax):</p>
         <pre>PUT /regions/ HTTP/1.1
