@@ -143,6 +143,7 @@ ldh create container --parent "$LDH_BASE" --title "Categories" --slug categories
         <pre>item=$(ldh create item --container "$LDH_BASE" --title "Example" --slug example)</pre>
         <p><samp>ldh push</samp> writes many documents in one run and prints one line per written document URL or upload URI, in write order; progress and skipped entries go to standard error, and the first failed request stops the run.</p>
         <p>Exit codes are <samp>0</samp> on success, <samp>1</samp> on an HTTP error status or runtime failure (the message goes to standard error; add <code>--verbose</code> for a stack trace), and <samp>2</samp> on a usage error.</p>
+        <p>Redirects are not followed and count as failures, with their <code>Location</code> on standard error: a <code>PUT</code> to a URI without a trailing slash is answered <samp>308 Permanent Redirect</samp> and writes nothing. A write answered <samp>303 See Other</samp> succeeds; <samp>ldh get --head</samp> reports any status, and <samp>ldh get --timegate</samp> takes its <samp>302 Found</samp>.</p>
     </div>
     <div>
         <h2 id="usage">Usage</h2>
@@ -398,6 +399,7 @@ ldh add file \\
   "$doc"</pre>
         <p><samp>add file</samp> prints the content-addressed URI of the upload (<samp>{base}uploads/{sha1}</samp>) rather than the document URI — the
             <a href="../../tutorial/data/">Data</a> stage of the tutorial feeds exactly that URI into a CSV import.</p>
+        <p>It appends the file's description to the document (a multipart <code>POST</code>); with <code>--replace</code> it replaces the document's description with it instead (a multipart <code>PUT</code>).</p>
         <p>See also the <a href="../../user-guide/import-data/">data import user guides</a>.</p>
         <h3 id="request-bodies">Request bodies</h3>
         <p><samp>ldh put</samp> and <samp>ldh post</samp> read RDF from an optional <samp>FILE</samp> argument, recognizing the syntax from its extension (<samp>ldh put "$LDH_BASE" root.ttl</samp>), or from standard input, where <code>-t</code>/<code>--content-type</code> is required since a stream carries no name. Either way relative URIs resolve against the target URI. <samp>ldh patch</samp> reads a SPARQL 1.1 update from standard input, validates it and sends it verbatim.</p>
