@@ -29,13 +29,14 @@ const cfg = JSON.parse(await fs.readFile(cfgPath, 'utf8'));
 const onlyArg = argv.indexOf('--only');
 const only = onlyArg === -1 ? null : new Set(argv[onlyArg + 1].split(','));
 const noAudio = argv.includes('--no-audio');
-// --reuse keeps the clips already cut (tracks/.overview/<id>.mp4) and re-cuts only the ids
+// --reuse keeps the clips already cut (tracks/.<output>/<id>.mp4) and re-cuts only the ids
 // named after it, so a change to one shot does not re-encode the film's thirty.
 const reuseArg = argv.indexOf('--reuse');
 const reuse = reuseArg === -1 ? null : new Set((argv[reuseArg + 1] ?? '').startsWith('--') || !argv[reuseArg + 1] ? [] : argv[reuseArg + 1].split(','));
 const at = (p) => path.resolve(ROOT, p);
 const TRACKS = at('tracks');
-const TMP = path.join(TRACKS, '.overview');
+// each cut keeps its clips in its own folder, named after its output, so two cuts never share them
+const TMP = path.join(TRACKS, `.${path.basename(cfg.output, '.mp4')}`);
 await fs.mkdir(TMP, { recursive: true });
 
 function run(cmd, args) {
@@ -137,7 +138,7 @@ async function cardHtml({ eyebrow, title, lede, links, note }, W, H) {
     .pill.is-primary { background: #98ccff linear-gradient(180deg, rgba(255,255,255,0.22), rgba(0,0,0,0.10)); color: #003259; border-color: transparent; }
     .note { font-family: 'Geist Mono', monospace; font-size: ${px(14)}; letter-spacing: 0.04em; text-transform: uppercase; color: #87929e; margin: ${px(36)} 0 0; }
   </style><div class="card">
-    <div class="wordmark"><span class="mark"></span>LinkedDataHub</div>
+    <div class="wordmark"><span class="mark"></span>${esc(cfg.wordmark ?? 'LinkedDataHub')}</div>
     ${eyebrow ? `<p class="eyebrow">${esc(eyebrow)}</p>` : ''}
     <h1>${esc(title)}</h1>
     ${lede ? `<p class="lede">${esc(lede)}</p>` : ''}
