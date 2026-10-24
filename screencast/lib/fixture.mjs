@@ -129,6 +129,6 @@ WHERE { <${url}> ?slot ?block . ?block a ?type . FILTER(?type IN (ldh:XHTML, ldh
 export async function patchDocument({ ldh, certFile, certPassword, certPasswordFile, url, update }) {
   const password = certPassword ?? (certPasswordFile ? (await fs.readFile(certPasswordFile, 'utf8')).trim() : null);
   if (!password) throw new Error('patchDocument needs --cert-password or --cert-password-file');
-  const r = await run(ldh, ['patch', url, '-f', certFile, '-p', password], update);
+  const r = await run(ldh, ['patch', url, '-c', certFile, '-p', password], update);
   return { ok: r.code === 0, out: String(r.err || r.out).split(password).join('••••').slice(0, 300) };
 }
