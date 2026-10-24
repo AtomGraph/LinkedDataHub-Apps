@@ -25,14 +25,8 @@
 #
 # The page's advice to pick different ports when 81/4443 are taken does not work today.
 #
-# The clone takes --branch develop, and the .env block is the page's: both are 6.0.
-# ABS_PATH is gone from that block because a dataspace serves from the root of its origin
-# and there was never a second working value. master is still 5.10.0, which cannot run
-# without it — its docker-compose.yml passes ABS_PATH=${ABS_PATH}, which resolves to the
-# empty string and overrides the Dockerfile's ENV ABS_PATH=/, so its entrypoint bails on
-# [ -z "$ABS_PATH" ]. The page's step 1 is prose — fork the repository and clone the fork
-# — so it prints no command the branch flag contradicts. Drop the flag once 6.0 is what a
-# clone gets.
+# The clone takes the default branch, master, which is the latest release - what a
+# visitor gets, and what the frontpage's snippet runs. The .env block is the page's.
 #
 # Geometry, framerate and typing speed come from lib/terminal.mjs, which prepends them.
 # The working directory arrives as $LDH_CLIP_DIR.
@@ -49,7 +43,7 @@ Sleep 2s
 Show
 
 Sleep 1s
-Type "git clone --branch develop https://github.com/AtomGraph/LinkedDataHub.git" Enter
+Type "git clone https://github.com/AtomGraph/LinkedDataHub.git" Enter
 Sleep 25s
 
 Type "cd LinkedDataHub" Enter
