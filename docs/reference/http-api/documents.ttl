@@ -47,9 +47,9 @@
                     <td><a href="../#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <th rowspan="6" scope="row"><code id="ld-post">POST</code></th>
-                    <td rowspan="6">Appends data to a document</td>
-                    <td rowspan="6"><code>204 No Content</code></td>
+                    <th rowspan="7" scope="row"><code id="ld-post">POST</code></th>
+                    <td rowspan="7">Appends data to a document</td>
+                    <td rowspan="7"><code>204 No Content</code></td>
                     <td><code>400 Bad Request</code></td>
                     <td>RDF syntax error</td>
                 </tr>
@@ -66,16 +66,19 @@
                     <td><a href="../#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <td rowspan="2"><code>422 Unprocessable Entity</code></td>
+                    <td rowspan="3"><code>422 Unprocessable Entity</code></td>
                     <td><a href="../../administration/ontologies/#constraints">Constraint</a> violation in the resulting document</td>
                 </tr>
                 <tr>
                     <td>Body states the <code>sioc:has_parent</code>/<code>sioc:has_container</code> of a resource other than the document</td>
                 </tr>
                 <tr>
-                    <th rowspan="7" scope="row"><code id="ld-put">PUT</code></th>
-                    <td rowspan="7">Upserts a document</td>
-                    <td rowspan="7"><code>200 OK</code><br></br><code>201 Created</code><br></br><code>308 Permanent Redirect</code></td>
+                    <td>Malformed IRI in the body (see <a href="#malformed-iris">below</a>)</td>
+                </tr>
+                <tr>
+                    <th rowspan="8" scope="row"><code id="ld-put">PUT</code></th>
+                    <td rowspan="8">Upserts a document</td>
+                    <td rowspan="8"><code>200 OK</code><br></br><code>201 Created</code><br></br><code>308 Permanent Redirect</code></td>
                     <td rowspan="2"><code>400 Bad Request</code></td>
                     <td>RDF syntax error</td>
                 </tr>
@@ -95,11 +98,14 @@
                     <td><a href="../#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <td rowspan="2"><code>422 Unprocessable Entity</code></td>
+                    <td rowspan="3"><code>422 Unprocessable Entity</code></td>
                     <td><a href="../../administration/ontologies/#constraints">Constraint</a> violation in the resulting document</td>
                 </tr>
                 <tr>
                     <td>Body states the <code>sioc:has_parent</code>/<code>sioc:has_container</code> of a resource other than the document</td>
+                </tr>
+                <tr>
+                    <td>Malformed IRI in the body (see <a href="#malformed-iris">below</a>)</td>
                 </tr>
                 <tr>
                     <th rowspan="3" scope="row"><code id="ld-delete">DELETE</code></th>
@@ -117,10 +123,10 @@
                     <td>The container still has documents: delete them first</td>
                 </tr>
                 <tr>
-                    <th rowspan="3" scope="row"><code id="ld-patch">PATCH</code></th>
-                    <td rowspan="3">Modifies a document using SPARQL Update</td>
-                    <td rowspan="3"><code>204 No Content</code></td>
-                    <td rowspan="3"><code>422 Unprocessable Entity</code></td>
+                    <th rowspan="4" scope="row"><code id="ld-patch">PATCH</code></th>
+                    <td rowspan="4">Modifies a document using SPARQL Update</td>
+                    <td rowspan="4"><code>204 No Content</code></td>
+                    <td rowspan="4"><code>422 Unprocessable Entity</code></td>
                     <td>SPARQL update is not a single graph-scoped <code>INSERT</code>/<code>DELETE</code> operation, or removes an <code>rdf:type</code></td>
                 </tr>
                 <tr>
@@ -129,9 +135,13 @@
                 <tr>
                     <td>Update changes the document's <code>sioc:has_parent</code>/<code>sioc:has_container</code>, or adds one of another resource</td>
                 </tr>
+                <tr>
+                    <td>Malformed IRI in the body (see <a href="#malformed-iris">below</a>)</td>
+                </tr>
             </tbody>
         </table>
         <p>Any method may additionally answer <code>403 Forbidden</code> — see <a href="../#acl">Access control</a>. Any method that writes may answer <code>428 Precondition Required</code> when the request carries no precondition, or <code>412 Precondition Failed</code> when the one it carries is out of date — see <a href="#preconditions">Conditional writes</a>.</p>
+        <p id="malformed-iris">An IRI the <a href="https://www.rfc-editor.org/rfc/rfc3987" target="_blank">IRI syntax</a> does not allow — such as <code>&lt;http://[::1&gt;</code> or one with a space in it — is refused with <samp>422 Unprocessable Entity</samp>, whether it comes in an RDF body, an RDF/POST form or a SPARQL update. The response names each value as an <code>ldh:URISyntaxViolation</code>, with the value as typed in <code>ldh:violationValue</code>; an RDF body names the first one only, as its parser stops there. A Turtle or N-Triples body with a space or <code>&lt;</code> in an IRI is answered <samp>400 Bad Request</samp> instead, as its tokenizer does not report the value.</p>
     </div>
     <div>
         <h2 id="document-metadata">Document metadata</h2>
