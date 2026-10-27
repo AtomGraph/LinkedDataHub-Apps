@@ -150,8 +150,8 @@ ETag: "1e635b4-ntriples"
                 </tr>
                 <tr>
                     <th scope="row"><code>http://www.w3.org/ns/auth/acl#mode</code></th>
-                    <td>One link per access mode the agent holds on the requested document (<code>acl:Read</code>, <code>acl:Append</code>, <code>acl:Write</code>,
-                        <code>acl:Control</code>); historical versions advertise <code>acl:Read</code> at most</td>
+                    <td>One link per access mode the agent holds on the requested document (<code>acl:Read</code>, <code>acl:Append</code>,
+                        <code>acl:Write</code>); historical versions advertise <code>acl:Read</code> at most</td>
                 </tr>
                 <tr>
                     <th scope="row"><code>timemap</code>, <code>timegate</code>, <code>original</code>, <code>self</code></th>

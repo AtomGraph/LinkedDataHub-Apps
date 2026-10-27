@@ -4,8 +4,8 @@
 # the sources reference.
 #
 # Reads LDH_BASE, LDH_CERT_FILE, LDH_CERT_PASSWORD and optionally LDH_PROXY; `make install` prompts
-# for them. Re-running converges: PUT replaces each document. make-public is a POST and adds another
-# authorization per run.
+# for them. Re-running converges: PUT replaces each document and make-public writes the same grants
+# again.
 set -euo pipefail
 
 app_dir="$(cd "$(dirname "$0")" && pwd)"

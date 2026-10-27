@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Installs the app onto a LinkedDataHub instance with the ldh CLI: makes it public, grants
-# authenticated agents read access to its items, pushes the document tree with its files, imports the
-# taxonomy editor package and imports the UNESCO Thesaurus SKOS data. The ontology, constructors,
+# Installs the app onto a LinkedDataHub instance with the ldh CLI: makes it public, pushes the
+# document tree with its files, imports the taxonomy editor package and imports the UNESCO Thesaurus
+# SKOS data. The ontology, constructors,
 # constraints and stylesheet all come from the package.
 #
 # Reads LDH_BASE, LDH_CERT_FILE, LDH_CERT_PASSWORD and optionally LDH_PROXY; `make install` prompts
-# for them. Re-running converges on the same documents — PUT replaces each one — but make-public,
-# the authorization and the RDF import are POSTs, so each run adds another of each.
+# for them. Re-running converges on the same documents — PUT replaces each one and make-public
+# writes the same grants again — but the RDF import is a POST, so each run adds another.
 set -euo pipefail
 
 app_dir="$(cd "$(dirname "$0")" && pwd)"
@@ -15,13 +15,6 @@ ldh_app_require_env
 
 ldh_app_step "Creating authorization to make the app public"
 ldh admin make-public
-
-ldh_app_step "Creating authorization for authenticated agents to read items"
-ldh admin create authorization \
-  --label "Read access to graph items" \
-  --agent-class "http://www.w3.org/ns/auth/acl#AuthenticatedAgent" \
-  --to-all-in "https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#Item" \
-  --read
 
 ldh_app_step "Pushing documents and files"
 ldh push --dir "$app_dir" "$LDH_BASE"

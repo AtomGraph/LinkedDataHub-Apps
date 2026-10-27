@@ -24,12 +24,11 @@
         </div>
         <div aria-labelledby="from-the-command-line-tab" class="ac-tabpanel" hidden="hidden" id="from-the-command-line-pane" role="tabpanel">
         <pre>ldh admin make-public</pre>
-        <p>The command extends the admin dataspace's <samp>acl/authorizations/public/</samp> document: the built-in <samp>Public access</samp> authorization gains its access grants, and a second
-            authorization is added. Authorizations are data, so you can inspect what the command wrote — and delete it to unpublish:</p>
+        <p>The command extends the admin dataspace's <samp>acl/authorizations/public/</samp> document: the built-in <samp>Public access</samp> authorization gains its access grants. A second
+            authorization, for queries sent with <code>POST</code>, gets a document of its own, <samp>acl/authorizations/public-sparql/</samp>. Authorizations are data, so you can
+            inspect what the command wrote — and delete it to unpublish:</p>
         <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
-@prefix def:  &lt;https://w3id.org/atomgraph/linkeddatahub/default#&gt; .
-@prefix dh:   &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
 @prefix nfo:  &lt;http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#&gt; .
 @prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
 
@@ -38,15 +37,17 @@
     acl:mode acl:Read ;
     acl:agentClass foaf:Agent,               # matches unauthenticated requests
         acl:AuthenticatedAgent ;             # matches authenticated ones
-    acl:accessToClass def:Root, dh:Container, dh:Item, nfo:FileDataObject ;
-    acl:accessTo &lt;https://localhost:4443/sparql&gt; .
-
-&lt;#sparql-post&gt; a acl:Authorization ;         # allows queries over POST
+    acl:accessTo &lt;https://localhost:4443/&gt;, &lt;https://localhost:4443/sparql&gt; ;
+    acl:default &lt;https://localhost:4443/&gt; ;         # every document below the root
+    acl:accessToClass nfo:FileDataObject .     # file uploads</pre>
+        <pre># acl/authorizations/public-sparql/
+&lt;#this&gt; a acl:Authorization ;                # allows queries over POST
+    rdfs:label "Public SPARQL queries over POST" ;
     acl:mode acl:Append ;
     acl:agentClass foaf:Agent, acl:AuthenticatedAgent ;
     acl:accessTo &lt;https://localhost:4443/sparql&gt; .</pre>
-        <p>The first authorization grants <code>acl:Read</code> on every document class — the root, containers, items and file uploads — and on the
-            SPARQL endpoint; the second additionally allows <code>POST</code>ed queries.</p>
+        <p>The first authorization grants <code>acl:Read</code> on the root, on every document below it through <code>acl:default</code>, on file uploads and on the
+            SPARQL endpoint; the second additionally allows <code>POST</code>ed queries. Running the command again writes the same grants.</p>
         </div>
     </div>
     <div>

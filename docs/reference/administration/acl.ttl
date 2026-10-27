@@ -14,7 +14,7 @@
     <p>LinkedDataHub access control is based on the W3C <a href="https://www.w3.org/wiki/WebAccessControl" target="_blank">ACL ontology</a>.</p>
     <div>
         <h2 id="access-modes">Access modes</h2>
-        <p>There are four access modes (classes of operation) that map to <a href="../../http-api/documents/#methods">HTTP methods</a>:</p>
+        <p>There are three access modes (classes of operation) that map to <a href="../../http-api/documents/#methods">HTTP methods</a>:</p>
         <table>
             <caption class="ac-vh">Access modes and the HTTP methods they permit</caption>
             <thead>
@@ -40,13 +40,10 @@
                     <td>Add information without removing or replacing any.</td>
                     <td><code>POST</code></td>
                 </tr>
-                <tr>
-                    <th scope="row">Control</th>
-                    <td>Change the authorizations that apply to the resource.</td>
-                    <td>— (no corresponding HTTP method)</td>
-                </tr>
             </tbody>
         </table>
+        <p><code>acl:Control</code> grants nothing: authorizations are documents in the <a href="../../dataspace/#admin">administration dataspace</a>,
+            so changing them takes <code>acl:Write</code> there.</p>
     </div>
     <div>
         <h2 id="agents">Agents</h2>
@@ -68,8 +65,8 @@
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">
                 <p class="ac-alert-text">By default, only members of the owners group have access to the administration dataspace: its built-in
-                    <samp>Full control</samp> authorization grants the <a href="#access-modes">Control</a> mode (along with read and write)
-                    to that group. See <a href="#authorizations">Authorizations</a>.</p>
+                    <samp>Full control</samp> authorization grants them read, append and write access to the administration root and everything
+                    below it. See <a href="#authorizations">Authorizations</a>.</p>
                 <p class="ac-alert-text">Note that an agent being a member of one of the above groups does not automatically provide it with an
                     authorization. A valid authorization for the whole group has to be present.</p>
             </div>
@@ -78,11 +75,13 @@
     <div>
         <h2 id="authorizations">Authorizations</h2>
         <p>An authorization explicitly grants access for an <a href="#agents">agent</a> or a <a href="#groups">group</a>
-            of agents to access a specific end-user dataspace document or a <a href="../ontologies/#classes">class</a>
-            of its documents.</p>
-        <p>An <a href="#agents">agent</a> has to be authorized using the <a href="#access-modes">Control</a> mode to be
-            able to log in to the <a href="../../dataspace/#admin">administration dataspace</a>. By default such an
-            authorization is granted to the <a href="#groups">owners group</a>.</p>
+            of agents to a specific document (<code>acl:accessTo</code>), to every document below a container (<code>acl:default</code>),
+            or to the resources of a <a href="../ontologies/#classes">class</a> (<code>acl:accessToClass</code>). Grants only add access:
+            no authorization overrides another.</p>
+        <p>An authorization counts only in its own document, the one whose <code>foaf:primaryTopic</code> it is, and a group's members count
+            only in the group's own document.</p>
+        <p>To use the <a href="../../dataspace/#admin">administration dataspace</a>, an <a href="#agents">agent</a> needs access to its
+            documents like to any others. By default the <a href="#groups">owners group</a> has it.</p>
         <p>The default authorizations for groups and their respective access modes:</p>
         <table>
             <caption class="ac-vh">Default access for each group</caption>
@@ -91,7 +90,7 @@
                     <th scope="col">Group</th>
                     <th scope="col">Read access</th>
                     <th scope="col">Write/append access</th>
-                    <th scope="col">Full control</th>
+                    <th scope="col">Administration dataspace</th>
                 </tr>
             </thead>
             <tbody>
@@ -99,7 +98,7 @@
                     <th rowspan="2" scope="row">Owners</th>
                     <td rowspan="2"><a href="#access-modes">Read</a></td>
                     <td><a href="#access-modes">Write</a></td>
-                    <td rowspan="2"><a href="#access-modes">Control</a></td>
+                    <td rowspan="2"><a href="#access-modes">Read</a>, <a href="#access-modes">Append</a>, <a href="#access-modes">Write</a></td>
                 </tr>
                 <tr>
                     <td><a href="#access-modes">Append</a></td>
@@ -145,19 +144,47 @@
   --read --append --write</pre>
             </div>
         </div>
-        <p>An authorization can also target a whole class of documents with <code>acl:accessToClass</code>. Granting the <samp>readers</samp> group read access to every container:</p>
-        <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
+        <p>An authorization can also reach every document below a container with <code>acl:default</code>. Granting the <samp>readers</samp> group read access to
+            the orders container and every order in it:</p>
+        <div class="ac-tabs or-horizontal">
+            <div class="ac-tablist sz-md va-line" role="tablist">
+                <button aria-controls="default-rdf-pane" aria-selected="true" class="ac-tab is-on" id="default-rdf-tab" role="tab" type="button"><span class="ac-tab-lbl">RDF</span></button>
+                <button aria-controls="default-command-line-interface-pane" aria-selected="false" class="ac-tab" id="default-command-line-interface-tab" role="tab" type="button"><span class="ac-tab-lbl">Command line interface</span></button>
+            </div>
+            <div aria-labelledby="default-rdf-tab" class="ac-tabpanel" id="default-rdf-pane" role="tabpanel">
+                <pre>@prefix acl:  &lt;http://www.w3.org/ns/auth/acl#&gt; .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
-@prefix dh:   &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
 
 &lt;#this&gt; a acl:Authorization ;
-    rdfs:label "Container read access" ;
+    rdfs:label "Order read access" ;
     acl:agentGroup &lt;https://admin.localhost:4443/acl/groups/readers/#this&gt; ;
     acl:mode acl:Read ;
-    acl:accessToClass dh:Container .</pre>
+    acl:accessTo &lt;https://localhost:4443/orders/&gt; ;
+    acl:default &lt;https://localhost:4443/orders/&gt; .</pre>
+            </div>
+            <div aria-labelledby="default-command-line-interface-tab" class="ac-tabpanel" hidden="hidden" id="default-command-line-interface-pane" role="tabpanel">
+                <pre>ldh admin create authorization \\
+  --label "Order read access" \\
+  --agent-group "https://admin.localhost:4443/acl/groups/readers/#this" \\
+  --to "https://localhost:4443/orders/" \\
+  --default "https://localhost:4443/orders/" \\
+  --read</pre>
+            </div>
+        </div>
+        <p>A document is below a container when its own <code>sioc:has_parent</code> or <code>sioc:has_container</code> leads there. <code>acl:default</code> does
+            not cover the container itself, hence the <code>acl:accessTo</code> alongside it.</p>
+        <p><code>acl:accessToClass</code> grants access to the resources of a class, such as <code>nfo:FileDataObject</code> for file uploads. It refuses the
+            document classes (<code>def:Root</code>, <code>dh:Container</code>, <code>dh:Item</code>) and the classes above them: documents are granted through the
+            hierarchy.</p>
         <p>A public-access authorization allows access for non-authenticated agents — the <a href="../../../tutorial/publish/">Publish</a> stage of the
             tutorial shows the one <samp>ldh admin make-public</samp> creates, granting <code>acl:Read</code> to the <code>foaf:Agent</code> class
-            on every document class.</p>
+            on the root and every document below it.</p>
+        <div>
+            <h3 id="owners">Document owners</h3>
+            <p>The agent that creates a document is its owner (<code>acl:owner</code>), and stays so for the life of the document. The built-in
+                <samp>Owner access</samp> authorization grants read, append and write access to the <code>lacl:OwnerAgent</code> class, which matches
+                the owners of the requested document, on the end-user root and every document below it.</p>
+        </div>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
             <div class="ac-alert-body">

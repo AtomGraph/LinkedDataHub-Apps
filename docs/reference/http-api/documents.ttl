@@ -21,7 +21,8 @@
     </div>
     <div>
         <h2 id="methods">Methods</h2>
-        <p>The API also supports the <code>PATCH</code> HTTP method which is <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#http-patch">optional in GSP</a>. It accepts graph-scoped SPARQL updates that will modify the requested document. Only the <code>INSERT/WHERE</code> and <code>DELETE WHERE</code> forms are supported; <code>GRAPH</code> patterns are not allowed.</p>
+        <p>The API also supports the <code>PATCH</code> HTTP method which is <a href="https://www.w3.org/TR/sparql11-http-rdf-update/#http-patch">optional in GSP</a>. It accepts graph-scoped SPARQL updates that will modify the requested document. Only a single <code>DELETE</code>/<code>INSERT</code> … <code>WHERE</code> or <code>DELETE WHERE</code> operation is supported; <code>GRAPH</code>, <code>WITH</code>, <code>USING</code> and <code>USING NAMED</code> are not allowed (see <a href="#patch-example">graph-scoped updates</a>).</p>
+        <p>A <code>multipart/form-data</code> body uploads files: a <code>POST</code> appends their descriptions to the document and a <code>PUT</code> replaces the document with them, as the same writes with an RDF body do. The upload limit applies to such a body instead of the request body limit (see <a href="../../configuration/#http">configuration</a>).</p>
         <p>Trailing slashes in document URIs are enforced using <code>308 Permanent Redirect</code> responses.</p>
         <table>
             <caption class="ac-vh">HTTP methods and the responses they return</caption>
@@ -47,9 +48,9 @@
                     <td><a href="../#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <th rowspan="5" scope="row"><code id="ld-post">POST</code></th>
-                    <td rowspan="5">Appends data to a document</td>
-                    <td rowspan="5"><code>204 No Content</code></td>
+                    <th rowspan="7" scope="row"><code id="ld-post">POST</code></th>
+                    <td rowspan="7">Appends data to a document</td>
+                    <td rowspan="7"><code>204 No Content</code></td>
                     <td><code>400 Bad Request</code></td>
                     <td>RDF syntax error</td>
                 </tr>
@@ -66,18 +67,28 @@
                     <td><a href="../#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <td><code>422 Unprocessable Entity</code></td>
+                    <td rowspan="3"><code>422 Unprocessable Entity</code></td>
                     <td><a href="../../administration/ontologies/#constraints">Constraint</a> violation in the resulting document</td>
                 </tr>
                 <tr>
-                    <th rowspan="5" scope="row"><code id="ld-put">PUT</code></th>
-                    <td rowspan="5">Upserts a document</td>
-                    <td rowspan="5"><code>200 OK</code><br></br><code>201 Created</code><br></br><code>308 Permanent Redirect</code></td>
+                    <td>Body states the <code>sioc:has_parent</code>/<code>sioc:has_container</code> of a resource other than the document</td>
+                </tr>
+                <tr>
+                    <td>Malformed IRI in the body (see <a href="#malformed-iris">below</a>)</td>
+                </tr>
+                <tr>
+                    <th rowspan="8" scope="row"><code id="ld-put">PUT</code></th>
+                    <td rowspan="8">Upserts a document</td>
+                    <td rowspan="8"><code>204 No Content</code> (replaced)<br></br><code>201 Created</code> (created)<br></br><code>308 Permanent Redirect</code></td>
                     <td rowspan="2"><code>400 Bad Request</code></td>
                     <td>RDF syntax error</td>
                 </tr>
                 <tr>
                     <td>Malformed document URI</td>
+                </tr>
+                <tr>
+                    <td><code>409 Conflict</code></td>
+                    <td>The parent of a document being created does not exist</td>
                 </tr>
                 <tr>
                     <td><code>413 Payload Too Large</code></td>
@@ -88,13 +99,19 @@
                     <td><a href="../#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <td><code>422 Unprocessable Entity</code></td>
+                    <td rowspan="3"><code>422 Unprocessable Entity</code></td>
                     <td><a href="../../administration/ontologies/#constraints">Constraint</a> violation in the resulting document</td>
                 </tr>
                 <tr>
-                    <th rowspan="2" scope="row"><code id="ld-delete">DELETE</code></th>
-                    <td rowspan="2">Removes the requested document</td>
-                    <td rowspan="2"><code>204 No Content</code></td>
+                    <td>Body states the <code>sioc:has_parent</code>/<code>sioc:has_container</code> of a resource other than the document</td>
+                </tr>
+                <tr>
+                    <td>Malformed IRI in the body (see <a href="#malformed-iris">below</a>)</td>
+                </tr>
+                <tr>
+                    <th rowspan="3" scope="row"><code id="ld-delete">DELETE</code></th>
+                    <td rowspan="3">Removes the requested document</td>
+                    <td rowspan="3"><code>204 No Content</code></td>
                     <td><code>404 Not Found</code></td>
                     <td>Document with request URI not found</td>
                 </tr>
@@ -103,28 +120,44 @@
                     <td>Deleting root, owner, or secretary documents is not allowed</td>
                 </tr>
                 <tr>
-                    <th rowspan="2" scope="row"><code id="ld-patch">PATCH</code></th>
-                    <td rowspan="2">Modifies a document using SPARQL Update</td>
-                    <td rowspan="2"><code>204 No Content</code></td>
-                    <td rowspan="2"><code>422 Unprocessable Entity</code></td>
-                    <td>SPARQL update is not a single graph-scoped <code>INSERT</code>/<code>DELETE</code> operation, or removes an <code>rdf:type</code></td>
+                    <td><code>409 Conflict</code></td>
+                    <td>The container still has documents: delete them first</td>
+                </tr>
+                <tr>
+                    <th rowspan="4" scope="row"><code id="ld-patch">PATCH</code></th>
+                    <td rowspan="4">Modifies a document using SPARQL Update</td>
+                    <td rowspan="4"><code>204 No Content</code></td>
+                    <td rowspan="4"><code>422 Unprocessable Entity</code></td>
+                    <td>SPARQL update is not a single <code>DELETE</code>/<code>INSERT</code> … <code>WHERE</code> or <code>DELETE WHERE</code> operation, uses <code>GRAPH</code>, <code>WITH</code>, <code>USING</code> or <code>USING NAMED</code>, or removes an <code>rdf:type</code></td>
                 </tr>
                 <tr>
                     <td><a href="../../administration/ontologies/#constraints">Constraint</a> violation in the updated document</td>
                 </tr>
+                <tr>
+                    <td>Update changes the document's <code>sioc:has_parent</code>/<code>sioc:has_container</code>, or adds one of another resource</td>
+                </tr>
+                <tr>
+                    <td>Malformed IRI in the body (see <a href="#malformed-iris">below</a>)</td>
+                </tr>
             </tbody>
         </table>
         <p>Any method may additionally answer <code>403 Forbidden</code> — see <a href="../#acl">Access control</a>. Any method that writes may answer <code>428 Precondition Required</code> when the request carries no precondition, or <code>412 Precondition Failed</code> when the one it carries is out of date — see <a href="#preconditions">Conditional writes</a>.</p>
+        <p>A <code>POST</code> or <code>PATCH</code> answers with the <code>ETag</code> of the document it leaves, so the next write can quote it. A <code>PUT</code> answers with no <code>ETag</code> or <code>Last-Modified</code>: the document it stores is not the payload — the server adds its metadata and skolemizes blank nodes — and <a href="https://www.rfc-editor.org/rfc/rfc9110#section-9.3.4" target="_blank">RFC 9110</a> allows a <code>PUT</code> response a validator only for a representation saved unchanged. A client that writes again after a <code>PUT</code> reads the tag with <code>HEAD</code>.</p>
+        <p id="malformed-iris">An IRI the <a href="https://www.rfc-editor.org/rfc/rfc3987" target="_blank">IRI syntax</a> does not allow — such as <code>&lt;http://[::1&gt;</code> or one with a space in it — is refused with <samp>422 Unprocessable Entity</samp>, whether it comes in an RDF body, an RDF/POST form or a SPARQL update. The response names each value as an <code>ldh:URISyntaxViolation</code>, with the value as typed in <code>ldh:violationValue</code>; an RDF body names the first one only, as its parser stops there. A Turtle or N-Triples body with a space or <code>&lt;</code> in an IRI is answered <samp>400 Bad Request</samp> instead, as its tokenizer does not report the value.</p>
     </div>
     <div>
         <h2 id="document-metadata">Document metadata</h2>
         <p>Since LinkedDataHub 5, the <a href="../../data-model/documents/#hierarchy">document hierarchy</a> is managed automatically.</p>
         <p>By default, LinkedDataHub treats an RDF document as an item by giving it the <code>dh:Item</code> type and attaching it to the parent container using <code>sioc:has_container</code>. If the client wants to create a container instead, it has to explicitly add the <code>dh:Container</code> type on the document resource; the new container will be attached to its parent using <code>sioc:has_parent</code>. In either case, the URI of the new document will be relative to its parent's.</p>
+        <p>Containment is server-managed: a <code>POST</code> drops the document's <code>sioc:has_parent</code>/<code>sioc:has_container</code> from its body,
+            a <code>PATCH</code> cannot change them, and no write may state the containment of another resource. <a href="../../administration/acl/#authorizations"><code>acl:default</code></a>
+            grants rely on it.</p>
         <p>LinkedDataHub will also manage additional document metadata, such as its owner and creation/modification timestamps.</p>
         <p>For example, this HTTP request creating the Northwind regions container (Turtle syntax):</p>
         <pre>PUT /regions/ HTTP/1.1
 Host: localhost:4443
 Content-Type: text/turtle
+If-None-Match: *
 
 @prefix dh:     &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
 @prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
@@ -148,7 +181,8 @@ Content-Type: text/turtle
         <p>The HTTP request to produce a new item can be empty:</p>
         <pre>PUT /regions/1/ HTTP/1.1
 Host: localhost:4443
-Content-Type: text/turtle</pre>
+Content-Type: text/turtle
+If-None-Match: *</pre>
         <p>It will create an item document with the following triples:</p>
         <pre>@prefix dh:     &lt;https://w3id.org/atomgraph/linkeddatahub/document-hierarchy#&gt; .
 @prefix dct:    &lt;http://purl.org/dc/terms/&gt; .
@@ -165,10 +199,12 @@ Content-Type: text/turtle</pre>
     </div>
     <div>
         <h2 id="patch-example">Graph-scoped updates</h2>
-        <p>A <code>PATCH</code> applies a SPARQL update scoped to the requested document's graph. The request body must contain a single update operation, in one of two forms: <code>DELETE</code>/<code>INSERT</code> with a <code>WHERE</code> clause (either template can be omitted, giving plain <code>INSERT { } WHERE { }</code> or <code>DELETE { } WHERE { }</code>), or the <code>DELETE WHERE</code> shorthand. Every other form is rejected with <samp>422 Unprocessable Entity</samp>, as is a body with more than one operation. Appending a description to the Chai product:</p>
+        <p>A <code>PATCH</code> applies a SPARQL update scoped to the requested document's graph. The request body must contain a single update operation, in one of two forms: <code>DELETE</code>/<code>INSERT</code> with a <code>WHERE</code> clause (either template can be omitted, giving plain <code>INSERT { } WHERE { }</code> or <code>DELETE { } WHERE { }</code>), or the <code>DELETE WHERE</code> shorthand. Every other form is rejected with <samp>422 Unprocessable Entity</samp>, as is a body with more than one operation. Like any write to an existing document, it quotes the document's entity tag (see <a href="#preconditions">Conditional writes</a>). Appending a description to the Chai product:</p>
         <pre>PATCH /products/1/ HTTP/1.1
 Host: localhost:4443
+Accept: application/n-triples
 Content-Type: application/sparql-update
+If-Match: "1e635b4-ntriples"
 
 PREFIX schema: &lt;https://schema.org/&gt;
 
@@ -177,11 +213,13 @@ INSERT
     &lt;https://localhost:4443/products/1/#this&gt; schema:description "A delicate black tea blend" .
 }
 WHERE {}</pre>
-        <p>The update executes against that one graph, so <code>GRAPH</code> patterns are not allowed — this request is rejected with
+        <p>The update executes against that one graph, so it cannot name another: <code>GRAPH</code> is not allowed in a template, in the <code>WHERE</code> pattern (including <code>EXISTS</code> and sub-queries) or in a <code>DELETE WHERE</code>, and neither are <code>WITH</code>, <code>USING</code> and <code>USING NAMED</code>. This request is rejected with
             <samp>422 Unprocessable Entity</samp>:</p>
         <pre>PATCH /products/1/ HTTP/1.1
 Host: localhost:4443
+Accept: application/n-triples
 Content-Type: application/sparql-update
+If-Match: "1e635b4-ntriples"
 
 PREFIX schema: &lt;https://schema.org/&gt;
 
@@ -213,10 +251,10 @@ WHERE {}</pre>
         <p>A write to a document that already exists must say which state it was written against. Every write reads the document's graph, changes it in memory and writes the whole graph back, so two writers that name no precondition overwrite each other with nothing to show that anything was lost.</p>
         <p>Such a write is answered <code>428 Precondition Required</code>. To make it conditional, send either:</p>
         <ul>
-            <li><code>If-Match</code> with the document's current <code>ETag</code>, to modify what you read</li>
+            <li><code>If-Match</code> with the document's current <code>ETag</code>, to modify what you read. <code>If-Match: *</code> asserts only that some state exists and does not count</li>
             <li><code>If-None-Match: *</code>, to create a document only if it does not exist yet</li>
         </ul>
-        <p>Creating a document needs no precondition — there is no prior state to have been written against — so a <code>PUT</code> to a URL that does not exist is accepted as it always was.</p>
+        <p>Creating a document needs no precondition — there is no prior state to have been written against — so a <code>PUT</code> to a URL that does not exist is accepted without one. A <code>PUT</code> that quotes an <code>If-Match</code> to a URL that does not exist is refused <code>412 Precondition Failed</code>: the state it was written against is gone, and a document deleted in the meantime is not recreated.</p>
         <p>If the document changed since you read it, the write is refused <code>412 Precondition Failed</code>, and that response carries the document's current <code>ETag</code> so you can re-read, reapply your change and retry without an extra request. <code>If-None-Match: *</code> against a document that already exists is likewise refused <code>412</code>, which is how a client can create-or-append in two steps.</p>
         <div class="ac-alert va-informative" role="status">
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">info</span></span>
@@ -235,7 +273,8 @@ Accept: application/n-triples
 Content-Type: application/sparql-update
 If-Match: "f731c06f5ac4fec6490dff1399bd5440"
 
-HTTP/1.1 204 No Content</pre>
+HTTP/1.1 204 No Content
+ETag: "9b0e4d1c27a3f58e6c41d2a7b8f05e93"</pre>
         <p><code>HEAD</code> is answered for any access mode the agent holds, not <code>acl:Read</code> alone, so an agent granted <code>acl:Write</code> or <code>acl:Append</code> can read the validator its writes have to quote without being able to read the document. <code>GET</code> still requires <code>acl:Read</code>.</p>
         <p>The <a href="../../command-line-interface/">command line interface</a> does this for you: every <samp>ldh</samp> command that writes reads the document's validator first and sends it.</p>
     </div>
