@@ -11,9 +11,10 @@
 // reproducible. The with-timestamps endpoint is used, so each take also keeps its
 // character alignment for the subtitles.
 //
-//   node overview/voice.mjs [--api-key-file ~/.config/elevenlabs/api-key] [--dry-run]
+//   node overview/voice.mjs [web-algebra/SCRIPT.md] [--api-key-file ~/.config/elevenlabs/api-key] [--dry-run]
 //
-// Writes tracks/overview/voice.json — id, text, spoken, file, seconds per line — and
+// Another film's script can be named instead; its takes then go under tracks/<its folder>/.
+// Writes tracks/<folder>/voice.json — id, text, spoken, file, seconds per line — and
 // prints the lengths.
 
 import fs from 'node:fs/promises';
@@ -23,15 +24,15 @@ import { createHash } from 'node:crypto';
 import { TRACKS } from '../lib/harness.mjs';
 
 const HERE = path.dirname(new URL(import.meta.url).pathname);
-const SCRIPT = path.join(HERE, 'SCRIPT.md');
-const OUT = path.join(TRACKS, 'overview');
+const args = process.argv.slice(2);
+const SCRIPT = path.resolve(args.find((a, i) => !a.startsWith('--') && args[i - 1] !== '--api-key-file') ?? path.join(HERE, 'SCRIPT.md'));
+const OUT = path.join(TRACKS, path.basename(path.dirname(SCRIPT)));
 const CACHE = path.join(OUT, 'voice');
 
 const VOICE = 'onwK4e9ZLuTAKqWW03F9'; // Daniel
 const MODEL = 'eleven_multilingual_v2';
 const FORMAT = 'mp3_44100_128';
 
-const args = process.argv.slice(2);
 const flag = (name, fallback) => {
   const i = args.indexOf(name);
   return i === -1 ? fallback : args[i + 1];
