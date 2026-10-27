@@ -195,7 +195,9 @@ HOST=ec2-54-235-229-141.compute-1.amazonaws.com</pre>
                 <dd>Set to <samp>false</samp> if you are not using the self-signed <em>server</em> certificate (e.g. using a LetsEncrypt certificate instead). Not to be confused with the WebID client certificate.
                     Defaults to <samp>true</samp>.</dd>
                 <dt><samp>MAX_CONTENT_LENGTH</samp></dt>
-                <dd>Maximum allowed request body size (<samp>nginx</samp> has a separate setting for this). Defaults to <samp>2097152</samp>.</dd>
+                <dd>Maximum allowed request body size, in bytes; a larger body is refused with <samp>413 Payload Too Large</samp>. Defaults to <samp>2097152</samp>.</dd>
+                <dt><samp>MAX_UPLOAD_LENGTH</samp></dt>
+                <dd>Maximum size, in bytes, of a file upload (a <code>multipart/form-data</code> request body); a larger one is refused with <samp>413 Payload Too Large</samp>. Defaults to <samp>MAX_CONTENT_LENGTH</samp>. <samp>nginx</samp> limits request bodies to this value when it is set, and to <samp>MAX_CONTENT_LENGTH</samp> otherwise.</dd>
                 <dt><samp>MAX_QUERY_RESPONSE_LENGTH</samp></dt>
                 <dd>The longest query result, in bytes, that the <a href="../http-api/sparql/"><samp>/sparql</samp> endpoint</a> answers a query with; a longer one is refused with <samp>502 Bad Gateway</samp>. Counted on the triplestore's response to the platform, not on what the caller receives. Defaults to <samp>5242880</samp> (5 MiB).</dd>
                 <dt><samp>HTTP_MAX_THREADS</samp></dt>

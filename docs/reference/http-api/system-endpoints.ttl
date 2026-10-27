@@ -46,7 +46,7 @@
                 </tr>
                 <tr>
                     <th scope="row"><samp>settings</samp></th>
-                    <td>The dataspace's own description in the dataspace configuration. <code>PATCH</code> with a SPARQL update edits it — this is how <a href="../../administration/packages/">packages</a> are installed and uninstalled. Editing is restricted to end-user dataspaces: a <code>PATCH</code> on an admin dataspace's settings answers <samp>422 Unprocessable Entity</samp></td>
+                    <td>The dataspace's own description in the dataspace configuration. <code>PATCH</code> with a SPARQL update edits it — this is how <a href="../../administration/packages/">packages</a> are installed and uninstalled. The update takes the same forms as a <a href="../documents/#patch-example">document <code>PATCH</code></a>, and is held to the same <a href="../documents/#preconditions">conditional write</a> terms: it quotes the settings' <code>ETag</code> in <code>If-Match</code> or is answered <samp>428 Precondition Required</samp>, a stale tag is answered <samp>412 Precondition Failed</samp>, and a successful update answers <samp>204 No Content</samp> with the new <code>ETag</code>. Editing is restricted to end-user dataspaces: a <code>PATCH</code> on an admin dataspace's settings answers <samp>422 Unprocessable Entity</samp></td>
                 </tr>
             </tbody>
             <tbody>

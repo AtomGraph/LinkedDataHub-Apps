@@ -197,7 +197,7 @@
             <span class="ac-alert-ic"><span aria-hidden="true" class="msi outline">warning</span></span>
             <div class="ac-alert-body">
                 <p class="ac-alert-text">A write to a document that already exists must be conditional: <code>If-Match</code> with the document's current
-                    <code>ETag</code>, or <code>If-None-Match: *</code> to create. An unconditional write is answered <code>428 Precondition Required</code>.</p>
+                    <code>ETag</code>, or <code>If-None-Match: *</code> to create. An unconditional write, or one with <code>If-Match: *</code>, is answered <code>428 Precondition Required</code>.</p>
             </div>
         </div>
         <p>A client that wrote unconditionally now reads the tag first, as the <a href="../command-line-interface/"><samp>ldh</samp> CLI</a> does for you. An entity tag
