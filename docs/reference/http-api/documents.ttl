@@ -48,9 +48,9 @@
                     <td><a href="../#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <th rowspan="7" scope="row"><code id="ld-post">POST</code></th>
-                    <td rowspan="7">Appends data to a document</td>
-                    <td rowspan="7"><code>204 No Content</code></td>
+                    <th rowspan="8" scope="row"><code id="ld-post">POST</code></th>
+                    <td rowspan="8">Appends data to a document</td>
+                    <td rowspan="8"><code>204 No Content</code></td>
                     <td><code>400 Bad Request</code></td>
                     <td>RDF syntax error</td>
                 </tr>
@@ -67,19 +67,22 @@
                     <td><a href="../#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <td rowspan="3"><code>422 Unprocessable Entity</code></td>
+                    <td rowspan="4"><code>422 Unprocessable Entity</code></td>
                     <td><a href="../../administration/ontologies/#constraints">Constraint</a> violation in the resulting document</td>
                 </tr>
                 <tr>
                     <td>Body states the <code>sioc:has_parent</code>/<code>sioc:has_container</code> of a resource other than the document</td>
                 </tr>
                 <tr>
+                    <td>Body types the document with a class other than <code>def:Root</code>, <code>dh:Container</code> and <code>dh:Item</code>, or leaves the root without one of them</td>
+                </tr>
+                <tr>
                     <td>Malformed IRI in the body (see <a href="#malformed-iris">below</a>)</td>
                 </tr>
                 <tr>
-                    <th rowspan="8" scope="row"><code id="ld-put">PUT</code></th>
-                    <td rowspan="8">Upserts a document</td>
-                    <td rowspan="8"><code>204 No Content</code> (replaced)<br></br><code>201 Created</code> (created)<br></br><code>308 Permanent Redirect</code></td>
+                    <th rowspan="9" scope="row"><code id="ld-put">PUT</code></th>
+                    <td rowspan="9">Upserts a document</td>
+                    <td rowspan="9"><code>204 No Content</code> (replaced)<br></br><code>201 Created</code> (created)<br></br><code>308 Permanent Redirect</code></td>
                     <td rowspan="2"><code>400 Bad Request</code></td>
                     <td>RDF syntax error</td>
                 </tr>
@@ -99,11 +102,14 @@
                     <td><a href="../#con-neg">Media type</a> not supported</td>
                 </tr>
                 <tr>
-                    <td rowspan="3"><code>422 Unprocessable Entity</code></td>
+                    <td rowspan="4"><code>422 Unprocessable Entity</code></td>
                     <td><a href="../../administration/ontologies/#constraints">Constraint</a> violation in the resulting document</td>
                 </tr>
                 <tr>
                     <td>Body states the <code>sioc:has_parent</code>/<code>sioc:has_container</code> of a resource other than the document</td>
+                </tr>
+                <tr>
+                    <td>Body types the document with a class other than <code>def:Root</code>, <code>dh:Container</code> and <code>dh:Item</code>, or leaves the root without one of them</td>
                 </tr>
                 <tr>
                     <td>Malformed IRI in the body (see <a href="#malformed-iris">below</a>)</td>
@@ -124,11 +130,14 @@
                     <td>The container still has documents: delete them first</td>
                 </tr>
                 <tr>
-                    <th rowspan="4" scope="row"><code id="ld-patch">PATCH</code></th>
-                    <td rowspan="4">Modifies a document using SPARQL Update</td>
-                    <td rowspan="4"><code>204 No Content</code></td>
-                    <td rowspan="4"><code>422 Unprocessable Entity</code></td>
-                    <td>SPARQL update is not a single <code>DELETE</code>/<code>INSERT</code> … <code>WHERE</code> or <code>DELETE WHERE</code> operation, uses <code>GRAPH</code>, <code>WITH</code>, <code>USING</code> or <code>USING NAMED</code>, or removes an <code>rdf:type</code></td>
+                    <th rowspan="5" scope="row"><code id="ld-patch">PATCH</code></th>
+                    <td rowspan="5">Modifies a document using SPARQL Update</td>
+                    <td rowspan="5"><code>204 No Content</code></td>
+                    <td rowspan="5"><code>422 Unprocessable Entity</code></td>
+                    <td>SPARQL update has an operation other than <code>DELETE</code>/<code>INSERT</code> … <code>WHERE</code>, <code>DELETE WHERE</code>, <code>INSERT DATA</code> and <code>DELETE DATA</code>, uses <code>GRAPH</code>, <code>WITH</code>, <code>USING</code> or <code>USING NAMED</code>, or removes an <code>rdf:type</code></td>
+                </tr>
+                <tr>
+                    <td>Update types the document with a class other than <code>def:Root</code>, <code>dh:Container</code> and <code>dh:Item</code>, or leaves it without one of them</td>
                 </tr>
                 <tr>
                     <td><a href="../../administration/ontologies/#constraints">Constraint</a> violation in the updated document</td>
@@ -152,6 +161,8 @@
         <p>Containment is server-managed: a <code>POST</code> drops the document's <code>sioc:has_parent</code>/<code>sioc:has_container</code> from its body,
             a <code>PATCH</code> cannot change them, and no write may state the containment of another resource. <a href="../../administration/acl/#authorizations"><code>acl:default</code></a>
             grants rely on it.</p>
+        <p>A document is typed with the hierarchy classes only — <code>def:Root</code>, <code>dh:Container</code> or <code>dh:Item</code> — and a write that gives it any other type is refused with <code>422 Unprocessable Entity</code>, as is a <code>PUT</code> of the root or a
+            <code>PATCH</code> that leaves the document with none of them. Other classes belong on the resources the document describes, such as its <code>foaf:primaryTopic</code>.</p>
         <p>LinkedDataHub will also manage additional document metadata, such as its owner and creation/modification timestamps.</p>
         <p>For example, this HTTP request creating the Northwind regions container (Turtle syntax):</p>
         <pre>PUT /regions/ HTTP/1.1
@@ -199,7 +210,7 @@ If-None-Match: *</pre>
     </div>
     <div>
         <h2 id="patch-example">Graph-scoped updates</h2>
-        <p>A <code>PATCH</code> applies a SPARQL update scoped to the requested document's graph. The request body must contain a single update operation, in one of two forms: <code>DELETE</code>/<code>INSERT</code> with a <code>WHERE</code> clause (either template can be omitted, giving plain <code>INSERT { } WHERE { }</code> or <code>DELETE { } WHERE { }</code>), or the <code>DELETE WHERE</code> shorthand. Every other form is rejected with <samp>422 Unprocessable Entity</samp>, as is a body with more than one operation. Like any write to an existing document, it quotes the document's entity tag (see <a href="#preconditions">Conditional writes</a>). Appending a description to the Chai product:</p>
+        <p>A <code>PATCH</code> applies a SPARQL update scoped to the requested document's graph. The request body contains one or more update operations, separated by <code>;</code>, in any of these forms: <code>DELETE</code>/<code>INSERT</code> with a <code>WHERE</code> clause (either template can be omitted, giving plain <code>INSERT { } WHERE { }</code> or <code>DELETE { } WHERE { }</code>), the <code>DELETE WHERE</code> shorthand, <code>INSERT DATA</code> and <code>DELETE DATA</code>. Every other form is rejected with <samp>422 Unprocessable Entity</samp>. The operations run in order, and the document is validated once they all have: they change it together or not at all. Like any write to an existing document, it quotes the document's entity tag (see <a href="#preconditions">Conditional writes</a>). Appending a description to the Chai product:</p>
         <pre>PATCH /products/1/ HTTP/1.1
 Host: localhost:4443
 Accept: application/n-triples
@@ -213,6 +224,23 @@ INSERT
     &lt;https://localhost:4443/products/1/#this&gt; schema:description "A delicate black tea blend" .
 }
 WHERE {}</pre>
+        <p>Replacing the product's name, as two operations applied together:</p>
+        <pre>PATCH /products/1/ HTTP/1.1
+Host: localhost:4443
+Accept: application/n-triples
+Content-Type: application/sparql-update
+If-Match: "1e635b4-ntriples"
+
+PREFIX schema: &lt;https://schema.org/&gt;
+
+DELETE DATA
+{
+    &lt;https://localhost:4443/products/1/#this&gt; schema:name "Chai" .
+} ;
+INSERT DATA
+{
+    &lt;https://localhost:4443/products/1/#this&gt; schema:name "Masala Chai" .
+}</pre>
         <p>The update executes against that one graph, so it cannot name another: <code>GRAPH</code> is not allowed in a template, in the <code>WHERE</code> pattern (including <code>EXISTS</code> and sub-queries) or in a <code>DELETE WHERE</code>, and neither are <code>WITH</code>, <code>USING</code> and <code>USING NAMED</code>. This request is rejected with
             <samp>422 Unprocessable Entity</samp>:</p>
         <pre>PATCH /products/1/ HTTP/1.1
