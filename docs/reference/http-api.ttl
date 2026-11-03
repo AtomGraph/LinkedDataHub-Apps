@@ -83,6 +83,9 @@
                 </tr>
             </tbody>
         </table>
+        <p>The <code>accept</code> query parameter stands in for the <code>Accept</code> header where a link cannot set one, as in
+            <samp>?accept=text%2Fturtle</samp>. Its value is a media type and has to be URL-encoded: a malformed one, such as an unencoded
+            <samp>?accept=application/rdf+xml</samp> whose <code>+</code> decodes to a space, is answered <code>400 Bad Request</code>.</p>
         <p>The same document, negotiated as N-Triples:</p>
         <pre>GET /products/1/ HTTP/1.1
 Host: localhost:4443
