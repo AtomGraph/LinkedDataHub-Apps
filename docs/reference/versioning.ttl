@@ -133,6 +133,16 @@ HTTP/1.1 302 Found
 Location: https://localhost:4443/orders/10248/?version=4d1e7aa
 Vary: accept-datetime
 Link: &lt;https://localhost:4443/orders/10248/&gt;; rel="original"</pre>
+        <p id="timegate-pending">A version is committed after the write that makes it. While the document's latest change is still being committed, the most
+            recent version would be the one before it, so the TimeGate answers <code>503 Service Unavailable</code> with <code>Retry-After</code> instead:
+            a second per commit queued on the dataspace's branch, at most 60. After a commit that failed, it answers <code>500 Internal Server Error</code>
+            until the next write is committed.</p>
+        <pre>GET /orders/10248/?timegate HTTP/1.1
+Host: localhost:4443
+
+HTTP/1.1 503 Service Unavailable
+Retry-After: 3
+Cache-Control: no-store</pre>
     </div>
     <div>
         <h2 id="restore-diff">Restore and diff</h2>
@@ -163,7 +173,7 @@ Link: &lt;https://localhost:4443/orders/10248/&gt;; rel="original"</pre>
                 <tbody>
                     <tr>
                         <th scope="row"><samp>--timemap</samp></th>
-                        <td>The version history (PROV-O in RDF formats, or <code>application/link-format</code> via <samp>--accept</samp>)</td>
+                        <td>The version history (PROV-O in RDF formats, or <code>application/link-format</code> via <samp>--accept</samp>), from the <code>timemap</code> the document links to</td>
                     </tr>
                     <tr>
                         <th scope="row"><samp>--version &lt;sha&gt;</samp></th>
@@ -171,7 +181,7 @@ Link: &lt;https://localhost:4443/orders/10248/&gt;; rel="original"</pre>
                     </tr>
                     <tr>
                         <th scope="row"><samp>--timegate</samp></th>
-                        <td>Datetime negotiation; the optional <samp>--datetime</samp> takes an RFC 1123 or ISO 8601 datetime. Prints the negotiated version's URI as the only line on stdout, so it pipes into another <samp>ldh get</samp></td>
+                        <td>Datetime negotiation with the <code>timegate</code> the document links to; the optional <samp>--datetime</samp> takes an RFC 1123 or ISO 8601 datetime. Waits as a <a href="#timegate-pending"><code>503</code></a>'s <code>Retry-After</code> asks, then prints the negotiated version's URI as the only line on stdout, so it pipes into another <samp>ldh get</samp></td>
                     </tr>
                 </tbody>
             </table>
